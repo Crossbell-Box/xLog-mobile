@@ -1,5 +1,8 @@
 name: preview
-on: pull_request
+on:
+  pull_request:
+    branches:
+      - staging
 
 jobs:
   update:
@@ -37,7 +40,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Create env file
+        run: |
+          echo "${{ secrets.ENV_FILE }}" > .env.common
+
       - name: Create preview
         uses: expo/expo-github-action/preview@v8
         with:
-          command: eas update --auto
+          command: eas update --branch _pr_preview_ --channel _pr_preview_

@@ -1,5 +1,8 @@
 name: update
-on: push
+on:
+  push:
+    branches:
+      - staging
 
 jobs:
   update:
@@ -25,6 +28,16 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
+          
+      - name: Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+      
+      - name: Create env file
+        run: |
+          echo "${{ secrets.ENV_FILE }}" > .env.common
           
       - name: Install dependencies
         run: pnpm install
