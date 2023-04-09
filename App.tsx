@@ -1,22 +1,10 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import Constants from 'expo-constants';
+import { App } from './pages';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-export default function App() {
+export default () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <Text>{process.env.BUNDLE_IDENTIFIER}</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaProvider>
+      <App />
+    </SafeAreaProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
