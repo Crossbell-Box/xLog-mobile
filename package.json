@@ -42,7 +42,6 @@
     "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
     "babel-plugin-transform-inline-environment-variables": "^0.4.4",
     "dotenv-types-generator": "^1.1.2",
-    "eas-cli": "^3.9.0",
     "npm-run-all": "^4.1.5"
   },
   "private": true
