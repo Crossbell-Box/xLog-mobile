@@ -36,4 +36,9 @@ jobs:
         run: pnpm install
 
       - name: Publish update
+        env:
+            EXPO_PROJECT_ID: ${{ secrets.EXPO_PROJECT_ID }}
+            BUNDLE_IDENTIFIER: ${{ secrets.BUNDLE_IDENTIFIER }}
+            OWNER: ${{ secrets.OWNER }}
+            UPDATES_URL: ${{ secrets.UPDATES_URL }}
         run: eas update --auto
