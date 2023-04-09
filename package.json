@@ -1,0 +1,31 @@
+{
+  "name": "xlog",
+  "version": "1.0.0",
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "start": "NODE_ENV=development expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "generate-env-types:common": "dotenv-types-generator -f ./.env.common -m",
+    "generate-env-types:env": "dotenv-types-generator -f ./.env.development -m",
+    "generate-env-types": "run-s generate-env-types:common generate-env-types:env"
+  },
+  "dependencies": {
+    "@changesets/cli": "^2.26.1",
+    "@types/react": "~18.0.27",
+    "dotenv": "^16.0.3",
+    "expo": "~48.0.10",
+    "expo-status-bar": "~1.4.4",
+    "react": "18.2.0",
+    "react-native": "0.71.6",
+    "typescript": "^4.9.4"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.0",
+    "babel-plugin-transform-inline-environment-variables": "^0.4.4",
+    "dotenv-types-generator": "^1.1.2",
+    "npm-run-all": "^4.1.5"
+  },
+  "private": true
+}
