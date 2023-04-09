@@ -11,7 +11,7 @@
     "publish:updates": "eas update --platform all --non-interactive --auto",
     "build:development": "NODE_ENV=development eas build --platform all --non-interactive --profile development",
     "build:preview": "eas build --platform all --non-interactive --profile preview",
-    "build:production": "pnpm run release & eas build --platform all --non-interactive --auto-submit --profile production",
+    "build:production": "pnpm run release & eas build --platform all --non-interactive --profile production --auto-submit",
     "generate-env-types:common": "dotenv-types-generator -f ./.env.common -m",
     "generate-env-types:env": "dotenv-types-generator -f ./.env.development -m",
     "generate-env-types": "run-s generate-env-types:common generate-env-types:env"
@@ -34,7 +34,8 @@
     "react-native-svg": "13.4.0",
     "react-native-webview": "11.26.0",
     "typescript": "^4.9.4",
-    "expo-splash-screen": "~0.18.1"
+    "expo-splash-screen": "~0.18.1",
+    "expo-dev-client": "~2.1.6"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
