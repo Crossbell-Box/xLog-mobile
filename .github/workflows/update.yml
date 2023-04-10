@@ -3,8 +3,6 @@ on:
   push:
     branches:
       - staging
-      - main
-      - develop
 
 jobs:
   update:
