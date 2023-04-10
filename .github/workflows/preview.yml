@@ -1,8 +1,10 @@
 name: preview
 on:
   pull_request:
-    branches-ignore:
-      - 'renovate/*'
+    branches:
+      - staging
+      - main
+      - develop
 
 jobs:
   update:
