@@ -1,5 +1,9 @@
 name: update
-on: push
+on:
+  push:
+    branches:
+      - staging
+      - main
 
 jobs:
   update:
