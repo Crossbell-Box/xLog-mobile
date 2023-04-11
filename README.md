@@ -8,6 +8,11 @@
 
 [![Discord](https://img.shields.io/badge/chat-Discord-5865F2.svg?logo=discord&style=flat-square)](https://discord.gg/46VJMMVCuF) &nbsp;[![Twitter](https://img.shields.io/badge/Twitter-@_xLog-1d9bf0.svg?logo=twitter&style=flat-square)](https://twitter.com/_xLog) &nbsp;[![build](https://img.shields.io/github/actions/workflow/status/Crossbell-Box/xLog/docker-build-push-prod.yml?logo=github&style=flat-square)](https://github.com/Crossbell-Box/xLog/actions/workflows/docker-build-push.yml)
 
+## Roadmap
+
+- [x] README for developers
+- [ ] ❔
+
 ## Development
 ### Prerequisites
 
@@ -68,3 +73,10 @@ Refer to this [document](https://docs.expo.dev/build/setup/) and check scripts i
 
 ### Continuous Integration
 Refer to this [document](https://docs.expo.dev/eas-update/how-eas-update-works/) and check CI configuration files in the [.github/workflows](./.github/workflows) directory.
+
+## Contributing
+
+- Fork
+- PR to `develop` branch
+
+We will test new features on staging branch and release it. 🚀
