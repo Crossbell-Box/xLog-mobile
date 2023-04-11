@@ -45,7 +45,7 @@
     nr generate-env-types
     ```
 
-- If you want to specify the environment variables for the various environments, you can create `.env.development`, `.env.staging` and `.env.production` files. ( not required and supported yet )
+- If you want to specify the environment variables for the various environments, you can create `.env.development`, `.env.staging` and `.env.production` files. (not required and supported yet)
 
 
 ### Usage
