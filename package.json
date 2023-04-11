@@ -14,7 +14,7 @@
     "build:production": "pnpm run release & eas build --platform all --non-interactive --profile production --auto-submit",
     "generate-env-types:common": "dotenv-types-generator -f ./.env.common -m",
     "generate-env-types:env": "dotenv-types-generator -f ./.env.development -m",
-    "generate-env-types": "run-s generate-env-types:common generate-env-types:env"
+    "generate-env-types": "run-s generate-env-types:common"
   },
   "dependencies": {
     "@changesets/cli": "^2.26.1",
