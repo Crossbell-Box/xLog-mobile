@@ -1,6 +1,9 @@
 {
     "cSpell.words": [
+        "haptics",
         "Roadmap",
+        "Tamagui",
         "xlog"
-    ]
+    ],
+    "typescript.tsdk": "node_modules/typescript/lib"
 }
