@@ -4,6 +4,7 @@ import { ArticleList } from '@/pages/ArticleList';
 import { createDrawerNavigator, DrawerContent } from '@react-navigation/drawer';
 import { Text } from 'tamagui';
 import { HomeDrawerParamList } from './types';
+import { i18n } from '@/i18n/setup';
 
 const HomeDrawerStack = createDrawerNavigator<HomeDrawerParamList>();
 
@@ -25,7 +26,7 @@ export const HomeNavigator = () => {
                 return <DrawerContent {...props} />;
             }}
         >
-            <HomeDrawerStack.Screen name={"ArticleList"} component={ArticleList} options={{ drawerLabel: "文章列表" }} />
+            <HomeDrawerStack.Screen name={"ArticleList"} component={ArticleList} options={{ drawerLabel: i18n.t('article_list') }} />
         </HomeDrawerStack.Navigator>
     );
 };
