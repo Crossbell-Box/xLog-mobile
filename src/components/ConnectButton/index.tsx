@@ -26,21 +26,17 @@ export const ConnectButton: FC<Props> = (props) => {
         animatedStyle,
         {
             position: 'absolute',
-            bottom: bottom + 20,
-            left: 40,
+            bottom: bottom + 12,
+            left: 30,
         }
     ]}>
         <Button
-            pressStyle={{ opacity: 0.5 }}
+            pressStyle={{ opacity: 0.85 }}
             circular
             color={'white'}
             backgroundColor={'black'}
             onPress={onPress}
-            borderRadius={'$9'}
             icon={Plug}
-            zIndex={99}
-            width={'$10'}
-            height={'$10'}
         />
     </Animated.View>
 }
