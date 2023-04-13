@@ -3,7 +3,7 @@ import { ArticleListPage } from '@/pages/ArticleList';
 import { createDrawerNavigator, DrawerContent } from '@react-navigation/drawer';
 import { Text, useWindowDimensions } from 'tamagui';
 import { HomeDrawerParamList } from './types';
-import { i18n } from '@/i18n/setup';
+import { i18n } from '@/i18n';
 
 const HomeDrawerStack = createDrawerNavigator<HomeDrawerParamList>();
 
