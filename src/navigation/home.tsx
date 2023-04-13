@@ -1,8 +1,7 @@
-import { NavigationHeader } from '@/components/Header';
 import { useColor } from '@/hooks/styles';
-import { ArticleList } from '@/pages/ArticleList';
+import { ArticleListPage } from '@/pages/ArticleList';
 import { createDrawerNavigator, DrawerContent } from '@react-navigation/drawer';
-import { Text } from 'tamagui';
+import { Text, useWindowDimensions } from 'tamagui';
 import { HomeDrawerParamList } from './types';
 import { i18n } from '@/i18n/setup';
 
@@ -10,23 +9,28 @@ const HomeDrawerStack = createDrawerNavigator<HomeDrawerParamList>();
 
 export const HomeNavigator = () => {
     const { primary } = useColor()
+    const { width } = useWindowDimensions()
 
     return (
         <HomeDrawerStack.Navigator
             initialRouteName="ArticleList"
             screenOptions={{
-                header: (props) => <NavigationHeader {...props} />,
+                headerShown: false,
                 drawerActiveTintColor: primary,
                 drawerLabel(props) {
                     console.log(props)
                     return <Text>{props.color}</Text>;
                 },
+                drawerStyle: {
+                    width: width * 0.65
+                },
+                sceneContainerStyle: { backgroundColor: "white" }
             }}
             drawerContent={(props) => {
                 return <DrawerContent {...props} />;
             }}
         >
-            <HomeDrawerStack.Screen name={"ArticleList"} component={ArticleList} options={{ drawerLabel: i18n.t('article_list') }} />
+            <HomeDrawerStack.Screen name={"ArticleList"} component={ArticleListPage} options={{ drawerLabel: i18n.t('article_list') }} />
         </HomeDrawerStack.Navigator>
     );
 };

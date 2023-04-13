@@ -4,6 +4,6 @@ export interface Props {
 
 }
 
-export const ArticleDetails: FC<Props> = () => {
+export const ArticleDetailsPage: FC<Props> = () => {
     return null
 }

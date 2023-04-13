@@ -1,10 +1,13 @@
 import { FC, useCallback, useLayoutEffect, useMemo, useRef, useState } from "react";
-import Animated, { interpolate, measure, useAnimatedRef, useAnimatedStyle, useDerivedValue, useSharedValue, withSpring, withTiming } from "react-native-reanimated";
+import Animated, { interpolate, measure, useAnimatedGestureHandler, useAnimatedReaction, useAnimatedRef, useAnimatedScrollHandler, useAnimatedStyle, useDerivedValue, useSharedValue, withSpring, withTiming } from "react-native-reanimated";
 import { Button, isWeb, TamaguiElement, Text, useCurrentColor, XStack, YStack } from "tamagui";
 import * as Haptics from "expo-haptics";
-import { ConnectButton } from "@/components/ConnectButton";
+import { ConnectionButton } from "@/components/ConnectionButton";
 import { i18n } from "@/i18n/setup";
-import { View } from "react-native";
+import { NativeScrollEvent, NativeSyntheticEvent, StyleSheet, View } from "react-native";
+import { ArticleList, ArticleListInstance } from "@/components/ArticleList";
+import { PanGestureHandler } from "react-native-gesture-handler";
+import { NavigationHeader } from "@/components/Header";
 
 
 export enum SortType {
@@ -23,7 +26,9 @@ const NameOfSortType = {
     [SortType.FOLLOW]: i18n.t('follow')
 }
 
-export const ArticleList: FC<Props> = (props) => {
+const lengthOfSortType = Object.values(SortType).length
+
+export const ArticleListPage: FC<Props> = (props) => {
     const { sortType = SortType.LATEST } = props
     const primaryColor = useCurrentColor('orange9')
     const [currentSortType, setCurrentSortType] = useState(sortType)
@@ -32,7 +37,7 @@ export const ArticleList: FC<Props> = (props) => {
 
     const indicatorAnimStyle = useAnimatedStyle(() => {
         const lengthMeasured = buttonMeasurements.filter((m) => !!m).length
-        if ((_WORKLET || isWeb) && lengthMeasured === Object.values(SortType).length) {
+        if ((_WORKLET || isWeb) && lengthMeasured === lengthOfSortType) {
             const width = interpolate(
                 indicatorAnimValuePos.value,
                 [0, 1, 2],
@@ -60,8 +65,37 @@ export const ArticleList: FC<Props> = (props) => {
         }
     }, [currentSortType, buttonMeasurements])
 
-    return <YStack flex={1}>
-        <YStack>
+    const prevTranslationYAnimValue = useSharedValue<number>(0);
+    const isExpandedAnimValue = useSharedValue<0 | 1>(1);
+
+    const onScroll = useAnimatedScrollHandler((event) => {
+        const edge = 50;
+        if (isExpandedAnimValue.value !== 0 && isExpandedAnimValue.value !== 1) {
+            return
+        }
+
+        if (
+            event.contentOffset.y - prevTranslationYAnimValue.value > edge &&
+            isExpandedAnimValue.value !== 0
+        ) {
+            // Hiding the connection button
+            isExpandedAnimValue.value = withSpring(0)
+        } else if (
+            event.contentOffset.y - prevTranslationYAnimValue.value < -edge &&
+            isExpandedAnimValue.value !== 1
+        ) {
+            // Showing the connection button
+            isExpandedAnimValue.value = withSpring(1)
+        }
+    });
+
+    const onScrollEndDrag = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+        prevTranslationYAnimValue.value = e.nativeEvent.contentOffset.y
+    }
+
+    return <Animated.View style={{ flex: 1 }}>
+        <NavigationHeader expanded={isExpandedAnimValue} />
+        <YStack elevation={5} shadowColor="#000" shadowOffset={{ width: 0, height: 4 }} shadowOpacity={0.2} shadowRadius={4.65}>
             <XStack>
                 {
                     Object.values(SortType).map((type, index) => {
@@ -75,7 +109,7 @@ export const ArticleList: FC<Props> = (props) => {
                         }}>
                             <Button
                                 size="$5"
-                                marginTop={10}
+                                marginTop={5}
                                 height={40}
                                 unstyled
                                 padding={12}
@@ -97,6 +131,47 @@ export const ArticleList: FC<Props> = (props) => {
             </XStack>
             <Animated.View style={[indicatorAnimStyle, { borderBottomWidth: 2, borderColor: primaryColor }]} />
         </YStack>
-        <ConnectButton />
-    </YStack>
+        <ArticleList onScroll={onScroll} onScrollEndDrag={onScrollEndDrag} />
+        <AnimatedConnectionButton visibleAnimValue={isExpandedAnimValue} />
+    </Animated.View>
 }
+
+const AnimatedConnectionButton: FC<{
+    visibleAnimValue?: Animated.SharedValue<number>
+}> = (props) => {
+    const { visibleAnimValue } = props
+
+    const connectButtonAnimStyle = useAnimatedStyle(() => {
+        const aimValue = visibleAnimValue?.value ?? 0;
+
+        const opacity = interpolate(aimValue, [0, 1], [0, 1], Animated.Extrapolate.CLAMP);
+        const translateY = interpolate(aimValue, [0, 1], [100, 0], Animated.Extrapolate.CLAMP);
+
+
+        return {
+            opacity,
+            transform: [
+                {
+                    translateY
+                },
+            ],
+        };
+    }, [])
+
+    return <Animated.View style={connectButtonAnimStyle}>
+        <ConnectionButton />
+    </Animated.View>
+}
+
+const styles = StyleSheet.create({
+    tabs: {
+        elevation: 5,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 4,
+        },
+        shadowOpacity: 0.2,
+        shadowRadius: 4.65,
+    }
+})

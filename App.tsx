@@ -8,6 +8,8 @@ import config from './tamagui.config'
 import { RootNavigator } from './src/navigation';
 import { useEffect } from 'react';
 import * as SplashScreen from 'expo-splash-screen';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { StyleSheet } from 'react-native';
 
 SplashScreen.preventAutoHideAsync()
 
@@ -28,14 +30,22 @@ export default () => {
   }
 
   return (
-    <TamaguiProvider config={config}>
-      <Theme name={colorScheme === 'dark' ? 'dark' : 'light'}>
-        <NavigationContainer>
-          <SafeAreaProvider>
-            <RootNavigator />
-          </SafeAreaProvider>
-        </NavigationContainer>
-      </Theme>
-    </TamaguiProvider>
+    <GestureHandlerRootView style={styles.container}>
+      <TamaguiProvider config={config}>
+        <Theme name={colorScheme === 'dark' ? 'dark' : 'light'}>
+          <NavigationContainer>
+            <SafeAreaProvider>
+              <RootNavigator />
+            </SafeAreaProvider>
+          </NavigationContainer>
+        </Theme>
+      </TamaguiProvider>
+    </GestureHandlerRootView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
