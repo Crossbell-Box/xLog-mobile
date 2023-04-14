@@ -20,6 +20,16 @@
 - [x] Create a README for developers, including setup instructions, project overview, and contribution guidelines
 - [ ] Set up error monitoring and reporting (Sentry)
 - [ ] Implement testing (unit tests, end-to-end tests, snapshot tests, etc.)
+- [ ] Design and implement a clean and modern user interface for the feed list and post detail views
+- [ ] Ensure the application is responsive and works well on various devices and screen sizes
+- [ ] Implement smooth transitions and animations for enhanced user experience
+- [ ] Ensure accessibility features are considered and implemented where applicable
+- [ ] Optimize data fetching and caching for improved performance
+- [ ] Implement lazy loading and pagination for the feed list view to handle large amounts of data
+- [ ] Optimize the webview for improved performance and reduced time to first paint. [(issue)](https://github.com/Crossbell-Box/xLog-mobile/issues/12)
+- [ ] Create comprehensive user documentation, including usage instructions and troubleshooting tips
+- [ ] Create a demo video or animated GIF showcasing the application's features and functionality
+- [ ] Set up community channels for discussion and support (Discord)
 
 ### 2. Core Features - Read-Only[(Milestone)](https://github.com/Crossbell-Box/xLog-mobile/milestone/1)
 #### 2.1. Views Implementation
@@ -38,29 +48,6 @@
 - [ ] Integrate data fetching with the feed list and post detail views
     - [ ] Display the fetched blog posts in the feed list view
     - [ ] Display the fetched post details in the post detail view
-
-### 3. User Interface and User Experience
-
-- [ ] Design and implement a clean and modern user interface for the feed list and post detail views
-- [ ] Ensure the application is responsive and works well on various devices and screen sizes
-- [ ] Implement smooth transitions and animations for enhanced user experience
-- [ ] Ensure accessibility features are considered and implemented where applicable
-
-### 4. Performance and Optimization
-
-- [ ] Optimize data fetching and caching for improved performance
-- [ ] Implement lazy loading and pagination for the feed list view to handle large amounts of data
-- [ ] Optimize the webview for improved performance and reduced time to first paint. [(issue)](https://github.com/Crossbell-Box/xLog-mobile/issues/12)
-
-### 5. Documentation and Tutorials
-
-- [ ] Create comprehensive user documentation, including usage instructions and troubleshooting tips
-- [ ] Create a demo video or animated GIF showcasing the application's features and functionality
-
-### 6. Community Engagement and Support
-
-- [ ] Set up community channels for discussion and support (Discord)
-
 
 ## Development
 ### Prerequisites
