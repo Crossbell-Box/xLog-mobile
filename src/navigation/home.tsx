@@ -22,7 +22,7 @@ export const HomeNavigator = () => {
                     return <Text>{props.color}</Text>;
                 },
                 drawerStyle: {
-                    width: width * 0.65
+                    width: width * 0.8
                 },
                 sceneContainerStyle: { backgroundColor: "white" }
             }}
