@@ -18,9 +18,15 @@ module.exports = function(api) {
             alias: dirs.reduce((acc, dir) => {
               acc[`@/${dir}`] = `./src/${dir}`;
               return acc;
-            }, {})
+            }, { })
           }
       ],
+      // Using ethers 6.1 required private class properties and it broke FlatList
+      // https://github.com/facebook/react-native/issues/29084#issuecomment-1463493342
+      "@babel/plugin-transform-flow-strip-types",
+      ["@babel/plugin-proposal-class-properties", { loose: true }],
+      ["@babel/plugin-proposal-private-methods", { loose: true }],
+      ["@babel/plugin-proposal-private-property-in-object", { loose: true }],
       "@babel/plugin-proposal-export-namespace-from",
 			[
 				"@tamagui/babel-plugin",
