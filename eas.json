@@ -21,8 +21,7 @@
     "preview": {
       "distribution": "internal",
       "ios": {
-        "resourceClass": "m-medium",
-        "simulator": true
+        "resourceClass": "m-medium"
       },
       "channel": "preview"
     },
