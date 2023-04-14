@@ -1,11 +1,50 @@
 import { useColor } from '@/hooks/styles';
 import { FeedPage } from '@/pages/Feed';
-import { createDrawerNavigator, DrawerContent } from '@react-navigation/drawer';
+import { createDrawerNavigator, DrawerContentComponentProps, DrawerContentScrollView, DrawerItem, DrawerItemList } from '@react-navigation/drawer';
 import { Text, useWindowDimensions } from 'tamagui';
 import { HomeDrawerParamList } from './types';
 import { i18n } from '@/i18n';
+import { FC } from 'react';
+import { User } from '@tamagui/lucide-icons';
 
 const HomeDrawerStack = createDrawerNavigator<HomeDrawerParamList>();
+
+const DRAWER_TABS_MOCK = [
+    {
+        name: 'Feed',
+        icon: User,
+        label: 'Feed'
+    },
+    {
+        name: 'Profile',
+        icon: User,
+        label: 'Profile'
+    },
+]
+
+
+const DrawerContent: FC<DrawerContentComponentProps> = (props) => {
+    const { primary } = useColor()
+    return (
+        <DrawerContentScrollView {...props}>
+            {
+                DRAWER_TABS_MOCK.map((item, index) => {
+                    const { icon: Icon } = item
+                    // TODO
+                    const isFocused = false
+                    const color = isFocused ? primary : null
+                    return <DrawerItem
+                        key={index}
+                        activeTintColor={color}
+                        icon={() => <Icon color={color} />}
+                        label={item.label}
+                        onPress={() => { }}
+                    />
+                })
+            }
+        </DrawerContentScrollView>
+    );
+}
 
 export const HomeNavigator = () => {
     const { primary } = useColor()
@@ -26,9 +65,7 @@ export const HomeNavigator = () => {
                 },
                 sceneContainerStyle: { backgroundColor: "white" }
             }}
-            drawerContent={(props) => {
-                return <DrawerContent {...props} />;
-            }}
+            drawerContent={DrawerContent}
         >
             <HomeDrawerStack.Screen
                 name={"Feed"}

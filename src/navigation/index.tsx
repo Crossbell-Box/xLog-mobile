@@ -14,6 +14,7 @@ export const RootNavigator = () => {
       }}
     >
       <RootStack.Screen name={"Home"} component={HomeNavigator}/>
+      <RootStack.Screen name={"PostDetails"} component={HomeNavigator}/>
     </RootStack.Navigator>
   );
 };
