@@ -9,21 +9,11 @@
 [![Discord](https://img.shields.io/badge/chat-Discord-5865F2.svg?logo=discord&style=flat-square)](https://discord.gg/46VJMMVCuF) &nbsp;[![Twitter](https://img.shields.io/badge/Twitter-@_xLog-1d9bf0.svg?logo=twitter&style=flat-square)](https://twitter.com/_xLog) &nbsp;[![build](https://img.shields.io/github/actions/workflow/status/Crossbell-Box/xLog/docker-build-push-prod.yml?logo=github&style=flat-square)](https://github.com/Crossbell-Box/xLog/actions/workflows/docker-build-push.yml)
 
 
-<!-- ## Roadmap
+<details>
+<summary>Demonstration video. (1%)</summary>
+<video src="./assets/demo.mp4"></video>
+</details>
 
-- For contributors
-
-
-- Project Setup and Infrastructure
-    - [x] CI/CD
-    - [x] EAS
-    - [ ] Sentry
-    - [ ] Testing (unit, e2e, snapshot, etc.)
-
-- READ-ONLY
-    - [x] README for developers
-    - [ ] Feed list
-    - [ ] Post details -->
 
 ## Roadmap
 
