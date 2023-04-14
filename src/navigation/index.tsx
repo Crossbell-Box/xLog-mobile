@@ -13,11 +13,7 @@ export const RootNavigator = () => {
         headerShown: false,
       }}
     >
-      <RootStack.Screen name={"Home"} >
-        {() => {
-          return <HomeNavigator />
-        }}
-      </RootStack.Screen>
+      <RootStack.Screen name={"Home"} component={HomeNavigator}/>
     </RootStack.Navigator>
   );
 };

@@ -1,5 +1,5 @@
 import { useColor } from '@/hooks/styles';
-import { ArticleListPage } from '@/pages/ArticleList';
+import { FeedPage } from '@/pages/Feed';
 import { createDrawerNavigator, DrawerContent } from '@react-navigation/drawer';
 import { Text, useWindowDimensions } from 'tamagui';
 import { HomeDrawerParamList } from './types';
@@ -13,7 +13,7 @@ export const HomeNavigator = () => {
 
     return (
         <HomeDrawerStack.Navigator
-            initialRouteName="ArticleList"
+            initialRouteName="Feed"
             screenOptions={{
                 headerShown: false,
                 drawerActiveTintColor: primary,
@@ -30,7 +30,11 @@ export const HomeNavigator = () => {
                 return <DrawerContent {...props} />;
             }}
         >
-            <HomeDrawerStack.Screen name={"ArticleList"} component={ArticleListPage} options={{ drawerLabel: i18n.t('article_list') }} />
+            <HomeDrawerStack.Screen
+                name={"Feed"}
+                component={FeedPage}
+                options={{ drawerLabel: i18n.t('feed') }}
+            />
         </HomeDrawerStack.Navigator>
     );
 };

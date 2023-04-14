@@ -6,7 +6,7 @@ export interface Props {
     title: string
 }
 
-export const ArticleListItem: FC<Props> = (props) => {
+export const FeedListItem: FC<Props> = (props) => {
     const { title } = props;
 
     return <TouchableOpacity activeOpacity={0.65} onPress={()=>{console.log(1)}}>

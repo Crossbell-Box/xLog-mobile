@@ -1,11 +1,11 @@
-import { Props as ArticleListProps } from '@/pages/ArticleList';
-import { Props as ArticleDetailsProps } from '@/pages/ArticleDetails';
+import { Props as FeedPageProps } from '@/pages/Feed';
+import { Props as PostDetailsPageProps } from '@/pages/PostDetails';
 
 export type HomeDrawerParamList = {
-    ArticleList: ArticleListProps;
+    Feed: FeedPageProps;
 };
 
 export type RootStackParamList = {
     Home: undefined;
-    ArticleDetails: ArticleDetailsProps;
+    PostDetails: PostDetailsPageProps;
 };

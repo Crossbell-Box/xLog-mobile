@@ -2,7 +2,7 @@ import { FC, useState } from "react";
 import Animated, { useAnimatedScrollHandler, useSharedValue, withSpring } from "react-native-reanimated";
 import * as Haptics from "expo-haptics";
 import { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
-import { ArticleList } from "@/components/ArticleList";
+import { FeedList } from "@/components/FeedList";
 import { AnimatedConnectionButton } from "./AnimatedConnectionButton";
 import { Header } from "./Header";
 import { SortType } from "./constants";
@@ -11,7 +11,7 @@ export interface Props {
     sortType?: SortType
 }
 
-export const ArticleListPage: FC<Props> = (props) => {
+export const FeedPage: FC<Props> = (props) => {
     const { sortType = SortType.LATEST } = props
     const [currentSortType, setCurrentSortType] = useState(sortType)
     const prevTranslationYAnimValue = useSharedValue<number>(0);
@@ -51,7 +51,7 @@ export const ArticleListPage: FC<Props> = (props) => {
                 Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
             }}
         />
-        <ArticleList onScroll={onScroll} onScrollEndDrag={onScrollEndDrag} />
+        <FeedList onScroll={onScroll} onScrollEndDrag={onScrollEndDrag} />
         <AnimatedConnectionButton visibleAnimValue={isExpandedAnimValue} />
     </Animated.View>
 }
