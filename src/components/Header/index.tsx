@@ -23,7 +23,7 @@ export const NavigationHeader: FC<Props> = (props) => {
 
     const contentContainerAnimStyles = useAnimatedStyle(() => {
         return {
-            bottom: interpolate(expanded.value, [0, 1], [-40, 0], Extrapolate.CLAMP),
+            bottom: interpolate(expanded.value, [0, 1], [-42, 0], Extrapolate.CLAMP),
             right: 0,
             width: interpolate(expanded.value, [0, 1], [100, width], Extrapolate.CLAMP),
             transform: [

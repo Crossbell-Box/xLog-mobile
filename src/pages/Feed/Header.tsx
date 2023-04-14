@@ -4,6 +4,7 @@ import { Button, isWeb, Stack, Text, useCurrentColor, XStack, YStack } from "tam
 import { i18n } from "@/i18n";
 import { NavigationHeader } from "@/components/Header";
 import { SortType } from "./constants";
+import { StyleSheet } from "react-native";
 
 export interface Props {
     isExpandedAnimValue: Animated.SharedValue<0 | 1>
@@ -64,7 +65,7 @@ export const Header: FC<Props> = (props) => {
 
     return <>
         <NavigationHeader expanded={isExpandedAnimValue} />
-        <YStack paddingBottom={'$1'}>
+        <YStack borderBottomWidth={1} borderBottomColor={'$orange12Dark'}>
             <XStack>
                 {
                     Object.values(SortType).map((type, index) => {
