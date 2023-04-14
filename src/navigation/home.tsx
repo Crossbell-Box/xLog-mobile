@@ -31,10 +31,11 @@ const DrawerContent: FC<DrawerContentComponentProps> = (props) => {
                 DRAWER_TABS_MOCK.map((item, index) => {
                     const { icon: Icon } = item
                     // TODO
-                    const isFocused = false
+                    const isFocused = index === 0;
                     const color = isFocused ? primary : null
                     return <DrawerItem
                         key={index}
+                        focused={isFocused}
                         activeTintColor={color}
                         icon={() => <Icon color={color} />}
                         label={item.label}
