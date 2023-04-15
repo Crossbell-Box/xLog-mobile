@@ -61,7 +61,6 @@ export const HomeNavigator = () => {
                 headerShown: false,
                 drawerActiveTintColor: primary,
                 drawerLabel(props) {
-                    console.log(props)
                     return <Text>{props.color}</Text>;
                 },
                 drawerStyle: {

@@ -36,9 +36,9 @@ export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, 'Pos
     }, [])
 
     useAnimatedReaction(
-        () => webviewLoadingAnimValue.value === 1,
-        (loaded) => runOnJS(setWebviewLoaded)(loaded),
-        [webviewLoadingAnimValue.value]
+        () => webviewLoadingAnimValue.value >= 0.7,
+        (loaded) => !webviewLoaded && runOnJS(setWebviewLoaded)(loaded),
+        [webviewLoadingAnimValue.value, webviewLoaded]
     )
 
     return <Stack flex={1} backgroundColor={'white'}>

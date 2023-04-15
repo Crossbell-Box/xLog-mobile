@@ -144,10 +144,7 @@ export const FeedList = forwardRef<FeedListInstance, Props>((props, ref) => {
                     return
                 }
                 Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
-                console.log('loading more...')
-                feed.fetchNextPage().then(r=>{
-                    console.log(r.data.pages.length,'==loaded!')
-                })
+                feed.fetchNextPage()
             }}
             ListFooterComponent={() => {
                 if (feed.isFetchingNextPage) {
