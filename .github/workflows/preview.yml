@@ -46,5 +46,7 @@ jobs:
 
       - name: Create preview
         uses: expo/expo-github-action/preview@v8
+        env:
+          NODE_OPTIONS: "--max_old_space_size=4096"
         with:
-          command: eas update --branch _pr_preview_ --channel _pr_preview_
+          command: eas update --channel _pr_preview_ --auto
