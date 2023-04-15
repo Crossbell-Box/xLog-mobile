@@ -7,12 +7,13 @@ import { Stack, useWindowDimensions, XStack, YStack } from "tamagui"
 import Animated, { interpolate, runOnJS, useAnimatedReaction, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import ContentLoader, { Rect, Circle, Facebook } from 'react-content-loader/native'
-import { useColor } from "@/hooks/styles"
 
 export interface Props {
     noteId: number
     characterId: number
 }
+
+const loadingThreshold = 0.5
 
 export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, 'PostDetails'>> = (props) => {
     const { route } = props
@@ -20,23 +21,22 @@ export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, 'Pos
     const { top } = useSafeAreaInsets()
     const { width, height } = useWindowDimensions()
     const webviewLoadingAnimValue = useSharedValue<number>(0);
-    const { primary } = useColor()
     const [webviewLoaded, setWebviewLoaded] = React.useState(false)
 
     const webviewAnimStyles = useAnimatedStyle(() => {
         return {
-            opacity: interpolate(webviewLoadingAnimValue.value, [0, 0.7], [0, 1])
+            opacity: interpolate(webviewLoadingAnimValue.value, [0, loadingThreshold], [0, 1])
         }
     }, [])
 
     const skeletonAnimStyles = useAnimatedStyle(() => {
         return {
-            opacity: interpolate(webviewLoadingAnimValue.value, [0, 0.7], [1, 0])
+            opacity: interpolate(webviewLoadingAnimValue.value, [0, loadingThreshold], [1, 0])
         }
     }, [])
 
     useAnimatedReaction(
-        () => webviewLoadingAnimValue.value >= 0.7,
+        () => webviewLoadingAnimValue.value >= loadingThreshold,
         (loaded) => !webviewLoaded && runOnJS(setWebviewLoaded)(loaded),
         [webviewLoadingAnimValue.value, webviewLoaded]
     )
