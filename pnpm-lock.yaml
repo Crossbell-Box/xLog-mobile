@@ -63,6 +63,7 @@ specifiers:
   react-native-reanimated-carousel: ^3.3.0
   react-native-redash: ^18.1.0
   react-native-safe-area-context: 4.5.0
+  react-native-screens: ~3.20.0
   react-native-svg: 13.4.0
   react-native-tcp-socket: ^6.0.6
   react-native-url-polyfill: ^1.3.0
@@ -82,10 +83,10 @@ dependencies:
   '@crossbell/indexer': 0.0.66_feqcawpjc6wnzb3vjnh7e2u5f4
   '@ethersproject/shims': 5.7.0
   '@react-native-async-storage/async-storage': 1.17.11_react-native@0.71.6
-  '@react-navigation/drawer': 6.6.2_xvwfifmme2q4ahfyibnm3c6qiy
+  '@react-navigation/drawer': 6.6.2_rm62nprqxceidy3sb7hz3ozlna
   '@react-navigation/native': 6.1.6_ib4chsmsbwwfxpzwl72z3r2dq4
-  '@react-navigation/native-stack': 6.9.12_7mskyfahitrubvwgdj2yab7ulu
-  '@react-navigation/stack': 6.3.16_vj6pzcptywsjoomcvbvld52kvi
+  '@react-navigation/native-stack': 6.9.12_tckmbv3si7efmhn4c3n5gdvxpa
+  '@react-navigation/stack': 6.3.16_mewwxoooywvxijrwk23dqflz6m
   '@tamagui/animations-react-native': 1.14.3_ib4chsmsbwwfxpzwl72z3r2dq4
   '@tamagui/animations-reanimated': 1.14.3_ib4chsmsbwwfxpzwl72z3r2dq4
   '@tamagui/babel-plugin': 1.14.3_unwglpklchziqc5coh3ir4wzhu
@@ -129,6 +130,7 @@ dependencies:
   react-native-reanimated-carousel: 3.3.0_fp3a6xqwmkslzvdwzqtfl6tchm
   react-native-redash: 18.1.0_fp3a6xqwmkslzvdwzqtfl6tchm
   react-native-safe-area-context: 4.5.0_ib4chsmsbwwfxpzwl72z3r2dq4
+  react-native-screens: 3.20.0_ib4chsmsbwwfxpzwl72z3r2dq4
   react-native-svg: 13.4.0_ib4chsmsbwwfxpzwl72z3r2dq4
   react-native-tcp-socket: 6.0.6_react-native@0.71.6
   react-native-url-polyfill: 1.3.0_react-native@0.71.6
@@ -3221,7 +3223,7 @@ packages:
       use-latest-callback: 0.1.5
     dev: false
 
-  /@react-navigation/drawer/6.6.2_xvwfifmme2q4ahfyibnm3c6qiy:
+  /@react-navigation/drawer/6.6.2_rm62nprqxceidy3sb7hz3ozlna:
     resolution: {integrity: sha512-6qt4guBdz7bkdo/8BLSCcFNdQdSPYyNn05D9cD+VCY3mGThSiD8bRiP9ju+64im7LsSU+bNWXaP8RxA/FtTVQg==}
     peerDependencies:
       '@react-navigation/native': ^6.0.0
@@ -3240,6 +3242,7 @@ packages:
       react-native-gesture-handler: 2.9.0_ib4chsmsbwwfxpzwl72z3r2dq4
       react-native-reanimated: 2.14.4_nkgdcni3f5hac3a6rzlajcjtou
       react-native-safe-area-context: 4.5.0_ib4chsmsbwwfxpzwl72z3r2dq4
+      react-native-screens: 3.20.0_ib4chsmsbwwfxpzwl72z3r2dq4
       warn-once: 0.1.1
     dev: false
 
@@ -3257,7 +3260,7 @@ packages:
       react-native-safe-area-context: 4.5.0_ib4chsmsbwwfxpzwl72z3r2dq4
     dev: false
 
-  /@react-navigation/native-stack/6.9.12_7mskyfahitrubvwgdj2yab7ulu:
+  /@react-navigation/native-stack/6.9.12_tckmbv3si7efmhn4c3n5gdvxpa:
     resolution: {integrity: sha512-kS2zXCWP0Rgt7uWaCUKrRl7U2U1Gp19rM1kyRY2YzBPXhWGVPjQ2ygBp88CTQzjgy8M07H/79jvGiZ0mlEJI+g==}
     peerDependencies:
       '@react-navigation/native': ^6.0.0
@@ -3271,6 +3274,7 @@ packages:
       react: 18.2.0
       react-native: 0.71.6_duavcg6prxxl5begav3y2fyxcu
       react-native-safe-area-context: 4.5.0_ib4chsmsbwwfxpzwl72z3r2dq4
+      react-native-screens: 3.20.0_ib4chsmsbwwfxpzwl72z3r2dq4
       warn-once: 0.1.1
     dev: false
 
@@ -3294,7 +3298,7 @@ packages:
       nanoid: 3.3.6
     dev: false
 
-  /@react-navigation/stack/6.3.16_vj6pzcptywsjoomcvbvld52kvi:
+  /@react-navigation/stack/6.3.16_mewwxoooywvxijrwk23dqflz6m:
     resolution: {integrity: sha512-KTOn9cNuZ6p154Htbl2DiR95Wl+c7niLPRiGs7gjOkyVDGiaGQF9ODNQTYBDE1OxZGHe/EyYc6T2CbmiItLWDg==}
     peerDependencies:
       '@react-navigation/native': ^6.0.0
@@ -3311,6 +3315,7 @@ packages:
       react-native: 0.71.6_duavcg6prxxl5begav3y2fyxcu
       react-native-gesture-handler: 2.9.0_ib4chsmsbwwfxpzwl72z3r2dq4
       react-native-safe-area-context: 4.5.0_ib4chsmsbwwfxpzwl72z3r2dq4
+      react-native-screens: 3.20.0_ib4chsmsbwwfxpzwl72z3r2dq4
       warn-once: 0.1.1
     dev: false
 
@@ -11630,6 +11635,15 @@ packages:
       scheduler: 0.23.0
     dev: false
 
+  /react-freeze/1.0.3_react@18.2.0:
+    resolution: {integrity: sha512-ZnXwLQnGzrDpHBHiC56TXFXvmolPeMjTn1UOm610M4EXGzbEDR7oOIyS2ZiItgbs6eZc4oU/a0hpk8PrcKvv5g==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: '>=17.0.0'
+    dependencies:
+      react: 18.2.0
+    dev: false
+
   /react-is/16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
     dev: false
@@ -11809,6 +11823,18 @@ packages:
     dependencies:
       react: 18.2.0
       react-native: 0.71.6_duavcg6prxxl5begav3y2fyxcu
+    dev: false
+
+  /react-native-screens/3.20.0_ib4chsmsbwwfxpzwl72z3r2dq4:
+    resolution: {integrity: sha512-joWUKWAVHxymP3mL9gYApFHAsbd9L6ZcmpoZa6Sl3W/82bvvNVMqcfP7MeNqVCg73qZ8yL4fW+J/syusHleUgg==}
+    peerDependencies:
+      react: '*'
+      react-native: '*'
+    dependencies:
+      react: 18.2.0
+      react-freeze: 1.0.3_react@18.2.0
+      react-native: 0.71.6_duavcg6prxxl5begav3y2fyxcu
+      warn-once: 0.1.1
     dev: false
 
   /react-native-svg/13.4.0_ib4chsmsbwwfxpzwl72z3r2dq4:
