@@ -8,6 +8,7 @@ jobs:
   update:
     name: EAS Update
     runs-on: ubuntu-latest
+    if: false # TODO
     permissions:
       pull-requests: write
     steps:
