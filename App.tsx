@@ -1,5 +1,7 @@
 import './shim'
 import 'react-native-gesture-handler';
+import 'react-native-url-polyfill/auto';
+
 import { useFonts } from 'expo-font'
 import { useColorScheme } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -12,6 +14,8 @@ import * as SplashScreen from 'expo-splash-screen';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { StyleSheet } from 'react-native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { createClient, WagmiConfig } from "wagmi"
+import { getDefaultClientConfig } from '@/lib/get-default-client-config';
 
 SplashScreen.preventAutoHideAsync()
 
@@ -22,6 +26,8 @@ const queryClient = new QueryClient({
     },
   },
 })
+
+const wagmiClient = createClient(getDefaultClientConfig({ appName: 'xLog' }))
 
 export default () => {
   const colorScheme = useColorScheme()
@@ -45,9 +51,11 @@ export default () => {
         <Theme name={colorScheme === 'dark' ? 'dark' : 'light'}>
           <NavigationContainer>
             <SafeAreaProvider>
-              <QueryClientProvider client={queryClient}>
-                <RootNavigator />
-              </QueryClientProvider>
+              <WagmiConfig client={wagmiClient}>
+                <QueryClientProvider client={queryClient}>
+                  <RootNavigator />
+                </QueryClientProvider>
+              </WagmiConfig>
             </SafeAreaProvider>
           </NavigationContainer>
         </Theme>

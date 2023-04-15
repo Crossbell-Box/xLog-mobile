@@ -20,9 +20,6 @@
 - [x] Create a README for developers, including setup instructions, project overview, and contribution guidelines
 - [ ] Set up error monitoring and reporting (Sentry)
 - [ ] Implement testing (unit tests, end-to-end tests, snapshot tests, etc.)
-- [ ] Design and implement a clean and modern user interface for the feed list and post detail views
-- [ ] Ensure the application is responsive and works well on various devices and screen sizes
-- [ ] Implement smooth transitions and animations for enhanced user experience
 - [ ] Ensure accessibility features are considered and implemented where applicable
 - [ ] Optimize data fetching and caching for improved performance
 - [ ] Implement lazy loading and pagination for the feed list view to handle large amounts of data
@@ -41,13 +38,13 @@
 
 #### 2.2. Data Fetching
 
-- [ ] Develop the web3 API integration for fetching blog data
-    - [ ] Set up the @crossbell/indexer for fetching data from the blockchain
-    - [ ] Implement the API call for fetching the list of blog posts
-    - [ ] Implement the API call for fetching the details of a specific blog post
-- [ ] Integrate data fetching with the feed list and post detail views
-    - [ ] Display the fetched blog posts in the feed list view
-    - [ ] Display the fetched post details in the post detail view
+- [x] Develop the web3 API integration for fetching blog data
+    - [x] Set up the @crossbell/indexer for fetching data from the blockchain
+    - [x] Implement the API call for fetching the list of blog posts
+    - [x] Implement the API call for fetching the details of a specific blog post
+- [x] Integrate data fetching with the feed list and post detail views
+    - [x] Display the fetched blog posts in the feed list view
+    - [x] Display the fetched post details in the post detail view
 
 ## Development
 ### Prerequisites

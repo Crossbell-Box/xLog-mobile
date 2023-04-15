@@ -3,7 +3,7 @@ import Animated, { interpolate, useAnimatedStyle, useDerivedValue, withTiming } 
 import { Button, isWeb, Stack, Text, useCurrentColor, XStack, YStack } from "tamagui";
 import { i18n } from "@/i18n";
 import { NavigationHeader } from "@/components/Header";
-import { SortType } from "./constants";
+import { sortType, SortType } from "./constants";
 import { StyleSheet } from "react-native";
 
 export interface Props {
@@ -13,19 +13,19 @@ export interface Props {
 }
 
 const NameOfSortType = {
-    [SortType.LATEST]: i18n.t('latest'),
-    [SortType.POPULAR]: i18n.t('popular'),
-    [SortType.FOLLOW]: i18n.t('follow')
+    [sortType.LATEST]: i18n.t('latest'),
+    [sortType.HOT]: i18n.t('hot'),
+    [sortType.FOLLOWING]: i18n.t('following')
 }
 
 type Measurements = Array<Partial<{ x: number, width: number }>>
 
 export const Header: FC<Props> = (props) => {
     const primaryColor = useCurrentColor('orange9')
-    const lengthOfSortType = Object.values(SortType).length
+    const lengthOfSortType = Object.values(sortType).length
     const { isExpandedAnimValue, currentSortType, onSortTypeChange } = props
     const [_measurements, setMeasurements] = useState<Measurements>([])
-    const indicatorAnimValuePos = useDerivedValue(() => withTiming(Object.values(SortType).indexOf(currentSortType)), [currentSortType]);
+    const indicatorAnimValuePos = useDerivedValue(() => withTiming(Object.values(sortType).indexOf(currentSortType)), [currentSortType]);
     const measurements = useMemo<Measurements | undefined>(() => {
         if (_measurements.filter((m) => !!m).length === lengthOfSortType) {
             return _measurements
@@ -68,7 +68,9 @@ export const Header: FC<Props> = (props) => {
         <YStack borderBottomWidth={1} borderBottomColor={'$orange12Dark'}>
             <XStack>
                 {
-                    Object.values(SortType).map((type, index) => {
+                    Object.values(sortType)
+                    .filter((type) => type !== sortType.FOLLOWING) // TODO
+                    .map((type, index) => {
                         const isActive = type === currentSortType
                         return <Stack key={type} onLayout={({ nativeEvent: { layout: { width, x } } }) => {
                             setMeasurements((prev) => {

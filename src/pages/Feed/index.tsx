@@ -5,15 +5,17 @@ import { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
 import { FeedList } from "@/components/FeedList";
 import { AnimatedConnectionButton } from "./AnimatedConnectionButton";
 import { Header } from "./Header";
-import { SortType } from "./constants";
+import type { SortType } from "./constants";
+import { sortType as _sortType } from "./constants";
+import { FeedType } from "@/models/home.model";
 
 export interface Props {
     sortType?: SortType
 }
 
 export const FeedPage: FC<Props> = (props) => {
-    const { sortType = SortType.LATEST } = props
-    const [currentSortType, setCurrentSortType] = useState(sortType)
+    const { sortType = _sortType.LATEST } = props
+    const [currentSortType, setCurrentSortType] = useState<SortType>(sortType)
     const prevTranslationYAnimValue = useSharedValue<number>(0);
     const isExpandedAnimValue = useSharedValue<0 | 1>(1);
 
@@ -51,7 +53,7 @@ export const FeedPage: FC<Props> = (props) => {
                 Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
             }}
         />
-        <FeedList onScroll={onScroll} onScrollEndDrag={onScrollEndDrag} />
+        <FeedList type={currentSortType} onScroll={onScroll} onScrollEndDrag={onScrollEndDrag} />
         <AnimatedConnectionButton visibleAnimValue={isExpandedAnimValue} />
     </Animated.View>
 }

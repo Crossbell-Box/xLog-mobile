@@ -25,9 +25,12 @@ const DRAWER_TABS_MOCK = [
 
 const DrawerContent: FC<DrawerContentComponentProps> = (props) => {
     const { primary } = useColor()
+
     return (
         <DrawerContentScrollView {...props}>
-            {
+            {/* TODO */}
+            <DrawerItemList {...props} />
+            {/* {
                 DRAWER_TABS_MOCK.map((item, index) => {
                     const { icon: Icon } = item
                     // TODO
@@ -42,7 +45,7 @@ const DrawerContent: FC<DrawerContentComponentProps> = (props) => {
                         onPress={() => { }}
                     />
                 })
-            }
+            } */}
         </DrawerContentScrollView>
     );
 }

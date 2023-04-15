@@ -13,8 +13,8 @@ export const RootNavigator = () => {
         headerShown: false,
       }}
     >
-      <RootStack.Screen name={"Home"} component={HomeNavigator}/>
-      <RootStack.Screen name={"PostDetails"} component={PostDetailsPage}/>
+      <RootStack.Screen name={"Home"} component={HomeNavigator} />
+      <RootStack.Screen name={"PostDetails"} component={PostDetailsPage} />
     </RootStack.Navigator>
   );
 };

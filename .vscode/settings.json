@@ -4,6 +4,7 @@
         "haptics",
         "Roadmap",
         "Tamagui",
+        "Wagmi",
         "xlog"
     ],
     "typescript.tsdk": "node_modules/typescript/lib"
