@@ -7,3 +7,6 @@ export const sortType: Record<Uppercase<SortType>, SortType> = {
     HOT: 'hot',
     FOLLOWING: 'following'
 }
+
+// TODO
+delete sortType.FOLLOWING;

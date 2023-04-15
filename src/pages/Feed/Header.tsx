@@ -68,9 +68,7 @@ export const Header: FC<Props> = (props) => {
         <YStack borderBottomWidth={1} borderBottomColor={'$orange12Dark'}>
             <XStack>
                 {
-                    Object.values(sortType)
-                    .filter((type) => type !== sortType.FOLLOWING) // TODO
-                    .map((type, index) => {
+                    Object.values(sortType).map((type, index) => {
                         const isActive = type === currentSortType
                         return <Stack key={type} onLayout={({ nativeEvent: { layout: { width, x } } }) => {
                             setMeasurements((prev) => {
