@@ -47,4 +47,4 @@ jobs:
       - name: Create preview
         uses: expo/expo-github-action/preview@v8
         with:
-          command: eas update --branch _pr_preview_ --channel _pr_preview_
+          command: eas update --branch _pr_preview_ --auto
