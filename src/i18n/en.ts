@@ -5,6 +5,7 @@ const en: typeof zh_cn = {
     latest: "Latest",
     hot: "Hot",
     following: "Following",
+    ago: "{{time}} ago",
 }
 
 export default en

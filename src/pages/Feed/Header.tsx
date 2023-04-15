@@ -65,7 +65,7 @@ export const Header: FC<Props> = (props) => {
 
     return <>
         <NavigationHeader expanded={isExpandedAnimValue} />
-        <YStack borderBottomWidth={1} borderBottomColor={'$orange12Dark'}>
+        <YStack borderBottomWidth={1} borderBottomColor={"$gray4"}>
             <XStack>
                 {
                     Object.values(sortType).map((type, index) => {

@@ -13,7 +13,7 @@ export interface Props {
     characterId: number
 }
 
-const loadingThreshold = 0.5
+const loadingThreshold = 0.3
 
 export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, 'PostDetails'>> = (props) => {
     const { route } = props

@@ -124,7 +124,7 @@ export const FeedList = forwardRef<FeedListInstance, Props>((props, ref) => {
             keyExtractor={(post, index) => `${post.characterId}-${post.noteId}-${index}`}
             contentContainerStyle={{ padding: 16 }}
             renderItem={({ item, index }) => {
-                return <Stack key={index} marginBottom={'$3'} >
+                return <Stack key={index} marginBottom={'$5'} >
                     <FeedListItem note={item} />
                 </Stack>
             }}

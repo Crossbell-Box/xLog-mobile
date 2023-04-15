@@ -3,6 +3,7 @@ const zh_cn = {
     latest: '最新',
     hot: '最热',
     following: '关注',
+    ago: "{{time}}前",
 }
 
 export default zh_cn
