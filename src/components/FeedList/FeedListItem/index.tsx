@@ -96,7 +96,6 @@ export const FeedListItem: FC<Props> = (props) => {
                     <Text
                         width={coverImage.isSingle ? '65%' : '100%'}
                         borderWidth={1}
-                        lineHeight={"$1"}
                         numberOfLines={coverImage.isSingle ? 5 : 3}
                         color={'#71717A'}
                     >
@@ -119,7 +118,7 @@ export const FeedListItem: FC<Props> = (props) => {
                                     const priority = index <= 3 ? 'high' : 'low';
 
                                     return <Card key={index} bordered marginRight={'$3'} borderRadius={8} width={120} height={120}>
-                                        <Image priority={priority} source={{ uri }} resizeMode="cover" style={styles.multipleImageWrapper} />
+                                        <Image priority={priority} source={{ uri }} contentFit="cover" style={styles.multipleImageWrapper} />
                                     </Card>
                                 })
                             }

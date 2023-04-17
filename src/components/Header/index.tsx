@@ -1,10 +1,11 @@
 import { Logo } from "@/constants/resource";
 import { DrawerHeaderProps } from "@react-navigation/drawer";
 import { FC } from "react";
-import { Image, Text, useWindowDimensions, XStack } from "tamagui";
+import { Text, useWindowDimensions, XStack } from "tamagui";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Animated, { Extrapolate, interpolate, SharedValue, useAnimatedStyle } from "react-native-reanimated";
 import { StyleSheet } from "react-native";
+import { Image } from "expo-image";
 
 export interface Props {
     expanded: SharedValue<0 | 1>
@@ -36,7 +37,7 @@ export const NavigationHeader: FC<Props> = (props) => {
 
     return <Animated.View style={[containerAnimStyles, styles.container, { paddingTop: top }]}>
         <Animated.View style={[contentContainerAnimStyles, styles.contentContainer]}>
-            <Image source={Logo} resizeMode={'contain'} w={'$3'} h={"$3"} />
+            <Image source={Logo} contentFit={'contain'} style={styles.logo} />
             <Text fontWeight={'700'} fontSize={24}>xLog</Text>
         </Animated.View>
     </Animated.View>
@@ -53,5 +54,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row',
+    },
+    logo: {
+        width: 32,
+        height: 32,
     }
 });
