@@ -109,7 +109,8 @@ Refer to this [document](https://docs.expo.dev/eas-update/how-eas-update-works/)
 
 ## Contributing
 
-- Fork
-- PR to `develop` branch
+> We will publish the preview version of the app for testing, and once the PR is merged into the main branch, we will release it to the app store. 🚀
 
-We will test new features on staging branch and release it. 🚀
+- Fork it.
+- Submit PR to `staging` branch.
+
