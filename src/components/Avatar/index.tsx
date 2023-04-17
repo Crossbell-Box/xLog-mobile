@@ -2,8 +2,8 @@ import { toGateway } from "@/lib/ipfs-parser";
 import { Image } from "expo-image";
 import { FC } from "react";
 import { Avatar as _Avatar } from "tamagui";
-import { LogoResource } from "../Logo";
 import { StyleSheet } from "react-native";
+import ContentLoader, { Circle } from "react-content-loader/native";
 
 interface Props {
     uri?: string
@@ -11,6 +11,7 @@ interface Props {
 
 export const Avatar: FC<Props> = (props) => {
     const { uri } = props;
+    const size = 45;
 
     if (!uri) {
         return null
@@ -26,14 +27,16 @@ export const Avatar: FC<Props> = (props) => {
     }
 
     return <_Avatar
-        size={45}
+        size={size}
         bordered
         circular
         backgroundColor="white"
     >
         <_Avatar.Image src={toGateway(uri)} />
-        <_Avatar.Fallback>
-            <Image source={LogoResource} contentFit={'cover'} style={styles.container} />
+        <_Avatar.Fallback delayMs={250}>
+            <ContentLoader viewBox={`0 0 ${size} ${size}`} backgroundColor={'gray'} opacity="0.3">
+                <Circle x="0" y="0" cx={size / 2} cy={size / 2} r={size} />
+            </ContentLoader>
         </_Avatar.Fallback>
     </_Avatar>
 }
