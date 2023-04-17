@@ -7,6 +7,7 @@
       "developmentClient": true,
       "distribution": "internal",
       "ios": {
+        "resourceClass": "m-medium",
         "simulator": true
       }
     },
@@ -19,6 +20,9 @@
       "channel": "development"
     },
     "preview": {
+      "env": {
+        "NODE_OPTIONS": "--max-old-space-size=4096"
+      },
       "distribution": "internal",
       "ios": {
         "resourceClass": "m-medium"
