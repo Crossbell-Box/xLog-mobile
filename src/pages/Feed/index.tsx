@@ -3,19 +3,16 @@ import Animated, { useAnimatedScrollHandler, useSharedValue, withSpring } from "
 import * as Haptics from "expo-haptics";
 import { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
 import { FeedList } from "@/components/FeedList";
-import { AnimatedConnectionButton } from "./AnimatedConnectionButton";
-import { Header } from "./Header";
-import type { SortType } from "./constants";
-import { sortType as _sortType } from "./constants";
-import { FeedType } from "@/models/home.model";
+import type { SortType } from "./Header";
+import { Header, sortType } from "./Header";
 
 export interface Props {
-    sortType?: SortType
+    sortType?: any
 }
 
 export const FeedPage: FC<Props> = (props) => {
-    const { sortType = _sortType.LATEST } = props
-    const [currentSortType, setCurrentSortType] = useState<SortType>(sortType)
+    const { sortType: _sortType = sortType.LATEST } = props
+    const [currentSortType, setCurrentSortType] = useState<SortType>(_sortType)
     const prevTranslationYAnimValue = useSharedValue<number>(0);
     const isExpandedAnimValue = useSharedValue<0 | 1>(1);
 

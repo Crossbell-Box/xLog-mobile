@@ -1,7 +1,6 @@
 import { Logo } from "@/constants/resource";
-import { DrawerHeaderProps } from "@react-navigation/drawer";
 import { FC } from "react";
-import { Text, useWindowDimensions, XStack } from "tamagui";
+import { Text, useWindowDimensions } from "tamagui";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Animated, { Extrapolate, interpolate, SharedValue, useAnimatedStyle } from "react-native-reanimated";
 import { StyleSheet } from "react-native";

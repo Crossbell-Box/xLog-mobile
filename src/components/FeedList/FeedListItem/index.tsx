@@ -1,5 +1,4 @@
 import { RootStackParamList } from "@/navigation/types";
-import { useNotes } from "@crossbell/indexer";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import React, { FC, useMemo } from "react";
@@ -9,17 +8,16 @@ import { Card, H3, H5, H6, Paragraph, Spacer, Text, XStack } from "tamagui";
 import removeMd from 'remove-markdown';
 import { StyleSheet } from "react-native";
 import { findCoverImage } from "@/lib/find-conver-image";
-import { toGateway } from "@/lib/ipfs-parser";
 import { Avatar } from "@/components/Avatar";
 import { useDate } from "@/hooks/useDate";
 import { i18n } from "@/i18n";
+// import type { NoteEntity } from 'crossbell.js';
+
+type NoteEntity = any
 
 export interface Props {
     note: NoteEntity
 }
-
-export type NoteEntity = ReturnType<typeof useNotes>['data']['pages'][number]['list'][number]
-
 
 export const FeedListItem: FC<Props> = (props) => {
     const { note } = props;

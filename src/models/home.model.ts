@@ -19,7 +19,6 @@ export async function getFeed({
   noteIds?: string[]
   daysInterval?: number
 }) {
-  
   switch (type) {
     case "latest": {
       const result = await indexer.getNotes({
