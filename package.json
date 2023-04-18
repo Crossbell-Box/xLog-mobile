@@ -2,6 +2,7 @@
   "name": "xlog",
   "version": "0.0.1",
   "main": "node_modules/expo/AppEntry.js",
+  "packageManager": "pnpm@7.32.0",
   "scripts": {
     "start": "NODE_ENV=development expo start",
     "android": "expo start --android",
