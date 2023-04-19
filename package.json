@@ -26,6 +26,7 @@
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
     "@react-navigation/stack": "^6.3.16",
+    "@shopify/flash-list": "1.4.0",
     "@tamagui/animations-react-native": "^1.14.3",
     "@tamagui/animations-reanimated": "^1.14.3",
     "@tamagui/babel-plugin": "^1.14.3",

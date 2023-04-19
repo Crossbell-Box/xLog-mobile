@@ -8,6 +8,7 @@ import { FeedListItem } from "./FeedListItem";
 import type { NoteEntity } from "crossbell.js";
 import { useGetFeed } from "@/queries/home";
 import { FeedType } from "@/models/home.model";
+import { ReanimatedFlashList } from "../ReanimatedFlashList";
 
 export interface Props {
     onScroll?: ReturnType<typeof useAnimatedScrollHandler>
@@ -41,7 +42,7 @@ export const FeedList = forwardRef<FeedListInstance, Props>((props, ref) => {
     }
 
     return <Stack flex={1}>
-        <Animated.FlatList<NoteEntity>
+        <ReanimatedFlashList<NoteEntity>
             data={feedList}
             keyExtractor={(post, index) => `${post.characterId}-${post.noteId}-${index}`}
             contentContainerStyle={{ padding: 16 }}
@@ -50,7 +51,8 @@ export const FeedList = forwardRef<FeedListInstance, Props>((props, ref) => {
                     <FeedListItem note={item} />
                 </Stack>
             }}
-            windowSize={3}
+            estimatedItemSize={238}
+            bounces
             scrollEventThrottle={16}
             onScroll={onScrollHandler}
             showsVerticalScrollIndicator={false}
@@ -58,7 +60,7 @@ export const FeedList = forwardRef<FeedListInstance, Props>((props, ref) => {
             onEndReachedThreshold={0.2}
             onEndReached={() => {
                 if (
-                    feedList.length === 0 || 
+                    feedList.length === 0 ||
                     feed.isFetching ||
                     feed.isFetchingNextPage ||
                     feed.isFetchingPreviousPage ||
