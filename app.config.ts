@@ -14,6 +14,23 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     orientation: "portrait",
     icon: "./assets/icon.png",
     userInterfaceStyle: "light",
+    plugins: [
+      [
+        "expo-build-properties",
+        {
+          android: {
+            compileSdkVersion: 33,
+            targetSdkVersion: 33,
+            minSdkVersion: 23,
+            buildToolsVersion: "33.0.0",
+            kotlinVersion: "1.6.20",
+          },
+          ios: {
+            deploymentTarget: "13.0",
+          },
+        },
+      ],
+    ],
     splash: {
       "image": "./assets/splash.png",
       "resizeMode": "contain",

@@ -21,7 +21,7 @@ export function getDefaultClientConfig({
 	const { chains, provider } = configureChains(
 		[crossbell],
 		[publicProvider()],
-		{ pollingInterval: 1_000 }
+		{ pollingInterval: 1000 }
 	);
 
 	const connectors = [
