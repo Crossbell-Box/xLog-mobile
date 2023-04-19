@@ -2,7 +2,7 @@
   "name": "xlog",
   "version": "0.0.1",
   "main": "node_modules/expo/AppEntry.js",
-  "packageManager": "pnpm@7.32.0",
+  "packageManager": "yarn@1.22.0",
   "scripts": {
     "start": "NODE_ENV=development expo start",
     "android": "expo start --android",
@@ -12,7 +12,7 @@
     "publish:updates": "eas update --non-interactive --auto",
     "build:development": "NODE_ENV=development eas build --non-interactive --profile development",
     "build:preview": "eas build --non-interactive --profile preview",
-    "build:production": "pnpm run release & eas build --non-interactive --profile production --auto-submit",
+    "build:production": "yarn run release & eas build --non-interactive --profile production --auto-submit",
     "generate-env-types:common": "dotenv-types-generator -f ./.env.common -m",
     "generate-env-types:env": "dotenv-types-generator -f ./.env.development -m",
     "generate-env-types": "run-s generate-env-types:common",

@@ -49,13 +49,12 @@
 ## Development
 ### Prerequisites
 
-- [pnpm](https://pnpm.io/) `7.0+` is required to install dependencies.  
+- [Yarn](https://classic.yarnpkg.com/en/docs/install) is required for the project.
 
     ```sh
-    npm install pnpm -g
+    npm install --global yarn
     ```
 
-    ***Do not use the latest version of pnpm, because there are some breaking changes between EAS an local.** 
 
 - Duplicate `.env.example` and rename it to `.env.common`.  
 
@@ -92,13 +91,13 @@
 - Install dependencies
 
     ```sh
-    pnpm install
+    yarn install
     ```
 
 - Start the app
 
     ```sh
-    pnpm start
+    yarn start
     ```
 
 ### Publishing
