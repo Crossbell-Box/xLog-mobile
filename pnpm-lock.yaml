@@ -15,6 +15,7 @@ specifiers:
   '@react-navigation/native': ^6.1.6
   '@react-navigation/native-stack': ^6.9.12
   '@react-navigation/stack': ^6.3.16
+  '@shopify/flash-list': 1.4.0
   '@tamagui/animations-react-native': ^1.14.3
   '@tamagui/animations-reanimated': ^1.14.3
   '@tamagui/babel-plugin': ^1.14.3
@@ -78,6 +79,7 @@ dependencies:
   '@react-navigation/native': 6.1.6_ib4chsmsbwwfxpzwl72z3r2dq4
   '@react-navigation/native-stack': 6.9.12_tckmbv3si7efmhn4c3n5gdvxpa
   '@react-navigation/stack': 6.3.16_mewwxoooywvxijrwk23dqflz6m
+  '@shopify/flash-list': 1.4.0_ib4chsmsbwwfxpzwl72z3r2dq4
   '@tamagui/animations-react-native': 1.14.3_ib4chsmsbwwfxpzwl72z3r2dq4
   '@tamagui/animations-reanimated': 1.14.3_ib4chsmsbwwfxpzwl72z3r2dq4
   '@tamagui/babel-plugin': 1.14.3_unwglpklchziqc5coh3ir4wzhu
@@ -3337,6 +3339,19 @@ packages:
     dependencies:
       component-type: 1.2.1
       join-component: 1.1.0
+    dev: false
+
+  /@shopify/flash-list/1.4.0_ib4chsmsbwwfxpzwl72z3r2dq4:
+    resolution: {integrity: sha512-PvPOyk353LuETFnNA038+QaJsAFlCQ2TYC7DHP3YnYqTX72g2BM6qLoLsPaptXKuoXX+dinOo0MbEm7HDjTy1g==}
+    peerDependencies:
+      '@babel/runtime': '*'
+      react: '*'
+      react-native: '*'
+    dependencies:
+      react: 18.2.0
+      react-native: 0.71.6_duavcg6prxxl5begav3y2fyxcu
+      recyclerlistview: 4.2.0_ib4chsmsbwwfxpzwl72z3r2dq4
+      tslib: 2.4.0
     dev: false
 
   /@sideway/address/4.1.4:
@@ -11791,6 +11806,19 @@ packages:
       tslib: 2.5.0
     dev: false
 
+  /recyclerlistview/4.2.0_ib4chsmsbwwfxpzwl72z3r2dq4:
+    resolution: {integrity: sha512-uuBCi0c+ggqHKwrzPX4Z/mJOzsBbjZEAwGGmlwpD/sD7raXixdAbdJ6BTcAmuWG50Cg4ru9p12M94Njwhr/27A==}
+    peerDependencies:
+      react: '>= 15.2.1'
+      react-native: '>= 0.30.0'
+    dependencies:
+      lodash.debounce: 4.0.8
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-native: 0.71.6_duavcg6prxxl5begav3y2fyxcu
+      ts-object-utils: 0.0.5
+    dev: false
+
   /redent/3.0.0:
     resolution: {integrity: sha512-6tDA8g98We0zd0GvVeMT9arEOnTw9qM03L9cJXaCjrip1OO764RDBLBfrB4cwzNGDj5OA5ioymC9GkizgWJDUg==}
     engines: {node: '>=8'}
@@ -13068,8 +13096,16 @@ packages:
       yn: 3.1.1
     dev: false
 
+  /ts-object-utils/0.0.5:
+    resolution: {integrity: sha512-iV0GvHqOmilbIKJsfyfJY9/dNHCs969z3so90dQWsO1eMMozvTpnB1MEaUbb3FYtZTGjv5sIy/xmslEz0Rg2TA==}
+    dev: false
+
   /tslib/1.14.1:
     resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}
+    dev: false
+
+  /tslib/2.4.0:
+    resolution: {integrity: sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==}
     dev: false
 
   /tslib/2.5.0:
