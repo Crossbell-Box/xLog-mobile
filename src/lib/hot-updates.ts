@@ -1,7 +1,12 @@
+import { IS_DEV, IS_PROD } from '@/constants';
 import * as Updates from 'expo-updates';
 import { Alert } from 'react-native';
 
 export async function checkHotUpdates() {
+    if (IS_DEV) {
+        return;
+    }
+
     try {
         const update = await Updates.checkForUpdateAsync();
         if (update.isAvailable) {
