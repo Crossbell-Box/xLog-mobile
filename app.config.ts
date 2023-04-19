@@ -51,7 +51,6 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     ios: {
       supportsTablet: true,
       bundleIdentifier: process.env.BUNDLE_IDENTIFIER,
-      buildNumber: majorVersion.toString(),
     },
     android: {
       adaptiveIcon: {
@@ -59,7 +58,6 @@ export default ({ config }: ConfigContext): ExpoConfig => {
         backgroundColor: "#ffffff"
       },
       package: process.env.BUNDLE_IDENTIFIER,
-      versionCode: majorVersion,
     },
     web: {
       favicon: "./assets/favicon.png"
