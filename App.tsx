@@ -16,6 +16,7 @@ import { StyleSheet } from 'react-native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createClient, WagmiConfig } from "wagmi"
 import { getDefaultClientConfig } from '@/lib/get-default-client-config';
+import { checkHotUpdates } from '@/lib/hot-updates';
 
 SplashScreen.preventAutoHideAsync()
 
@@ -40,6 +41,10 @@ export default () => {
   useEffect(() => {
     loaded && SplashScreen.hideAsync()
   }, [loaded])
+
+  useEffect(()=>{
+    checkHotUpdates()
+  },[])
 
   if (!loaded) {
     return null
