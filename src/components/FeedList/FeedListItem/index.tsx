@@ -93,7 +93,6 @@ export const FeedListItem: FC<Props> = (props) => {
                 <XStack justifyContent={coverImage.isSingle ? 'space-between' : 'flex-start'}>
                     <Text
                         width={coverImage.isSingle ? '65%' : '100%'}
-                        borderWidth={1}
                         numberOfLines={coverImage.isSingle ? 5 : 3}
                         color={'#71717A'}
                     >
