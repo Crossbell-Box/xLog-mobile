@@ -12,7 +12,7 @@ export async function checkHotUpdates() {
         if (update.isAvailable) {
             await Updates.fetchUpdateAsync();
 
-            Alert.prompt(
+            Alert.alert(
                 'Update Available',
                 'A new version of the app is available. Restart the app to apply the update.',
                 [
