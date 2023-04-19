@@ -1,4 +1,4 @@
-import { IS_DEV, IS_PROD } from '@/constants';
+import { IS_DEV } from '@/constants';
 import * as Updates from 'expo-updates';
 import { Alert } from 'react-native';
 
@@ -7,29 +7,25 @@ export async function checkHotUpdates() {
         return;
     }
 
-    try {
-        const update = await Updates.checkForUpdateAsync();
-        if (update.isAvailable) {
-            await Updates.fetchUpdateAsync();
+    const update = await Updates.checkForUpdateAsync();
+    if (update.isAvailable) {
+        await Updates.fetchUpdateAsync();
 
-            Alert.alert(
-                'Update Available',
-                'A new version of the app is available. Restart the app to apply the update.',
-                [
-                    {
-                        text: 'Restart',
-                        onPress: async () => {
-                            await Updates.reloadAsync();
-                        },
+        Alert.alert(
+            'Update Available',
+            'A new version of the app is available. Restart the app to apply the update.',
+            [
+                {
+                    text: 'Restart',
+                    onPress: async () => {
+                        await Updates.reloadAsync();
                     },
-                    {
-                        text: 'Cancel',
-                        style: 'cancel',
-                    },
-                ]
-            );
-        }
-    } catch (e) {
-        Alert.alert('Error', e.message);
+                },
+                {
+                    text: 'Cancel',
+                    style: 'cancel',
+                },
+            ]
+        );
     }
 }
