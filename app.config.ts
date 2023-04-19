@@ -1,12 +1,9 @@
 import * as dotenv from 'dotenv'
-import semver from 'semver'
 import { ExpoConfig, ConfigContext } from 'expo/config';
 import { version } from "./package.json";
 
 dotenv.config({ path: '.env.common' })
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` })
-
-const majorVersion = semver.major(version);
 
 export default ({ config }: ConfigContext): ExpoConfig => {
   return {
