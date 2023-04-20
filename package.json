@@ -9,7 +9,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "release": "changeset status & changeset version",
-    "publish:updates": "eas update --non-interactive --auto",
+    "update:preview": "eas update --non-interactive --channel preview --auto",
     "build:development": "NODE_ENV=development eas build --non-interactive --profile development",
     "build:preview": "eas build --non-interactive --profile preview",
     "build:production": "yarn run release & eas build --non-interactive --profile production --auto-submit",
