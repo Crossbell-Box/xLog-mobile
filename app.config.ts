@@ -11,6 +11,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     description: "The first on-chain and open-source blogging platform for everyone",
     slug: "xlog",
     version,
+    scheme: 'app.xlog',
     orientation: "portrait",
     icon: "./assets/icon.png",
     userInterfaceStyle: "light",
@@ -60,6 +61,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       favicon: "./assets/favicon.png"
     },
     extra: {
+      WALLET_PROJECT_ID: process.env.WALLET_PROJECT_ID,
       eas: {
         projectId: process.env.EXPO_PROJECT_ID,
       }

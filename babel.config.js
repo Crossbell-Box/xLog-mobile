@@ -13,12 +13,15 @@ module.exports = function(api) {
       [
           'module-resolver',
           {
-            root: ['./src'],
+            root: [
+              './src',
+              './modules',
+            ],
             extensions: ['.ios.js', '.android.js', '.js', '.ts', '.tsx', '.json'],
             alias: dirs.reduce((acc, dir) => {
               acc[`@/${dir}`] = `./src/${dir}`;
               return acc;
-            }, { })
+            }, {})
           }
       ],
       // Using ethers 6.1 required private class properties and it broke FlatList

@@ -1,1 +1,1 @@
-export { default as LogoResource } from '../../../assets/icon.png'
+export { default as LogoResource } from '../../../assets/Logo.png';

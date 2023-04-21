@@ -2,10 +2,12 @@
     "cSpell.words": [
         "crossbell",
         "haptics",
+        "prebuild",
         "Roadmap",
         "Tamagui",
         "Wagmi",
         "xlog"
     ],
-    "typescript.tsdk": "node_modules/typescript/lib"
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "git.ignoreLimitWarning": true
 }

@@ -1,4 +1,4 @@
-import { toGateway } from "@/lib/ipfs-parser";
+import { toGateway } from "@/utils/ipfs-parser";
 import { Image, ImageProps } from "expo-image";
 import { FC, useMemo } from "react";
 

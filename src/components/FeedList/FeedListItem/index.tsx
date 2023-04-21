@@ -7,7 +7,7 @@ import { Image } from 'expo-image';
 import { Card, H3, H5, H6, Paragraph, Spacer, Text, XStack } from "tamagui";
 import removeMd from 'remove-markdown';
 import { StyleSheet } from "react-native";
-import { findCoverImage } from "@/lib/find-conver-image";
+import { findCoverImage } from "@/utils/find-conver-image";
 import { Avatar } from "@/components/Avatar";
 import { useDate } from "@/hooks/useDate";
 import { i18n } from "@/i18n";

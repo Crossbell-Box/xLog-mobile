@@ -5,6 +5,7 @@ import { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
 import { FeedList } from "@/components/FeedList";
 import type { SortType } from "./Header";
 import { Header, sortType } from "./Header";
+import { AnimatedConnectionButton } from "./AnimatedConnectionButton";
 
 export interface Props {
     sortType?: any
@@ -51,7 +52,6 @@ export const FeedPage: FC<Props> = (props) => {
             }}
         />
         <FeedList type={currentSortType} onScroll={onScroll} onScrollEndDrag={onScrollEndDrag} />
-        {/* TODO */}
-        {/* <AnimatedConnectionButton visibleAnimValue={isExpandedAnimValue} /> */}
+        <AnimatedConnectionButton visibleAnimValue={isExpandedAnimValue} />
     </Animated.View>
 }

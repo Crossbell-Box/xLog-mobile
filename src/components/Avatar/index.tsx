@@ -1,4 +1,4 @@
-import { toGateway } from "@/lib/ipfs-parser";
+import { toGateway } from "@/utils/ipfs-parser";
 import { Image } from "expo-image";
 import { FC } from "react";
 import { Avatar as _Avatar } from "tamagui";
