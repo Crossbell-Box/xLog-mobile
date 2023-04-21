@@ -49,10 +49,10 @@
 ## Development
 ### Prerequisites
 
-- [Yarn](https://classic.yarnpkg.com/en/docs/install) is required for the project.
+- We recommend installing [ni](https://github.com/antfu/ni) to help switching between repos using different package managers.
 
     ```sh
-    npm install --global yarn
+    npm install @antfu/ni --global
     ```
 
 
@@ -65,6 +65,7 @@
     Fill in the environment variables if you have.
 
     ```
+    WALLET_PROJECT_ID=""
     EXPO_PROJECT_ID=""
     BUNDLE_IDENTIFIER=""
     OWNER=""
@@ -91,13 +92,19 @@
 - Install dependencies
 
     ```sh
-    yarn install
+    ni
+    ```
+
+- Prebuild the project
+
+    ```sh
+    nr prebuild
     ```
 
 - Start the app
 
     ```sh
-    yarn start
+    nr start
     ```
 
 ### Publishing

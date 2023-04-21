@@ -1,9 +1,9 @@
 const zh_cn = {
-    feed: '文章列表',
-    latest: '最新',
-    hot: '最热',
-    following: '关注',
-    ago: "{{time}}前",
-}
+  feed: "文章列表",
+  latest: "最新",
+  hot: "最热",
+  following: "关注",
+  ago: "{{time}}前",
+};
 
-export default zh_cn
+export default zh_cn;

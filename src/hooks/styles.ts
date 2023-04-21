@@ -1,9 +1,9 @@
-import { useCurrentColor } from "tamagui"
+import { useCurrentColor } from "tamagui";
 
 export const useColor = () => {
-    const primary = useCurrentColor('orange9')
+  const primary = useCurrentColor("orange9");
 
-    return {
-        primary
-    }
-}
+  return {
+    primary,
+  };
+};

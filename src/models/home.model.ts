@@ -1,8 +1,8 @@
-import { indexer } from "@crossbell/indexer"
-import { createClient, cacheExchange, fetchExchange } from "@urql/core"
-import dayjs from "dayjs"
+import { indexer } from "@crossbell/indexer";
+import { createClient, cacheExchange, fetchExchange } from "@urql/core";
+import dayjs from "dayjs";
 
-export type FeedType = "latest" | "following" | "topic" | "hot"
+export type FeedType = "latest" | "following" | "topic" | "hot";
 
 export async function getFeed({
   type,
@@ -27,13 +27,13 @@ export async function getFeed({
         limit,
         cursor,
         includeCharacter: true,
-      })
+      });
 
       return {
         list: result.list,
         cursor: result.cursor,
         count: result.count,
-      }
+      };
     }
     case "following": {
       if (!characterId) {
@@ -41,21 +41,22 @@ export async function getFeed({
           list: [],
           cursor: "",
           count: 0,
-        }
-      } else {
+        };
+      }
+      else {
         const result = await indexer.getNotesOfCharacterFollowing(characterId, {
           sources: "xlog",
           tags: ["post"],
-          limit: limit,
+          limit,
           cursor,
           includeCharacter: true,
-        })
+        });
 
         return {
           list: result.list,
           cursor: result.cursor,
           count: result.count,
-        }
+        };
       }
     }
     case "topic": {
@@ -64,20 +65,20 @@ export async function getFeed({
           list: [],
           cursor: "",
           count: 0,
-        }
+        };
       }
       const client = createClient({
         url: "https://indexer.crossbell.io/v1/graphql",
         exchanges: [cacheExchange, fetchExchange],
-      })
+      });
 
       const orString = noteIds
         .map(
-          (note) =>
+          note =>
             `{ noteId: { equals: ${note.split("-")[1]
             } }, characterId: { equals: ${note.split("-")[0]}}},`,
         )
-        .join("\n")
+        .join("\n");
       const result = await client
         .query(
           `
@@ -108,26 +109,25 @@ export async function getFeed({
               }`,
           {},
         )
-        .toPromise()
+        .toPromise();
 
-      const list = result?.data?.notes
+      const list = result?.data?.notes;
 
       return {
-        list: list,
+        list,
         cursor: "",
         count: list?.length || 0,
-      }
+      };
     }
     case "hot": {
       const client = createClient({
         url: "https://indexer.crossbell.io/v1/graphql",
         exchanges: [cacheExchange, fetchExchange],
-      })
+      });
 
-      let time
-      if (daysInterval) {
-        time = dayjs().subtract(daysInterval, "day").toISOString()
-      }
+      let time;
+      if (daysInterval)
+        time = dayjs().subtract(daysInterval, "day").toISOString();
 
       const result = await client
         .query(
@@ -135,7 +135,7 @@ export async function getFeed({
               query getNotes {
                 notes(
                   where: {
-                    ${time ? `createdAt: { gt: "${time}" },` : ``}
+                    ${time ? `createdAt: { gt: "${time}" },` : ""}
                     stat: { is: { viewDetailCount: { gt: 0 } } },
                     metadata: { is: { content: { path: "sources", array_contains: "xlog" }, AND: { content: { path: "tags", array_contains: "post" } } } }
                   },
@@ -162,35 +162,34 @@ export async function getFeed({
               }`,
           {},
         )
-        .toPromise()
+        .toPromise();
 
       let list = await Promise.all(
         result?.data?.notes.map(async (page: any) => {
           if (daysInterval) {
-            const secondAgo = dayjs().diff(dayjs(page.createdAt), "second")
-            page.stat.hotScore =
-              page.stat.viewDetailCount / Math.max(Math.log10(secondAgo), 1)
+            const secondAgo = dayjs().diff(dayjs(page.createdAt), "second");
+            page.stat.hotScore
+              = page.stat.viewDetailCount / Math.max(Math.log10(secondAgo), 1);
           }
 
-          return page
+          return page;
         }),
-      )
+      );
 
       if (daysInterval) {
         list = list.sort((a, b) => {
-          if (a.stat?.hotScore && b.stat?.hotScore) {
-            return b.stat.hotScore - a.stat.hotScore
-          } else {
-            return 0
-          }
-        })
+          if (a.stat?.hotScore && b.stat?.hotScore)
+            return b.stat.hotScore - a.stat.hotScore;
+          else
+            return 0;
+        });
       }
 
       return {
-        list: list,
+        list,
         cursor: "",
         count: list?.length || 0,
-      }
+      };
     }
   }
 }
