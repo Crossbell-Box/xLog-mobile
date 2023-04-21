@@ -87,7 +87,7 @@ export const FeedListItem: FC<Props> = (props) => {
                   ?.filter(tag => tag !== "post" && tag !== "page")
                   .map((tag, index) => (
                     <Text key={tag + index} fontSize={12}>
-                                        #{tag} &nbsp;
+                      #{tag} &nbsp;
                     </Text>
                   ))}
               </Text>
@@ -95,15 +95,19 @@ export const FeedListItem: FC<Props> = (props) => {
           }
 
           <XStack justifyContent={coverImage.isSingle ? "space-between" : "flex-start"}>
-            <Text
-              width={coverImage.isSingle ? "65%" : "100%"}
-              numberOfLines={coverImage.isSingle ? 5 : 3}
-              color={"#71717A"}
-            >
-              {removeMd(
-                String(note.metadata.content.content.slice(0, 100)).replace(/(\r\n|\n|\r)/gm, " "),
-              )}
-            </Text>
+            {
+              note.metadata?.content?.content && (
+                <Text
+                  width={coverImage.isSingle ? "65%" : "100%"}
+                  numberOfLines={coverImage.isSingle ? 5 : 3}
+                  color={"#71717A"}
+                >
+                  {removeMd(
+                    String(note.metadata.content.content.slice(0, 100)).replace(/(\r\n|\n|\r)/gm, " "),
+                  )}
+                </Text>
+              )
+            }
             {
               coverImage.isSingle && (
                 <Card bordered borderRadius={8} width={105} height={105}>

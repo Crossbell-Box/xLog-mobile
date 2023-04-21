@@ -3,13 +3,12 @@ import type { ForwardedRef } from "react";
 import type { LayoutChangeEvent, View } from "react-native";
 import { StyleSheet } from "react-native";
 import Animated from "react-native-reanimated";
-import type {
-  ILayoutAnimationBuilder,
-  StyleProps,
-} from "react-native-reanimated";
+import type { StyleProps } from "react-native-reanimated";
 
 import { CellContainer, FlashList } from "@shopify/flash-list";
 import type { FlashListProps } from "@shopify/flash-list";
+
+type ILayoutAnimationBuilder = React.ComponentProps<typeof AnimatedCellContainer>["layout"];
 
 const AnimatedFlashList = Animated.createAnimatedComponent(
   FlashList as any,
@@ -22,6 +21,7 @@ interface AnimatedFlashListProps {
   children: React.ReactNode
   inverted?: boolean
   horizontal?: boolean
+  index: number
 }
 
 const createCellRenderer = (
