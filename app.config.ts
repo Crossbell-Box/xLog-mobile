@@ -12,7 +12,7 @@ export default (_: ConfigContext): ExpoConfig => {
     description: "The first on-chain and open-source blogging platform for everyone",
     slug: "xlog",
     version,
-    scheme: "app.xlog",
+    scheme: process.env.APP_SCHEME,
     orientation: "portrait",
     icon: "./assets/icon.png",
     userInterfaceStyle: "light",
@@ -52,14 +52,7 @@ export default (_: ConfigContext): ExpoConfig => {
       bundleIdentifier: process.env.BUNDLE_IDENTIFIER,
     },
     android: {
-      adaptiveIcon: {
-        foregroundImage: "./assets/adaptive-icon.png",
-        backgroundColor: "#ffffff",
-      },
       package: process.env.BUNDLE_IDENTIFIER,
-    },
-    web: {
-      favicon: "./assets/favicon.png",
     },
     extra: {
       WALLET_PROJECT_ID: process.env.WALLET_PROJECT_ID,
