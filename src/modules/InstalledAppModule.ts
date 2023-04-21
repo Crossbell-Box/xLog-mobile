@@ -1,7 +1,8 @@
-import { Linking, Platform } from 'react-native';
-import { isAppInstalled as _isAppInstalled } from 'native-utils';
+import { Linking, Platform } from "react-native";
 
-const isAndroid = Platform.OS === 'android';
+import { isAppInstalled as _isAppInstalled } from "native-utils";
+
+const isAndroid = Platform.OS === "android";
 
 interface InstalledAppInterface {
   /**
@@ -12,20 +13,21 @@ interface InstalledAppInterface {
    *
    * @param id - String representing the appId or scheme
    */
-  isAppInstalled(id?: string | null): Promise<boolean>;
+  isAppInstalled(id?: string | null): Promise<boolean>
 }
 
 async function isAppInstalled(id?: string | null): Promise<boolean> {
-  if (!id) {
+  if (!id)
     return Promise.resolve(false);
-  }
 
   if (isAndroid) {
     return await _isAppInstalled(id);
-  } else {
+  }
+  else {
     try {
       return await Linking.canOpenURL(id);
-    } catch {
+    }
+    catch {
       return false;
     }
   }

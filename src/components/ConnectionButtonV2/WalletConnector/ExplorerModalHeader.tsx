@@ -1,23 +1,24 @@
-import React from 'react';
+import React from "react";
 import {
   Image,
   StyleSheet,
   TouchableOpacity,
   View,
   useColorScheme,
-} from 'react-native';
+} from "react-native";
 
-import WCLogo from '../../../assets/WCLogo.png';
-import Close from '../../../assets/Close.png';
-import CloseWhite from '../../../assets/CloseWhite.png';
-import { DarkTheme, LightTheme } from '@/constants/colors';
+import { DarkTheme, LightTheme } from "@/constants/colors";
+
+import Close from "../../../assets/Close.png";
+import CloseWhite from "../../../assets/CloseWhite.png";
+import WCLogo from "../../../assets/WCLogo.png";
 
 interface ExplorerModalHeaderProps {
-  close: () => void;
+  close: () => void
 }
 
 function ExplorerModalHeader({ close }: ExplorerModalHeaderProps) {
-  const isDarkMode = useColorScheme() === 'dark';
+  const isDarkMode = useColorScheme() === "dark";
 
   return (
     <View style={styles.container}>
@@ -38,9 +39,9 @@ function ExplorerModalHeader({ close }: ExplorerModalHeaderProps) {
 const styles = StyleSheet.create({
   container: {
     paddingVertical: 8,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
     paddingHorizontal: 10,
   },
   wcLogo: {
@@ -56,9 +57,9 @@ const styles = StyleSheet.create({
     width: 28,
     backgroundColor: LightTheme.background1,
     borderRadius: 14,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
   closeContainerDark: {
     backgroundColor: DarkTheme.background1,

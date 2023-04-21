@@ -3,8 +3,8 @@ import { WalletConnectLegacyConnector } from "wagmi/connectors/walletConnectLega
 type SerializedOptions = string;
 
 const sharedConnectors = new Map<
-	SerializedOptions,
-	WalletConnectLegacyConnector
+SerializedOptions,
+WalletConnectLegacyConnector
 >();
 
 type WalletConnectLegacyConnectorOptions = ConstructorParameters<
@@ -12,16 +12,16 @@ type WalletConnectLegacyConnectorOptions = ConstructorParameters<
 >[0];
 
 function createConnector(options: WalletConnectLegacyConnectorOptions) {
-	const connector = new WalletConnectLegacyConnector(options);
-	sharedConnectors.set(JSON.stringify(options), connector);
-	return connector;
+  const connector = new WalletConnectLegacyConnector(options);
+  sharedConnectors.set(JSON.stringify(options), connector);
+  return connector;
 }
 
 export function getWalletConnectLegacyConnector(
-	options: WalletConnectLegacyConnectorOptions
+  options: WalletConnectLegacyConnectorOptions,
 ) {
-	const serializedOptions = JSON.stringify(options);
-	const sharedConnector = sharedConnectors.get(serializedOptions);
+  const serializedOptions = JSON.stringify(options);
+  const sharedConnector = sharedConnectors.get(serializedOptions);
 
-	return sharedConnector ?? createConnector(options);
+  return sharedConnector ?? createConnector(options);
 }

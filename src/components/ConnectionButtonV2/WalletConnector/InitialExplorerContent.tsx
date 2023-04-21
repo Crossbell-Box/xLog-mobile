@@ -1,25 +1,28 @@
-import React, {useEffect, useRef} from 'react';
+import React, { useEffect, useRef } from "react";
 import {
   StyleSheet,
   View,
   Animated,
   ActivityIndicator,
   useColorScheme,
-} from 'react-native';
-import ExplorerItem from './ExplorerItem';
-import ViewAllBox from './ViewAllBox';
-import QRIcon from '../../../assets/QR.png';
-import NavigationHeader from './NavigationHeader';
-import {WalletInfo} from '@/types/api';
-import {DEVICE_HEIGHT} from '@/constants/platform';
-import {DarkTheme, LightTheme} from '@/constants/colors';
+} from "react-native";
+
+import { DarkTheme, LightTheme } from "@/constants/colors";
+import { DEVICE_HEIGHT } from "@/constants/platform";
+import type { WalletInfo } from "@/types/api";
+
+import ExplorerItem from "./ExplorerItem";
+import NavigationHeader from "./NavigationHeader";
+import ViewAllBox from "./ViewAllBox";
+
+import QRIcon from "../../../assets/QR.png";
 
 interface InitialExplorerContentProps {
-  isLoading: boolean;
-  explorerData: any;
-  onViewAllPress: () => void;
-  currentWCURI?: string;
-  onQRPress: () => void;
+  isLoading: boolean
+  explorerData: any
+  onViewAllPress: () => void
+  currentWCURI?: string
+  onQRPress: () => void
 }
 
 function InitialExplorerContent({
@@ -30,7 +33,7 @@ function InitialExplorerContent({
   onQRPress,
 }: InitialExplorerContentProps) {
   const fadeAnim = useRef(new Animated.Value(0)).current;
-  const isDarkMode = useColorScheme() === 'dark';
+  const isDarkMode = useColorScheme() === "dark";
 
   useEffect(() => {
     Animated.timing(fadeAnim, {
@@ -41,30 +44,32 @@ function InitialExplorerContent({
   }, [fadeAnim]);
 
   return (
-    <Animated.View style={[styles.container, {opacity: fadeAnim}]}>
+    <Animated.View style={[styles.container, { opacity: fadeAnim }]}>
       <NavigationHeader
         title="Connect your Wallet"
         onActionPress={onQRPress}
         actionIcon={QRIcon}
         actionIconStyle={styles.qrIcon}
       />
-      {isLoading || !currentWCURI ? (
-        <ActivityIndicator
-          style={styles.loader}
-          color={isDarkMode ? LightTheme.accent : DarkTheme.accent}
-        />
-      ) : (
-        <View style={styles.explorerContainer}>
-          {explorerData.map((item: WalletInfo) => (
-            <ExplorerItem
-              walletInfo={item}
-              key={item.id}
-              currentWCURI={currentWCURI}
-            />
-          ))}
-          <ViewAllBox onPress={onViewAllPress} />
-        </View>
-      )}
+      {isLoading || !currentWCURI
+        ? (
+          <ActivityIndicator
+            style={styles.loader}
+            color={isDarkMode ? LightTheme.accent : DarkTheme.accent}
+          />
+        )
+        : (
+          <View style={styles.explorerContainer}>
+            {explorerData.map((item: WalletInfo) => (
+              <ExplorerItem
+                walletInfo={item}
+                key={item.id}
+                currentWCURI={currentWCURI}
+              />
+            ))}
+            <ViewAllBox onPress={onViewAllPress} />
+          </View>
+        )}
     </Animated.View>
   );
 }
@@ -74,10 +79,10 @@ const styles = StyleSheet.create({
     paddingBottom: 12,
   },
   explorerContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    alignItems: "center",
     paddingHorizontal: 4,
   },
   loader: {

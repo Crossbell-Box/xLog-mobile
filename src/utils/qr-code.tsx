@@ -1,8 +1,11 @@
-//Based on https://github.com/WalletConnect/web3modal/blob/V2/packages/ui/src/utils/QrCode.ts
-import React, {ReactNode} from 'react';
-import {Line, Rect, Circle} from 'react-native-svg';
-import QRCodeUtil from 'qrcode';
-import {DarkTheme, LightTheme} from '../constants/colors';
+// Based on https://github.com/WalletConnect/web3modal/blob/V2/packages/ui/src/utils/QrCode.ts
+import type { ReactNode } from "react";
+import React from "react";
+import { Line, Rect, Circle } from "react-native-svg";
+
+import QRCodeUtil from "qrcode";
+
+import { DarkTheme, LightTheme } from "../constants/colors";
 
 type CoordinateMapping = [number, number[]];
 
@@ -11,9 +14,9 @@ const CIRCLE_SIZE_MODIFIER = 2.5;
 const QRCODE_MATRIX_MARGIN = 7;
 
 function isAdjecentDots(cy: number, otherCy: number, cellSize: number) {
-  if (cy === otherCy) {
+  if (cy === otherCy)
     return false;
-  }
+
   const diff = cy - otherCy < 0 ? otherCy - cy : cy - otherCy;
 
   return diff <= cellSize + CONNECTING_ERROR_MARGIN;
@@ -24,7 +27,7 @@ function getMatrix(
   errorCorrectionLevel: QRCodeUtil.QRCodeErrorCorrectionLevel,
 ) {
   const arr = Array.prototype.slice.call(
-    QRCodeUtil.create(value, {errorCorrectionLevel}).modules.data,
+    QRCodeUtil.create(value, { errorCorrectionLevel }).modules.data,
     0,
   );
   const sqrt = Math.sqrt(arr.length);
@@ -43,22 +46,22 @@ export const QrCodeUtil = {
     uri: string,
     size: number,
     logoSize: number,
-    theme: 'dark' | 'light',
+    theme: "dark" | "light",
   ) {
-    const dotColor =
-      theme === 'light' ? DarkTheme.background1 : LightTheme.background1;
-    const edgeColor =
-      theme === 'light' ? LightTheme.background1 : DarkTheme.background1;
+    const dotColor
+      = theme === "light" ? DarkTheme.background1 : LightTheme.background1;
+    const edgeColor
+      = theme === "light" ? LightTheme.background1 : DarkTheme.background1;
     const dots: ReactNode[] = [];
-    const matrix = getMatrix(uri, 'Q');
+    const matrix = getMatrix(uri, "Q");
     const cellSize = size / matrix.length;
     const qrList = [
-      {x: 0, y: 0},
-      {x: 1, y: 0},
-      {x: 0, y: 1},
+      { x: 0, y: 0 },
+      { x: 1, y: 0 },
+      { x: 0, y: 1 },
     ];
 
-    qrList.forEach(({x, y}) => {
+    qrList.forEach(({ x, y }) => {
       const x1 = (matrix.length - QRCODE_MATRIX_MARGIN) * cellSize * x;
       const y1 = (matrix.length - QRCODE_MATRIX_MARGIN) * cellSize * y;
       const borderRadius = 0.32;
@@ -90,19 +93,19 @@ export const QrCodeUtil = {
         if (matrix[i][j]) {
           if (
             !(
-              (i < QRCODE_MATRIX_MARGIN && j < QRCODE_MATRIX_MARGIN) ||
-              (i > matrix.length - (QRCODE_MATRIX_MARGIN + 1) &&
-                j < QRCODE_MATRIX_MARGIN) ||
-              (i < QRCODE_MATRIX_MARGIN &&
-                j > matrix.length - (QRCODE_MATRIX_MARGIN + 1))
+              (i < QRCODE_MATRIX_MARGIN && j < QRCODE_MATRIX_MARGIN)
+              || (i > matrix.length - (QRCODE_MATRIX_MARGIN + 1)
+                && j < QRCODE_MATRIX_MARGIN)
+              || (i < QRCODE_MATRIX_MARGIN
+                && j > matrix.length - (QRCODE_MATRIX_MARGIN + 1))
             )
           ) {
             if (
               !(
-                i > matrixMiddleStart &&
-                i < matrixMiddleEnd &&
-                j > matrixMiddleStart &&
-                j < matrixMiddleEnd
+                i > matrixMiddleStart
+                && i < matrixMiddleEnd
+                && j > matrixMiddleStart
+                && j < matrixMiddleEnd
               )
             ) {
               const cx = i * cellSize + cellSize / 2;
@@ -119,11 +122,10 @@ export const QrCodeUtil = {
 
     // Mapping all dots cicles on the same x axis
     circles.forEach(([cx, cy]) => {
-      if (circlesToConnect[cx]) {
+      if (circlesToConnect[cx])
         circlesToConnect[cx].push(cy);
-      } else {
+      else
         circlesToConnect[cx] = [cy];
-      }
     });
 
     // Drawing lonely dots
@@ -137,7 +139,7 @@ export const QrCodeUtil = {
         return [Number(cx), newCys] as CoordinateMapping;
       })
       .forEach(([cx, cys]) => {
-        cys.forEach(cy => {
+        cys.forEach((cy) => {
           dots.push(
             <Circle
               key={`circle_${cx}_${cy}`}
@@ -171,11 +173,10 @@ export const QrCodeUtil = {
           const group = groups.find(item =>
             item.some(otherCy => isAdjecentDots(cy, otherCy, cellSize)),
           );
-          if (group) {
+          if (group)
             group.push(cy);
-          } else {
+          else
             groups.push([cy]);
-          }
         }
 
         return [cx, groups.map(item => [item[0], item[item.length - 1]])] as [

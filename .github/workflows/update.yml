@@ -25,22 +25,22 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'yarn'
-          
+          cache: yarn
+
       - name: Setup EAS
         uses: expo/expo-github-action@v8
         with:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
-      
+
       - name: Create env file
         run: |
           echo "${{ secrets.ENV_FILE }}" > .env.common
-          
+
       - name: Install dependencies
         run: yarn install
 
       - name: Publish update
         env:
-          NODE_OPTIONS: "--max_old_space_size=4096"
+          NODE_OPTIONS: --max_old_space_size=4096
         run: eas update --branch "${GITHUB_REF#refs/heads/}" --auto

@@ -1,7 +1,7 @@
 {
-    "recommendations": [
-        "mikestead.dotenv",
-        "mathiasfrohlich.kotlin",
-        "kasik96.swift"
-    ]
+  "recommendations": [
+    "mikestead.dotenv",
+    "mathiasfrohlich.kotlin",
+    "kasik96.swift"
+  ]
 }

@@ -1,7 +1,7 @@
-import {useCallback, useEffect, useState} from 'react';
+import { useCallback, useEffect, useState } from "react";
+import { Alert } from "react-native";
 
-import {Alert} from 'react-native';
-import { createUniversalProvider } from '@/utils/universal-provider';
+import { createUniversalProvider } from "@/utils/universal-provider";
 
 function useInitialization() {
   const [initialized, setInitialized] = useState(false);
@@ -10,15 +10,15 @@ function useInitialization() {
     try {
       await createUniversalProvider();
       setInitialized(true);
-    } catch (err: unknown) {
-      Alert.alert('Error', 'Error initializing');
+    }
+    catch (err: unknown) {
+      Alert.alert("Error", "Error initializing");
     }
   }, []);
 
   useEffect(() => {
-    if (!initialized) {
+    if (!initialized)
       onInitialize();
-    }
   }, [initialized, onInitialize]);
 
   return initialized;

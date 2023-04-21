@@ -1,13 +1,19 @@
 {
-    "cSpell.words": [
-        "crossbell",
-        "haptics",
-        "prebuild",
-        "Roadmap",
-        "Tamagui",
-        "Wagmi",
-        "xlog"
-    ],
-    "typescript.tsdk": "node_modules/typescript/lib",
-    "git.ignoreLimitWarning": true
+  "cSpell.words": [
+    "crossbell",
+    "haptics",
+    "prebuild",
+    "Roadmap",
+    "Tamagui",
+    "Wagmi",
+    "xlog"
+  ],
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "git.ignoreLimitWarning": true,
+  "prettier.enable": false,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "eslint.format.enable": true,
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint"
 }

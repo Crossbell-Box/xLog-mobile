@@ -3,10 +3,10 @@ name: Expo Preview
 on:
   pull_request:
     paths:
-      - "package.json"
-      - "src/**/*"
-      - ".github/workflows/**"
-      - "**.lock"
+      - package.json
+      - 'src/**/*'
+      - '.github/workflows/**'
+      - '**.lock'
 
 jobs:
   update:
@@ -29,7 +29,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'yarn'
+          cache: yarn
 
       - name: Setup EAS
         uses: expo/expo-github-action@v8
@@ -47,6 +47,6 @@ jobs:
       - name: Create preview
         uses: expo/expo-github-action/preview@v8
         env:
-          NODE_OPTIONS: "--max_old_space_size=4096"
+          NODE_OPTIONS: --max_old_space_size=4096
         with:
           command: eas update --branch pr_preview --auto

@@ -1,9 +1,11 @@
-import UniversalProvider from '@walletconnect/universal-provider';
+/* eslint-disable import/no-mutable-exports */
+import { Alert } from "react-native";
 
-import {SessionTypes} from '@walletconnect/types';
-import {ethers} from 'ethers';
-import {Alert} from 'react-native';
-import { WALLET_PROJECT_ID, WALLET_RELAY_URL } from '@/constants/env';
+import type { SessionTypes } from "@walletconnect/types";
+import UniversalProvider from "@walletconnect/universal-provider";
+import { ethers } from "ethers";
+
+import { WALLET_PROJECT_ID, WALLET_RELAY_URL } from "@/constants/env";
 
 export let universalProvider: UniversalProvider;
 export let web3Provider: ethers.providers.Web3Provider | undefined;
@@ -15,18 +17,19 @@ export async function createUniversalProvider() {
 
   try {
     universalProvider = await UniversalProvider.init({
-      logger: 'info',
+      logger: "info",
       relayUrl: WALLET_RELAY_URL,
       projectId: WALLET_PROJECT_ID,
       metadata: {
-        name: 'React Native V2 dApp',
-        description: 'RN dApp by WalletConnect',
-        url: 'https://walletconnect.com/',
-        icons: ['https://avatars.githubusercontent.com/u/37784886'],
+        name: "React Native V2 dApp",
+        description: "RN dApp by WalletConnect",
+        url: "https://walletconnect.com/",
+        icons: ["https://avatars.githubusercontent.com/u/37784886"],
       },
     });
-  } catch {
-    Alert.alert('Error', 'Error connecting to WalletConnect');
+  }
+  catch {
+    Alert.alert("Error", "Error connecting to WalletConnect");
   }
 }
 
@@ -36,29 +39,30 @@ export function clearSession() {
 }
 
 export async function createUniversalProviderSession(callbacks?: {
-  onSuccess?: () => void;
-  onFailure?: (error: any) => void;
+  onSuccess?: () => void
+  onFailure?: (error: any) => void
 }) {
   try {
     universalProviderSession = await universalProvider.connect({
       namespaces: {
         eip155: {
           methods: [
-            'eth_sendTransaction',
-            'eth_signTransaction',
-            'eth_sign',
-            'personal_sign',
-            'eth_signTypedData',
+            "eth_sendTransaction",
+            "eth_signTransaction",
+            "eth_sign",
+            "personal_sign",
+            "eth_signTypedData",
           ],
-          chains: ['eip155:1'],
-          events: ['chainChanged', 'accountsChanged'],
+          chains: ["eip155:1"],
+          events: ["chainChanged", "accountsChanged"],
           rpcMap: {},
         },
       },
     });
     web3Provider = new ethers.providers.Web3Provider(universalProvider);
     callbacks?.onSuccess?.();
-  } catch (error) {
+  }
+  catch (error) {
     callbacks?.onFailure?.(error);
   }
 }

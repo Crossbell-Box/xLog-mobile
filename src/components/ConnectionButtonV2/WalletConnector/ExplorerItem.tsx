@@ -1,24 +1,25 @@
-import React from 'react';
+import React from "react";
 import {
   Image,
   Text,
   TouchableOpacity,
   StyleSheet,
   useColorScheme,
-} from 'react-native';
-import {DarkTheme, LightTheme} from '@/constants/colors';
-import {WalletInfo} from '@/types/api';
-import {navigateDeepLink} from '@/utils/explorer-utils';
+} from "react-native";
+
+import { DarkTheme, LightTheme } from "@/constants/colors";
+import type { WalletInfo } from "@/types/api";
+import { navigateDeepLink } from "@/utils/explorer-utils";
 
 interface ExplorerItemProps {
-  currentWCURI: string;
-  walletInfo: WalletInfo;
+  currentWCURI: string
+  walletInfo: WalletInfo
 }
 
 export const ITEM_HEIGHT = 80;
 
-function ExplorerItem({currentWCURI, walletInfo}: ExplorerItemProps) {
-  const isDarkMode = useColorScheme() === 'dark';
+function ExplorerItem({ currentWCURI, walletInfo }: ExplorerItemProps) {
+  const isDarkMode = useColorScheme() === "dark";
 
   const onPress = () => {
     navigateDeepLink(
@@ -33,31 +34,33 @@ function ExplorerItem({currentWCURI, walletInfo}: ExplorerItemProps) {
       onPress={onPress}
       key={walletInfo.id}
       style={styles.container}>
-      <Image style={styles.icon} source={{uri: walletInfo.image_url.md}} />
+      <Image style={styles.icon} source={{ uri: walletInfo.image_url.md }} />
       <Text
         style={[styles.name, isDarkMode && styles.nameDark]}
         numberOfLines={1}>
         {walletInfo.name}
       </Text>
-      {walletInfo.isInstalled ? (
-        <Text
-          style={[
-            styles.installedText,
-            isDarkMode && styles.installedTextDark,
-          ]}>
+      {walletInfo.isInstalled
+        ? (
+          <Text
+            style={[
+              styles.installedText,
+              isDarkMode && styles.installedTextDark,
+            ]}>
           Installed
-        </Text>
-      ) : null}
+          </Text>
+        )
+        : null}
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    width: '25%',
+    width: "25%",
     height: 80,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
+    justifyContent: "flex-start",
+    alignItems: "center",
     marginVertical: 16,
   },
   icon: {
@@ -72,7 +75,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     maxWidth: 100,
     fontSize: 12,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   nameDark: {
     color: DarkTheme.foreground1,
@@ -80,8 +83,8 @@ const styles = StyleSheet.create({
   installedText: {
     color: LightTheme.foreground3,
     fontSize: 10,
-    fontWeight: '700',
-    textTransform: 'uppercase',
+    fontWeight: "700",
+    textTransform: "uppercase",
   },
   installedTextDark: {
     color: DarkTheme.foreground3,

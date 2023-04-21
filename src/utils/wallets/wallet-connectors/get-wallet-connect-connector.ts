@@ -5,20 +5,20 @@ type SerializedOptions = string;
 const sharedConnectors = new Map<SerializedOptions, WalletConnectConnector>();
 
 type WalletConnectConnectorOptions = Required<
-	ConstructorParameters<typeof WalletConnectConnector>[0]
+ConstructorParameters<typeof WalletConnectConnector>[0]
 >;
 
 function createConnector(options: WalletConnectConnectorOptions) {
-	const connector = new WalletConnectConnector(options);
-	sharedConnectors.set(JSON.stringify(options), connector);
-	return connector;
+  const connector = new WalletConnectConnector(options);
+  sharedConnectors.set(JSON.stringify(options), connector);
+  return connector;
 }
 
 export function getWalletConnectConnector(
-	options: WalletConnectConnectorOptions
+  options: WalletConnectConnectorOptions,
 ) {
-	const serializedOptions = JSON.stringify(options);
-	const sharedConnector = sharedConnectors.get(serializedOptions);
+  const serializedOptions = JSON.stringify(options);
+  const sharedConnector = sharedConnectors.get(serializedOptions);
 
-	return sharedConnector ?? createConnector(options);
+  return sharedConnector ?? createConnector(options);
 }

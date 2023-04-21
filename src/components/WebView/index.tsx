@@ -1,23 +1,22 @@
-import React, { useState, ForwardRefRenderFunction, useImperativeHandle } from 'react';
-import { WebView as RNWebView, WebViewProps as RNWebViewProps } from 'react-native-webview';
-import { StyleSheet, View } from 'react-native';
-import * as Progress from 'react-native-progress';
+import React, { useState } from "react";
+import { StyleSheet, View } from "react-native";
+import * as Progress from "react-native-progress";
+import type { WebViewProps as RNWebViewProps } from "react-native-webview";
+import { WebView as RNWebView } from "react-native-webview";
 
 interface Props extends RNWebViewProps {
-  source: RNWebViewProps['source'];
-  onProgress?: (progress: number) => void;
+  source: RNWebViewProps["source"]
+  onProgress?: (progress: number) => void
 }
 
 const WebView = React.forwardRef<RNWebView, Props>(({ source, onProgress, ...props }, ref) => {
-  const RNWebViewRef = React.useRef<RNWebView>(null!);
   const [progress, setProgress] = useState(0);
 
   const handleLoadProgress = ({ nativeEvent }: any) => {
-    if (nativeEvent.progress === 1) {
+    if (nativeEvent.progress === 1)
       setProgress(0);
-    } else {
+    else
       setProgress(nativeEvent.progress);
-    }
 
     onProgress?.(nativeEvent.progress);
   };
@@ -38,18 +37,18 @@ const WebView = React.forwardRef<RNWebView, Props>(({ source, onProgress, ...pro
       )}
     </View>
   );
-})
+});
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
   progress: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     right: 0,
   },
 });
 
-export {WebView}
+export { WebView };

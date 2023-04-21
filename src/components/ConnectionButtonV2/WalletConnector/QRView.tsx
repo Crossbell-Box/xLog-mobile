@@ -1,30 +1,34 @@
-import React, {useEffect, useRef} from 'react';
+import React, { useEffect, useRef } from "react";
 import {
   ActivityIndicator,
   Alert,
   Animated,
   StyleSheet,
   useColorScheme,
-} from 'react-native';
-import {DEVICE_HEIGHT, DEVICE_WIDTH} from '@/constants/platform';
-import NavigationHeader from './NavigationHeader';
-import QRCode from './QRCode';
-import CopyIcon from '../../../assets/Copy.png';
-import * as Clipboard from 'expo-clipboard';
-import {DarkTheme, LightTheme} from '@/constants/colors';
+} from "react-native";
+
+import * as Clipboard from "expo-clipboard";
+
+import { DarkTheme, LightTheme } from "@/constants/colors";
+import { DEVICE_HEIGHT, DEVICE_WIDTH } from "@/constants/platform";
+
+import NavigationHeader from "./NavigationHeader";
+import QRCode from "./QRCode";
+
+import CopyIcon from "../../../assets/Copy.png";
 
 interface Props {
-  uri?: string;
-  onBackPress: () => void;
+  uri?: string
+  onBackPress: () => void
 }
 
-function QRView({uri, onBackPress}: Props) {
+function QRView({ uri, onBackPress }: Props) {
   const fadeAnim = useRef(new Animated.Value(0)).current;
-  const isDarkMode = useColorScheme() === 'dark';
+  const isDarkMode = useColorScheme() === "dark";
 
   const copyToClipboard = async () => {
     await Clipboard.setStringAsync(uri!);
-    Alert.alert('Copied to clipboard');
+    Alert.alert("Copied to clipboard");
   };
 
   useEffect(() => {
@@ -36,7 +40,7 @@ function QRView({uri, onBackPress}: Props) {
   }, [fadeAnim]);
 
   return (
-    <Animated.View style={[styles.container, {opacity: fadeAnim}]}>
+    <Animated.View style={[styles.container, { opacity: fadeAnim }]}>
       <NavigationHeader
         title="Scan the code"
         onBackPress={onBackPress}
@@ -44,18 +48,20 @@ function QRView({uri, onBackPress}: Props) {
         onActionPress={copyToClipboard}
         actionDisabled={!uri}
       />
-      {uri ? (
-        <QRCode
-          uri={uri}
-          size={DEVICE_WIDTH * 0.9}
-          theme={isDarkMode ? 'dark' : 'light'}
-        />
-      ) : (
-        <ActivityIndicator
-          style={styles.loader}
-          color={isDarkMode ? LightTheme.accent : DarkTheme.accent}
-        />
-      )}
+      {uri
+        ? (
+          <QRCode
+            uri={uri}
+            size={DEVICE_WIDTH * 0.9}
+            theme={isDarkMode ? "dark" : "light"}
+          />
+        )
+        : (
+          <ActivityIndicator
+            style={styles.loader}
+            color={isDarkMode ? LightTheme.accent : DarkTheme.accent}
+          />
+        )}
     </Animated.View>
   );
 }
