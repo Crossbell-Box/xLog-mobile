@@ -1,22 +1,25 @@
 package expo.modules.nativeutils
 
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
-import androidx.annotation.RequiresApi
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
+import expo.modules.kotlin.exception.Exceptions
 
 class NativeUtils : Module() {
+  private val context: Context
+    get() = appContext.reactContext ?: throw Exceptions.ReactContextLost()
+
   override fun definition() = ModuleDefinition {
     Name("NativeUtils")
 
     AsyncFunction("isAppInstalled") { packageName: String ->
-      val packageManager = context.packageManager
       val isInstalled: Boolean = try {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-          packageManager.getPackageInfo(packageName, PackageManager.MATCH_ALL)
+          context.packageManager.getPackageInfo(packageName, PackageManager.MATCH_ALL)
         } else {
-          packageManager.getPackageInfo(packageName, 0)
+          context.packageManager.getPackageInfo(packageName, 0)
         }
         true
       } catch (e: PackageManager.NameNotFoundException) {
