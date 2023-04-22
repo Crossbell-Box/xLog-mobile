@@ -10,6 +10,7 @@ import * as Haptics from "expo-haptics";
 import { Button, useWindowDimensions } from "tamagui";
 
 import { useColor } from "@/hooks/styles";
+import { i18n } from "@/i18n";
 
 interface Props { }
 
@@ -58,7 +59,7 @@ export const ConnectionButton: FC<Props> = () => {
         onPress={onPress}
         icon={connector.connected ? null : <Plug size={"$1.5"} />}
       >
-        {connector.connected ? "Disconnect" : "Connect"}
+        {connector.connected ? i18n.t("disconnect") : i18n.t("connect")}
       </Button>
     </Animated.View>
   );
