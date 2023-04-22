@@ -1,0 +1,1 @@
+sed -i -- 's/require("crypto")/require("react-native-crypto")/g' node_modules/@walletconnect/randombytes/dist/cjs/node/index.js

@@ -14,7 +14,6 @@ import { useDate } from "@/hooks/useDate";
 import { i18n } from "@/i18n";
 import type { RootStackParamList } from "@/navigation/types";
 import { findCoverImage } from "@/utils/find-cover-image";
-// import type { NoteEntity } from 'crossbell.js';
 
 type NoteEntity = any;
 
@@ -63,35 +62,10 @@ export const FeedListItem: FC<Props> = (props) => {
             <Avatar uri={note?.character?.metadata?.content?.avatars?.[0]} />
             <XStack alignItems="center">
               <H6 color={"#3f3f46"}>{note.character?.metadata?.content?.name || note.character?.handle}</H6>
-              <H3>&nbsp;·&nbsp;</H3>
-              <H6>
-                {i18n.t("ago", {
-                  time: date.dayjs
-                    .duration(
-                      date.dayjs(note?.createdAt).diff(date.dayjs(), "minute"),
-                      "minute",
-                    )
-                    .humanize(),
-                })}
-              </H6>
             </XStack>
           </XStack>
           {
-            note.metadata.content.title && <H5>{String(note.metadata.content.title).replaceAll(" ", "")}</H5>
-          }
-
-          {
-            !!note.metadata?.content?.tags?.filter(tag => tag !== "post" && tag !== "page").length && (
-              <Text numberOfLines={1} color={"#A1A1AA"} marginBottom={6}>
-                {note.metadata?.content?.tags
-                  ?.filter(tag => tag !== "post" && tag !== "page")
-                  .map((tag, index) => (
-                    <Text key={tag + index} fontSize={12}>
-                      #{tag} &nbsp;
-                    </Text>
-                  ))}
-              </Text>
-            )
+            note.metadata.content.title && <H5 marginBottom={"$1"} numberOfLines={1}>{String(note.metadata.content.title).replaceAll(" ", "")}</H5>
           }
 
           <XStack justifyContent={coverImage.isSingle ? "space-between" : "flex-start"}>
@@ -136,6 +110,33 @@ export const FeedListItem: FC<Props> = (props) => {
               </>
             )
           }
+          <XStack marginTop={"$2"} justifyContent="space-between">
+            <Text numberOfLines={1} maxWidth={"70%"}>
+              {
+                !!note.metadata?.content?.tags?.filter(tag => tag !== "post" && tag !== "page").length && (
+                  <Text numberOfLines={1} color={"#676772"}>
+                    {note.metadata?.content?.tags
+                      ?.filter(tag => tag !== "post" && tag !== "page")
+                      .map((tag, index) => (
+                        <Text key={tag + index} fontSize={12}>
+                        #{tag} &nbsp;
+                        </Text>
+                      ))}
+                  </Text>
+                )
+              }
+            </Text>
+            <Text fontSize={12}>
+              {i18n.t("ago", {
+                time: date.dayjs
+                  .duration(
+                    date.dayjs(note?.createdAt).diff(date.dayjs(), "minute"),
+                    "minute",
+                  )
+                  .humanize(),
+              })}
+            </Text>
+          </XStack>
         </Card.Header>
       </Card>
     </TouchableOpacity>

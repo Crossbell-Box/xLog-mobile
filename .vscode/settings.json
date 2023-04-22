@@ -6,6 +6,7 @@
     "Roadmap",
     "Tamagui",
     "Wagmi",
+    "Walletconnect",
     "xlog"
   ],
   "typescript.tsdk": "node_modules/typescript/lib",

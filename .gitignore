@@ -1,6 +1,7 @@
 # Expo
 .expo
 ios/*
+credentials
 android/*
 !**/ios/
 !**/android/

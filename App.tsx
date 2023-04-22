@@ -3,6 +3,7 @@ import "react-native-url-polyfill/auto";
 import "react-native-get-random-values";
 import "@ethersproject/shims";
 import "@walletconnect/react-native-compat";
+import "expo-dev-client";
 
 import { useEffect } from "react";
 import { useColorScheme, StyleSheet } from "react-native";
@@ -10,9 +11,12 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { enableFreeze, enableScreens } from "react-native-screens";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationContainer } from "@react-navigation/native";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import WalletConnectProvider from "@walletconnect/react-native-dapp";
 import { useFonts } from "expo-font";
+import { resolveScheme } from "expo-linking";
 import * as SplashScreen from "expo-splash-screen";
 import { TamaguiProvider, Theme } from "tamagui";
 import { createClient, WagmiConfig } from "wagmi";
@@ -22,6 +26,8 @@ import { checkHotUpdates } from "@/utils/hot-updates";
 
 import { RootNavigator } from "./src/navigation";
 import config from "./tamagui.config";
+
+const wagmiClient = createClient(getDefaultClientConfig({ appName: "xLog" }));
 
 enableScreens(true);
 enableFreeze(true);
@@ -35,8 +41,6 @@ const queryClient = new QueryClient({
     },
   },
 });
-
-const wagmiClient = createClient(getDefaultClientConfig({ appName: "xLog" }));
 
 export default () => {
   const colorScheme = useColorScheme();
@@ -65,7 +69,22 @@ export default () => {
             <SafeAreaProvider>
               <WagmiConfig client={wagmiClient}>
                 <QueryClientProvider client={queryClient}>
-                  <RootNavigator />
+                  <WalletConnectProvider
+                    bridge="https://bridge.walletconnect.org"
+                    clientMeta={{
+                      description: "Connect with WalletConnect",
+                      url: "https://walletconnect.org",
+                      icons: ["https://walletconnect.org/walletconnect-logo.png"],
+                      name: "WalletConnect",
+                    }}
+                    redirectUrl={`${resolveScheme({})}://`}
+                    storageOptions={{
+                      // @ts-expect-error
+                      asyncStorage: AsyncStorage,
+                    }}
+                  >
+                    <RootNavigator />
+                  </WalletConnectProvider>
                 </QueryClientProvider>
               </WagmiConfig>
             </SafeAreaProvider>

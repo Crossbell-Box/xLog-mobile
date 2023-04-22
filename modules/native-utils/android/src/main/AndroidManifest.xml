@@ -1,2 +1,8 @@
-<manifest package="expo.modules.nativeutils">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="expo.modules.nativeutils">
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="wc"/>
+        </intent>
+    </queries>
 </manifest>
