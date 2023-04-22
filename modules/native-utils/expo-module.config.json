@@ -1,0 +1,9 @@
+{
+  "platforms": ["ios", "android"],
+  "ios": {
+    "modules": ["NativeUtils"]
+  },
+  "android": {
+    "modules": ["expo.modules.nativeutils.NativeUtils"]
+  }
+}

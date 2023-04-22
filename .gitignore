@@ -1,5 +1,11 @@
 # Expo
 .expo
+ios/*
+android/*
+!**/ios/
+!**/android/
+modules/**/android/build
+
 __generated__
 web-build
 dist

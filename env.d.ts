@@ -5,6 +5,8 @@ declare global {
       BUNDLE_IDENTIFIER: string;
       OWNER: string;
       UPDATES_URL: string;
+      WALLET_PROJECT_ID: string;
+      APP_SCHEME: string;
     }
   }
 }

@@ -49,13 +49,12 @@
 ## Development
 ### Prerequisites
 
-- [pnpm](https://pnpm.io/) `7.0+` is required to install dependencies.  
+- We recommend installing [ni](https://github.com/antfu/ni) to help switching between repos using different package managers.
 
     ```sh
-    npm install pnpm -g
+    npm install @antfu/ni --global
     ```
 
-    ***Do not use the latest version of pnpm, because there are some breaking changes between EAS an local.** 
 
 - Duplicate `.env.example` and rename it to `.env.common`.  
 
@@ -66,6 +65,7 @@
     Fill in the environment variables if you have.
 
     ```
+    WALLET_PROJECT_ID=""
     EXPO_PROJECT_ID=""
     BUNDLE_IDENTIFIER=""
     OWNER=""
@@ -92,13 +92,19 @@
 - Install dependencies
 
     ```sh
-    pnpm install
+    ni
+    ```
+
+- Prebuild the project
+
+    ```sh
+    nr prebuild
     ```
 
 - Start the app
 
     ```sh
-    pnpm start
+    nr start
     ```
 
 ### Publishing

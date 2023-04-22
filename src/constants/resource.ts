@@ -1,2 +1,2 @@
-export { default as Logo } from '../../assets/icon.png'
+export { default as Logo } from "../../assets/icon.png";
 

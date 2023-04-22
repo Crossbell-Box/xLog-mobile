@@ -1,8 +1,12 @@
-name: preview
+name: Expo Preview
+
 on:
   pull_request:
-    branches:
-      - staging
+    paths:
+      - package.json
+      - 'src/**/*'
+      - '.github/workflows/**'
+      - '**.lock'
 
 jobs:
   update:
@@ -21,15 +25,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 7
-
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
+          cache: yarn
 
       - name: Setup EAS
         uses: expo/expo-github-action@v8
@@ -38,7 +38,7 @@ jobs:
           token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Install dependencies
-        run: pnpm install
+        run: yarn install
 
       - name: Create env file
         run: |
@@ -47,6 +47,6 @@ jobs:
       - name: Create preview
         uses: expo/expo-github-action/preview@v8
         env:
-          NODE_OPTIONS: "--max_old_space_size=4096"
+          NODE_OPTIONS: --max_old_space_size=4096
         with:
-          command: eas update --channel _pr_preview_ --auto
+          command: eas update --branch pr_preview --auto

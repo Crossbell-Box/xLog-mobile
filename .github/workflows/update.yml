@@ -1,4 +1,5 @@
-name: update
+name: Expo Release Update
+
 on:
   push:
     branches:
@@ -8,7 +9,6 @@ jobs:
   update:
     name: EAS Update
     runs-on: ubuntu-latest
-    if: false # TODO
     steps:
       - name: Check for EXPO_TOKEN
         run: |
@@ -20,30 +20,26 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 7
-
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
-          
+          cache: yarn
+
       - name: Setup EAS
         uses: expo/expo-github-action@v8
         with:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
-      
+
       - name: Create env file
         run: |
           echo "${{ secrets.ENV_FILE }}" > .env.common
-          
+
       - name: Install dependencies
-        run: pnpm install
+        run: yarn install
 
       - name: Publish update
         env:
-          NODE_OPTIONS: "--max_old_space_size=4096"
-        run: eas update --auto
+          NODE_OPTIONS: --max_old_space_size=4096
+        run: eas update --branch "${GITHUB_REF#refs/heads/}" --auto

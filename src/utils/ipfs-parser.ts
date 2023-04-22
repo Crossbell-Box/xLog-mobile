@@ -1,17 +1,17 @@
-import { IPFS_GATEWAY } from "@/constants/env"
+import { IPFS_GATEWAY } from "@/constants/env";
 
-const IPFS_PREFIX = "ipfs://"
+const IPFS_PREFIX = "ipfs://";
 
-export type ToGatewayConfig = {
+export interface ToGatewayConfig {
   needRequestAtServerSide?: boolean
   forceFallback?: boolean
 }
 
 export const toGateway = (url: string) => {
-  const ipfsUrl = toIPFS(url)
+  const ipfsUrl = toIPFS(url);
 
-  return ipfsUrl?.replaceAll(IPFS_PREFIX, IPFS_GATEWAY)
-}
+  return ipfsUrl?.replaceAll(IPFS_PREFIX, IPFS_GATEWAY);
+};
 
 export const toIPFS = (url: string) => {
   return url
@@ -20,8 +20,8 @@ export const toIPFS = (url: string) => {
     .replaceAll("https://ipfs.io/ipfs/", IPFS_PREFIX)
     .replaceAll("https://cf-ipfs.com/ipfs/", IPFS_PREFIX)
     .replaceAll("https://ipfs.4everland.xyz/ipfs/", IPFS_PREFIX)
-    .replaceAll("https://rss3.mypinata.cloud/ipfs/", IPFS_PREFIX)
-}
+    .replaceAll("https://rss3.mypinata.cloud/ipfs/", IPFS_PREFIX);
+};
 
 export const toCid = (url: string) => {
   return url
@@ -31,5 +31,5 @@ export const toCid = (url: string) => {
     .replaceAll("https://cf-ipfs.com/ipfs/", "")
     .replaceAll("https://ipfs.4everland.xyz/ipfs/", "")
     .replaceAll("https://rss3.mypinata.cloud/ipfs/", "")
-    .replaceAll(IPFS_PREFIX, "")
-}
+    .replaceAll(IPFS_PREFIX, "");
+};

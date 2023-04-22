@@ -1,7 +1,9 @@
-import { PostDetailsPage } from '@/pages/PostDetails';
-import { createStackNavigator } from '@react-navigation/stack';
-import { HomeNavigator } from './home';
-import { RootStackParamList } from './types';
+import { createStackNavigator } from "@react-navigation/stack";
+
+import { PostDetailsPage } from "@/pages/PostDetails";
+
+import { HomeNavigator } from "./home";
+import type { RootStackParamList } from "./types";
 
 const RootStack = createStackNavigator<RootStackParamList>();
 
