@@ -1,23 +1,35 @@
 import type { FC } from "react";
-import { useCallback } from "react";
 import type { SharedValue } from "react-native-reanimated";
 import Animated, { interpolate, useAnimatedStyle } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useDrawerProgress } from "@react-navigation/drawer";
 import { Plug } from "@tamagui/lucide-icons";
+import { useWalletConnect } from "@walletconnect/react-native-dapp";
 import * as Haptics from "expo-haptics";
 import { Button, useWindowDimensions } from "tamagui";
+
+import { useColor } from "@/hooks/styles";
+import { i18n } from "@/i18n";
 
 interface Props { }
 
 export const ConnectionButton: FC<Props> = () => {
+  const connector = useWalletConnect();
+  const { primary } = useColor();
   const { bottom } = useSafeAreaInsets();
   const { width } = useWindowDimensions();
 
-  const onPress = useCallback(() => {
+  const onPress = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-  }, []);
+
+    connector.connected
+      ? connector.killSession()
+      : connector.connect().then((account) => {
+        // eslint-disable-next-line no-console
+        console.log(account);
+      });
+  };
 
   const progressAnimValue = useDrawerProgress() as SharedValue<number>;
   const animatedStyle = useAnimatedStyle(() => ({
@@ -43,11 +55,11 @@ export const ConnectionButton: FC<Props> = () => {
         pressStyle={{ opacity: 0.85 }}
         color={"white"}
         fontSize={"$6"}
-        backgroundColor={"black"}
+        backgroundColor={connector.connected ? primary : "black"}
         onPress={onPress}
-        icon={<Plug size={"$1.5"} />}
+        icon={connector.connected ? null : <Plug size={"$1.5"} />}
       >
-            Connect
+        {connector.connected ? i18n.t("disconnect") : i18n.t("connect")}
       </Button>
     </Animated.View>
   );

@@ -7,6 +7,7 @@ import * as Haptics from "expo-haptics";
 
 import { FeedList } from "@/components/FeedList";
 
+import { AnimatedConnectionButton } from "./AnimatedConnectionButton";
 import type { SortType } from "./Header";
 import { Header, sortType } from "./Header";
 
@@ -57,7 +58,7 @@ export const FeedPage: FC<Props> = (props) => {
       />
       <FeedList type={currentSortType} onScroll={onScroll} onScrollEndDrag={onScrollEndDrag} />
       {/* TODO */}
-      {/* <AnimatedConnectionButton visibleAnimValue={isExpandedAnimValue} /> */}
+      <AnimatedConnectionButton visibleAnimValue={isExpandedAnimValue} />
     </Animated.View>
   );
 };
