@@ -7,7 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 import type { StackNavigationProp } from "@react-navigation/stack";
 import { Image } from "expo-image";
 import removeMd from "remove-markdown";
-import { Card, H3, H5, H6, Spacer, Text, XStack } from "tamagui";
+import { Card, H5, H6, Spacer, Text, XStack } from "tamagui";
 
 import { Avatar } from "@/components/Avatar";
 import { useDate } from "@/hooks/useDate";
@@ -74,7 +74,7 @@ export const FeedListItem: FC<Props> = (props) => {
                 <Text
                   width={coverImage.isSingle ? "65%" : "100%"}
                   numberOfLines={coverImage.isSingle ? 5 : 3}
-                  color={"#71717A"}
+                  color={"#333333"}
                 >
                   {removeMd(
                     String(note.metadata.content.content.slice(0, 100)).replace(/(\r\n|\n|\r)/gm, " "),
@@ -126,7 +126,7 @@ export const FeedListItem: FC<Props> = (props) => {
                 )
               }
             </Text>
-            <Text fontSize={12}>
+            <Text fontSize={12} color={"#676772"}>
               {i18n.t("ago", {
                 time: date.dayjs
                   .duration(
