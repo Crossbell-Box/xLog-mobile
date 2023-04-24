@@ -13,7 +13,8 @@ import { enableFreeze, enableScreens } from "react-native-screens";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationContainer } from "@react-navigation/native";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient } from "@tanstack/react-query";
+import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import WalletConnectProvider from "@walletconnect/react-native-dapp";
 import { useFonts } from "expo-font";
 import { resolveScheme } from "expo-linking";
@@ -25,6 +26,7 @@ import { getDefaultClientConfig } from "@/utils/get-default-client-config";
 import { checkHotUpdates } from "@/utils/hot-updates";
 
 import { RootNavigator } from "./src/navigation";
+import { createAsyncStoragePersister } from "./src/utils/persister";
 import config from "./tamagui.config";
 
 const wagmiClient = createClient(getDefaultClientConfig({ appName: "xLog" }));
@@ -33,6 +35,8 @@ enableScreens(true);
 enableFreeze(true);
 
 SplashScreen.preventAutoHideAsync();
+
+const persister = createAsyncStoragePersister();
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -68,7 +72,22 @@ export default () => {
           <NavigationContainer>
             <SafeAreaProvider>
               <WagmiConfig client={wagmiClient}>
-                <QueryClientProvider client={queryClient}>
+                <PersistQueryClientProvider
+                  client={queryClient}
+                  persistOptions={{
+                    persister,
+                    dehydrateOptions: {
+                      shouldDehydrateQuery: (query) => {
+                        const queryIsReadyForPersistance = query.state.status === "success";
+                        if (queryIsReadyForPersistance)
+                          return !((query.state?.data as any)?.pages?.length > 1);
+
+                        else
+                          return false;
+                      },
+                    },
+                  }}
+                >
                   <WalletConnectProvider
                     bridge="https://bridge.walletconnect.org"
                     clientMeta={{
@@ -85,7 +104,7 @@ export default () => {
                   >
                     <RootNavigator />
                   </WalletConnectProvider>
-                </QueryClientProvider>
+                </PersistQueryClientProvider>
               </WagmiConfig>
             </SafeAreaProvider>
           </NavigationContainer>

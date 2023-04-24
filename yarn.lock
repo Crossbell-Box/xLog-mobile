@@ -4282,9 +4282,9 @@
   dependencies:
     "@tanstack/query-persist-client-core" "4.29.1"
 
-"@tanstack/react-query-persist-client@^4.28.0":
+"@tanstack/react-query-persist-client@^4.28.0", "@tanstack/react-query-persist-client@^4.29.3":
   version "4.29.3"
-  resolved "https://registry.npmjs.org/@tanstack/react-query-persist-client/-/react-query-persist-client-4.29.3.tgz"
+  resolved "https://registry.npmjs.org/@tanstack/react-query-persist-client/-/react-query-persist-client-4.29.3.tgz#79c8e4ce92d83508d86d2d1c9657697f4467d223"
   integrity sha512-yyQYr1cLxmakVdWOUV9U/7D4fLiIdtlFa18KIwUI1MSSRwvAjjdx6D4GSmsuLXL9eSudNMyvpy5iTAICv2+CoQ==
   dependencies:
     "@tanstack/query-persist-client-core" "4.29.1"

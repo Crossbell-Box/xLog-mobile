@@ -40,6 +40,7 @@
     "@tamagui/lucide-icons": "^1.14.3",
     "@tamagui/theme-base": "^1.14.3",
     "@tanstack/react-query": "^4.29.1",
+    "@tanstack/react-query-persist-client": "^4.29.3",
     "@tradle/react-native-http": "^2.0.1",
     "@walletconnect/randombytes": "^1.0.3",
     "@walletconnect/react-native-compat": "^2.7.0",
