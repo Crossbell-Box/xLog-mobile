@@ -1035,7 +1035,7 @@
   resolved "https://registry.npmjs.org/@babel/regjsgen/-/regjsgen-0.8.0.tgz"
   integrity sha512-x/rqGMdzj+fWZvCOYForTghzbtqPDZ5gPwaoNGHdgDfF2QA/XZbCBp4Moo5scrkAMPhB7z26XM/AaHuIJdgauA==
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.12.5", "@babel/runtime@^7.13.10", "@babel/runtime@^7.17.2", "@babel/runtime@^7.18.6", "@babel/runtime@^7.19.4", "@babel/runtime@^7.20.0", "@babel/runtime@^7.20.1", "@babel/runtime@^7.5.5", "@babel/runtime@^7.8.4":
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.12.5", "@babel/runtime@^7.13.10", "@babel/runtime@^7.15.4", "@babel/runtime@^7.17.2", "@babel/runtime@^7.18.6", "@babel/runtime@^7.19.4", "@babel/runtime@^7.20.0", "@babel/runtime@^7.20.1", "@babel/runtime@^7.5.5", "@babel/runtime@^7.8.4":
   version "7.21.0"
   resolved "https://registry.npmjs.org/@babel/runtime/-/runtime-7.21.0.tgz"
   integrity sha512-xwII0//EObnq89Ji5AKYQaRYiW/nZ3llSv29d49IuxPhKbtJoLP+9QUUZ4nVragQVtaVGeZrpB+ZtG/Pdy/POw==
@@ -1308,6 +1308,15 @@
     stream-browserify "^3.0.0"
     util "^0.12.4"
 
+"@crossbell/contract@^0.0.69":
+  version "0.0.69"
+  resolved "https://registry.npmjs.org/@crossbell/contract/-/contract-0.0.69.tgz#ccce98735c5139222042228a03e07e2a73762c10"
+  integrity sha512-cKfnEKqj7rTefCBUI+Grvy9vZc6biMyAGCihKRxIPzKIuGO7rfgrJ4C7mokRzrewqzW6UyP5N9w5aj75QT01Sw==
+  dependencies:
+    "@crossbell/indexer" "^0.0.69"
+    "@crossbell/util-hooks" "^0.0.69"
+    crossbell.js "^0.19"
+
 "@crossbell/indexer@^0.0.66":
   version "0.0.66"
   resolved "https://registry.npmjs.org/@crossbell/indexer/-/indexer-0.0.66.tgz"
@@ -1319,10 +1328,29 @@
     lodash.compact "^3"
     lru-cache "8.0.4"
 
+"@crossbell/indexer@^0.0.69":
+  version "0.0.69"
+  resolved "https://registry.npmjs.org/@crossbell/indexer/-/indexer-0.0.69.tgz#eb565f1dc4cfc095d5623f7f4f6584d9a8264c02"
+  integrity sha512-ZSnXEkTvCiG5L8Y8X9HE+eAf6KF7LTzSXpDBJgV4knIUSwL/BhyH5v6sJJvJ62m1MpLLJM1sNbScqspNDnc9ww==
+  dependencies:
+    "@tanstack/react-query" "^4"
+    crossbell.js "^0.19"
+    dayjs "^1.11.7"
+    lodash.compact "^3"
+    lru-cache "8.0.4"
+
 "@crossbell/ipfs-fetch@^0.0.15":
   version "0.0.15"
   resolved "https://registry.npmjs.org/@crossbell/ipfs-fetch/-/ipfs-fetch-0.0.15.tgz"
   integrity sha512-AYGDrwiSKqCGNDi0mEPP1k+96loWik+Pd40xH0MzRNM4RtCutPbwm4o+Sj5iWu0tlHoQC2bTs1XcufsLiv+WYw==
+
+"@crossbell/util-hooks@^0.0.69":
+  version "0.0.69"
+  resolved "https://registry.npmjs.org/@crossbell/util-hooks/-/util-hooks-0.0.69.tgz#ae390402d68c0e984ed3ad33d6d2bf133e6057f2"
+  integrity sha512-owm5KznU6951F3LzxmgXS5xONx4VwekW9Jyrxb4pq6fseiFkmGoJxa2c12cwd1dEUZZFB/UiPoCNJminz3jxaw==
+  dependencies:
+    "@tanstack/react-query" "^4"
+    crossbell.js "^0.19"
 
 "@cspotcode/source-map-support@^0.8.0":
   version "0.8.1"
@@ -4435,6 +4463,11 @@
   dependencies:
     "@types/node" "*"
 
+"@types/lodash@^4.14.192":
+  version "4.14.194"
+  resolved "https://registry.npmjs.org/@types/lodash/-/lodash-4.14.194.tgz#b71eb6f7a0ff11bff59fc987134a093029258a76"
+  integrity sha512-r22s9tAS7imvBt2lyHC9B8AGwWnXaYb1tY09oyLkXDs4vArpYJzw09nj8MLx5VfciBPGIb+ZwG0ssYnEPJxn/g==
+
 "@types/lru-cache@^5.1.0":
   version "5.1.1"
   resolved "https://registry.npmjs.org/@types/lru-cache/-/lru-cache-5.1.1.tgz#c48c2e27b65d2a153b19bfc1a317e30872e01eef"
@@ -4707,6 +4740,14 @@
   version "4.0.4"
   resolved "https://registry.npmjs.org/@urql/core/-/core-4.0.4.tgz"
   integrity sha512-r1rB/VMVpCnfnMTTzCAs+HY+UqOHUgpZ+GimLtU4DCTP3C78DK+m4qr36M7KKleggrKgcpcC1TE8eFEVcKzfSQ==
+  dependencies:
+    "@0no-co/graphql.web" "^1.0.0"
+    wonka "^6.3.0"
+
+"@urql/core@^4.0.3":
+  version "4.0.6"
+  resolved "https://registry.npmjs.org/@urql/core/-/core-4.0.6.tgz#1dedef5d3f40e5842e7febe8d9cf31e8c99a4bff"
+  integrity sha512-RxlX5nxWZsvS1lPCvOdgdYbIVVfih/DrjPzGZ0ThP1GuVycaxw5t0O7XEXXYHICeXNKj95HJBxW0o/37zg+z6Q==
   dependencies:
     "@0no-co/graphql.web" "^1.0.0"
     wonka "^6.3.0"
@@ -5951,12 +5992,29 @@ aws4@^1.8.0:
   resolved "https://registry.npmjs.org/aws4/-/aws4-1.12.0.tgz#ce1c9d143389679e253b314241ea9aa5cec980d3"
   integrity sha512-NmWvPnx0F1SfrQbYwOi7OeaNGokp9XhzNioJ/CSBs8Qa4vxug81mhJEAVZwxXuBmYB5KDRfMq/F3RR0BIU7sWg==
 
+axios-retry@^3.4.0:
+  version "3.4.0"
+  resolved "https://registry.npmjs.org/axios-retry/-/axios-retry-3.4.0.tgz#f464dbe9408e5aa78fa319afd38bb69b533d8854"
+  integrity sha512-VdgaP+gHH4iQYCCNUWF2pcqeciVOdGrBBAYUfTY+wPcO5Ltvp/37MLFNCmJKo7Gj3SHvCSdL8ouI1qLYJN3liA==
+  dependencies:
+    "@babel/runtime" "^7.15.4"
+    is-retry-allowed "^2.2.0"
+
 axios@^0.21.0:
   version "0.21.4"
   resolved "https://registry.npmjs.org/axios/-/axios-0.21.4.tgz"
   integrity sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==
   dependencies:
     follow-redirects "^1.14.0"
+
+axios@^1.3.5:
+  version "1.3.6"
+  resolved "https://registry.npmjs.org/axios/-/axios-1.3.6.tgz#1ace9a9fb994314b5f6327960918406fa92c6646"
+  integrity sha512-PEcdkk7JcdPiMDkvM4K6ZBRYq9keuVJsToxm2zQIM70Qqo2WHTdJZMXcG9X+RmRp2VPNUQC8W1RAGbgt6b1yMg==
+  dependencies:
+    follow-redirects "^1.15.0"
+    form-data "^4.0.0"
+    proxy-from-env "^1.1.0"
 
 babel-code-frame@^6.26.0:
   version "6.26.0"
@@ -7968,7 +8026,7 @@ cross-spawn@^7.0.2, cross-spawn@^7.0.3:
     shebang-command "^2.0.0"
     which "^2.0.1"
 
-crossbell.js@^0.19, crossbell.js@^0.19.8:
+crossbell.js@^0.19, crossbell.js@^0.19.7, crossbell.js@^0.19.8:
   version "0.19.8"
   resolved "https://registry.npmjs.org/crossbell.js/-/crossbell.js-0.19.8.tgz"
   integrity sha512-4x52UGfiTIs65JjHku0k+R4JrlB6JVRGDqgMW43DqDVQlJz2F8BVvxG7n3kKb5hZbXXQCMh41CMWc7bfiTn+3g==
@@ -10482,7 +10540,7 @@ flow-stoplight@^1.0.0:
   resolved "https://registry.npmjs.org/flow-stoplight/-/flow-stoplight-1.0.0.tgz#4a292c5bcff8b39fa6cc0cb1a853d86f27eeff7b"
   integrity sha512-rDjbZUKpN8OYhB0IE/vY/I8UWO/602IIJEU/76Tv4LvYnwHCk0BCsvz4eRr9n+FQcri7L5cyaXOo0+/Kh4HisA==
 
-follow-redirects@^1.12.1, follow-redirects@^1.14.0:
+follow-redirects@^1.12.1, follow-redirects@^1.14.0, follow-redirects@^1.15.0:
   version "1.15.2"
   resolved "https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.15.2.tgz"
   integrity sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==
@@ -10523,6 +10581,15 @@ form-data@^3.0.0, form-data@^3.0.1:
   version "3.0.1"
   resolved "https://registry.npmjs.org/form-data/-/form-data-3.0.1.tgz"
   integrity sha512-RHkBKtLWUVwd7SqRIvCZMEvAMoGUp0XU+seQiZejj0COz3RI3hWP4sCv3gZWWLjJTd7rGwcsF5eKZGii0r/hbg==
+  dependencies:
+    asynckit "^0.4.0"
+    combined-stream "^1.0.8"
+    mime-types "^2.1.12"
+
+form-data@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.npmjs.org/form-data/-/form-data-4.0.0.tgz#93919daeaf361ee529584b9b31664dc12c9fa452"
+  integrity sha512-ETEklSGi5t0QMZuiXoA/Q6vcnxcLQP5vdugSpuAyi6SVGi2clPPp+xgEhuMaHC+zGgn31Kd235W35f7Hykkaww==
   dependencies:
     asynckit "^0.4.0"
     combined-stream "^1.0.8"
@@ -11045,6 +11112,11 @@ graphql@15.8.0:
   version "15.8.0"
   resolved "https://registry.npmjs.org/graphql/-/graphql-15.8.0.tgz"
   integrity sha512-5gghUc24tP9HRznNpV2+FIoq3xKkj5dTQqf4v0CpdPbFVwFkWoxOM+o+2OC9ZSvjEMTjfmG9QT+gcvggTwW1zw==
+
+graphql@^16.6.0:
+  version "16.6.0"
+  resolved "https://registry.npmjs.org/graphql/-/graphql-16.6.0.tgz#c2dcffa4649db149f6282af726c8c83f1c7c5fdb"
+  integrity sha512-KPIBPDlW7NxrbT/eh4qPXz5FiFdL5UbaA0XUNz2Rp3Z3hqBSkbj0GVjwFDztsWVauZUWsbKHgMg++sk8UX0bkw==
 
 growl@1.10.5:
   version "1.10.5"
@@ -11902,6 +11974,11 @@ is-regex@^1.0.4, is-regex@^1.1.4, is-regex@~1.1.4:
   dependencies:
     call-bind "^1.0.2"
     has-tostringtag "^1.0.0"
+
+is-retry-allowed@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.npmjs.org/is-retry-allowed/-/is-retry-allowed-2.2.0.tgz#88f34cbd236e043e71b6932d09b0c65fb7b4d71d"
+  integrity sha512-XVm7LOeLpTW4jV19QSH38vkswxoLud8sQ57YwJVTPWdiaI9I8keEhGFpBlslyVsgdQy4Opg8QOLb8YRgsyZiQg==
 
 is-root@^2.1.0:
   version "2.1.0"
@@ -12914,6 +12991,11 @@ locate-path@^6.0.0:
   dependencies:
     p-locate "^5.0.0"
 
+lodash-es@^4.17.21:
+  version "4.17.21"
+  resolved "https://registry.npmjs.org/lodash-es/-/lodash-es-4.17.21.tgz#43e626c46e6591b7750beb2b50117390c609e3ee"
+  integrity sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==
+
 lodash.assign@^4.0.3, lodash.assign@^4.0.6:
   version "4.2.0"
   resolved "https://registry.npmjs.org/lodash.assign/-/lodash.assign-4.2.0.tgz#0d99f3ccd7a6d261d19bdaeb9245005d285808e7"
@@ -13662,6 +13744,11 @@ mime@^2.4.1, mime@^2.4.4:
   version "2.6.0"
   resolved "https://registry.npmjs.org/mime/-/mime-2.6.0.tgz"
   integrity sha512-USPkMeET31rOMiarsBNIHZKLGgvKc/LrjofAnBlOttf5ajRvqiRA8QsenbcooctK6d6Ts6aqZXBA+XbkKthiQg==
+
+mime@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.npmjs.org/mime/-/mime-3.0.0.tgz#b374550dca3a0c18443b0c950a6a58f1931cf7a7"
+  integrity sha512-jSCU7/VB1loIWBZe14aEYHU/+1UMEHoaO7qxCOVJOw9GgH72VAWppxNcjU+x9a2k3GSIBXNKxXQFqRvvZ7vr3A==
 
 mimic-fn@^1.0.0:
   version "1.2.0"
@@ -15305,6 +15392,11 @@ proxy-compare@2.5.0:
   version "2.5.0"
   resolved "https://registry.npmjs.org/proxy-compare/-/proxy-compare-2.5.0.tgz"
   integrity sha512-f1us0OsVAJ3tdIMXGQx2lmseYS4YXe4W+sKF5g5ww/jV+5ogMadPt+sIZ+88Ga9kvMJsrRNWzCrKPpr6pMWYbA==
+
+proxy-from-env@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.npmjs.org/proxy-from-env/-/proxy-from-env-1.1.0.tgz#e102f16ca355424865755d2c9e8ea4f24d58c3e2"
+  integrity sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==
 
 prr@~0.0.0:
   version "0.0.0"
@@ -18301,6 +18393,22 @@ unicode-property-aliases-ecmascript@^2.0.0:
   version "2.1.0"
   resolved "https://registry.npmjs.org/unicode-property-aliases-ecmascript/-/unicode-property-aliases-ecmascript-2.1.0.tgz"
   integrity sha512-6t3foTQI9qne+OZoVQB/8x8rk2k1eVy1gRXhV3oFQ5T6R1dqQ1xtin3XqSlx3+ATBkliTaR/hHyJBm+LVPNM8w==
+
+unidata.js@^0.7.19:
+  version "0.7.19"
+  resolved "https://registry.npmjs.org/unidata.js/-/unidata.js-0.7.19.tgz#ce0121621699288cb95b40cf07a2ce8c632fa5f6"
+  integrity sha512-k5x/thLREIoju2SrMATPDENNfuDqEk/hR9ohTdvJMTaTfDZqvw7O5Ri5PgdEN41o0UL+5WRYIdH3M3zy3k5R9Q==
+  dependencies:
+    "@types/lodash" "^4.14.192"
+    "@urql/core" "^4.0.3"
+    axios "^1.3.5"
+    axios-retry "^3.4.0"
+    crossbell.js "^0.19.7"
+    ethers "^5.7.2"
+    graphql "^16.6.0"
+    lodash "^4.17.21"
+    lodash-es "^4.17.21"
+    mime "^3.0.0"
 
 union-value@^1.0.0:
   version "1.0.1"

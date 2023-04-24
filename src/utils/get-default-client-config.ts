@@ -14,16 +14,16 @@ export interface GetDefaultClientConfigOptions {
   walletConnectProjectId?: string | null
 }
 
+export const { chains, provider } = configureChains(
+  [crossbell],
+  [publicProvider()],
+  { pollingInterval: 1000 },
+);
+
 export function getDefaultClientConfig({
   appName,
   walletConnectProjectId,
 }: GetDefaultClientConfigOptions) {
-  const { chains, provider } = configureChains(
-    [crossbell],
-    [publicProvider()],
-    { pollingInterval: 1000 },
-  );
-
   const connectors = [
     new InjectedConnector({
       chains,

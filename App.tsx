@@ -22,6 +22,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { TamaguiProvider, Theme } from "tamagui";
 import { createClient, WagmiConfig } from "wagmi";
 
+import { Web3Provider } from "@/providers/web3-provider";
 import { getDefaultClientConfig } from "@/utils/get-default-client-config";
 import { checkHotUpdates } from "@/utils/hot-updates";
 
@@ -102,7 +103,9 @@ export default () => {
                       asyncStorage: AsyncStorage,
                     }}
                   >
-                    <RootNavigator />
+                    <Web3Provider>
+                      <RootNavigator />
+                    </Web3Provider>
                   </WalletConnectProvider>
                 </PersistQueryClientProvider>
               </WagmiConfig>
