@@ -57,7 +57,6 @@ export const FeedPage: FC<Props> = (props) => {
         }}
       />
       <FeedList type={currentSortType} onScroll={onScroll} onScrollEndDrag={onScrollEndDrag} />
-      {/* TODO */}
       <AnimatedConnectionButton visibleAnimValue={isExpandedAnimValue} />
     </Animated.View>
   );

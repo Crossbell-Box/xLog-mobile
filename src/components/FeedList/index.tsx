@@ -1,11 +1,12 @@
 import type { FC } from "react";
 import { useMemo } from "react";
 import type { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
+import { StyleSheet } from "react-native";
 import type { useAnimatedScrollHandler } from "react-native-reanimated";
 
 import type { NoteEntity } from "crossbell.js";
 import * as Haptics from "expo-haptics";
-import { Spinner, Stack } from "tamagui";
+import { Spinner, Stack, useWindowDimensions } from "tamagui";
 
 import { useComposedScrollHandler } from "@/hooks/useComposedScrollHandler";
 import type { FeedType } from "@/models/home.model";
@@ -25,6 +26,7 @@ export interface Props {
 export const FeedList: FC<Props> = (props) => {
   const { type, noteIds } = props;
   const onScrollHandler = useComposedScrollHandler([props.onScroll]);
+  const { width, height } = useWindowDimensions();
   const feed = useGetFeed({
     type,
     limit: 10,
@@ -49,17 +51,17 @@ export const FeedList: FC<Props> = (props) => {
     <Stack flex={1}>
       <ReanimatedFlashList<NoteEntity>
         data={feedList}
-        keyExtractor={(post, index) => `${post.characterId}-${post.noteId}-${index}`}
+        keyExtractor={(post, index) => `${type}-${post.noteId}-${index}`}
         contentContainerStyle={{ padding: 16 }}
-        renderItem={({ item, index }) => {
-          return (
-            <Stack key={index} marginBottom={"$5"} >
-              <FeedListItem note={item} />
-            </Stack>
-          );
-        }}
+        renderItem={({ item, index }) => (
+          <FeedListItem key={index} note={item} style={styles.ItemContainer} />
+        )}
         estimatedItemSize={238}
         bounces
+        estimatedListSize={{
+          height: height * 0.8,
+          width,
+        }}
         scrollEventThrottle={16}
         onScroll={onScrollHandler}
         showsVerticalScrollIndicator={false}
@@ -88,3 +90,9 @@ export const FeedList: FC<Props> = (props) => {
     </Stack>
   );
 };
+
+const styles = StyleSheet.create({
+  ItemContainer: {
+    marginBottom: 16,
+  },
+});
