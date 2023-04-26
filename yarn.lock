@@ -1308,48 +1308,70 @@
     stream-browserify "^3.0.0"
     util "^0.12.4"
 
-"@crossbell/contract@^0.0.69":
-  version "0.0.69"
-  resolved "https://registry.npmjs.org/@crossbell/contract/-/contract-0.0.69.tgz#ccce98735c5139222042228a03e07e2a73762c10"
-  integrity sha512-cKfnEKqj7rTefCBUI+Grvy9vZc6biMyAGCihKRxIPzKIuGO7rfgrJ4C7mokRzrewqzW6UyP5N9w5aj75QT01Sw==
+"@crossbell/contract@0.0.73", "@crossbell/contract@^0.0.73":
+  version "0.0.73"
+  resolved "https://registry.yarnpkg.com/@crossbell/contract/-/contract-0.0.73.tgz#cd5ada1f389317d2f73914ef2a4636d511c55522"
+  integrity sha512-j6xxt0nwpPieGb1eW8UdePAfQliPgkWuYojduP7Mq3UFXbpPmi0G7h9mwTPeTc3AoNzc46Lfb7oxyDSRc12Oyg==
   dependencies:
-    "@crossbell/indexer" "^0.0.69"
-    "@crossbell/util-hooks" "^0.0.69"
+    "@crossbell/indexer" "^0.0.73"
+    "@crossbell/util-hooks" "^0.0.73"
     crossbell.js "^0.19"
 
-"@crossbell/indexer@^0.0.66":
-  version "0.0.66"
-  resolved "https://registry.npmjs.org/@crossbell/indexer/-/indexer-0.0.66.tgz"
-  integrity sha512-CAuhSyvspArRHNf2uuWtWNXWzD0qY14lSzB7Jl9itC+yFjnA7rQLOcXhydqy+QtOC/6V6TyWjb7kltVBgiJh1w==
+"@crossbell/indexer@0.0.73", "@crossbell/indexer@^0.0.73":
+  version "0.0.73"
+  resolved "https://registry.yarnpkg.com/@crossbell/indexer/-/indexer-0.0.73.tgz#ec81f8c7f640a64a606ba6e99b41b1238be37b48"
+  integrity sha512-AUbMUKtAmqo+rq96e9ag1PoQSsmjRYNKnfrhl2tkxW/YCJHI5EewFxstGJO51KKwukvSYQN62kisWci1ep6FyA==
   dependencies:
     "@tanstack/react-query" "^4"
     crossbell.js "^0.19"
     dayjs "^1.11.7"
     lodash.compact "^3"
-    lru-cache "8.0.4"
-
-"@crossbell/indexer@^0.0.69":
-  version "0.0.69"
-  resolved "https://registry.npmjs.org/@crossbell/indexer/-/indexer-0.0.69.tgz#eb565f1dc4cfc095d5623f7f4f6584d9a8264c02"
-  integrity sha512-ZSnXEkTvCiG5L8Y8X9HE+eAf6KF7LTzSXpDBJgV4knIUSwL/BhyH5v6sJJvJ62m1MpLLJM1sNbScqspNDnc9ww==
-  dependencies:
-    "@tanstack/react-query" "^4"
-    crossbell.js "^0.19"
-    dayjs "^1.11.7"
-    lodash.compact "^3"
-    lru-cache "8.0.4"
+    lru-cache "9.1.1"
 
 "@crossbell/ipfs-fetch@^0.0.15":
   version "0.0.15"
   resolved "https://registry.npmjs.org/@crossbell/ipfs-fetch/-/ipfs-fetch-0.0.15.tgz"
   integrity sha512-AYGDrwiSKqCGNDi0mEPP1k+96loWik+Pd40xH0MzRNM4RtCutPbwm4o+Sj5iWu0tlHoQC2bTs1XcufsLiv+WYw==
 
-"@crossbell/util-hooks@^0.0.69":
-  version "0.0.69"
-  resolved "https://registry.npmjs.org/@crossbell/util-hooks/-/util-hooks-0.0.69.tgz#ae390402d68c0e984ed3ad33d6d2bf133e6057f2"
-  integrity sha512-owm5KznU6951F3LzxmgXS5xONx4VwekW9Jyrxb4pq6fseiFkmGoJxa2c12cwd1dEUZZFB/UiPoCNJminz3jxaw==
+"@crossbell/react-account@0.0.73":
+  version "0.0.73"
+  resolved "https://registry.yarnpkg.com/@crossbell/react-account/-/react-account-0.0.73.tgz#2a7ddb1a227186dcd6a88e0e1e25ee39749f493e"
+  integrity sha512-ugNUpxlDbBAz/4qi+5PX+tBbu67xEQFpGfiKzCM4QUdUwG8Ho6lHHdVM6Wt4kZIniUT2rh0yMHPoz4R9e+MFpQ==
+  dependencies:
+    "@crossbell/contract" "^0.0.73"
+    "@crossbell/indexer" "^0.0.73"
+    "@crossbell/util-ethers" "^0.0.73"
+    "@crossbell/util-hooks" "^0.0.73"
+    "@crossbell/util-metadata" "^0.0.73"
+    check-password-strength "^2"
+    crossbell.js "^0.19"
+    immer "^10"
+    lodash.debounce "4.0.8"
+    react "^18"
+    rxjs "^7.8.0"
+    ts-essentials "^9.3.1"
+    zustand "^4"
+
+"@crossbell/util-ethers@^0.0.73":
+  version "0.0.73"
+  resolved "https://registry.yarnpkg.com/@crossbell/util-ethers/-/util-ethers-0.0.73.tgz#7f7ec33387d410691def6c66e1e129f3671d638b"
+  integrity sha512-XzOj8K63Rq/VlUZnMcwm8rBp9+fRqHbS2jeVx2UH4TKEJSbBYPzqz4tsZBHOnZJOZHkuykOb3q1aRoHL5HfpOQ==
+
+"@crossbell/util-hooks@^0.0.73":
+  version "0.0.73"
+  resolved "https://registry.yarnpkg.com/@crossbell/util-hooks/-/util-hooks-0.0.73.tgz#fb59e0975264b10f7e1c8e8558c42805ed19a756"
+  integrity sha512-TKRXD5Xw4Jp+lwvxxVvZYF7GsRl8tdfTtsgLdDlm1ixIkHgSZlsFeXzmdGkGMXH4Qr8hfs78IYx5PFeyCysUwQ==
   dependencies:
     "@tanstack/react-query" "^4"
+    crossbell.js "^0.19"
+
+"@crossbell/util-metadata@^0.0.73":
+  version "0.0.73"
+  resolved "https://registry.yarnpkg.com/@crossbell/util-metadata/-/util-metadata-0.0.73.tgz#74bbc380e93955cd49998c0457c99e80ad1c372b"
+  integrity sha512-IO7W11iHD0T8sFpp5gF2KR5sI+NnZmpPf5qrC3SGL43h5lvkZAaw6QNgolN2cvKYgJGRKanfFs3jjj2VBnAQOA==
+  dependencies:
+    "@crossbell/util-ethers" "^0.0.73"
+    "@fastify/deepmerge" "^1.3.0"
     crossbell.js "^0.19"
 
 "@dohooo/eslint-config-basic@0.0.7":
@@ -2021,10 +2043,10 @@
     mv "~2"
     safe-json-stringify "~1"
 
-"@expo/cli@0.7.0":
-  version "0.7.0"
-  resolved "https://registry.npmjs.org/@expo/cli/-/cli-0.7.0.tgz"
-  integrity sha512-9gjr3pRgwWzUDW/P7B4tA0QevKb+hCrvTmVc3Ce5w7CjdM3zNoBcro8vwviRHqkiB1IifG7zQh0PPStSbK+FRQ==
+"@expo/cli@0.7.1":
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/@expo/cli/-/cli-0.7.1.tgz#8b2e32867452b4dad006759dd438b5f7fc4bc047"
+  integrity sha512-414sC4phJA5p96+bgPsyaPNwsepcOsGeErxFXp9OhqwgiQpw+H0uN9mVrvNIKLDHMVWHrW9bAFUEcpoL6VkzbQ==
   dependencies:
     "@babel/runtime" "^7.20.0"
     "@expo/code-signing-certificates" "0.0.5"
@@ -2037,7 +2059,7 @@
     "@expo/osascript" "^2.0.31"
     "@expo/package-manager" "~1.0.0"
     "@expo/plist" "^0.0.20"
-    "@expo/prebuild-config" "6.0.0"
+    "@expo/prebuild-config" "6.0.1"
     "@expo/rudder-sdk-node" "1.1.1"
     "@expo/spawn-async" "1.5.0"
     "@expo/xcpretty" "^4.2.1"
@@ -2267,10 +2289,10 @@
     base64-js "^1.2.3"
     xmlbuilder "^14.0.0"
 
-"@expo/prebuild-config@6.0.0":
-  version "6.0.0"
-  resolved "https://registry.npmjs.org/@expo/prebuild-config/-/prebuild-config-6.0.0.tgz"
-  integrity sha512-UW0QKAoRelsalVMhAG1tmegwS+2tbefvUi6/0QiKPlMLg8GFDQ5ZnzsSmuljD0SzT5yGg8oSpKYhnrXJ6pRmIQ==
+"@expo/prebuild-config@6.0.1":
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/@expo/prebuild-config/-/prebuild-config-6.0.1.tgz#e3a5bbf5892859e71ac6a2408b1cc8ba6ca3f58f"
+  integrity sha512-WK3FDht1tdXZGCvtG5s7HSwzhsc7Tyu2DdqV9jVUsLtGD42oqUepk13mEWlU9LOTBgLsoEueKjoSK4EXOXFctw==
   dependencies:
     "@expo/config" "~8.0.0"
     "@expo/config-plugins" "~6.0.0"
@@ -2329,6 +2351,11 @@
     chalk "^4.1.0"
     find-up "^5.0.0"
     js-yaml "^4.1.0"
+
+"@fastify/deepmerge@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@fastify/deepmerge/-/deepmerge-1.3.0.tgz#8116858108f0c7d9fd460d05a7d637a13fe3239a"
+  integrity sha512-J8TOSBq3SoZbDhM9+R/u77hP93gz/rajSA+K2kGyijPpORPWUXHUpTaleoj+92As0S9uPRP7Oi8IqMf0u+ro6A==
 
 "@floating-ui/core@^1.1.0", "@floating-ui/core@^1.2.6":
   version "1.2.6"
@@ -7318,6 +7345,11 @@ check-error@^1.0.2:
   resolved "https://registry.npmjs.org/check-error/-/check-error-1.0.2.tgz"
   integrity sha512-BrgHpW9NURQgzoNyjfq0Wu6VFO6D7IZEmJNdtgNqpzGG8RuNFHt2jQxWlAs4HMe119chBnv+34syEZtc6IhLtA==
 
+check-password-strength@^2:
+  version "2.0.7"
+  resolved "https://registry.yarnpkg.com/check-password-strength/-/check-password-strength-2.0.7.tgz#d8fd6c1a274267c7ddd9cd15c71a3cfb6ad35baa"
+  integrity sha512-VyklBkB6dOKnCIh63zdVr7QKVMN9/npwUqNAXxWrz8HabVZH/n/d+lyNm1O/vbXFJlT/Hytb5ouYKYGkoeZirQ==
+
 checkpoint-store@^1.1.0:
   version "1.1.0"
   resolved "https://registry.npmjs.org/checkpoint-store/-/checkpoint-store-1.1.0.tgz#04e4cb516b91433893581e6d4601a78e9552ea06"
@@ -9895,13 +9927,13 @@ expo-modules-core@1.2.6, expo-modules-core@~1.2.6:
     compare-versions "^3.4.0"
     invariant "^2.2.4"
 
-expo-splash-screen@~0.18.1:
-  version "0.18.1"
-  resolved "https://registry.npmjs.org/expo-splash-screen/-/expo-splash-screen-0.18.1.tgz"
-  integrity sha512-1di1kuh14likGUs3fyVZWAqEMxhmdAjpmf9T8Qk5OzUa5oPEMEDYB2e2VprddWnJNBVVe/ojBDSCY8w56/LS0Q==
+expo-splash-screen@~0.18.2:
+  version "0.18.2"
+  resolved "https://registry.yarnpkg.com/expo-splash-screen/-/expo-splash-screen-0.18.2.tgz#dde246204da875785ba40c7143a70013cdefdbb6"
+  integrity sha512-fsiKmyn/lbJtV6Uor6wSvl21fScOidFzmB/HHShQJJOu2TBN/vqMvhPu/r0bF5NVk8Wi64r98hiWY1EEsbW03w==
   dependencies:
     "@expo/configure-splash-screen" "^0.6.0"
-    "@expo/prebuild-config" "6.0.0"
+    "@expo/prebuild-config" "6.0.1"
 
 expo-status-bar@~1.4.4:
   version "1.4.4"
@@ -9943,13 +9975,13 @@ expo-updates@~0.16.4:
     fbemitter "^3.0.0"
     resolve-from "^5.0.0"
 
-expo@~48.0.11:
-  version "48.0.11"
-  resolved "https://registry.npmjs.org/expo/-/expo-48.0.11.tgz#afd43c7a5ddce3d02a3f27263c95f8d01e1fb84d"
-  integrity sha512-KX1RCHhdhdT4DjCeRqYJpZXhdCTuqxHHdNIRoFkmCgkUARYlZbB+Y1U8/KMz8fBAlFoEq99cF/KyRr87VAxRCw==
+expo@~48.0.15:
+  version "48.0.15"
+  resolved "https://registry.yarnpkg.com/expo/-/expo-48.0.15.tgz#28194c03ac85f7f5a87b7493b8cef0eb405eccbe"
+  integrity sha512-me2Xxr7Faxf60BiKq8WBSwkYV9BVbS+VqeHRFdXduVA0Uj2zp1a0zYB5eblmWqpRco75VBUgOa9M+/eR1YVZmw==
   dependencies:
     "@babel/runtime" "^7.20.0"
-    "@expo/cli" "0.7.0"
+    "@expo/cli" "0.7.1"
     "@expo/config" "8.0.2"
     "@expo/config-plugins" "6.0.1"
     "@expo/vector-icons" "^13.0.0"
@@ -11379,6 +11411,11 @@ immediate@~3.2.3:
   version "3.2.3"
   resolved "https://registry.npmjs.org/immediate/-/immediate-3.2.3.tgz#d140fa8f614659bd6541233097ddaac25cdd991c"
   integrity sha512-RrGCXRm/fRVqMIhqXrGEX9rRADavPiDFSoMb/k64i9XMk8uH4r/Omi5Ctierj6XzNecwDbO4WuFbDD1zmpl3Tg==
+
+immer@^10:
+  version "10.0.1"
+  resolved "https://registry.yarnpkg.com/immer/-/immer-10.0.1.tgz#9065aeb856a39670a6f19b449a1222218bc8cf24"
+  integrity sha512-zg++jJLsKKTwXGeSYIw0HgChSYQGtu0UDTnbKx5aGLYgte4CwTmH9eJDYyQ6FheyUtBe+lQW9FrGxya1G+Dtmg==
 
 immutable@^4.0.0-rc.12:
   version "4.3.0"
@@ -12985,10 +13022,10 @@ lru-cache@5.1.1, lru-cache@^5.1.1:
   dependencies:
     yallist "^3.0.2"
 
-lru-cache@8.0.4:
-  version "8.0.4"
-  resolved "https://registry.npmjs.org/lru-cache/-/lru-cache-8.0.4.tgz"
-  integrity sha512-E9FF6+Oc/uFLqZCuZwRKUzgFt5Raih6LfxknOSAVTjNkrCZkBf7DQCwJxZQgd9l4eHjIJDGR+E+1QKD1RhThPw==
+lru-cache@9.1.1:
+  version "9.1.1"
+  resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-9.1.1.tgz#c58a93de58630b688de39ad04ef02ef26f1902f1"
+  integrity sha512-65/Jky17UwSb0BuB9V+MyDpsOtXKmYwzhyl+cOa9XUiI4uV2Ouy/2voFP3+al0BjZbJgMBD8FojMpAf+Z+qn4A==
 
 lru-cache@^3.2.0:
   version "3.2.0"
@@ -15774,10 +15811,10 @@ react-native-webview@11.26.0:
     escape-string-regexp "2.0.0"
     invariant "2.2.4"
 
-react-native@0.71.6:
-  version "0.71.6"
-  resolved "https://registry.npmjs.org/react-native/-/react-native-0.71.6.tgz"
-  integrity sha512-gHrDj7qaAaiE41JwaFCh3AtvOqOLuRgZtHKzNiwxakG/wvPAYmG73ECfWHGxjxIx/QT17Hp37Da3ipCei/CayQ==
+react-native@0.71.7:
+  version "0.71.7"
+  resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.71.7.tgz#d0ae409f6ee4fc7e7a876b4ca9d8d28934133228"
+  integrity sha512-Id6iRLS581fJMFGbBl1jP5uSmjExtGOvw5Gvh7694zISXjsRAsFMmU+izs0pyCLqDBoHK7y4BT7WGPGw693nYw==
   dependencies:
     "@jest/create-cache-key-function" "^29.2.1"
     "@react-native-community/cli" "10.2.2"
@@ -15855,9 +15892,9 @@ react-style-singleton@^2.2.1:
     invariant "^2.2.4"
     tslib "^2.0.0"
 
-react@18.2.0:
+react@18.2.0, react@^18:
   version "18.2.0"
-  resolved "https://registry.npmjs.org/react/-/react-18.2.0.tgz"
+  resolved "https://registry.yarnpkg.com/react/-/react-18.2.0.tgz#555bd98592883255fa00de14f1151a917b5d77d5"
   integrity sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==
   dependencies:
     loose-envify "^1.1.0"
@@ -16435,6 +16472,13 @@ rxjs@^6.6.3:
   integrity sha512-hTdwr+7yYNIT5n4AMYp85KA6yw2Va0FLa3Rguvbpa4W3I5xynaBZo41cM3XM+4Q6fRMj3sBYIR1VAmZMXYJvRQ==
   dependencies:
     tslib "^1.9.0"
+
+rxjs@^7.8.0:
+  version "7.8.0"
+  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-7.8.0.tgz#90a938862a82888ff4c7359811a595e14e1e09a4"
+  integrity sha512-F2+gxDshqmIub1KdvZkaEfGDwLNpPvk9Fs6LD/MyQxNgMds/WH9OdDDXOmxUZpME+iSK3rQCctkL0DYyytUqMg==
+  dependencies:
+    tslib "^2.1.0"
 
 safe-buffer@5.1.2, safe-buffer@~5.1.0, safe-buffer@~5.1.1:
   version "5.1.2"
@@ -19707,9 +19751,9 @@ yocto-queue@^1.0.0:
   resolved "https://registry.npmjs.org/yocto-queue/-/yocto-queue-1.0.0.tgz#7f816433fb2cbc511ec8bf7d263c3b58a1a3c251"
   integrity sha512-9bnSc/HEW2uRy67wc+T8UwauLuPJVn28jb+GtJY16iiKWyvmYJRXVT4UamsAEGQfPohgr2q4Tq0sQbQlxTfi1g==
 
-zustand@^4.3.1, zustand@^4.3.3:
+zustand@^4, zustand@^4.3.1, zustand@^4.3.3:
   version "4.3.7"
-  resolved "https://registry.npmjs.org/zustand/-/zustand-4.3.7.tgz"
+  resolved "https://registry.yarnpkg.com/zustand/-/zustand-4.3.7.tgz#501b1f0393a7f1d103332e45ab574be5747fedce"
   integrity sha512-dY8ERwB9Nd21ellgkBZFhudER8KVlelZm8388B5nDAXhO/+FZDhYMuRnqDgu5SYyRgz/iaf8RKnbUs/cHfOGlQ==
   dependencies:
     use-sync-external-store "1.2.0"

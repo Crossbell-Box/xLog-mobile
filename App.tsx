@@ -4,6 +4,7 @@ import "react-native-get-random-values";
 import "@ethersproject/shims";
 import "@walletconnect/react-native-compat";
 import "expo-dev-client";
+import "@/providers/connect-kit-provider/setup-react-account-storage";
 
 import { useEffect } from "react";
 import { useColorScheme, StyleSheet } from "react-native";
@@ -25,7 +26,7 @@ import { createClient, createStorage, WagmiConfig } from "wagmi";
 
 import ProviderComposer from "@/components/ProviderComposer";
 import { GlobalProvider } from "@/providers/global-provider";
-import { Web3Provider } from "@/providers/web3-provider";
+import { ConnectKitProvider } from "@/providers/connect-kit-provider";
 import { getDefaultClientConfig } from "@/utils/get-default-client-config";
 import { checkHotUpdates } from "@/utils/hot-updates";
 
@@ -115,9 +116,12 @@ export default () => {
                   // @ts-expect-error: Internal
                   asyncStorage: AsyncStorage,
                 }}
+                rpc={{
+                  3737: "https://rpc.crossbell.io",
+                }}
               />,
-              <Web3Provider key={"Web3Provider"} />,
-            ]}>
+              <ConnectKitProvider />
+            ]}>              
               <RootNavigator />
             </ProviderComposer>
           </NavigationContainer>

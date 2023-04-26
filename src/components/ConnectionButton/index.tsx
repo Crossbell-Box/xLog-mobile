@@ -1,20 +1,14 @@
 import type { FC } from "react";
-import { useEffect } from "react";
-import Animated, { runOnJS, useSharedValue, withSpring } from "react-native-reanimated";
+import Animated from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-
+import { useConnectedAccount, useWalletSignIn, useAccountBalance, useDisconnectAccount } from "@crossbell/react-account";
+import { extractCharacterName } from "@crossbell/util-metadata";
 import { Plug } from "@tamagui/lucide-icons";
 import { useWalletConnect } from "@walletconnect/react-native-dapp";
 import * as Haptics from "expo-haptics";
 import { Button } from "tamagui";
-import { useConnect, useAccount, useDisconnect, useSigner } from "wagmi";
-import { WalletConnectLegacyConnector } from "wagmi/connectors/walletConnectLegacy";
-
-import { siweSignIn } from "@/apis";
 import { useColor } from "@/hooks/styles";
-import { useGlobal } from "@/hooks/use-global";
 import { i18n } from "@/i18n";
-import { chains } from "@/utils/get-default-client-config";
 
 interface Props { }
 
@@ -22,77 +16,24 @@ export const ConnectionButton: FC<Props> = () => {
   const connector = useWalletConnect();
   const { primary } = useColor();
   const { bottom } = useSafeAreaInsets();
-  const loginStatusAnimVal = useSharedValue<0 | 1>(0);
-  const { connect } = useConnect({
-    connector: new WalletConnectLegacyConnector({
-      chains,
-      options: {
-        qrcode: false,
-        connector,
-        chainId: chains[0].id,
-      },
-    }),
-  });
 
-  const { disconnect } = useDisconnect();
-  const account = useAccount();
-  const { token, setToken } = useGlobal();
-  // const { data: balance } = useBalance({ address: account.address });
-  const { data: signer } = useSigner();
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      try {
-        if (connector?.accounts?.length && !account.isConnected)
-          connect();
-        else
-          disconnect();
-      }
-      catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      }
-    }, 50);
-
-    return () => clearTimeout(timer);
-  }, [connector]);
-
-  // Run animation and toggle button group visibility.
-  const toggleButtonStatus = (tokenValid: boolean, cb?: () => void) => {
-    loginStatusAnimVal.value = withSpring(
-      tokenValid ? 1 : 0,
-      {
-        damping: 10,
-        stiffness: 100,
-      },
-      () => {
-        cb && runOnJS(cb)();
-      },
-    );
-  };
+  const disconnect = useDisconnectAccount();
+  // const { token, setToken } = useGlobal();
+  const { balance } = useAccountBalance();
+  const connectedAccount = useConnectedAccount();
+  const { mutate: handleSignIn } = useWalletSignIn();
 
   const handleConnect = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     connector.connect();
   };
 
-  const handleSignIn = async () => {
-    if (signer) {
-      siweSignIn(signer)
-        .then(({ token }) => {
-          toggleButtonStatus(!!token, () => {
-            setToken(token);
-          });
-        })
-        .catch((error) => {
-          // eslint-disable-next-line no-console
-          console.log(error);
-        });
-    }
-  };
+  console.log(extractCharacterName(connectedAccount?.character), balance?.formatted);
+  console.log("siwe:", connectedAccount?.type === "wallet" ? connectedAccount.siwe?.token : "");
 
-  if (token)
-    return null;
+  if (connectedAccount?.type === "wallet" && !!connectedAccount.siwe) {
+    return null
+  }
 
   return (
     <Animated.View style={[
@@ -104,18 +45,30 @@ export const ConnectionButton: FC<Props> = () => {
       },
     ]}>
       {
-        account.isConnected
+        connectedAccount
           ? (
-            <Button
-              size={"$5"}
-              pressStyle={{ opacity: 0.85 }}
-              color={"white"}
-              fontSize={"$6"}
-              backgroundColor={primary}
-              onPress={handleSignIn}
-            >
-              Sign in
-            </Button>
+            <>
+              <Button
+                size={"$5"}
+                pressStyle={{ opacity: 0.85 }}
+                color={"white"}
+                fontSize={"$6"}
+                backgroundColor={primary}
+                onPress={() => handleSignIn()}
+              >
+                Sign in
+              </Button>
+              <Button
+                size={"$5"}
+                pressStyle={{ opacity: 0.85 }}
+                color={"white"}
+                fontSize={"$6"}
+                backgroundColor={primary}
+                onPress={disconnect}
+              >
+                Disconnect
+              </Button>
+            </>
           )
           : (
             <Button
