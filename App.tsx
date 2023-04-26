@@ -15,13 +15,16 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationContainer } from "@react-navigation/native";
 import { QueryClient } from "@tanstack/react-query";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
+import { noopStorage } from "@wagmi/core";
 import WalletConnectProvider from "@walletconnect/react-native-dapp";
 import { useFonts } from "expo-font";
 import { resolveScheme } from "expo-linking";
 import * as SplashScreen from "expo-splash-screen";
 import { TamaguiProvider, Theme } from "tamagui";
-import { createClient, WagmiConfig } from "wagmi";
+import { createClient, createStorage, WagmiConfig } from "wagmi";
 
+import ProviderComposer from "@/components/ProviderComposer";
+import { GlobalProvider } from "@/providers/global-provider";
 import { Web3Provider } from "@/providers/web3-provider";
 import { getDefaultClientConfig } from "@/utils/get-default-client-config";
 import { checkHotUpdates } from "@/utils/hot-updates";
@@ -30,14 +33,20 @@ import { RootNavigator } from "./src/navigation";
 import { createAsyncStoragePersister } from "./src/utils/persister";
 import config from "./tamagui.config";
 
-const wagmiClient = createClient(getDefaultClientConfig({ appName: "xLog" }));
-
 enableScreens(true);
 enableFreeze(true);
 
 SplashScreen.preventAutoHideAsync();
 
 const persister = createAsyncStoragePersister();
+
+const wagmiClient = createClient({
+  ...getDefaultClientConfig({ appName: "xLog" }),
+  persister,
+  storage: createStorage({
+    storage: noopStorage,
+  }),
+});
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -71,45 +80,46 @@ export default () => {
       <TamaguiProvider config={config}>
         <Theme name={colorScheme === "dark" ? "dark" : "light"}>
           <NavigationContainer>
-            <SafeAreaProvider>
-              <WagmiConfig client={wagmiClient}>
-                <PersistQueryClientProvider
-                  client={queryClient}
-                  persistOptions={{
-                    persister,
-                    dehydrateOptions: {
-                      shouldDehydrateQuery: (query) => {
-                        const queryIsReadyForPersistance = query.state.status === "success";
-                        if (queryIsReadyForPersistance)
-                          return !((query.state?.data as any)?.pages?.length > 1);
+            <ProviderComposer providers={[
+              <GlobalProvider key={"GlobalProvider"} />,
+              <SafeAreaProvider key={"SafeAreaProvider"} />,
+              <PersistQueryClientProvider
+                key={"PersistQueryClientProvider"}
+                client={queryClient}
+                persistOptions={{
+                  persister,
+                  dehydrateOptions: {
+                    shouldDehydrateQuery: (query) => {
+                      const queryIsReadyForPersistance = query.state.status === "success";
+                      if (queryIsReadyForPersistance)
+                        return !((query.state?.data as any)?.pages?.length > 1);
 
-                        else
-                          return false;
-                      },
+                      else
+                        return false;
                     },
-                  }}
-                >
-                  <WalletConnectProvider
-                    bridge="https://bridge.walletconnect.org"
-                    clientMeta={{
-                      description: "Connect with WalletConnect",
-                      url: "https://walletconnect.org",
-                      icons: ["https://walletconnect.org/walletconnect-logo.png"],
-                      name: "WalletConnect",
-                    }}
-                    redirectUrl={`${resolveScheme({})}://`}
-                    storageOptions={{
-                      // @ts-expect-error
-                      asyncStorage: AsyncStorage,
-                    }}
-                  >
-                    <Web3Provider>
-                      <RootNavigator />
-                    </Web3Provider>
-                  </WalletConnectProvider>
-                </PersistQueryClientProvider>
-              </WagmiConfig>
-            </SafeAreaProvider>
+                  },
+                }}
+              />,
+              <WagmiConfig key={"WagmiConfig"} client={wagmiClient} />,
+              <WalletConnectProvider
+                key={"WalletConnectProvider"}
+                bridge="https://bridge.walletconnect.org"
+                clientMeta={{
+                  description: "Connect with WalletConnect",
+                  url: "https://walletconnect.org",
+                  icons: ["https://walletconnect.org/walletconnect-logo.png"],
+                  name: "WalletConnect",
+                }}
+                redirectUrl={`${resolveScheme({})}://`}
+                storageOptions={{
+                  // @ts-expect-error: Internal
+                  asyncStorage: AsyncStorage,
+                }}
+              />,
+              <Web3Provider key={"Web3Provider"} />,
+            ]}>
+              <RootNavigator />
+            </ProviderComposer>
           </NavigationContainer>
         </Theme>
       </TamaguiProvider>

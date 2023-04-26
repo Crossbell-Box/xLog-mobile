@@ -11,7 +11,7 @@ import removeMd from "remove-markdown";
 import { Card, H5, H6, Spacer, Text, XStack } from "tamagui";
 
 import { Avatar } from "@/components/Avatar";
-import { useDate } from "@/hooks/useDate";
+import { useDate } from "@/hooks/use-date";
 import { i18n } from "@/i18n";
 import type { RootStackParamList } from "@/navigation/types";
 import { findCoverImage } from "@/utils/find-cover-image";

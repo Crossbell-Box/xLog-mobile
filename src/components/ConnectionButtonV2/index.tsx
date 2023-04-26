@@ -19,7 +19,7 @@ import { Plug } from "@tamagui/lucide-icons";
 import { Button, useWindowDimensions } from "tamagui";
 
 import { DarkTheme, LightTheme } from "@/constants/colors";
-import useInitialization from "@/hooks/useInitialization";
+import useInitialization from "@/hooks/use-initialization";
 import {
   universalProviderSession,
   universalProvider,

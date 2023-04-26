@@ -1,3 +1,4 @@
+import type { Connector, CreateClientConfig } from "wagmi";
 import { configureChains } from "wagmi";
 import { crossbell } from "wagmi/chains";
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
@@ -23,34 +24,35 @@ export const { chains, provider } = configureChains(
 export function getDefaultClientConfig({
   appName,
   walletConnectProjectId,
-}: GetDefaultClientConfigOptions) {
-  const connectors = [
-    new InjectedConnector({
-      chains,
-      options: {
-        shimDisconnect: true,
-        name: detectedName =>
-          `Injected (${
-            typeof detectedName === "string"
-              ? detectedName
-              : detectedName.join(", ")
-          })`,
-      },
-    }),
-    new MetaMaskConnector({
-      chains,
-      options: {
-        shimDisconnect: true,
-        UNSTABLE_shimOnConnectSelectAccount: true,
-      },
-    }),
-    new CoinbaseWalletConnector({
-      chains,
-      options: {
-        appName,
-        headlessMode: true,
-      },
-    }),
+}: GetDefaultClientConfigOptions): CreateClientConfig {
+  const connectors: Connector[] = [
+    // TODO
+    // new InjectedConnector({
+    //   chains,
+    //   options: {
+    //     shimDisconnect: true,
+    //     name: detectedName =>
+    //       `Injected (${
+    //         typeof detectedName === "string"
+    //           ? detectedName
+    //           : detectedName.join(", ")
+    //       })`,
+    //   },
+    // }),
+    // new MetaMaskConnector({
+    //   chains,
+    //   options: {
+    //     shimDisconnect: true,
+    //     UNSTABLE_shimOnConnectSelectAccount: true,
+    //   },
+    // }),
+    // new CoinbaseWalletConnector({
+    //   chains,
+    //   options: {
+    //     appName,
+    //     headlessMode: true,
+    //   },
+    // }),
     walletConnectProjectId
       ? getWalletConnectConnector({
         chains,
@@ -58,8 +60,8 @@ export function getDefaultClientConfig({
 			  })
       : getWalletConnectLegacyConnector({
         chains,
-        options: { qrcode: true, chainId: chains[0].id },
-			  }),
+        options: { qrcode: false, chainId: chains[0].id },
+      }),
   ];
 
   return {

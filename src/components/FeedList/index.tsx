@@ -8,7 +8,7 @@ import type { NoteEntity } from "crossbell.js";
 import * as Haptics from "expo-haptics";
 import { Spinner, Stack, useWindowDimensions } from "tamagui";
 
-import { useComposedScrollHandler } from "@/hooks/useComposedScrollHandler";
+import { useComposedScrollHandler } from "@/hooks/use-composed-scroll-handler";
 import type { FeedType } from "@/models/home.model";
 import { useGetFeed } from "@/queries/home";
 

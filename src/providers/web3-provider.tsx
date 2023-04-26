@@ -9,8 +9,7 @@ import WalletConnectProvider from "@walletconnect/web3-provider";
 import { INFURA_ID } from "@/constants/env";
 import { Web3Context } from "@/context/web3-context";
 
-interface Web3ProviderProps {
-  children: React.ReactNode
+interface Web3ProviderProps extends React.PropsWithChildren {
   connected?: boolean
   provider?: EthersWeb3ProviderType | undefined
 }

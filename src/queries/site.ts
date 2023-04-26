@@ -83,6 +83,7 @@ export const useGetSiteSubscriptions = (data: { siteId: string }) => {
         unidata,
       );
     },
+    // @ts-expect-error
     getNextPageParam: lastPage => lastPage?.cursor || undefined,
   });
 };
@@ -107,6 +108,7 @@ export const useGetSiteToSubscriptions = (data: { siteId: string }) => {
         unidata,
       );
     },
+    // @ts-expect-error
     getNextPageParam: lastPage => lastPage?.cursor || undefined,
   });
 };
@@ -120,7 +122,7 @@ export function useUpdateSite() {
       return siteModel.updateSite(payload, unidata, newbieToken);
     },
     {
-      onSuccess: (data, variables) => {
+      onSuccess: () => {
         queryClient.invalidateQueries(["getUserSites"]);
         queryClient.invalidateQueries(["getSite"]);
       },
