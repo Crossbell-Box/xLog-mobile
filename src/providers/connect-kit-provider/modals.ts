@@ -1,4 +1,4 @@
-import { ModalConfig, setupModal } from "@crossbell/react-account/dist/modal-config";
+import { ModalConfig, setupModal } from "@crossbell/react-account/modal-config";
 
 export const modals: ModalConfig = {
   showClaimCSBTipsModal() {

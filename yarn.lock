@@ -1285,19 +1285,19 @@
     human-id "^1.0.2"
     prettier "^2.7.1"
 
-"@crossbell/contract@0.0.73", "@crossbell/contract@^0.0.73":
-  version "0.0.73"
-  resolved "https://registry.yarnpkg.com/@crossbell/contract/-/contract-0.0.73.tgz#cd5ada1f389317d2f73914ef2a4636d511c55522"
-  integrity sha512-j6xxt0nwpPieGb1eW8UdePAfQliPgkWuYojduP7Mq3UFXbpPmi0G7h9mwTPeTc3AoNzc46Lfb7oxyDSRc12Oyg==
+"@crossbell/contract@0.0.76", "@crossbell/contract@^0.0.76":
+  version "0.0.76"
+  resolved "https://registry.yarnpkg.com/@crossbell/contract/-/contract-0.0.76.tgz#b1b5bfd98ac7aeb3f9622efd45214e9d48bfab7c"
+  integrity sha512-NUPGydWQatarQ0F/nrGKGyjzgFo4bk6Uu8QBt8drUCSDUNlXYhT1+ugqtre9jjaI5a9ai4vIzs+1U5Avgi2ong==
   dependencies:
-    "@crossbell/indexer" "^0.0.73"
-    "@crossbell/util-hooks" "^0.0.73"
+    "@crossbell/indexer" "^0.0.76"
+    "@crossbell/util-hooks" "^0.0.76"
     crossbell.js "^0.19"
 
-"@crossbell/indexer@0.0.73", "@crossbell/indexer@^0.0.73":
-  version "0.0.73"
-  resolved "https://registry.yarnpkg.com/@crossbell/indexer/-/indexer-0.0.73.tgz#ec81f8c7f640a64a606ba6e99b41b1238be37b48"
-  integrity sha512-AUbMUKtAmqo+rq96e9ag1PoQSsmjRYNKnfrhl2tkxW/YCJHI5EewFxstGJO51KKwukvSYQN62kisWci1ep6FyA==
+"@crossbell/indexer@0.0.76", "@crossbell/indexer@^0.0.76":
+  version "0.0.76"
+  resolved "https://registry.yarnpkg.com/@crossbell/indexer/-/indexer-0.0.76.tgz#4b915aff2fe5c061ac2b183f5469317b90a58123"
+  integrity sha512-x6mHWnbmE5THfTwoou2fOmku7fP1E0ByKijNOv3gy4elvGJfGEmQpQ1ds5S0kNSIufOqKvGRAACRFvHIeX1qZA==
   dependencies:
     "@tanstack/react-query" "^4"
     crossbell.js "^0.19"
@@ -1310,44 +1310,44 @@
   resolved "https://registry.npmjs.org/@crossbell/ipfs-fetch/-/ipfs-fetch-0.0.15.tgz"
   integrity sha512-AYGDrwiSKqCGNDi0mEPP1k+96loWik+Pd40xH0MzRNM4RtCutPbwm4o+Sj5iWu0tlHoQC2bTs1XcufsLiv+WYw==
 
-"@crossbell/react-account@0.0.73":
-  version "0.0.73"
-  resolved "https://registry.yarnpkg.com/@crossbell/react-account/-/react-account-0.0.73.tgz#2a7ddb1a227186dcd6a88e0e1e25ee39749f493e"
-  integrity sha512-ugNUpxlDbBAz/4qi+5PX+tBbu67xEQFpGfiKzCM4QUdUwG8Ho6lHHdVM6Wt4kZIniUT2rh0yMHPoz4R9e+MFpQ==
+"@crossbell/react-account@0.0.76":
+  version "0.0.76"
+  resolved "https://registry.yarnpkg.com/@crossbell/react-account/-/react-account-0.0.76.tgz#4b213871781046285b6ab98e58548d33e0d1a9a7"
+  integrity sha512-nCJHQB6Hx2LzLM+xXjivQ/Xj/MmtkPBrdr+nhp8Os2naNlC/KHLp1Ksd27xQGHg2CvF+pdtJ22+2InWe+fdxsg==
   dependencies:
-    "@crossbell/contract" "^0.0.73"
-    "@crossbell/indexer" "^0.0.73"
-    "@crossbell/util-ethers" "^0.0.73"
-    "@crossbell/util-hooks" "^0.0.73"
-    "@crossbell/util-metadata" "^0.0.73"
+    "@crossbell/contract" "^0.0.76"
+    "@crossbell/indexer" "^0.0.76"
+    "@crossbell/util-ethers" "^0.0.76"
+    "@crossbell/util-hooks" "^0.0.76"
+    "@crossbell/util-metadata" "^0.0.76"
     check-password-strength "^2"
     crossbell.js "^0.19"
     immer "^10"
     lodash.debounce "4.0.8"
     react "^18"
-    rxjs "^7.8.0"
+    rxjs "^7.8.1"
     ts-essentials "^9.3.1"
     zustand "^4"
 
-"@crossbell/util-ethers@^0.0.73":
-  version "0.0.73"
-  resolved "https://registry.yarnpkg.com/@crossbell/util-ethers/-/util-ethers-0.0.73.tgz#7f7ec33387d410691def6c66e1e129f3671d638b"
-  integrity sha512-XzOj8K63Rq/VlUZnMcwm8rBp9+fRqHbS2jeVx2UH4TKEJSbBYPzqz4tsZBHOnZJOZHkuykOb3q1aRoHL5HfpOQ==
+"@crossbell/util-ethers@^0.0.76":
+  version "0.0.76"
+  resolved "https://registry.yarnpkg.com/@crossbell/util-ethers/-/util-ethers-0.0.76.tgz#08e5e86aa18cc1ac62c52248c425506b5c0102e0"
+  integrity sha512-E1oplbqEZjIJ5PGmP7uMd1s8ps0pslbRqifX3zz4uagOGUOjzYlFIRkUhsfbxWhPVIhzD/xj2W25nd0vnNTJEA==
 
-"@crossbell/util-hooks@^0.0.73":
-  version "0.0.73"
-  resolved "https://registry.yarnpkg.com/@crossbell/util-hooks/-/util-hooks-0.0.73.tgz#fb59e0975264b10f7e1c8e8558c42805ed19a756"
-  integrity sha512-TKRXD5Xw4Jp+lwvxxVvZYF7GsRl8tdfTtsgLdDlm1ixIkHgSZlsFeXzmdGkGMXH4Qr8hfs78IYx5PFeyCysUwQ==
+"@crossbell/util-hooks@^0.0.76":
+  version "0.0.76"
+  resolved "https://registry.yarnpkg.com/@crossbell/util-hooks/-/util-hooks-0.0.76.tgz#be7428ef50b99aae49ffa4fac948bf54e05914e7"
+  integrity sha512-xaS1cgXuijmz408qQUv9y672f+V5c4fxQQhhATtV2a9NBzmQXK9F8wELwmwRBAG2PPf1B+jNDB0N/3xPzfTixw==
   dependencies:
     "@tanstack/react-query" "^4"
     crossbell.js "^0.19"
 
-"@crossbell/util-metadata@^0.0.73":
-  version "0.0.73"
-  resolved "https://registry.yarnpkg.com/@crossbell/util-metadata/-/util-metadata-0.0.73.tgz#74bbc380e93955cd49998c0457c99e80ad1c372b"
-  integrity sha512-IO7W11iHD0T8sFpp5gF2KR5sI+NnZmpPf5qrC3SGL43h5lvkZAaw6QNgolN2cvKYgJGRKanfFs3jjj2VBnAQOA==
+"@crossbell/util-metadata@^0.0.76":
+  version "0.0.76"
+  resolved "https://registry.yarnpkg.com/@crossbell/util-metadata/-/util-metadata-0.0.76.tgz#205d8dda64a5a37d831e6bb295b7b31e56da25be"
+  integrity sha512-yoAgOu8i1uYS/IlyOlVKlC4SO2eEAAXeCf1qrIBHik+d6uULh3y2y/I12mt8A2DEWm2lXTLub1ca65QXD9nvDQ==
   dependencies:
-    "@crossbell/util-ethers" "^0.0.73"
+    "@crossbell/util-ethers" "^0.0.76"
     "@fastify/deepmerge" "^1.3.0"
     crossbell.js "^0.19"
 
@@ -15856,10 +15856,10 @@ rustbn.js@~0.2.0:
   resolved "https://registry.npmjs.org/rustbn.js/-/rustbn.js-0.2.0.tgz#8082cb886e707155fd1cb6f23bd591ab8d55d0ca"
   integrity sha512-4VlvkRUuCJvr2J6Y0ImW7NvTCriMi7ErOAqWk1y69vAdoNIzCF3yPmgeNzx+RQTLEDFq5sHfscn1MwHxP9hNfA==
 
-rxjs@^7.8.0:
-  version "7.8.0"
-  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-7.8.0.tgz#90a938862a82888ff4c7359811a595e14e1e09a4"
-  integrity sha512-F2+gxDshqmIub1KdvZkaEfGDwLNpPvk9Fs6LD/MyQxNgMds/WH9OdDDXOmxUZpME+iSK3rQCctkL0DYyytUqMg==
+rxjs@^7.8.1:
+  version "7.8.1"
+  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-7.8.1.tgz#6f6f3d99ea8044291efd92e7c7fcf562c4057543"
+  integrity sha512-AA3TVj+0A2iuIoQkWEK/tqFjBq2j+6PO6Y0zJcvzLAFhEFIO3HL0vls9hWLncZbAAbK0mar7oZ4V079I/qPMxg==
   dependencies:
     tslib "^2.1.0"
 
