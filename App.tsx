@@ -4,7 +4,7 @@ import "react-native-get-random-values";
 import "@ethersproject/shims";
 import "@walletconnect/react-native-compat";
 import "expo-dev-client";
-import "@/providers/connect-kit-provider/setup-react-account-storage";
+import "@/providers/connect-kit-provider/setup-react-account";
 
 import { useEffect } from "react";
 import { useColorScheme, StyleSheet } from "react-native";
