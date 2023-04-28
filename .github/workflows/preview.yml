@@ -7,7 +7,7 @@ on:
       - 'src/**/*'
       - '.github/workflows/**'
       - '**.lock'
-      - "**.patch"
+      - '**.patch'
 
 jobs:
   update:

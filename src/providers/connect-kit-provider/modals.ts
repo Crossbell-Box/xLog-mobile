@@ -1,30 +1,31 @@
-import { ModalConfig, setupModal } from "@crossbell/react-account/modal-config";
+import type { ModalConfig } from "@crossbell/react-account/modal-config";
+import { setupModal } from "@crossbell/react-account/modal-config";
 
 export const modals: ModalConfig = {
   showClaimCSBTipsModal() {
     // TODO: implement
-		throw new Error("showClaimCSBTipsModal is not implemented yet");
-	},
+    throw new Error("showClaimCSBTipsModal is not implemented yet");
+  },
 
-	showNoEnoughCSBModal() {
+  showNoEnoughCSBModal() {
     // TODO: implement
-		throw new Error("showNoEnoughCSBModal is not implemented yet");
-	},
+    throw new Error("showNoEnoughCSBModal is not implemented yet");
+  },
 
-	showConnectModal() {
+  showConnectModal() {
     // TODO: implement
-		throw new Error("showConnectModal is not implemented yet");
-	},
+    throw new Error("showConnectModal is not implemented yet");
+  },
 
-	showUpgradeEmailAccountModal() {
+  showUpgradeEmailAccountModal() {
     // TODO: implement
-		throw new Error("showUpgradeAccountModal is not implemented yet");
-	},
+    throw new Error("showUpgradeAccountModal is not implemented yet");
+  },
 
-	showWalletMintNewCharacterModal() {
+  showWalletMintNewCharacterModal() {
     // TODO: implement
-		throw new Error("showWalletMintNewCharacterModal is not implemented yet");
-	},
+    throw new Error("showWalletMintNewCharacterModal is not implemented yet");
+  },
 };
 
 setupModal(modals);

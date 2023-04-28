@@ -23,8 +23,8 @@ import * as SplashScreen from "expo-splash-screen";
 import { TamaguiProvider, Theme } from "tamagui";
 
 import ProviderComposer from "@/components/ProviderComposer";
-import { GlobalProvider } from "@/providers/global-provider";
 import { ConnectKitProvider } from "@/providers/connect-kit-provider";
+import { GlobalProvider } from "@/providers/global-provider";
 import { checkHotUpdates } from "@/utils/hot-updates";
 
 import { RootNavigator } from "./src/navigation";
@@ -105,8 +105,10 @@ export default () => {
                   asyncStorage: AsyncStorage,
                 }}
               />,
-              <ConnectKitProvider />
-            ]}>              
+              <ConnectKitProvider
+                key={"ConnectKitProvider"}
+              />,
+            ]}>
               <RootNavigator />
             </ProviderComposer>
           </NavigationContainer>

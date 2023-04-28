@@ -1,7 +1,8 @@
 import type { FC } from "react";
 import Animated from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { 
+
+import {
   useConnectedAccount,
   useWalletSignIn,
   useAccountBalance,
@@ -15,6 +16,7 @@ import { Plug } from "@tamagui/lucide-icons";
 import { useWalletConnect } from "@walletconnect/react-native-dapp";
 import * as Haptics from "expo-haptics";
 import { Button } from "tamagui";
+
 import { useColor } from "@/hooks/styles";
 import { i18n } from "@/i18n";
 
@@ -25,7 +27,10 @@ export const ConnectionButton: FC<Props> = () => {
   const { balance } = useAccountBalance();
   const connectedAccount = useConnectedAccount();
 
+  // TODO
+  // eslint-disable-next-line no-console
   console.log(extractCharacterName(connectedAccount?.character), balance?.formatted);
+  // eslint-disable-next-line no-console
   console.log("siwe:", connectedAccount?.type === "wallet" ? connectedAccount.siwe?.token : "");
 
   return (
@@ -79,7 +84,7 @@ function ConnectBtn() {
     >
       {i18n.t("connect")}
     </Button>
-  )
+  );
 }
 
 function OPSignToggleBtn() {
@@ -100,9 +105,9 @@ function OPSignToggleBtn() {
         onPress={() => signIn()}
         icon={<Plug size={"$1.5"} />}
       >
-        {isSignInLoading? "Loading" : "Sign In"}
+        {isSignInLoading ? "Loading" : "Sign In"}
       </Button>
-    )
+    );
   }
 
   return (
@@ -118,11 +123,11 @@ function OPSignToggleBtn() {
       {isToggleOperatorLoading
         ? "Loading"
         : hasPermissions
-        ? "Unauthorize OP Sign"
-        : "Authorize OP Sign"
+          ? "Unauthorize OP Sign"
+          : "Authorize OP Sign"
       }
     </Button>
-  )
+  );
 }
 
 function DisconnectBtn() {
@@ -140,5 +145,5 @@ function DisconnectBtn() {
     >
       Disconnect
     </Button>
-  )
+  );
 }

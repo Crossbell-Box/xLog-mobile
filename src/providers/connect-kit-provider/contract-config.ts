@@ -7,7 +7,7 @@ import WalletConnectProvider from "@walletconnect/web3-provider";
 
 import { INFURA_ID } from "@/constants/env";
 
-import { modals } from "./modals"
+import { modals } from "./modals";
 
 export function useContractConfig() {
   const connector = useWalletConnect();
@@ -31,7 +31,7 @@ export function useContractConfig() {
         setProvider(walletConnectProvider);
       })();
     }
-  }, [address])
+  }, [address]);
 
   return React.useMemo(() => ({
     address,
@@ -39,16 +39,16 @@ export function useContractConfig() {
     provider,
 
     openConnectModal: modals.showConnectModal,
-  
+
     openMintNewCharacterModel: modals.showWalletMintNewCharacterModal,
-  
+
     openFaucetHintModel: () => modals.showNoEnoughCSBModal("claim-csb"),
-  
+
     getCurrentCharacterId: () => useAccountState.getState().computed.account?.characterId ?? null,
-  
+
     showSwitchNetworkModal() {
       // TODO: implement
       throw new Error("showSwitchNetworkModal not implemented");
     },
   } satisfies ContractConfig), [address, provider]);
-};
+}

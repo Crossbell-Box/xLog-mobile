@@ -1,13 +1,15 @@
 import React from "react";
-import { useWalletConnect } from "@walletconnect/react-native-dapp";
-import { Web3Provider } from "@ethersproject/providers";
+
 import { InitContractProvider } from "@crossbell/contract";
-import { useAccountState, ReactAccountProvider, BaseSigner } from "@crossbell/react-account";
+import type { BaseSigner } from "@crossbell/react-account";
+import { useAccountState, ReactAccountProvider } from "@crossbell/react-account";
 import { useRefCallback } from "@crossbell/util-hooks";
+import { Web3Provider } from "@ethersproject/providers";
+import { useWalletConnect } from "@walletconnect/react-native-dapp";
 
 import { Web3Context } from "@/context/web3-context";
 
-import { useContractConfig } from './contract-config'
+import { useContractConfig } from "./contract-config";
 
 export function ConnectKitProvider({ children }: React.PropsWithChildren) {
   const accountState = useAccountState();
@@ -15,11 +17,10 @@ export function ConnectKitProvider({ children }: React.PropsWithChildren) {
   const contractConfig = useContractConfig();
   const address = connector.accounts?.[0] ?? null;
   const web3Provider = React.useMemo(() => {
-    if (contractConfig.provider) {
+    if (contractConfig.provider)
       return new Web3Provider(contractConfig.provider, 3737);
-    } else {
+    else
       return null;
-    }
   }, [contractConfig.provider]);
 
   const onDisconnect = useRefCallback(() => connector.killSession());

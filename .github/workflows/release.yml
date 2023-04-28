@@ -32,7 +32,7 @@ jobs:
         with:
           version: yarn run release:version
           publish: yarn run release:publish
-          commit: "chore: update versions"
-          title: "chore: update versions"
+          commit: 'chore: update versions'
+          title: 'chore: update versions'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
