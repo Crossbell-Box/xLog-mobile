@@ -4,6 +4,7 @@ import "react-native-get-random-values";
 import "@ethersproject/shims";
 import "@walletconnect/react-native-compat";
 import "expo-dev-client";
+import "@/providers/connect-kit-provider/setup-react-account-storage";
 
 import { useEffect } from "react";
 import { useColorScheme, StyleSheet } from "react-native";
@@ -15,18 +16,15 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationContainer } from "@react-navigation/native";
 import { QueryClient } from "@tanstack/react-query";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
-import { noopStorage } from "@wagmi/core";
 import WalletConnectProvider from "@walletconnect/react-native-dapp";
 import { useFonts } from "expo-font";
 import { resolveScheme } from "expo-linking";
 import * as SplashScreen from "expo-splash-screen";
 import { TamaguiProvider, Theme } from "tamagui";
-import { createClient, createStorage, WagmiConfig } from "wagmi";
 
 import ProviderComposer from "@/components/ProviderComposer";
 import { GlobalProvider } from "@/providers/global-provider";
-import { Web3Provider } from "@/providers/web3-provider";
-import { getDefaultClientConfig } from "@/utils/get-default-client-config";
+import { ConnectKitProvider } from "@/providers/connect-kit-provider";
 import { checkHotUpdates } from "@/utils/hot-updates";
 
 import { RootNavigator } from "./src/navigation";
@@ -39,14 +37,6 @@ enableFreeze(true);
 SplashScreen.preventAutoHideAsync();
 
 const persister = createAsyncStoragePersister();
-
-const wagmiClient = createClient({
-  ...getDefaultClientConfig({ appName: "xLog" }),
-  persister,
-  storage: createStorage({
-    storage: noopStorage,
-  }),
-});
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -100,7 +90,6 @@ export default () => {
                   },
                 }}
               />,
-              <WagmiConfig key={"WagmiConfig"} client={wagmiClient} />,
               <WalletConnectProvider
                 key={"WalletConnectProvider"}
                 bridge="https://bridge.walletconnect.org"
@@ -116,8 +105,8 @@ export default () => {
                   asyncStorage: AsyncStorage,
                 }}
               />,
-              <Web3Provider key={"Web3Provider"} />,
-            ]}>
+              <ConnectKitProvider />
+            ]}>              
               <RootNavigator />
             </ProviderComposer>
           </NavigationContainer>
