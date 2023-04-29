@@ -27,7 +27,10 @@ export function ConnectKitProvider({ children }: React.PropsWithChildren) {
   const getSinger = useRefCallback(async (): Promise<BaseSigner> => web3Provider.getSigner(address));
 
   React.useEffect(() => {
-    accountState.connectWallet(address);
+    // `address` is null at first render
+    if (address) {
+      accountState.connectWallet(address);
+    }
   }, [address]);
 
   React.useEffect(() => {
