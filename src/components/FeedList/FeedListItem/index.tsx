@@ -1,5 +1,6 @@
 import type { FC } from "react";
 import React, { useMemo } from "react";
+import type { ViewStyle } from "react-native";
 import { StyleSheet } from "react-native";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 
@@ -10,7 +11,7 @@ import removeMd from "remove-markdown";
 import { Card, H5, H6, Spacer, Text, XStack } from "tamagui";
 
 import { Avatar } from "@/components/Avatar";
-import { useDate } from "@/hooks/useDate";
+import { useDate } from "@/hooks/use-date";
 import { i18n } from "@/i18n";
 import type { RootStackParamList } from "@/navigation/types";
 import { findCoverImage } from "@/utils/find-cover-image";
@@ -19,6 +20,7 @@ type NoteEntity = any;
 
 export interface Props {
   note: NoteEntity
+  style?: ViewStyle
 }
 
 export const FeedListItem: FC<Props> = (props) => {
@@ -55,7 +57,7 @@ export const FeedListItem: FC<Props> = (props) => {
   }, [note.metadata.content.content]);
 
   return (
-    <TouchableOpacity activeOpacity={0.65} onPress={onPress}>
+    <TouchableOpacity style={props.style} activeOpacity={0.65} onPress={onPress}>
       <Card elevate size="$4" bordered>
         <Card.Header padded>
           <XStack alignItems="center" gap={"$2"} marginBottom={"$1"}>

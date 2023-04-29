@@ -1,13 +1,21 @@
 import type { FC } from "react";
-import type { SharedValue } from "react-native-reanimated";
-import Animated, { interpolate, useAnimatedStyle } from "react-native-reanimated";
+import Animated from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { useDrawerProgress } from "@react-navigation/drawer";
+import {
+  useConnectedAccount,
+  useWalletSignIn,
+  useAccountBalance,
+  useDisconnectAccount,
+  useToggleOpSignOperator,
+  useIsWalletSignedIn,
+  useAccountCharacter,
+} from "@crossbell/react-account";
+import { extractCharacterName } from "@crossbell/util-metadata";
 import { Plug } from "@tamagui/lucide-icons";
 import { useWalletConnect } from "@walletconnect/react-native-dapp";
 import * as Haptics from "expo-haptics";
-import { Button, useWindowDimensions } from "tamagui";
+import { Button } from "tamagui";
 
 import { useColor } from "@/hooks/styles";
 import { i18n } from "@/i18n";
@@ -15,52 +23,134 @@ import { i18n } from "@/i18n";
 interface Props { }
 
 export const ConnectionButton: FC<Props> = () => {
-  const connector = useWalletConnect();
-  const { primary } = useColor();
   const { bottom } = useSafeAreaInsets();
-  const { width } = useWindowDimensions();
+  const { balance } = useAccountBalance();
+  const connectedAccount = useConnectedAccount();
+  // eslint-disable-next-line no-console
+  console.log(JSON.stringify(connectedAccount, null, 4));
 
-  const onPress = () => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+  // TODO
+  // eslint-disable-next-line no-console
+  console.log(extractCharacterName(connectedAccount?.character), balance?.formatted);
+  // eslint-disable-next-line no-console
+  console.log("siwe:", connectedAccount?.type === "wallet" ? connectedAccount.siwe?.token : "");
 
-    connector.connected
-      ? connector.killSession()
-      : connector.connect().then((account) => {
-        // eslint-disable-next-line no-console
-        console.log(account);
-      });
-  };
-
-  const progressAnimValue = useDrawerProgress() as SharedValue<number>;
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [
-      {
-        translateX: interpolate(progressAnimValue.value || 0, [0, 1], [0, -width / 2]),
-      },
-    ],
-  }), [width]);
+  if (!connectedAccount)
+    // TODO Loading
+    return null;
 
   return (
     <Animated.View style={[
-      animatedStyle,
       {
         position: "absolute",
         bottom: bottom + 12,
         left: 24,
         right: 24,
+        display: "flex",
+        flexDirection: "column",
+        gap: 12,
       },
     ]}>
+      {(() => {
+        switch (connectedAccount?.type) {
+          case "email":
+            return <DisconnectBtn />;
+          case "wallet":
+            return (
+              <>
+                <OPSignToggleBtn />
+                <DisconnectBtn />
+              </>
+            );
+          default:
+            return <ConnectBtn />;
+        }
+      })()}
+    </Animated.View>
+  );
+};
+
+function ConnectBtn() {
+  const { primary } = useColor();
+  const connector = useWalletConnect();
+  const handleConnect = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    connector.connect();
+  };
+
+  return (
+    <Button
+      size={"$5"}
+      pressStyle={{ opacity: 0.85 }}
+      color={"white"}
+      fontSize={"$6"}
+      backgroundColor={primary}
+      onPress={handleConnect}
+      icon={<Plug size={"$1.5"} />}
+    >
+      {i18n.t("connect")}
+    </Button>
+  );
+}
+
+function OPSignToggleBtn() {
+  const { primary } = useColor();
+  const { mutate: signIn, isLoading: isSignInLoading } = useWalletSignIn();
+  const character = useAccountCharacter();
+  const isWalletSignedIn = useIsWalletSignedIn();
+  const [{ toggleOperator, hasPermissions }, { isLoading: isToggleOperatorLoading }] = useToggleOpSignOperator(character);
+
+  if (!isWalletSignedIn) {
+    return (
       <Button
         size={"$5"}
         pressStyle={{ opacity: 0.85 }}
         color={"white"}
         fontSize={"$6"}
-        backgroundColor={connector.connected ? primary : "black"}
-        onPress={onPress}
-        icon={connector.connected ? null : <Plug size={"$1.5"} />}
+        backgroundColor={primary}
+        onPress={() => signIn()}
+        icon={<Plug size={"$1.5"} />}
       >
-        {connector.connected ? i18n.t("disconnect") : i18n.t("connect")}
+        {isSignInLoading ? "Loading" : "Sign In"}
       </Button>
-    </Animated.View>
+    );
+  }
+
+  return (
+    <Button
+      size={"$5"}
+      pressStyle={{ opacity: 0.85 }}
+      color={"white"}
+      fontSize={"$6"}
+      backgroundColor={primary}
+      onPress={toggleOperator}
+      icon={<Plug size={"$1.5"} />}
+    >
+      {
+        isToggleOperatorLoading
+          ? "Loading"
+          : hasPermissions
+            ? "Unauthorize OP Sign"
+            : "Authorize OP Sign"
+      }
+    </Button>
   );
-};
+}
+
+function DisconnectBtn() {
+  const { primary } = useColor();
+  const disconnect = useDisconnectAccount();
+
+  return (
+    <Button
+      size={"$5"}
+      pressStyle={{ opacity: 0.85 }}
+      color={"white"}
+      fontSize={"$6"}
+      backgroundColor={primary}
+      onPress={disconnect}
+    >
+      Disconnect
+    </Button>
+  );
+}
