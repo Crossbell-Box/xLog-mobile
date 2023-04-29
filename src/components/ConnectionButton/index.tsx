@@ -26,12 +26,18 @@ export const ConnectionButton: FC<Props> = () => {
   const { bottom } = useSafeAreaInsets();
   const { balance } = useAccountBalance();
   const connectedAccount = useConnectedAccount();
+  // eslint-disable-next-line no-console
+  console.log(JSON.stringify(connectedAccount, null, 4));
 
   // TODO
   // eslint-disable-next-line no-console
   console.log(extractCharacterName(connectedAccount?.character), balance?.formatted);
   // eslint-disable-next-line no-console
   console.log("siwe:", connectedAccount?.type === "wallet" ? connectedAccount.siwe?.token : "");
+
+  if (!connectedAccount)
+    // TODO Loading
+    return null;
 
   return (
     <Animated.View style={[
@@ -120,11 +126,12 @@ function OPSignToggleBtn() {
       onPress={toggleOperator}
       icon={<Plug size={"$1.5"} />}
     >
-      {isToggleOperatorLoading
-        ? "Loading"
-        : hasPermissions
-          ? "Unauthorize OP Sign"
-          : "Authorize OP Sign"
+      {
+        isToggleOperatorLoading
+          ? "Loading"
+          : hasPermissions
+            ? "Unauthorize OP Sign"
+            : "Authorize OP Sign"
       }
     </Button>
   );

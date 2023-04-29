@@ -4,6 +4,7 @@ import "react-native-get-random-values";
 import "@ethersproject/shims";
 import "@walletconnect/react-native-compat";
 import "expo-dev-client";
+import "./error-handler";
 import "@/providers/connect-kit-provider/setup-react-account-storage";
 
 import { useEffect } from "react";
@@ -22,6 +23,7 @@ import { resolveScheme } from "expo-linking";
 import * as SplashScreen from "expo-splash-screen";
 import { TamaguiProvider, Theme } from "tamagui";
 
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 import ProviderComposer from "@/components/ProviderComposer";
 import { ConnectKitProvider } from "@/providers/connect-kit-provider";
 import { GlobalProvider } from "@/providers/global-provider";
@@ -66,11 +68,13 @@ export default () => {
     return null;
 
   return (
+
     <GestureHandlerRootView style={styles.container} >
       <TamaguiProvider config={config}>
         <Theme name={colorScheme === "dark" ? "dark" : "light"}>
           <NavigationContainer>
             <ProviderComposer providers={[
+              <ErrorBoundary key={"ErrorBoundary"}/>,
               <GlobalProvider key={"GlobalProvider"} />,
               <SafeAreaProvider key={"SafeAreaProvider"} />,
               <PersistQueryClientProvider
