@@ -5,7 +5,7 @@ import "@ethersproject/shims";
 import "@walletconnect/react-native-compat";
 import "expo-dev-client";
 import "./error-handler";
-import "@/providers/connect-kit-provider/setup-react-account-storage";
+import "@/providers/connect-kit-provider/setup-react-account";
 
 import { useEffect } from "react";
 import { useColorScheme, StyleSheet } from "react-native";
