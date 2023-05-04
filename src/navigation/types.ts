@@ -1,13 +1,14 @@
-import type { ParamListBase } from "@react-navigation/native";
-
+/* eslint-disable @typescript-eslint/consistent-type-definitions */
 import type { Props as FeedPageProps } from "@/pages/Feed";
 import type { Props as PostDetailsPageProps } from "@/pages/PostDetails";
+import type { Props as SettingsPageProps } from "@/pages/Settings";
 
-export interface HomeDrawerParamList extends ParamListBase {
+export type HomeBottomTabsParamList = {
   Feed: FeedPageProps
-}
+  Settings: SettingsPageProps
+};
 
-export interface RootStackParamList extends ParamListBase {
+export type RootStackParamList = {
   Home: undefined
   PostDetails: PostDetailsPageProps
-}
+};

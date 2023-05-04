@@ -1,7 +1,7 @@
 import type { FC } from "react";
+import { useDrawerProgress } from "react-native-drawer-layout";
 import Animated, { interpolate, useAnimatedStyle } from "react-native-reanimated";
 
-import { useDrawerProgress } from "@react-navigation/drawer";
 import { useWindowDimensions } from "tamagui";
 
 import { ConnectionButton } from "@/components/ConnectionButton";

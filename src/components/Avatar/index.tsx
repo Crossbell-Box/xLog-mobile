@@ -10,6 +10,7 @@ import { LogoResource } from "../Logo";
 
 interface Props {
   uri?: string
+  size?: number
 }
 
 const isValidUrl = (url) => {
@@ -24,8 +25,7 @@ const isValidUrl = (url) => {
 };
 
 export const Avatar: FC<Props> = (props) => {
-  const { uri } = props;
-  const size = 45;
+  const { uri, size = 45 } = props;
 
   if (!uri) return null;
 
