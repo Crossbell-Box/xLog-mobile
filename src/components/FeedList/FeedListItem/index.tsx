@@ -1,5 +1,6 @@
 import type { FC } from "react";
 import React, { useMemo } from "react";
+import type { ViewStyle } from "react-native";
 import { StyleSheet } from "react-native";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 
@@ -7,10 +8,10 @@ import { useNavigation } from "@react-navigation/native";
 import type { StackNavigationProp } from "@react-navigation/stack";
 import { Image } from "expo-image";
 import removeMd from "remove-markdown";
-import { Card, H3, H5, H6, Spacer, Text, XStack } from "tamagui";
+import { Card, H5, H6, Paragraph, SizableText, Spacer, Text, XStack } from "tamagui";
 
 import { Avatar } from "@/components/Avatar";
-import { useDate } from "@/hooks/useDate";
+import { useDate } from "@/hooks/use-date";
 import { i18n } from "@/i18n";
 import type { RootStackParamList } from "@/navigation/types";
 import { findCoverImage } from "@/utils/find-cover-image";
@@ -19,6 +20,7 @@ type NoteEntity = any;
 
 export interface Props {
   note: NoteEntity
+  style?: ViewStyle
 }
 
 export const FeedListItem: FC<Props> = (props) => {
@@ -55,31 +57,32 @@ export const FeedListItem: FC<Props> = (props) => {
   }, [note.metadata.content.content]);
 
   return (
-    <TouchableOpacity activeOpacity={0.65} onPress={onPress}>
+    <TouchableOpacity style={props.style} activeOpacity={0.65} onPress={onPress}>
       <Card elevate size="$4" bordered>
         <Card.Header padded>
           <XStack alignItems="center" gap={"$2"} marginBottom={"$1"}>
             <Avatar uri={note?.character?.metadata?.content?.avatars?.[0]} />
             <XStack alignItems="center">
-              <H6 color={"#3f3f46"}>{note.character?.metadata?.content?.name || note.character?.handle}</H6>
+              <H6>{note.character?.metadata?.content?.name || note.character?.handle}</H6>
             </XStack>
           </XStack>
+
           {
-            note.metadata.content.title && <H5 marginBottom={"$1"} numberOfLines={1}>{String(note.metadata.content.title).replaceAll(" ", "")}</H5>
+            note.metadata.content.title && <H5 fontWeight={"700"} color="$color" marginBottom={"$1"} numberOfLines={1}>{String(note.metadata.content.title).replaceAll(" ", "")}</H5>
           }
 
           <XStack justifyContent={coverImage.isSingle ? "space-between" : "flex-start"}>
             {
               note.metadata?.content?.content && (
-                <Text
+                <Paragraph
                   width={coverImage.isSingle ? "65%" : "100%"}
                   numberOfLines={coverImage.isSingle ? 5 : 3}
-                  color={"#71717A"}
+                  size={"$xs"}
                 >
                   {removeMd(
                     String(note.metadata.content.content.slice(0, 100)).replace(/(\r\n|\n|\r)/gm, " "),
                   )}
-                </Text>
+                </Paragraph>
               )
             }
             {
@@ -114,7 +117,7 @@ export const FeedListItem: FC<Props> = (props) => {
             <Text numberOfLines={1} maxWidth={"70%"}>
               {
                 !!note.metadata?.content?.tags?.filter(tag => tag !== "post" && tag !== "page").length && (
-                  <Text numberOfLines={1} color={"#676772"}>
+                  <SizableText size={"$xs"} numberOfLines={1} color="$colorSubtitle">
                     {note.metadata?.content?.tags
                       ?.filter(tag => tag !== "post" && tag !== "page")
                       .map((tag, index) => (
@@ -122,11 +125,11 @@ export const FeedListItem: FC<Props> = (props) => {
                         #{tag} &nbsp;
                         </Text>
                       ))}
-                  </Text>
+                  </SizableText>
                 )
               }
             </Text>
-            <Text fontSize={12}>
+            <SizableText size={"$xs"} numberOfLines={1} color="$colorSubtitle">
               {i18n.t("ago", {
                 time: date.dayjs
                   .duration(
@@ -135,7 +138,7 @@ export const FeedListItem: FC<Props> = (props) => {
                   )
                   .humanize(),
               })}
-            </Text>
+            </SizableText>
           </XStack>
         </Card.Header>
       </Card>

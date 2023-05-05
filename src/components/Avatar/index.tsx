@@ -1,12 +1,16 @@
 import type { FC } from "react";
+import { StyleSheet } from "react-native";
 
-import ContentLoader, { Circle } from "react-content-loader/native";
+import { Image } from "expo-image";
 import { Avatar as _Avatar } from "tamagui";
 
 import { toGateway } from "@/utils/ipfs-parser";
 
+import { LogoResource } from "../Logo";
+
 interface Props {
   uri?: string
+  size?: number
 }
 
 const isValidUrl = (url) => {
@@ -21,8 +25,7 @@ const isValidUrl = (url) => {
 };
 
 export const Avatar: FC<Props> = (props) => {
-  const { uri } = props;
-  const size = 45;
+  const { uri, size = 45 } = props;
 
   if (!uri) return null;
 
@@ -37,11 +40,21 @@ export const Avatar: FC<Props> = (props) => {
       backgroundColor="white"
     >
       <_Avatar.Image src={toGateway(uri)} />
-      <_Avatar.Fallback delayMs={250}>
-        <ContentLoader viewBox={`0 0 ${size} ${size}`} backgroundColor={"gray"} opacity="0.3">
-          <Circle x="0" y="0" cx={size / 2} cy={size / 2} r={size} />
-        </ContentLoader>
+      <_Avatar.Fallback>
+        <Image source={LogoResource} contentFit={"cover"} style={styles.container} />
       </_Avatar.Fallback>
     </_Avatar>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+    transform: [
+      { scale: 0.8 },
+    ],
+  },
+});

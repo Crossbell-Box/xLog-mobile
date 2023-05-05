@@ -1,13 +1,18 @@
 import type { FC } from "react";
 import { StyleSheet } from "react-native";
+import { useDrawerProgress } from "react-native-drawer-layout";
 import type { SharedValue } from "react-native-reanimated";
 import Animated, { Extrapolate, interpolate, useAnimatedStyle } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+import { useAccountCharacter } from "@crossbell/react-account";
 import { Image } from "expo-image";
-import { Text, useWindowDimensions } from "tamagui";
+import { H2, useWindowDimensions, XStack } from "tamagui";
 
-import { Logo } from "@/constants/resource";
+import { LogoDark, LogoLight } from "@/constants/resource";
+import { useThemeStore } from "@/hooks/use-theme-store";
+
+import { Avatar } from "../Avatar";
 
 export interface Props {
   expanded: SharedValue<0 | 1>
@@ -17,10 +22,21 @@ export const NavigationHeader: FC<Props> = (props) => {
   const { expanded } = props;
   const { top } = useSafeAreaInsets();
   const { width } = useWindowDimensions();
+  const { isDarkMode: isDark } = useThemeStore();
+  const character = useAccountCharacter();
+  const drawerProgress = useDrawerProgress() as SharedValue<number>;
 
   const containerAnimStyles = useAnimatedStyle(() => {
     return {
       height: interpolate(expanded.value, [0, 1], [top, top + 35]),
+      paddingTop: top,
+    };
+  }, [top, expanded]);
+
+  const avatarAnimStyles = useAnimatedStyle(() => {
+    return {
+      left: interpolate(expanded.value, [0, 1], [-100, 10], Extrapolate.CLAMP),
+      opacity: interpolate(drawerProgress.value, [1, 0], [0, 1], Extrapolate.CLAMP),
     };
   }, [top, expanded]);
 
@@ -38,29 +54,28 @@ export const NavigationHeader: FC<Props> = (props) => {
   }, [expanded, width]);
 
   return (
-    <Animated.View style={[containerAnimStyles, styles.container, { paddingTop: top }]}>
+    <Animated.View style={containerAnimStyles}>
+      {character && (
+        <Animated.View style={avatarAnimStyles}>
+          <Avatar size={35} uri={character?.metadata?.content?.avatars?.[0]} />
+        </Animated.View>
+      )}
       <Animated.View style={[contentContainerAnimStyles, styles.contentContainer]}>
-        <Image source={Logo} contentFit={"contain"} style={styles.logo} />
-        <Text fontWeight={"700"} fontSize={24}>xLog</Text>
+        <XStack gap="$2" justifyContent="center" alignItems="center">
+          <Image source={isDark ? LogoLight : LogoDark} contentFit={"contain"} style={styles.logo} />
+          <H2 fontWeight={"700"} fontSize={24}>xLog</H2>
+        </XStack>
       </Animated.View>
     </Animated.View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "white",
-    alignItems: "center",
-    paddingHorizontal: 20,
-  },
   contentContainer: {
     position: "absolute",
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "row",
   },
   logo: {
-    width: 32,
-    height: 32,
+    width: 30,
+    height: 30,
   },
 });

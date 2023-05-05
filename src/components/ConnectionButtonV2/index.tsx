@@ -10,16 +10,16 @@ import {
   useColorScheme,
   View,
 } from "react-native";
+import { useDrawerProgress } from "react-native-drawer-layout";
 import type { SharedValue } from "react-native-reanimated";
 import Animated, { interpolate, useAnimatedStyle } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { useDrawerProgress } from "@react-navigation/drawer";
 import { Plug } from "@tamagui/lucide-icons";
 import { Button, useWindowDimensions } from "tamagui";
 
 import { DarkTheme, LightTheme } from "@/constants/colors";
-import useInitialization from "@/hooks/useInitialization";
+import useInitialization from "@/hooks/use-initialization";
 import {
   universalProviderSession,
   universalProvider,
@@ -177,10 +177,9 @@ export const ConnectionButton: FC<Props> = () => {
           )
           : (
             <Button
-              size={"$5"}
               pressStyle={{ opacity: 0.85 }}
               color={"white"}
-              fontSize={"$6"}
+              fontSize={"$xl"}
               backgroundColor={"black"}
               onPress={onConnect}
               disabled={!initialized}
