@@ -31,6 +31,7 @@ type Measurements = Array<Partial<{ x: number; width: number }>>;
 
 export const Header: FC<Props> = (props) => {
   const primaryColor = useCurrentColor("orange9");
+  const inactiveColor = useCurrentColor("$colorSubtitle");
   const lengthOfSortType = Object.values(sortType).length;
   const { isExpandedAnimValue, currentSortType, onSortTypeChange } = props;
   const [_measurements, setMeasurements] = useState<Measurements>([]);
@@ -88,7 +89,6 @@ export const Header: FC<Props> = (props) => {
                   });
                 }}>
                   <Button
-                    size="$5"
                     marginTop={5}
                     height={40}
                     unstyled
@@ -98,7 +98,7 @@ export const Header: FC<Props> = (props) => {
                     }}
                   >
                     <Text
-                      color={isActive ? primaryColor : "#6B7280"}
+                      color={isActive ? primaryColor : inactiveColor}
                       fontWeight={isActive ? "bold" : "normal"}
                     >
                       {NameOfSortType[type]}

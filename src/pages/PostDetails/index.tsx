@@ -9,6 +9,7 @@ import ContentLoader, { Rect } from "react-content-loader/native";
 import { Stack, useWindowDimensions, YStack } from "tamagui";
 
 import { WebView } from "@/components/WebView";
+import { useColors } from "@/hooks/use-color";
 import type { RootStackParamList } from "@/navigation/types";
 
 export interface Props {
@@ -21,6 +22,7 @@ const loadingThreshold = 0.3;
 export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, "PostDetails">> = (props) => {
   const { route } = props;
   const { params } = route;
+  const { background } = useColors();
   const { top } = useSafeAreaInsets();
   const { width, height } = useWindowDimensions();
   const webviewLoadingAnimValue = useSharedValue<number>(0);
@@ -45,8 +47,8 @@ export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, "Pos
   );
 
   return (
-    <Stack flex={1} backgroundColor={"white"}>
-      <Animated.View style={[webviewAnimStyles, styles.webviewContainer]}>
+    <Stack flex={1} backgroundColor={background}>
+      <Animated.View style={[webviewAnimStyles, styles.webviewContainer, { backgroundColor: background }]}>
         <WebView
           // TODO
           // Should replace it to another page that only contains the article content.
@@ -59,7 +61,7 @@ export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, "Pos
       </Animated.View>
       {
         !webviewLoaded && (
-          <Animated.View style={[skeletonAnimStyles, styles.skeletonContainer, { top }]} >
+          <Animated.View style={[skeletonAnimStyles, styles.skeletonContainer, { top: 0, paddingTop: top, backgroundColor: background }]} >
             <YStack flex={1} alignItems={"flex-start"} justifyContent={"flex-start"}>
               <ContentLoader viewBox={`0 0 ${width - 10 * 2} ${height - top}`} backgroundColor={"gray"} opacity="0.3">
                 <Rect x="10" y="17" rx="4" ry="4" width={`${(width - 40) * 0.5}`} height="24" />
@@ -94,7 +96,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   webviewContainer: {
-    backgroundColor: "white",
     flex: 1,
   },
   skeletonContainer: {
@@ -103,6 +104,5 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: "white",
   },
 });
