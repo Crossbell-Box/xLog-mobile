@@ -57,8 +57,6 @@ export default (_: ConfigContext): ExpoConfig => {
     extra: {
       WALLET_PROJECT_ID: process.env.WALLET_PROJECT_ID,
       INFURA_ID: process.env.INFURA_ID,
-      MAGIC_PUB_KEY: process.env.MAGIC_PUB_KEY,
-      CHAIN_ID: process.env.CHAIN_ID,
       eas: {
         projectId: process.env.EXPO_PROJECT_ID,
       },
