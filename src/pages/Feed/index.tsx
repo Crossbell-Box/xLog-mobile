@@ -18,6 +18,7 @@ export interface Props {
 export const FeedPage: FC<Props> = (props) => {
   const { sortType: _sortType = sortType.LATEST } = props;
   const [currentSortType, setCurrentSortType] = useState<SortType>(_sortType);
+  const [daysInterval, setDaysInterval] = useState<number>(7);
   const prevTranslationYAnimValue = useSharedValue<number>(0);
   const isExpandedAnimValue = useSharedValue<0 | 1>(1);
 
@@ -51,12 +52,16 @@ export const FeedPage: FC<Props> = (props) => {
       <Header
         currentSortType={currentSortType}
         isExpandedAnimValue={isExpandedAnimValue}
+        onDaysIntervalChange={(days) => {
+          setDaysInterval(days);
+        }}
+        daysInterval={daysInterval}
         onSortTypeChange={(type) => {
           setCurrentSortType(type);
           Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
         }}
       />
-      <FeedList type={currentSortType} onScroll={onScroll} onScrollEndDrag={onScrollEndDrag} />
+      <FeedList daysInterval={daysInterval} type={currentSortType} onScroll={onScroll} onScrollEndDrag={onScrollEndDrag} />
       <AnimatedConnectionButton visibleAnimValue={isExpandedAnimValue} />
     </Animated.View>
   );

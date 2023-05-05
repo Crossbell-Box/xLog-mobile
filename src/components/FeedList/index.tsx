@@ -21,10 +21,14 @@ export interface Props {
   onScrollEndDrag?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void
   type?: FeedType
   noteIds?: string[]
+  /**
+   * @default 7
+   * */
+  daysInterval?: number
 }
 
 export const FeedList: FC<Props> = (props) => {
-  const { type, noteIds } = props;
+  const { type, noteIds, daysInterval = 7 } = props;
   const onScrollHandler = useComposedScrollHandler([props.onScroll]);
   const { width, height } = useWindowDimensions();
   const feed = useGetFeed({
@@ -32,7 +36,7 @@ export const FeedList: FC<Props> = (props) => {
     limit: 10,
     characterId: undefined, // TODO
     noteIds,
-    daysInterval: 7, // TODO
+    daysInterval,
   });
 
   const feedList = useMemo<NoteEntity[]>(() => {
