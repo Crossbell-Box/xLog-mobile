@@ -9,43 +9,6 @@
 [![Discord](https://img.shields.io/badge/chat-Discord-5865F2.svg?logo=discord&style=flat-square)](https://discord.gg/46VJMMVCuF) &nbsp;[![Twitter](https://img.shields.io/badge/Twitter-@_xLog-1d9bf0.svg?logo=twitter&style=flat-square)](https://twitter.com/_xLog) &nbsp;[![build](https://img.shields.io/github/actions/workflow/status/Crossbell-Box/xLog/docker-build-push-prod.yml?logo=github&style=flat-square)](https://github.com/Crossbell-Box/xLog/actions/workflows/docker-build-push.yml)
 
 
-## Roadmap
-
-### 1. Project Setup and Infrastructure
-
-- [x] Set up the development environment and project structure
-- [x] Set up version control 
-- [x] Configure Continuous Integration and Continuous Deployment (CI/CD)
-- [x] Set up EAS (Expo Application Services) 
-- [x] Create a README for developers, including setup instructions, project overview, and contribution guidelines
-- [ ] Set up error monitoring and reporting (Sentry)
-- [ ] Implement testing (unit tests, end-to-end tests, snapshot tests, etc.)
-- [ ] Ensure accessibility features are considered and implemented where applicable
-- [ ] Optimize data fetching and caching for improved performance
-- [ ] Implement lazy loading and pagination for the feed list view to handle large amounts of data
-- [ ] Optimize the webview for improved performance and reduced time to first paint. [(issue)](https://github.com/Crossbell-Box/xLog-mobile/issues/12)
-- [ ] Create comprehensive user documentation, including usage instructions and troubleshooting tips
-- [ ] Create a demo video or animated GIF showcasing the application's features and functionality
-- [ ] Set up community channels for discussion and support (Discord)
-
-### 2. Core Features - Read-Only[(Milestone)](https://github.com/Crossbell-Box/xLog-mobile/milestone/1)
-#### 2.1. Views Implementation
-
-- [x] Add navigation between the feed list and post detail views
-- [x] Implement the main feed list view
-- [ ] Implement the post detail view
-    - Use the webview to render the post content. [(issue)](https://github.com/Crossbell-Box/xLog-mobile/issues/12)
-
-#### 2.2. Data Fetching
-
-- [x] Develop the web3 API integration for fetching blog data
-    - [x] Set up the @crossbell/indexer for fetching data from the blockchain
-    - [x] Implement the API call for fetching the list of blog posts
-    - [x] Implement the API call for fetching the details of a specific blog post
-- [x] Integrate data fetching with the feed list and post detail views
-    - [x] Display the fetched blog posts in the feed list view
-    - [x] Display the fetched post details in the post detail view
-
 ## Development
 ### Prerequisites
 
