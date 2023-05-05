@@ -1,5 +1,25 @@
 # xlog
 
+## 0.2.0
+
+### Minor Changes
+
+- aa7b055: - Added more themes.
+  - Supported dark/light mode.
+  - Displayed user info in the drawer menu.
+  - Made some UX improvements.
+  - Fixed some bugs.
+- 67730af: - Connect to the wallet and sign in.
+  - Integrate the @crossbell tolls.
+  - Support to the ConnectWallet V2 in advance.
+- 3432478: support to set hot interval.
+- 67730af: Support to sign in.
+
+### Patch Changes
+
+- 89ba825: Fixed the status bar style error
+- 3fa0ed5: 🐛 Resolved the query issue in the hot tab.
+
 ## 0.1.0
 
 ### Minor Changes
