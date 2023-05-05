@@ -23,6 +23,7 @@ import { TamaguiProvider } from "tamagui";
 
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import ProviderComposer from "@/components/ProviderComposer";
+import { StatusBar } from "@/components/StatusBar";
 import { ConnectKitProvider } from "@/providers/connect-kit-provider";
 import { GlobalProvider } from "@/providers/global-provider";
 import { NavigationProvider } from "@/providers/navigation-provider";
@@ -96,6 +97,7 @@ export default () => {
       <NavigationProvider key={"NavigationProvider"} />,
       <BottomSheetModalProvider key={"BottomSheetModalProvider"} />,
     ]}>
+      <StatusBar />
       <RootNavigator />
     </ProviderComposer>
   );
