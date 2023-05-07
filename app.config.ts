@@ -3,8 +3,11 @@ import type { ExpoConfig, ConfigContext } from "expo/config";
 
 import { version } from "./package.json";
 
+dotenv.config({ path: ".env" });
 dotenv.config({ path: ".env.common" });
-dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
+if (process.env.NODE_ENV) {
+  dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
+}
 
 export default (_: ConfigContext): ExpoConfig => {
   return {
