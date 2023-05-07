@@ -63,6 +63,7 @@
     "ethers": "^5.6.8",
     "events": "^1.1.1",
     "expo": "~48.0.15",
+    "expo-application": "~5.1.1",
     "expo-build-properties": "~0.6.0",
     "expo-clipboard": "~4.1.2",
     "expo-constants": "~14.2.1",

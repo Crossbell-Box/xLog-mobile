@@ -3,8 +3,9 @@ import { StyleSheet, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { ArrowRight, Check, Eye, Palette } from "@tamagui/lucide-icons";
-import { ListItem, ListItemTitle, Switch, YGroup, YStack } from "tamagui";
+import { ArrowRight, Check, Eye, Info, Palette } from "@tamagui/lucide-icons";
+import * as Application from "expo-application";
+import { ListItem, Text, ListItemTitle, Switch, YGroup, YStack } from "tamagui";
 
 import { useColors } from "@/hooks/use-color";
 import { useThemeStore } from "@/hooks/use-theme-store";
@@ -56,6 +57,18 @@ export const Settings: React.FC<Props> = () => {
               >
                 <ListItemTitle>
                   更换主题
+                </ListItemTitle>
+              </ListItem>
+            </YGroup.Item>
+            <YGroup.Item>
+              <ListItem
+                icon={Info}
+                scaleIcon={1.2}
+                onPress={openBottomSheet}
+                iconAfter={<Text color="$color">{Application.nativeApplicationVersion}</Text>}
+              >
+                <ListItemTitle>
+                  版本
                 </ListItemTitle>
               </ListItem>
             </YGroup.Item>

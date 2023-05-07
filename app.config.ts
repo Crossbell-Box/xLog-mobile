@@ -45,7 +45,7 @@ export default (_: ConfigContext): ExpoConfig => {
       url: process.env.UPDATES_URL,
     },
     runtimeVersion: {
-      policy: "sdkVersion",
+      policy: "appVersion",
     },
     ios: {
       supportsTablet: true,
