@@ -46,26 +46,15 @@ jobs:
         run: |
           git fetch origin main:main
 
-      # If there are changesets, stop the workflow, because we don't want to publish a release update for the version that hasn't been released yet.
-      - name: Check for changesets
-        id: changeset_check
-        run: |
-          set +e
-          yarn changeset status
-          exit_status=$?
-          set -e
-          if [ $exit_status -eq 0 ]; then
-            echo "Changeset found. Stopping the workflow."
-            echo "::set-output name=has_changeset::true"
-            exit 1
-          else
-            echo "No changesets found. Continuing with the workflow."
-            echo "::set-output name=has_changeset::false"
-          fi
-
       - name: Publish update
-        if: steps.changeset_check.outputs.has_changeset == 'false'
         env:
           NODE_OPTIONS: --max_old_space_size=4096
-        run: eas update --branch "${GITHUB_REF#refs/heads/}" --auto
-
+        run: |
+          set +e
+          CHANGESET_COUNT=$(yarn changeset status | grep -c "info Packages to be bumped at")
+          set -e
+          if [ $CHANGESET_COUNT -gt 0 ]; then
+            echo "Changeset found, skipping update, because we don't want to publish a release update for the version that hasn't been released yet."
+          else
+            eas update --branch "${GITHUB_REF#refs/heads/}" --auto
+          fi
