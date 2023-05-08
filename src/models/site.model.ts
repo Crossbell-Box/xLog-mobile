@@ -1,4 +1,5 @@
-import type { useContract } from "@crossbell/contract";
+import { useContract } from "@crossbell/contract";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { cacheExchange, createClient, fetchExchange } from "@urql/core";
 import { CharacterOperatorPermission, Indexer } from "crossbell.js";
 import dayjs from "dayjs";
@@ -22,6 +23,34 @@ export type GetUserSitesParams =
     handle: string
     unidata: Unidata
   };
+
+export const useGetTips = (
+  data: Partial<Parameters<typeof getTips>[0]>,
+) => {
+  const contract = useContract();
+  return useInfiniteQuery({
+    queryKey: ["getTips", data],
+    queryFn: async ({ pageParam }) => {
+      if (!data.toCharacterId || data.characterId === "0") {
+        return {
+          count: 0,
+          list: [],
+          cursor: undefined,
+        };
+      }
+
+      return getTips(
+        {
+          ...data,
+          toCharacterId: data.toCharacterId,
+          cursor: pageParam,
+        },
+        contract,
+      );
+    },
+    getNextPageParam: lastPage => lastPage.cursor || undefined,
+  });
+};
 
 export const getUserSites = async (params: GetUserSitesParams) => {
   let profiles: UniProfiles | null = null;
@@ -517,6 +546,7 @@ export async function getTips(
     characterId?: string | number
     toNoteId?: string | number
     cursor?: string
+    limit?: number
   },
   contract: Contract,
 ) {
@@ -527,7 +557,7 @@ export async function getTips(
     toCharacterId: input.toCharacterId,
     tokenAddress: address?.data || "0xAfB95CC0BD320648B3E8Df6223d9CDD05EbeDC64",
     includeMetadata: true,
-    limit: 7,
+    limit: input.limit || 7,
     cursor: input.cursor,
   });
 
@@ -552,7 +582,6 @@ export async function getTips(
 
   return tips;
 }
-
 export interface AchievementSection {
   info: {
     name: string

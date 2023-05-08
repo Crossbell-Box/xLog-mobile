@@ -9,6 +9,7 @@ import "dayjs/locale/en";
 import "dayjs/locale/zh";
 import "dayjs/locale/zh-tw";
 import "dayjs/locale/ja";
+
 import { i18n } from "@/i18n";
 
 dayjs.extend(localizedFormat);
@@ -17,19 +18,52 @@ dayjs.extend(tz);
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
 
-export function useDate() {
+type DateInput = string | Date;
+
+interface UseDate {
+  dayjs: typeof dayjs
+  formatDate: (date: DateInput, format?: string, timeZone?: string) => string
+  formatToISO: (date: DateInput) => string
+  inLocalTimezone: (date: DateInput) => Date
+  formatRelativeTime: (value: number, unit: Intl.RelativeTimeFormatUnit) => string
+}
+
+export function useDate(): UseDate {
   dayjs.locale(i18n.locale);
+  const locale = i18n.locale;
+
+  const formatDate = (date: DateInput, format = "ll", timeZone?: string): string => {
+    const options: Intl.DateTimeFormatOptions = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      timeZone,
+    };
+
+    if (format === "ll")
+      options.month = "short";
+
+    return new Intl.DateTimeFormat(locale, options).format(new Date(date));
+  };
+
+  const formatToISO = (date: DateInput): string => {
+    return new Date(date).toISOString();
+  };
+
+  const inLocalTimezone = (date: DateInput): Date => {
+    return new Date(date);
+  };
+
+  const formatRelativeTime = (value: number, unit: Intl.RelativeTimeFormatUnit): string => {
+    const rtf = new Intl.RelativeTimeFormat(locale, { numeric: "auto" });
+    return rtf.format(value, unit);
+  };
 
   return {
     dayjs,
-    formatDate: (date: string | Date, format = "ll", timezone?: string) => {
-      return dayjs(date).tz(timezone).format(format);
-    },
-    formatToISO: (date: string | Date) => {
-      return dayjs(date).toISOString();
-    },
-    inLocalTimezone: (date: string | Date) => {
-      return dayjs(date).tz().toDate();
-    },
+    formatDate,
+    formatToISO,
+    inLocalTimezone,
+    formatRelativeTime,
   };
 }

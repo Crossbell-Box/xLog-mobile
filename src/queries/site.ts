@@ -1,9 +1,3 @@
-import {
-  useAccountState,
-  useFollowCharacter,
-  useFollowCharacters,
-  useUnfollowCharacter,
-} from "@crossbell/connect-kit";
 import { useContract } from "@crossbell/contract";
 import {
   useInfiniteQuery,
@@ -15,20 +9,6 @@ import {
 import * as siteModel from "@/models/site.model";
 
 import { useUnidata } from "./unidata";
-
-export const useAccountSites = () => {
-  const unidata = useUnidata();
-  const account = useAccountState(s => s.computed.account);
-  const handle
-    = account?.type === "email" ? account.character?.handle : account?.handle;
-
-  return useQuery(["getUserSites", handle], async () => {
-    if (!account || !handle)
-      return [];
-
-    return siteModel.getAccountSites({ handle, unidata });
-  });
-};
 
 export const useGetSite = (input?: string) => {
   const unidata = useUnidata();
@@ -46,20 +26,6 @@ export const useGetSites = (input: number[]) => {
       return null;
 
     return siteModel.getSites(input);
-  });
-};
-
-export const useGetSubscription = (siteId: string | undefined) => {
-  const account = useAccountState(s => s.computed.account);
-  const handle
-    = account?.type === "email" ? account.character?.handle : account?.handle;
-  const unidata = useUnidata();
-
-  return useQuery(["getSubscription", siteId, handle], async () => {
-    if (!handle || !siteId)
-      return false;
-
-    return siteModel.getSubscription(siteId, handle, unidata);
   });
 };
 
@@ -112,125 +78,6 @@ export const useGetSiteToSubscriptions = (data: { siteId: string }) => {
     getNextPageParam: lastPage => lastPage?.cursor || undefined,
   });
 };
-
-export function useUpdateSite() {
-  const newbieToken = useAccountState(s => s.email?.token);
-  const unidata = useUnidata();
-  const queryClient = useQueryClient();
-  const mutation = useMutation(
-    async (payload: Parameters<typeof siteModel.updateSite>[0]) => {
-      return siteModel.updateSite(payload, unidata, newbieToken);
-    },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["getUserSites"]);
-        queryClient.invalidateQueries(["getSite"]);
-      },
-    },
-  );
-  return mutation;
-}
-
-export function useCreateSite() {
-  const unidata = useUnidata();
-  const queryClient = useQueryClient();
-  const account = useAccountState(s => s.computed.account);
-  const address = account?.type === "email" ? account.email : account?.address;
-
-  return useMutation(
-    async (payload: { name: string; subdomain: string }) => {
-      if (address) {
-        // FIXME: - Support email users
-        return siteModel.createSite(address, payload, unidata);
-      }
-    },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["getUserSites", address]);
-      },
-    },
-  );
-}
-
-export function useSubscribeToSite() {
-  const queryClient = useQueryClient();
-  const account = useAccountState(s => s.computed.account);
-
-  return useFollowCharacter({
-    onSuccess: (data, variables: any) => {
-      return Promise.all([
-        queryClient.invalidateQueries([
-          "getSiteSubscriptions",
-          {
-            siteId: variables.siteId,
-          },
-        ]),
-
-        queryClient.invalidateQueries([
-          "getSubscription",
-          variables.siteId,
-          account?.type === "email"
-            ? account?.character?.handle
-            : account?.handle,
-        ]),
-      ]);
-    },
-  });
-}
-
-export function useSubscribeToSites() {
-  const queryClient = useQueryClient();
-  const currentCharacterId = useAccountState(
-    s => s.computed.account?.characterId,
-  );
-
-  return useFollowCharacters({
-    onSuccess: (_, variables: any) =>
-      Promise.all(
-        variables.siteIds.flatMap((siteId: string) => {
-          return [
-            queryClient.invalidateQueries([
-              "getSiteSubscriptions",
-              {
-                siteId,
-              },
-            ]),
-
-            queryClient.invalidateQueries([
-              "getSubscription",
-              siteId,
-              currentCharacterId,
-            ]),
-          ];
-        }),
-      ),
-  });
-}
-
-export function useUnsubscribeFromSite() {
-  const queryClient = useQueryClient();
-  const account = useAccountState(s => s.computed.account);
-
-  return useUnfollowCharacter({
-    onSuccess: (data, variables: any) => {
-      return Promise.all([
-        queryClient.invalidateQueries([
-          "getSiteSubscriptions",
-          {
-            siteId: variables.siteId,
-          },
-        ]),
-        queryClient.invalidateQueries([
-          "getSubscription",
-          variables.siteId,
-          account?.type === "email"
-            ? account?.character?.handle
-            : account?.handle,
-        ]),
-      ]);
-    },
-  });
-}
 
 export const useGetOperators = (
   data: Parameters<typeof siteModel.getOperators>[0],

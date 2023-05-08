@@ -25,6 +25,7 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 import ProviderComposer from "@/components/ProviderComposer";
 import { StatusBar } from "@/components/StatusBar";
 import { ConnectKitProvider } from "@/providers/connect-kit-provider";
+import { DrawerProvider } from "@/providers/drawer-provider";
 import { GlobalProvider } from "@/providers/global-provider";
 import { NavigationProvider } from "@/providers/navigation-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
@@ -46,7 +47,6 @@ const queryClient = new QueryClient({
     },
   },
 });
-
 export default () => {
   useEffect(() => {
     checkHotUpdates();
@@ -96,6 +96,7 @@ export default () => {
       <ThemeProvider key={"ThemeProvider"} />,
       <NavigationProvider key={"NavigationProvider"} />,
       <BottomSheetModalProvider key={"BottomSheetModalProvider"} />,
+      <DrawerProvider key={"DrawerProvider"}/>,
     ]}>
       <StatusBar />
       <RootNavigator />

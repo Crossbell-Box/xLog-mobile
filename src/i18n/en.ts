@@ -12,6 +12,11 @@ const en: typeof zh = {
   "This month": "This month",
   "This week": "This week",
   "All time": "All time",
+  "Published": "Published",
+  "All Posts": "All Posts",
+  "Draft": "Draft",
+  "Scheduled": "Scheduled",
+  "days": "days",
 };
 
 export default en;

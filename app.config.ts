@@ -32,6 +32,7 @@ export default (_: ConfigContext): ExpoConfig => {
           },
         },
       ],
+      "expo-localization",
     ],
     splash: {
       image: "./assets/splash.png",
