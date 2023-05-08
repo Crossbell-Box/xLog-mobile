@@ -159,6 +159,7 @@ const Drawer: FC<React.PropsWithChildren<{}>> = ({ children }) => {
 };
 
 export const RootNavigator = () => {
+  const { top, bottom } = useSafeAreaInsets();
   return (
     <Drawer>
       <RootStack.Navigator
@@ -172,8 +173,8 @@ export const RootNavigator = () => {
 
         {/* Profile */}
         <RootStack.Group screenOptions={{
-          headerShown: true,
-          headerBackTitle: "返回",
+          headerShown: false,
+          cardStyle: { paddingTop: top, paddingBottom: bottom },
           transitionSpec: {
             open: {
               animation: "timing",
