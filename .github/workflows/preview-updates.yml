@@ -40,6 +40,11 @@ jobs:
 
       - name: Install dependencies
         run: yarn install
+        
+      # Fetch the main branch for the changeset check
+      - name: Fetch main branch
+        run: |
+          git fetch origin main:main
 
       - name: Publish update
         env:
