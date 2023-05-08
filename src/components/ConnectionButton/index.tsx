@@ -15,6 +15,7 @@ import * as Haptics from "expo-haptics";
 import { Button } from "tamagui";
 
 import { useColor } from "@/hooks/styles";
+import { useDrawer } from "@/hooks/use-drawer";
 
 interface Props { }
 
@@ -104,7 +105,13 @@ function OPSignToggleBtn() {
 
 export function DisconnectBtn() {
   const { primary } = useColor();
-  const disconnect = useDisconnectAccount();
+  const _disconnect = useDisconnectAccount();
+  const { closeDrawer } = useDrawer();
+
+  const disconnect = () => {
+    closeDrawer();
+    _disconnect();
+  };
 
   return (
     <Animated.View entering={FadeIn.duration(300)} exiting={FadeOut.duration(300)}>
