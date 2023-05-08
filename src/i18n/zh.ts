@@ -11,6 +11,7 @@ const zh = {
   "This week": "本周",
   "Published": "已发布",
   "All Posts": "所有文章",
+  "All Pages": "所有页面",
   "Draft": "草稿",
   "Scheduled": "定时发布",
   "All time": "全部",
