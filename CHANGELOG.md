@@ -1,5 +1,11 @@
 # xlog
 
+## 0.3.0
+
+### Minor Changes
+
+- e82a4a1: support to set hot interval.
+
 ## 0.2.0
 
 ### Minor Changes
