@@ -63,3 +63,9 @@ xcuserdata
 
 # VSCode
 .history/
+
+# dotenv environment variables file
+.env
+
+# Optional eslint cache
+.eslintcache
