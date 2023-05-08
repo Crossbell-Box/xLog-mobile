@@ -1,12 +1,12 @@
 import type { FC } from "react";
 import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import Animated, { FadeInLeft, FadeOutLeft, interpolate, useAnimatedStyle, useDerivedValue, withTiming } from "react-native-reanimated";
 
 import { ChevronDown } from "@tamagui/lucide-icons";
 import { Button, isWeb, Stack, Text, useCurrentColor, XStack, YStack } from "tamagui";
 
 import { NavigationHeader } from "@/components/Header";
-import { i18n } from "@/i18n";
 import type { FeedType } from "@/models/home.model";
 
 import { HotInterval } from "./HotInterval";
@@ -32,6 +32,7 @@ type Measurements = Array<Partial<{ x: number; width: number }>>;
 export const Header: FC<Props> = (props) => {
   const primaryColor = useCurrentColor("orange9");
   const inactiveColor = useCurrentColor("$colorSubtitle");
+  const i18n = useTranslation();
   const lengthOfSortType = Object.values(sortType).length;
   const { isExpandedAnimValue, currentSortType, onSortTypeChange } = props;
   const [_measurements, setMeasurements] = useState<Measurements>([]);
@@ -81,7 +82,7 @@ export const Header: FC<Props> = (props) => {
   }> = [
     {
       type: sortType.LATEST,
-      title: i18n.t("latest"),
+      title: i18n.t("Latest"),
     },
     {
       type: sortType.HOT,
@@ -91,7 +92,7 @@ export const Header: FC<Props> = (props) => {
             color={tintColor}
             fontWeight={fontWeight}
           >
-            {i18n.t("hot")}
+            {i18n.t("Hot")}
           </Text>
           {currentSortType === sortType.HOT && (
             <Animated.View entering={FadeInLeft.duration(200)} exiting={FadeOutLeft.duration(200)}>

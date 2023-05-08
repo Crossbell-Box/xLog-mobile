@@ -1,4 +1,4 @@
-const zh = {
+{
   "Feed": "文章列表",
   "Latest": "最新",
   "Hot": "最热",
@@ -15,7 +15,5 @@ const zh = {
   "Draft": "草稿",
   "Scheduled": "定时发布",
   "All time": "全部",
-  "days": "天",
-};
-
-export default zh;
+  "days": "天"
+}

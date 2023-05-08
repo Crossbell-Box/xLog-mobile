@@ -1,5 +1,6 @@
 import React from "react";
 import type { FC } from "react";
+import { useTranslation } from "react-i18next";
 import { ScrollView } from "react-native";
 
 import { useAccountState } from "@crossbell/react-account";
@@ -9,7 +10,6 @@ import { ListItem, Separator, SizableText, Tabs, Text, YStack, ListItemSubtitle,
 
 import { ProfilePageHeader } from "@/components/ProfilePageHeader";
 import { useDate } from "@/hooks/use-date";
-import { i18n } from "@/i18n";
 import type { RootStackParamList } from "@/navigation/types";
 import { useGetPagesBySite } from "@/queries/page";
 import { PageVisibilityEnum } from "@/types";
@@ -39,7 +39,7 @@ const tabs = [
 
 export const PagesPage: FC<NativeStackScreenProps<RootStackParamList, "Pages">> = () => {
   const { computed } = useAccountState();
-
+  const i18n = useTranslation();
   const [selectedTab, setSelectedTab] = React.useState<PageVisibilityEnum>(tabs[0].value);
   const handle = computed?.account?.character?.handle;
   const characterId = computed?.account?.characterId;
@@ -59,7 +59,7 @@ export const PagesPage: FC<NativeStackScreenProps<RootStackParamList, "Pages">> 
         title="页面"
         description={(
           <Text>
-            页面是静态的，不受日期影响。它们更像是你网站上的永久元素，比如”关于我们”、"联系我们”等。文章与页面。
+            页面是静态的，不受日期影响。它们更像是你网站上的永久元素，比如&ldquo;关于我们&rdquo;、&ldquo;联系我们&rdquo;等。文章与页面。
             创建页面后，你可以将其添加到你网站的导航菜单电，以便访问者可以找到它。
           </Text>
         )} />

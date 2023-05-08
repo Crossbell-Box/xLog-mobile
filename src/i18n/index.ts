@@ -1,16 +1,25 @@
-import { getLocales } from "expo-localization";
-import { I18n } from "i18n-js";
+import { initReactI18next } from "react-i18next";
 
-import en from "./en";
-import zh from "./zh";
+import * as Localization from "expo-localization";
+import i18next from "i18next";
 
-export const i18n = new I18n({
-  zh,
-  en,
-});
+import en from "./en.json";
+import zh from "./zh.json";
 
-const deviceLanguage = getLocales()[0].languageCode;
-i18n.locale = deviceLanguage;
-i18n.defaultLocale = "en";
-i18n.enableFallback = false;
-i18n.missingBehavior = "guess";
+const resources = {
+  zh: { translation: zh },
+  en: { translation: en },
+};
+
+i18next
+  .use(initReactI18next)
+  .init({
+    resources,
+    lng: Localization.locale,
+    fallbackLng: "en",
+    interpolation: {
+      escapeValue: false,
+    },
+  });
+
+export const i18n = i18next;

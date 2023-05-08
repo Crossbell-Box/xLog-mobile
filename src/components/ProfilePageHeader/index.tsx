@@ -12,7 +12,7 @@ export const ProfilePageHeader: React.FC<ProfilePageHeaderProps> = (props) => {
   return (
     <YStack marginBottom="$6">
       <H3 marginBottom="$3">{title}</H3>
-      <SizableText size={"$sm"} color={"$colorSubtitle"}>{description}</SizableText>
+      {description && <SizableText size={"$sm"} color={"$colorSubtitle"}>{description}</SizableText>}
     </YStack>
   );
 };
