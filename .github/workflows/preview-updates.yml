@@ -51,10 +51,16 @@ jobs:
           NODE_OPTIONS: --max_old_space_size=4096
         run: |
           set +e
-          NO_CHANGESET_COUNT=$(yarn changeset status | grep -c "info NO packages to be bumped at patch")
+          CHANGESET_STATUS_OUTPUT=$(yarn changeset status)
           set -e
-          if [ $NO_CHANGESET_COUNT -eq 1 ]; then
-            echo "No patch changeset found, skipping update."
-          else
+
+          PATCH_CHANGESET_COUNT=$(echo "$CHANGESET_STATUS_OUTPUT" | grep -c "info Packages to be bumped at patch")
+          NO_MINOR_CHANGESET_COUNT=$(echo "$CHANGESET_STATUS_OUTPUT" | grep -c "info NO packages to be bumped at minor")
+          NO_MAJOR_CHANGESET_COUNT=$(echo "$CHANGESET_STATUS_OUTPUT" | grep -c "info NO packages to be bumped at major")
+
+          if [ $PATCH_CHANGESET_COUNT -eq 1 ] && [ $NO_MINOR_CHANGESET_COUNT -eq 1 ] && [ $NO_MAJOR_CHANGESET_COUNT -eq 1 ]; then
+            echo "Only patch changeset found, executing update."
             eas update --branch "${GITHUB_REF#refs/heads/}" --auto
+          else
+            echo "No patch-only changeset found, skipping update."
           fi
