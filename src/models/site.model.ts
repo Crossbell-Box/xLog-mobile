@@ -52,6 +52,27 @@ export const useGetTips = (
   });
 };
 
+export async function getCommentsBySite(input: {
+  characterId?: number
+  cursor?: string
+}) {
+  const notes = await indexer.getNotes({
+    toCharacterId: input.characterId,
+    limit: 7,
+    includeCharacter: true,
+    cursor: input.cursor,
+    includeNestedNotes: true,
+    nestedNotesDepth: 3 as const,
+    nestedNotesLimit: 20,
+  });
+
+  notes.list = notes.list.filter(item =>
+    item.toNote?.metadata?.content?.sources?.includes("xlog"),
+  );
+
+  return notes;
+}
+
 export const getUserSites = async (params: GetUserSitesParams) => {
   let profiles: UniProfiles | null = null;
 

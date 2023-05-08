@@ -1,4 +1,5 @@
 import type { FC } from "react";
+import { useTranslation } from "react-i18next";
 import Animated, { FadeIn, FadeOut, FlipInXDown, FlipOutXUp } from "react-native-reanimated";
 
 import {
@@ -14,7 +15,6 @@ import * as Haptics from "expo-haptics";
 import { Button } from "tamagui";
 
 import { useColor } from "@/hooks/styles";
-import { i18n } from "@/i18n";
 
 interface Props { }
 
@@ -54,6 +54,7 @@ export const ConnectionButton: FC<Props> = () => {
 
 function ConnectBtn() {
   const { primary } = useColor();
+  const i18n = useTranslation();
   const connector = useWalletConnect();
   const handleConnect = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -70,7 +71,7 @@ function ConnectBtn() {
         onPress={handleConnect}
         icon={<Plug size={"$1.5"} />}
       >
-        {i18n.t("connect")}
+        {i18n.t("Connect")}
       </Button>
     </Animated.View>
   );

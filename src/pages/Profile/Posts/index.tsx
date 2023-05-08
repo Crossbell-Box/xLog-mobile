@@ -1,5 +1,6 @@
 import React from "react";
 import type { FC } from "react";
+import { useTranslation } from "react-i18next";
 import { ScrollView } from "react-native";
 
 import { useAccountState } from "@crossbell/react-account";
@@ -9,7 +10,6 @@ import { ListItem, Separator, SizableText, Tabs, Text, YStack, ListItemSubtitle,
 
 import { ProfilePageHeader } from "@/components/ProfilePageHeader";
 import { useDate } from "@/hooks/use-date";
-import { i18n } from "@/i18n";
 import type { RootStackParamList } from "@/navigation/types";
 import { useGetPagesBySite } from "@/queries/page";
 import { PageVisibilityEnum } from "@/types";
@@ -39,7 +39,7 @@ const tabs = [
 
 export const PostsPage: FC<NativeStackScreenProps<RootStackParamList, "Posts">> = () => {
   const { computed } = useAccountState();
-
+  const i18n = useTranslation();
   const [selectedTab, setSelectedTab] = React.useState<PageVisibilityEnum>(tabs[0].value);
   const handle = computed?.account?.character?.handle;
   const characterId = computed?.account?.characterId;
