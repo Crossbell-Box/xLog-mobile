@@ -46,10 +46,10 @@ jobs:
           NODE_OPTIONS: --max_old_space_size=4096
         run: |
           set +e
-          CHANGESET_COUNT=$(yarn changeset status | grep -c "info Packages to be bumped at")
+          NO_CHANGESET_COUNT=$(yarn changeset status | grep -c "info NO packages to be bumped at patch")
           set -e
-          if [ $CHANGESET_COUNT -gt 0 ]; then
-            echo "Changeset found, skipping update, because we don't want to publish a release update for the version that hasn't been released yet."
+          if [ $NO_CHANGESET_COUNT -eq 1 ]; then
+            echo "No patch changeset found, skipping update."
           else
             eas update --branch "${GITHUB_REF#refs/heads/}" --auto
           fi

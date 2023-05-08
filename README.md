@@ -28,11 +28,13 @@
     Fill in the environment variables if you have.
 
     ```
-    WALLET_PROJECT_ID=""
-    EXPO_PROJECT_ID=""
-    BUNDLE_IDENTIFIER=""
-    OWNER=""
-    UPDATES_URL=""
+    APP_SCHEME=
+    WALLET_PROJECT_ID=
+    EXPO_PROJECT_ID=
+    BUNDLE_IDENTIFIER=
+    OWNER=
+    UPDATES_URL=
+    INFURA_ID=
     ```
 
     Generate types for environment variables.
@@ -67,7 +69,7 @@
 - Start the app
 
     ```sh
-    nr start
+    nr ios/android # If you want to run on your real device, you need to add `-d` flag.
     ```
 
 ### Publishing
@@ -77,9 +79,5 @@ Refer to this [document](https://docs.expo.dev/build/setup/) and check scripts i
 Refer to this [document](https://docs.expo.dev/eas-update/how-eas-update-works/) and check CI configuration files in the [.github/workflows](./.github/workflows) directory.
 
 ## Contributing
-
-> We will publish the preview version of the app for testing, and once the PR is merged into the main branch, we will release it to the app store. 🚀
-
-- Fork it.
-- Submit PR to `staging` branch.
+[More details](./CONTRIBUTING.md)
 
