@@ -12,4 +12,5 @@ export const i18n = new I18n({
 const deviceLanguage = getLocales()[0].languageCode;
 i18n.locale = deviceLanguage;
 i18n.defaultLocale = "en";
-i18n.enableFallback = true;
+i18n.enableFallback = false;
+i18n.missingBehavior = "guess";
