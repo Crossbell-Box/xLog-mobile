@@ -38,6 +38,11 @@ jobs:
 
       - name: Install dependencies
         run: yarn install
+        
+      # Fetch the main branch for the changeset check
+      - name: Fetch main branch
+        run: |
+          git fetch origin main:main
 
       # If there are changesets, stop the workflow, because we don't want to publish a release update for the version that hasn't been released yet.
       - name: Check for changesets
