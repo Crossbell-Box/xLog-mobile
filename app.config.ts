@@ -32,6 +32,7 @@ export default (_: ConfigContext): ExpoConfig => {
           },
         },
       ],
+      "expo-localization",
     ],
     splash: {
       image: "./assets/splash.png",
@@ -45,7 +46,7 @@ export default (_: ConfigContext): ExpoConfig => {
       url: process.env.UPDATES_URL,
     },
     runtimeVersion: {
-      policy: "sdkVersion",
+      policy: "appVersion",
     },
     ios: {
       supportsTablet: true,

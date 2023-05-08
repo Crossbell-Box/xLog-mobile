@@ -9,7 +9,12 @@ const zh = {
   "Today": "今天",
   "This month": "本月",
   "This week": "本周",
+  "Published": "已发布",
+  "All Posts": "所有文章",
+  "Draft": "草稿",
+  "Scheduled": "定时发布",
   "All time": "全部",
+  "days": "天",
 };
 
 export default zh;
