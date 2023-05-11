@@ -100,19 +100,21 @@ const DrawerContent = () => {
         </YStack>
       )}
       <YStack>
-        <XStack alignItems="center" gap="$1.5" justifyContent="space-between">
+        <XStack alignItems="center" justifyContent="space-between">
           {character && (
-            <TouchableWithoutFeedback onPress={copyOperator}>
-              <XStack alignItems="center" gap="$1.5">
-                <Copy size={"$1"} color={"$colorSubtitle"} />
-                <Text color={"$colorSubtitle"} >
-                  {character.operator.slice(0, 5)}...{character.operator.slice(-4)}
-                </Text>
-              </XStack>
-            </TouchableWithoutFeedback>
+            <XStack width={"49%"}>
+              <TouchableWithoutFeedback onPress={copyOperator}>
+                <XStack alignItems="center" gap="$1.5" >
+                  <Copy size={"$1"} color={"$colorSubtitle"} />
+                  <Text color={"$colorSubtitle"} >
+                    {character.operator.slice(0, 5)}...{character.operator.slice(-4)}
+                  </Text>
+                </XStack>
+              </TouchableWithoutFeedback>
+            </XStack>
           )}
           {balanceFormatted && (
-            <XStack alignItems="center" gap="$1.5">
+            <XStack alignItems="center" justifyContent="flex-end" gap="$1.5" width={"49%"}>
               <Euro size={"$1"} color={"$colorSubtitle"} />
               <Text color={"$colorSubtitle"} numberOfLines={1}>
                 {balanceFormatted}

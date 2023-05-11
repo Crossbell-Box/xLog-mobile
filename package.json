@@ -77,7 +77,6 @@
     "expo-linear-gradient": "~12.1.2",
     "expo-linking": "~4.0.1",
     "expo-localization": "~14.1.1",
-    "expo-modules-core": "~1.2.6",
     "expo-splash-screen": "~0.18.2",
     "expo-status-bar": "~1.4.4",
     "expo-system-ui": "~2.2.1",
