@@ -1,5 +1,21 @@
 # xlog
 
+## 0.4.0
+
+### Minor Changes
+
+- e51fbd5: 🚀 Complete the basic dashboard information display.
+
+### Patch Changes
+
+- eaa2b3f: fix: Resolve the issue of the animation stuttering.
+- e6d20a3: - Change i18n-js to i18next.
+  - Hide the profile pages header.
+  - Fallback to key when the target i18n value is null
+  - Completed the pages, posts, comments pages.
+  - Modify the CI.
+- b85acff: fix: close the drawer after disconnect.
+
 ## 0.3.0
 
 ### Minor Changes
