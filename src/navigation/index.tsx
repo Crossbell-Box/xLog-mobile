@@ -27,6 +27,7 @@ import { EventsPage } from "@/pages/Profile/Events";
 import { NotificationsPage } from "@/pages/Profile/Notifications";
 import { PagesPage } from "@/pages/Profile/Pages";
 import { PostsPage } from "@/pages/Profile/Posts";
+import { WebPage } from "@/pages/Web";
 
 import { HomeNavigator } from "./home";
 import type { ProfilePagesParamList, RootStackParamList } from "./types";
@@ -170,6 +171,16 @@ export const RootNavigator = () => {
       >
         <RootStack.Screen name={"Home"} component={HomeNavigator} />
         <RootStack.Screen name={"PostDetails"} component={PostDetailsPage} />
+
+        <RootStack.Screen
+          name={"Web"}
+          component={WebPage}
+          options={{
+            headerShown: true,
+            title: "",
+            headerBackTitle: "返回",
+          }}
+        />
 
         {/* Profile */}
         <RootStack.Group screenOptions={{

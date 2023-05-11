@@ -5,6 +5,7 @@ import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { H5, XStack, YStack } from "tamagui";
 
 import { AchievementItem } from "@/components/AchievementItem";
+import { ProfilePageHeader } from "@/components/ProfilePageHeader";
 import type { RootStackParamList } from "@/navigation/types";
 import { useGetAchievements } from "@/queries/site";
 
@@ -18,6 +19,7 @@ export const AchievementsPage: FC<NativeStackScreenProps<RootStackParamList, "Ac
 
   return (
     <YStack flex={1} padding="$4">
+      <ProfilePageHeader title="成就" description={null} />
       {achievement.data?.list?.map((series) => {
         const length = series.groups?.length;
         if (!length) {

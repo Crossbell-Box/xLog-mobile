@@ -11,12 +11,11 @@ import * as siteModel from "@/models/site.model";
 import { useUnidata } from "./unidata";
 
 export const useGetSite = (input?: string) => {
-  const unidata = useUnidata();
   return useQuery(["getSite", input], async () => {
-    if (!input)
+    if (!input) {
       return null;
-
-    return siteModel.getSite(input, unidata);
+    }
+    return siteModel.getSite(input);
   });
 };
 
