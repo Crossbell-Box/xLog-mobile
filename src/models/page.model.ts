@@ -1,8 +1,8 @@
 import { indexer } from "@crossbell/indexer";
-import type { NoteEntity } from "crossbell.js";
 
 import { PageVisibilityEnum } from "@/types";
 import type { ExpandedNote } from "@/types/crossbell";
+import { expandCrossbellNote } from "@/utils/expand-unit";
 import { getKeys, getStorage } from "@/utils/storage";
 
 const getLocalPages = async (input: {
@@ -106,16 +106,16 @@ export async function getPagesBySite(input: {
 
   const list = await Promise.all(
     notes?.list.map(async (note) => {
-      const expanded = note;
-      if (!input.keepBody)
+      const expanded = await expandCrossbellNote(note, input.useStat);
+      if (!input.keepBody) {
         delete expanded.metadata?.content?.content;
-
+      }
       return expanded;
     }),
   );
 
   const expandedNotes: {
-    list: NoteEntity[]
+    list: ExpandedNote[]
     count: number
     cursor: string | null
   } = Object.assign(notes, {
