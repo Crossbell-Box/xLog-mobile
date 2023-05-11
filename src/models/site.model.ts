@@ -603,6 +603,27 @@ export async function getTips(
 
   return tips;
 }
+
+export interface IAchievementItem {
+  tokenId: number
+  name: string
+  status: "INACTIVE" | "MINTABLE" | "MINTED" | "COMING"
+  mintedAt: string | null
+  transactionHash: string | null
+  info: {
+    tokenId: number
+    name: string
+    description: string
+    media: string
+    attributes: [
+      {
+        trait_type: string
+        value: string
+      },
+    ]
+  }
+}
+
 export interface AchievementSection {
   info: {
     name: string
@@ -613,25 +634,7 @@ export interface AchievementSection {
       name: string
       title: string
     }
-    items: {
-      tokenId: number
-      name: string
-      status: "INACTIVE" | "MINTABLE" | "MINTED" | "COMING"
-      mintedAt: string | null
-      transactionHash: string | null
-      info: {
-        tokenId: number
-        name: string
-        description: string
-        media: string
-        attributes: [
-          {
-            trait_type: string
-            value: string
-          },
-        ]
-      }
-    }[]
+    items: IAchievementItem[]
   }[]
 }
 
