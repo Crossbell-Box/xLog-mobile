@@ -9,6 +9,7 @@ import type { Props as NotificationsPageProps } from "@/pages/Profile/Notificati
 import type { Props as PagesPageProps } from "@/pages/Profile/Pages";
 import type { Props as PostsPageProps } from "@/pages/Profile/Posts";
 import type { Props as SettingsPageProps } from "@/pages/Settings";
+import type { Props as WebPageProps } from "@/pages/Web";
 
 export type HomeBottomTabsParamList = {
   Feed: FeedPageProps
@@ -28,5 +29,6 @@ export type ProfilePagesParamList = {
 export type RootStackParamList = {
   Home: undefined
   PostDetails: PostDetailsPageProps
+  Web: WebPageProps
 } & ProfilePagesParamList;
 

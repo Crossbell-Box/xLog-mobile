@@ -1,4 +1,4 @@
-name: Expo Release Update
+name: Expo Preview Updates
 
 on:
   push:
@@ -19,6 +19,8 @@ jobs:
 
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js 16
         uses: actions/setup-node@v3
@@ -38,8 +40,27 @@ jobs:
 
       - name: Install dependencies
         run: yarn install
+        
+      # Fetch the main branch for the changeset check
+      - name: Fetch main branch
+        run: |
+          git fetch origin main:main
 
       - name: Publish update
         env:
           NODE_OPTIONS: --max_old_space_size=4096
-        run: eas update --branch "${GITHUB_REF#refs/heads/}" --auto
+        run: |
+          set +e
+          CHANGESET_STATUS_OUTPUT=$(yarn changeset status)
+          set -e
+
+          PATCH_CHANGESET_COUNT=$(echo "$CHANGESET_STATUS_OUTPUT" | grep -c "info Packages to be bumped at patch")
+          NO_MINOR_CHANGESET_COUNT=$(echo "$CHANGESET_STATUS_OUTPUT" | grep -c "info NO packages to be bumped at minor")
+          NO_MAJOR_CHANGESET_COUNT=$(echo "$CHANGESET_STATUS_OUTPUT" | grep -c "info NO packages to be bumped at major")
+
+          if [ $PATCH_CHANGESET_COUNT -eq 1 ] && [ $NO_MINOR_CHANGESET_COUNT -eq 1 ] && [ $NO_MAJOR_CHANGESET_COUNT -eq 1 ]; then
+            echo "Only patch changeset found, executing update."
+            eas update --branch "${GITHUB_REF#refs/heads/}" --auto
+          else
+            echo "No patch-only changeset found, skipping update."
+          fi

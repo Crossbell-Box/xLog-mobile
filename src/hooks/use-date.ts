@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import localizedFormat from "dayjs/plugin/localizedFormat";
@@ -9,8 +11,6 @@ import "dayjs/locale/en";
 import "dayjs/locale/zh";
 import "dayjs/locale/zh-tw";
 import "dayjs/locale/ja";
-
-import { i18n } from "@/i18n";
 
 dayjs.extend(localizedFormat);
 dayjs.extend(utc);
@@ -29,8 +29,11 @@ interface UseDate {
 }
 
 export function useDate(): UseDate {
-  dayjs.locale(i18n.locale);
-  const locale = i18n.locale;
+  const { i18n } = useTranslation();
+
+  const locale = i18n.language;
+
+  dayjs.locale(locale);
 
   const formatDate = (date: DateInput, format = "ll", timeZone?: string): string => {
     const options: Intl.DateTimeFormatOptions = {

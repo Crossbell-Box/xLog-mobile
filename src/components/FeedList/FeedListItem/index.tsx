@@ -1,5 +1,6 @@
 import type { FC } from "react";
 import React, { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import type { ViewStyle } from "react-native";
 import { StyleSheet } from "react-native";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
@@ -12,7 +13,6 @@ import { Card, H5, H6, Paragraph, SizableText, Spacer, Text, XStack } from "tama
 
 import { Avatar } from "@/components/Avatar";
 import { useDate } from "@/hooks/use-date";
-import { i18n } from "@/i18n";
 import type { RootStackParamList } from "@/navigation/types";
 import { findCoverImage } from "@/utils/find-cover-image";
 
@@ -27,7 +27,7 @@ export const FeedListItem: FC<Props> = (props) => {
   const { note } = props;
   const date = useDate();
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-
+  const i18n = useTranslation();
   const onPress = React.useCallback(() => {
     navigation.navigate(
       "PostDetails",

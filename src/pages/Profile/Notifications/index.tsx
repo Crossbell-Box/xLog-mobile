@@ -1,23 +1,38 @@
 import type { FC } from "react";
-import { StyleSheet } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import React from "react";
+import { ScrollView } from "react-native-gesture-handler";
 
+import { useCharacterNotification } from "@crossbell/indexer";
+import { useAccountState } from "@crossbell/react-account";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { Text } from "tamagui";
+import { YStack } from "tamagui";
 
+import { NotificationItem } from "@/components/NotificationItem";
+import { ProfilePageHeader } from "@/components/ProfilePageHeader";
 import type { RootStackParamList } from "@/navigation/types";
 
 export interface Props {
 }
 
-export const NotificationsPage: FC<NativeStackScreenProps<RootStackParamList, "Notifications">> = (props) => {
+export const NotificationsPage: FC<NativeStackScreenProps<RootStackParamList, "Notifications">> = () => {
+  const { computed } = useAccountState();
+  const characterId = computed?.account?.characterId;
+  const notifications = useCharacterNotification(characterId, ["LINKED", "MENTIONED", "NOTE_MINTED", "NOTE_POSTED", "OPERATOR_ADDED", "OPERATOR_REMOVED", "TIPPED", "UNLINKED"]);
+
   return (
-    <SafeAreaView>
-      <Text>111</Text>
-    </SafeAreaView>
+    <YStack flex={1} padding="$4">
+      <ProfilePageHeader title="通知" description={null} />
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {
+          notifications.data.pages.map((page) => {
+            return page.list.map((item) => {
+              return (
+                <NotificationItem notification={item} key={item.transactionHash} />
+              );
+            });
+          })
+        }
+      </ScrollView>
+    </YStack>
   );
 };
-
-const styles = StyleSheet.create({
-
-});

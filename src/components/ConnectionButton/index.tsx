@@ -1,4 +1,5 @@
 import type { FC } from "react";
+import { useTranslation } from "react-i18next";
 import Animated, { FadeIn, FadeOut, FlipInXDown, FlipOutXUp } from "react-native-reanimated";
 
 import {
@@ -14,7 +15,7 @@ import * as Haptics from "expo-haptics";
 import { Button } from "tamagui";
 
 import { useColor } from "@/hooks/styles";
-import { i18n } from "@/i18n";
+import { useDrawer } from "@/hooks/use-drawer";
 
 interface Props { }
 
@@ -54,6 +55,7 @@ export const ConnectionButton: FC<Props> = () => {
 
 function ConnectBtn() {
   const { primary } = useColor();
+  const i18n = useTranslation();
   const connector = useWalletConnect();
   const handleConnect = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -70,7 +72,7 @@ function ConnectBtn() {
         onPress={handleConnect}
         icon={<Plug size={"$1.5"} />}
       >
-        {i18n.t("connect")}
+        {i18n.t("Connect")}
       </Button>
     </Animated.View>
   );
@@ -83,7 +85,7 @@ function OPSignToggleBtn() {
 
   if (!isWalletSignedIn) {
     return (
-      <Animated.View entering={FlipInXDown.delay(500).duration(300)} exiting={FlipOutXUp.delay(500).duration(300)}>
+      <Animated.View entering={FlipInXDown.delay(500).duration(300)}>
         <Button
           pressStyle={{ opacity: 0.85 }}
           color={"white"}
@@ -103,7 +105,13 @@ function OPSignToggleBtn() {
 
 export function DisconnectBtn() {
   const { primary } = useColor();
-  const disconnect = useDisconnectAccount();
+  const _disconnect = useDisconnectAccount();
+  const { closeDrawer } = useDrawer();
+
+  const disconnect = () => {
+    closeDrawer();
+    _disconnect();
+  };
 
   return (
     <Animated.View entering={FadeIn.duration(300)} exiting={FadeOut.duration(300)}>

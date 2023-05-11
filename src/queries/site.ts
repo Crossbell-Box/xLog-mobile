@@ -11,12 +11,11 @@ import * as siteModel from "@/models/site.model";
 import { useUnidata } from "./unidata";
 
 export const useGetSite = (input?: string) => {
-  const unidata = useUnidata();
   return useQuery(["getSite", input], async () => {
-    if (!input)
+    if (!input) {
       return null;
-
-    return siteModel.getSite(input, unidata);
+    }
+    return siteModel.getSite(input);
   });
 };
 
@@ -168,6 +167,28 @@ export const useGetNFTs = (address: string) => {
           } as any)}`,
       )
     ).json();
+  });
+};
+
+export const useGetCommentsBySite = (
+  data: Partial<Parameters<typeof siteModel.getCommentsBySite>[0]>,
+) => {
+  return useInfiniteQuery({
+    queryKey: ["getCommentsBySite", data],
+    queryFn: async ({ pageParam }) => {
+      if (!data.characterId) {
+        return {
+          count: 0,
+          list: [],
+          cursor: undefined,
+        };
+      }
+      return siteModel.getCommentsBySite({
+        characterId: data.characterId,
+        cursor: pageParam,
+      });
+    },
+    getNextPageParam: lastPage => lastPage.cursor || undefined,
   });
 };
 

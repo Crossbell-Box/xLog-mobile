@@ -8,7 +8,7 @@ import type Unidata from "unidata.js";
 import type { Profiles as UniProfiles } from "unidata.js";
 
 import type { Profile, SiteNavigationItem } from "@/types/crossbell";
-import { expandUnidataProfile } from "@/utils/expand-unit";
+import { expandCrossbellCharacter, expandUnidataProfile } from "@/utils/expand-unit";
 
 type Contract = ReturnType<typeof useContract>;
 
@@ -51,6 +51,27 @@ export const useGetTips = (
     getNextPageParam: lastPage => lastPage.cursor || undefined,
   });
 };
+
+export async function getCommentsBySite(input: {
+  characterId?: number
+  cursor?: string
+}) {
+  const notes = await indexer.getNotes({
+    toCharacterId: input.characterId,
+    limit: 7,
+    includeCharacter: true,
+    cursor: input.cursor,
+    includeNestedNotes: true,
+    nestedNotesDepth: 3 as const,
+    nestedNotesLimit: 20,
+  });
+
+  notes.list = notes.list.filter(item =>
+    item.toNote?.metadata?.content?.sources?.includes("xlog"),
+  );
+
+  return notes;
+}
 
 export const getUserSites = async (params: GetUserSitesParams) => {
   let profiles: UniProfiles | null = null;
@@ -104,18 +125,26 @@ export const getAccountSites = (
   });
 };
 
-export const getSite = async (input: string, customUnidata: Unidata) => {
-  const profiles = await (customUnidata).profiles.get({
-    source: "Crossbell Profile",
-    identity: input,
-    platform: "Crossbell",
-  });
+// export const getSite = async (input: string, customUnidata: Unidata) => {
+//   const profiles = await (customUnidata).profiles.get({
+//     source: "Crossbell Profile",
+//     identity: input,
+//     platform: "Crossbell",
+//   });
 
-  const site: Profile = profiles.list[0];
-  if (site)
-    expandUnidataProfile(site);
+//   const site: Profile = profiles.list[0];
 
-  return site;
+//   if (site)
+//     expandUnidataProfile(site);
+
+//   return site;
+// };
+
+export const getSite = async (input: string) => {
+  const result = await indexer.getCharacterByHandle(input);
+  if (result) {
+    return expandCrossbellCharacter(result);
+  }
 };
 
 export const getSites = async (input: number[]) => {
@@ -582,6 +611,27 @@ export async function getTips(
 
   return tips;
 }
+
+export interface IAchievementItem {
+  tokenId: number
+  name: string
+  status: "INACTIVE" | "MINTABLE" | "MINTED" | "COMING"
+  mintedAt: string | null
+  transactionHash: string | null
+  info: {
+    tokenId: number
+    name: string
+    description: string
+    media: string
+    attributes: [
+      {
+        trait_type: string
+        value: string
+      },
+    ]
+  }
+}
+
 export interface AchievementSection {
   info: {
     name: string
@@ -592,25 +642,7 @@ export interface AchievementSection {
       name: string
       title: string
     }
-    items: {
-      tokenId: number
-      name: string
-      status: "INACTIVE" | "MINTABLE" | "MINTED" | "COMING"
-      mintedAt: string | null
-      transactionHash: string | null
-      info: {
-        tokenId: number
-        name: string
-        description: string
-        media: string
-        attributes: [
-          {
-            trait_type: string
-            value: string
-          },
-        ]
-      }
-    }[]
+    items: IAchievementItem[]
   }[]
 }
 
