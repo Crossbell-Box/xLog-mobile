@@ -6,10 +6,11 @@ import { ScrollView } from "react-native-gesture-handler";
 
 import { useAccountState } from "@crossbell/react-account";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { Separator, SizableText, Text, YGroup, YStack } from "tamagui";
+import { Separator, SizableText, Text, YGroup } from "tamagui";
 
 import { CommentItem } from "@/components/CommentItem";
 import { ProfilePageHeader } from "@/components/ProfilePageHeader";
+import { ProfilePageLayout } from "@/components/ProfilePageLayout";
 import type { RootStackParamList } from "@/navigation/types";
 import { useGetCommentsBySite } from "@/queries/site";
 
@@ -22,7 +23,7 @@ export const CommentsPage: FC<NativeStackScreenProps<RootStackParamList, "Commen
   const i18n = useTranslation();
 
   return (
-    <YStack padding="$3" flex={1}>
+    <ProfilePageLayout>
       <ProfilePageHeader title="评论" description={null} />
       <ScrollView style={styles.container}>
         <YGroup alignSelf="center" flex={1} size="$4" separator={<Separator marginVertical="$3" />}>
@@ -88,7 +89,7 @@ export const CommentsPage: FC<NativeStackScreenProps<RootStackParamList, "Commen
           }
         </YGroup>
       </ScrollView>
-    </YStack>
+    </ProfilePageLayout>
   );
 };
 
