@@ -24,7 +24,7 @@ export const NotificationsPage: FC<NativeStackScreenProps<RootStackParamList, "N
       <ProfilePageHeader title="通知" description={null} />
       <ScrollView showsVerticalScrollIndicator={false}>
         {
-          notifications.data.pages.map((page) => {
+          notifications?.data?.pages.map((page) => {
             return page.list.map((item) => {
               return (
                 <NotificationItem notification={item} key={item.transactionHash} />

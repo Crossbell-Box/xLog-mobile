@@ -64,7 +64,7 @@ export function NotificationItem({ notification }: ItemProps) {
   return (
     <Card elevate size="$4" bordered marginBottom="$4" paddingHorizontal="$4">
       <XStack alignItems="center" gap="$3">
-        <Avatar uri={notification?.fromCharacter?.metadata?.content?.avatars?.[0]} />
+        <Avatar useDefault uri={notification?.fromCharacter?.metadata?.content?.avatars?.[0]} />
         <YStack paddingVertical="$4" gap="$1.5" flex={1}>
           <Text color="$color" numberOfLines={1}>
             <Text fontWeight={"700"}>
