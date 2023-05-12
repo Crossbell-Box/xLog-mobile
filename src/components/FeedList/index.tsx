@@ -8,7 +8,6 @@ import type { NoteEntity } from "crossbell.js";
 import * as Haptics from "expo-haptics";
 import { Spinner, Stack, useWindowDimensions } from "tamagui";
 
-import { useComposedScrollHandler } from "@/hooks/use-composed-scroll-handler";
 import type { FeedType } from "@/models/home.model";
 import { useGetFeed } from "@/queries/home";
 
@@ -29,7 +28,6 @@ export interface Props {
 
 export const FeedList: FC<Props> = (props) => {
   const { type, noteIds, daysInterval = 7 } = props;
-  const onScrollHandler = useComposedScrollHandler([props.onScroll]);
   const { width, height } = useWindowDimensions();
   const feed = useGetFeed({
     type,
@@ -67,7 +65,7 @@ export const FeedList: FC<Props> = (props) => {
           width,
         }}
         scrollEventThrottle={16}
-        onScroll={onScrollHandler}
+        onScroll={props.onScroll}
         showsVerticalScrollIndicator={false}
         onScrollEndDrag={props.onScrollEndDrag}
         onEndReachedThreshold={0.2}
