@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import { StyleSheet } from "react-native";
 import { useDrawerProgress } from "react-native-drawer-layout";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import type { SharedValue } from "react-native-reanimated";
 import Animated, { Extrapolate, interpolate, useAnimatedStyle } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -10,6 +11,7 @@ import { Image } from "expo-image";
 import { H2, useWindowDimensions, XStack } from "tamagui";
 
 import { LogoDark, LogoLight } from "@/constants/resource";
+import { useDrawer } from "@/hooks/use-drawer";
 import { useThemeStore } from "@/hooks/use-theme-store";
 
 import { Avatar } from "../Avatar";
@@ -22,6 +24,7 @@ export const NavigationHeader: FC<Props> = (props) => {
   const { expanded } = props;
   const { top } = useSafeAreaInsets();
   const { width } = useWindowDimensions();
+  const { openDrawer } = useDrawer();
   const { isDarkMode: isDark } = useThemeStore();
   const character = useAccountCharacter();
   const drawerProgress = useDrawerProgress() as SharedValue<number>;
@@ -56,9 +59,11 @@ export const NavigationHeader: FC<Props> = (props) => {
   return (
     <Animated.View style={containerAnimStyles}>
       {character && (
-        <Animated.View style={avatarAnimStyles}>
-          <Avatar size={35} uri={character?.metadata?.content?.avatars?.[0]} />
-        </Animated.View>
+        <TouchableWithoutFeedback containerStyle={styles.avatarContainer} onPress={openDrawer}>
+          <Animated.View style={avatarAnimStyles}>
+            <Avatar size={35} uri={character?.metadata?.content?.avatars?.[0]} />
+          </Animated.View>
+        </TouchableWithoutFeedback>
       )}
       <Animated.View style={[contentContainerAnimStyles, styles.contentContainer]}>
         <XStack gap="$2" justifyContent="center" alignItems="center">
@@ -77,5 +82,8 @@ const styles = StyleSheet.create({
   logo: {
     width: 30,
     height: 30,
+  },
+  avatarContainer: {
+    zIndex: 2,
   },
 });
