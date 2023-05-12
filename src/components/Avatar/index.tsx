@@ -11,6 +11,7 @@ import { LogoResource } from "../Logo";
 interface Props {
   uri?: string
   size?: number
+  useDefault?: boolean
 }
 
 const isValidUrl = (url) => {
@@ -25,12 +26,24 @@ const isValidUrl = (url) => {
 };
 
 export const Avatar: FC<Props> = (props) => {
-  const { uri, size = 45 } = props;
+  const { uri, size = 45, useDefault = false } = props;
 
-  if (!uri) return null;
+  if (!uri || (!uri.startsWith("/assets/") && !isValidUrl(uri))) {
+    if (useDefault) {
+      return (
+        <_Avatar
+          size={size}
+          bordered
+          circular
+          backgroundColor="white"
+        >
+          <_Avatar.Image src={LogoResource} />
+        </_Avatar>
+      );
+    }
 
-  if (!uri.startsWith("/assets/") && !isValidUrl(uri))
     return null;
+  }
 
   return (
     <_Avatar

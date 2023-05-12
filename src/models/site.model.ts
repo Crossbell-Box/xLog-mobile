@@ -758,7 +758,7 @@ export async function fetchTenant(
     return await fetchTenant(host, retries - 1);
   }
   else {
-    return txt?.Answer?.[0]?.data.replace(/^"|"$/g, "");
+    return txt?.Answer?.[0]?.data?.replace?.(/^"|"$/g, "");
   }
 }
 
