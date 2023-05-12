@@ -6,6 +6,7 @@ import { H5, XStack, YStack } from "tamagui";
 
 import { AchievementItem } from "@/components/AchievementItem";
 import { ProfilePageHeader } from "@/components/ProfilePageHeader";
+import { ProfilePageLayout } from "@/components/ProfilePageLayout";
 import type { RootStackParamList } from "@/navigation/types";
 import { useGetAchievements } from "@/queries/site";
 
@@ -18,7 +19,7 @@ export const AchievementsPage: FC<NativeStackScreenProps<RootStackParamList, "Ac
   const achievement = useGetAchievements(characterId?.toString());
 
   return (
-    <YStack flex={1} padding="$4">
+    <ProfilePageLayout>
       <ProfilePageHeader title="成就" description={null} />
       {achievement.data?.list?.map((series) => {
         const length = series.groups?.length;
@@ -49,6 +50,6 @@ export const AchievementsPage: FC<NativeStackScreenProps<RootStackParamList, "Ac
           </YStack>
         );
       })}
-    </YStack>
+    </ProfilePageLayout>
   );
 };

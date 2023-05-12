@@ -6,9 +6,10 @@ import { ScrollView } from "react-native";
 import { useAccountState } from "@crossbell/react-account";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Newspaper } from "@tamagui/lucide-icons";
-import { ListItem, Separator, SizableText, Tabs, Text, YStack, ListItemSubtitle, YGroup, Spinner, Stack } from "tamagui";
+import { ListItem, Separator, SizableText, Tabs, Text, ListItemSubtitle, YGroup, Spinner, Stack } from "tamagui";
 
 import { ProfilePageHeader } from "@/components/ProfilePageHeader";
+import { ProfilePageLayout } from "@/components/ProfilePageLayout";
 import { useDate } from "@/hooks/use-date";
 import type { RootStackParamList } from "@/navigation/types";
 import { useGetPagesBySite } from "@/queries/page";
@@ -54,7 +55,7 @@ export const PagesPage: FC<NativeStackScreenProps<RootStackParamList, "Pages">> 
   });
 
   return (
-    <YStack padding="$3" flex={1}>
+    <ProfilePageLayout>
       <ProfilePageHeader
         title="页面"
         description={(
@@ -131,6 +132,6 @@ export const PagesPage: FC<NativeStackScreenProps<RootStackParamList, "Pages">> 
               </ScrollView>
             )}
       </Tabs>
-    </YStack>
+    </ProfilePageLayout>
   );
 };
