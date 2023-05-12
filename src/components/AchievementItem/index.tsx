@@ -181,7 +181,7 @@ export const AchievementItem: React.FC<AchievementItemProps> = (props) => {
       }
       {
         opened && (
-          <Modal visible transparent style={{ backgroundColor: "red" }}>
+          <Modal visible transparent>
             <Animated.View style={[StyleSheet.absoluteFill, backdropAnimStyles]}>
               <YStack justifyContent="center">
                 <Animated.View style={[imgPosAnimStyles, imgSizeAnimStyles]}>
