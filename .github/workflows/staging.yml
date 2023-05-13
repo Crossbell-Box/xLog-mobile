@@ -70,6 +70,7 @@ jobs:
           else
               if [ $PATCH_CHANGESET_COUNT -eq 1 ] ; then
                   echo "Only patch changeset found, executing update."
+                  eas update --branch staging --auto
               else
                   echo "No patch-only changeset found, skipping update."
               fi
