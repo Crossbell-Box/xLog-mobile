@@ -52,7 +52,7 @@ export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, "Pos
         <WebView
           // TODO
           // Should replace it to another page that only contains the article content.
-          source={{ uri: `https://xlog.app/api/redirection?characterId=${params.characterId}&noteId=${params.noteId}` }}
+          source={{ uri: `https://xlog.app/api/redirection?characterId=${params.characterId}&noteId=${params.noteId}?only-content=true` }}
           style={styles.webview}
           onLoadProgress={({ nativeEvent }) => {
             webviewLoadingAnimValue.value = withTiming(nativeEvent.progress);
