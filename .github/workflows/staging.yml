@@ -56,18 +56,21 @@ jobs:
           CHANGESET_STATUS_OUTPUT=$(yarn changeset status)
           set -e
 
-          PATCH_CHANGESET_COUNT=$(echo "$CHANGESET_STATUS_OUTPUT" | grep -c "info Packages to be bumped at patch")
-          MINOR_CHANGESET_COUNT=$(echo "$CHANGESET_STATUS_OUTPUT" | grep -c "info packages to be bumped at minor")
-          MAJOR_CHANGESET_COUNT=$(echo "$CHANGESET_STATUS_OUTPUT" | grep -c "info packages to be bumped at major")
+          PATCH_CHANGESET_COUNT=$(echo "$CHANGESET_STATUS_OUTPUT" | grep -c "info Packages to be bumped at patch" || true)
+          MINOR_CHANGESET_COUNT=$(echo "$CHANGESET_STATUS_OUTPUT" | grep -c "info Packages to be bumped at minor" || true)
+          MAJOR_CHANGESET_COUNT=$(echo "$CHANGESET_STATUS_OUTPUT" | grep -c "info Packages to be bumped at major" || true)
+
+          echo $PATCH_CHANGESET_COUNT
+          echo $MINOR_CHANGESET_COUNT
+          echo $MAJOR_CHANGESET_COUNT
 
           if [ $MINOR_CHANGESET_COUNT -eq 1 ] || [ $MAJOR_CHANGESET_COUNT -eq 1 ]; then
-            changeset version
-            eas build --non-interactive --profile preview -p all --no-wait
+              changeset version
+              eas build --non-interactive --profile preview -p all --no-wait
           else
-            if [ $PATCH_CHANGESET_COUNT -eq 1 ] ; then
-              echo "Only patch changeset found, executing update."
-              eas update --branch staging --auto
-            else
-              echo "No patch-only changeset found, skipping update."
-            fi
+              if [ $PATCH_CHANGESET_COUNT -eq 1 ] ; then
+                  echo "Only patch changeset found, executing update."
+              else
+                  echo "No patch-only changeset found, skipping update."
+              fi
           fi
