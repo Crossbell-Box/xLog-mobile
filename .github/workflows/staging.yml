@@ -53,7 +53,7 @@ jobs:
           NODE_OPTIONS: --max_old_space_size=4096
         run: |
           set +e
-          CHANGESET_STATUS_OUTPUT=$(changeset status)
+          CHANGESET_STATUS_OUTPUT=$(yarn changeset status)
           set -e
 
           PATCH_CHANGESET_COUNT=$(echo "$CHANGESET_STATUS_OUTPUT" | grep -c "info Packages to be bumped at patch")
