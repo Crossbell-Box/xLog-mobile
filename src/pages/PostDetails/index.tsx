@@ -4,6 +4,7 @@ import { StyleSheet } from "react-native";
 import Animated, { interpolate, runOnJS, useAnimatedReaction, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+import { useNote } from "@crossbell/indexer";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import ContentLoader, { Rect } from "react-content-loader/native";
 import { Stack, useWindowDimensions, YStack } from "tamagui";
@@ -23,6 +24,8 @@ export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, "Pos
   const { route } = props;
   const { params } = route;
   const { background } = useColors();
+  const note = useNote(params.characterId, params.noteId);
+  const externalUrl = note.data?.metadata?.content?.external_urls?.[0];
   const { top } = useSafeAreaInsets();
   const { width, height } = useWindowDimensions();
   const webviewLoadingAnimValue = useSharedValue<number>(0);
@@ -49,15 +52,15 @@ export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, "Pos
   return (
     <Stack flex={1} backgroundColor={background}>
       <Animated.View style={[webviewAnimStyles, styles.webviewContainer, { backgroundColor: background }]}>
-        <WebView
-          // TODO
-          // Should replace it to another page that only contains the article content.
-          source={{ uri: `https://xlog.app/api/redirection?characterId=${params.characterId}&noteId=${params.noteId}?only-content=true` }}
-          style={styles.webview}
-          onLoadProgress={({ nativeEvent }) => {
-            webviewLoadingAnimValue.value = withTiming(nativeEvent.progress);
-          }}
-        />
+        {externalUrl && (
+          <WebView
+            source={{ uri: `${externalUrl}?only-content=true` }}
+            style={styles.webview}
+            onLoadProgress={({ nativeEvent }) => {
+              webviewLoadingAnimValue.value = withTiming(nativeEvent.progress);
+            }}
+          />
+        )}
       </Animated.View>
       {
         !webviewLoaded && (
