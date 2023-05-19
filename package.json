@@ -100,7 +100,7 @@
     "react-content-loader": "^6.2.1",
     "react-dom": "^18.2.0",
     "react-i18next": "^12.2.2",
-    "react-native": "0.71.7",
+    "react-native": "0.71.8",
     "react-native-color-matrix-image-filters": "^6.0.3",
     "react-native-confetti-cannon": "^1.5.2",
     "react-native-crypto": "^2.2.0",
