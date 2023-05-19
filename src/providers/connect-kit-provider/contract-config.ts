@@ -1,16 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import type { ContractConfig } from "@crossbell/contract";
 import { useAccountState } from "@crossbell/react-account";
+import type { ModalConfig } from "@crossbell/react-account/modal-config";
+import { setupModal } from "@crossbell/react-account/modal-config";
 import { useWalletConnect } from "@walletconnect/react-native-dapp";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 
 import { INFURA_ID } from "@/constants/env";
 
-import { modals } from "./modals";
+// import { modals } from "./modals";
 
 export function useContractConfig() {
   const connector = useWalletConnect();
+
   const address = connector.accounts?.[0];
   const [provider, setProvider] = React.useState<Exclude<ContractConfig["provider"], string>>();
 
@@ -33,7 +36,33 @@ export function useContractConfig() {
     }
   }, [address]);
 
-  return React.useMemo(() => ({
+  const modals: ModalConfig = {
+    showClaimCSBTipsModal() {
+      // TODO: implement
+      throw new Error("showClaimCSBTipsModal is not implemented yet");
+    },
+
+    showNoEnoughCSBModal() {
+      // TODO: implement
+      throw new Error("showNoEnoughCSBModal is not implemented yet");
+    },
+
+    async showConnectModal() {
+      await connector.connect();
+    },
+
+    showUpgradeEmailAccountModal() {
+      // TODO: implement
+      throw new Error("showUpgradeAccountModal is not implemented yet");
+    },
+
+    showWalletMintNewCharacterModal() {
+      // TODO: implement
+      throw new Error("showWalletMintNewCharacterModal is not implemented yet");
+    },
+  };
+
+  const contractConfig = React.useMemo(() => ({
     address,
 
     provider,
@@ -46,9 +75,15 @@ export function useContractConfig() {
 
     getCurrentCharacterId: () => useAccountState.getState().computed.account?.characterId ?? null,
 
-    showSwitchNetworkModal() {
-      // TODO: implement
-      throw new Error("showSwitchNetworkModal not implemented");
-    },
+    // showSwitchNetworkModal() {
+    //   // TODO: implement
+    //   throw new Error("showSwitchNetworkModal not implemented");
+    // },
   } satisfies ContractConfig), [address, provider]);
+
+  useEffect(() => {
+    setupModal(modals);
+  }, [modals]);
+
+  return contractConfig;
 }

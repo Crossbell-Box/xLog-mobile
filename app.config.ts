@@ -34,6 +34,14 @@ export default (_: ConfigContext): ExpoConfig => {
           },
         },
       ],
+      [
+        "expo-media-library",
+        {
+          photosPermission: "Allow $(PRODUCT_NAME) to access your photos.",
+          savePhotosPermission: "Allow $(PRODUCT_NAME) to save photos.",
+          isAccessMediaLocationEnabled: true,
+        },
+      ],
       "expo-localization",
     ],
     splash: {
@@ -60,6 +68,8 @@ export default (_: ConfigContext): ExpoConfig => {
     extra: {
       WALLET_PROJECT_ID: process.env.WALLET_PROJECT_ID,
       INFURA_ID: process.env.INFURA_ID,
+      CSB_SCAN: process.env.CSB_SCAN,
+      CSB_XCHAR: process.env.CSB_XCHAR,
       eas: {
         projectId: process.env.EXPO_PROJECT_ID,
       },

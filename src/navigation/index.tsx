@@ -4,6 +4,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { createStackNavigator } from "@react-navigation/stack";
 import type { TransitionSpec } from "@react-navigation/stack/lib/typescript/src/types";
 
+import { CharacterListPage } from "@/pages/CharacterList";
 import { PostDetailsPage } from "@/pages/PostDetails";
 import { AchievementsPage } from "@/pages/Profile/Achievements";
 import { CommentsPage } from "@/pages/Profile/Comments";
@@ -33,6 +34,7 @@ const config: TransitionSpec = {
 
 export const RootNavigator = () => {
   const { top, bottom } = useSafeAreaInsets();
+
   return (
     <RootStack.Navigator
       initialRouteName="Home"
@@ -42,17 +44,9 @@ export const RootNavigator = () => {
     >
       <RootStack.Screen name={"Home"} component={HomeNavigator} />
       <RootStack.Screen name={"PostDetails"} component={PostDetailsPage} />
-      <RootStack.Screen
-        name={"Web"}
-        component={WebPage}
-        options={{
-          headerShown: true,
-          title: "",
-          headerBackTitle: "返回",
-        }}
-      />
+      <RootStack.Screen name={"CharacterListPage"} component={CharacterListPage} options={{ headerShown: true, title: "", headerBackTitle: "返回" }}/>
+      <RootStack.Screen name={"Web"} component={WebPage} options={{ headerShown: true, title: "", headerBackTitle: "返回" }}/>
 
-      {/* Profile */}
       <RootStack.Group screenOptions={{
         headerShown: false,
         cardStyle: { paddingTop: top, paddingBottom: bottom },

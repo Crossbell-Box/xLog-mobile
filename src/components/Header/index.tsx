@@ -61,7 +61,7 @@ export const NavigationHeader: FC<Props> = (props) => {
       {character && (
         <TouchableWithoutFeedback containerStyle={styles.avatarContainer} onPress={openDrawer}>
           <Animated.View style={avatarAnimStyles}>
-            <Avatar size={35} uri={character?.metadata?.content?.avatars?.[0]} />
+            <Avatar size={35} character={character} />
           </Animated.View>
         </TouchableWithoutFeedback>
       )}

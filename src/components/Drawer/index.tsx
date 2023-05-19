@@ -14,7 +14,7 @@ import { H4, ListItem, Separator, SizableText, Spacer, Stack, Text, useWindowDim
 
 import { Avatar } from "@/components/Avatar";
 import { DisconnectBtn } from "@/components/ConnectionButton";
-import { useColors } from "@/hooks/use-color";
+import { useColors } from "@/hooks/use-colors";
 import { useDrawer } from "@/hooks/use-drawer";
 import { useRootNavigation } from "@/hooks/use-navigation";
 import type { ProfilePagesParamList } from "@/navigation/types";
@@ -62,7 +62,7 @@ const DrawerContent = () => {
           {/* Userinfo */}
           <XStack gap="$3" alignItems="center">
             <Stack width={45} height={40}>
-              {character && <Avatar size={45} uri={character?.metadata?.content?.avatars?.[0]} />}
+              {character && <Avatar size={45} character={character} />}
             </Stack>
             <YStack flex={1} gap="$-1.5">
               <H4>{character?.metadata?.content?.name}</H4>

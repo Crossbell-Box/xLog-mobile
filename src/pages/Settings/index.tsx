@@ -7,7 +7,7 @@ import { ArrowRight, Check, Eye, Info, Palette, Thermometer } from "@tamagui/luc
 import * as Application from "expo-application";
 import { ListItem, Text, ListItemTitle, Switch, YGroup, YStack } from "tamagui";
 
-import { useColors } from "@/hooks/use-color";
+import { useColors } from "@/hooks/use-colors";
 import { useThemeStore } from "@/hooks/use-theme-store";
 import { allThemes } from "@/styles/theme";
 

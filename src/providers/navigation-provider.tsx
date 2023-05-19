@@ -2,30 +2,28 @@ import type { FC } from "react";
 import React, { useMemo } from "react";
 
 import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
-import { useCurrentColor } from "tamagui";
+
+import { useColors } from "@/hooks/use-colors";
 
 export const NavigationProvider: FC<React.PropsWithChildren<{}>> = ({ children }) => {
-  const [
-    primary,
-    border,
-    background,
-  ] = ["color", "borderColor", "background"].map(useCurrentColor);
+  const { color, primary, background, borderColor } = useColors();
 
   const theme = useMemo(() => {
     DefaultTheme.colors = {
       ...DefaultTheme.colors,
-      notification: primary,
+      notification: color,
       card: background,
-      primary,
-      border,
+      primary: color,
+      border: borderColor,
       background,
-      text: primary,
+      text: color,
     };
 
     return { ...DefaultTheme };
   }, [
     primary,
-    border,
+    color,
+    borderColor,
     background,
   ]);
 
