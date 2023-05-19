@@ -22,6 +22,7 @@ import { ReactionMint } from "@/components/ReactionMint";
 import { WebView } from "@/components/WebView";
 import { DOMAIN } from "@/constants";
 import { IPFS_GATEWAY } from "@/constants/env";
+import { isIOS } from "@/constants/platform";
 import { PageNotFound } from "@/constants/resource";
 import { useColors } from "@/hooks/use-colors";
 import { useFollow } from "@/hooks/use-follow";
@@ -358,7 +359,13 @@ export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, "Pos
                     exiting={FadeOut.duration(1000)}
                   >
                     <YStack height={contentLoaderDimensions.height} alignItems={"flex-start"} justifyContent={"flex-start"}>
-                      <ContentLoader viewBox={`0 0 ${contentLoaderDimensions.width - 10 * 2} ${contentLoaderDimensions.height}`} backgroundColor={"gray"} opacity="0.3">
+                      <ContentLoader
+                        animate={isIOS} // https://github.com/danilowoz/react-content-loader/issues/304
+                        viewBox={`0 0 ${contentLoaderDimensions.width - 10 * 2} 
+                        ${contentLoaderDimensions.height}`}
+                        backgroundColor={"gray"}
+                        opacity="0.3"
+                      >
                         <Rect x="10" y="20" rx="3" ry="3" width={`${(contentLoaderDimensions.width - 40) * 0.5}`} height="36" />
                         <Rect x="10" y="70" rx="3" ry="3" width={`${(contentLoaderDimensions.width - 40) * 0.25}`} height="13" />
                         <Rect x={`${10 + (contentLoaderDimensions.width - 40) * 0.25 + 10}`} y="70" rx="3" ry="3" width={`${(contentLoaderDimensions.width - 40) * 0.35}`} height="13" />
