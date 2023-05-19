@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { StyleSheet } from "react-native";
 
-import type { CharacterEntity } from "crossbell.js";
+import type { CharacterEntity } from "crossbell";
 import { Image } from "expo-image";
 import { Circle, Text, Avatar as _Avatar } from "tamagui";
 

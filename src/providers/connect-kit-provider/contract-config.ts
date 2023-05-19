@@ -6,15 +6,17 @@ import type { ModalConfig } from "@crossbell/react-account/modal-config";
 import { setupModal } from "@crossbell/react-account/modal-config";
 import { useWalletConnect } from "@walletconnect/react-native-dapp";
 import WalletConnectProvider from "@walletconnect/web3-provider";
+import type { Address } from "viem";
 
 import { INFURA_ID } from "@/constants/env";
 
+// TODO
 // import { modals } from "./modals";
 
 export function useContractConfig() {
   const connector = useWalletConnect();
 
-  const address = connector.accounts?.[0];
+  const address = connector.accounts?.[0] as Address;
   const [provider, setProvider] = React.useState<Exclude<ContractConfig["provider"], string>>();
 
   React.useEffect(() => {
@@ -31,6 +33,8 @@ export function useContractConfig() {
 
         await walletConnectProvider.enable();
 
+        // TODO
+        // @ts-expect-error
         setProvider(walletConnectProvider);
       })();
     }

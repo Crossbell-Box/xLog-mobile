@@ -1,4 +1,4 @@
-import type { NoteEntity } from "crossbell.js";
+import type { NoteEntity } from "crossbell";
 import { pinyin } from "pinyin-pro";
 
 export const getNoteSlug = (note?: NoteEntity): string => {

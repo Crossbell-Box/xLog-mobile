@@ -5,7 +5,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FlashList } from "@shopify/flash-list";
 import type { UseInfiniteQueryResult } from "@tanstack/react-query";
-import type { CharacterEntity, ListResponse } from "crossbell.js";
+import type { CharacterEntity, ListResponse } from "crossbell";
 import { useWindowDimensions } from "tamagui";
 
 import type { RootStackParamList } from "@/navigation/types";

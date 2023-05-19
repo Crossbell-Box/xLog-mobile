@@ -21,7 +21,7 @@ export async function getFeed({
 }) {
   switch (type) {
     case "latest": {
-      const result = await indexer.getNotes({
+      const result = await indexer.note.getMany({
         sources: "xlog",
         tags: ["post"],
         limit,
@@ -44,7 +44,7 @@ export async function getFeed({
         };
       }
       else {
-        const result = await indexer.getNotesOfCharacterFollowing(characterId, {
+        const result = await indexer.note.getManyOfCharacterFollowing(characterId, {
           sources: "xlog",
           tags: ["post"],
           limit,

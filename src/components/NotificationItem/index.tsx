@@ -3,7 +3,7 @@ import type { SvgProps } from "react-native-svg";
 import { ClipPath, Rect, G, Svg, Path, Defs } from "react-native-svg";
 
 import type { ParsedNotification } from "@crossbell/indexer";
-import type { NoteEntity } from "crossbell.js";
+import type { NoteEntity } from "crossbell";
 import dayjs from "dayjs";
 import { utils } from "ethers";
 import removeMd from "remove-markdown";

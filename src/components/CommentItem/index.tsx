@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 
 import { Edit, Reply, ShieldCheck } from "@tamagui/lucide-icons";
-import type { ListResponse, NoteEntity } from "crossbell.js";
+import type { ListResponse, NoteEntity } from "crossbell";
 import type { ListItemProps } from "tamagui";
 import { Text, XStack, YStack, Stack, Spacer, ListItemTitle, ListItem } from "tamagui";
 
