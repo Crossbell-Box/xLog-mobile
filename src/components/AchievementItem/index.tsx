@@ -11,7 +11,6 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import ContentLoader, { Circle } from "react-content-loader/native";
 import { H3, Paragraph, SizableText, Stack, useWindowDimensions, YStack } from "tamagui";
 
-import { isIOS } from "@/constants/platform";
 import { useDate } from "@/hooks/use-date";
 import type { AchievementSection } from "@/models/site.model";
 import { toGateway } from "@/utils/ipfs-parser";
@@ -176,7 +175,6 @@ export const AchievementItem: React.FC<AchievementItemProps> = (props) => {
       {
         !loaded && (
           <ContentLoader
-            animate={isIOS} // https://github.com/danilowoz/react-content-loader/issues/304
             viewBox={`0 0 ${initialImgSize} ${initialImgSize}`}
             backgroundColor={"gray"}
             opacity="0.3"

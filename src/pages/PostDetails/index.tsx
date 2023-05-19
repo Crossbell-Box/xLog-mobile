@@ -22,7 +22,6 @@ import { ReactionMint } from "@/components/ReactionMint";
 import { WebView } from "@/components/WebView";
 import { DOMAIN } from "@/constants";
 import { IPFS_GATEWAY } from "@/constants/env";
-import { isIOS } from "@/constants/platform";
 import { PageNotFound } from "@/constants/resource";
 import { useColors } from "@/hooks/use-colors";
 import { useFollow } from "@/hooks/use-follow";
@@ -360,7 +359,6 @@ export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, "Pos
                   >
                     <YStack height={contentLoaderDimensions.height} alignItems={"flex-start"} justifyContent={"flex-start"}>
                       <ContentLoader
-                        animate={isIOS} // https://github.com/danilowoz/react-content-loader/issues/304
                         viewBox={`0 0 ${contentLoaderDimensions.width - 10 * 2} 
                         ${contentLoaderDimensions.height}`}
                         backgroundColor={"gray"}

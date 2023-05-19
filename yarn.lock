@@ -9660,7 +9660,7 @@ expo-haptics@~12.2.1:
   resolved "https://registry.npmjs.org/expo-haptics/-/expo-haptics-12.2.1.tgz"
   integrity sha512-XRZtmIQi901Q4+/cZnVrULRFOqShsgCuSP0SCbVEhnq8sK0OA4jgun12O93Pu5aGvTyoqsAcIArE8tX+8AEqRA==
 
-expo-image@~1.0.1:
+expo-image@~1.0.0:
   version "1.0.1"
   resolved "https://registry.npmjs.org/expo-image/-/expo-image-1.0.1.tgz#0cc04fac8e5204fc0d4d86f30f26273c0b1dce08"
   integrity sha512-h3xDHaw3ZWzOKar1eFXY4CsFgDstw6fo5Tzv6BXXs+Zte5betPMb567f8zCNnhpkr7UCo5CN7Cg92o+lqzdvRA==
@@ -15659,11 +15659,6 @@ react-native-color-matrix-image-filters@^6.0.3:
     rn-color-matrices "^4.1.0"
     ts-tiny-invariant "^2.0.4"
 
-react-native-confetti-cannon@^1.5.2:
-  version "1.5.2"
-  resolved "https://registry.npmjs.org/react-native-confetti-cannon/-/react-native-confetti-cannon-1.5.2.tgz#ca1a05edd2a64b080ea8b6238c49277908e1f123"
-  integrity sha512-IZuWjlW7QsdxEGNnvpD6W+7iKCCQhnd5BvuNvMtirU7Nxm8WS2N6LPGMBz1ZYDuusG+GRZkoXXTNCdoAAGpCTg==
-
 react-native-crypto@^2.2.0:
   version "2.2.0"
   resolved "https://registry.npmjs.org/react-native-crypto/-/react-native-crypto-2.2.0.tgz#c999ed7c96064f830e1f958687f53d0c44025770"
@@ -15822,10 +15817,10 @@ react-native-shadow-2@^7.0.7:
   dependencies:
     colord "2.9.2"
 
-react-native-svg@13.4.0, react-native-svg@9.6.4:
-  version "13.4.0"
-  resolved "https://registry.npmjs.org/react-native-svg/-/react-native-svg-13.4.0.tgz#82399ba0956c454144618aa581e2d748dd3f010a"
-  integrity sha512-B3TwK+H0+JuRhYPzF21AgqMt4fjhCwDZ9QUtwNstT5XcslJBXC0FoTkdZo8IEb1Sv4suSqhZwlAY6lwOv3tHag==
+react-native-svg@13.5.0, react-native-svg@9.6.4:
+  version "13.5.0"
+  resolved "https://registry.npmjs.org/react-native-svg/-/react-native-svg-13.5.0.tgz#2b34f0ab84436b3c1e57109d62012a6c031e0596"
+  integrity sha512-JWou/k4zfXRY6TsVgM4i30D0z54McqQ64D5cAfOzX17ThZwFjOheN24owmbAs7Y+naD0Bk5j409kT/6FZEop4g==
   dependencies:
     css-select "^5.1.0"
     css-tree "^1.1.3"
