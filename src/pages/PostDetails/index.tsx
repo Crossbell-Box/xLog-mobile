@@ -89,7 +89,7 @@ export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, "Pos
   const webviewLoadingAnimValue = useSharedValue<number>(0);
   const followAnimValue = useSharedValue<number>(0);
   const [webviewLoaded, setWebviewLoaded] = React.useState(false);
-  const [webviewHeight, setWebviewHeight] = React.useState(0);
+  const [webviewHeight, setWebviewHeight] = React.useState(contentLoaderDimensions.height);
   const {
     isExpandedAnimValue,
     ...scrollVisibilityHandler
@@ -110,7 +110,7 @@ export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, "Pos
       }
 
       if (height) {
-        setWebviewHeight(height);
+        setWebviewHeight(Math.max(height, contentLoaderDimensions.height));
         setWebviewLoaded(true);
       }
 
@@ -194,7 +194,7 @@ export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, "Pos
     <>
       <Stack flex={1} backgroundColor={"$background"}>
         <Animated.View style={[{
-          paddingTop: top,
+          paddingTop: top + 5,
           height: headerHeight,
           width: "100%",
           position: "absolute",
@@ -203,12 +203,12 @@ export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, "Pos
           <TouchableWithoutFeedback onPress={navigation.goBack} containerStyle={{
             position: "absolute",
             left: 8,
-            top,
+            top: top + 5,
+            zIndex: 2,
           }}>
             <Animated.View style={[backBtnAnimStyle, {
               width: 35,
               height: 35,
-              zIndex: 2,
               alignItems: "center",
               justifyContent: "center",
               borderRadius: 50,
@@ -233,7 +233,7 @@ export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, "Pos
                 justifyContent: "center",
                 position: "absolute",
                 right: 8,
-                top,
+                top: top + 5,
                 zIndex: 2,
               },
               titleAnimStyles,

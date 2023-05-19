@@ -23,12 +23,12 @@ export function HotInterval(props: SelectProps) {
               <Adapt.Contents />
             </Sheet.ScrollView>
           </Sheet.Frame>
-          <Sheet.Overlay />
+          <Sheet.Overlay backgroundColor={"rgba(0,0,0,0.5)"}/>
         </Sheet>
       </Adapt>
 
       <Select.Content zIndex={200000}>
-        <Select.Viewport>
+        <Select.Viewport >
           <XStack>
             <Select.Group space="$0">
               {items.map((item, i) => {
