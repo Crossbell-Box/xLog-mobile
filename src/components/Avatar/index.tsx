@@ -1,15 +1,16 @@
 import type { FC } from "react";
 import { StyleSheet } from "react-native";
 
+import type { CharacterEntity } from "crossbell.js";
 import { Image } from "expo-image";
-import { Avatar as _Avatar } from "tamagui";
+import { Circle, Text, Avatar as _Avatar } from "tamagui";
 
 import { toGateway } from "@/utils/ipfs-parser";
 
 import { LogoResource } from "../Logo";
 
 interface Props {
-  uri?: string
+  character: CharacterEntity
   size?: number
   useDefault?: boolean
 }
@@ -26,19 +27,25 @@ const isValidUrl = (url) => {
 };
 
 export const Avatar: FC<Props> = (props) => {
-  const { uri, size = 45, useDefault = false } = props;
+  const { character, size = 45, useDefault = false } = props;
+  const uri = character?.metadata?.content?.avatars?.[0];
+  const name = character?.metadata?.content?.name;
 
   if (!uri || (!uri.startsWith("/assets/") && !isValidUrl(uri))) {
     if (useDefault) {
       return (
-        <_Avatar
+        <Circle
           size={size}
           bordered
           circular
-          backgroundColor="white"
+          backgroundColor="$background"
         >
-          <_Avatar.Image src={LogoResource} />
-        </_Avatar>
+          <Text textAlign="center" fontSize={size / 2} fontWeight={"700"}>
+            {
+              name?.split(" ")?.length > 1 ? name?.split(" ")?.map(n => n?.[0]?.toUpperCase())?.join("") : `${name?.[0]?.toUpperCase()}${name?.[1]}`
+            }
+          </Text>
+        </Circle>
       );
     }
 

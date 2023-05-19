@@ -68,7 +68,7 @@ export const FeedList: FC<Props> = (props) => {
         onScroll={props.onScroll}
         showsVerticalScrollIndicator={false}
         onScrollEndDrag={props.onScrollEndDrag}
-        onEndReachedThreshold={0.2}
+        onEndReachedThreshold={0.5}
         onEndReached={() => {
           if (
             feedList.length === 0

@@ -130,7 +130,7 @@ function SiteAvatar({ siteId }: { siteId: string }) {
 
   return (
     <Avatar
-      uri={site.data?.metadata?.content?.avatars?.[0]}
+      character={site.data}
       size={40}
     />
   );

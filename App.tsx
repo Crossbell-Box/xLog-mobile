@@ -27,9 +27,10 @@ import ProviderComposer from "@/components/ProviderComposer";
 import { StatusBar } from "@/components/StatusBar";
 import { ConnectKitProvider } from "@/providers/connect-kit-provider";
 import { DrawerProvider } from "@/providers/drawer-provider";
-import { GlobalProvider } from "@/providers/global-provider";
+import LoadingProvider from "@/providers/loading-provider";
 import { NavigationProvider } from "@/providers/navigation-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
+import { ToastProvider } from "@/providers/toast-provider";
 import { checkHotUpdates } from "@/utils/hot-updates";
 
 import { RootNavigator } from "./src/navigation";
@@ -44,22 +45,21 @@ const persister = createAsyncStoragePersister();
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      cacheTime: 1000 * 60 * 60 * 24, // 24 hours
+      cacheTime: 1000 * 60 * 60 * 24,
     },
   },
 });
+
 export default () => {
   useEffect(() => {
     checkHotUpdates();
   }, []);
 
   return (
-
     <ProviderComposer providers={[
       <GestureHandlerRootView key={"GestureHandlerRootView"} style={styles.container} />,
       <TamaguiProvider key={"TamaguiProvider"} config={config} />,
       <ErrorBoundary key={"ErrorBoundary"} />,
-      <GlobalProvider key={"GlobalProvider"} />,
       <SafeAreaProvider key={"SafeAreaProvider"} />,
       <PersistQueryClientProvider
         key={"PersistQueryClientProvider"}
@@ -95,9 +95,11 @@ export default () => {
       />,
       <ConnectKitProvider key={"ConnectKitProvider"} />,
       <ThemeProvider key={"ThemeProvider"} />,
+      <LoadingProvider key={"LoadingProvider"} />,
       <NavigationProvider key={"NavigationProvider"} />,
       <BottomSheetModalProvider key={"BottomSheetModalProvider"} />,
       <DrawerProvider key={"DrawerProvider"}/>,
+      <ToastProvider key={"ToastProvider"} />,
     ]}>
       <StatusBar />
       <RootNavigator />

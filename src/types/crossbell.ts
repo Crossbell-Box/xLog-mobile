@@ -109,6 +109,8 @@ export type ExpandedNote = NoteEntity & {
     viewDetailCount: number
     hotScore?: number
   }
+  draftKey?: string
+  local?: boolean
 };
 
 export interface Notes {

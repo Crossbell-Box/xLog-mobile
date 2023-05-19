@@ -1,4 +1,5 @@
 import { useContract } from "@crossbell/contract";
+import { useAccountState, useFollowCharacter, useFollowCharacters, useUnfollowCharacter } from "@crossbell/react-account";
 import {
   useInfiniteQuery,
   useMutation,
@@ -27,6 +28,100 @@ export const useGetSites = (input: number[]) => {
     return siteModel.getSites(input);
   });
 };
+
+export const useGetSubscription = (toCharacterId?: number) => {
+  const account = useAccountState(s => s.computed.account);
+
+  return useQuery(
+    ["getSubscription", toCharacterId, account?.characterId],
+    async () => {
+      if (!account?.characterId || !toCharacterId) {
+        return false;
+      }
+
+      return siteModel.getSubscription({
+        characterId: account?.characterId,
+        toCharacterId,
+      });
+    },
+  );
+};
+
+export function useSubscribeToSite() {
+  const queryClient = useQueryClient();
+  const account = useAccountState(s => s.computed.account);
+
+  return useFollowCharacter({
+    onSuccess: (data, variables: any) => {
+      return Promise.all([
+        queryClient.invalidateQueries([
+          "getSiteSubscriptions",
+          {
+            characterId: variables.characterId,
+          },
+        ]),
+
+        queryClient.invalidateQueries([
+          "getSubscription",
+          variables.characterId,
+          account?.characterId,
+        ]),
+      ]);
+    },
+  });
+}
+
+export function useSubscribeToSites() {
+  const queryClient = useQueryClient();
+  const currentCharacterId = useAccountState(
+    s => s.computed.account?.characterId,
+  );
+
+  return useFollowCharacters({
+    onSuccess: (_, variables: any) =>
+      Promise.all(
+        variables.siteIds.flatMap((characterId: number) => {
+          return [
+            queryClient.invalidateQueries([
+              "getSiteSubscriptions",
+              {
+                characterId,
+              },
+            ]),
+
+            queryClient.invalidateQueries([
+              "getSubscription",
+              characterId,
+              currentCharacterId,
+            ]),
+          ];
+        }),
+      ),
+  });
+}
+
+export function useUnsubscribeFromSite() {
+  const queryClient = useQueryClient();
+  const account = useAccountState(s => s.computed.account);
+
+  return useUnfollowCharacter({
+    onSuccess: (data, variables: any) => {
+      return Promise.all([
+        queryClient.invalidateQueries([
+          "getSiteSubscriptions",
+          {
+            siteId: variables.characterId,
+          },
+        ]),
+        queryClient.invalidateQueries([
+          "getSubscription",
+          variables.characterId,
+          account?.characterId,
+        ]),
+      ]);
+    },
+  });
+}
 
 export const useGetSiteSubscriptions = (data: { siteId: string }) => {
   const unidata = useUnidata();

@@ -4,9 +4,10 @@ import { useTranslation } from "react-i18next";
 import Animated, { FadeInLeft, FadeOutLeft, interpolate, useAnimatedStyle, useDerivedValue, withTiming } from "react-native-reanimated";
 
 import { ChevronDown } from "@tamagui/lucide-icons";
-import { Button, isWeb, Stack, Text, useCurrentColor, XStack, YStack } from "tamagui";
+import { Button, isWeb, Stack, Text, XStack, YStack } from "tamagui";
 
 import { NavigationHeader } from "@/components/Header";
+import { useColors } from "@/hooks/use-colors";
 import type { FeedType } from "@/models/home.model";
 
 import { HotInterval } from "./HotInterval";
@@ -30,8 +31,7 @@ export interface Props {
 type Measurements = Array<Partial<{ x: number; width: number }>>;
 
 export const Header: FC<Props> = (props) => {
-  const primaryColor = useCurrentColor("orange9");
-  const inactiveColor = useCurrentColor("$colorSubtitle");
+  const { primary: primaryColor, subtitle: inactiveColor } = useColors();
   const i18n = useTranslation();
   const lengthOfSortType = Object.values(sortType).length;
   const { isExpandedAnimValue, currentSortType, onSortTypeChange } = props;

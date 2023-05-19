@@ -1,5 +1,5 @@
 import type { ModalConfig } from "@crossbell/react-account/modal-config";
-import { setupModal } from "@crossbell/react-account/modal-config";
+// import { setupModal } from "@crossbell/react-account/modal-config";
 
 export const modals: ModalConfig = {
   showClaimCSBTipsModal() {
@@ -28,4 +28,4 @@ export const modals: ModalConfig = {
   },
 };
 
-setupModal(modals);
+// setupModal(modals);

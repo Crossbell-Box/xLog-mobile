@@ -39,7 +39,16 @@ const config = createTamagui({
     body: bodyFont,
   },
   themes,
-  tokens,
+  tokens: {
+    ...tokens,
+    size: {
+      ...tokens.size,
+      0: 0,
+      0.25: 8,
+      0.5: 12,
+      0.75: 16,
+    },
+  },
   media: createMedia({
     xs: { maxWidth: 660 },
     sm: { maxWidth: 800 },

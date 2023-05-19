@@ -4,15 +4,15 @@ import { useTranslation } from "react-i18next";
 import type { ViewStyle } from "react-native";
 import { Dimensions, StyleSheet } from "react-native";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
-import Modal from "react-native-modal";
 
 import { useNavigation } from "@react-navigation/native";
 import type { StackNavigationProp } from "@react-navigation/stack";
 import { Image } from "expo-image";
 import removeMd from "remove-markdown";
-import { Card, H5, H6, Paragraph, SizableText, Spacer, Stack, Text, XStack } from "tamagui";
+import { Card, H5, H6, Paragraph, SizableText, Spacer, Text, XStack } from "tamagui";
 
 import { Avatar } from "@/components/Avatar";
+import { ImageGallery } from "@/components/ImageGallery";
 import { useDate } from "@/hooks/use-date";
 import type { RootStackParamList } from "@/navigation/types";
 import { findCoverImage } from "@/utils/find-cover-image";
@@ -70,7 +70,7 @@ export const FeedListItem: FC<Props> = (props) => {
         <Card elevate size="$4" bordered>
           <Card.Header padded>
             <XStack alignItems="center" gap={"$2"} marginBottom={"$1"}>
-              <Avatar uri={note?.character?.metadata?.content?.avatars?.[0]} />
+              <Avatar character={note?.character} />
               <XStack alignItems="center">
                 <H6>{note.character?.metadata?.content?.name || note.character?.handle}</H6>
               </XStack>
@@ -162,31 +162,12 @@ export const FeedListItem: FC<Props> = (props) => {
             </XStack>
           </Card.Header>
         </Card>
-        <Modal
-          style={styles.modal}
-          propagateSwipe
-          useNativeDriver
+        <ImageGallery
           isVisible={displayImageUris.length > 0}
-          hideModalContentWhileAnimating
-          onBackdropPress={closeModal}
-          animationIn={"fadeIn"}
-          animationOut={"fadeOut"}
-        >
-          <Stack height={width} width={width}>
-            <ScrollView horizontal pagingEnabled scrollEnabled={displayImageUris.length > 1}>
-              {
-                displayImageUris.map((uri, index) => {
-                  const priority = index <= 3 ? "high" : "low";
-                  return (
-                    <Image key={index} priority={priority} source={uri} contentFit="cover" style={styles.modalImage} />
-                  );
-                })
-              }
-            </ScrollView>
-          </Stack>
-        </Modal>
+          uris={displayImageUris}
+          onClose={closeModal}
+        />
       </TouchableOpacity>
-
     </>
   );
 };
