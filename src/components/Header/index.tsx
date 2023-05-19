@@ -32,7 +32,7 @@ export const NavigationHeader: FC<Props> = (props) => {
   const containerAnimStyles = useAnimatedStyle(() => {
     return {
       height: interpolate(expanded.value, [0, 1], [top, top + 35]),
-      paddingTop: top,
+      paddingTop: top + 5,
     };
   }, [top, expanded]);
 
@@ -45,7 +45,7 @@ export const NavigationHeader: FC<Props> = (props) => {
 
   const contentContainerAnimStyles = useAnimatedStyle(() => {
     return {
-      bottom: interpolate(expanded.value, [0, 1], [-42, 0], Extrapolate.CLAMP),
+      bottom: interpolate(expanded.value, [0, 1], [-42, -5], Extrapolate.CLAMP),
       right: 0,
       width: interpolate(expanded.value, [0, 1], [100, width], Extrapolate.CLAMP),
       transform: [

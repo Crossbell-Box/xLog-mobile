@@ -9639,10 +9639,10 @@ expo-haptics@~12.2.1:
   resolved "https://registry.npmjs.org/expo-haptics/-/expo-haptics-12.2.1.tgz"
   integrity sha512-XRZtmIQi901Q4+/cZnVrULRFOqShsgCuSP0SCbVEhnq8sK0OA4jgun12O93Pu5aGvTyoqsAcIArE8tX+8AEqRA==
 
-expo-image@~1.0.0:
-  version "1.0.0"
-  resolved "https://registry.npmjs.org/expo-image/-/expo-image-1.0.0.tgz"
-  integrity sha512-A1amVExKhBa/eRXuceauYtPkf9izeje5AbxEWL09tgK91rf3GSIZXM5PSDGlIM0s7dpCV+Iet2jhwcFUfWaZrw==
+expo-image@^1.2.3:
+  version "1.2.3"
+  resolved "https://registry.npmjs.org/expo-image/-/expo-image-1.2.3.tgz#f3582d725ffb7437f8ce946ad44fe33f0aa0603d"
+  integrity sha512-+Mnx6rcneWSUGfHkUDV3cQ3R4lVwoIDFs/tcXVqnlxyNJdNxpW2cge9pS2Hpj3UDoZVhZPLR8LHS8E9wEaC0NA==
 
 expo-json-utils@~0.5.0:
   version "0.5.1"
@@ -15801,10 +15801,10 @@ react-native-shadow-2@^7.0.7:
   dependencies:
     colord "2.9.2"
 
-react-native-svg@13.4.0, react-native-svg@9.6.4:
-  version "13.4.0"
-  resolved "https://registry.npmjs.org/react-native-svg/-/react-native-svg-13.4.0.tgz#82399ba0956c454144618aa581e2d748dd3f010a"
-  integrity sha512-B3TwK+H0+JuRhYPzF21AgqMt4fjhCwDZ9QUtwNstT5XcslJBXC0FoTkdZo8IEb1Sv4suSqhZwlAY6lwOv3tHag==
+react-native-svg@13.5.0, react-native-svg@9.6.4:
+  version "13.5.0"
+  resolved "https://registry.npmjs.org/react-native-svg/-/react-native-svg-13.5.0.tgz#2b34f0ab84436b3c1e57109d62012a6c031e0596"
+  integrity sha512-JWou/k4zfXRY6TsVgM4i30D0z54McqQ64D5cAfOzX17ThZwFjOheN24owmbAs7Y+naD0Bk5j409kT/6FZEop4g==
   dependencies:
     css-select "^5.1.0"
     css-tree "^1.1.3"

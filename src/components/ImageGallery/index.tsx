@@ -87,6 +87,8 @@ export const ImageGallery: FC<Props> = (props) => {
         <ScrollView
           horizontal
           pagingEnabled
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
           scrollEnabled={uris.length > 1}
           onMomentumScrollEnd={(event) => {
             const slideIndex = Math.ceil(

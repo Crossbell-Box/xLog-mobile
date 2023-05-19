@@ -110,7 +110,11 @@ export const FeedListItem: FC<Props> = (props) => {
               coverImage.isMultiple && (
                 <>
                   <Spacer size={"$2"} />
-                  <ScrollView horizontal>
+                  <ScrollView
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    showsVerticalScrollIndicator={false}
+                  >
                     {
                       coverImage.uri.slice(0, 6).map((uri, index) => {
                         const priority = index <= 3 ? "high" : "low";
