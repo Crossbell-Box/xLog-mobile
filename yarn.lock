@@ -2226,7 +2226,28 @@
     node-forge "^1.2.1"
     nullthrows "^1.1.1"
 
-"@expo/config-plugins@6.0.1", "@expo/config-plugins@~6.0.0":
+"@expo/config-plugins@6.0.2":
+  version "6.0.2"
+  resolved "https://registry.npmjs.org/@expo/config-plugins/-/config-plugins-6.0.2.tgz#cf07319515022ba94d9aa9fa30e0cff43a14256f"
+  integrity sha512-Cn01fXMHwjU042EgO9oO3Mna0o/UCrW91MQLMbJa4pXM41CYGjNgVy1EVXiuRRx/upegHhvltBw5D+JaUm8aZQ==
+  dependencies:
+    "@expo/config-types" "^48.0.0"
+    "@expo/json-file" "~8.2.37"
+    "@expo/plist" "^0.0.20"
+    "@expo/sdk-runtime-versions" "^1.0.0"
+    "@react-native/normalize-color" "^2.0.0"
+    chalk "^4.1.2"
+    debug "^4.3.1"
+    find-up "~5.0.0"
+    getenv "^1.0.0"
+    glob "7.1.6"
+    resolve-from "^5.0.0"
+    semver "^7.3.5"
+    slash "^3.0.0"
+    xcode "^3.0.1"
+    xml2js "0.4.23"
+
+"@expo/config-plugins@~6.0.0":
   version "6.0.1"
   resolved "https://registry.npmjs.org/@expo/config-plugins/-/config-plugins-6.0.1.tgz"
   integrity sha512-6mqZutxeibXFeqFfoZApFUEH2n1RxGXYMHCdJrDj4eXDBBFZ3aJ0XBoroZcHHHvfRieEsf54vNyJoWp7JZGj8g==
@@ -9639,10 +9660,10 @@ expo-haptics@~12.2.1:
   resolved "https://registry.npmjs.org/expo-haptics/-/expo-haptics-12.2.1.tgz"
   integrity sha512-XRZtmIQi901Q4+/cZnVrULRFOqShsgCuSP0SCbVEhnq8sK0OA4jgun12O93Pu5aGvTyoqsAcIArE8tX+8AEqRA==
 
-expo-image@^1.2.3:
-  version "1.2.3"
-  resolved "https://registry.npmjs.org/expo-image/-/expo-image-1.2.3.tgz#f3582d725ffb7437f8ce946ad44fe33f0aa0603d"
-  integrity sha512-+Mnx6rcneWSUGfHkUDV3cQ3R4lVwoIDFs/tcXVqnlxyNJdNxpW2cge9pS2Hpj3UDoZVhZPLR8LHS8E9wEaC0NA==
+expo-image@~1.0.0:
+  version "1.0.1"
+  resolved "https://registry.npmjs.org/expo-image/-/expo-image-1.0.1.tgz#0cc04fac8e5204fc0d4d86f30f26273c0b1dce08"
+  integrity sha512-h3xDHaw3ZWzOKar1eFXY4CsFgDstw6fo5Tzv6BXXs+Zte5betPMb567f8zCNnhpkr7UCo5CN7Cg92o+lqzdvRA==
 
 expo-json-utils@~0.5.0:
   version "0.5.1"
@@ -9700,10 +9721,10 @@ expo-modules-autolinking@1.2.0:
     find-up "^5.0.0"
     fs-extra "^9.1.0"
 
-expo-modules-core@1.2.6:
-  version "1.2.6"
-  resolved "https://registry.npmjs.org/expo-modules-core/-/expo-modules-core-1.2.6.tgz"
-  integrity sha512-vyleKepkP8F6L+D55B/E4FbZ8x9pdy3yw/mdbGBkDkrmo2gmeMjOM1mKLSszOkLIqet05O7Wy8m0FZHZTo0VBg==
+expo-modules-core@1.2.7:
+  version "1.2.7"
+  resolved "https://registry.npmjs.org/expo-modules-core/-/expo-modules-core-1.2.7.tgz#c80627b13a8f1c94ae9da8eea41e1ef1df5788c8"
+  integrity sha512-sulqn2M8+tIdxi6QFkKppDEzbePAscgE2LEHocYoQOgHxJpeT7axE0Hkzc+81EeviQilZzGeFZMtNMGh3c9yJg==
   dependencies:
     compare-versions "^3.4.0"
     invariant "^2.2.4"
@@ -9757,14 +9778,14 @@ expo-updates@~0.16.4:
     resolve-from "^5.0.0"
 
 expo@~48.0.15:
-  version "48.0.15"
-  resolved "https://registry.yarnpkg.com/expo/-/expo-48.0.15.tgz#28194c03ac85f7f5a87b7493b8cef0eb405eccbe"
-  integrity sha512-me2Xxr7Faxf60BiKq8WBSwkYV9BVbS+VqeHRFdXduVA0Uj2zp1a0zYB5eblmWqpRco75VBUgOa9M+/eR1YVZmw==
+  version "48.0.17"
+  resolved "https://registry.npmmirror.com/expo/-/expo-48.0.17.tgz#000773a2675e5bf95688a84fbc625c105f8b8af9"
+  integrity sha512-5T1CsMUlfI+xFB89GOU+/xtSSbSBBFVTqwgheAU0cQolfbs+YyJCMTKU5vN45N5OK+ym7p/LKPa6DQAxYPF8YQ==
   dependencies:
     "@babel/runtime" "^7.20.0"
     "@expo/cli" "0.7.1"
     "@expo/config" "8.0.2"
-    "@expo/config-plugins" "6.0.1"
+    "@expo/config-plugins" "6.0.2"
     "@expo/vector-icons" "^13.0.0"
     babel-preset-expo "~9.3.2"
     cross-spawn "^6.0.5"
@@ -9775,7 +9796,7 @@ expo@~48.0.15:
     expo-font "~11.1.1"
     expo-keep-awake "~12.0.1"
     expo-modules-autolinking "1.2.0"
-    expo-modules-core "1.2.6"
+    expo-modules-core "1.2.7"
     fbemitter "^3.0.0"
     getenv "^1.0.0"
     invariant "^2.2.4"
@@ -15638,11 +15659,6 @@ react-native-color-matrix-image-filters@^6.0.3:
     rn-color-matrices "^4.1.0"
     ts-tiny-invariant "^2.0.4"
 
-react-native-confetti-cannon@^1.5.2:
-  version "1.5.2"
-  resolved "https://registry.npmjs.org/react-native-confetti-cannon/-/react-native-confetti-cannon-1.5.2.tgz#ca1a05edd2a64b080ea8b6238c49277908e1f123"
-  integrity sha512-IZuWjlW7QsdxEGNnvpD6W+7iKCCQhnd5BvuNvMtirU7Nxm8WS2N6LPGMBz1ZYDuusG+GRZkoXXTNCdoAAGpCTg==
-
 react-native-crypto@^2.2.0:
   version "2.2.0"
   resolved "https://registry.npmjs.org/react-native-crypto/-/react-native-crypto-2.2.0.tgz#c999ed7c96064f830e1f958687f53d0c44025770"
@@ -15684,10 +15700,10 @@ react-native-get-random-values@^1.8.0:
   dependencies:
     fast-base64-decode "^1.0.0"
 
-react-native-gradle-plugin@^0.71.17:
-  version "0.71.17"
-  resolved "https://registry.npmjs.org/react-native-gradle-plugin/-/react-native-gradle-plugin-0.71.17.tgz"
-  integrity sha512-OXXYgpISEqERwjSlaCiaQY6cTY5CH6j73gdkWpK0hedxtiWMWgH+i5TOi4hIGYitm9kQBeyDu+wim9fA8ROFJA==
+react-native-gradle-plugin@^0.71.18:
+  version "0.71.18"
+  resolved "https://registry.npmjs.org/react-native-gradle-plugin/-/react-native-gradle-plugin-0.71.18.tgz#20ef199bc85be32e45bb6cc069ec2e7dcb1a74a6"
+  integrity sha512-7F6bD7B8Xsn3JllxcwHhFcsl9aHIig47+3eN4IHFNqfLhZr++3ElDrcqfMzugM+niWbaMi7bJ0kAkAL8eCpdWg==
 
 react-native-level-fs@^3.0.1:
   version "3.0.1"
@@ -15858,10 +15874,10 @@ react-native-webview@11.26.0:
     escape-string-regexp "2.0.0"
     invariant "2.2.4"
 
-react-native@0.71.7:
-  version "0.71.7"
-  resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.71.7.tgz#d0ae409f6ee4fc7e7a876b4ca9d8d28934133228"
-  integrity sha512-Id6iRLS581fJMFGbBl1jP5uSmjExtGOvw5Gvh7694zISXjsRAsFMmU+izs0pyCLqDBoHK7y4BT7WGPGw693nYw==
+react-native@0.71.8:
+  version "0.71.8"
+  resolved "https://registry.npmjs.org/react-native/-/react-native-0.71.8.tgz#4314145341c49448cf7465b93ced52a433a5e191"
+  integrity sha512-ftMAuhpgTkbHU9brrqsEyxcNrpYvXKeATY+if22Nfhhg1zW+6wn95w9otwTnA3xHkljPCbng8mUhmmERjGEl7g==
   dependencies:
     "@jest/create-cache-key-function" "^29.2.1"
     "@react-native-community/cli" "10.2.2"
@@ -15888,7 +15904,7 @@ react-native@0.71.7:
     promise "^8.3.0"
     react-devtools-core "^4.26.1"
     react-native-codegen "^0.71.5"
-    react-native-gradle-plugin "^0.71.17"
+    react-native-gradle-plugin "^0.71.18"
     react-refresh "^0.4.0"
     react-shallow-renderer "^16.15.0"
     regenerator-runtime "^0.13.2"

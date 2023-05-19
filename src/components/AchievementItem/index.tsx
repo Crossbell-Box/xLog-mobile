@@ -174,7 +174,12 @@ export const AchievementItem: React.FC<AchievementItemProps> = (props) => {
       </TouchableWithoutFeedback>
       {
         !loaded && (
-          <ContentLoader viewBox={`0 0 ${initialImgSize} ${initialImgSize}`} backgroundColor={"gray"} opacity="0.3" style={{ position: "absolute" }}>
+          <ContentLoader
+            viewBox={`0 0 ${initialImgSize} ${initialImgSize}`}
+            backgroundColor={"gray"}
+            opacity="0.3"
+            style={{ position: "absolute" }}
+          >
             <Circle cx={initialImgSize / 2} cy={initialImgSize / 2} r={initialImgSize / 2} />
           </ContentLoader>
         )

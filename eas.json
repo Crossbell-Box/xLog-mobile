@@ -8,7 +8,7 @@
       "developmentClient": true,
       "distribution": "internal",
       "ios": {
-        "resourceClass": "m-medium",
+        "resourceClass": "large",
         "simulator": true
       }
     },
@@ -16,7 +16,7 @@
       "developmentClient": true,
       "distribution": "internal",
       "ios": {
-        "resourceClass": "m-medium"
+        "resourceClass": "large"
       },
       "channel": "development"
     },
@@ -26,13 +26,13 @@
       },
       "distribution": "internal",
       "ios": {
-        "resourceClass": "m-medium"
+        "resourceClass": "large"
       },
       "channel": "preview"
     },
     "production": {
       "ios": {
-        "resourceClass": "m-medium"
+        "resourceClass": "large"
       },
       "channel": "production",
       "autoIncrement": true
