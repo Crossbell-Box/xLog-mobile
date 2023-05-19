@@ -65,7 +65,7 @@ jobs:
           echo $MAJOR_CHANGESET_COUNT
 
           if [ $MINOR_CHANGESET_COUNT -eq 1 ] || [ $MAJOR_CHANGESET_COUNT -eq 1 ]; then
-              changeset version
+              yarn changeset version
               eas build --non-interactive --profile preview -p all --no-wait
           else
               if [ $PATCH_CHANGESET_COUNT -eq 1 ] ; then
