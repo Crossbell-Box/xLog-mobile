@@ -13,6 +13,7 @@ import { EventsPage } from "@/pages/Profile/Events";
 import { NotificationsPage } from "@/pages/Profile/Notifications";
 import { PagesPage } from "@/pages/Profile/Pages";
 import { PostsPage } from "@/pages/Profile/Posts";
+import { RepliesPage } from "@/pages/Replies";
 import { WebPage } from "@/pages/Web";
 
 import { HomeNavigator } from "./home";
@@ -44,8 +45,12 @@ export const RootNavigator = () => {
     >
       <RootStack.Screen name={"Home"} component={HomeNavigator} />
       <RootStack.Screen name={"PostDetails"} component={PostDetailsPage} />
-      <RootStack.Screen name={"CharacterListPage"} component={CharacterListPage} options={{ headerShown: true, title: "", headerBackTitle: "返回" }}/>
-      <RootStack.Screen name={"Web"} component={WebPage} options={{ headerShown: true, title: "", headerBackTitle: "返回" }}/>
+
+      <RootStack.Group screenOptions={{ headerShown: true, headerBackTitle: "返回" }}>
+        <RootStack.Screen name={"Replies"} component={RepliesPage} options={{ title: "评论回复" }}/>
+        <RootStack.Screen name={"CharacterListPage"} component={CharacterListPage} options={{ title: "" }}/>
+        <RootStack.Screen name={"Web"} component={WebPage} options={{ title: "" }}/>
+      </RootStack.Group>
 
       <RootStack.Group screenOptions={{
         headerShown: false,

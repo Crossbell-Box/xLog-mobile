@@ -24,10 +24,12 @@ else {
   }
 }
 
+// https://github.com/GoogleChromeLabs/jsbi/issues/30
+global.BigInt.prototype.toJSON = function () { return this.toString(); };
+
 process.browser = false;
 if (typeof Buffer === "undefined")
-  global.Buffer = require("buffer").Buffer
-  ;
+  global.Buffer = require("buffer").Buffer;
 
 // eslint-disable-next-line no-undef
 const isDev = typeof __DEV__ === "boolean" && __DEV__;

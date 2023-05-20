@@ -4,7 +4,9 @@ import { useTranslation } from "react-i18next";
 import { ScrollView } from "react-native";
 
 import { useAccountState } from "@crossbell/react-account";
+import { useNavigation } from "@react-navigation/native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import type { StackNavigationProp } from "@react-navigation/stack";
 import { Newspaper } from "@tamagui/lucide-icons";
 import { ListItem, Separator, SizableText, Tabs, Text, ListItemSubtitle, YGroup, Spinner, Stack } from "tamagui";
 
@@ -45,6 +47,7 @@ export const PostsPage: FC<NativeStackScreenProps<RootStackParamList, "Posts">> 
   const handle = computed?.account?.character?.handle;
   const characterId = computed?.account?.characterId;
   const date = useDate();
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
   const pages = useGetPagesBySite({
     type: "post",
@@ -53,6 +56,16 @@ export const PostsPage: FC<NativeStackScreenProps<RootStackParamList, "Posts">> 
     visibility: selectedTab,
     handle,
   });
+
+  const toDetails = (characterId: number, noteId: number) => {
+    navigation.navigate(
+      "PostDetails",
+      {
+        characterId,
+        noteId,
+      },
+    );
+  };
 
   return (
     <ProfilePageLayout>
@@ -111,6 +124,7 @@ export const PostsPage: FC<NativeStackScreenProps<RootStackParamList, "Posts">> 
                               hoverTheme
                               icon={Newspaper}
                               title={item?.metadata?.content?.title}
+                              onPress={() => toDetails(item.characterId, item.noteId)}
                               subTitle={(
                                 <ListItemSubtitle>
                                   已发布 · {

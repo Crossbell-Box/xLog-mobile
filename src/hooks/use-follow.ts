@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 import { useToastController } from "@tamagui/toast";
-import type { CharacterEntity } from "crossbell.js";
+import type { CharacterEntity } from "crossbell";
 
 import { useGetSubscription, useSubscribeToSite, useUnsubscribeFromSite } from "@/queries/site";
 

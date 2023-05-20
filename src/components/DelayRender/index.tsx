@@ -3,10 +3,11 @@ import { InteractionManager } from "react-native";
 
 interface DelayedRenderProps {
   timeout?: number
+  placeholder?: React.ReactNode
   children: React.ReactNode
 }
 
-export const DelayedRender: React.FC<DelayedRenderProps> = ({ timeout = 0, children }) => {
+export const DelayedRender: React.FC<DelayedRenderProps> = ({ timeout = 0, children, placeholder }) => {
   const [isReady, setReady] = useState(false);
 
   useEffect(() => {
@@ -25,7 +26,7 @@ export const DelayedRender: React.FC<DelayedRenderProps> = ({ timeout = 0, child
   }, [timeout]);
 
   if (!isReady) {
-    return null;
+    return <>{placeholder}</>;
   }
 
   return <>{children}</>;

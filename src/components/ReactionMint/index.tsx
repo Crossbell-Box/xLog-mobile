@@ -105,14 +105,14 @@ export const ReactionMint: React.FC<Props> = ({ characterId, noteId, iconSize = 
           <YStack padding="$3">
             <Paragraph>
               <Trans i18nKey="mint stored" i18n={i18n}>
-            This post has been minted to NFT by you, view it on{" "}
+            This post has been minted to NFT by you, view it on&nbsp;
                 <UniLink
                   url={`${CSB_XCHAR}/${account?.character?.handle}/collections`}
                   onPress={closeIsMintOpen}
                 >
               xChar
-                </UniLink>{" "}
-            or{" "}
+                </UniLink>&nbsp;
+            or&nbsp;
                 <UniLink
                   url={`${CSB_SCAN}/tx/${isMint.data?.list?.[0]?.transactionHash}`}
                   onPress={closeIsMintOpen}

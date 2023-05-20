@@ -3,7 +3,7 @@ import type {
   LinkItemNote,
   LinkItemType,
   NoteMetadata,
-} from "crossbell.js";
+} from "crossbell";
 import type { Signer } from "ethers";
 
 import { request } from "./utils";

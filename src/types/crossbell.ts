@@ -1,6 +1,6 @@
 import type { ReactElement } from "react";
 
-import type { CharacterEntity, NoteEntity } from "crossbell.js";
+import type { CharacterEntity, NoteEntity } from "crossbell";
 import type { Note as UniNote, Profile as UniProfile } from "unidata.js";
 
 export interface Site {

@@ -1,4 +1,4 @@
-import type { CharacterEntity, NoteEntity } from "crossbell.js";
+import type { CharacterEntity, NoteEntity } from "crossbell";
 import { nanoid } from "nanoid";
 
 import type { Profile, ExpandedNote, ExpandedCharacter } from "@/types/crossbell";

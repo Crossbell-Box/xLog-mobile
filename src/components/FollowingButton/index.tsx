@@ -1,7 +1,7 @@
 import { type FC } from "react";
 
 import { UserPlus } from "@tamagui/lucide-icons";
-import type { CharacterEntity } from "crossbell.js";
+import type { CharacterEntity } from "crossbell";
 import { Button } from "tamagui";
 
 import { useFollow } from "@/hooks/use-follow";

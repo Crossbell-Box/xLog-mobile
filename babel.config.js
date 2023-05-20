@@ -21,7 +21,10 @@ module.exports = function (api) {
           alias: dirs.reduce((acc, dir) => {
             acc[`@/${dir}`] = `./src/${dir}`;
             return acc;
-          }, {}),
+          }, {
+            "crossbell/network": path.resolve(__dirname, "node_modules/crossbell/dist/network.js"),
+            "crossbell/ipfs": path.resolve(__dirname, "node_modules/crossbell/dist/ipfs.js"),
+          }),
         },
       ],
       // Using ethers 6.1 required private class properties and it broke FlatList

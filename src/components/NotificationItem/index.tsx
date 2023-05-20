@@ -3,7 +3,7 @@ import type { SvgProps } from "react-native-svg";
 import { ClipPath, Rect, G, Svg, Path, Defs } from "react-native-svg";
 
 import type { ParsedNotification } from "@crossbell/indexer";
-import type { NoteEntity } from "crossbell.js";
+import type { NoteEntity } from "crossbell";
 import dayjs from "dayjs";
 import { utils } from "ethers";
 import removeMd from "remove-markdown";
@@ -68,10 +68,10 @@ export function NotificationItem({ notification }: ItemProps) {
         <YStack paddingVertical="$4" gap="$1.5" flex={1}>
           <Text color="$color" numberOfLines={1}>
             <Text fontWeight={"700"}>
-              {getCharacterName(notification)}{" "}
+              {getCharacterName(notification)}&nbsp;
             </Text>
-            {actionDesc(notification)}{" "}
-            {timeDiff(notification)}{" "}
+            {actionDesc(notification)}&nbsp;
+            {timeDiff(notification)}&nbsp;
           </Text>
           <XStack alignItems="center">
             <Text color="$color">

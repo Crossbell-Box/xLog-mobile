@@ -2,11 +2,12 @@ import React, { useMemo, useRef } from "react";
 import { StyleSheet, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { ArrowRight, Check, Eye, Info, Palette, Thermometer } from "@tamagui/lucide-icons";
 import * as Application from "expo-application";
 import { ListItem, Text, ListItemTitle, Switch, YGroup, YStack } from "tamagui";
 
+import { BottomSheetModal } from "@/components/BottomSheetModal";
+import type { BottomSheetModalInstance } from "@/components/BottomSheetModal";
 import { useColors } from "@/hooks/use-colors";
 import { useThemeStore } from "@/hooks/use-theme-store";
 import { allThemes } from "@/styles/theme";
@@ -16,8 +17,8 @@ export interface Props {
 }
 
 export const Settings: React.FC<Props> = () => {
-  const { primary, backgroundFocus } = useColors();
-  const bottomSheetRef = useRef<BottomSheetModal>(null);
+  const { primary, background } = useColors();
+  const bottomSheetRef = useRef<BottomSheetModalInstance>(null);
   const { mode, theme, changeTheme } = useThemeStore();
   const snapPoints = useMemo(() => ["40%"], []);
   const { toggleMode, toggleFollowSystem, followSystem, isDarkMode } = useThemeStore();
@@ -99,10 +100,7 @@ export const Settings: React.FC<Props> = () => {
         snapPoints={snapPoints}
         enablePanDownToClose
         index={0}
-        backgroundStyle={{
-          backgroundColor: backgroundFocus,
-        }}
-
+        backgroundStyle={{ backgroundColor: background }}
       >
         <ScrollView>
           <YStack gap="$3" padding="$3">

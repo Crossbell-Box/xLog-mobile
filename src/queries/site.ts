@@ -173,82 +173,6 @@ export const useGetSiteToSubscriptions = (data: { siteId: string }) => {
   });
 };
 
-export const useGetOperators = (
-  data: Parameters<typeof siteModel.getOperators>[0],
-) => {
-  return useQuery(["getOperators", data], async () => {
-    if (!data.characterId)
-      return null;
-
-    return siteModel.getOperators(data);
-  });
-};
-
-export const useIsOperators = (
-  data: Partial<Parameters<typeof siteModel.isOperators>[0]>,
-) => {
-  return useQuery(["isOperators", data], async () => {
-    if (!data.characterId || !data.operator)
-      return null;
-
-    return siteModel.isOperators({
-      characterId: data.characterId,
-      operator: data.operator,
-    });
-  });
-};
-
-export function useAddOperator() {
-  const contract = useContract();
-  const queryClient = useQueryClient();
-  return useMutation(
-    async (input: Parameters<typeof siteModel.addOperator>[0]) => {
-      return siteModel.addOperator(input, contract);
-    },
-    {
-      onSuccess: (data, variables) => {
-        queryClient.invalidateQueries([
-          "getOperators",
-          {
-            characterId: variables.characterId,
-          },
-        ]);
-        queryClient.invalidateQueries(["isOperators", variables]);
-      },
-    },
-  );
-}
-
-export function useRemoveOperator() {
-  const contract = useContract();
-  const queryClient = useQueryClient();
-  return useMutation(
-    async (input: Partial<Parameters<typeof siteModel.removeOperator>[0]>) => {
-      if (!input.operator || !input.characterId)
-        return null;
-
-      return siteModel.removeOperator(
-        {
-          operator: input.operator,
-          characterId: input.characterId,
-        },
-        contract,
-      );
-    },
-    {
-      onSuccess: (data, variables) => {
-        queryClient.invalidateQueries([
-          "getOperators",
-          {
-            characterId: variables.characterId,
-          },
-        ]);
-        queryClient.invalidateQueries(["isOperators", variables]);
-      },
-    },
-  );
-}
-
 export const useGetNFTs = (address: string) => {
   return useQuery(["getNFTs", address], async () => {
     if (!address)
@@ -299,27 +223,6 @@ export const useGetStat = (
     });
   });
 };
-
-export function useTipCharacter() {
-  const queryClient = useQueryClient();
-  const contract = useContract();
-  const mutation = useMutation(
-    async (payload: Parameters<typeof siteModel.tipCharacter>[0]) => {
-      return siteModel.tipCharacter(payload, contract);
-    },
-    {
-      onSuccess: (data, variables) => {
-        queryClient.invalidateQueries([
-          "getTips",
-          {
-            toCharacterId: variables.toCharacterId,
-          },
-        ]);
-      },
-    },
-  );
-  return mutation;
-}
 
 export const useGetTips = (
   data: Partial<Parameters<typeof siteModel.getTips>[0]>,
@@ -372,18 +275,6 @@ export const useMintAchievement = () => {
       },
     },
   );
-};
-
-export const useGetMiraBalance = (characterId?: string) => {
-  const contract = useContract();
-  return useQuery(["getMiraBalance", characterId], async () => {
-    if (!characterId) {
-      return {
-        data: "Loading...",
-      };
-    }
-    return siteModel.getMiraBalance(characterId, contract);
-  });
 };
 
 export const useGetGreenfieldId = (cid?: string) => {

@@ -4,20 +4,20 @@ import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 import { Link } from "@react-navigation/native";
 import { ShieldCheck } from "@tamagui/lucide-icons";
+import type { CharacterEntity, NoteEntity } from "crossbell";
 import { Card, Paragraph, SizableText, Stack, XStack, YStack } from "tamagui";
 
 import { CSB_SCAN } from "@/constants/env";
 import { useColors } from "@/hooks/use-colors";
 import { useGetGreenfieldId } from "@/queries/site";
-import type { ExpandedCharacter, ExpandedNote } from "@/types/crossbell";
 import { toCid, toGateway, toIPFS } from "@/utils/ipfs-parser";
 
 import { ModalWithFadeAnimation } from "../ModalWithFadeAnimation";
 
 type Props = {
   size?: number
-  site?: ExpandedCharacter
-  page: ExpandedNote
+  character?: CharacterEntity
+  page: NoteEntity
   renderOnly?: false
 } | {
   size?: number
@@ -48,7 +48,7 @@ export const BlockchainInfoIcon: FC<Props> = (props) => {
     return <ShieldCheck color="green" size={"$1"} />;
   }
 
-  const { page, site } = props;
+  const { page, character: site } = props;
   const [isModalVisible, setModalVisible] = useState(false);
   const { t } = useTranslation("common");
 
@@ -72,7 +72,7 @@ export const BlockchainInfoIcon: FC<Props> = (props) => {
   return (
     <>
       <TouchableWithoutFeedback onPress={openModal}>
-        <ShieldCheck color="green" width={size} />
+        <ShieldCheck color="green" width={size}/>
       </TouchableWithoutFeedback>
       <ModalWithFadeAnimation
         isVisible={isModalVisible}
@@ -120,7 +120,7 @@ export const BlockchainInfoIcon: FC<Props> = (props) => {
                       onPress={closeModal}
                       url={`${CSB_SCAN}/tx/${page?.updatedTransactionHash}`}
                     >
-                      {t("Last Update")}{" "}
+                      {t("Last Update")}&nbsp;
                       {page?.updatedTransactionHash.slice(0, 10)}...
                       {page?.updatedTransactionHash.slice(-10)}
                     </BlockchainInfoLink>
@@ -139,7 +139,7 @@ export const BlockchainInfoIcon: FC<Props> = (props) => {
                       onPress={closeModal}
                       url={`${CSB_SCAN}/tx/${site?.updatedTransactionHash}`}
                     >
-                      {t("Last Update")}{" "}
+                      {t("Last Update")}&nbsp;
                       {site?.updatedTransactionHash.slice(0, 10)}...
                       {site?.updatedTransactionHash.slice(-10)}
                     </BlockchainInfoLink>

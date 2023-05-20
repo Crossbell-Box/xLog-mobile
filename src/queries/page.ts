@@ -1,7 +1,7 @@
 import { useAccountState, useIsNoteLiked, useMintNote, useNoteLikeCount, useNoteLikeList, useToggleLikeNote } from "@crossbell/react-account";
 import { useInfiniteQuery, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { checkMint, getMints, getPage, getPagesBySite } from "@/models/page.model";
+import { checkMint, getComments, getMints, getPage, getPagesBySite } from "@/models/page.model";
 import { cacheDelete, cacheGet } from "@/utils/cache";
 import { getNoteSlug } from "@/utils/get-slug";
 
@@ -81,6 +81,25 @@ export const useGetLikeCounts = ({
     noteId: noteId || 0,
   });
 };
+
+export function useGetComments(
+  input: Partial<Parameters<typeof getComments>[0]>,
+) {
+  return useInfiniteQuery({
+    queryKey: ["getComments", input.characterId, input.noteId],
+    queryFn: async ({ pageParam }) => {
+      if (!input.characterId || !input.noteId) {
+        return null;
+      }
+      return getComments({
+        characterId: input.characterId,
+        noteId: input.noteId,
+        cursor: pageParam,
+      });
+    },
+    getNextPageParam: lastPage => lastPage?.cursor || undefined,
+  });
+}
 
 export const useGetLikes = ({
   characterId,
@@ -207,18 +226,5 @@ export const useGetPage = (
           handle: input.handle,
         }),
     }) as Promise<ReturnType<typeof getPage>>;
-    // return getPage({
-    //   characterId: input.characterId,
-    //   slug: input.slug,
-    //   noteId: input.noteId,
-    //   useStat: input.useStat,
-    //   handle: input.handle,
-    // }).catch((e) => {
-    //   console.log(e, "catched");
-    //   return e;
-    // }).then((e) => {
-    //   console.log(e, "resolved");
-    //   return e;
-    // });
   });
 };

@@ -4,7 +4,7 @@ import type { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
 import { StyleSheet } from "react-native";
 import type { useAnimatedScrollHandler } from "react-native-reanimated";
 
-import type { NoteEntity } from "crossbell.js";
+import type { NoteEntity } from "crossbell";
 import * as Haptics from "expo-haptics";
 import { Spinner, Stack, useWindowDimensions } from "tamagui";
 
@@ -66,7 +66,6 @@ export const FeedList: FC<Props> = (props) => {
         }}
         scrollEventThrottle={16}
         onScroll={props.onScroll}
-        showsVerticalScrollIndicator={false}
         onScrollEndDrag={props.onScrollEndDrag}
         onEndReachedThreshold={0.5}
         onEndReached={() => {

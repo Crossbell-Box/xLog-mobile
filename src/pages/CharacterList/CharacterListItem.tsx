@@ -1,7 +1,7 @@
 import React, { memo } from "react";
 
 import { useConnectedAccount } from "@crossbell/react-account";
-import type { CharacterEntity } from "crossbell.js";
+import type { CharacterEntity } from "crossbell";
 import { ListItem, Text, XStack } from "tamagui";
 
 import { Avatar } from "@/components/Avatar";

@@ -3,7 +3,7 @@ import type {
   LinkItemType,
   NoteMetadata,
   LinkItemNote,
-} from "crossbell.js";
+} from "crossbell";
 
 import { request } from "./utils";
 
