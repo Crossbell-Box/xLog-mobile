@@ -1,5 +1,31 @@
 # xlog
 
+## 0.5.0
+
+### Minor Changes
+
+- 1e061e0: - 更好用的文章详情页
+  - 支持保存图片到相册
+  - 签名授权后每次交互不再需要签名
+  - 提醒进行签名设置
+  - 优化了一些用户体验
+  - 解决了一些 Bug
+
+### Patch Changes
+
+- c7464b4: Performed minor code style tweaks.
+- 747b885: Solved the crash issue on Android.
+- e05e10b: 🚀 support to display post content only.
+- 2471d51: - UI issues fixed.
+  - Open drawer via avatar button.
+  - Support to follow the system color scheme.
+- 38cb225: Replace the webview url.
+- a4df6c1: Resolved the crash issue on the notification page..
+- a3589da: summary the image on feedlist
+- 0e6a217: enable content loader animation on Android.
+- fa5f025: UX improvements.
+- 9299d45: support to browse comments.
+
 ## 0.4.0
 
 ### Minor Changes
