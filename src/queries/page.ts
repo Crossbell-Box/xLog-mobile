@@ -227,18 +227,5 @@ export const useGetPage = (
           handle: input.handle,
         }),
     }) as Promise<ReturnType<typeof getPage>>;
-    // return getPage({
-    //   characterId: input.characterId,
-    //   slug: input.slug,
-    //   noteId: input.noteId,
-    //   useStat: input.useStat,
-    //   handle: input.handle,
-    // }).catch((e) => {
-    //   console.log(e, "catched");
-    //   return e;
-    // }).then((e) => {
-    //   console.log(e, "resolved");
-    //   return e;
-    // });
   });
 };

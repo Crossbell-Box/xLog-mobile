@@ -144,7 +144,7 @@ export async function getComments({
   };
 
   const res = (await indexer.note.getMany(options)) || {
-    total: 0,
+    count: 0,
     list: [],
   };
 

@@ -18,14 +18,12 @@ export function useScrollVisibilityHandler(options: Options) {
       event.contentOffset.y - prevTranslationYAnimValue.value > scrollThreshold
             && isExpandedAnimValue.value !== 0
     ) {
-      // Hiding the connection button
       isExpandedAnimValue.value = withSpring(0);
     }
     else if (
       event.contentOffset.y - prevTranslationYAnimValue.value < -scrollThreshold
             && isExpandedAnimValue.value !== 1
     ) {
-      // Showing the connection button
       isExpandedAnimValue.value = withSpring(1);
     }
   }, [scrollThreshold]);
