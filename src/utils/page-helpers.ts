@@ -1,4 +1,4 @@
-import type { NoteEntity } from "crossbell.js";
+import type { NoteEntity } from "crossbell";
 import dayjs from "dayjs";
 
 import { PageVisibilityEnum } from "@/types";

@@ -6,10 +6,11 @@ import { ScrollView } from "react-native-gesture-handler";
 
 import { useAccountState } from "@crossbell/react-account";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { Separator, SizableText, Text, YGroup, YStack } from "tamagui";
+import { Separator, SizableText, Text, YGroup } from "tamagui";
 
 import { CommentItem } from "@/components/CommentItem";
 import { ProfilePageHeader } from "@/components/ProfilePageHeader";
+import { ProfilePageLayout } from "@/components/ProfilePageLayout";
 import type { RootStackParamList } from "@/navigation/types";
 import { useGetCommentsBySite } from "@/queries/site";
 
@@ -22,10 +23,10 @@ export const CommentsPage: FC<NativeStackScreenProps<RootStackParamList, "Commen
   const i18n = useTranslation();
 
   return (
-    <YStack padding="$3" flex={1}>
+    <ProfilePageLayout>
       <ProfilePageHeader title="评论" description={null} />
-      <ScrollView style={styles.container}>
-        <YGroup alignSelf="center" flex={1} size="$4" separator={<Separator marginVertical="$3" />}>
+      <ScrollView scrollIndicatorInsets={{ right: -16 }} style={styles.container}>
+        <YGroup width={"100%"} alignSelf="center" flex={1} separator={<Separator marginBottom="$3" />}>
           {
             comments.data?.pages.map(page => (
               page?.list?.map((comment) => {
@@ -55,8 +56,8 @@ export const CommentsPage: FC<NativeStackScreenProps<RootStackParamList, "Commen
 
                 return (
                   <YGroup.Item key={comment.transactionHash}>
-                    <SizableText color="$color" size={"$sm"}>
-                      {name}{" "}
+                    <SizableText color="$color" size={"$sm"} marginBottom="$3">
+                      {name}&nbsp;
                       <Trans
                         i18nKey="comment on your"
                         values={{
@@ -80,6 +81,7 @@ export const CommentsPage: FC<NativeStackScreenProps<RootStackParamList, "Commen
                       comment={comment}
                       padding={0}
                       paddingVertical="$2"
+                      displayReply={false}
                     />
                   </YGroup.Item>
                 );
@@ -88,12 +90,13 @@ export const CommentsPage: FC<NativeStackScreenProps<RootStackParamList, "Commen
           }
         </YGroup>
       </ScrollView>
-    </YStack>
+    </ProfilePageLayout>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    overflow: "visible",
   },
 });

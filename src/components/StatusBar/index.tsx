@@ -2,7 +2,7 @@ import React from "react";
 
 import { StatusBar as ExpoStatusBar } from "expo-status-bar";
 
-import { useColors } from "@/hooks/use-color";
+import { useColors } from "@/hooks/use-colors";
 import { useThemeStore } from "@/hooks/use-theme-store";
 
 export interface StatusBarProps {

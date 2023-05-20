@@ -4,9 +4,11 @@ import { useTranslation } from "react-i18next";
 import Animated, { FadeInLeft, FadeOutLeft, interpolate, useAnimatedStyle, useDerivedValue, withTiming } from "react-native-reanimated";
 
 import { ChevronDown } from "@tamagui/lucide-icons";
-import { Button, isWeb, Stack, Text, useCurrentColor, XStack, YStack } from "tamagui";
+import { Button, isWeb, Stack, Text, XStack, YStack } from "tamagui";
 
 import { NavigationHeader } from "@/components/Header";
+import { isAndroid } from "@/constants/platform";
+import { useColors } from "@/hooks/use-colors";
 import type { FeedType } from "@/models/home.model";
 
 import { HotInterval } from "./HotInterval";
@@ -30,8 +32,7 @@ export interface Props {
 type Measurements = Array<Partial<{ x: number; width: number }>>;
 
 export const Header: FC<Props> = (props) => {
-  const primaryColor = useCurrentColor("orange9");
-  const inactiveColor = useCurrentColor("$colorSubtitle");
+  const { primary: primaryColor, subtitle: inactiveColor } = useColors();
   const i18n = useTranslation();
   const lengthOfSortType = Object.values(sortType).length;
   const { isExpandedAnimValue, currentSortType, onSortTypeChange } = props;
@@ -82,26 +83,39 @@ export const Header: FC<Props> = (props) => {
   }> = [
     {
       type: sortType.LATEST,
-      title: i18n.t("Latest"),
+      title: ({ tintColor, fontWeight }) => (
+        <Text
+          color={tintColor}
+          fontWeight={fontWeight}
+          fontSize={14}
+        >
+          {i18n.t("Latest")}
+        </Text>
+      ),
     },
     {
       type: sortType.HOT,
       title: ({ tintColor, fontWeight }) => (
-        <XStack alignItems="center">
-          <Text
-            color={tintColor}
-            fontWeight={fontWeight}
-          >
-            {i18n.t("Hot")}
-          </Text>
+        <XStack alignItems="center" gap="$1">
+          <Stack height={18}>
+            <Text
+              color={tintColor}
+              fontWeight={fontWeight}
+              fontSize={14}
+            >
+              {i18n.t("Hot")}
+            </Text>
+          </Stack>
           {currentSortType === sortType.HOT && (
             <Animated.View entering={FadeInLeft.duration(200)} exiting={FadeOutLeft.duration(200)}>
-              <ChevronDown
-                color={tintColor}
-                fontWeight={fontWeight}
-                width={16}
-                height={16}
-              />
+              <Stack paddingTop={isAndroid ? "$1" : undefined}>
+                <ChevronDown
+                  color={tintColor}
+                  fontWeight={fontWeight}
+                  width={12}
+                  height={12}
+                />
+              </Stack>
             </Animated.View>
           )}
           <HotInterval
@@ -146,13 +160,16 @@ export const Header: FC<Props> = (props) => {
                 : title({ tintColor, fontWeight });
 
               return (
-                <Stack key={type} onLayout={({ nativeEvent: { layout: { width, x } } }) => {
-                  setMeasurements((prev) => {
-                    const newButtonMeasurements = [...prev];
-                    newButtonMeasurements[index] = { width, x };
-                    return newButtonMeasurements;
-                  });
-                }}>
+                <Stack
+                  key={type}
+                  onLayout={({ nativeEvent: { layout: { width, x } } }) => {
+                    setMeasurements((prev) => {
+                      const newButtonMeasurements = [...prev];
+                      newButtonMeasurements[index] = { width, x };
+                      return newButtonMeasurements;
+                    });
+                  }}
+                >
                   <Button
                     marginTop={5}
                     height={40}

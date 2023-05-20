@@ -23,7 +23,12 @@ const WebView = React.forwardRef<RNWebView, Props>(({ source, onProgress, ...pro
 
   return (
     <View style={styles.container}>
-      <RNWebView source={source} onLoadProgress={handleLoadProgress} {...props} ref={ref}/>
+      <RNWebView
+        source={source}
+        onLoadProgress={handleLoadProgress}
+        {...props}
+        ref={ref}
+      />
       {progress > 0 && (
         <Progress.Bar
           progress={progress}

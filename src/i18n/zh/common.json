@@ -77,11 +77,15 @@
   "Tip the post: {{name}}": "赞赏文章：{{name}}",
   "Custom": "自定义",
   "Mintable": "可铸造",
-  "Successfully followed": "嘿！你已经准备好<2>在这里跟上你关注的博主的最新动态</2>了。",
+  "Successfully followed": "关注成功",
   "Enable AI Filtering": "启用 AI 过滤",
   "Filter out possible low-quality content based on AI ratings.": "基于 AI 评分过滤可能质量不佳的内容。",
   "Refreshing": "刷新中",
   "Search for your interest": "搜索你感兴趣的内容",
   "results": "条结果",
-  "My xLog": "我的 xLog"
+  "My xLog": "我的 xLog",
+  "Do not show again": "不再提示",
+  "Image saved successfully": "图片已保存至相册",
+  "Failed to save image":"图片保存失败",
+  "By signing, you can interact without clicking to agree the smart contracts every time. We are in Beta, and new users who try it out will be rewarded with 0.01 $CSB.": "通过签署授权，你可以在每次互动时无需点击同意智能合约。我们正在测试阶段，新用户试用将获得0.01 $CSB的奖励。"
 }

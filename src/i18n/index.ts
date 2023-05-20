@@ -27,6 +27,7 @@ i18next
     resources,
     lng: Localization.locale,
     fallbackLng: "en",
+    defaultNS: "common",
     interpolation: {
       escapeValue: false,
     },

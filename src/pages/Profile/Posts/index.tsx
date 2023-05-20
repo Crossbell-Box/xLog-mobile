@@ -4,11 +4,14 @@ import { useTranslation } from "react-i18next";
 import { ScrollView } from "react-native";
 
 import { useAccountState } from "@crossbell/react-account";
+import { useNavigation } from "@react-navigation/native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import type { StackNavigationProp } from "@react-navigation/stack";
 import { Newspaper } from "@tamagui/lucide-icons";
-import { ListItem, Separator, SizableText, Tabs, Text, YStack, ListItemSubtitle, YGroup, Spinner, Stack } from "tamagui";
+import { ListItem, Separator, SizableText, Tabs, Text, ListItemSubtitle, YGroup, Spinner, Stack } from "tamagui";
 
 import { ProfilePageHeader } from "@/components/ProfilePageHeader";
+import { ProfilePageLayout } from "@/components/ProfilePageLayout";
 import { useDate } from "@/hooks/use-date";
 import type { RootStackParamList } from "@/navigation/types";
 import { useGetPagesBySite } from "@/queries/page";
@@ -44,6 +47,7 @@ export const PostsPage: FC<NativeStackScreenProps<RootStackParamList, "Posts">> 
   const handle = computed?.account?.character?.handle;
   const characterId = computed?.account?.characterId;
   const date = useDate();
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
   const pages = useGetPagesBySite({
     type: "post",
@@ -53,8 +57,18 @@ export const PostsPage: FC<NativeStackScreenProps<RootStackParamList, "Posts">> 
     handle,
   });
 
+  const toDetails = (characterId: number, noteId: number) => {
+    navigation.navigate(
+      "PostDetails",
+      {
+        characterId,
+        noteId,
+      },
+    );
+  };
+
   return (
-    <YStack padding="$3" flex={1}>
+    <ProfilePageLayout>
       <ProfilePageHeader
         title="文章"
         description={(
@@ -110,6 +124,7 @@ export const PostsPage: FC<NativeStackScreenProps<RootStackParamList, "Posts">> 
                               hoverTheme
                               icon={Newspaper}
                               title={item?.metadata?.content?.title}
+                              onPress={() => toDetails(item.characterId, item.noteId)}
                               subTitle={(
                                 <ListItemSubtitle>
                                   已发布 · {
@@ -130,6 +145,6 @@ export const PostsPage: FC<NativeStackScreenProps<RootStackParamList, "Posts">> 
               </ScrollView>
             )}
       </Tabs>
-    </YStack>
+    </ProfilePageLayout>
   );
 };

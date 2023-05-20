@@ -12,10 +12,13 @@ import {
 import { Plug } from "@tamagui/lucide-icons";
 import { useWalletConnect } from "@walletconnect/react-native-dapp";
 import * as Haptics from "expo-haptics";
-import { Button } from "tamagui";
+import { Button, Card, H4, Paragraph, Stack } from "tamagui";
 
-import { useColor } from "@/hooks/styles";
 import { useDrawer } from "@/hooks/use-drawer";
+import { useOneTimeToggler } from "@/hooks/use-signin-tips-toggler";
+
+import { DelayedRender } from "../DelayRender";
+import { ModalWithFadeAnimation } from "../ModalWithFadeAnimation";
 
 interface Props { }
 
@@ -54,7 +57,6 @@ export const ConnectionButton: FC<Props> = () => {
 };
 
 function ConnectBtn() {
-  const { primary } = useColor();
   const i18n = useTranslation();
   const connector = useWalletConnect();
   const handleConnect = () => {
@@ -68,7 +70,7 @@ function ConnectBtn() {
         pressStyle={{ opacity: 0.85 }}
         color={"white"}
         fontSize={"$xl"}
-        backgroundColor={primary}
+        backgroundColor={"$primary"}
         onPress={handleConnect}
         icon={<Plug size={"$1.5"} />}
       >
@@ -79,24 +81,46 @@ function ConnectBtn() {
 }
 
 function OPSignToggleBtn() {
-  const { primary } = useColor();
   const { mutate: signIn, isLoading: isSignInLoading } = useWalletSignIn();
   const isWalletSignedIn = useIsWalletSignedIn();
+  const { t } = useTranslation();
+  const { hasBeenDisplayed, close, closePermanently } = useOneTimeToggler();
 
   if (!isWalletSignedIn) {
     return (
-      <Animated.View entering={FlipInXDown.delay(500).duration(300)}>
-        <Button
-          pressStyle={{ opacity: 0.85 }}
-          color={"white"}
-          fontSize={"$xl"}
-          backgroundColor={primary}
-          onPress={() => signIn()}
-          icon={<Plug size={"$1.5"} />}
-        >
-          {isSignInLoading ? "Loading" : "Sign In"}
-        </Button>
-      </Animated.View>
+      <Stack>
+        <Animated.View entering={FlipInXDown.delay(500).duration(300)} >
+          <Button
+            pressStyle={{ opacity: 0.85 }}
+            color={"white"}
+            fontSize={"$xl"}
+            backgroundColor={"$primary"}
+            onPress={() => {
+              signIn();
+              closePermanently();
+            }}
+            icon={<Plug size={"$1.5"} />}
+          >
+            {isSignInLoading ? `${t("Loading")}...` : t("Operator Sign")}
+          </Button>
+        </Animated.View>
+        <DelayedRender timeout={2000}>
+          <ModalWithFadeAnimation isVisible={!hasBeenDisplayed}>
+            <Card elevate bordered>
+              <Card.Header bordered padding="$3">
+                <H4>{t("Operator Sign") || ""}</H4>
+              </Card.Header>
+              <Paragraph padding="$3">
+                {t("By signing, you can interact without clicking to agree the smart contracts every time. We are in Beta, and new users who try it out will be rewarded with 0.01 $CSB.")}
+              </Paragraph>
+              <Card.Footer padded alignItems="center" justifyContent="center" gap="$4">
+                <Button minWidth={"45%"} onPress={close} backgroundColor={"$backgroundFocus"} color={"$primary"} borderRadius="$5">{t("Confirm")}</Button>
+                <Button minWidth={"45%"} onPress={closePermanently} borderRadius="$5">{t("Do not show again")}</Button>
+              </Card.Footer>
+            </Card>
+          </ModalWithFadeAnimation>
+        </DelayedRender>
+      </Stack>
     );
   }
 
@@ -104,7 +128,6 @@ function OPSignToggleBtn() {
 }
 
 export function DisconnectBtn() {
-  const { primary } = useColor();
   const _disconnect = useDisconnectAccount();
   const { closeDrawer } = useDrawer();
 
@@ -119,7 +142,7 @@ export function DisconnectBtn() {
         pressStyle={{ opacity: 0.85 }}
         color={"white"}
         fontSize={"$xl"}
-        backgroundColor={primary}
+        backgroundColor={"$primary"}
         onPress={disconnect}
       >
         Disconnect

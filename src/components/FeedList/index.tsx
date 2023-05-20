@@ -4,11 +4,10 @@ import type { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
 import { StyleSheet } from "react-native";
 import type { useAnimatedScrollHandler } from "react-native-reanimated";
 
-import type { NoteEntity } from "crossbell.js";
+import type { NoteEntity } from "crossbell";
 import * as Haptics from "expo-haptics";
 import { Spinner, Stack, useWindowDimensions } from "tamagui";
 
-import { useComposedScrollHandler } from "@/hooks/use-composed-scroll-handler";
 import type { FeedType } from "@/models/home.model";
 import { useGetFeed } from "@/queries/home";
 
@@ -29,7 +28,6 @@ export interface Props {
 
 export const FeedList: FC<Props> = (props) => {
   const { type, noteIds, daysInterval = 7 } = props;
-  const onScrollHandler = useComposedScrollHandler([props.onScroll]);
   const { width, height } = useWindowDimensions();
   const feed = useGetFeed({
     type,
@@ -67,10 +65,9 @@ export const FeedList: FC<Props> = (props) => {
           width,
         }}
         scrollEventThrottle={16}
-        onScroll={onScrollHandler}
-        showsVerticalScrollIndicator={false}
+        onScroll={props.onScroll}
         onScrollEndDrag={props.onScrollEndDrag}
-        onEndReachedThreshold={0.2}
+        onEndReachedThreshold={0.5}
         onEndReached={() => {
           if (
             feedList.length === 0

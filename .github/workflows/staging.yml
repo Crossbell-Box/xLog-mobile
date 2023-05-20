@@ -1,4 +1,4 @@
-name: Expo Preview Updates
+name: Staging
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   update:
-    name: EAS Update
+    name: Staging
     runs-on: ubuntu-latest
     steps:
       - name: Check for EXPO_TOKEN
@@ -46,6 +46,8 @@ jobs:
         run: |
           git fetch origin main:main
 
+      # If there are patch changesets, we want to publish them hot updates.
+      # If there are minor or major changesets, we want to publish them as new builds.
       - name: Publish update
         env:
           NODE_OPTIONS: --max_old_space_size=4096
@@ -54,13 +56,22 @@ jobs:
           CHANGESET_STATUS_OUTPUT=$(yarn changeset status)
           set -e
 
-          PATCH_CHANGESET_COUNT=$(echo "$CHANGESET_STATUS_OUTPUT" | grep -c "info Packages to be bumped at patch")
-          NO_MINOR_CHANGESET_COUNT=$(echo "$CHANGESET_STATUS_OUTPUT" | grep -c "info NO packages to be bumped at minor")
-          NO_MAJOR_CHANGESET_COUNT=$(echo "$CHANGESET_STATUS_OUTPUT" | grep -c "info NO packages to be bumped at major")
+          PATCH_CHANGESET_COUNT=$(echo "$CHANGESET_STATUS_OUTPUT" | grep -c "info Packages to be bumped at patch" || true)
+          MINOR_CHANGESET_COUNT=$(echo "$CHANGESET_STATUS_OUTPUT" | grep -c "info Packages to be bumped at minor" || true)
+          MAJOR_CHANGESET_COUNT=$(echo "$CHANGESET_STATUS_OUTPUT" | grep -c "info Packages to be bumped at major" || true)
 
-          if [ $PATCH_CHANGESET_COUNT -eq 1 ] && [ $NO_MINOR_CHANGESET_COUNT -eq 1 ] && [ $NO_MAJOR_CHANGESET_COUNT -eq 1 ]; then
-            echo "Only patch changeset found, executing update."
-            eas update --branch "${GITHUB_REF#refs/heads/}" --auto
+          echo $PATCH_CHANGESET_COUNT
+          echo $MINOR_CHANGESET_COUNT
+          echo $MAJOR_CHANGESET_COUNT
+
+          if [ $MINOR_CHANGESET_COUNT -eq 1 ] || [ $MAJOR_CHANGESET_COUNT -eq 1 ]; then
+              yarn changeset version
+              eas build --non-interactive --profile preview -p all --no-wait
           else
-            echo "No patch-only changeset found, skipping update."
+              if [ $PATCH_CHANGESET_COUNT -eq 1 ] ; then
+                  echo "Only patch changeset found, executing update."
+                  eas update --branch staging --auto
+              else
+                  echo "No patch-only changeset found, skipping update."
+              fi
           fi

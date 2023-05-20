@@ -3,7 +3,7 @@ import type { SvgProps } from "react-native-svg";
 import { ClipPath, Rect, G, Svg, Path, Defs } from "react-native-svg";
 
 import type { ParsedNotification } from "@crossbell/indexer";
-import type { NoteEntity } from "crossbell.js";
+import type { NoteEntity } from "crossbell";
 import dayjs from "dayjs";
 import { utils } from "ethers";
 import removeMd from "remove-markdown";
@@ -64,14 +64,14 @@ export function NotificationItem({ notification }: ItemProps) {
   return (
     <Card elevate size="$4" bordered marginBottom="$4" paddingHorizontal="$4">
       <XStack alignItems="center" gap="$3">
-        <Avatar uri={notification?.fromCharacter?.metadata?.content?.avatars?.[0]} />
+        <Avatar useDefault character={notification?.fromCharacter} />
         <YStack paddingVertical="$4" gap="$1.5" flex={1}>
           <Text color="$color" numberOfLines={1}>
             <Text fontWeight={"700"}>
-              {getCharacterName(notification)}{" "}
+              {getCharacterName(notification)}&nbsp;
             </Text>
-            {actionDesc(notification)}{" "}
-            {timeDiff(notification)}{" "}
+            {actionDesc(notification)}&nbsp;
+            {timeDiff(notification)}&nbsp;
           </Text>
           <XStack alignItems="center">
             <Text color="$color">
