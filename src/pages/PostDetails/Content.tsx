@@ -153,7 +153,7 @@ export const Content: FC<Props> = (props) => {
             <Animated.View style={[
               webviewAnimStyles,
               styles.webviewContainer,
-              { height: webviewHeight, paddingTop: headerContainerHeight },
+              { height: webviewHeight },
             ]}>
               {webviewUri && (
                 <WebView
@@ -220,6 +220,8 @@ export const Content: FC<Props> = (props) => {
                             );
                           });
                         }
+
+                        document.body.style.paddingTop = "${headerContainerHeight}px";
                       });
 
                       const observer = new MutationObserver(sendHeight);

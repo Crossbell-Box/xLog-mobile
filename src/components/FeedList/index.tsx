@@ -66,7 +66,6 @@ export const FeedList: FC<Props> = (props) => {
         }}
         scrollEventThrottle={16}
         onScroll={props.onScroll}
-        showsVerticalScrollIndicator={false}
         onScrollEndDrag={props.onScrollEndDrag}
         onEndReachedThreshold={0.5}
         onEndReached={() => {

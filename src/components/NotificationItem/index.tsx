@@ -68,10 +68,10 @@ export function NotificationItem({ notification }: ItemProps) {
         <YStack paddingVertical="$4" gap="$1.5" flex={1}>
           <Text color="$color" numberOfLines={1}>
             <Text fontWeight={"700"}>
-              {getCharacterName(notification)}{" "}
+              {getCharacterName(notification)}&nbsp;
             </Text>
-            {actionDesc(notification)}{" "}
-            {timeDiff(notification)}{" "}
+            {actionDesc(notification)}&nbsp;
+            {timeDiff(notification)}&nbsp;
           </Text>
           <XStack alignItems="center">
             <Text color="$color">

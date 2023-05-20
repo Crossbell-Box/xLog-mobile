@@ -25,8 +25,8 @@ export const CommentsPage: FC<NativeStackScreenProps<RootStackParamList, "Commen
   return (
     <ProfilePageLayout>
       <ProfilePageHeader title="评论" description={null} />
-      <ScrollView style={styles.container}>
-        <YGroup alignSelf="center" flex={1} size="$4" separator={<Separator marginVertical="$3" />}>
+      <ScrollView scrollIndicatorInsets={{ right: -16 }} style={styles.container}>
+        <YGroup width={"100%"} alignSelf="center" flex={1} separator={<Separator marginBottom="$3" />}>
           {
             comments.data?.pages.map(page => (
               page?.list?.map((comment) => {
@@ -56,8 +56,8 @@ export const CommentsPage: FC<NativeStackScreenProps<RootStackParamList, "Commen
 
                 return (
                   <YGroup.Item key={comment.transactionHash}>
-                    <SizableText color="$color" size={"$sm"}>
-                      {name}{" "}
+                    <SizableText color="$color" size={"$sm"} marginBottom="$3">
+                      {name}&nbsp;
                       <Trans
                         i18nKey="comment on your"
                         values={{
@@ -81,6 +81,7 @@ export const CommentsPage: FC<NativeStackScreenProps<RootStackParamList, "Commen
                       comment={comment}
                       padding={0}
                       paddingVertical="$2"
+                      displayReply={false}
                     />
                   </YGroup.Item>
                 );
@@ -96,5 +97,6 @@ export const CommentsPage: FC<NativeStackScreenProps<RootStackParamList, "Commen
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    overflow: "visible",
   },
 });

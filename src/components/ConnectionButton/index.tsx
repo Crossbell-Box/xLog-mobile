@@ -89,7 +89,7 @@ function OPSignToggleBtn() {
   if (!isWalletSignedIn) {
     return (
       <Stack>
-        <Animated.View entering={FlipInXDown.delay(500).duration(300)}>
+        <Animated.View entering={FlipInXDown.delay(500).duration(300)} >
           <Button
             pressStyle={{ opacity: 0.85 }}
             color={"white"}

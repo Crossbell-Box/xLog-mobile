@@ -148,7 +148,7 @@ export async function getComments({
     list: [],
   };
 
-  return res;
+  return res as Awaited<ReturnType<typeof indexer.note.getMany>>;
 }
 
 export async function updateComment(

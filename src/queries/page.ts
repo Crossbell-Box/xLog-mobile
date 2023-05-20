@@ -97,7 +97,6 @@ export function useGetComments(
         cursor: pageParam,
       });
     },
-    // @ts-expect-error
     getNextPageParam: lastPage => lastPage?.cursor || undefined,
   });
 }

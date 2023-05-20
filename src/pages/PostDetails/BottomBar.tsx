@@ -9,6 +9,7 @@ import * as Haptics from "expo-haptics";
 import { Spacer, XStack } from "tamagui";
 
 import { Avatar } from "@/components/Avatar";
+import { CommentButton } from "@/components/CommentButton";
 import { ReactionLike } from "@/components/ReactionLike";
 import { ReactionMint } from "@/components/ReactionMint";
 import { useColors } from "@/hooks/use-colors";
@@ -132,6 +133,8 @@ export const BottomBar: FC<Props> = (props) => {
                 <ReactionLike {...reactionCommonProps} />
                 <Spacer size="$4" />
                 <ReactionMint {...reactionCommonProps} />
+                <Spacer size="$4" />
+                <CommentButton {...reactionCommonProps} />
                 {/* TODO */}
                 {/* <ReactionTip {...reactionCommonProps} /> */}
               </>

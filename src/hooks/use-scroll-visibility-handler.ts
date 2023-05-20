@@ -1,5 +1,5 @@
 import type { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
-import { useAnimatedScrollHandler, useSharedValue, withSpring } from "react-native-reanimated";
+import { runOnUI, useAnimatedScrollHandler, useSharedValue, withSpring } from "react-native-reanimated";
 
 interface Options {
   scrollThreshold: number
@@ -10,27 +10,37 @@ export function useScrollVisibilityHandler(options: Options) {
   const prevTranslationYAnimValue = useSharedValue<number>(0);
   const isExpandedAnimValue = useSharedValue<0 | 1>(1);
 
-  const onScroll = useAnimatedScrollHandler((event) => {
-    if (isExpandedAnimValue.value !== 0 && isExpandedAnimValue.value !== 1)
-      return;
+  const updateAnimValue = (e: NativeScrollEvent) => {
+    "worklet";
 
     if (
-      event.contentOffset.y - prevTranslationYAnimValue.value > scrollThreshold
+      e.contentOffset.y - prevTranslationYAnimValue.value > scrollThreshold
             && isExpandedAnimValue.value !== 0
     ) {
       isExpandedAnimValue.value = withSpring(0);
     }
     else if (
-      event.contentOffset.y - prevTranslationYAnimValue.value < -scrollThreshold
+      e.contentOffset.y - prevTranslationYAnimValue.value < -scrollThreshold
             && isExpandedAnimValue.value !== 1
     ) {
       isExpandedAnimValue.value = withSpring(1);
     }
+  };
+
+  const onScroll = useAnimatedScrollHandler((e) => {
+    if (isExpandedAnimValue.value !== 0 && isExpandedAnimValue.value !== 1)
+      return;
+
+    updateAnimValue(e);
   }, [scrollThreshold]);
 
   const onScrollEndDrag = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     prevTranslationYAnimValue.value = e.nativeEvent.contentOffset.y;
   };
 
-  return { onScroll, onScrollEndDrag, isExpandedAnimValue };
+  const onMomentumScrollEnd = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    runOnUI(updateAnimValue)(e.nativeEvent);
+  };
+
+  return { onScroll, onScrollEndDrag, onMomentumScrollEnd, isExpandedAnimValue };
 }

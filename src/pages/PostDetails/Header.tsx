@@ -108,7 +108,7 @@ export const Header: FC<Props> = (props) => {
           titleAnimStyles,
         ]}
       >
-        <BlockchainInfoIcon page={page?.data} site={site?.data}/>
+        <BlockchainInfoIcon page={page?.data} character={site?.data}/>
       </Animated.View>
     </Animated.View>
   );

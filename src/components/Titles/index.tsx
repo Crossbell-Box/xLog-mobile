@@ -2,6 +2,8 @@ import { Terminal } from "@tamagui/lucide-icons";
 import type { IconProps } from "@tamagui/lucide-icons/types/IconProps";
 import { XStack } from "tamagui";
 
+import { useColors } from "@/hooks/use-colors";
+
 import data from "../../data/titles.json";
 
 const icons: {
@@ -13,6 +15,7 @@ const icons: {
 export const Titles: React.FC<{
   characterId?: number
 }> = ({ characterId }) => {
+  const { color } = useColors();
   if (!characterId)
     return null;
 
@@ -26,7 +29,7 @@ export const Titles: React.FC<{
       {list.map((title) => {
         const Icon = icons[title.name];
         return (
-          <Icon key={title.name} size={16} />
+          <Icon key={title.name} size={16} color={color}/>
         );
       })}
     </XStack>

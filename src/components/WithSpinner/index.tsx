@@ -6,6 +6,19 @@ import { Spinner, Stack } from "tamagui";
 
 import { ModalWithFadeAnimation } from "../ModalWithFadeAnimation";
 
+export const FilledSpinner: FC<YStackProps> = (props) => {
+  return (
+    <Stack
+      justifyContent="center"
+      alignItems="center"
+      flex={1}
+      {...props}
+    >
+      <Spinner/>
+    </Stack>
+  );
+};
+
 export const WithSpinner: FC<{ isLoading: boolean } & YStackProps> = ({ children, isLoading, ...restProps }) => {
   return (
     <Stack position="relative" style={StyleSheet.absoluteFill} {...restProps}>
@@ -13,13 +26,7 @@ export const WithSpinner: FC<{ isLoading: boolean } & YStackProps> = ({ children
       {
         isLoading && (
           <ModalWithFadeAnimation isVisible>
-            <Stack
-              justifyContent="center"
-              alignItems="center"
-              flex={1}
-            >
-              <Spinner/>
-            </Stack>
+            <FilledSpinner/>
           </ModalWithFadeAnimation>
         )
       }
