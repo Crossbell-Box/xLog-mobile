@@ -1,5 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 import { ArrowRight, Edit } from "@tamagui/lucide-icons";
 import type { CharacterEntity, ListResponse, NoteEntity } from "crossbell";
@@ -20,6 +21,7 @@ export interface CommentItemProps extends ListItemProps {
   displayMore?: boolean
   depth?: number
   onPressMore?: () => void
+  onPressComment?: (comment: Comment) => void
 }
 
 export type Comment = NoteEntity & {
@@ -27,13 +29,21 @@ export type Comment = NoteEntity & {
 };
 
 export const CommentItem: React.FC<CommentItemProps> = (props) => {
-  const { comment, fromComment, displayMore = false, onPressMore, displayReply = false, depth = 0, ...restProps } = props;
+  const {
+    comment, fromComment, displayMore = false, displayReply = false, depth = 0,
+    onPressMore, onPressComment: _onPressComment,
+    ...restProps
+  } = props;
   const date = useDate();
   const i18n = useTranslation();
 
   const isSubComment = depth > 0;
   const repliesCount = (comment as any)?.fromNotes?.list?.length || 0;
   const hasReply = repliesCount > 0;
+
+  const onPressComment = React.useCallback(() => {
+    _onPressComment?.(comment);
+  }, [_onPressComment, comment]);
 
   return (
     <XStack marginBottom="$2" gap="$3" {...restProps}>
@@ -85,14 +95,16 @@ export const CommentItem: React.FC<CommentItemProps> = (props) => {
           </XStack>
         </YStack>
 
-        <XStack justifyContent="flex-end" gap="$3" marginTop="$2">
+        <XStack justifyContent="flex-end" gap="$3" marginTop="$2" alignItems="center">
           <ReactionLike iconSize={"$0.75"} fontSize={"$4"} characterId={comment.characterId} noteId={comment.noteId}/>
-          <XStack alignItems="center" gap="$1.5" minWidth={"$3"}justifyContent="center">
-            <Text color={"$color"} fontSize={"$4"}>
+          <TouchableWithoutFeedback onPress={onPressComment}>
+            <XStack alignItems="center" gap="$1.5" minWidth={"$3"}justifyContent="center">
+              <Text color={"$color"} fontSize={"$4"}>
             回复&nbsp;
-              {(comment as any)?.fromNotes?.count || 0}
-            </Text>
-          </XStack>
+                {(comment as any)?.fromNotes?.count || 0}
+              </Text>
+            </XStack>
+          </TouchableWithoutFeedback>
           <XStack alignItems="center" gap="$1.5" minWidth={"$3"} justifyContent="center">
             <Edit size={"$0.75"} fontSize={"$4"}/>
             <Text color={"$color"} fontSize={"$4"}>
@@ -117,6 +129,7 @@ export const CommentItem: React.FC<CommentItemProps> = (props) => {
                         <CommentItem
                           fromComment={comment}
                           comment={subcomment as Comment}
+                          onPressComment={_onPressComment}
                           displayReply={false}
                           depth={depth + 1}
                         />

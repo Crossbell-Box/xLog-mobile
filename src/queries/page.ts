@@ -1,7 +1,9 @@
-import { useAccountState, useIsNoteLiked, useMintNote, useNoteLikeCount, useNoteLikeList, useToggleLikeNote } from "@crossbell/react-account";
-import { useInfiniteQuery, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useContract } from "@crossbell/contract";
+import { useAccountState, useIsNoteLiked, useMintNote, useNoteLikeCount, useNoteLikeList, usePostNoteForNote, useToggleLikeNote } from "@crossbell/react-account";
+import { useRefCallback } from "@crossbell/util-hooks";
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { checkMint, getComments, getMints, getPage, getPagesBySite } from "@/models/page.model";
+import { checkMint, getComments, getMints, getPage, getPagesBySite, updateComment } from "@/models/page.model";
 import { cacheDelete, cacheGet } from "@/utils/cache";
 import { getNoteSlug } from "@/utils/get-slug";
 
@@ -81,6 +83,85 @@ export const useGetLikeCounts = ({
     noteId: noteId || 0,
   });
 };
+
+export function useCommentPage() {
+  const queryClient = useQueryClient();
+  const { mutateAsync: _, ...postNoteForNote } = usePostNoteForNote({
+    noAutoResume: true,
+  });
+
+  const mutate = useRefCallback(
+    ({
+      characterId,
+      noteId,
+      content,
+      externalUrl,
+      originalCharacterId,
+      originalNoteId,
+    }: {
+      characterId: number
+      noteId: number
+      content: string
+      externalUrl: string
+      originalCharacterId?: number
+      originalNoteId?: number
+    }) => {
+      return postNoteForNote.mutate(
+        {
+          note: {
+            characterId,
+            noteId,
+          },
+          metadata: {
+            content,
+            external_urls: [externalUrl],
+            tags: ["comment"],
+            sources: ["xlog"],
+          },
+        },
+        {
+          onSuccess() {
+            queryClient.invalidateQueries([
+              "getComments",
+              originalCharacterId || characterId,
+              originalNoteId || noteId,
+            ]);
+          },
+        },
+      );
+    },
+  );
+
+  return {
+    ...postNoteForNote,
+    mutate,
+  };
+}
+
+export function useUpdateComment() {
+  const queryClient = useQueryClient();
+  const contract = useContract();
+
+  return useMutation(
+    async (
+      payload: Parameters<typeof updateComment>[0] & {
+        originalNoteId?: number
+        originalCharacterId?: number
+      },
+    ) => {
+      return updateComment(payload, contract);
+    },
+    {
+      onSuccess: (data, variables) => {
+        queryClient.invalidateQueries([
+          "getComments",
+          variables.originalCharacterId || variables.characterId,
+          variables.originalNoteId || variables.noteId,
+        ]);
+      },
+    },
+  );
+}
 
 export function useGetComments(
   input: Partial<Parameters<typeof getComments>[0]>,

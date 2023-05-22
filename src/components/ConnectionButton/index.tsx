@@ -69,7 +69,8 @@ function ConnectBtn() {
       <Button
         pressStyle={{ opacity: 0.85 }}
         color={"white"}
-        fontSize={""}
+        fontSize={"$6"}
+        fontWeight={"700"}
         backgroundColor={"$primary"}
         onPress={handleConnect}
         icon={<Plug size={"$1.5"} />}
@@ -130,6 +131,7 @@ function OPSignToggleBtn() {
 export function DisconnectBtn() {
   const _disconnect = useDisconnectAccount();
   const { closeDrawer } = useDrawer();
+  const { t } = useTranslation();
 
   const disconnect = () => {
     closeDrawer();
@@ -145,7 +147,7 @@ export function DisconnectBtn() {
         backgroundColor={"$primary"}
         onPress={disconnect}
       >
-        Disconnect
+        {t("Disconnect")}
       </Button>
     </Animated.View>
   );
