@@ -64,7 +64,7 @@ export const CommentItem: React.FC<CommentItemProps> = (props) => {
             }
           </XStack>
 
-          <Paragraph size={"$sm"}>
+          <Paragraph size={"$4"}>
             {comment?.metadata?.content?.content}
           </Paragraph>
           <XStack alignItems="center">
@@ -86,16 +86,16 @@ export const CommentItem: React.FC<CommentItemProps> = (props) => {
         </YStack>
 
         <XStack justifyContent="flex-end" gap="$3" marginTop="$2">
-          <ReactionLike iconSize={"$0.75"} fontSize={"$sm"} characterId={comment.characterId} noteId={comment.noteId}/>
+          <ReactionLike iconSize={"$0.75"} fontSize={"$4"} characterId={comment.characterId} noteId={comment.noteId}/>
           <XStack alignItems="center" gap="$1.5" minWidth={"$3"}justifyContent="center">
-            <Text color={"$color"}>
+            <Text color={"$color"} fontSize={"$4"}>
             回复&nbsp;
               {(comment as any)?.fromNotes?.count || 0}
             </Text>
           </XStack>
           <XStack alignItems="center" gap="$1.5" minWidth={"$3"} justifyContent="center">
-            <Edit size={"$0.75"}/>
-            <Text color={"$color"}>
+            <Edit size={"$0.75"} fontSize={"$4"}/>
+            <Text color={"$color"} fontSize={"$4"}>
             &nbsp;编辑
             </Text>
           </XStack>

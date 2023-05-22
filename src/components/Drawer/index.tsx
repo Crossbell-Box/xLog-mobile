@@ -66,7 +66,7 @@ const DrawerContent = () => {
             </Stack>
             <YStack flex={1} gap="$-1.5">
               <H4>{character?.metadata?.content?.name}</H4>
-              <SizableText numberOfLines={1} size={"$xs"} color="$colorSubtitle">
+              <SizableText numberOfLines={1} size={"$4"} color="$colorSubtitle">
                 @{character.handle}
               </SizableText>
             </YStack>
@@ -78,7 +78,7 @@ const DrawerContent = () => {
               {
                 profilePages.map(page => (
                   <YGroup.Item key={page.name}>
-                    <ListItem onPress={() => onNavigate(page.name)} hoverTheme icon={page.icon}>{page.title}</ListItem>
+                    <ListItem size={"$5"} onPress={() => onNavigate(page.name)} icon={page.icon}>{page.title}</ListItem>
                   </YGroup.Item>
                 ))
               }

@@ -179,7 +179,7 @@ export const ConnectionButton: FC<Props> = () => {
             <Button
               pressStyle={{ opacity: 0.85 }}
               color={"white"}
-              fontSize={"$xl"}
+              fontSize={"$6"}
               backgroundColor={"black"}
               onPress={onConnect}
               disabled={!initialized}

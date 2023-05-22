@@ -24,7 +24,7 @@ interface Props {
   fontSize?: FontSizeTokens
 }
 
-export const ReactionLike: React.FC<Props> = ({ characterId, noteId, iconSize = "$1", fontSize = "$base" }) => {
+export const ReactionLike: React.FC<Props> = ({ characterId, noteId, iconSize = "$1", fontSize = "$6" }) => {
   const navigation = useRootNavigation();
   const { t, i18n } = useTranslation("common");
   const [isLikeOpen, setIsLikeOpen] = useState(false);

@@ -1,44 +1,5 @@
+import { config as tamaguiConfig } from "@tamagui/config";
 import { createFont } from "@tamagui/core";
-
-const fontSizes = {
-  "xs": 12,
-  "sm": 14,
-  "base": 16,
-  "true": 16,
-  "lg": 18,
-  "xl": 20,
-  "2xl": 24,
-  "3xl": 30,
-  "4xl": 36,
-  "5xl": 48,
-  "6xl": 60,
-} as const;
-
-const lineHeights = {
-  "xs": 16,
-  "sm": 20,
-  "base": 24,
-  "lg": 28,
-  "xl": 28,
-  "2xl": 32,
-  "3xl": 36,
-  "4xl": 40,
-  "5xl": 48,
-  "6xl": 60,
-} as const;
-
-// Inter Weights
-// - Regular 400
-// - Medium 500
-// - Semi-bold 600
-// - Bold 700
-// - Extra-bold 800
-// - Black 900
-
-const weights = {
-  1: "500",
-  7: "600",
-} as const;
 
 const nativeFaces = {
   400: { normal: "Inter" },
@@ -52,10 +13,8 @@ const nativeFaces = {
 const letterSpacings = {} as const;
 
 export const bodyFont = createFont({
+  ...tamaguiConfig.fonts.body,
   family: "Inter",
-  size: fontSizes,
-  lineHeight: lineHeights,
-  weight: weights,
   letterSpacing: letterSpacings,
   face: nativeFaces,
 });

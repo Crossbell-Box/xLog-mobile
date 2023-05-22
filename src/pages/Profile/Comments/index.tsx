@@ -56,7 +56,7 @@ export const CommentsPage: FC<NativeStackScreenProps<RootStackParamList, "Commen
 
                 return (
                   <YGroup.Item key={comment.transactionHash}>
-                    <SizableText color="$color" size={"$sm"} marginBottom="$3">
+                    <SizableText color="$color" size={"$4"} marginBottom="$3">
                       {name}&nbsp;
                       <Trans
                         i18nKey="comment on your"
