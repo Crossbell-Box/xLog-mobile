@@ -5,9 +5,9 @@ import { ClipPath, Rect, G, Svg, Path, Defs } from "react-native-svg";
 import type { ParsedNotification } from "@crossbell/indexer";
 import type { NoteEntity } from "crossbell";
 import dayjs from "dayjs";
-import { utils } from "ethers";
 import removeMd from "remove-markdown";
 import { Card, Text, XStack, YStack } from "tamagui";
+import { formatUnits } from "viem";
 
 import { Avatar } from "../Avatar";
 
@@ -168,7 +168,7 @@ function actionDesc(
     case "tip-note":
       return (
         <Text>
-          {`tipped you ${utils.formatUnits(notification.amount)} `}
+          {`tipped you ${formatUnits(notification.amount, 18)} `}
           MIRA
           {" on your Note"}
         </Text>
@@ -176,7 +176,7 @@ function actionDesc(
     case "tip-character":
       return (
         <Text>
-          {`tipped you ${utils.formatUnits(notification.amount)} `}
+          {`tipped you ${formatUnits(notification.amount, 18)} `}
           MIRA
         </Text>
       );
