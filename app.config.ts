@@ -73,7 +73,7 @@ export default (_: ConfigContext): ExpoConfig => {
           data: [
             {
               scheme: "https",
-              host: `*.${process.env.APP_SCHEME}`,
+              host: `*.${process.env.APP_HOST}`,
               pathPrefix: "/",
             },
           ],
