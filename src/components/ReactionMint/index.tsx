@@ -23,7 +23,7 @@ interface Props {
   fontSize?: FontSizeTokens
 }
 
-export const ReactionMint: React.FC<Props> = ({ characterId, noteId, iconSize = "$1", fontSize = "$base" }) => {
+export const ReactionMint: React.FC<Props> = ({ characterId, noteId, iconSize = "$1", fontSize = "$6" }) => {
   const mintPage = useMintPage();
   const navigation = useRootNavigation();
   const { t, i18n } = useTranslation("common");

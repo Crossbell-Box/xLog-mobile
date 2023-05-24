@@ -58,6 +58,7 @@ export const FeedList: FC<Props> = (props) => {
         renderItem={({ item, index }) => (
           <FeedListItem key={index} note={item} style={styles.ItemContainer} />
         )}
+        ListFooterComponent={feed.isFetchingNextPage && <Spinner paddingBottom="$5"/>}
         estimatedItemSize={238}
         bounces
         estimatedListSize={{
@@ -71,21 +72,13 @@ export const FeedList: FC<Props> = (props) => {
         onEndReached={() => {
           if (
             feedList.length === 0
-            || feed.isFetching
             || feed.isFetchingNextPage
-            || feed.isFetchingPreviousPage
             || feed.hasNextPage === false
           )
             return;
 
           Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
           feed?.fetchNextPage?.();
-        }}
-        ListFooterComponent={() => {
-          if (feed.isFetchingNextPage)
-            return <Spinner />;
-
-          return null;
         }}
       />
     </Stack>

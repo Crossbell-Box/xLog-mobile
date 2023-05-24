@@ -96,7 +96,7 @@ export const PostsPage: FC<NativeStackScreenProps<RootStackParamList, "Posts">> 
               const activeColor = isActive ? "$color" : "$colorFocus";
               return (
                 <Tabs.Tab padding={0} onPress={() => setSelectedTab(tab.value)} key={tab.value} flex={1} value="tab1" backgroundColor={activeBg}>
-                  <SizableText size="$sm" color={activeColor}>
+                  <SizableText size="$4" color={activeColor}>
                     {i18n.t(tab.text)}
                   </SizableText>
                 </Tabs.Tab>

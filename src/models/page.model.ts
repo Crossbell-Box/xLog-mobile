@@ -123,16 +123,28 @@ export async function checkMint({
   });
 }
 
+export async function getComment(...parmas: Parameters<typeof indexer.note.get>) {
+  const res = (await indexer.note.get(...parmas)) || {
+    count: 0,
+    list: [],
+  };
+
+  return res as Awaited<ReturnType<typeof indexer.note.get>>;
+}
+
 export async function getComments({
   characterId,
   noteId,
   cursor,
+  limit,
 }: {
   characterId: number
   noteId: number
   cursor?: string
+  limit?: number
 }) {
-  const options = {
+  type Options = Parameters<typeof indexer.note.getMany>[0];
+  const options: Options = {
     toCharacterId: characterId,
     toNoteId: noteId,
     cursor,
@@ -140,7 +152,7 @@ export async function getComments({
     includeNestedNotes: true,
     nestedNotesDepth: 3 as const,
     nestedNotesLimit: 20,
-    limit: 5,
+    limit: limit ?? 5,
   };
 
   const res = (await indexer.note.getMany(options)) || {

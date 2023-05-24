@@ -1,7 +1,10 @@
-import { useAccountState, useIsNoteLiked, useMintNote, useNoteLikeCount, useNoteLikeList, useToggleLikeNote } from "@crossbell/react-account";
-import { useInfiniteQuery, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useContract } from "@crossbell/contract";
+import { useAccountState, useIsNoteLiked, useMintNote, useNoteLikeCount, useNoteLikeList, usePostNoteForNote, useToggleLikeNote } from "@crossbell/react-account";
+import { useRefCallback } from "@crossbell/util-hooks";
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { checkMint, getComments, getMints, getPage, getPagesBySite } from "@/models/page.model";
+import type { Comment } from "@/components/CommentItem";
+import { checkMint, getComment, getComments, getMints, getPage, getPagesBySite, updateComment } from "@/models/page.model";
 import { cacheDelete, cacheGet } from "@/utils/cache";
 import { getNoteSlug } from "@/utils/get-slug";
 
@@ -81,6 +84,142 @@ export const useGetLikeCounts = ({
     noteId: noteId || 0,
   });
 };
+
+export function useCommentPage() {
+  const queryClient = useQueryClient();
+  const postNoteForNote = usePostNoteForNote({
+    noAutoResume: true,
+  });
+
+  const mutateAsync = useRefCallback(
+    ({
+      characterId,
+      noteId,
+      content,
+      externalUrl,
+      originalCharacterId,
+      originalNoteId,
+    }: {
+      characterId: number
+      noteId: number
+      content: string
+      externalUrl: string
+      originalCharacterId?: number
+      originalNoteId?: number
+    }) => {
+      return postNoteForNote.mutateAsync(
+        {
+          note: {
+            characterId,
+            noteId,
+          },
+          metadata: {
+            content,
+            external_urls: [externalUrl],
+            tags: ["comment"],
+            sources: ["xlog"],
+          },
+        },
+        {
+          onSuccess() {
+            queryClient.invalidateQueries([
+              "getComments",
+              originalCharacterId || characterId,
+              originalNoteId || noteId,
+            ]);
+          },
+        },
+      );
+    },
+  );
+
+  return {
+    ...postNoteForNote,
+    mutateAsync,
+  };
+}
+
+export const useSubmitComment = () => {
+  const commentPage = useCommentPage();
+  const updateComment = useUpdateComment();
+  const submitComment = async ({
+    characterId,
+    noteId,
+    content,
+    targetComment,
+  }: {
+    characterId: number
+    noteId: number
+    content: string
+    targetComment?: Comment
+  }) => {
+    if (characterId && noteId) {
+      if (targetComment) {
+        if (content) {
+          await updateComment.mutateAsync({
+            content,
+            externalUrl: window.location.href,
+            characterId: targetComment.characterId,
+            noteId: targetComment.noteId,
+            originalCharacterId: characterId,
+            originalNoteId: noteId,
+          });
+        }
+      }
+      else {
+        await commentPage.mutateAsync({
+          characterId,
+          noteId,
+          content,
+          externalUrl: window.location.href,
+          originalCharacterId: characterId,
+          originalNoteId: noteId,
+        });
+      }
+    }
+  };
+
+  return submitComment;
+};
+
+export function useUpdateComment() {
+  const queryClient = useQueryClient();
+  const contract = useContract();
+
+  return useMutation(
+    async (
+      payload: Parameters<typeof updateComment>[0] & {
+        originalNoteId?: number
+        originalCharacterId?: number
+      },
+    ) => {
+      return updateComment(payload, contract);
+    },
+    {
+      onSuccess: (data, variables) => {
+        queryClient.invalidateQueries([
+          "getComments",
+          variables.originalCharacterId || variables.characterId,
+          variables.originalNoteId || variables.noteId,
+        ]);
+      },
+    },
+  );
+}
+
+export function useGetComment(
+  ...input: Partial<Parameters<typeof getComment>>
+) {
+  return useInfiniteQuery({
+    queryKey: ["getComment", ...input],
+    queryFn: async () => {
+      if (!input[0] || !input[1]) {
+        return null;
+      }
+      return getComment(...input);
+    },
+  });
+}
 
 export function useGetComments(
   input: Partial<Parameters<typeof getComments>[0]>,
