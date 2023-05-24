@@ -3,7 +3,8 @@ import { useAccountState, useIsNoteLiked, useMintNote, useNoteLikeCount, useNote
 import { useRefCallback } from "@crossbell/util-hooks";
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { checkMint, getComments, getMints, getPage, getPagesBySite, updateComment } from "@/models/page.model";
+import type { Comment } from "@/components/CommentItem";
+import { checkMint, getComment, getComments, getMints, getPage, getPagesBySite, updateComment } from "@/models/page.model";
 import { cacheDelete, cacheGet } from "@/utils/cache";
 import { getNoteSlug } from "@/utils/get-slug";
 
@@ -86,11 +87,11 @@ export const useGetLikeCounts = ({
 
 export function useCommentPage() {
   const queryClient = useQueryClient();
-  const { mutateAsync: _, ...postNoteForNote } = usePostNoteForNote({
+  const postNoteForNote = usePostNoteForNote({
     noAutoResume: true,
   });
 
-  const mutate = useRefCallback(
+  const mutateAsync = useRefCallback(
     ({
       characterId,
       noteId,
@@ -106,7 +107,7 @@ export function useCommentPage() {
       originalCharacterId?: number
       originalNoteId?: number
     }) => {
-      return postNoteForNote.mutate(
+      return postNoteForNote.mutateAsync(
         {
           note: {
             characterId,
@@ -134,9 +135,52 @@ export function useCommentPage() {
 
   return {
     ...postNoteForNote,
-    mutate,
+    mutateAsync,
   };
 }
+
+export const useSubmitComment = () => {
+  const commentPage = useCommentPage();
+  const updateComment = useUpdateComment();
+  const submitComment = async ({
+    characterId,
+    noteId,
+    content,
+    targetComment,
+  }: {
+    characterId: number
+    noteId: number
+    content: string
+    targetComment?: Comment
+  }) => {
+    if (characterId && noteId) {
+      if (targetComment) {
+        if (content) {
+          await updateComment.mutateAsync({
+            content,
+            externalUrl: window.location.href,
+            characterId: targetComment.characterId,
+            noteId: targetComment.noteId,
+            originalCharacterId: characterId,
+            originalNoteId: noteId,
+          });
+        }
+      }
+      else {
+        await commentPage.mutateAsync({
+          characterId,
+          noteId,
+          content,
+          externalUrl: window.location.href,
+          originalCharacterId: characterId,
+          originalNoteId: noteId,
+        });
+      }
+    }
+  };
+
+  return submitComment;
+};
 
 export function useUpdateComment() {
   const queryClient = useQueryClient();
@@ -161,6 +205,20 @@ export function useUpdateComment() {
       },
     },
   );
+}
+
+export function useGetComment(
+  ...input: Partial<Parameters<typeof getComment>>
+) {
+  return useInfiniteQuery({
+    queryKey: ["getComment", ...input],
+    queryFn: async () => {
+      if (!input[0] || !input[1]) {
+        return null;
+      }
+      return getComment(...input);
+    },
+  });
 }
 
 export function useGetComments(

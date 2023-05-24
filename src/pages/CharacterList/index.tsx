@@ -69,11 +69,7 @@ export const CharacterListPage: FC<NativeStackScreenProps<RootStackParamList, "C
       <FlashList
         onEndReachedThreshold={0.5}
         onEndReached={() => {
-          if (
-            !mutation.hasNextPage
-            || mutation.isFetchingNextPage
-            || mutation.isFetching
-          ) {
+          if (!mutation.hasNextPage || mutation.isFetchingNextPage) {
             return;
           }
 
