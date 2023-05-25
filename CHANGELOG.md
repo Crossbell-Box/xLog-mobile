@@ -1,5 +1,12 @@
 # xlog
 
+## 0.6.0
+
+### Minor Changes
+
+- 0584747: Support to comment.
+- 15ee396: support to universal links.
+
 ## 0.5.0
 
 ### Minor Changes
