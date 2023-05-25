@@ -1,0 +1,59 @@
+name: Submit
+
+on:
+  workflow_dispatch:
+    branches:
+      - main
+    inputs:
+      platform:
+        description: 'Platform to submit (ios or android)'
+        required: true
+
+jobs:
+  update:
+    name: Submit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify input
+        run: |
+          if [[ "${{ github.event.inputs.platform }}" != "ios" && "${{ github.event.inputs.platform }}" != "android" ]]; then
+            echo "Input platform must be 'ios' or 'android'"
+            exit 1
+          fi
+
+      - name: Check for EXPO_TOKEN
+        run: |
+          if [ -z "${{ secrets.EXPO_TOKEN }}" ]; then
+            echo "You must provide an EXPO_TOKEN secret linked to this project's Expo account in this repo's secrets. Learn more: https://docs.expo.dev/eas-update/github-actions"
+            exit 1
+          fi
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js 16
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: yarn
+
+      - name: Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Create env file
+        run: |
+          echo "${{ secrets.ENV_FILE }}" > .env.common
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Submit
+        env:
+          NODE_OPTIONS: --max_old_space_size=4096
+        run: |
+          eas build --non-interactive -p ${{ github.event.inputs.platform }} --auto-submit
