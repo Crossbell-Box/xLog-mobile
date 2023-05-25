@@ -27,7 +27,7 @@ export default (_: ConfigContext): ExpoConfig => {
             targetSdkVersion: 33,
             minSdkVersion: 23,
             buildToolsVersion: "33.0.0",
-            kotlinVersion: "1.6.20",
+            kotlinVersion: "1.6.21",
           },
           ios: {
             deploymentTarget: "13.0",
@@ -61,9 +61,25 @@ export default (_: ConfigContext): ExpoConfig => {
     ios: {
       supportsTablet: true,
       bundleIdentifier: process.env.BUNDLE_IDENTIFIER,
+      associatedDomains: [
+        `applinks:${process.env.APP_SCHEME}`,
+      ],
     },
     android: {
       package: process.env.BUNDLE_IDENTIFIER,
+      intentFilters: [
+        {
+          action: "VIEW",
+          data: [
+            {
+              scheme: "https",
+              host: `*.${process.env.APP_HOST}`,
+              pathPrefix: "/",
+            },
+          ],
+          category: ["BROWSABLE", "DEFAULT"],
+        },
+      ],
     },
     extra: {
       WALLET_PROJECT_ID: process.env.WALLET_PROJECT_ID,

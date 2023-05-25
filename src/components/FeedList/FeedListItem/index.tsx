@@ -86,7 +86,7 @@ export const FeedListItem: FC<Props> = (props) => {
                   <Paragraph
                     width={coverImage.isSingle ? "65%" : "100%"}
                     numberOfLines={coverImage.isSingle ? 5 : 3}
-                    size={"$xs"}
+                    size={"$2"}
                   >
                     {removeMd(
                       String(note.metadata.content.content.slice(0, 100)).replace(/(\r\n|\n|\r)/gm, " "),
@@ -141,7 +141,7 @@ export const FeedListItem: FC<Props> = (props) => {
               <Text numberOfLines={1} maxWidth={"70%"}>
                 {
                   !!note.metadata?.content?.tags?.filter(tag => tag !== "post" && tag !== "page").length && (
-                    <SizableText size={"$xs"} numberOfLines={1} color="$colorSubtitle">
+                    <SizableText size={"$2"} numberOfLines={1} color="$colorSubtitle">
                       {note.metadata?.content?.tags
                         ?.filter(tag => tag !== "post" && tag !== "page")
                         .map((tag, index) => (
@@ -153,7 +153,7 @@ export const FeedListItem: FC<Props> = (props) => {
                   )
                 }
               </Text>
-              <SizableText size={"$xs"} numberOfLines={1} color="$colorSubtitle">
+              <SizableText size={"$2"} numberOfLines={1} color="$colorSubtitle">
                 {i18n.t("ago", {
                   time: date.dayjs
                     .duration(

@@ -7,7 +7,7 @@ import {
 } from "@tamagui/lucide-icons";
 import * as Haptics from "expo-haptics";
 import type { FontSizeTokens, SizeTokens } from "tamagui";
-import { Button, Card, H4, Paragraph, SizableText, XStack, YStack } from "tamagui";
+import { Button, Card, H4, Paragraph, SizableText, XStack, YStack, Spinner } from "tamagui";
 
 import { CSB_SCAN } from "@/constants/env";
 import { useFnLoadingWithStateChange } from "@/hooks/use-fn-loading-with-state-change";
@@ -24,9 +24,10 @@ interface Props {
   fontSize?: FontSizeTokens
 }
 
-export const ReactionLike: React.FC<Props> = ({ characterId, noteId, iconSize = "$1", fontSize = "$base" }) => {
+export const ReactionLike: React.FC<Props> = ({ characterId, noteId, iconSize = "$1", fontSize = "$6" }) => {
   const navigation = useRootNavigation();
   const { t, i18n } = useTranslation("common");
+  const [isLoading, setIsLoading] = useState(false);
   const [isLikeOpen, setIsLikeOpen] = useState(false);
   const [isUnlikeOpen, setIsUnlikeOpen] = useState(false);
   const [likes] = useGetLikes({
@@ -47,19 +48,21 @@ export const ReactionLike: React.FC<Props> = ({ characterId, noteId, iconSize = 
   });
 
   const like = useFnLoadingWithStateChange(() => {
+    setIsLoading(true);
     return toggleLikePage.mutateAsync({
       characterId,
       noteId,
       action: "link",
-    });
+    }).finally(() => setIsLoading(false));
   });
 
   const unlike = useFnLoadingWithStateChange(() => {
+    setIsLoading(true);
     return toggleLikePage.mutateAsync({
       noteId,
       characterId,
       action: "unlink",
-    });
+    }).finally(() => setIsLoading(false));
   });
 
   const handleLikeAction = () => {
@@ -106,7 +109,7 @@ export const ReactionLike: React.FC<Props> = ({ characterId, noteId, iconSize = 
 
   return (
     <>
-      <TouchableWithoutFeedback onPress={handleLikeAction} onLongPress={onOpenList} delayLongPress={150}>
+      <TouchableWithoutFeedback disabled={isLoading} onPress={handleLikeAction} onLongPress={onOpenList} delayLongPress={150}>
         <XStack alignItems="center" gap="$1.5">
           <ThumbsUp
             size={iconSize}

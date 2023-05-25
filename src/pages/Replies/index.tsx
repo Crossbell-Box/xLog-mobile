@@ -1,77 +1,94 @@
 import type { FC } from "react";
 import React from "react";
 import { FlatList } from "react-native-gesture-handler";
+import Animated, { FadeInRight, FlipInXDown, FlipInXUp, SlideInRight } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { H5, Stack, YStack } from "tamagui";
+import * as Haptics from "expo-haptics";
+import { H5, Spinner, Stack, YStack } from "tamagui";
 
 import { CommentItem, type Comment } from "@/components/CommentItem";
+import { WithSpinner } from "@/components/WithSpinner";
+import { useMounted } from "@/hooks/use-mounted";
 import type { RootStackParamList } from "@/navigation/types";
+import { useGetComment, useGetComments } from "@/queries/page";
+import { flatComments } from "@/utils/flat-comments";
 
 export interface Props {
   comment: Comment
+  depth: number
 }
-
-const flatComments = (comment: Comment, list: Array<{
-  from: Comment
-  to: Comment
-}>): Array<{
-  from: Comment
-  to: Comment
-}> => {
-  if (comment.fromNotes?.list?.length) {
-    list.push(
-      ...comment.fromNotes.list.map((item: Comment) => {
-        flatComments(item, list);
-
-        return {
-          from: item,
-          to: comment,
-        };
-      }),
-    );
-  }
-  else {
-    return [];
-  }
-
-  return list;
-};
 
 export const RepliesPage: FC<NativeStackScreenProps<RootStackParamList, "Replies">> = (props) => {
   const { bottom } = useSafeAreaInsets();
-  const { comment } = props.route.params;
+  const { comment, depth } = props.route.params;
+  const mounted = useMounted();
+  const comments = useGetComments({ characterId: comment.characterId, noteId: comment.noteId, limit: 10 });
+  const repliesCount = comments.data?.pages?.[0]?.count;
+  const flatedComments = comments.data?.pages?.flatMap((page) => {
+    return page?.list?.flatMap(comment => flatComments(comment, depth));
+  });
+
+  const refetch = comments.refetch;
 
   return (
     <Stack flex={1} backgroundColor={"$background"}>
       <Stack paddingHorizontal={16} flex={1}>
         <FlatList
+          keyboardDismissMode="on-drag"
+          keyboardShouldPersistTaps="always"
           contentContainerStyle={{
             paddingTop: 16 * 2,
             paddingBottom: bottom + 16,
           }}
-          data={flatComments(comment, []).sort((a, b) => b.from.createdAt > a.from.createdAt ? 1 : -1)}
+          data={flatedComments}
           ListHeaderComponent={() => {
             return (
               <YStack backgroundColor={"$background"}>
                 <YStack borderBottomColor={"$backgroundHover"} borderBottomWidth={3} paddingBottom="$2" marginBottom="$3">
-                  <CommentItem padding={0} comment={comment} />
+                  <CommentItem
+                    commentable
+                    padding={0}
+                    comment={comment}
+                    onComment={refetch}
+                    onEdit={refetch}
+                  />
                 </YStack>
-                <H5 marginBottom="$3">回复&nbsp;11</H5>
+                <H5 marginBottom="$3">回复&nbsp;{repliesCount}</H5>
               </YStack>
             );
           }}
+          onEndReachedThreshold={0.5}
+          onEndReached={() => {
+            if (
+              comments.data?.pages.length === 0
+                || comments.isFetchingNextPage
+                || comments.hasNextPage === false
+            )
+              return;
+
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+            comments?.fetchNextPage?.();
+          }}
+          ListFooterComponent={comments.isFetchingNextPage && <Spinner paddingBottom="$5"/>}
           showsVerticalScrollIndicator={false}
-          keyExtractor={item => item.from.blockNumber.toString()}
+          keyExtractor={item => item?.data?.blockNumber?.toString()}
           renderItem={({ item }) => {
             return (
-              <CommentItem
-                key={item.from.blockNumber.toString()}
-                padding={0}
-                comment={item.from}
-                fromComment={item.to}
-              />
+              <Animated.View entering={mounted.current && FadeInRight}>
+                <CommentItem
+                  editable
+                  commentable
+                  key={item?.data?.blockNumber?.toString()}
+                  padding={0}
+                  toCharacterId={item?.data?.toCharacterId}
+                  comment={item?.data}
+                  depth={item?.depth}
+                  onComment={refetch}
+                  onEdit={refetch}
+                />
+              </Animated.View>
             );
           }}
         />

@@ -71,9 +71,9 @@ export const EventsPage: FC<NativeStackScreenProps<RootStackParamList, "Events">
                   >
                     <Text color={"white"}>{t(status)}</Text>
                   </Stack>
-                  <SizableText marginBottom="$2" lineHeight={"$sm"} numberOfLines={2} color={"$color"} fontWeight="700">{item.metadata?.content?.title}</SizableText>
+                  <SizableText marginBottom="$2" lineHeight={"$4"} numberOfLines={2} color={"$color"} fontWeight="700">{item.metadata?.content?.title}</SizableText>
                   <YStack gap="$2">
-                    <Paragraph color={"$colorSubtitle"} size="$sm">
+                    <Paragraph color={"$colorSubtitle"} size="$4">
                       <Text fontWeight={"700"}>{t("Date")}:</Text>&nbsp;
                       {date.formatDate(
                         item.metadata?.content?.frontMatter?.StartTime,
@@ -87,7 +87,7 @@ export const EventsPage: FC<NativeStackScreenProps<RootStackParamList, "Events">
                         isMounted ? undefined : "America/Los_Angeles",
                       )}
                     </Paragraph>
-                    <Paragraph color={"$colorSubtitle"} size="$sm">
+                    <Paragraph color={"$colorSubtitle"} size="$4">
                       <Text fontWeight={"700"}>{t("Prize")}:</Text>&nbsp;
                       {item.metadata?.content?.frontMatter?.Prize}
                     </Paragraph>

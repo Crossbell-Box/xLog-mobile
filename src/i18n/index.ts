@@ -8,11 +8,13 @@ import en from "./en/index.json";
 import zh_common from "./zh/common.json";
 import zh_dashboard from "./zh/dashboard.json";
 import zh from "./zh/index.json";
+import zh_site from "./zh/site.json";
 
 const resources = {
   zh: {
     translation: zh,
     common: zh_common,
+    site: zh_site,
     dashboard: zh_dashboard,
   },
   en: {

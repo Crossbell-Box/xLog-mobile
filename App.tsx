@@ -11,6 +11,7 @@ import "@/providers/connect-kit-provider/setup-react-account";
 import { useEffect } from "react";
 import { StyleSheet } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { KeyboardProvider } from "react-native-keyboard-controller";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { enableFreeze, enableScreens } from "react-native-screens";
 
@@ -100,6 +101,8 @@ export default () => {
       <BottomSheetModalProvider key={"BottomSheetModalProvider"} />,
       <DrawerProvider key={"DrawerProvider"}/>,
       <ToastProvider key={"ToastProvider"} />,
+      // @ts-expect-error: Internal
+      <KeyboardProvider key={"KeyboardProvider"}/>,
     ]}>
       <StatusBar />
       <RootNavigator />

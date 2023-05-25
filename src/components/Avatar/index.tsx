@@ -30,6 +30,11 @@ export const Avatar: FC<Props> = (props) => {
   const { character, size = 45, useDefault = false } = props;
   const uri = character?.metadata?.content?.avatars?.[0];
   const name = character?.metadata?.content?.name;
+  const nameAbbr = (name || "")
+    .split(" ")
+    .slice(0, 2)
+    .map(word => word[0])
+    .join("");
 
   if (!uri || (!uri.startsWith("/assets/") && !isValidUrl(uri))) {
     if (useDefault) {
@@ -41,9 +46,7 @@ export const Avatar: FC<Props> = (props) => {
           backgroundColor="$background"
         >
           <Text textAlign="center" fontSize={size / 2} fontWeight={"700"}>
-            {
-              name?.split(" ")?.length > 1 ? name?.split(" ")?.map(n => n?.[0]?.toUpperCase())?.join("") : `${name?.[0]?.toUpperCase()}${name?.[1]}`
-            }
+            {nameAbbr}
           </Text>
         </Circle>
       );
