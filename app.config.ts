@@ -62,7 +62,7 @@ export default (_: ConfigContext): ExpoConfig => {
       supportsTablet: true,
       bundleIdentifier: process.env.BUNDLE_IDENTIFIER,
       associatedDomains: [
-        `applinks:${process.env.APP_SCHEME}`,
+        `applinks:${process.env.APP_HOST}`,
       ],
     },
     android: {
