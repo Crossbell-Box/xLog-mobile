@@ -1,5 +1,41 @@
 # xlog
 
+## 0.6.6
+
+### Patch Changes
+
+- 677e318: Solved the universal link issue.
+
+## 0.6.5
+
+### Patch Changes
+
+- 677e318: Solved the universal link issue.
+
+## 0.6.4
+
+### Patch Changes
+
+- 677e318: Solved the universal link issue.
+
+## 0.6.3
+
+### Patch Changes
+
+- 677e318: Solved the universal link issue.
+
+## 0.6.2
+
+### Patch Changes
+
+- 677e318: Solved the universal link issue.
+
+## 0.6.1
+
+### Patch Changes
+
+- 677e318: Solved the universal link issue.
+
 ## 0.6.0
 
 ### Minor Changes
