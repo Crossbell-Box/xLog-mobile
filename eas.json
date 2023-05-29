@@ -5,6 +5,9 @@
   },
   "build": {
     "development-simulator": {
+      "env": {
+        "NODE_ENV": "development"
+      },
       "developmentClient": true,
       "distribution": "internal",
       "ios": {
@@ -13,6 +16,9 @@
       }
     },
     "development": {
+      "env": {
+        "NODE_ENV": "development"
+      },
       "developmentClient": true,
       "distribution": "internal",
       "ios": {
@@ -22,7 +28,7 @@
     },
     "preview": {
       "env": {
-        "NODE_OPTIONS": "--max-old-space-size=4096"
+        "NODE_ENV": "staging"
       },
       "distribution": "internal",
       "ios": {
@@ -31,6 +37,9 @@
       "channel": "preview"
     },
     "production": {
+      "env": {
+        "NODE_ENV": "production"
+      },
       "ios": {
         "resourceClass": "large"
       },

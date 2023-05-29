@@ -15,6 +15,7 @@ dist
 .DS_Store
 
 # Envrioment
+.env
 .env.*
 !.env.example
 

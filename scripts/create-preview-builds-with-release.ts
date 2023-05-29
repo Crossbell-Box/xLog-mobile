@@ -6,10 +6,16 @@ import { read } from "@changesets/config";
 import getReleasePlan from "@changesets/get-release-plan";
 import { getPackages } from "@manypkg/get-packages";
 
-async function excuteEASCommands(args: string[]) {
+async function excuteEASCommands(args: string[], env: object = {}) {
   const command = "eas";
 
-  const child = await spawn(command, args, { stdio: "inherit" });
+  const child = await spawn(command, args, {
+    stdio: "inherit",
+    env: {
+      ...process.env,
+      ...env,
+    },
+  });
 
   child.on("exit", (code) => {
     if (code !== 0) {
@@ -48,7 +54,9 @@ async function main() {
         "-p",
         "all",
         "--no-wait",
-      ]);
+      ], {
+        NODE_ENV: "staging",
+      });
     }
     else if (release.type === "major" || release.type === "minor") {
       console.log("Major or minor release found, publishing new builds.");
@@ -58,7 +66,9 @@ async function main() {
         "--branch",
         "staging",
         "--auto",
-      ]);
+      ], {
+        NODE_ENV: "staging",
+      });
     }
     return;
   }

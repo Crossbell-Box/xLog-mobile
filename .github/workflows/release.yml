@@ -39,7 +39,10 @@ jobs:
 
       - name: Create env file
         run: |
-          echo "${{ secrets.ENV_FILE }}" > .env.common
+          echo "${{ secrets.ENV_FILE_COMMON }}" > .env.common
+          echo "${{ secrets.ENV_FILE_DEVELOPMENT }}" > .env.development
+          echo "${{ secrets.ENV_FILE_PRODUCTION }}" > .env.productiona
+          echo "${{ secrets.ENV_FILE_STAGING }}" > .env.staging
 
       - name: Install Dependencies
         run: yarn

@@ -3,20 +3,55 @@ import type { ExpoConfig, ConfigContext } from "expo/config";
 
 import { version } from "./package.json";
 
-dotenv.config({ path: ".env.common" });
-if (process.env.NODE_ENV) {
-  dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
+const ENV = process.env.NODE_ENV ?? "production";
+
+if (process.env.EAS_BUILD === "true") {
+  dotenv.config({ path: process.env.ENV_FILE_COMMON });
+  dotenv.config({ path: process.env[`ENV_FILE_${ENV.toUpperCase()}`] });
 }
+else {
+  dotenv.config({ path: ".env.common" });
+  dotenv.config({ path: `.env.${ENV}` });
+}
+
+const SCHEME = process.env.APP_SCHEME;
+const HOST = process.env.APP_HOST;
+
+const envConfig = {
+  development: {
+    name: "xLog-dev",
+    host: HOST,
+    scheme: `${SCHEME}.development`,
+    icon: "./assets/icon.development.png",
+  },
+  staging: {
+    name: "xLog-preview",
+    host: HOST,
+    scheme: `${SCHEME}.staging`,
+    icon: "./assets/icon.staging.png",
+  },
+  production: {
+    name: "xLog",
+    host: HOST,
+    scheme: SCHEME,
+    icon: "./assets/icon.png",
+  },
+};
+
+const config = envConfig[ENV] as typeof envConfig[keyof typeof envConfig];
+
+// eslint-disable-next-line no-console
+console.log(JSON.stringify(config, null, 4));
 
 export default (_: ConfigContext): ExpoConfig => {
   return {
-    name: "xLog",
+    name: config.name,
     description: "The first on-chain and open-source blogging platform for everyone",
     slug: "xlog",
     version,
-    scheme: process.env.APP_SCHEME,
+    scheme: config.scheme,
     orientation: "portrait",
-    icon: "./assets/icon.png",
+    icon: config.icon,
     userInterfaceStyle: "light",
     plugins: [
       [
@@ -60,20 +95,20 @@ export default (_: ConfigContext): ExpoConfig => {
     },
     ios: {
       supportsTablet: true,
-      bundleIdentifier: process.env.BUNDLE_IDENTIFIER,
+      bundleIdentifier: config.scheme,
       associatedDomains: [
-        `applinks:${process.env.APP_HOST}`,
+        `applinks:${config.scheme}`,
       ],
     },
     android: {
-      package: process.env.BUNDLE_IDENTIFIER,
+      package: config.scheme,
       intentFilters: [
         {
           action: "VIEW",
           data: [
             {
               scheme: "https",
-              host: `*.${process.env.APP_HOST}`,
+              host: `*.${config.host}`,
               pathPrefix: "/",
             },
           ],
