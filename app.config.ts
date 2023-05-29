@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import * as dotenv from "dotenv";
 import type { ExpoConfig, ConfigContext } from "expo/config";
 
@@ -13,6 +14,8 @@ else {
   dotenv.config({ path: ".env.common" });
   dotenv.config({ path: `.env.${ENV}` });
 }
+
+console.log("ENV:", ENV);
 
 const SCHEME = process.env.APP_SCHEME;
 const HOST = process.env.APP_HOST;
@@ -40,7 +43,6 @@ const envConfig = {
 
 const config = envConfig[ENV] as typeof envConfig[keyof typeof envConfig];
 
-// eslint-disable-next-line no-console
 console.log(JSON.stringify(config, null, 4));
 
 export default (_: ConfigContext): ExpoConfig => {
@@ -97,7 +99,7 @@ export default (_: ConfigContext): ExpoConfig => {
       supportsTablet: true,
       bundleIdentifier: config.scheme,
       associatedDomains: [
-        `applinks:${config.scheme}`,
+        `applinks:${config.host}`,
       ],
     },
     android: {
