@@ -100,6 +100,7 @@ export default (_: ConfigContext): ExpoConfig => {
       bundleIdentifier: config.scheme,
       associatedDomains: [
         `applinks:${config.host}`,
+        `applinks:oia.${config.host}`,
       ],
     },
     android: {
@@ -113,6 +114,11 @@ export default (_: ConfigContext): ExpoConfig => {
               host: `*.${config.host}`,
               pathPrefix: "/",
             },
+            {
+              scheme: "https",
+              host: `oia.${config.host}`,
+              pathPrefix: "/",
+            },
           ],
           category: ["BROWSABLE", "DEFAULT"],
         },
@@ -123,6 +129,7 @@ export default (_: ConfigContext): ExpoConfig => {
       INFURA_ID: process.env.INFURA_ID,
       CSB_SCAN: process.env.CSB_SCAN,
       CSB_XCHAR: process.env.CSB_XCHAR,
+      APP_HOST: config.host,
       eas: {
         projectId: process.env.EXPO_PROJECT_ID,
       },
