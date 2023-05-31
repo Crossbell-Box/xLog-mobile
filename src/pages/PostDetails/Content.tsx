@@ -2,12 +2,14 @@ import type { FC } from "react";
 import React, { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Dimensions, StyleSheet } from "react-native";
+import DeviceInfo from "react-native-device-info";
 import Animated, { FadeIn, FadeOut, interpolate, useAnimatedStyle, useSharedValue, withTiming, withSpring, withDelay } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useCharacter, useNote } from "@crossbell/indexer";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Image } from "expo-image";
+import { runtimeVersion } from "expo-updates";
 import ContentLoader, { Rect } from "react-content-loader/native";
 import { H2, Spacer, useWindowDimensions, YStack } from "tamagui";
 
@@ -80,6 +82,7 @@ export const Content: FC<Props> = (props) => {
   const [webviewLoaded, setWebviewLoaded] = React.useState(false);
   const [webviewHeight, setWebviewHeight] = React.useState(contentLoaderDimensions.height);
   const { ...scrollVisibilityHandler } = scrollEventHandler;
+  const [userAgent, setUserAgent] = React.useState<string>(null);
 
   const onWebViewMessage = (event) => {
     try {
@@ -110,6 +113,12 @@ export const Content: FC<Props> = (props) => {
 
   useEffect(() => {
     followAnimValue.value = withDelay(1500, withSpring(1));
+  }, []);
+
+  useEffect(() => {
+    DeviceInfo.getUserAgent().then((us) => {
+      setUserAgent(`${us} ReactNative/${runtimeVersion}`);
+    });
   }, []);
 
   const skeletonAnimStyles = useAnimatedStyle(() => {
@@ -155,8 +164,9 @@ export const Content: FC<Props> = (props) => {
               styles.webviewContainer,
               { height: webviewHeight },
             ]}>
-              {webviewUri && (
+              {webviewUri && userAgent && (
                 <WebView
+                  userAgent={userAgent}
                   source={{ uri: webviewUri }}
                   style={[styles.webview, { backgroundColor: isDarkMode ? "black" : "white" }]}
                   scrollEnabled={false}
