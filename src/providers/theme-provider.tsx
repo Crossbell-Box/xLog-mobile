@@ -1,6 +1,6 @@
 import type { FC, PropsWithChildren } from "react";
 import { useCallback, useEffect, useState } from "react";
-import { useColorScheme } from "react-native";
+import { Appearance, useColorScheme } from "react-native";
 
 import { useAsyncStorage } from "@react-native-async-storage/async-storage";
 import { useFonts } from "expo-font";

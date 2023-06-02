@@ -54,7 +54,7 @@ export default (_: ConfigContext): ExpoConfig => {
     scheme: config.scheme,
     orientation: "portrait",
     icon: config.icon,
-    userInterfaceStyle: "light",
+    userInterfaceStyle: "automatic",
     plugins: [
       [
         "expo-build-properties",

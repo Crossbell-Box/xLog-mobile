@@ -43,7 +43,7 @@ export const Settings: React.FC<Props> = () => {
                 )}
               >
                 <ListItemTitle>
-                  跟随主题
+                  跟随系统
                 </ListItemTitle>
               </ListItem>
             </YGroup.Item>
