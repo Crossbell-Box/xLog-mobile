@@ -129,6 +129,7 @@ export const Drawer: FC<React.PropsWithChildren<{}>> = ({ children }) => {
       onOpen={openDrawer}
       onClose={closeDrawer}
       onGestureCancel={closeDrawer}
+      swipeEdgeWidth={width}
       drawerStyle={{
         width: width * 0.8,
         borderRightColor: borderColor,
