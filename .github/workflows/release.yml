@@ -14,6 +14,9 @@ jobs:
     permissions:
       pull-requests: write
       contents: write
+    env:
+      CI: true
+      NODE_OPTIONS: --max-old-space-size=8192
     steps:
       - name: Check for EXPO_TOKEN
         run: |
@@ -56,4 +59,3 @@ jobs:
           title: 'chore: update versions'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NODE_OPTIONS: "--max_old_space_size=4096"
