@@ -22,21 +22,29 @@ export function useContractConfig() {
   React.useEffect(() => {
     if (address) {
       (async function setWeb3Provider() {
-        const walletConnectProvider = new WalletConnectProvider({
-          connector,
-          infuraId: INFURA_ID,
-          chainId: 3737,
-          rpc: {
-            3737: "https://rpc.crossbell.io",
-          },
-        });
+        let walletConnectProvider: WalletConnectProvider;
+
+        try {
+          walletConnectProvider = new WalletConnectProvider({
+            connector,
+            infuraId: INFURA_ID,
+            chainId: 3737,
+            rpc: {
+              3737: "https://rpc.crossbell.io",
+            },
+          });
+        }
+        catch (error) {
+          console.error(error);
+          return;
+        }
 
         await walletConnectProvider.enable();
 
         // TODO
         // @ts-expect-error
         setProvider(walletConnectProvider);
-      })();
+      })().catch(console.error);
     }
   }, [address]);
 
