@@ -108,10 +108,11 @@ export default (_: ConfigContext): ExpoConfig => {
       intentFilters: [
         {
           action: "VIEW",
+          autoVerify: true,
           data: [
             {
               scheme: "https",
-              host: `*.${config.host}`,
+              host: `${config.host}`,
               pathPrefix: "/",
             },
             {

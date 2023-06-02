@@ -52,10 +52,9 @@ const queryClient = new QueryClient({
 });
 
 export default () => {
-  // Disable hot updates temporarily for submission review.
-  // useEffect(() => {
-  //   checkHotUpdates();
-  // }, []);
+  useEffect(() => {
+    checkHotUpdates();
+  }, []);
 
   return (
     <ProviderComposer providers={[
