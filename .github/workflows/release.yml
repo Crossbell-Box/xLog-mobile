@@ -1,26 +1,20 @@
-name: Submit
+name: Release
 
 on:
-  workflow_dispatch:
+  push:
     branches:
       - main
-    inputs:
-      platform:
-        description: 'Platform to submit (ios or android)'
-        required: true
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
-  update:
-    name: Submit
+  release:
+    name: Release
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: write
     steps:
-      - name: Verify input
-        run: |
-          if [[ "${{ github.event.inputs.platform }}" != "ios" && "${{ github.event.inputs.platform }}" != "android" ]]; then
-            echo "Input platform must be 'ios' or 'android'"
-            exit 1
-          fi
-
       - name: Check for EXPO_TOKEN
         run: |
           if [ -z "${{ secrets.EXPO_TOKEN }}" ]; then
@@ -28,10 +22,8 @@ jobs:
             exit 1
           fi
 
-      - name: Checkout repository
+      - name: Checkout Repo
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
 
       - name: Setup Node.js 16
         uses: actions/setup-node@v3
@@ -52,11 +44,15 @@ jobs:
           echo "${{ secrets.ENV_FILE_PRODUCTION }}" > .env.productiona
           echo "${{ secrets.ENV_FILE_STAGING }}" > .env.staging
 
-      - name: Install dependencies
-        run: yarn install
+      - name: Install Dependencies
+        run: yarn
 
-      - name: Submit
+      - name: Create Release Pull Request
+        uses: changesets/action@v1
+        with:
+          version: yarn ts-node ./scripts/create-preview-builds-with-release.ts
+          publish: yarn run release:publish
+          commit: 'chore: update versions'
+          title: 'chore: update versions'
         env:
-          NODE_OPTIONS: --max_old_space_size=4096
-        run: |
-          eas build --non-interactive -p ${{ github.event.inputs.platform }} --auto-submit
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

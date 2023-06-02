@@ -12,6 +12,7 @@ import { Avatar } from "@/components/Avatar";
 import { CommentButton } from "@/components/CommentButton";
 import { ReactionLike } from "@/components/ReactionLike";
 import { ReactionMint } from "@/components/ReactionMint";
+import { ReportButton } from "@/components/ReportButton";
 import { useColors } from "@/hooks/use-colors";
 import { useFollow } from "@/hooks/use-follow";
 import { useGetPage } from "@/queries/page";
@@ -126,7 +127,7 @@ export const BottomBar: FC<Props> = (props) => {
             </Animated.View>
           </TouchableWithoutFeedback>
         </Animated.View>
-        <XStack>
+        <XStack alignItems="center">
           {
             !pageIsNotFound && (
               <>
@@ -135,6 +136,8 @@ export const BottomBar: FC<Props> = (props) => {
                 <ReactionMint {...reactionCommonProps} />
                 <Spacer size="$4" />
                 <CommentButton {...reactionCommonProps} />
+                <Spacer size="$4" />
+                <ReportButton/>
                 {/* TODO */}
                 {/* <ReactionTip {...reactionCommonProps} /> */}
               </>

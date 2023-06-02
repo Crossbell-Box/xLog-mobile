@@ -4,7 +4,6 @@ declare global {
       APP_SCHEME: string
       WALLET_PROJECT_ID: string
       EXPO_PROJECT_ID: string
-      BUNDLE_IDENTIFIER: string
       OWNER: string
       UPDATES_URL: string
       INFURA_ID: string

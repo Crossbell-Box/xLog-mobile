@@ -61,7 +61,7 @@ function ConnectBtn() {
   const connector = useWalletConnect();
   const handleConnect = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    connector.connect();
+    connector.connect().catch(console.warn);
   };
 
   return (
