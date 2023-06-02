@@ -2,6 +2,8 @@ import type { ErrorInfo } from "react";
 import React, { Component } from "react";
 import { View, Text } from "react-native";
 
+import * as Senrty from "sentry-expo";
+
 interface ErrorBoundaryState {
   hasError: boolean
 }
@@ -17,9 +19,14 @@ export class ErrorBoundary extends Component<any, ErrorBoundaryState> {
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    // TODO Sentry? Maybe we should use the sentry provider.
     // eslint-disable-next-line no-console
     console.log("ErrorBoundary:", error, errorInfo);
+
+    Senrty.Native.captureException(
+      error, {
+        extra: { componentStack: errorInfo.componentStack },
+      },
+    );
   }
 
   render() {

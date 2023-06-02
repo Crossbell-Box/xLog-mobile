@@ -56,6 +56,7 @@ export default (_: ConfigContext): ExpoConfig => {
     icon: config.icon,
     userInterfaceStyle: "automatic",
     plugins: [
+      "sentry-expo",
       [
         "expo-build-properties",
         {
@@ -125,11 +126,24 @@ export default (_: ConfigContext): ExpoConfig => {
         },
       ],
     },
+    hooks: {
+      postPublish: [
+        {
+          file: "sentry-expo/upload-sourcemaps",
+          config: {
+            organization: process.env.SENTRY_ORG,
+            project: process.env.SENTRY_PROJECT,
+            authToken: process.env.SENTRY_AUTH_TOKEN,
+          },
+        },
+      ],
+    },
     extra: {
       WALLET_PROJECT_ID: process.env.WALLET_PROJECT_ID,
       INFURA_ID: process.env.INFURA_ID,
       CSB_SCAN: process.env.CSB_SCAN,
       CSB_XCHAR: process.env.CSB_XCHAR,
+      SENTRY_DSN: process.env.SENTRY_DSN,
       APP_HOST: config.host,
       eas: {
         projectId: process.env.EXPO_PROJECT_ID,

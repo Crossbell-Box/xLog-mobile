@@ -21,11 +21,14 @@ import { QueryClient } from "@tanstack/react-query";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import WalletConnectProvider from "@walletconnect/react-native-dapp";
 import { resolveScheme } from "expo-linking";
+import * as Sentry from "sentry-expo";
 import { TamaguiProvider } from "tamagui";
 
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import ProviderComposer from "@/components/ProviderComposer";
 import { StatusBar } from "@/components/StatusBar";
+import { IS_DEV } from "@/constants";
+import { SENTRY_DSN } from "@/constants/env";
 import { ConnectKitProvider } from "@/providers/connect-kit-provider";
 import { DrawerProvider } from "@/providers/drawer-provider";
 import LoadingProvider from "@/providers/loading-provider";
@@ -40,6 +43,19 @@ import config from "./tamagui.config";
 
 enableScreens(true);
 enableFreeze(true);
+
+Sentry.init({
+  dsn: SENTRY_DSN,
+  enableInExpoDevelopment: true,
+  debug: IS_DEV,
+});
+
+// eslint-disable-next-line no-console
+console.log("Sentry init config: ", {
+  dsn: SENTRY_DSN,
+  enableInExpoDevelopment: true,
+  debug: IS_DEV,
+});
 
 const persister = createAsyncStoragePersister();
 
