@@ -1,5 +1,0 @@
----
-"xlog": patch
----
-
-Configure Sentry.

@@ -1,5 +1,21 @@
 # xlog
 
+## 0.7.0
+
+### Minor Changes
+
+- bac3901: Following the system color scheme correctly.
+- 668c310: Support providing feedback on article issues.
+
+### Patch Changes
+
+- 8047ef1: Open the post details page via universal links.
+- 677e318: Solved the universal link issue.
+- 87a1f70: Opening Drawer conveniently.
+- 6f1231a: Display the date time of feed items correctly.
+- 2632cf0: solved the crash problem when close the connecting modal.
+- 40f10fc: Configure Sentry.
+
 ## 0.6.6
 
 ### Patch Changes
