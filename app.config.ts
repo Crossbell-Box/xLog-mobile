@@ -56,7 +56,6 @@ export default (_: ConfigContext): ExpoConfig => {
     icon: config.icon,
     userInterfaceStyle: "automatic",
     plugins: [
-      "sentry-expo",
       [
         "expo-build-properties",
         {
@@ -123,18 +122,6 @@ export default (_: ConfigContext): ExpoConfig => {
             },
           ],
           category: ["BROWSABLE", "DEFAULT"],
-        },
-      ],
-    },
-    hooks: {
-      postPublish: [
-        {
-          file: "sentry-expo/upload-sourcemaps",
-          config: {
-            organization: process.env.SENTRY_ORG,
-            project: process.env.SENTRY_PROJECT,
-            authToken: process.env.SENTRY_AUTH_TOKEN,
-          },
         },
       ],
     },
