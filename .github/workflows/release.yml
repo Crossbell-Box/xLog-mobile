@@ -10,13 +10,10 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 jobs:
   release:
     name: Release
-    runs-on: ubuntu-latest
+    runs-on: macos-13-xl
     permissions:
       pull-requests: write
       contents: write
-    env:
-      CI: true
-      NODE_OPTIONS: --max-old-space-size=8192
     steps:
       - name: Check for EXPO_TOKEN
         run: |
@@ -51,11 +48,12 @@ jobs:
         run: yarn
 
       - name: Create Release Pull Request
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_OPTIONS: --max_old_space_size=4096
         uses: changesets/action@v1
         with:
           version: yarn ts-node ./scripts/create-preview-builds-with-release.ts
           publish: yarn run release:publish
           commit: 'chore: update versions'
           title: 'chore: update versions'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
