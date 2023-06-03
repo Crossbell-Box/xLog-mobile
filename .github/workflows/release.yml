@@ -80,5 +80,4 @@ jobs:
             eas build --non-interactive --profile preview -p all --no-wait
           else
             echo "No release type detected"
-            exit 1
           fi
