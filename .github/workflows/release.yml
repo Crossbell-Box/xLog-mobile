@@ -57,7 +57,7 @@ jobs:
             const releaseType = await resolveReleaseType();
             return releaseType
             
-      - name: Create Release Pull Request
+      - name: Bump Versions
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         uses: changesets/action@v1
