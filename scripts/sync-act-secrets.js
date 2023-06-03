@@ -1,6 +1,6 @@
-import { promises as fs } from "fs";
+const fs = require("fs").promises;
 
-async function getSecretContent(filePath: string): Promise<string> {
+async function getSecretContent(filePath) {
   const content = await fs.readFile(filePath, { encoding: "utf-8" });
   return content.trim();
 }

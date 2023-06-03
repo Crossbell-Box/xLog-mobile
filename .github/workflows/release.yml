@@ -46,14 +46,39 @@ jobs:
 
       - name: Install Dependencies
         run: yarn
-
+      
+      - name: Resolve release type
+        uses: actions/github-script@v6
+        id: release-type
+        with:
+          result-encoding: string
+          script: |
+            const resolveReleaseType = require('./scripts/resolve-release-type.js')
+            const releaseType = await resolveReleaseType();
+            return releaseType
+            
       - name: Create Release Pull Request
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NODE_OPTIONS: --max_old_space_size=8192
         uses: changesets/action@v1
         with:
-          version: yarn ts-node ./scripts/create-preview-builds-with-release.ts
+          version: yarn run release:version
           publish: yarn run release:publish
           commit: 'chore: update versions'
           title: 'chore: update versions'
+
+      - name: Create Release Pull Request
+        env:
+          NODE_OPTIONS: --max_old_space_size=4096
+        run: |
+          RELEASE_TYPE=${{ steps.release-type.outputs.result }}
+          echo "Release type: $RELEASE_TYPE"
+
+          if [ "$RELEASE_TYPE" == "patch" ]; then
+            eas update --branch staging --auto
+          elif [ "$RELEASE_TYPE" == "minor" ] || [ "$RELEASE_TYPE" == "major" ]; then
+            eas build --non-interactive --profile preview -p all --no-wait
+          else
+            echo "No release type detected"
+            exit 1
+          fi
