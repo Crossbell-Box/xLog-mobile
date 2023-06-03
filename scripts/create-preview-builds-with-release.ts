@@ -45,6 +45,18 @@ async function main() {
 
     if (release.type === "patch") {
       console.log("Patch release found, publishing hot update.");
+      // eas update --branch staging --auto
+      await excuteEASCommands([
+        "update",
+        "--branch",
+        "staging",
+        "--auto",
+      ], {
+        NODE_ENV: "staging",
+      });
+    }
+    else if (release.type === "major" || release.type === "minor") {
+      console.log("Major or minor release found, publishing new builds.");
       // eas build --non-interactive --profile preview -p all --no-wait
       await excuteEASCommands([
         "build",
@@ -54,18 +66,6 @@ async function main() {
         "-p",
         "all",
         "--no-wait",
-      ], {
-        NODE_ENV: "staging",
-      });
-    }
-    else if (release.type === "major" || release.type === "minor") {
-      console.log("Major or minor release found, publishing new builds.");
-      // eas update --branch staging --auto
-      await excuteEASCommands([
-        "update",
-        "--branch",
-        "staging",
-        "--auto",
       ], {
         NODE_ENV: "staging",
       });
