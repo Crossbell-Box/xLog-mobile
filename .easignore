@@ -1,3 +1,7 @@
+# Act
+.act.secrets
+.act.secrets.base
+
 # Expo
 .expo
 ios/*
