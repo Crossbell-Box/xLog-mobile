@@ -1,5 +1,11 @@
 # xlog
 
+## 0.8.0
+
+### Minor Changes
+
+- 2249bf4: Bump minor version.
+
 ## 0.7.0
 
 ### Minor Changes
