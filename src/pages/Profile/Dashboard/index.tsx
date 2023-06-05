@@ -1,12 +1,12 @@
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
 
-import { useAccountState } from "@crossbell/react-account";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Clock, Eye, Heart, MessageSquare, Newspaper, UserCheck } from "@tamagui/lucide-icons";
 import type { IconProps } from "@tamagui/lucide-icons/types/IconProps";
 import { Card, H3, SizableText, XStack } from "tamagui";
 
+import { useCharacterId } from "@/hooks/use-character-id";
 import { useDate } from "@/hooks/use-date";
 import { useGetTips } from "@/models/site.model";
 import type { RootStackParamList } from "@/navigation/types";
@@ -17,7 +17,7 @@ export interface Props {
 
 export const DashboardPage: FC<NativeStackScreenProps<RootStackParamList, "Dashboard">> = () => {
   const i18n = useTranslation();
-  const { computed: { account: { characterId } } } = useAccountState();
+  const characterId = useCharacterId();
   const stat = useGetStat({ characterId: characterId.toString() });
   const date = useDate();
   const tips = useGetTips({

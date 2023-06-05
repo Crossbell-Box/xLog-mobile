@@ -3,7 +3,6 @@ import type { FC } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { FlatList } from "react-native-gesture-handler";
 
-import { useAccountState } from "@crossbell/react-account";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import * as Haptics from "expo-haptics";
 import { Separator, SizableText, Spinner, Stack, Text } from "tamagui";
@@ -11,13 +10,14 @@ import { Separator, SizableText, Spinner, Stack, Text } from "tamagui";
 import { CommentItem } from "@/components/CommentItem";
 import { ProfilePageHeader } from "@/components/ProfilePageHeader";
 import { ProfilePageLayout } from "@/components/ProfilePageLayout";
+import { useCharacterId } from "@/hooks/use-character-id";
 import type { RootStackParamList } from "@/navigation/types";
 import { useGetCommentsBySite } from "@/queries/site";
 
 export interface Props {}
 
 export const CommentsPage: FC<NativeStackScreenProps<RootStackParamList, "Comments">> = () => {
-  const { computed: { account: { characterId } } } = useAccountState();
+  const characterId = useCharacterId();
   const comments = useGetCommentsBySite({ characterId });
   const i18n = useTranslation();
 
