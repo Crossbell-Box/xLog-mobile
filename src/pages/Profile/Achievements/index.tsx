@@ -1,13 +1,13 @@
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
 
-import { useAccountState } from "@crossbell/react-account";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { H5, XStack, YStack } from "tamagui";
 
 import { AchievementItem } from "@/components/AchievementItem";
 import { ProfilePageHeader } from "@/components/ProfilePageHeader";
 import { ProfilePageLayout } from "@/components/ProfilePageLayout";
+import { useCharacterId } from "@/hooks/use-character-id";
 import type { RootStackParamList } from "@/navigation/types";
 import { useGetAchievements } from "@/queries/site";
 
@@ -15,8 +15,7 @@ export interface Props {
 }
 
 export const AchievementsPage: FC<NativeStackScreenProps<RootStackParamList, "Achievements">> = () => {
-  const { computed: { account } } = useAccountState();
-  const { characterId } = account;
+  const characterId = useCharacterId();
   const { t } = useTranslation("dashboard");
   const achievement = useGetAchievements(characterId?.toString());
 
