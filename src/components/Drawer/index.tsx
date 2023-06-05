@@ -17,6 +17,7 @@ import { DisconnectBtn } from "@/components/ConnectionButton";
 import { useColors } from "@/hooks/use-colors";
 import { useDrawer } from "@/hooks/use-drawer";
 import { useRootNavigation } from "@/hooks/use-navigation";
+import { i18n } from "@/i18n";
 import type { ProfilePagesParamList } from "@/navigation/types";
 
 const profilePages: Array<{
@@ -24,13 +25,13 @@ const profilePages: Array<{
   title: string
   icon: React.ExoticComponent<IconProps>
 }> = [
-  { name: "Dashboard", title: "仪表盘", icon: LayoutDashboard },
-  { name: "Posts", title: "文章", icon: Newspaper },
-  { name: "Pages", title: "页面", icon: File },
-  { name: "Comments", title: "评论", icon: MessageSquare },
-  { name: "Achievements", title: "成就", icon: Trophy },
-  { name: "Events", title: "活动", icon: Flag },
-  { name: "Notifications", title: "通知", icon: TreeDeciduous },
+  { name: "Dashboard", title: i18n.t("Dashboard"), icon: LayoutDashboard },
+  { name: "Posts", title: i18n.t("Posts"), icon: Newspaper },
+  { name: "Pages", title: i18n.t("Pages"), icon: File },
+  { name: "Comments", title: i18n.t("Comment"), icon: MessageSquare },
+  { name: "Achievements", title: i18n.t("Achievements"), icon: Trophy },
+  { name: "Events", title: i18n.t("Events"), icon: Flag },
+  { name: "Notifications", title: i18n.t("Notifications"), icon: TreeDeciduous },
 ];
 
 const DrawerContent = () => {
@@ -110,7 +111,7 @@ const DrawerContent = () => {
           )}
         </XStack>
         <Spacer size="$5" />
-        {connectedAccount && <DisconnectBtn />}
+        {connectedAccount && <DisconnectBtn navigateToLogin={false} />}
       </YStack>
     </YStack>
   );

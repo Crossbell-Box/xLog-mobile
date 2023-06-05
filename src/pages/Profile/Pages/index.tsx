@@ -1,6 +1,6 @@
 import React from "react";
 import type { FC } from "react";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import { ScrollView } from "react-native";
 
 import { useAccountState } from "@crossbell/react-account";
@@ -57,12 +57,13 @@ export const PagesPage: FC<NativeStackScreenProps<RootStackParamList, "Pages">> 
   return (
     <ProfilePageLayout>
       <ProfilePageHeader
-        title="页面"
+        title={i18n.t("Pages")}
         description={(
-          <Text>
-            页面是静态的，不受日期影响。它们更像是你网站上的永久元素，比如&ldquo;关于我们&rdquo;、&ldquo;联系我们&rdquo;等。文章与页面。
-            创建页面后，你可以将其添加到你网站的导航菜单电，以便访问者可以找到它。
-          </Text>
+          <Trans i18nKey="pages description">
+          Pages are static and are not affected by date. Think of them as more
+          permanent fixtures of your site — an About page, and a Contact page
+          are great examples of this.
+          </Trans>
         )} />
       <Tabs
         defaultValue="tab1"

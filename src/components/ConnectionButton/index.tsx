@@ -12,17 +12,22 @@ import {
 import { Plug } from "@tamagui/lucide-icons";
 import { useWalletConnect } from "@walletconnect/react-native-dapp";
 import * as Haptics from "expo-haptics";
+import type { StackProps } from "tamagui";
 import { Button, Card, H4, Paragraph, Stack } from "tamagui";
 
 import { useDrawer } from "@/hooks/use-drawer";
+import { useRootNavigation } from "@/hooks/use-navigation";
 import { useOneTimeToggler } from "@/hooks/use-signin-tips-toggler";
 
 import { DelayedRender } from "../DelayRender";
 import { ModalWithFadeAnimation } from "../ModalWithFadeAnimation";
 
-interface Props { }
+interface Props extends StackProps {
+  navigateToLogin?: boolean
+}
 
-export const ConnectionButton: FC<Props> = () => {
+export const ConnectionButton: FC<Props> = (props) => {
+  const { navigateToLogin = false, ...stackProps } = props;
   const { isLoading } = useAccountBalance();
   const connectedAccount = useConnectedAccount();
 
@@ -31,37 +36,34 @@ export const ConnectionButton: FC<Props> = () => {
     return null;
 
   return (
-    <Animated.View style={[
-      {
-        position: "absolute",
-        bottom: 12,
-        left: 24,
-        right: 24,
-        display: "flex",
-        flexDirection: "column",
-        gap: 12,
-      },
-    ]}>
+    <Stack {...stackProps}>
       {(() => {
         switch (connectedAccount?.type) {
           case "email":
-            return <DisconnectBtn />;
+            return <DisconnectBtn navigateToLogin={navigateToLogin} />;
           case "wallet":
-            return <OPSignToggleBtn />;
+            return <OPSignToggleBtn/>;
           default:
-            return <ConnectBtn />;
+            return <ConnectBtn navigateToLogin={navigateToLogin} />;
         }
       })()}
-    </Animated.View>
+    </Stack>
   );
 };
 
-function ConnectBtn() {
+function ConnectBtn({ navigateToLogin }: { navigateToLogin: boolean }) {
   const i18n = useTranslation();
   const connector = useWalletConnect();
+  const navigation = useRootNavigation();
+
   const handleConnect = () => {
+    if (navigateToLogin) {
+      navigation.navigate("Login");
+      return;
+    }
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    connector.connect().catch(console.warn);
+    // eslint-disable-next-line no-console
+    connector.connect().catch(console.log);
   };
 
   return (
@@ -87,6 +89,11 @@ function OPSignToggleBtn() {
   const { t } = useTranslation();
   const { hasBeenDisplayed, close, closePermanently } = useOneTimeToggler();
 
+  const OPSign = () => {
+    signIn();
+    closePermanently();
+  };
+
   if (!isWalletSignedIn) {
     return (
       <Stack>
@@ -96,10 +103,7 @@ function OPSignToggleBtn() {
             color={"white"}
             fontSize={"$6"}
             backgroundColor={"$primary"}
-            onPress={() => {
-              signIn();
-              closePermanently();
-            }}
+            onPress={OPSign}
             icon={<Plug size={"$1.5"} />}
           >
             {isSignInLoading ? `${t("Loading")}...` : t("Operator Sign")}
@@ -128,12 +132,17 @@ function OPSignToggleBtn() {
   return null;
 }
 
-export function DisconnectBtn() {
+export function DisconnectBtn({ navigateToLogin }: { navigateToLogin: boolean }) {
   const _disconnect = useDisconnectAccount();
   const { closeDrawer } = useDrawer();
   const { t } = useTranslation();
+  const navigation = useRootNavigation();
 
   const disconnect = () => {
+    if (navigateToLogin) {
+      navigation.navigate("Login");
+      return;
+    }
     closeDrawer();
     _disconnect();
   };

@@ -80,7 +80,7 @@ export function NotificationItem({ notification }: ItemProps) {
             {renderTransactionHash()}
           </XStack>
           {titleInfo && (
-            <Text color="$color" numberOfLines={2}>
+            <Text color="$colorSubtitle" numberOfLines={2}>
               {removeMd(titleInfo.title)}
             </Text>
           )}

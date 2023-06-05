@@ -1,6 +1,6 @@
 import React from "react";
 import type { FC } from "react";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import { ScrollView } from "react-native";
 
 import { useAccountState } from "@crossbell/react-account";
@@ -42,7 +42,7 @@ const tabs = [
 
 export const PostsPage: FC<NativeStackScreenProps<RootStackParamList, "Posts">> = () => {
   const { computed } = useAccountState();
-  const i18n = useTranslation();
+  const i18n = useTranslation("dashboard");
   const [selectedTab, setSelectedTab] = React.useState<PageVisibilityEnum>(tabs[0].value);
   const handle = computed?.account?.character?.handle;
   const characterId = computed?.account?.characterId;
@@ -70,11 +70,13 @@ export const PostsPage: FC<NativeStackScreenProps<RootStackParamList, "Posts">> 
   return (
     <ProfilePageLayout>
       <ProfilePageHeader
-        title="文章"
+        title={i18n.t("Posts")}
         description={(
-          <Text>
-            文章是按时间倒序在你的网站上列出的条目。可以将它们看作是更新，以提供新内容给读者。
-          </Text>
+          <Trans i18nKey="posts description">
+          Posts are entries listed in reverse chronological order on your site.
+          Think of them as articles or updates that you share to offer up new
+          content to your readers.
+          </Trans>
         )} />
       <Tabs
         defaultValue="tab1"

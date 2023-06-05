@@ -1,10 +1,14 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { createStackNavigator } from "@react-navigation/stack";
+import { Header, createStackNavigator } from "@react-navigation/stack";
 import type { TransitionSpec } from "@react-navigation/stack/lib/typescript/src/types";
+import { DoorClosed, XCircle } from "@tamagui/lucide-icons";
+import { Stack, XStack, YStack } from "tamagui";
 
 import { CharacterListPage } from "@/pages/CharacterList";
+import { LoginPage } from "@/pages/Login";
 import { PostDetailsPage } from "@/pages/PostDetails";
 import { AchievementsPage } from "@/pages/Profile/Achievements";
 import { CommentsPage } from "@/pages/Profile/Comments";
@@ -35,6 +39,7 @@ const config: TransitionSpec = {
 
 export const RootNavigator = () => {
   const { top, bottom } = useSafeAreaInsets();
+  const { t } = useTranslation("common");
 
   return (
     <RootStack.Navigator
@@ -46,8 +51,27 @@ export const RootNavigator = () => {
       <RootStack.Screen name={"Home"} component={HomeNavigator} />
       <RootStack.Screen name={"PostDetails"} component={PostDetailsPage} />
 
-      <RootStack.Group screenOptions={{ headerShown: true, headerBackTitle: "返回" }}>
-        <RootStack.Screen name={"Replies"} component={RepliesPage} options={{ title: "评论回复" }}/>
+      <RootStack.Group screenOptions={{ presentation: "modal", headerShown: true }}>
+        <RootStack.Screen
+          name={"Login"}
+          component={LoginPage}
+          options={{
+            title: "Sign In",
+            headerStyle: { elevation: 0, shadowOpacity: 0 },
+            headerBackTitleVisible: false,
+            headerBackImage(props) {
+              return (
+                <XStack {...props} paddingLeft={"$4"} >
+                  <XCircle size={24} color={props.tintColor} />
+                </XStack>
+              );
+            },
+          }}
+        />
+      </RootStack.Group>
+
+      <RootStack.Group screenOptions={{ headerShown: true, headerBackTitle: t("Back") }}>
+        <RootStack.Screen name={"Replies"} component={RepliesPage} options={{ title: t("Replies") }}/>
         <RootStack.Screen name={"CharacterListPage"} component={CharacterListPage} options={{ title: "" }}/>
         <RootStack.Screen name={"Web"} component={WebPage} options={{ title: "" }}/>
       </RootStack.Group>
@@ -60,13 +84,13 @@ export const RootNavigator = () => {
           close: config,
         },
       }}>
-        <RootStack.Screen name={"Dashboard"} component={DashboardPage} options={{ title: "仪表盘" }} />
-        <RootStack.Screen name={"Posts"} component={PostsPage} options={{ title: "文章" }} />
-        <RootStack.Screen name={"Pages"} component={PagesPage} options={{ title: "页面" }} />
-        <RootStack.Screen name={"Comments"} component={CommentsPage} options={{ title: "评论" }} />
-        <RootStack.Screen name={"Achievements"} component={AchievementsPage} options={{ title: "成就" }} />
-        <RootStack.Screen name={"Events"} component={EventsPage} options={{ title: "活动" }} />
-        <RootStack.Screen name={"Notifications"} component={NotificationsPage} options={{ title: "通知" }} />
+        <RootStack.Screen name={"Dashboard"} component={DashboardPage} options={{ title: t("Dashboard") }} />
+        <RootStack.Screen name={"Posts"} component={PostsPage} options={{ title: t("Posts") }} />
+        <RootStack.Screen name={"Pages"} component={PagesPage} options={{ title: t("Pages") }} />
+        <RootStack.Screen name={"Comments"} component={CommentsPage} options={{ title: t("Comment") }} />
+        <RootStack.Screen name={"Achievements"} component={AchievementsPage} options={{ title: t("Achievements") }} />
+        <RootStack.Screen name={"Events"} component={EventsPage} options={{ title: t("Events") }} />
+        <RootStack.Screen name={"Notifications"} component={NotificationsPage} options={{ title: t("Notifications") }} />
       </RootStack.Group>
     </RootStack.Navigator>
   );
