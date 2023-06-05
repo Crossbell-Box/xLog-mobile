@@ -37,7 +37,7 @@ export const EventsPage: FC<NativeStackScreenProps<RootStackParamList, "Events">
 
   return (
     <ProfilePageLayout>
-      <ProfilePageHeader title="活动" description={null} />
+      <ProfilePageHeader title={t("Events")} description={null} />
       <Loading isLoading={pages.isLoading}>
         <ScrollView showsVerticalScrollIndicator={false}>
           {pages.data?.pages[0]?.list.map((item) => {

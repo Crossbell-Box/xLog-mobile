@@ -3,7 +3,7 @@ import { useDrawerProgress } from "react-native-drawer-layout";
 import type { SharedValue } from "react-native-reanimated";
 import Animated, { Extrapolate, interpolate, useAnimatedStyle } from "react-native-reanimated";
 
-import { useWindowDimensions } from "tamagui";
+import { Stack, useWindowDimensions } from "tamagui";
 
 import { ConnectionButton } from "@/components/ConnectionButton";
 
@@ -32,7 +32,9 @@ export const AnimatedConnectionButton: FC<{
 
   return (
     <Animated.View style={connectButtonAnimStyle}>
-      <ConnectionButton />
+      <Stack position="absolute" bottom={12} left={24} right={24} display="flex" flexDirection="column" gap={12}>
+        <ConnectionButton navigateToLogin/>
+      </Stack>
     </Animated.View>
   );
 };

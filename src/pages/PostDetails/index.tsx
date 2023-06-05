@@ -22,8 +22,6 @@ export interface Props {
 export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, "PostDetails">> = (props) => {
   const { route, navigation } = props;
   const { params } = route;
-  // eslint-disable-next-line no-console
-  console.log(params, "params");
   const [displayImageUris, setDisplayImageUris] = React.useState<string[]>([]);
 
   const { bottom } = useSafeAreaInsets();

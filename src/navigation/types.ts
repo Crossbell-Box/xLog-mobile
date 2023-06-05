@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/consistent-type-definitions */
 import type { Props as CharacterListPageProps } from "@/pages/CharacterList";
 import type { Props as FeedPageProps } from "@/pages/Feed";
+import type { Props as LoginPageProps } from "@/pages/Login";
 import type { Props as PostDetailsPageProps } from "@/pages/PostDetails";
 import type { Props as AchievementsPageProps } from "@/pages/Profile/Achievements";
 import type { Props as CommentsPageProps } from "@/pages/Profile/Comments";
@@ -34,5 +35,6 @@ export type RootStackParamList = {
   Replies: RepliesPageProps
   CharacterListPage: CharacterListPageProps
   Web: WebPageProps
+  Login: LoginPageProps
 } & ProfilePagesParamList;
 

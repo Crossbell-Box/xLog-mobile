@@ -31,17 +31,17 @@ export const DashboardPage: FC<NativeStackScreenProps<RootStackParamList, "Dashb
     icon: React.ExoticComponent<IconProps>
   }> = [
     {
-      label: "发布的文章",
+      label: i18n.t("Published posts"),
       value: stat.data?.notesCount,
       icon: Newspaper,
     },
     {
-      label: "收到的评论",
+      label: i18n.t("Received comments"),
       value: stat.data?.commentsCount,
       icon: MessageSquare,
     },
     {
-      label: "收到的打赏",
+      label: i18n.t("Received tips"),
       value: `${tips.data?.pages?.[0]?.list
         ?.map(i => +i.amount)
         .reduce((acr, cur) => acr + cur, 0) ?? 0
@@ -49,17 +49,17 @@ export const DashboardPage: FC<NativeStackScreenProps<RootStackParamList, "Dashb
       icon: Heart,
     },
     {
-      label: "关注者",
+      label: i18n.t("Followers"),
       value: stat.data?.subscriptionCount,
       icon: UserCheck,
     },
     {
-      label: "浏览量",
+      label: i18n.t("Viewed"),
       value: stat.data?.viewsCount,
       icon: Eye,
     },
     {
-      label: "站点运行时间",
+      label: i18n.t("Site Duration"),
       value:
           `${date.dayjs().diff(date.dayjs(stat.data?.createdAt), "day")} ${i18n.t("days")}`,
       icon: Clock,

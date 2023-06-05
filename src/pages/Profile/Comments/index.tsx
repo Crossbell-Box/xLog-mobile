@@ -27,7 +27,7 @@ export const CommentsPage: FC<NativeStackScreenProps<RootStackParamList, "Commen
 
   return (
     <ProfilePageLayout>
-      <ProfilePageHeader title="评论" description={null} />
+      <ProfilePageHeader title={i18n.t("Comments")} description={null} />
       <FlatList
         style={{ flex: 1 }}
         contentContainerStyle={{ width: "100%", alignSelf: "center" }}

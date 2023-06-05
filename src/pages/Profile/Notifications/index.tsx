@@ -1,5 +1,6 @@
 import type { FC } from "react";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { ScrollView } from "react-native-gesture-handler";
 
 import { useCharacterNotification } from "@crossbell/indexer";
@@ -17,11 +18,12 @@ export interface Props {
 export const NotificationsPage: FC<NativeStackScreenProps<RootStackParamList, "Notifications">> = () => {
   const { computed } = useAccountState();
   const characterId = computed?.account?.characterId;
+  const { t } = useTranslation("dashboard");
   const notifications = useCharacterNotification(characterId, ["LINKED", "MENTIONED", "NOTE_MINTED", "NOTE_POSTED", "OPERATOR_ADDED", "OPERATOR_REMOVED", "TIPPED", "UNLINKED"]);
 
   return (
     <ProfilePageLayout>
-      <ProfilePageHeader title="通知" description={null} />
+      <ProfilePageHeader title={t("Notifications")} description={null} />
       <ScrollView showsVerticalScrollIndicator={false}>
         {
           notifications?.data?.pages.map((page) => {

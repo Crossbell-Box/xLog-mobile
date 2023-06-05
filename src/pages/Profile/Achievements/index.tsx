@@ -1,4 +1,5 @@
 import type { FC } from "react";
+import { useTranslation } from "react-i18next";
 
 import { useAccountState } from "@crossbell/react-account";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -16,11 +17,12 @@ export interface Props {
 export const AchievementsPage: FC<NativeStackScreenProps<RootStackParamList, "Achievements">> = () => {
   const { computed: { account } } = useAccountState();
   const { characterId } = account;
+  const { t } = useTranslation("dashboard");
   const achievement = useGetAchievements(characterId?.toString());
 
   return (
     <ProfilePageLayout>
-      <ProfilePageHeader title="成就" description={null} />
+      <ProfilePageHeader title={t("Achievements")} description={null} />
       {achievement.data?.list?.map((series) => {
         const length = series.groups?.length;
         if (!length) {

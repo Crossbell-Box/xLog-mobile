@@ -1,4 +1,5 @@
 import React, { useMemo, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { StyleSheet, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -21,6 +22,7 @@ export const Settings: React.FC<Props> = () => {
   const bottomSheetRef = useRef<BottomSheetModalInstance>(null);
   const { mode, theme, changeTheme } = useThemeStore();
   const snapPoints = useMemo(() => ["40%"], []);
+  const { t } = useTranslation("common");
   const { toggleMode, toggleFollowSystem, followSystem, isDarkMode } = useThemeStore();
 
   const openBottomSheet = () => {
@@ -43,7 +45,7 @@ export const Settings: React.FC<Props> = () => {
                 )}
               >
                 <ListItemTitle>
-                  跟随系统
+                  {t("Follow System")}
                 </ListItemTitle>
               </ListItem>
             </YGroup.Item>
@@ -62,7 +64,7 @@ export const Settings: React.FC<Props> = () => {
                     }}
                   >
                     <ListItemTitle>
-                    深色模式
+                      {t("Dark Mode")}
                     </ListItemTitle>
                   </ListItem>
                 </YGroup.Item>
@@ -76,7 +78,7 @@ export const Settings: React.FC<Props> = () => {
                 iconAfter={<ArrowRight />}
               >
                 <ListItemTitle>
-                  更换主题
+                  {t("Theme")}
                 </ListItemTitle>
               </ListItem>
             </YGroup.Item>
@@ -84,11 +86,10 @@ export const Settings: React.FC<Props> = () => {
               <ListItem
                 icon={Info}
                 scaleIcon={1.2}
-                onPress={openBottomSheet}
                 iconAfter={<Text color="$color">{Application.nativeApplicationVersion}</Text>}
               >
                 <ListItemTitle>
-                  版本
+                  {t("Version")}
                 </ListItemTitle>
               </ListItem>
             </YGroup.Item>
