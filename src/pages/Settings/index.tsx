@@ -4,7 +4,6 @@ import { StyleSheet, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { ArrowRight, Check, Eye, Info, Palette, Thermometer } from "@tamagui/lucide-icons";
-import * as Application from "expo-application";
 import { ListItem, Text, ListItemTitle, Switch, YGroup, YStack } from "tamagui";
 
 import { BottomSheetModal } from "@/components/BottomSheetModal";
@@ -12,6 +11,8 @@ import type { BottomSheetModalInstance } from "@/components/BottomSheetModal";
 import { useColors } from "@/hooks/use-colors";
 import { useThemeStore } from "@/hooks/use-theme-store";
 import { allThemes } from "@/styles/theme";
+
+import packageJson from "../../../package.json";
 
 export interface Props {
 
@@ -86,7 +87,7 @@ export const Settings: React.FC<Props> = () => {
               <ListItem
                 icon={Info}
                 scaleIcon={1.2}
-                iconAfter={<Text color="$color">{Application.nativeApplicationVersion}</Text>}
+                iconAfter={<Text color="$color">{packageJson.version}</Text>}
               >
                 <ListItemTitle>
                   {t("Version")}
