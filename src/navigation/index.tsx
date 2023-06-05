@@ -56,7 +56,7 @@ export const RootNavigator = () => {
           name={"Login"}
           component={LoginPage}
           options={{
-            title: "Sign In",
+            title: t("Connect Wallet"),
             headerStyle: { elevation: 0, shadowOpacity: 0 },
             headerBackTitleVisible: false,
             headerBackImage(props) {
