@@ -45,12 +45,23 @@ const config = envConfig[ENV] as typeof envConfig[keyof typeof envConfig];
 
 console.log(JSON.stringify(config, null, 4));
 
+/**
+ * Ignoring patch version
+ * @example 1.1.1 -> 1.1.0 / 4.2.1 -> 4.2.0
+ * */
+const processedVersion = version.split(".").map((v, i, arr) => {
+  if (i === arr.length - 1) {
+    return `${parseInt(v, 10) - 1}`;
+  }
+  return v;
+}).join(".");
+
 export default (_: ConfigContext): ExpoConfig => {
   return {
     name: config.name,
     description: "The first on-chain and open-source blogging platform for everyone",
     slug: "xlog",
-    version,
+    version: processedVersion,
     scheme: config.scheme,
     orientation: "portrait",
     icon: config.icon,
