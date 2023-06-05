@@ -2,7 +2,7 @@
 import * as dotenv from "dotenv";
 import type { ExpoConfig, ConfigContext } from "expo/config";
 
-import { version } from "./package.json";
+import { version as _version } from "./package.json";
 
 const ENV = process.env.NODE_ENV ?? "production";
 
@@ -49,19 +49,20 @@ console.log(JSON.stringify(config, null, 4));
  * Ignoring patch version
  * @example 1.1.1 -> 1.1.0 / 4.2.1 -> 4.2.0
  * */
-const processedVersion = version.split(".").map((v, i, arr) => {
-  if (i === arr.length - 1) {
-    return `${parseInt(v, 10) - 1}`;
-  }
-  return v;
-}).join(".");
+function decrementVersion(version: string) {
+  const parts = version.split(".");
+  parts[parts.length - 1] = "0";
+  return parts.join(".");
+}
+
+const version = decrementVersion(_version);
 
 export default (_: ConfigContext): ExpoConfig => {
   return {
     name: config.name,
     description: "The first on-chain and open-source blogging platform for everyone",
     slug: "xlog",
-    version: processedVersion,
+    version,
     scheme: config.scheme,
     orientation: "portrait",
     icon: config.icon,
