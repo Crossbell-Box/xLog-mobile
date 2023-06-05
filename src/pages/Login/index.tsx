@@ -91,7 +91,7 @@ export const LoginPage: FC<NativeStackScreenProps<RootStackParamList, "Web">> = 
       </MeasuredContainer>
       <ConnectionButton width={"100%"} marginBottom="$3"/>
       <Text color="$colorSubtitle" fontSize={"$3"}>
-          By signing in you agree to our <Text onPress={navigateToTerms} color="$color" fontSize={"$3"}>Terms & Conditions</Text>
+          By connecting you agree to our <Text onPress={navigateToTerms} color="$color" fontSize={"$3"}>Terms & Conditions</Text>
       </Text>
     </Stack>
   );
