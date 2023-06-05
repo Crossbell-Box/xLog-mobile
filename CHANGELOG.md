@@ -1,5 +1,13 @@
 # xlog
 
+## 0.8.1
+
+### Patch Changes
+
+- 74f9cff: Made some modifications to the copy.
+- 007f0fe: Added Login page.
+- f4dba26: Added Following tabs list.
+
 ## 0.8.0
 
 ### Minor Changes
