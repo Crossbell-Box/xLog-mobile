@@ -77,7 +77,7 @@ jobs:
           if [ "$RELEASE_TYPE" == "patch" ]; then
             eas update --branch staging --auto
           elif [ "$RELEASE_TYPE" == "minor" ] || [ "$RELEASE_TYPE" == "major" ]; then
-            eas build --non-interactive --profile preview -p all --no-wait
+            eas build --non-interactive --profile preview -p all
           else
             echo "No release type detected"
           fi
