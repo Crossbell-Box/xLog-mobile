@@ -1,5 +1,0 @@
----
-"xlog": minor
----
-
-Bump version.

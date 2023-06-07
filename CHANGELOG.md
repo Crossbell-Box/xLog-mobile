@@ -1,5 +1,22 @@
 # xlog
 
+## 0.9.1
+
+### Patch Changes
+
+- 0782e12: For testing.
+
+## 0.9.0
+
+### Minor Changes
+
+- 51124d5: Bump version.
+
+### Patch Changes
+
+- 892d44a: Display version correctly.
+- 1040038: Ignoring the patch version.
+
 ## 0.8.1
 
 ### Patch Changes
