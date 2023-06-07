@@ -48,6 +48,12 @@
     }
   },
   "submit": {
-    "production": {}
+    "production": {
+      "ios":{
+        "appName": "xLog - On-Chain Blogging",
+        "ascAppId": "6449499296",
+        "appleId": "caspian.zhao@outlook.com"
+      }
+    }
   }
 }
