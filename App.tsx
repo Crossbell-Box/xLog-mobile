@@ -29,6 +29,7 @@ import ProviderComposer from "@/components/ProviderComposer";
 import { StatusBar } from "@/components/StatusBar";
 import { IS_DEV } from "@/constants";
 import { SENTRY_DSN } from "@/constants/env";
+import { useNotificationSetup } from "@/hooks/use-notification-setup";
 import { ConnectKitProvider } from "@/providers/connect-kit-provider";
 import { DrawerProvider } from "@/providers/drawer-provider";
 import LoadingProvider from "@/providers/loading-provider";
@@ -68,6 +69,8 @@ const queryClient = new QueryClient({
 });
 
 export default () => {
+  useNotificationSetup();
+
   useEffect(() => {
     checkHotUpdates();
   }, []);
@@ -115,10 +118,10 @@ export default () => {
       <LoadingProvider key={"LoadingProvider"} />,
       <NavigationProvider key={"NavigationProvider"} />,
       <BottomSheetModalProvider key={"BottomSheetModalProvider"} />,
-      <DrawerProvider key={"DrawerProvider"}/>,
+      <DrawerProvider key={"DrawerProvider"} />,
       <ToastProvider key={"ToastProvider"} />,
       // @ts-expect-error: Internal
-      <KeyboardProvider key={"KeyboardProvider"}/>,
+      <KeyboardProvider key={"KeyboardProvider"} />,
     ]}>
       <StatusBar />
       <RootNavigator />
