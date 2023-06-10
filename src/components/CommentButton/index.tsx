@@ -17,6 +17,7 @@ import { Button, H4, Input, SizableText, Spinner, Stack, Text, XStack, YStack, u
 import { BottomSheetModal } from "@/components/BottomSheetModal";
 import type { BottomSheetModalInstance } from "@/components/BottomSheetModal";
 import { isIOS } from "@/constants/platform";
+import { useAuthPress } from "@/hooks/use-auth-press";
 import { useColors } from "@/hooks/use-colors";
 import { useGlobalLoading } from "@/hooks/use-global-loading";
 import { useMounted } from "@/hooks/use-mounted";
@@ -114,6 +115,17 @@ export const CommentButton: React.FC<Props> = ({ characterId, noteId, iconSize =
     });
   };
 
+  const onPressInput = useAuthPress(() => {
+    setIsEditing(false);
+    setSelectedCommentId(noteId);
+    setSelectedIndex(0);
+    displayInput();
+  }, (isConnected) => {
+    if (!isConnected) {
+      bottomSheetRef.current.close();
+    }
+  });
+
   return (
     <>
       <TouchableWithoutFeedback onPress={openBottomSheet} delayLongPress={150}>
@@ -137,7 +149,7 @@ export const CommentButton: React.FC<Props> = ({ characterId, noteId, iconSize =
         keyboardBlurBehavior="restore"
         backgroundStyle={{ backgroundColor: background }}
       >
-        <DelayedRender timeout={100} placeholder={<FilledSpinner/>}>
+        <DelayedRender timeout={100} placeholder={<FilledSpinner />}>
           <WithSpinner isLoading={isLoading}>
             <Animated.View style={[styles.commentItemContainer]} entering={FadeIn.duration(250)}>
               <FlatList
@@ -164,15 +176,15 @@ export const CommentButton: React.FC<Props> = ({ characterId, noteId, iconSize =
                 onEndReached={() => {
                   if (
                     comments.data?.pages.length === 0
-                      || comments.isFetchingNextPage
-                      || comments.hasNextPage === false
+                    || comments.isFetchingNextPage
+                    || comments.hasNextPage === false
                   )
                     return;
 
                   Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
                   comments?.fetchNextPage?.();
                 }}
-                ListFooterComponent={comments.isFetchingNextPage && <Spinner paddingBottom="$5"/>}
+                ListFooterComponent={comments.isFetchingNextPage && <Spinner paddingBottom="$5" />}
                 keyExtractor={(item) => {
                   if (item.type === "header") {
                     return "header";
@@ -265,12 +277,16 @@ export const CommentButton: React.FC<Props> = ({ characterId, noteId, iconSize =
                       backgroundColor={"$background"}
                       paddingHorizontal="$3"
                     >
-                      <XStack paddingHorizontal={12} height={40} borderWidth={1} borderRadius={10} borderColor={"$borderColor"} alignItems="center" space="$2" flex={1} onPress={() => {
-                        setIsEditing(false);
-                        setSelectedCommentId(noteId);
-                        setSelectedIndex(0);
-                        displayInput();
-                      }}>
+                      <XStack
+                        paddingHorizontal={12}
+                        height={40}
+                        borderWidth={1}
+                        borderRadius={10}
+                        borderColor={"$borderColor"}
+                        alignItems="center"
+                        space="$2"
+                        flex={1}
+                        onPress={onPressInput}>
                         <Text flex={1} borderWidth={1} borderRadius={10} color={"$colorSubtitle"}>
                           {t("Write a comment on the blockchain")}
                         </Text>

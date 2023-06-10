@@ -5,6 +5,9 @@ import { useIsConnected } from "@crossbell/react-account";
 
 import { useGlobalLoading } from "./use-global-loading";
 
+/**
+ * @description This hook is used to show global loading when the app is in the background.
+*/
 export const useFnLoadingWithStateChange = <T extends (...args: any[]) => Promise<any>>(
   fn: T,
   {
@@ -17,7 +20,10 @@ export const useFnLoadingWithStateChange = <T extends (...args: any[]) => Promis
   const enabled = typeof _enabled === "boolean"
     ? _enabled
     : isConnected ?? true;
-  const { show, hide } = useGlobalLoading();
+  const globalLoading = useGlobalLoading();
+
+  const hide = () => enabled && globalLoading.hide();
+  const show = () => enabled && globalLoading.show();
 
   useEffect(() => {
     if (!enabled) {
@@ -35,9 +41,9 @@ export const useFnLoadingWithStateChange = <T extends (...args: any[]) => Promis
   }, [enabled]);
 
   return async (...args) => {
-    enabled && show();
+    show();
     await new Promise(resolve => setTimeout(resolve, 100));
     await fn(args);
-    enabled && hide();
+    hide();
   };
 };

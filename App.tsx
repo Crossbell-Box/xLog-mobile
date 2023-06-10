@@ -114,12 +114,12 @@ export default () => {
         }}
       />,
       <ConnectKitProvider key={"ConnectKitProvider"} />,
+      <ToastProvider key={"ToastProvider"} />,
       <ThemeProvider key={"ThemeProvider"} />,
       <LoadingProvider key={"LoadingProvider"} />,
       <NavigationProvider key={"NavigationProvider"} />,
       <BottomSheetModalProvider key={"BottomSheetModalProvider"} />,
       <DrawerProvider key={"DrawerProvider"} />,
-      <ToastProvider key={"ToastProvider"} />,
       // @ts-expect-error: Internal
       <KeyboardProvider key={"KeyboardProvider"} />,
     ]}>

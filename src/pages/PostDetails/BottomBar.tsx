@@ -13,6 +13,7 @@ import { CommentButton } from "@/components/CommentButton";
 import { ReactionLike } from "@/components/ReactionLike";
 import { ReactionMint } from "@/components/ReactionMint";
 import { ReportButton } from "@/components/ReportButton";
+import { useAuthPress } from "@/hooks/use-auth-press";
 import { useColors } from "@/hooks/use-colors";
 import { useFollow } from "@/hooks/use-follow";
 import { useGetPage } from "@/queries/page";
@@ -76,10 +77,10 @@ export const BottomBar: FC<Props> = (props) => {
     };
   }, []);
 
-  const handleToggleSubscribe = () => {
+  const handleToggleSubscribe = useAuthPress(() => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     toggleSubscribe();
-  };
+  });
 
   useEffect(() => {
     followAnimValue.value = withDelay(1500, withSpring(1));
