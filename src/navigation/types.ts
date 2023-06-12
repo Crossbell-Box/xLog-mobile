@@ -12,6 +12,7 @@ import type { Props as PagesPageProps } from "@/pages/Profile/Pages";
 import type { Props as PostsPageProps } from "@/pages/Profile/Posts";
 import type { Props as RepliesPageProps } from "@/pages/Replies";
 import type { Props as SettingsPageProps } from "@/pages/Settings";
+import type { Props as UserInfoPageProps } from "@/pages/UserInfo";
 import type { Props as WebPageProps } from "@/pages/Web";
 
 export type HomeBottomTabsParamList = {
@@ -36,5 +37,6 @@ export type RootStackParamList = {
   CharacterListPage: CharacterListPageProps
   Web: WebPageProps
   Login: LoginPageProps
+  UserInfo: UserInfoPageProps
 } & ProfilePagesParamList;
 

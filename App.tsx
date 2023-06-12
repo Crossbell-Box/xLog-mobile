@@ -38,25 +38,23 @@ import { ThemeProvider } from "@/providers/theme-provider";
 import { ToastProvider } from "@/providers/toast-provider";
 import { checkHotUpdates } from "@/utils/hot-updates";
 
-import { RootNavigator } from "./src/navigation";
+import { RootNavigator } from "./src/navigation/root";
 import { createAsyncStoragePersister } from "./src/utils/persister";
 import config from "./tamagui.config";
 
 enableScreens(true);
 enableFreeze(true);
 
-Sentry.init({
+const SENTRY_CONFIG = {
   dsn: SENTRY_DSN,
   enableInExpoDevelopment: true,
-  debug: IS_DEV,
-});
+  debug: false,
+};
+
+Sentry.init(SENTRY_CONFIG);
 
 // eslint-disable-next-line no-console
-console.log("Sentry init config: ", {
-  dsn: SENTRY_DSN,
-  enableInExpoDevelopment: true,
-  debug: IS_DEV,
-});
+console.log("Sentry init config: ", SENTRY_CONFIG);
 
 const persister = createAsyncStoragePersister();
 

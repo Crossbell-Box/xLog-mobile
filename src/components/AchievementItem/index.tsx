@@ -25,10 +25,8 @@ export interface AchievementItemProps {
 
 const animDuration = 300;
 
-const initialImgSize = 100;
-
 export const AchievementItem: React.FC<AchievementItemProps> = (props) => {
-  const { group, isOwner } = props;
+  const { group, isOwner, size = 100 } = props;
   const window = useWindowDimensions();
   const safeAreaInsets = useSafeAreaInsets();
   const date = useDate();
@@ -153,20 +151,20 @@ export const AchievementItem: React.FC<AchievementItemProps> = (props) => {
   const media = (achievement || achievementMintable || achievementComing)!.info.media;
 
   return (
-    <Stack width={initialImgSize} height={initialImgSize}>
+    <Stack width={size} height={size}>
       <TouchableWithoutFeedback onPress={() => runOnUI(openHandler)()} style={{ borderRadius: 50 }}>
         {
           achievement
             ? (
               <Animated.View ref={originalImgRef} style={originalImgAnimStyles}>
-                <Animated.Image onLoad={() => setLoaded(true)} source={{ uri: toGateway(media) }} style={[styles.image]} />
+                <Animated.Image onLoad={() => setLoaded(true)} source={{ uri: toGateway(media) }} style={{ width: size, height: size }} />
               </Animated.View>
             )
             : (
               <Animated.View ref={originalImgRef} style={originalImgAnimStyles}>
                 {/* <Animated.Image source={AchievementItemBg} style={[imgSizeAnimStyles]} /> */}
-                <Grayscale style={styles.image}>
-                  <Animated.Image onLoad={() => setLoaded(true)} source={{ uri: toGateway(media) }} style={[styles.image]} />
+                <Grayscale style={{ width: size, height: size }}>
+                  <Animated.Image onLoad={() => setLoaded(true)} source={{ uri: toGateway(media) }} style={{ width: size, height: size }} />
                 </Grayscale>
               </Animated.View>
             )
@@ -175,12 +173,12 @@ export const AchievementItem: React.FC<AchievementItemProps> = (props) => {
       {
         !loaded && (
           <ContentLoader
-            viewBox={`0 0 ${initialImgSize} ${initialImgSize}`}
+            viewBox={`0 0 ${size} ${size}`}
             backgroundColor={"gray"}
             opacity="0.3"
             style={{ position: "absolute" }}
           >
-            <Circle cx={initialImgSize / 2} cy={initialImgSize / 2} r={initialImgSize / 2} />
+            <Circle cx={size / 2} cy={size / 2} r={size / 2} />
           </ContentLoader>
         )
       }
@@ -237,7 +235,6 @@ export const AchievementItem: React.FC<AchievementItemProps> = (props) => {
 };
 
 const styles = StyleSheet.create({
-  image: { width: initialImgSize, height: initialImgSize },
   description: {
     justifyContent: "center",
     alignItems: "center",

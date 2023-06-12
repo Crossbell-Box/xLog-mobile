@@ -184,7 +184,7 @@ const CharacterCard: FC<{
     <Animated.View style={cardStyle}>
       <XStack height={ITEM_HEIGHT} paddingBottom={ITEM_VERTICAL_GAP} backgroundColor={"$background"}>
         <XStack flex={1} alignItems="center" gap="$3" borderWidth={1} borderColor={"$borderColor"} borderRadius={"$5"} paddingHorizontal={"$3"}>
-          <Avatar size={42} character={item} />
+          <Avatar size={42} character={item} isNavigateToUserInfo={false}/>
           <YStack flex={1} gap="$2">
             <Text numberOfLines={1} color={"$color"} fontSize={"$7"} fontWeight={"$10"}>{item.metadata?.content?.name}</Text>
             {item.metadata?.content?.bio && <Text color="$colorSubtitle" numberOfLines={2}>{item.metadata?.content?.bio}</Text>}

@@ -6,6 +6,7 @@ import dayjs from "dayjs";
 import { nanoid } from "nanoid";
 import type Unidata from "unidata.js";
 import type { Profiles as UniProfiles } from "unidata.js";
+import type { Address } from "viem";
 
 import type { Profile, SiteNavigationItem } from "@/types/crossbell";
 import { expandCrossbellCharacter, expandUnidataProfile } from "@/utils/expand-unit";
@@ -49,6 +50,28 @@ export const useGetTips = (
       );
     },
     getNextPageParam: lastPage => lastPage.cursor || undefined,
+  });
+};
+
+export const getSiteSubscriptions = async (data: {
+  characterId: number
+  cursor?: string
+  limit?: number
+}) => {
+  return indexer.link.getBacklinksOfCharacter(data.characterId, {
+    linkType: "follow",
+    cursor: data.cursor,
+    limit: data.limit,
+  });
+};
+
+export const getSiteToSubscriptions = async (data: {
+  characterId: number
+  cursor?: string
+}) => {
+  return indexer.link.getMany(data.characterId, {
+    linkType: "follow",
+    cursor: data.cursor,
   });
 };
 
@@ -212,53 +235,6 @@ export const getSubscription = async (input: {
   });
 
   return !!result?.list?.length;
-};
-
-export const getSiteSubscriptions = async (
-  data: {
-    siteId: string
-    cursor?: string
-    limit?: number
-  },
-  customUnidata: Unidata,
-) => {
-  const links = await (customUnidata).links.get({
-    source: "Crossbell Link",
-    identity: data.siteId,
-    platform: "Crossbell",
-    reversed: true,
-    cursor: data.cursor,
-    limit: data.limit,
-  });
-
-  return links?.list.map(async (item: any) => {
-    return {
-      ...item,
-      character: item.metadata.from_raw,
-    };
-  }) || [];
-};
-
-export const getSiteToSubscriptions = async (
-  data: {
-    siteId: string
-    cursor?: string
-  },
-  customUnidata: Unidata,
-) => {
-  const links = await (customUnidata).links.get({
-    source: "Crossbell Link",
-    identity: data.siteId,
-    platform: "Crossbell",
-    cursor: data.cursor,
-  });
-
-  return links?.list.map(async (item: any) => {
-    return {
-      ...item,
-      character: item.metadata.to_raw,
-    };
-  }) || [];
 };
 
 export async function updateSite(
@@ -631,3 +607,13 @@ export async function getGreenfieldId(cid: string) {
 
   return result;
 }
+
+export const getSiteByAddress = async (input: string) => {
+  const result = await indexer.character.getMany(input as Address, {
+    primary: true,
+  });
+
+  if (result?.list?.[0]) {
+    return expandCrossbellCharacter(result.list[0]);
+  }
+};

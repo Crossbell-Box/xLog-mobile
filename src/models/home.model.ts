@@ -154,6 +154,7 @@ export async function getFeed({
                   noteId
                   character {
                     handle
+                    characterId
                     metadata {
                       content
                     }
