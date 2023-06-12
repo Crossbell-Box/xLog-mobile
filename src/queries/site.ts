@@ -123,52 +123,42 @@ export function useUnsubscribeFromSite() {
   });
 }
 
-export const useGetSiteSubscriptions = (data: { siteId: string }) => {
-  const unidata = useUnidata();
+export const useGetSiteSubscriptions = (data: { characterId?: number }) => {
   return useInfiniteQuery({
     queryKey: ["getSiteSubscriptions", data],
     queryFn: async ({ pageParam }) => {
-      if (!data.siteId) {
+      if (!data.characterId) {
         return {
-          total: 0,
+          count: 0,
           list: [],
           cursor: undefined,
         };
       }
-      return siteModel.getSiteSubscriptions(
-        {
-          ...data,
-          cursor: pageParam,
-        },
-        unidata,
-      );
+      return siteModel.getSiteSubscriptions({
+        characterId: data.characterId,
+        cursor: pageParam,
+      });
     },
-    // @ts-expect-error
     getNextPageParam: lastPage => lastPage?.cursor || undefined,
   });
 };
 
-export const useGetSiteToSubscriptions = (data: { siteId: string }) => {
-  const unidata = useUnidata();
+export const useGetSiteToSubscriptions = (data: { characterId?: number }) => {
   return useInfiniteQuery({
     queryKey: ["getSiteToSubscriptions", data],
     queryFn: async ({ pageParam }) => {
-      if (!data.siteId) {
+      if (!data.characterId) {
         return {
-          total: 0,
+          count: 0,
           list: [],
           cursor: undefined,
         };
       }
-      return siteModel.getSiteToSubscriptions(
-        {
-          ...data,
-          cursor: pageParam,
-        },
-        unidata,
-      );
+      return siteModel.getSiteToSubscriptions({
+        characterId: data.characterId,
+        cursor: pageParam,
+      });
     },
-    // @ts-expect-error
     getNextPageParam: lastPage => lastPage?.cursor || undefined,
   });
 };

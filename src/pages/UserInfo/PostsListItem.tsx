@@ -9,28 +9,25 @@ import { useNavigation } from "@react-navigation/native";
 import type { StackNavigationProp } from "@react-navigation/stack";
 import { Image } from "expo-image";
 import removeMd from "remove-markdown";
-import { Card, H5, H6, Paragraph, SizableText, Spacer, Text, XStack } from "tamagui";
+import { Card, H5, Paragraph, SizableText, Spacer, Text, XStack } from "tamagui";
 
-import { Avatar } from "@/components/Avatar";
 import { ImageGallery } from "@/components/ImageGallery";
 import { useDate } from "@/hooks/use-date";
-import { useRootNavigation } from "@/hooks/use-navigation";
 import type { RootStackParamList } from "@/navigation/types";
+import type { ExpandedNote } from "@/types/crossbell";
 import { findCoverImage } from "@/utils/find-cover-image";
 
-type NoteEntity = any;
-
 export interface Props {
-  note: NoteEntity
+  note: ExpandedNote
   style?: ViewStyle
 }
 
 const { width } = Dimensions.get("window");
 
-export const FeedListItem: FC<Props> = (props) => {
+export const PostsListItem: FC<Props> = (props) => {
   const { note } = props;
   const date = useDate();
-  const navigation = useRootNavigation();
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const i18n = useTranslation();
   const [displayImageUris, setDisplayImageUris] = React.useState<string[]>([]);
   const onPress = React.useCallback(() => {
@@ -44,7 +41,7 @@ export const FeedListItem: FC<Props> = (props) => {
   }, [note]);
 
   const coverImage = useMemo(() => {
-    const imageUrls = findCoverImage(note.metadata.content.content);
+    const imageUrls = findCoverImage(note?.metadata?.content?.content);
 
     return {
       uri: imageUrls.length > 1 ? imageUrls : imageUrls[0],
@@ -59,38 +56,35 @@ export const FeedListItem: FC<Props> = (props) => {
       isSingle: false
       isMultiple: true
     };
-  }, [note.metadata.content.content]);
+  }, [note?.metadata.content.content]);
 
   const closeModal = React.useCallback(() => {
     setDisplayImageUris([]);
   }, []);
+
+  const cover = note?.metadata?.content?.cover;
 
   return (
     <>
       <TouchableOpacity style={props.style} activeOpacity={0.65} onPress={onPress}>
         <Card elevate size="$4" bordered>
           <Card.Header padded>
-            <XStack alignItems="center" gap={"$2"} marginBottom={"$1"}>
-              <Avatar character={note?.character} useDefault/>
-              <XStack alignItems="center">
-                <H6>{note.character?.metadata?.content?.name || note.character?.handle}</H6>
-              </XStack>
-            </XStack>
-
+            {cover && <Image contentFit={"cover"} source={{ uri: cover }} style={{ width: "100%", height: 150, borderRadius: 10, marginBottom: 8 }} />}
             {
-              note.metadata.content.title && <H5 fontWeight={"700"} color="$color" marginBottom={"$1"} numberOfLines={1}>{String(note.metadata.content.title).replaceAll(" ", "")}</H5>
+              note?.metadata.content.title && <H5 fontWeight={"700"} color="$color" marginBottom={"$1"} numberOfLines={1}>{String(note.metadata.content.title).replaceAll(" ", "")}</H5>
             }
 
             <XStack justifyContent={coverImage.isSingle ? "space-between" : "flex-start"}>
               {
-                note.metadata?.content?.content && (
+                note?.metadata?.content?.summary && (
                   <Paragraph
                     width={coverImage.isSingle ? "65%" : "100%"}
                     numberOfLines={coverImage.isSingle ? 5 : 3}
                     size={"$2"}
+                    color="#BEBEBE"
                   >
                     {removeMd(
-                      String(note.metadata.content.content.slice(0, 100)).replace(/(\r\n|\n|\r)/gm, " "),
+                      String(note?.metadata?.content?.summary.slice(0, 100)).replace(/(\r\n|\n|\r)/gm, " "),
                     )}
                   </Paragraph>
                 )
@@ -141,12 +135,12 @@ export const FeedListItem: FC<Props> = (props) => {
             <XStack marginTop={"$2"} justifyContent="space-between">
               <Text numberOfLines={1} maxWidth={"70%"}>
                 {
-                  !!note.metadata?.content?.tags?.filter(tag => tag !== "post" && tag !== "page").length && (
+                  !!note?.metadata?.content?.tags?.filter(tag => tag !== "post" && tag !== "page").length && (
                     <SizableText size={"$2"} numberOfLines={1} color="$colorSubtitle">
-                      {note.metadata?.content?.tags
+                      {note?.metadata?.content?.tags
                         ?.filter(tag => tag !== "post" && tag !== "page")
                         .map((tag, index) => (
-                          <Text key={tag + index} fontSize={12}>
+                          <Text key={tag + index} fontSize={12} color="$colorSubtitle">
                             #{tag} &nbsp;
                           </Text>
                         ))}

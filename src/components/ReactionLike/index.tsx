@@ -10,6 +10,7 @@ import type { FontSizeTokens, SizeTokens } from "tamagui";
 import { Button, Card, H4, Paragraph, SizableText, XStack, YStack, Spinner } from "tamagui";
 
 import { CSB_SCAN } from "@/constants/env";
+import { useAuthPress } from "@/hooks/use-auth-press";
 import { useFnLoadingWithStateChange } from "@/hooks/use-fn-loading-with-state-change";
 import { useRootNavigation } from "@/hooks/use-navigation";
 import { useCheckLike, useGetLikeCounts, useGetLikes, useToggleLikePage } from "@/queries/page";
@@ -65,7 +66,7 @@ export const ReactionLike: React.FC<Props> = ({ characterId, noteId, iconSize = 
     }).finally(() => setIsLoading(false));
   });
 
-  const handleLikeAction = () => {
+  const handleLikeAction = useAuthPress(() => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
 
     if (characterId && noteId) {
@@ -76,7 +77,8 @@ export const ReactionLike: React.FC<Props> = ({ characterId, noteId, iconSize = 
         like();
       }
     }
-  };
+  });
+
   const handleUnlikeAction = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
 

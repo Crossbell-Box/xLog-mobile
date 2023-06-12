@@ -9,6 +9,7 @@ import type { FontSizeTokens, SizeTokens } from "tamagui";
 import { Button, Card, H4, Paragraph, SizableText, XStack, YStack } from "tamagui";
 
 import { CSB_SCAN, CSB_XCHAR } from "@/constants/env";
+import { useAuthPress } from "@/hooks/use-auth-press";
 import { useFnLoadingWithStateChange } from "@/hooks/use-fn-loading-with-state-change";
 import { useRootNavigation } from "@/hooks/use-navigation";
 import { useCheckMint, useGetMints, useMintPage } from "@/queries/page";
@@ -49,7 +50,7 @@ export const ReactionMint: React.FC<Props> = ({ characterId, noteId, iconSize = 
     });
   });
 
-  const handleMintAction = () => {
+  const handleMintAction = useAuthPress(() => {
     if (characterId && noteId) {
       if (isMint.data?.count) {
         setIsMintOpen(true);
@@ -58,7 +59,7 @@ export const ReactionMint: React.FC<Props> = ({ characterId, noteId, iconSize = 
         mint();
       }
     }
-  };
+  });
 
   const onOpenList = () => {
     if (mintsCount < 1) {

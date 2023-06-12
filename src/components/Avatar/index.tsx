@@ -1,18 +1,22 @@
 import type { FC } from "react";
 import { StyleSheet } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 import type { CharacterEntity } from "crossbell";
 import { Image } from "expo-image";
 import { Circle, Text, Avatar as _Avatar } from "tamagui";
 
+import { useRootNavigation } from "@/hooks/use-navigation";
 import { toGateway } from "@/utils/ipfs-parser";
 
 import { LogoResource } from "../Logo";
+import { TouchWithHaptics } from "../TouchWithHaptics";
 
 interface Props {
   character: CharacterEntity
   size?: number
   useDefault?: boolean
+  isNavigateToUserInfo?: boolean
 }
 
 const isValidUrl = (url) => {
@@ -27,7 +31,8 @@ const isValidUrl = (url) => {
 };
 
 export const Avatar: FC<Props> = (props) => {
-  const { character, size = 45, useDefault = false } = props;
+  const { character, size = 45, useDefault = false, isNavigateToUserInfo = true } = props;
+  const navigation = useRootNavigation();
   const uri = character?.metadata?.content?.avatars?.[0];
   const name = character?.metadata?.content?.name;
   const nameAbbr = (name || "")
@@ -36,19 +41,28 @@ export const Avatar: FC<Props> = (props) => {
     .map(word => word[0])
     .join("");
 
+  const navigateToUserInfo = () => {
+    if (!character?.characterId) {
+      return;
+    }
+    navigation.navigate("UserInfo", { characterId: character?.characterId });
+  };
+
   if (!uri || (!uri.startsWith("/assets/") && !isValidUrl(uri))) {
     if (useDefault) {
       return (
-        <Circle
-          size={size}
-          bordered
-          circular
-          backgroundColor="$background"
-        >
-          <Text textAlign="center" fontSize={size / 2} fontWeight={"700"}>
-            {nameAbbr}
-          </Text>
-        </Circle>
+        <TouchableOpacity disabled={!isNavigateToUserInfo} onPress={navigateToUserInfo}>
+          <Circle
+            size={size}
+            bordered
+            circular
+            backgroundColor="$background"
+          >
+            <Text textAlign="center" fontSize={size / 2} fontWeight={"700"}>
+              {nameAbbr}
+            </Text>
+          </Circle>
+        </TouchableOpacity>
       );
     }
 
@@ -56,17 +70,19 @@ export const Avatar: FC<Props> = (props) => {
   }
 
   return (
-    <_Avatar
-      size={size}
-      bordered
-      circular
-      backgroundColor="white"
-    >
-      <_Avatar.Image src={toGateway(uri)} />
-      <_Avatar.Fallback>
-        <Image source={LogoResource} contentFit={"cover"} style={styles.container} />
-      </_Avatar.Fallback>
-    </_Avatar>
+    <TouchWithHaptics disabled={!isNavigateToUserInfo} touchableComponent={TouchableOpacity} onPress={navigateToUserInfo}>
+      <_Avatar
+        size={size}
+        bordered
+        circular
+        backgroundColor="white"
+      >
+        <_Avatar.Image src={toGateway(uri)} />
+        <_Avatar.Fallback>
+          <Image source={LogoResource} contentFit={"cover"} style={styles.container} />
+        </_Avatar.Fallback>
+      </_Avatar>
+    </TouchWithHaptics>
   );
 };
 

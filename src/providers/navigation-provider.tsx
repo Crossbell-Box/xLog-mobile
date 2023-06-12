@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 
 import type { LinkingOptions } from "@react-navigation/native";
 import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
@@ -20,17 +20,23 @@ export const NavigationProvider: FC<React.PropsWithChildren<{}>> = ({ children }
     ],
     config: {
       screens: {
-        Home: {
-          screens: {
-            Feed: "",
-          },
-        },
         PostDetails: {
           path: "notes/:noteId/:characterId",
         },
       },
     },
   };
+
+  useEffect(() => {
+    const listener = Linking.addEventListener("url", ({ url }) => {
+      // eslint-disable-next-line no-console
+      console.log("Deep link URL:", url);
+    });
+
+    return () => {
+      listener.remove();
+    };
+  }, []);
 
   const theme = useMemo(() => {
     DefaultTheme.colors = {

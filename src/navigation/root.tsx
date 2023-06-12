@@ -2,10 +2,10 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { Header, createStackNavigator } from "@react-navigation/stack";
+import { createStackNavigator } from "@react-navigation/stack";
 import type { TransitionSpec } from "@react-navigation/stack/lib/typescript/src/types";
-import { DoorClosed, XCircle } from "@tamagui/lucide-icons";
-import { Stack, XStack, YStack } from "tamagui";
+import { XCircle } from "@tamagui/lucide-icons";
+import { XStack } from "tamagui";
 
 import { CharacterListPage } from "@/pages/CharacterList";
 import { LoginPage } from "@/pages/Login";
@@ -18,6 +18,7 @@ import { NotificationsPage } from "@/pages/Profile/Notifications";
 import { PagesPage } from "@/pages/Profile/Pages";
 import { PostsPage } from "@/pages/Profile/Posts";
 import { RepliesPage } from "@/pages/Replies";
+import { UserInfoPage } from "@/pages/UserInfo";
 import { WebPage } from "@/pages/Web";
 
 import { HomeNavigator } from "./home";
@@ -71,9 +72,10 @@ export const RootNavigator = () => {
       </RootStack.Group>
 
       <RootStack.Group screenOptions={{ headerShown: true, headerBackTitle: t("Back") }}>
-        <RootStack.Screen name={"Replies"} component={RepliesPage} options={{ title: t("Replies") }}/>
-        <RootStack.Screen name={"CharacterListPage"} component={CharacterListPage} options={{ title: "" }}/>
-        <RootStack.Screen name={"Web"} component={WebPage} options={{ title: "" }}/>
+        <RootStack.Screen name={"Replies"} component={RepliesPage} options={{ title: t("Replies") }} />
+        <RootStack.Screen name={"CharacterListPage"} component={CharacterListPage} options={{ title: "" }} />
+        <RootStack.Screen name={"Web"} component={WebPage} options={{ title: "" }} />
+        <RootStack.Screen name={"UserInfo"} component={UserInfoPage} options={{ title: "", headerBackTitleVisible: false }} />
       </RootStack.Group>
 
       <RootStack.Group screenOptions={{

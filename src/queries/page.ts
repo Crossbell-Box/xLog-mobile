@@ -8,6 +8,24 @@ import { checkMint, getComment, getComments, getMints, getPage, getPagesBySite, 
 import { cacheDelete, cacheGet } from "@/utils/cache";
 import { getNoteSlug } from "@/utils/get-slug";
 
+export const useGetPagesBySiteLite = (
+  input: Parameters<typeof getPagesBySite>[0],
+) => {
+  return useInfiniteQuery({
+    queryKey: ["getPagesBySite", input.characterId, input],
+    queryFn: async ({ pageParam }) => {
+      const url = `https://xlog.app/api/pages?${new URLSearchParams({
+        ...input,
+        ...(pageParam && { cursor: pageParam }),
+      } as any).toString()}`;
+      const response = await fetch(url);
+      const result: ReturnType<typeof getPagesBySite> = await response.json();
+      return result;
+    },
+    getNextPageParam: lastPage => lastPage.cursor || undefined,
+  });
+};
+
 export const useGetPagesBySite = (
   input: Parameters<typeof getPagesBySite>[0],
 ) => {
