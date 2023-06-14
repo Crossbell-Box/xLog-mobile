@@ -1,6 +1,6 @@
 import type { themes } from "@tamagui/themes";
 
-export type Theme = "official" | "twitter";
+export type Theme = "Official" | "Twitter";
 
 export type Mode = "dark" | "light";
 

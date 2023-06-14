@@ -68,9 +68,9 @@ export const FeedListItem: FC<Props> = (props) => {
   return (
     <>
       <TouchableOpacity style={props.style} activeOpacity={0.65} onPress={onPress}>
-        <Card elevate size="$4" bordered>
+        <Card size="$4">
           <Card.Header padded gap="$1">
-            <XStack alignItems="center" gap={"$2"} marginBottom={"$1"}>
+            <XStack alignItems="center" gap={"$3"} marginBottom={"$1"}>
               <Avatar character={note?.character} useDefault/>
               <XStack alignItems="center">
                 <SizableText size="$5" fontWeight={"700"}>{note.character?.metadata?.content?.name || note.character?.handle}</SizableText>

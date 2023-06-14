@@ -1,7 +1,7 @@
 import { defineTheme } from "./utils";
 
 export default defineTheme(
-  "official",
+  "Official",
   [
     {
       mode: "light",

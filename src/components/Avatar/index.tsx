@@ -54,7 +54,6 @@ export const Avatar: FC<Props> = (props) => {
         <TouchableOpacity disabled={!isNavigateToUserInfo} onPress={navigateToUserInfo}>
           <Circle
             size={size}
-            bordered
             circular
             backgroundColor="$background"
           >
@@ -73,7 +72,6 @@ export const Avatar: FC<Props> = (props) => {
     <XTouch enableHaptics disabled={!isNavigateToUserInfo} touchableComponent={TouchableOpacity} onPress={navigateToUserInfo}>
       <_Avatar
         size={size}
-        bordered
         circular
         backgroundColor="white"
       >

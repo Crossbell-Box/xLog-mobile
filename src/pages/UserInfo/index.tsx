@@ -12,7 +12,7 @@ import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { Route } from "@showtime-xyz/tab-view";
 import { TabFlatList, TabScrollView, TabView } from "@showtime-xyz/tab-view";
 import * as Haptics from "expo-haptics";
-import { ScrollView, Spinner, Stack, Text, XStack } from "tamagui";
+import { ScrollView, Separator, Spinner, Stack, Text, XStack } from "tamagui";
 
 import { DOMAIN } from "@/constants";
 import { useRootNavigation } from "@/hooks/use-navigation";
@@ -33,14 +33,6 @@ export interface SceneRendererProps {
 
 const StatusBarHeight = StatusBar.currentHeight ?? 0;
 
-const PageScene: FC<{ index: number }> = ({ index }) => {
-  return (
-    <Stack paddingHorizontal="$3" flex={1}>
-      <TabScrollView index={index} />
-    </Stack>
-  );
-};
-
 const HomeScene: FC<{ characterId: number; index: number }> = ({ characterId, index }) => {
   const posts = useGetPagesBySiteLite({
     characterId,
@@ -58,10 +50,10 @@ const HomeScene: FC<{ characterId: number; index: number }> = ({ characterId, in
       <TabFlatList
         index={index}
         data={posts.data?.pages?.flatMap(posts => posts.list)}
-        renderItem={({ item, index }) => <PostsListItem key={index} note={item} style={styles.itemContainer} />}
+        renderItem={({ item, index }) => <PostsListItem key={index} note={item} />}
         keyExtractor={(post, index) => `${post?.noteId}-${index}`}
+        ItemSeparatorComponent={() => <Separator borderColor={"$gray5"}/>}
         bounces
-        style={{ paddingHorizontal: 16 }}
         showsVerticalScrollIndicator
         scrollEventThrottle={16}
         onEndReachedThreshold={0.5}
@@ -152,14 +144,14 @@ export interface Props {
   characterId: number
 }
 
-const UserInfoPage: FC<NativeStackScreenProps<RootStackParamList, "UserInfo">> = (props) => {
-  const { characterId } = props.route.params;
+const UserInfoPage: FC<NativeStackScreenProps<RootStackParamList, "UserInfo"> & { displayHeader?: boolean }> = (props) => {
+  const { route, displayHeader } = props;
+  const { characterId } = route.params;
   const character = useCharacter(characterId);
   const [index, setIndex] = useState(0);
   const animationHeaderPosition = useSharedValue(0);
   const animationHeaderHeight = useSharedValue(0);
   const site = useGetSite(character.data?.handle);
-
   const routes = useMemo<Route[]>(() => {
     const links
       = site.data?.metadata?.content?.navigation?.find(nav => nav.url === "/")
@@ -208,7 +200,7 @@ const UserInfoPage: FC<NativeStackScreenProps<RootStackParamList, "UserInfo">> =
 
   const renderHeader = () => (
     <Stack paddingHorizontal="$3" backgroundColor={"$background"}>
-      <Header characterId={characterId} />
+      <Header characterId={characterId} titleAnimatedValue={displayHeader ? animationHeaderPosition : undefined} />
     </Stack>
   );
 
@@ -223,17 +215,15 @@ const UserInfoPage: FC<NativeStackScreenProps<RootStackParamList, "UserInfo">> =
       minHeaderHeight={StatusBarHeight}
       animationHeaderPosition={animationHeaderPosition}
       animationHeaderHeight={animationHeaderHeight}
+      swipeEnabled={false}
     />
   );
 };
 
-export const UserInfoPageWithModal = UserInfoPage;
+export const UserInfoPageWithModal = (props: ComponentPropsWithRef<typeof UserInfoPage>) => <UserInfoPage {...props} displayHeader />;
 export const UserInfoPageWithBottomTab = (props: ComponentPropsWithRef<typeof UserInfoPage>) => <SafeAreaView edges={["top"]} style={styles.safeArea}><UserInfoPage {...props} /></SafeAreaView>;
 
 const styles = StyleSheet.create({
-  itemContainer: {
-    marginBottom: 16,
-  },
   safeArea: {
     flex: 1,
   },

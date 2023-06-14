@@ -31,7 +31,7 @@ const BlockchainInfoLink: FC<React.PropsWithChildren<{
   const { subtitle } = useColors();
 
   return (
-    <Link numberOfLines={1} style={{ color: subtitle, textDecorationLine: "underline" }} onPress={onPress} to={{
+    <Link numberOfLines={1} style={{ color: subtitle }} onPress={onPress} to={{
       screen: "Web",
       params: {
         url,
@@ -79,7 +79,7 @@ export const BlockchainInfoIcon: FC<Props> = (props) => {
         onBackdropPress={closeModal}
       >
         <Card elevate size="$4" bordered padded>
-          <XStack backgroundColor={"$green11"} borderRadius={5} alignItems="center" marginBottom="$4" paddingHorizontal={"$2"} paddingVertical={"$1"}>
+          <XStack borderRadius={5} alignItems="center" marginBottom="$4">
             <Paragraph>
               {
                 t("signed and stored on the blockchain", {

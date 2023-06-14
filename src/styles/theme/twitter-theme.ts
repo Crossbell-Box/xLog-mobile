@@ -1,7 +1,7 @@
 import { defineTheme } from "./utils";
 
 export default defineTheme(
-  "twitter",
+  "Twitter",
   [
     {
       mode: "light",
