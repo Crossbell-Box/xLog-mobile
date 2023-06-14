@@ -1,5 +1,16 @@
 # xlog
 
+## 0.10.0
+
+### Minor Changes
+
+- 9ddf0bb: Added UserInfo page.
+- 4b02490: Push notifications.
+
+### Patch Changes
+
+- 4c8a7d5: Closing the global loading view after timeout.
+
 ## 0.9.1
 
 ### Patch Changes
