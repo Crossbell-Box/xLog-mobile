@@ -1,5 +1,0 @@
----
-"xlog": patch
----
-
-Larger font.
