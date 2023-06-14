@@ -17,6 +17,7 @@ import { useCheckLike, useGetLikeCounts, useGetLikes, useToggleLikePage } from "
 
 import { ModalWithFadeAnimation } from "../ModalWithFadeAnimation";
 import { UniLink } from "../UniLink";
+import { XTouch } from "../XTouch";
 
 interface Props {
   characterId: number
@@ -67,8 +68,6 @@ export const ReactionLike: React.FC<Props> = ({ characterId, noteId, iconSize = 
   });
 
   const handleLikeAction = useAuthPress(() => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-
     if (characterId && noteId) {
       if (likeStatus.isLiked) {
         openLikeModal();
@@ -80,8 +79,6 @@ export const ReactionLike: React.FC<Props> = ({ characterId, noteId, iconSize = 
   });
 
   const handleUnlikeAction = () => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-
     if (characterId && noteId) {
       closeUnlikeModal();
       if (likeStatus.isLiked) {
@@ -111,7 +108,7 @@ export const ReactionLike: React.FC<Props> = ({ characterId, noteId, iconSize = 
 
   return (
     <>
-      <TouchableWithoutFeedback disabled={isLoading} onPress={handleLikeAction} onLongPress={onOpenList} delayLongPress={150}>
+      <XTouch enableHaptics hitSlopSize={44} touchableComponent={TouchableWithoutFeedback} disabled={isLoading} onPress={handleLikeAction} onLongPress={onOpenList} delayLongPress={150}>
         <XStack alignItems="center" gap="$1.5">
           <ThumbsUp
             size={iconSize}
@@ -121,7 +118,7 @@ export const ReactionLike: React.FC<Props> = ({ characterId, noteId, iconSize = 
             {likeCount}
           </SizableText>
         </XStack>
-      </TouchableWithoutFeedback>
+      </XTouch>
 
       <ModalWithFadeAnimation
         isVisible={isLikeOpen}

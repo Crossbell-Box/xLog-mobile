@@ -28,6 +28,7 @@ import type { Comment } from "../CommentItem";
 import { CommentItem } from "../CommentItem";
 import { DelayedRender } from "../DelayRender";
 import { FilledSpinner, WithSpinner } from "../WithSpinner";
+import { XTouch } from "../XTouch";
 
 interface Props {
   characterId: number
@@ -128,7 +129,7 @@ export const CommentButton: React.FC<Props> = ({ characterId, noteId, iconSize =
 
   return (
     <>
-      <TouchableWithoutFeedback onPress={openBottomSheet} delayLongPress={150}>
+      <XTouch enableHaptics hitSlopSize={44} touchableComponent={TouchableWithoutFeedback} onPress={openBottomSheet} delayLongPress={150}>
         <XStack alignItems="center" gap="$1.5">
           <MessageSquare
             size={iconSize}
@@ -138,7 +139,7 @@ export const CommentButton: React.FC<Props> = ({ characterId, noteId, iconSize =
             {commentsCount}
           </SizableText>
         </XStack>
-      </TouchableWithoutFeedback>
+      </XTouch>
 
       <BottomSheetModal
         ref={bottomSheetRef}

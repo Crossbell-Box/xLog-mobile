@@ -13,6 +13,7 @@ import { CommentButton } from "@/components/CommentButton";
 import { ReactionLike } from "@/components/ReactionLike";
 import { ReactionMint } from "@/components/ReactionMint";
 import { ReportButton } from "@/components/ReportButton";
+import { XTouch } from "@/components/XTouch";
 import { useAuthPress } from "@/hooks/use-auth-press";
 import { useColors } from "@/hooks/use-colors";
 import { useFollow } from "@/hooks/use-follow";
@@ -109,12 +110,7 @@ export const BottomBar: FC<Props> = (props) => {
           borderColor: "white",
         }]} >
           <Avatar useDefault size={avatarSize} character={character.data} />
-          <TouchableWithoutFeedback onPress={handleToggleSubscribe} hitSlop={{
-            top: 10,
-            bottom: 10,
-            left: 10,
-            right: 10,
-          }} >
+          <XTouch enableHaptics touchableComponent={TouchableWithoutFeedback} onPress={handleToggleSubscribe} hitSlopSize={44}>
             <Animated.View style={subscribeAnimStyle}>
               {
                 isFollowing
@@ -126,7 +122,7 @@ export const BottomBar: FC<Props> = (props) => {
                   )
               }
             </Animated.View>
-          </TouchableWithoutFeedback>
+          </XTouch>
         </Animated.View>
         <XStack alignItems="center">
           {

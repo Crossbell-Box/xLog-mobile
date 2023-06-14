@@ -12,7 +12,10 @@ import { Image } from "expo-image";
 import * as MediaLibrary from "expo-media-library";
 import { Circle, Stack } from "tamagui";
 
+import { useHitSlopSize } from "@/hooks/use-hit-slop-size";
+
 import { ModalWithFadeAnimation } from "../ModalWithFadeAnimation";
+import { XTouch } from "../XTouch";
 
 const { width } = Dimensions.get("window");
 
@@ -29,6 +32,7 @@ export const ImageGallery: FC<Props> = (props) => {
   const toast = useToastController();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isSavingImage, setIsSavingImage] = useState(false);
+  const hitSlop = useHitSlopSize(44);
 
   useEffect(() => {
     if (isVisible) {
@@ -38,7 +42,6 @@ export const ImageGallery: FC<Props> = (props) => {
 
   const saveImage = useCallback(async (uri: string) => {
     setIsSavingImage(true);
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
 
     try {
       const mediaLibraryPermissions = await MediaLibrary.requestPermissionsAsync();
@@ -110,7 +113,8 @@ export const ImageGallery: FC<Props> = (props) => {
         </ScrollView>
       </Stack>
       <Stack
-        hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
+        onLayout={hitSlop.onLayout}
+        hitSlop={hitSlop.hitSlop}
         onPress={(e) => {
           e.stopPropagation();
           saveImage(uris[currentImageIndex]);
@@ -128,7 +132,7 @@ export const ImageGallery: FC<Props> = (props) => {
                 <Loader />
               </Circle>
             )
-            : <Download color="white"/>
+            : <Download color="white" />
         }
       </Stack>
     </ModalWithFadeAnimation>
