@@ -10,6 +10,7 @@ import { Button, Circle, H3, Paragraph, ScrollView, Separator, SizableText, Stac
 import { AchievementItem } from "@/components/AchievementItem";
 import { Avatar } from "@/components/Avatar";
 import { useAuthPress } from "@/hooks/use-auth-press";
+import { useCharacterId } from "@/hooks/use-character-id";
 import { useDate } from "@/hooks/use-date";
 import { useFollow } from "@/hooks/use-follow";
 import { useGetAchievements, useGetSite, useGetSiteSubscriptions, useGetSiteToSubscriptions, useGetStat } from "@/queries/site";
@@ -23,6 +24,7 @@ export const Header: FC<Props> = (props) => {
   const character = useCharacter(characterId);
   const stat = useGetStat({ characterId: characterId?.toString() });
   const i18n = useTranslation();
+  const myCharacterId = useCharacterId();
   const subscriptions = useGetSiteSubscriptions({ characterId });
   const toSubscriptions = useGetSiteToSubscriptions({ characterId });
   const { isFollowing, isLoading, toggleSubscribe } = useFollow({ character: character?.data });
@@ -62,24 +64,28 @@ export const Header: FC<Props> = (props) => {
         </XStack>
         <XStack justifyContent="space-between" alignItems="center">
           <H3 fontWeight={"700"}>{character.data?.metadata?.content?.name}</H3>
-          <XStack>
-            <Button
-              size={"$3"}
-              backgroundColor={isFollowing ? "$backgroundFocus" : "$primary"}
-              icon={isFollowing
-                ? (
-                  <UserMinus width={16} disabled={isLoading} />
-                )
-                : (
-                  <UserPlus size={16} disabled={isLoading} />
-                )}
-              onPress={handleToggleSubscribe}
-            >
-              {
-                isFollowing ? i18n.t("Unfollow") : i18n.t("Follow")
-              }
-            </Button>
-          </XStack>
+          {
+            myCharacterId !== characterId && (
+              <XStack>
+                <Button
+                  size={"$3"}
+                  backgroundColor={isFollowing ? "$backgroundFocus" : "$primary"}
+                  icon={isFollowing
+                    ? (
+                      <UserMinus width={16} disabled={isLoading} />
+                    )
+                    : (
+                      <UserPlus size={16} disabled={isLoading} />
+                    )}
+                  onPress={handleToggleSubscribe}
+                >
+                  {
+                    isFollowing ? i18n.t("Unfollow") : i18n.t("Follow")
+                  }
+                </Button>
+              </XStack>
+            )
+          }
         </XStack>
         <Paragraph color="#BEBEBE" numberOfLines={3}>
           {character?.data?.metadata?.content?.bio}

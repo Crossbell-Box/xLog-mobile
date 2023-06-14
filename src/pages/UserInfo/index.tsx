@@ -1,10 +1,11 @@
-import type { FC } from "react";
+import type { ComponentPropsWithRef, FC } from "react";
 import React, { useEffect, useMemo, useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, StatusBar } from "react-native";
 import type { Animated } from "react-native";
 import type { Layout } from "react-native-reanimated";
 import { useSharedValue } from "react-native-reanimated";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import { useCharacter } from "@crossbell/indexer";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -57,7 +58,7 @@ const HomeScene: FC<{ characterId: number; index: number }> = ({ characterId, in
       <TabFlatList
         index={index}
         data={posts.data?.pages?.flatMap(posts => posts.list)}
-        renderItem={({ item, index }) => <PostsListItem key={index} note={item} style={styles.ItemContainer} />}
+        renderItem={({ item, index }) => <PostsListItem key={index} note={item} style={styles.itemContainer} />}
         keyExtractor={(post, index) => `${post?.noteId}-${index}`}
         bounces
         style={{ paddingHorizontal: 16 }}
@@ -151,7 +152,7 @@ export interface Props {
   characterId: number
 }
 
-export const UserInfoPage: FC<NativeStackScreenProps<RootStackParamList, "UserInfo">> = (props) => {
+const UserInfoPage: FC<NativeStackScreenProps<RootStackParamList, "UserInfo">> = (props) => {
   const { characterId } = props.route.params;
   const character = useCharacter(characterId);
   const [index, setIndex] = useState(0);
@@ -226,8 +227,14 @@ export const UserInfoPage: FC<NativeStackScreenProps<RootStackParamList, "UserIn
   );
 };
 
+export const UserInfoPageWithModal = UserInfoPage;
+export const UserInfoPageWithBottomTab = (props: ComponentPropsWithRef<typeof UserInfoPage>) => <SafeAreaView edges={["top"]} style={styles.safeArea}><UserInfoPage {...props} /></SafeAreaView>;
+
 const styles = StyleSheet.create({
-  ItemContainer: {
+  itemContainer: {
     marginBottom: 16,
+  },
+  safeArea: {
+    flex: 1,
   },
 });

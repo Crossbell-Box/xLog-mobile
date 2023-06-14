@@ -2,11 +2,11 @@ import React from "react";
 import type { FC } from "react";
 import { ScrollView } from "react-native";
 import { Drawer as _Drawer } from "react-native-drawer-layout";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import { TouchableOpacity, TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useAccountBalance, useAccountCharacter, useIsConnected } from "@crossbell/react-account";
-import { Copy, Euro, File, Flag, LayoutDashboard, MessageSquare, Newspaper, TreeDeciduous, Trophy } from "@tamagui/lucide-icons";
+import { Bell, Copy, Euro, File, Flag, LayoutDashboard, MessageSquare, Newspaper, TreeDeciduous, Trophy } from "@tamagui/lucide-icons";
 import type { IconProps } from "@tamagui/lucide-icons/types/IconProps";
 import * as Clipboard from "expo-clipboard";
 import * as Haptics from "expo-haptics";
@@ -15,8 +15,11 @@ import { H4, Paragraph, Separator, SizableText, Spacer, Stack, Text, useWindowDi
 import { Avatar } from "@/components/Avatar";
 import { useColors } from "@/hooks/use-colors";
 import { useDrawer } from "@/hooks/use-drawer";
+import { useHomeNavigation, useRootNavigation } from "@/hooks/use-navigation";
 import { i18n } from "@/i18n";
 import type { ProfilePagesParamList } from "@/navigation/types";
+
+import { XTouch } from "../XTouch";
 
 const profilePages: Array<{
   name: keyof ProfilePagesParamList
@@ -29,18 +32,33 @@ const profilePages: Array<{
   { name: "Comments", title: i18n.t("Comment"), icon: MessageSquare },
   { name: "Achievements", title: i18n.t("Achievements"), icon: Trophy },
   { name: "Events", title: i18n.t("Events"), icon: Flag },
-  { name: "Notifications", title: i18n.t("Notifications"), icon: TreeDeciduous },
+  { name: "Notifications", title: i18n.t("Notifications"), icon: Bell },
 ];
 
 const DrawerContent = () => {
   const { top, bottom } = useSafeAreaInsets();
   const character = useAccountCharacter();
   const accountBalance = useAccountBalance();
+  const homeNavigation = useHomeNavigation();
+  const rootNavigation = useRootNavigation();
+  const { closeDrawer } = useDrawer();
   const balanceFormatted = accountBalance?.balance?.formatted;
 
   const copyOperator = async () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     Clipboard.setStringAsync(character.operator);
+  };
+
+  const navigateToProfile = () => {
+    closeDrawer();
+    homeNavigation.navigate("Profile");
+  };
+
+  const navigate = (name: keyof ProfilePagesParamList) => {
+    setTimeout(() => {
+      closeDrawer();
+    }, 600);
+    rootNavigation.navigate(name);
   };
 
   return (
@@ -50,9 +68,11 @@ const DrawerContent = () => {
           <Spacer size="$2" />
           {/* Userinfo */}
           <XStack gap="$3" alignItems="center">
-            <Stack width={55} height={55}>
-              {character && <Avatar size={55} character={character} />}
-            </Stack>
+            <XTouch onPress={navigateToProfile} enableHaptics touchableComponent={TouchableOpacity}>
+              <Stack width={55} height={55}>
+                {character && <Avatar isNavigateToUserInfo={false} size={55} character={character} />}
+              </Stack>
+            </XTouch>
             <YStack flex={1} gap="$-1.5">
               <H4>{character?.metadata?.content?.name}</H4>
               <SizableText numberOfLines={1} size={"$4"} color="$colorSubtitle">
@@ -64,9 +84,9 @@ const DrawerContent = () => {
           <ScrollView>
             {
               profilePages?.map((page, index) => (
-                <YStack justifyContent="center" key={page.name} paddingHorizontal="$1">
+                <YStack onPress={() => navigate(page.name)} justifyContent="center" key={page.name} paddingHorizontal="$1">
                   <XStack gap="$3" paddingVertical="$4">
-                    <page.icon size={"$1"}/>
+                    <page.icon size={"$1"} />
                     <Text fontSize={"$6"}>{page.title}</Text>
                   </XStack>
                   {index !== profilePages?.length - 1 && <Separator />}
