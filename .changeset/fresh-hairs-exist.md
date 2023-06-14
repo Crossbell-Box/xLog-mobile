@@ -1,0 +1,5 @@
+---
+"xlog": patch
+---
+
+Larger font.

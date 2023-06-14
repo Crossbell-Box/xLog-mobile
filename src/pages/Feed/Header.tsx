@@ -92,7 +92,7 @@ export const Header: FC<Props> = (props) => {
           <Text
             color={tintColor}
             fontWeight={fontWeight}
-            fontSize={14}
+            fontSize={"$5"}
           >
             {i18n.t("Latest")}
           </Text>
@@ -106,7 +106,7 @@ export const Header: FC<Props> = (props) => {
               <Text
                 color={tintColor}
                 fontWeight={fontWeight}
-                fontSize={14}
+                fontSize={"$5"}
               >
                 {i18n.t("Hot")}
               </Text>
@@ -150,7 +150,7 @@ export const Header: FC<Props> = (props) => {
           <Text
             color={tintColor}
             fontWeight={fontWeight}
-            fontSize={14}
+            fontSize={"$5"}
           >
             {i18n.t("Following")}
           </Text>
