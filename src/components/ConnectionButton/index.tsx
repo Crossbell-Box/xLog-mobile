@@ -153,7 +153,6 @@ export function DisconnectBtn({ navigateToLogin }: { navigateToLogin: boolean })
         pressStyle={{ opacity: 0.85 }}
         color={"white"}
         fontSize={"$6"}
-        backgroundColor={"$primary"}
         onPress={disconnect}
       >
         {t("Disconnect")}

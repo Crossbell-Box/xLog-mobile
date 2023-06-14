@@ -15,6 +15,7 @@ import { useDrawer } from "@/hooks/use-drawer";
 import { useThemeStore } from "@/hooks/use-theme-store";
 
 import { Avatar } from "../Avatar";
+import { XTouch } from "../XTouch";
 
 export interface Props {
   expanded: SharedValue<0 | 1>
@@ -59,11 +60,11 @@ export const NavigationHeader: FC<Props> = (props) => {
   return (
     <Animated.View style={containerAnimStyles}>
       {character && (
-        <TouchableWithoutFeedback containerStyle={styles.avatarContainer} onPress={openDrawer}>
+        <XTouch enableHaptics hitSlopSize={44} touchableComponent={TouchableWithoutFeedback} containerStyle={styles.avatarContainer} onPress={openDrawer}>
           <Animated.View style={avatarAnimStyles}>
-            <Avatar size={35} character={character} />
+            <Avatar size={35} character={character} isNavigateToUserInfo={false}/>
           </Animated.View>
-        </TouchableWithoutFeedback>
+        </XTouch>
       )}
       <Animated.View style={[contentContainerAnimStyles, styles.contentContainer]}>
         <XStack gap="$2" justifyContent="center" alignItems="center">
