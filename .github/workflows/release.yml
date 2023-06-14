@@ -75,9 +75,9 @@ jobs:
           echo "Release type: $RELEASE_TYPE"
 
           if [ "$RELEASE_TYPE" == "patch" ]; then
-            eas update --branch staging --auto
+            yarn run update:preview
           elif [ "$RELEASE_TYPE" == "minor" ] || [ "$RELEASE_TYPE" == "major" ]; then
-            eas build --non-interactive --profile preview -p all
+            yarn run build:preview -p all
           else
             echo "No release type detected"
           fi
