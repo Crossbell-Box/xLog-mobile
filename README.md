@@ -19,21 +19,10 @@
     ```
 
 
-- Duplicate `.env.example` and rename it to `.env.common`.  
+- Duplicate `.env.example` and rename it to `.env.common` and fill in the environment variables.  
 
     ```sh
     cp .env.example .env.common
-    ```
-
-    Fill in the environment variables if you have.
-
-    ```
-    APP_SCHEME=
-    WALLET_PROJECT_ID=
-    EXPO_PROJECT_ID=
-    OWNER=
-    UPDATES_URL=
-    INFURA_ID=
     ```
 
     Generate types for environment variables.
@@ -42,7 +31,10 @@
     nr generate-env-types
     ```
 
-- If you want to specify the environment variables for the various environments, you can create `.env.development`, `.env.staging` and `.env.production` files. (not required and supported yet)
+- Create `.env.development`, `.env.staging` and `.env.production` files and fill the `APP_HOST` variable for various environments.  
+    ```
+    APP_HOST=
+    ```
 
 
 ### Usage

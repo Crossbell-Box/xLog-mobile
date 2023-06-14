@@ -1,12 +1,11 @@
 import type { FC } from "react";
 import { useMemo } from "react";
 import type { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
-import { StyleSheet } from "react-native";
 import type { useAnimatedScrollHandler } from "react-native-reanimated";
 
 import type { NoteEntity } from "crossbell";
 import * as Haptics from "expo-haptics";
-import { Spinner, Stack, useWindowDimensions } from "tamagui";
+import { Separator, Spinner, Stack, useWindowDimensions } from "tamagui";
 
 import { useCharacterId } from "@/hooks/use-character-id";
 import type { FeedType } from "@/models/home.model";
@@ -56,11 +55,11 @@ export const FeedList: FC<Props> = (props) => {
       <ReanimatedFlashList<NoteEntity>
         data={feedList}
         keyExtractor={(post, index) => `${type}-${post.noteId}-${index}`}
-        contentContainerStyle={{ padding: 16 }}
         renderItem={({ item, index }) => (
-          <FeedListItem key={index} note={item} style={styles.ItemContainer} />
+          <FeedListItem key={index} note={item}/>
         )}
         ListFooterComponent={feed.isFetchingNextPage && <Spinner paddingBottom="$5"/>}
+        ItemSeparatorComponent={() => <Separator borderColor={"$gray5"}/>}
         estimatedItemSize={238}
         bounces
         estimatedListSize={{
@@ -86,9 +85,3 @@ export const FeedList: FC<Props> = (props) => {
     </Stack>
   );
 };
-
-const styles = StyleSheet.create({
-  ItemContainer: {
-    marginBottom: 16,
-  },
-});

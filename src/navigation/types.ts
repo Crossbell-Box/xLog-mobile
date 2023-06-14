@@ -18,6 +18,8 @@ import type { Props as WebPageProps } from "@/pages/Web";
 export type HomeBottomTabsParamList = {
   Feed: FeedPageProps
   Settings: SettingsPageProps
+  Profile: UserInfoPageProps
+  Notifications: NotificationsPageProps
 };
 
 export type ProfilePagesParamList = {

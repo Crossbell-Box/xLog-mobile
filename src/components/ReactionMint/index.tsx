@@ -16,6 +16,7 @@ import { useCheckMint, useGetMints, useMintPage } from "@/queries/page";
 
 import { ModalWithFadeAnimation } from "../ModalWithFadeAnimation";
 import { UniLink } from "../UniLink";
+import { XTouch } from "../XTouch";
 
 interface Props {
   characterId: number
@@ -84,7 +85,7 @@ export const ReactionMint: React.FC<Props> = ({ characterId, noteId, iconSize = 
 
   return (
     <>
-      <TouchableWithoutFeedback onPress={handleMintAction} onLongPress={onOpenList} delayLongPress={150}>
+      <XTouch enableHaptics hitSlopSize={44} touchableComponent={TouchableWithoutFeedback} onPress={handleMintAction} onLongPress={onOpenList} delayLongPress={150}>
         <XStack alignItems="center" gap="$1.5">
           <Star
             size={iconSize}
@@ -94,7 +95,7 @@ export const ReactionMint: React.FC<Props> = ({ characterId, noteId, iconSize = 
             {mintsCount}
           </SizableText>
         </XStack>
-      </TouchableWithoutFeedback>
+      </XTouch>
       <ModalWithFadeAnimation
         isVisible={isMintOpen}
         onBackdropPress={closeIsMintOpen}

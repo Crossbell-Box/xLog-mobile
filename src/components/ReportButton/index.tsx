@@ -11,6 +11,8 @@ import { BottomSheetModal } from "@/components/BottomSheetModal";
 import type { BottomSheetModalInstance } from "@/components/BottomSheetModal";
 import { useColors } from "@/hooks/use-colors";
 
+import { XTouch } from "../XTouch";
+
 const NFT_REPORT_LIST = [
   "I just don't like it",
   "It's spam",
@@ -44,19 +46,14 @@ export const ReportButton: React.FC<Props> = () => {
 
   return (
     <>
-      <TouchableWithoutFeedback onPress={openBottomSheet} hitSlop={{
-        top: 10,
-        bottom: 10,
-        left: 10,
-        right: 10,
-      }}>
+      <XTouch enableHaptics hitSlopSize={44} touchableComponent={TouchableWithoutFeedback} onPress={openBottomSheet}>
         <XStack alignItems="center" gap="$1.5">
           <Flag
             size={"$1"}
             color={"$color"}
           />
         </XStack>
-      </TouchableWithoutFeedback>
+      </XTouch>
 
       <BottomSheetModal
         ref={bottomSheetRef}

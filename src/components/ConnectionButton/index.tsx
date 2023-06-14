@@ -151,9 +151,9 @@ export function DisconnectBtn({ navigateToLogin }: { navigateToLogin: boolean })
     <Animated.View entering={FadeIn.duration(300)} exiting={FadeOut.duration(300)}>
       <Button
         pressStyle={{ opacity: 0.85 }}
-        color={"white"}
+        color={"$colorFocus"}
         fontSize={"$6"}
-        backgroundColor={"$primary"}
+        borderColor={"$borderColorFocus"}
         onPress={disconnect}
       >
         {t("Disconnect")}

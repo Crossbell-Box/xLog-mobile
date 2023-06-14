@@ -67,7 +67,7 @@ export const PostsListItem: FC<Props> = (props) => {
   return (
     <>
       <TouchableOpacity style={props.style} activeOpacity={0.65} onPress={onPress}>
-        <Card elevate size="$4" bordered>
+        <Card size="$4">
           <Card.Header padded>
             {cover && <Image contentFit={"cover"} source={{ uri: cover }} style={{ width: "100%", height: 150, borderRadius: 10, marginBottom: 8 }} />}
             {
@@ -81,7 +81,7 @@ export const PostsListItem: FC<Props> = (props) => {
                     width={coverImage.isSingle ? "65%" : "100%"}
                     numberOfLines={coverImage.isSingle ? 5 : 3}
                     size={"$2"}
-                    color="#BEBEBE"
+                    color="$colorSubtitle"
                   >
                     {removeMd(
                       String(note?.metadata?.content?.summary.slice(0, 100)).replace(/(\r\n|\n|\r)/gm, " "),

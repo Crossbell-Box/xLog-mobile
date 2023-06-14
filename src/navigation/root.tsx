@@ -14,11 +14,11 @@ import { AchievementsPage } from "@/pages/Profile/Achievements";
 import { CommentsPage } from "@/pages/Profile/Comments";
 import { DashboardPage } from "@/pages/Profile/Dashboard";
 import { EventsPage } from "@/pages/Profile/Events";
-import { NotificationsPage } from "@/pages/Profile/Notifications";
+import { NotificationsPageWithModal } from "@/pages/Profile/Notifications";
 import { PagesPage } from "@/pages/Profile/Pages";
 import { PostsPage } from "@/pages/Profile/Posts";
 import { RepliesPage } from "@/pages/Replies";
-import { UserInfoPage } from "@/pages/UserInfo";
+import { UserInfoPageWithModal } from "@/pages/UserInfo";
 import { WebPage } from "@/pages/Web";
 
 import { HomeNavigator } from "./home";
@@ -75,7 +75,7 @@ export const RootNavigator = () => {
         <RootStack.Screen name={"Replies"} component={RepliesPage} options={{ title: t("Replies") }} />
         <RootStack.Screen name={"CharacterListPage"} component={CharacterListPage} options={{ title: "" }} />
         <RootStack.Screen name={"Web"} component={WebPage} options={{ title: "" }} />
-        <RootStack.Screen name={"UserInfo"} component={UserInfoPage} options={{ title: "", headerBackTitleVisible: false }} />
+        <RootStack.Screen name={"UserInfo"} component={UserInfoPageWithModal} options={{ title: "", headerBackTitleVisible: false }} />
       </RootStack.Group>
 
       <RootStack.Group screenOptions={{
@@ -92,7 +92,7 @@ export const RootNavigator = () => {
         <RootStack.Screen name={"Comments"} component={CommentsPage} options={{ title: t("Comment") }} />
         <RootStack.Screen name={"Achievements"} component={AchievementsPage} options={{ title: t("Achievements") }} />
         <RootStack.Screen name={"Events"} component={EventsPage} options={{ title: t("Events") }} />
-        <RootStack.Screen name={"Notifications"} component={NotificationsPage} options={{ title: t("Notifications") }} />
+        <RootStack.Screen name={"Notifications"} component={NotificationsPageWithModal} options={{ title: t("Notifications") }} />
       </RootStack.Group>
     </RootStack.Navigator>
   );

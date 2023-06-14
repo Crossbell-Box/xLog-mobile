@@ -12,7 +12,7 @@ import type { Mode, Theme } from "@/styles/theme/types";
 
 SplashScreen.preventAutoHideAsync();
 
-const defaultTheme: Theme = "official";
+const defaultTheme: Theme = "Official";
 const defaultMode: Mode = "dark";
 
 const STORAGE_THEME_KEY = "THEME_KEY"; // OFFICIAL | COMMUNITY_01 | COMMUNITY_02 | ...

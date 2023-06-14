@@ -2,11 +2,12 @@ import React from "react";
 import {
   Image,
   StyleSheet,
-  TouchableOpacity,
   View,
   useColorScheme,
 } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
+import { XTouch } from "@/components/XTouch";
 import { DarkTheme, LightTheme } from "@/constants/colors";
 
 import Close from "../../../assets/Close.png";
@@ -23,15 +24,17 @@ function ExplorerModalHeader({ close }: ExplorerModalHeaderProps) {
   return (
     <View style={styles.container}>
       <Image style={styles.wcLogo} source={WCLogo} />
-      <TouchableOpacity
+      <XTouch
+        touchableComponent={TouchableOpacity}
         style={[styles.closeContainer, isDarkMode && styles.closeContainerDark]}
         onPress={close}
-        hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
+        hitSlopSize={44}
+      >
         <Image
           style={styles.closeImage}
           source={isDarkMode ? CloseWhite : Close}
         />
-      </TouchableOpacity>
+      </XTouch>
     </View>
   );
 }

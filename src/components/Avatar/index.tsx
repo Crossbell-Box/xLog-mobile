@@ -10,7 +10,7 @@ import { useRootNavigation } from "@/hooks/use-navigation";
 import { toGateway } from "@/utils/ipfs-parser";
 
 import { LogoResource } from "../Logo";
-import { TouchWithHaptics } from "../TouchWithHaptics";
+import { XTouch } from "../XTouch";
 
 interface Props {
   character: CharacterEntity
@@ -54,7 +54,6 @@ export const Avatar: FC<Props> = (props) => {
         <TouchableOpacity disabled={!isNavigateToUserInfo} onPress={navigateToUserInfo}>
           <Circle
             size={size}
-            bordered
             circular
             backgroundColor="$background"
           >
@@ -70,10 +69,9 @@ export const Avatar: FC<Props> = (props) => {
   }
 
   return (
-    <TouchWithHaptics disabled={!isNavigateToUserInfo} touchableComponent={TouchableOpacity} onPress={navigateToUserInfo}>
+    <XTouch enableHaptics disabled={!isNavigateToUserInfo} touchableComponent={TouchableOpacity} onPress={navigateToUserInfo}>
       <_Avatar
         size={size}
-        bordered
         circular
         backgroundColor="white"
       >
@@ -82,7 +80,7 @@ export const Avatar: FC<Props> = (props) => {
           <Image source={LogoResource} contentFit={"cover"} style={styles.container} />
         </_Avatar.Fallback>
       </_Avatar>
-    </TouchWithHaptics>
+    </XTouch>
   );
 };
 

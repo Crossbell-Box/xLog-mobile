@@ -1,21 +1,17 @@
 import type { FC } from "react";
-import React, { useEffect, useRef } from "react";
-import { Dimensions, StyleSheet } from "react-native";
-import type { FlatList } from "react-native-gesture-handler";
+import React, { useEffect } from "react";
+import { Dimensions } from "react-native";
 import Animated, { Easing, Extrapolate, interpolate, useAnimatedStyle } from "react-native-reanimated";
 import Carousel from "react-native-reanimated-carousel";
-import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { useIsWalletSignedIn } from "@crossbell/react-account";
+import { useIsConnected, useIsWalletSignedIn } from "@crossbell/react-account";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import type { FlashList } from "@shopify/flash-list";
-import { FlashListProps } from "@shopify/flash-list";
 import type { CharacterEntity } from "crossbell";
-import { Stack, Text, XStack, YStack, useWindowDimensions } from "tamagui";
+import { Stack, Text, XStack, YStack } from "tamagui";
 
 import { Avatar } from "@/components/Avatar";
 import { ConnectionButton } from "@/components/ConnectionButton";
-import { DelayedRender } from "@/components/DelayRender";
 import { MeasuredContainer } from "@/components/MeasuredContainer";
 import { useAppIsActive } from "@/hooks/use-app-state";
 import type { RootStackParamList } from "@/navigation/types";
@@ -34,20 +30,16 @@ const ITEM_HEIGHT = 100 + 2 * ITEM_VERTICAL_GAP;
 export const LoginPage: FC<NativeStackScreenProps<RootStackParamList, "Web">> = (props) => {
   const { navigation } = props;
   const showcaseSites = useGetShowcase();
-  const navigateToTerms = () => {
-    navigation.navigate("Web", { url: "https://rss3.notion.site/Legal-Public-f30edd47c3be4dd7ae5ed4e39aefbbd9?pvs=4" });
-  };
+  const navigateToTerms = () => navigation.navigate("Web", { url: "https://rss3.notion.site/Legal-Public-f30edd47c3be4dd7ae5ed4e39aefbbd9?pvs=4" });
   const { bottom } = useSafeAreaInsets();
-  const isWalletSignedIn = useIsWalletSignedIn();
+  const isConnected = useIsConnected();
   const appIsActive = useAppIsActive();
-  const listRef = useRef<FlashList<CharacterEntity> | null>(null);
-  const currentItemIndex = useRef(0);
 
   useEffect(() => {
-    if (appIsActive && isWalletSignedIn) {
+    if (appIsActive && isConnected) {
       navigation.goBack();
     }
-  }, [appIsActive, isWalletSignedIn]);
+  }, [appIsActive, isConnected]);
 
   return (
     <Stack flex={1} alignItems="center" paddingHorizontal={24} paddingBottom={bottom}>
@@ -194,9 +186,3 @@ const CharacterCard: FC<{
     </Animated.View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});

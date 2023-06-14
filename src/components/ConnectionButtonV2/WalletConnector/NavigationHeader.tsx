@@ -3,11 +3,12 @@ import {
   Image,
   StyleSheet,
   Text,
-  TouchableOpacity,
   useColorScheme,
   View,
 } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
+import { XTouch } from "@/components/XTouch";
 import { DarkTheme, LightTheme } from "@/constants/colors";
 
 import Chevron from "../../../assets/Chevron.png";
@@ -35,13 +36,15 @@ function NavigationHeader({
     <View style={styles.container}>
       {onBackPress
         ? (
-          <TouchableOpacity
+          <XTouch
+            hitSlopSize={44}
+            touchableComponent={TouchableOpacity}
             style={styles.button}
             onPress={onBackPress}
             disabled={actionDisabled}
-            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
+          >
             <Image style={styles.backIcon} source={Chevron} />
-          </TouchableOpacity>
+          </XTouch>
         )
         : (
           <View style={styles.button} />
@@ -51,16 +54,18 @@ function NavigationHeader({
       </Text>
       {actionIcon
         ? (
-          <TouchableOpacity
+          <XTouch
+            hitSlopSize={44}
+            touchableComponent={TouchableOpacity}
             style={styles.button}
             onPress={onActionPress}
             disabled={actionDisabled}
-            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
+          >
             <Image
               style={[actionIconStyle, actionDisabled && styles.actionDisabled]}
               source={actionIcon}
             />
-          </TouchableOpacity>
+          </XTouch>
         )
         : (
           <View style={styles.button} />

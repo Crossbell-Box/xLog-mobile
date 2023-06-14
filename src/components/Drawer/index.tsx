@@ -2,23 +2,24 @@ import React from "react";
 import type { FC } from "react";
 import { ScrollView } from "react-native";
 import { Drawer as _Drawer } from "react-native-drawer-layout";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import { TouchableOpacity, TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { useAccountBalance, useAccountCharacter, useConnectedAccount, useIsConnected } from "@crossbell/react-account";
-import { Copy, Euro, File, Flag, LayoutDashboard, MessageSquare, Newspaper, TreeDeciduous, Trophy } from "@tamagui/lucide-icons";
+import { useAccountBalance, useAccountCharacter, useIsConnected } from "@crossbell/react-account";
+import { Bell, Copy, Euro, File, Flag, LayoutDashboard, MessageSquare, Newspaper, TreeDeciduous, Trophy } from "@tamagui/lucide-icons";
 import type { IconProps } from "@tamagui/lucide-icons/types/IconProps";
 import * as Clipboard from "expo-clipboard";
 import * as Haptics from "expo-haptics";
-import { H4, ListItem, Separator, SizableText, Spacer, Stack, Text, useWindowDimensions, XStack, YGroup, YStack } from "tamagui";
+import { H4, Paragraph, Separator, SizableText, Spacer, Stack, Text, useWindowDimensions, XStack, YStack } from "tamagui";
 
 import { Avatar } from "@/components/Avatar";
-import { DisconnectBtn } from "@/components/ConnectionButton";
 import { useColors } from "@/hooks/use-colors";
 import { useDrawer } from "@/hooks/use-drawer";
-import { useRootNavigation } from "@/hooks/use-navigation";
+import { useHomeNavigation, useRootNavigation } from "@/hooks/use-navigation";
 import { i18n } from "@/i18n";
 import type { ProfilePagesParamList } from "@/navigation/types";
+
+import { XTouch } from "../XTouch";
 
 const profilePages: Array<{
   name: keyof ProfilePagesParamList
@@ -31,28 +32,33 @@ const profilePages: Array<{
   { name: "Comments", title: i18n.t("Comment"), icon: MessageSquare },
   { name: "Achievements", title: i18n.t("Achievements"), icon: Trophy },
   { name: "Events", title: i18n.t("Events"), icon: Flag },
-  { name: "Notifications", title: i18n.t("Notifications"), icon: TreeDeciduous },
+  { name: "Notifications", title: i18n.t("Notifications"), icon: Bell },
 ];
 
 const DrawerContent = () => {
   const { top, bottom } = useSafeAreaInsets();
-  const connectedAccount = useConnectedAccount();
   const character = useAccountCharacter();
   const accountBalance = useAccountBalance();
-  const navigation = useRootNavigation();
-  const balanceFormatted = accountBalance?.balance?.formatted;
+  const homeNavigation = useHomeNavigation();
+  const rootNavigation = useRootNavigation();
   const { closeDrawer } = useDrawer();
+  const balanceFormatted = accountBalance?.balance?.formatted;
 
   const copyOperator = async () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     Clipboard.setStringAsync(character.operator);
   };
 
-  const onNavigate = (name: keyof ProfilePagesParamList) => {
-    navigation.navigate(name);
+  const navigateToProfile = () => {
+    closeDrawer();
+    homeNavigation.navigate("Profile");
+  };
+
+  const navigate = (name: keyof ProfilePagesParamList) => {
     setTimeout(() => {
       closeDrawer();
     }, 600);
+    rootNavigation.navigate(name);
   };
 
   return (
@@ -62,32 +68,35 @@ const DrawerContent = () => {
           <Spacer size="$2" />
           {/* Userinfo */}
           <XStack gap="$3" alignItems="center">
-            <Stack width={45} height={40}>
-              {character && <Avatar size={45} character={character} />}
-            </Stack>
+            <XTouch onPress={navigateToProfile} enableHaptics touchableComponent={TouchableOpacity}>
+              <Stack width={55} height={55}>
+                {character && <Avatar isNavigateToUserInfo={false} size={55} character={character} />}
+              </Stack>
+            </XTouch>
             <YStack flex={1} gap="$-1.5">
               <H4>{character?.metadata?.content?.name}</H4>
               <SizableText numberOfLines={1} size={"$4"} color="$colorSubtitle">
-                @{character.handle}
+                @{character?.handle}
               </SizableText>
             </YStack>
           </XStack>
-          <Spacer size="$10" />
-
+          <Spacer size="$5" />
           <ScrollView>
-            <YGroup separator={<Separator />} gap="$2">
-              {
-                profilePages.map(page => (
-                  <YGroup.Item key={page.name}>
-                    <ListItem size={"$5"} onPress={() => onNavigate(page.name)} icon={page.icon}>{page.title}</ListItem>
-                  </YGroup.Item>
-                ))
-              }
-            </YGroup>
+            {
+              profilePages?.map((page, index) => (
+                <YStack onPress={() => navigate(page.name)} justifyContent="center" key={page.name} paddingHorizontal="$1">
+                  <XStack gap="$3" paddingVertical="$4">
+                    <page.icon size={"$1"} />
+                    <Text fontSize={"$6"}>{page.title}</Text>
+                  </XStack>
+                  {index !== profilePages?.length - 1 && <Separator />}
+                </YStack>
+              ))
+            }
           </ScrollView>
         </YStack>
       )}
-      <YStack>
+      <YStack paddingHorizontal="$1">
         <XStack alignItems="center" justifyContent="space-between">
           {character && (
             <XStack width={"49%"}>
@@ -111,7 +120,6 @@ const DrawerContent = () => {
           )}
         </XStack>
         <Spacer size="$5" />
-        {connectedAccount && <DisconnectBtn navigateToLogin={false} />}
       </YStack>
     </YStack>
   );

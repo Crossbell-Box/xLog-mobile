@@ -238,8 +238,5 @@
     "vm": "vm-browserify",
     "tls": false,
     "dgram": "react-native-udp"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.20.0"
   }
 }

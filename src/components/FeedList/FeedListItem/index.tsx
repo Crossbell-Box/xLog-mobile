@@ -68,26 +68,27 @@ export const FeedListItem: FC<Props> = (props) => {
   return (
     <>
       <TouchableOpacity style={props.style} activeOpacity={0.65} onPress={onPress}>
-        <Card elevate size="$4" bordered>
-          <Card.Header padded>
-            <XStack alignItems="center" gap={"$2"} marginBottom={"$1"}>
+        <Card size="$4">
+          <Card.Header padded gap="$1">
+            <XStack alignItems="center" gap={"$3"} marginBottom={"$1"}>
               <Avatar character={note?.character} useDefault/>
               <XStack alignItems="center">
-                <H6>{note.character?.metadata?.content?.name || note.character?.handle}</H6>
+                <SizableText size="$5" fontWeight={"700"}>{note.character?.metadata?.content?.name || note.character?.handle}</SizableText>
               </XStack>
             </XStack>
 
             {
-              note.metadata.content.title && <H5 fontWeight={"700"} color="$color" marginBottom={"$1"} numberOfLines={1}>{String(note.metadata.content.title).replaceAll(" ", "")}</H5>
+              note.metadata.content.title && <SizableText size={"$6"} fontWeight={"700"} color="$color" marginBottom={"$1"} numberOfLines={1}>{String(note.metadata.content.title)}</SizableText>
             }
 
-            <XStack justifyContent={coverImage.isSingle ? "space-between" : "flex-start"}>
+            <XStack justifyContent={coverImage.isSingle ? "space-between" : "flex-start"} gap="$2">
               {
                 note.metadata?.content?.content && (
                   <Paragraph
                     width={coverImage.isSingle ? "65%" : "100%"}
                     numberOfLines={coverImage.isSingle ? 5 : 3}
-                    size={"$2"}
+                    lineHeight={"$2"}
+                    size={"$4"}
                   >
                     {removeMd(
                       String(note.metadata.content.content.slice(0, 100)).replace(/(\r\n|\n|\r)/gm, " "),
@@ -110,7 +111,7 @@ export const FeedListItem: FC<Props> = (props) => {
             {
               coverImage.isMultiple && (
                 <>
-                  <Spacer size={"$2"} />
+                  <Spacer size={"$3"} />
                   <ScrollView
                     horizontal
                     showsHorizontalScrollIndicator={false}
@@ -138,7 +139,7 @@ export const FeedListItem: FC<Props> = (props) => {
                 </>
               )
             }
-            <XStack marginTop={"$2"} justifyContent="space-between">
+            <XStack marginTop={"$3"} justifyContent="space-between">
               <Text numberOfLines={1} maxWidth={"70%"}>
                 {
                   !!note.metadata?.content?.tags?.filter(tag => tag !== "post" && tag !== "page").length && (
@@ -146,7 +147,7 @@ export const FeedListItem: FC<Props> = (props) => {
                       {note.metadata?.content?.tags
                         ?.filter(tag => tag !== "post" && tag !== "page")
                         .map((tag, index) => (
-                          <Text key={tag + index} fontSize={12}>
+                          <Text key={tag + index} fontSize={12} color="$colorSubtitle">
                             #{tag} &nbsp;
                           </Text>
                         ))}
@@ -154,7 +155,7 @@ export const FeedListItem: FC<Props> = (props) => {
                   )
                 }
               </Text>
-              <SizableText size={"$2"} numberOfLines={1} color="$colorSubtitle">
+              <SizableText size={"$3"} numberOfLines={1} color="$colorSubtitle">
                 {i18n.t("ago", {
                   time: date.dayjs
                     .duration(
