@@ -1,5 +1,17 @@
 # xlog
 
+## 0.10.1
+
+### Patch Changes
+
+- 61e03c0: Larger font.
+- 61e03c0: Auto-upcasing disabled.
+- 5958a4f: Added notification's entrance in bottom tab
+- cd1abf4: Improve drawer styles and open the drawer when the avatar is pressed.
+- 40f639d: Some UI improvements.
+- 61e03c0: Auto-closing the Login page when the connection is successful.
+- 865cf28: Expanded the hit slop size.
+
 ## 0.10.0
 
 ### Minor Changes
