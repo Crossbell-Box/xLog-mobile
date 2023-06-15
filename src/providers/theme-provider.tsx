@@ -1,13 +1,14 @@
 import type { FC, PropsWithChildren } from "react";
 import { useCallback, useEffect, useState } from "react";
-import { Appearance, useColorScheme } from "react-native";
+import { useColorScheme } from "react-native";
 
-import { useAsyncStorage } from "@react-native-async-storage/async-storage";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { Theme as TamaguiTheme } from "tamagui";
 
 import { ThemeContext } from "@/context/theme-context";
+import { useStorage } from "@/hooks/use-storage";
+import { allThemes } from "@/styles/theme";
 import type { Mode, Theme } from "@/styles/theme/types";
 
 SplashScreen.preventAutoHideAsync();
@@ -21,12 +22,21 @@ const FOLLOW_SYSTEM_KEY = "FOLLOW_SYSTEM";
 
 export const ThemeProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
   const colorScheme = useColorScheme();
-  const [theme, setTheme] = useState<Theme>();
-  const [mode, setMode] = useState<Mode>();
-  const [followSystem, setFollowSystem] = useState<boolean>();
-  const storageThemeStorage = useAsyncStorage(STORAGE_THEME_KEY);
-  const storageModeStorage = useAsyncStorage(STORAGE_MODE_KEY);
-  const followSystemStorage = useAsyncStorage(FOLLOW_SYSTEM_KEY);
+
+  const [theme, setTheme] = useStorage<Theme>(STORAGE_THEME_KEY, {
+    validationValues: allThemes.map(i => i.themeName),
+    defaultValue: defaultTheme,
+  });
+
+  const [mode, setMode] = useStorage<Mode>(STORAGE_MODE_KEY, {
+    validationValues: ["dark", "light"],
+    defaultValue: defaultMode,
+  });
+
+  const [followSystem, setFollowSystem] = useStorage<boolean>(FOLLOW_SYSTEM_KEY, {
+    defaultValue: false,
+  });
+
   const [loading, setLoading] = useState(true);
 
   const [loaded] = useFonts({
@@ -43,14 +53,9 @@ export const ThemeProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
   useEffect(() => {
     (async () => {
       setLoading(true);
-      const theme = await storageThemeStorage.getItem() as Theme;
-      setTheme(theme || defaultTheme);
-
-      const mode = await storageModeStorage.getItem() as Mode;
-      setMode(mode || defaultMode);
-
-      const followSystem = await followSystemStorage.getItem() as String === "true";
-      setFollowSystem(followSystem || false);
+      await setTheme(theme);
+      await setMode(mode);
+      await setFollowSystem(followSystem);
     })()
       .catch((err) => {
         console.error(err);
@@ -66,23 +71,19 @@ export const ThemeProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
     const _mode = mode === "dark" ? "light" : "dark";
 
     setMode(_mode);
-    storageModeStorage.setItem(_mode);
   }, [mode]);
 
   const changeTheme = useCallback((theme: Theme) => {
     setTheme(theme);
-    storageThemeStorage.setItem(theme);
   }, []);
 
   const toggleFollowSystem = useCallback(async () => {
     const _followSystem = !followSystem;
 
-    setFollowSystem(_followSystem);
-    await followSystemStorage.setItem(String(_followSystem));
+    await setFollowSystem(_followSystem);
 
     if (_followSystem) {
-      setMode(colorScheme);
-      await storageModeStorage.setItem(colorScheme);
+      await setMode(colorScheme);
     }
   }, [followSystem, colorScheme]);
 

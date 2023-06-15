@@ -18,6 +18,7 @@ import { Button, Card, H4, Paragraph, Stack } from "tamagui";
 import { useDrawer } from "@/hooks/use-drawer";
 import { useRootNavigation } from "@/hooks/use-navigation";
 import { useOneTimeToggler } from "@/hooks/use-signin-tips-toggler";
+import { useStorage } from "@/hooks/use-storage";
 
 import { DelayedRender } from "../DelayRender";
 import { ModalWithFadeAnimation } from "../ModalWithFadeAnimation";
@@ -42,7 +43,7 @@ export const ConnectionButton: FC<Props> = (props) => {
           case "email":
             return <DisconnectBtn navigateToLogin={navigateToLogin} />;
           case "wallet":
-            return <OPSignToggleBtn/>;
+            return <OPSignToggleBtn />;
           default:
             return <ConnectBtn navigateToLogin={navigateToLogin} />;
         }
