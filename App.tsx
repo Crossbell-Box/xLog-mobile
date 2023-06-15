@@ -27,7 +27,6 @@ import { TamaguiProvider } from "tamagui";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import ProviderComposer from "@/components/ProviderComposer";
 import { StatusBar } from "@/components/StatusBar";
-import { IS_DEV } from "@/constants";
 import { SENTRY_DSN } from "@/constants/env";
 import { useNotificationSetup } from "@/hooks/use-notification-setup";
 import { ConnectKitProvider } from "@/providers/connect-kit-provider";
@@ -45,16 +44,18 @@ import config from "./tamagui.config";
 enableScreens(true);
 enableFreeze(true);
 
-const SENTRY_CONFIG = {
-  dsn: SENTRY_DSN,
-  enableInExpoDevelopment: true,
-  debug: false,
-};
+if (SENTRY_DSN) {
+  const SENTRY_CONFIG = {
+    dsn: SENTRY_DSN,
+    enableInExpoDevelopment: true,
+    debug: false,
+  };
 
-Sentry.init(SENTRY_CONFIG);
+  Sentry.init(SENTRY_CONFIG);
 
-// eslint-disable-next-line no-console
-console.log("Sentry init config: ", SENTRY_CONFIG);
+  // eslint-disable-next-line no-console
+  console.log("Sentry init config: ", SENTRY_CONFIG);
+}
 
 const persister = createAsyncStoragePersister();
 
