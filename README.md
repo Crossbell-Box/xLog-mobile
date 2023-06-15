@@ -19,7 +19,7 @@
     ```
 
 
-- Duplicate `.env.example` and rename it to `.env.common` and fill in the environment variables.  
+- Duplicate `.env.example` and rename it to `.env.common`.  
 
     ```sh
     cp .env.example .env.common
@@ -33,7 +33,7 @@
 
 - Create `.env.development`, `.env.staging` and `.env.production` files and fill the `APP_HOST` variable for various environments.  
     ```
-    APP_HOST=
+    APP_HOST=xlog.app
     ```
 
 
