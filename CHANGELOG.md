@@ -1,5 +1,13 @@
 # xlog
 
+## 0.10.2
+
+### Patch Changes
+
+- a1022e2: Some UI Improvements.
+- 87b1935: Disabled sentry if not set DSN.
+- 1528ae0: Fixed storage issues that can not restore value correctly.
+
 ## 0.10.1
 
 ### Patch Changes
