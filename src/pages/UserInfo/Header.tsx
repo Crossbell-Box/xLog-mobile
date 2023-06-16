@@ -59,7 +59,7 @@ export const Header: FC<Props> = (props) => {
       headerTitle(props) {
         return (
           <Animated.View style={headerAnimatedStyles}>
-            <Text numberOfLines={1} color={props.tintColor} fontSize={"$7"}>{character.data?.metadata?.content?.name}</Text>
+            <Text numberOfLines={1} color={"$color"} fontSize={"$7"}>{character.data?.metadata?.content?.name}</Text>
           </Animated.View>
         );
       },
@@ -76,9 +76,9 @@ export const Header: FC<Props> = (props) => {
           <XStack gap={"$1"} flex={1}>
             {
               [
-                { label: i18n.t("Followers"), value: subscriptions.data?.pages?.[0]?.count || 0 },
-                { label: i18n.t("Followings"), value: toSubscriptions.data?.pages?.[0]?.count || 0 },
-                { label: i18n.t("Viewed"), value: stat.data?.viewsCount },
+                { label: i18n.t("Followers"), value: subscriptions.data?.pages?.[0]?.count ?? 0 },
+                { label: i18n.t("Followings"), value: toSubscriptions.data?.pages?.[0]?.count ?? 0 },
+                { label: i18n.t("Viewed"), value: stat.data?.viewsCount ?? 0 },
               ].map((item, index) => (
                 <XStack key={index} flex={1}>
                   <YStack justifyContent="flex-end" alignItems="center" flex={1}>

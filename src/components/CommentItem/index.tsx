@@ -1,16 +1,17 @@
 import React, { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { TextInput } from "react-native";
-import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import Modal from "react-native-modal";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { useCharacter } from "@crossbell/indexer";
 import { ArrowRight, Edit } from "@tamagui/lucide-icons";
-import type { CharacterEntity, ListResponse, NoteEntity } from "crossbell";
-import type { InputProps, ListItemProps } from "tamagui";
+import type { ListResponse, NoteEntity } from "crossbell";
+import type { ListItemProps } from "tamagui";
 import { Text, XStack, YStack, Stack, Spacer, Paragraph, Button, Input } from "tamagui";
 
+import { useCharacterId } from "@/hooks/use-character-id";
 import { useColors } from "@/hooks/use-colors";
 import { useDate } from "@/hooks/use-date";
 import { useGlobalLoading } from "@/hooks/use-global-loading";
@@ -57,6 +58,7 @@ export const CommentItem: React.FC<CommentItemProps> = (props) => {
     ...restProps
   } = props;
   const date = useDate();
+  const myCharacterId = useCharacterId();
   const i18n = useTranslation();
   const comments = useGetComments({ characterId: comment?.characterId, noteId: comment?.noteId });
   const repliesCount = comments.data?.pages?.[0]?.count;
@@ -69,6 +71,7 @@ export const CommentItem: React.FC<CommentItemProps> = (props) => {
   const [content, setContent] = useState("");
   const _submitComment = useSubmitComment();
   const { show, hide } = useGlobalLoading();
+  const isAuthor = comment?.characterId === myCharacterId;
   const isSubComment = depth > 0;
 
   const onPressComment = React.useCallback(() => {
@@ -130,7 +133,7 @@ export const CommentItem: React.FC<CommentItemProps> = (props) => {
   return (
     <>
       <XStack marginBottom="$2" gap="$3" {...restProps}>
-        <Avatar size={isSubComment ? 36 : 40} character={comment?.character} />
+        <Avatar useDefault size={isSubComment ? 36 : 40} character={comment?.character} />
         <YStack flex={1}>
           <YStack flex={1}>
             <XStack alignItems="center" marginBottom="$1">
@@ -185,21 +188,25 @@ export const CommentItem: React.FC<CommentItemProps> = (props) => {
                 <TouchableOpacity onPress={onPressComment}>
                   <XStack alignItems="center" gap="$1.5" minWidth={"$3"}justifyContent="center">
                     <Text color={"$color"} fontSize={"$4"}>
-                      回复&nbsp;
+                      {i18n.t("Reply")}&nbsp;
                       {(comment as any)?.fromNotes?.count || 0}
                     </Text>
                   </XStack>
                 </TouchableOpacity>
               )
             }
-            <TouchableOpacity onPress={onPressEdit}>
-              <XStack alignItems="center" gap="$1.5" minWidth={"$3"} justifyContent="center">
-                <Edit size={"$0.75"} fontSize={"$4"}/>
-                <Text color={"$color"} fontSize={"$4"}>
-                    &nbsp;编辑
-                </Text>
-              </XStack>
-            </TouchableOpacity>
+            {
+              isAuthor && (
+                <TouchableOpacity onPress={onPressEdit}>
+                  <XStack alignItems="center" gap="$1.5" minWidth={"$3"} justifyContent="center">
+                    <Edit size={"$0.75"} fontSize={"$4"}/>
+                    <Text color={"$color"} fontSize={"$4"}>
+                    &nbsp;{i18n.t("Edit")}
+                    </Text>
+                  </XStack>
+                </TouchableOpacity>
+              )
+            }
           </XStack>
 
           {
@@ -262,6 +269,7 @@ export const CommentItem: React.FC<CommentItemProps> = (props) => {
                   alignItems="center"
                   onBlur={hideInput}
                   autoFocus
+                  size={"$6"}
                   fontSize={"$4"}
                   lineHeight={16}
                   onChangeText={setContent}
@@ -279,7 +287,7 @@ export const CommentItem: React.FC<CommentItemProps> = (props) => {
                   justifyContent="center"
                   onPress={submitComment}
                 >
-              发布
+                  {siteI18n.t("Publish")}
                 </Button>
               </XStack>
             </YStack>

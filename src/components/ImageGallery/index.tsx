@@ -10,7 +10,7 @@ import * as FileSystem from "expo-file-system";
 import * as Haptics from "expo-haptics";
 import { Image } from "expo-image";
 import * as MediaLibrary from "expo-media-library";
-import { Circle, Stack } from "tamagui";
+import { Circle, Spinner, Stack } from "tamagui";
 
 import { useHitSlopSize } from "@/hooks/use-hit-slop-size";
 
@@ -106,7 +106,7 @@ export const ImageGallery: FC<Props> = (props) => {
             uris.map((uri, index) => {
               const priority = index <= 3 ? "high" : "low";
               return (
-                <Image key={index} priority={priority} source={uri} contentFit="cover" style={styles.modalImage} />
+                <ImageItem key={index} uri={uri} priority={priority}/>
               );
             })
           }
@@ -136,6 +136,26 @@ export const ImageGallery: FC<Props> = (props) => {
         }
       </Stack>
     </ModalWithFadeAnimation>
+  );
+};
+
+const ImageItem: FC<{ uri: string; priority: "high" | "low" }> = (props) => {
+  const { uri, priority } = props;
+  const [loading, setLoading] = useState(true);
+
+  const onLoadStart = useCallback(() => {
+    setLoading(true);
+  }, []);
+
+  const onLoadEnd = useCallback(() => {
+    setLoading(false);
+  }, []);
+
+  return (
+    <Stack width={width} height={width} alignItems="center" justifyContent="center">
+      <Image onLoadStart={onLoadStart} onLoadEnd={onLoadEnd} priority={priority} source={uri} contentFit="cover" style={styles.modalImage} />
+      {loading && <Spinner position="absolute"/>}
+    </Stack>
   );
 };
 

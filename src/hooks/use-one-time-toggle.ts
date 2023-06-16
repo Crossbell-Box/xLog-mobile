@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export const useOneTimeToggle = (
+export const useOneTimeToggler = (
   key: string,
 ): [
     boolean,
@@ -30,7 +30,6 @@ export const useOneTimeToggle = (
     setHasToggled(true);
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const resetToggle = async () => {
     await AsyncStorage.removeItem(key);
     setHasToggled(false);
