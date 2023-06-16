@@ -58,30 +58,30 @@ export const BottomBar: FC<Props> = (props) => {
     noteId: note?.data?.noteId,
   };
 
-  const followContainerAnimStyle = useAnimatedStyle(() => {
-    return {
-      paddingRight: interpolate(followAnimValue.value, [0, 1], [0, 10]),
-      width: interpolate(followAnimValue.value, [0, 1], [avatarSize, avatarSize * 2 + 5]),
-    };
-  }, []);
+  // const followContainerAnimStyle = useAnimatedStyle(() => {
+  //   return {
+  //     paddingRight: interpolate(followAnimValue.value, [0, 1], [0, 10]),
+  //     width: interpolate(followAnimValue.value, [0, 1], [avatarSize, avatarSize * 2 + 5]),
+  //   };
+  // }, []);
 
-  const subscribeAnimStyle = useAnimatedStyle(() => {
-    return {
-      transform: [
-        {
-          scale: interpolate(followAnimValue.value, [0, 0.3, 0.7, 1], [1, 0.7, 1.3, 1]),
-        }, {
-          rotateZ: `${interpolate(followAnimValue.value, [0, 0.3, 1], [0, 45, 0])}deg`,
-        },
-      ] as any,
-      zIndex: 2,
-    };
-  }, []);
+  // const subscribeAnimStyle = useAnimatedStyle(() => {
+  //   return {
+  //     transform: [
+  //       {
+  //         scale: interpolate(followAnimValue.value, [0, 0.3, 0.7, 1], [1, 0.7, 1.3, 1]),
+  //       }, {
+  //         rotateZ: `${interpolate(followAnimValue.value, [0, 0.3, 1], [0, 45, 0])}deg`,
+  //       },
+  //     ] as any,
+  //     zIndex: 2,
+  //   };
+  // }, []);
 
-  const handleToggleSubscribe = useAuthPress(() => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    toggleSubscribe();
-  });
+  // const handleToggleSubscribe = useAuthPress(() => {
+  //   Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+  //   toggleSubscribe();
+  // });
 
   useEffect(() => {
     followAnimValue.value = withDelay(1500, withSpring(1));
@@ -99,8 +99,8 @@ export const BottomBar: FC<Props> = (props) => {
       paddingHorizontal={"$5"}
       paddingTop={"$1"}
     >
-      <XStack width={"100%"} height={"$4"} justifyContent="space-between" alignItems="center">
-        <Animated.View style={[followContainerAnimStyle, {
+      <XStack width={"100%"} height={"$4"} justifyContent="flex-end" alignItems="center">
+        {/* <Animated.View style={[followContainerAnimStyle, {
           alignItems: "center",
           justifyContent: "space-between",
           borderRadius: 50,
@@ -118,12 +118,12 @@ export const BottomBar: FC<Props> = (props) => {
                     <UserMinus width={16} disabled={isLoading} />
                   )
                   : (
-                    <UserPlus size={16} disabled={isLoading}/>
+                    <UserPlus color="white" size={16} disabled={isLoading}/>
                   )
               }
             </Animated.View>
           </XTouch>
-        </Animated.View>
+        </Animated.View> */}
         <XStack alignItems="center">
           {
             !pageIsNotFound && (

@@ -17,8 +17,7 @@ import { Button, Card, H4, Paragraph, Stack } from "tamagui";
 
 import { useDrawer } from "@/hooks/use-drawer";
 import { useRootNavigation } from "@/hooks/use-navigation";
-import { useOneTimeToggler } from "@/hooks/use-signin-tips-toggler";
-import { useStorage } from "@/hooks/use-storage";
+import { useOneTimeTogglerWithSignOP } from "@/hooks/use-signin-tips-toggler";
 
 import { DelayedRender } from "../DelayRender";
 import { ModalWithFadeAnimation } from "../ModalWithFadeAnimation";
@@ -88,11 +87,16 @@ function OPSignToggleBtn() {
   const { mutate: signIn, isLoading: isSignInLoading } = useWalletSignIn();
   const isWalletSignedIn = useIsWalletSignedIn();
   const { t } = useTranslation();
-  const { hasBeenDisplayed, close, closePermanently } = useOneTimeToggler();
+  const { hasBeenDisplayed, closePermanently } = useOneTimeTogglerWithSignOP();
 
   const OPSign = () => {
     signIn();
     closePermanently();
+  };
+
+  const closeAndOPSign = () => {
+    closePermanently();
+    OPSign();
   };
 
   if (!isWalletSignedIn) {
@@ -120,7 +124,7 @@ function OPSignToggleBtn() {
                 {t("By signing, you can interact without clicking to agree the smart contracts every time. We are in Beta, and new users who try it out will be rewarded with 0.01 $CSB.")}
               </Paragraph>
               <Card.Footer padded alignItems="center" justifyContent="center" gap="$4">
-                <Button minWidth={"45%"} onPress={close} backgroundColor={"$backgroundFocus"} color={"$primary"} borderRadius="$5">{t("Confirm")}</Button>
+                <Button minWidth={"45%"} onPress={closeAndOPSign} backgroundColor={"$backgroundFocus"} color={"$primary"} borderRadius="$5">{t("Confirm")}</Button>
                 <Button minWidth={"45%"} onPress={closePermanently} borderRadius="$5">{t("Do not show again")}</Button>
               </Card.Footer>
             </Card>

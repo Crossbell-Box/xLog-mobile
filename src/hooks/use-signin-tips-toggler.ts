@@ -1,7 +1,7 @@
-import { useOneTimeToggle } from "./use-one-time-toggle";
+import { useOneTimeToggler } from "./use-one-time-toggle";
 
-export const useOneTimeToggler = () => {
-  const [hasBeenDisplayed, close, closePermanently] = useOneTimeToggle("sigin-tips");
+export const useOneTimeTogglerWithSignOP = () => {
+  const [hasBeenDisplayed, close, closePermanently] = useOneTimeToggler("sign-op-tips");
 
   return {
     hasBeenDisplayed,

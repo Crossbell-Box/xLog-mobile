@@ -1,14 +1,17 @@
 import type { FC } from "react";
 import React, { useEffect } from "react";
+import { StyleSheet } from "react-native";
 import { useSharedValue, withSpring, withDelay } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { Stack } from "tamagui";
+import { Stack, Text, YStack, useTheme } from "tamagui";
 
 import { ImageGallery } from "@/components/ImageGallery";
 import { useScrollVisibilityHandler } from "@/hooks/use-scroll-visibility-handler";
+import { useThemeStore } from "@/hooks/use-theme-store";
 import type { RootStackParamList } from "@/navigation/types";
+import { Header as UserInfoHeader } from "@/pages/UserInfo/Header";
 
 import { BottomBar } from "./BottomBar";
 import { Content } from "./Content";
@@ -23,8 +26,8 @@ export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, "Pos
   const { route, navigation } = props;
   const { params } = route;
   const [displayImageUris, setDisplayImageUris] = React.useState<string[]>([]);
-
-  const { bottom } = useSafeAreaInsets();
+  const { isDarkMode } = useThemeStore();
+  const { bottom, top } = useSafeAreaInsets();
   const bottomBarHeight = bottom + 45;
   const headerContainerHeight = 45;
 
@@ -49,6 +52,11 @@ export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, "Pos
           headerContainerHeight={headerContainerHeight}
         />
         <Content
+          headerComponent={(
+            <YStack paddingBottom="$4" borderBottomColor={"$color7"} borderBottomWidth={StyleSheet.hairlineWidth} paddingHorizontal={20} paddingTop={headerContainerHeight + top} backgroundColor={isDarkMode ? "black" : "white"}>
+              <UserInfoHeader characterId={params.characterId}/>
+            </YStack>
+          )}
           characterId={params.characterId}
           noteId={params.noteId}
           navigation={navigation}

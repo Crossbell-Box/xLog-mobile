@@ -200,7 +200,7 @@ export const CommentButton: React.FC<Props> = ({ characterId, noteId, iconSize =
                   if (item.type === "header") {
                     return (
                       <Stack backgroundColor={background} paddingBottom={8} marginBottom="$3">
-                        <H4>评论 {commentsCount}</H4>
+                        <H4>{t("Comments")} {commentsCount}</H4>
                       </Stack>
                     );
                   }
@@ -263,7 +263,7 @@ export const CommentButton: React.FC<Props> = ({ characterId, noteId, iconSize =
                         placeholderTextColor={subtitle}
                       />
                       <Button alignSelf="center" onPress={submitComment} alignItems="center" justifyContent="center">
-                        发布
+                        {t("Publish")}
                       </Button>
                     </XStack>
                   )
@@ -280,7 +280,7 @@ export const CommentButton: React.FC<Props> = ({ characterId, noteId, iconSize =
                     >
                       <XStack
                         paddingHorizontal={12}
-                        height={40}
+                        height={50}
                         borderWidth={1}
                         borderRadius={10}
                         borderColor={"$borderColor"}
@@ -288,7 +288,7 @@ export const CommentButton: React.FC<Props> = ({ characterId, noteId, iconSize =
                         space="$2"
                         flex={1}
                         onPress={onPressInput}>
-                        <Text flex={1} borderWidth={1} borderRadius={10} color={"$colorSubtitle"}>
+                        <Text fontSize={"$6"} flex={1} borderWidth={1} borderRadius={10} color={"$colorSubtitle"}>
                           {t("Write a comment on the blockchain")}
                         </Text>
                       </XStack>
