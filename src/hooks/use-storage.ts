@@ -4,9 +4,6 @@ import { useAsyncStorage } from "@react-native-async-storage/async-storage";
 
 interface UseStorageOptions<T> {
   defaultValue?: T
-  /**
-   * @description If the value is not in the list, it will fallback to the previous value or the default value
-   * */
   validationValues?: unknown[]
 }
 
@@ -18,45 +15,42 @@ export function useStorage<T>(
   const storageController = useAsyncStorage(key);
   const [value, _setValue] = useState<T | undefined>(defaultValue);
 
-  const validateValue = (_value?: T) => {
-    if (typeof defaultValue === "undefined" || !validationValues?.length) {
+  const validateValue = useCallback((_value?: T) => {
+    if (!validationValues?.length)
       return _value;
-    }
+
     const isValid = validationValues?.includes(_value);
-    if (isValid) {
+    if (isValid)
       return _value;
-    }
 
-    if (value !== undefined) {
-      console.warn(`Invalid value for ${key}: ${_value}, falling back to previous value: ${value}`);
-      return value;
-    }
+    console.warn(`Invalid value for ${key}: ${_value}, falling back to previous value: ${value}`);
+    return value || defaultValue;
+  }, [value, defaultValue, validationValues]);
 
-    console.warn(`Invalid value for ${key}: ${_value}, falling back to default value: ${defaultValue}`);
-    return defaultValue;
-  };
-
-  const setValue = useCallback((_value: T) => {
-    if (typeof _value === "undefined") {
+  const setValue = useCallback((_value?: T) => {
+    if (typeof _value === "undefined")
       return storageController.removeItem().then(() => _setValue(undefined));
-    }
 
-    const value = validateValue(_value);
-    return storageController.setItem(JSON.stringify(value)).then(() => _setValue(value));
-  }, [validateValue]);
+    const validatedValue = validateValue(_value);
+    return storageController.setItem(JSON.stringify(validatedValue)).then(() => _setValue(validatedValue));
+  }, [validateValue, storageController]);
 
   useEffect(() => {
-    storageController.getItem().then((value) => {
+    storageController.getItem().then((item) => {
       try {
-        if (JSON.parse(value) === undefined) {
+        const parsedItem = JSON.parse(item!);
+        if (parsedItem !== undefined)
+          _setValue(parsedItem);
+
+        else
           setValue(defaultValue);
-        }
       }
       catch (e) {
-        setValue(JSON.parse(value));
+        console.error(`Failed to parse value for ${key}: ${item}, setting to default value: ${defaultValue}`);
+        setValue(defaultValue);
       }
     });
-  }, []);
+  }, [defaultValue, setValue, storageController]);
 
   return [value, setValue] as const;
 }
