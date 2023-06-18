@@ -10,11 +10,10 @@ import { ListItem, Text, ListItemTitle, Switch, YGroup, YStack, Stack } from "ta
 import { BottomSheetModal } from "@/components/BottomSheetModal";
 import type { BottomSheetModalInstance } from "@/components/BottomSheetModal";
 import { DisconnectBtn } from "@/components/ConnectionButton";
+import { VERSION } from "@/constants";
 import { useColors } from "@/hooks/use-colors";
 import { useThemeStore } from "@/hooks/use-theme-store";
 import { allThemes } from "@/styles/theme";
-
-import packageJson from "../../../package.json";
 
 export interface Props {
 
@@ -91,7 +90,7 @@ export const Settings: React.FC<Props> = () => {
                 <ListItem
                   icon={Info}
                   scaleIcon={1.2}
-                  iconAfter={<Text color="$color">{packageJson.version}</Text>}
+                  iconAfter={<Text color="$color">{VERSION}</Text>}
                 >
                   <ListItemTitle>
                     {t("Version")}

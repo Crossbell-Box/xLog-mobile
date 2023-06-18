@@ -9,12 +9,11 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useCharacter, useNote } from "@crossbell/indexer";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Image } from "expo-image";
-import { runtimeVersion } from "expo-updates";
 import { H2, Spacer, useWindowDimensions, YStack } from "tamagui";
 
 import { ImageGallery } from "@/components/ImageGallery";
 import { WebView } from "@/components/WebView";
-import { DOMAIN } from "@/constants";
+import { DOMAIN, VERSION } from "@/constants";
 import { IPFS_GATEWAY } from "@/constants/env";
 import { PageNotFound } from "@/constants/resource";
 import { useColors } from "@/hooks/use-colors";
@@ -121,7 +120,7 @@ export const Content: FC<Props> = (props) => {
 
   useEffect(() => {
     DeviceInfo.getUserAgent().then((us) => {
-      setUserAgent(`${us} ReactNative/${runtimeVersion}`);
+      setUserAgent(`${us} ReactNative/${VERSION}`);
     });
   }, []);
 
