@@ -37,8 +37,6 @@ export const ThemeProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
     defaultValue: false,
   });
 
-  const [loading, setLoading] = useState(true);
-
   const [loaded] = useFonts({
     Inter: require("@tamagui/font-inter/otf/Inter-Regular.otf"),
     InterLight: require("@tamagui/font-inter/otf/Inter-Light.otf"),
@@ -49,23 +47,6 @@ export const ThemeProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
   useEffect(() => {
     loaded && SplashScreen.hideAsync();
   }, [loaded]);
-
-  useEffect(() => {
-    (async () => {
-      setLoading(true);
-      await setTheme(theme);
-      await setMode(mode);
-      await setFollowSystem(followSystem);
-    })()
-      .catch((err) => {
-        console.error(err);
-        setTheme(defaultTheme);
-        setMode(defaultMode);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
 
   const toggleMode = useCallback(() => {
     const _mode = mode === "dark" ? "light" : "dark";
@@ -103,7 +84,7 @@ export const ThemeProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
       changeTheme,
     }}>
       <TamaguiTheme name={`${theme}_${mode}`}>
-        {!loading && children}
+        {children}
       </TamaguiTheme>
     </ThemeContext.Provider>
   );
