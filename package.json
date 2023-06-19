@@ -14,7 +14,7 @@
     "update:preview": "NODE_ENV=staging eas update --non-interactive --channel preview --auto",
     "build:development": "NODE_ENV=development eas build --non-interactive --profile development",
     "build:preview": "NODE_ENV=staging eas build --non-interactive --profile preview",
-    "build:production": "yarn run release & eas build --non-interactive --profile production --auto-submit",
+    "build:production": "eas build --non-interactive --profile production --auto-submit",
     "generate-env-types:common": "dotenv-types-generator -f ./.env.common -m",
     "generate-env-types:env": "dotenv-types-generator -f ./.env.development -m",
     "generate-env-types": "run-s generate-env-types:common",

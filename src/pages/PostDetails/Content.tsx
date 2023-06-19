@@ -9,15 +9,13 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useCharacter, useNote } from "@crossbell/indexer";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Image } from "expo-image";
-import { runtimeVersion } from "expo-updates";
 import { H2, Spacer, useWindowDimensions, YStack } from "tamagui";
 
 import { ImageGallery } from "@/components/ImageGallery";
 import { WebView } from "@/components/WebView";
-import { DOMAIN } from "@/constants";
+import { DOMAIN, VERSION } from "@/constants";
 import { IPFS_GATEWAY } from "@/constants/env";
 import { PageNotFound } from "@/constants/resource";
-import { useColors } from "@/hooks/use-colors";
 import type { useScrollVisibilityHandler } from "@/hooks/use-scroll-visibility-handler";
 import { useThemeStore } from "@/hooks/use-theme-store";
 import type { RootStackParamList } from "@/navigation/types";
@@ -42,7 +40,6 @@ const { width } = Dimensions.get("window");
 
 export const Content: FC<Props> = (props) => {
   const { noteId, headerComponent, characterId, navigation, scrollEventHandler, bottomBarHeight, headerContainerHeight } = props;
-  const { background } = useColors();
   const { isDarkMode, mode } = useThemeStore();
   const note = useNote(characterId, noteId);
   const character = useCharacter(characterId);
@@ -121,7 +118,7 @@ export const Content: FC<Props> = (props) => {
 
   useEffect(() => {
     DeviceInfo.getUserAgent().then((us) => {
-      setUserAgent(`${us} ReactNative/${runtimeVersion}`);
+      setUserAgent(`${us} ReactNative/${VERSION}`);
     });
   }, []);
 
@@ -195,7 +192,7 @@ export const Content: FC<Props> = (props) => {
               )}
             </Animated.View>
             {
-              !webviewLoaded && <Skeleton webviewLoadingAnimValue={webviewLoadingAnimValue} headerHeight={headerHeight} />
+              !webviewLoaded && <Skeleton webviewLoadingAnimValue={webviewLoadingAnimValue} headerHeight={headerHeight + 200} />
             }
           </Animated.ScrollView>
         )}

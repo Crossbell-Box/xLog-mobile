@@ -39,7 +39,8 @@ export function useStorage<T>(
     storageController.getItem().then((item) => {
       try {
         const parsedItem = JSON.parse(item!);
-        if (parsedItem !== undefined)
+
+        if (parsedItem)
           _setValue(parsedItem);
 
         else

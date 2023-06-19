@@ -6,6 +6,7 @@ import ContentLoader, { Rect } from "react-content-loader/native";
 import { useWindowDimensions, YStack } from "tamagui";
 
 import { useColors } from "@/hooks/use-colors";
+import { useThemeStore } from "@/hooks/use-theme-store";
 
 export const Skeleton: FC<{
   webviewLoadingAnimValue: Animated.SharedValue<number>
@@ -15,7 +16,7 @@ export const Skeleton: FC<{
   headerHeight,
 }) => {
   const { width, height } = useWindowDimensions();
-  const { background } = useColors();
+  const { isDarkMode } = useThemeStore();
   const contentLoaderDimensions = { width, height: headerHeight + 200 };
   const skeletonAnimStyles = useAnimatedStyle(() => {
     return {
@@ -27,7 +28,7 @@ export const Skeleton: FC<{
     <Animated.View
       style={[skeletonAnimStyles, {
         height: height - headerHeight,
-        backgroundColor: background,
+        backgroundColor: isDarkMode ? "black" : "white",
         top: headerHeight,
         position: "absolute",
         width: "100%",

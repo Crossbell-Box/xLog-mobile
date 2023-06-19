@@ -33,6 +33,7 @@ import { ConnectKitProvider } from "@/providers/connect-kit-provider";
 import { DrawerProvider } from "@/providers/drawer-provider";
 import LoadingProvider from "@/providers/loading-provider";
 import { NavigationProvider } from "@/providers/navigation-provider";
+import { NotificationProvider } from "@/providers/notification-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { ToastProvider } from "@/providers/toast-provider";
 import { checkHotUpdates } from "@/utils/hot-updates";
@@ -68,8 +69,6 @@ const queryClient = new QueryClient({
 });
 
 export default () => {
-  useNotificationSetup();
-
   useEffect(() => {
     checkHotUpdates();
   }, []);
@@ -121,6 +120,7 @@ export default () => {
       <DrawerProvider key={"DrawerProvider"} />,
       // @ts-expect-error: Internal
       <KeyboardProvider key={"KeyboardProvider"} />,
+      <NotificationProvider key={"NotificationProvider"} />,
     ]}>
       <StatusBar />
       <RootNavigator />
