@@ -144,6 +144,7 @@ export default (_: ConfigContext): ExpoConfig => {
       CSB_XCHAR: process.env.CSB_XCHAR,
       SENTRY_DSN: process.env.SENTRY_DSN,
       APP_HOST: config.host,
+      ENV,
       eas: {
         projectId: process.env.EXPO_PROJECT_ID,
       },

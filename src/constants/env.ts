@@ -8,3 +8,4 @@ export const WALLET_RELAY_URL = "wss://relay.walletconnect.com";
 export const CSB_SCAN = Constants.expoConfig.extra?.CSB_SCAN || "https://scan.crossbell.io";
 export const CSB_XCHAR = Constants.expoConfig.extra?.CSB_XCHAR || "https://xchar.app";
 export const APP_HOST = Constants.expoConfig.extra?.APP_HOST || "xlog.app";
+export const ENV = Constants.expoConfig.extra?.ENV || "production";
