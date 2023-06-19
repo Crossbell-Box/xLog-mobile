@@ -93,6 +93,7 @@
   "Image saved successfully": "图片已保存至相册",
   "Failed to save image":"图片保存失败",
   "Back": "返回",
+  "Settings": "设置",
   "Version": "版本",
   "Copy Push Token": "复制推送令牌",
   "Push Token Copied": "推送令牌已复制",
@@ -100,5 +101,10 @@
   "Dark Mode": "深色模式",
   "Follow System": "跟随系统",
   "Replies": "回复",
+  "Advanced": "高级",
+  "Delete account": "删除账户",
+  "This action cannot be undone.": "此操作无法撤销。",
+  "Delete Account?": "删除账户？",
+  "delete account alert": "您确定要删除您的账户吗？此操作无法撤销。请键入 <T> {{name}} </T> 以确认。",
   "By signing, you can interact without clicking to agree the smart contracts every time. We are in Beta, and new users who try it out will be rewarded with 0.01 $CSB.": "通过签署授权，你可以在每次互动时无需点击同意智能合约。我们正在测试阶段，新用户试用将获得0.01 $CSB的奖励。"
 }
