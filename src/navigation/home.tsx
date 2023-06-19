@@ -1,17 +1,17 @@
 import { useAccountCharacterId } from "@crossbell/react-account";
 import type { BottomTabBarButtonProps } from "@react-navigation/bottom-tabs";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Bell, Home, Settings2, TreeDeciduous, User2 } from "@tamagui/lucide-icons";
-import { Stack, Text } from "tamagui";
+import { Bell, Home, Settings2, User2 } from "@tamagui/lucide-icons";
+import { Stack } from "tamagui";
 
 import { Drawer } from "@/components/Drawer";
-import { useDrawer } from "@/hooks/use-drawer";
 import { useRootNavigation } from "@/hooks/use-navigation";
 import { FeedPage } from "@/pages/Feed";
 import { NotificationsPageWithBottomTab } from "@/pages/Profile/Notifications";
 import { Settings } from "@/pages/Settings";
 import { UserInfoPageWithBottomTab } from "@/pages/UserInfo";
 
+import { SettingsNavigator } from "./settings";
 import type { HomeBottomTabsParamList } from "./types";
 
 const HomeBottomTabs = createBottomTabNavigator<HomeBottomTabsParamList>();
@@ -69,15 +69,6 @@ export const HomeNavigator = () => {
             tabBarShowLabel: false,
             tabBarIcon: props => <User2 {...props} />,
             tabBarButton: props => <TabBarButton {...props} onPress={navigateWithAuth(props.onPress)} />,
-          }}
-        />
-        <HomeBottomTabs.Screen
-          name={"Settings"}
-          component={Settings}
-          options={{
-            tabBarShowLabel: false,
-            tabBarIcon: props => <Settings2 {...props} />,
-            tabBarButton: props => <TabBarButton {...props} />,
           }}
         />
       </HomeBottomTabs.Navigator>

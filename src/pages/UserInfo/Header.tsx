@@ -1,20 +1,23 @@
 import type { FC } from "react";
-import React, { useEffect } from "react";
+import React, { useCallback, useMemo, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import Animated, { Extrapolate, interpolate, useAnimatedStyle } from "react-native-reanimated";
 
 import { useCharacter } from "@crossbell/indexer";
-import { useNavigation } from "@react-navigation/native";
-import { Award, UserMinus, UserPlus } from "@tamagui/lucide-icons";
+import { useNavigation, useNavigationState } from "@react-navigation/native";
+import { Award, Settings, UserMinus, UserPlus } from "@tamagui/lucide-icons";
 import * as Haptics from "expo-haptics";
 import { Button, Circle, H3, Paragraph, Separator, SizableText, Stack, Text, XStack, YStack } from "tamagui";
 
 import { AchievementItem } from "@/components/AchievementItem";
 import { Avatar } from "@/components/Avatar";
+import { XTouch } from "@/components/XTouch";
 import { useAuthPress } from "@/hooks/use-auth-press";
 import { useCharacterId } from "@/hooks/use-character-id";
 import { useDate } from "@/hooks/use-date";
 import { useFollow } from "@/hooks/use-follow";
+import { useRootNavigation } from "@/hooks/use-navigation";
 import { useGetAchievements, useGetSiteSubscriptions, useGetSiteToSubscriptions, useGetStat } from "@/queries/site";
 
 export interface Props {
@@ -37,8 +40,14 @@ export const Header: FC<Props> = (props) => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     toggleSubscribe();
   });
+  const navigation = useRootNavigation();
+  const currentRouteName = useNavigationState(state => state.routes[state.index].name);
+  const displaySettingsEntry = useMemo(() => {
+    const isMe = myCharacterId === characterId;
+    const isProfilePage = currentRouteName === "Profile";
 
-  const navigation = useNavigation();
+    return isMe && isProfilePage;
+  }, [myCharacterId, characterId, currentRouteName]);
 
   const headerAnimatedStyles = useAnimatedStyle(() => {
     if (!titleAnimatedValue) return {};
@@ -51,6 +60,10 @@ export const Header: FC<Props> = (props) => {
       ],
     };
   }, [titleAnimatedValue]);
+
+  const navigateToSettingsPage = useCallback(() => {
+    navigation.navigate("SettingsNavigator");
+  }, []);
 
   useEffect(() => {
     titleAnimatedValue && navigation.setOptions({
@@ -96,27 +109,33 @@ export const Header: FC<Props> = (props) => {
         <XStack justifyContent="space-between" alignItems="center">
           <H3 fontWeight={"700"}>{character.data?.metadata?.content?.name}</H3>
           {
-            myCharacterId !== characterId && (
-              <XStack>
-                <Button
-                  size={"$3"}
-                  backgroundColor={isFollowing ? "$backgroundFocus" : "$primary"}
-                  icon={isFollowing
-                    ? (
-                      <UserMinus width={16} disabled={isLoading} />
-                    )
-                    : (
-                      <UserPlus size={16} disabled={isLoading} />
-                    )}
-                  onPress={handleToggleSubscribe}
-                  color={"white"}
-                >
-                  {
-                    isFollowing ? i18n.t("Unfollow") : i18n.t("Follow")
-                  }
-                </Button>
-              </XStack>
-            )
+            displaySettingsEntry
+              ? (
+                <XTouch enableHaptics touchableComponent={TouchableOpacity} onPress={navigateToSettingsPage}>
+                  <Settings color={"$colorSubtitle"} size={"$1.5"}/>
+                </XTouch>
+              )
+              : (myCharacterId !== characterId && (
+                <XStack>
+                  <Button
+                    size={"$3"}
+                    backgroundColor={isFollowing ? "$backgroundFocus" : "$primary"}
+                    icon={isFollowing
+                      ? (
+                        <UserMinus width={16} disabled={isLoading} />
+                      )
+                      : (
+                        <UserPlus size={16} disabled={isLoading} />
+                      )}
+                    onPress={handleToggleSubscribe}
+                    color={"white"}
+                  >
+                    {
+                      isFollowing ? i18n.t("Unfollow") : i18n.t("Follow")
+                    }
+                  </Button>
+                </XStack>
+              ))
           }
         </XStack>
         <Paragraph color="$colorSubtitle" numberOfLines={3}>

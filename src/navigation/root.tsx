@@ -22,6 +22,7 @@ import { UserInfoPageWithModal } from "@/pages/UserInfo";
 import { WebPage } from "@/pages/Web";
 
 import { HomeNavigator } from "./home";
+import { SettingsNavigator } from "./settings";
 import type { RootStackParamList } from "./types";
 
 const RootStack = createStackNavigator<RootStackParamList>();
@@ -76,6 +77,8 @@ export const RootNavigator = () => {
         <RootStack.Screen name={"CharacterListPage"} component={CharacterListPage} options={{ title: "" }} />
         <RootStack.Screen name={"Web"} component={WebPage} options={{ title: "" }} />
         <RootStack.Screen name={"UserInfo"} component={UserInfoPageWithModal} options={{ title: "", headerBackTitleVisible: false }} />
+
+        <RootStack.Screen name={"SettingsNavigator"} component={SettingsNavigator} options={{ headerShown: false }}/>
       </RootStack.Group>
 
       <RootStack.Group screenOptions={{

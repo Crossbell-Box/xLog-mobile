@@ -4,8 +4,8 @@ import { StyleSheet, ScrollView, View, Linking, Platform } from "react-native";
 import Animated, { FadeIn, FadeInDown, FadeInUp } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { useConnectedAccount } from "@crossbell/react-account";
-import { ArrowRight, Check, Copy, Eye, Info, Palette, Thermometer } from "@tamagui/lucide-icons";
+import { useConnectedAccount, useIsConnected } from "@crossbell/react-account";
+import { ArrowRight, Check, Cog, Copy, Eye, Info, Palette, Thermometer } from "@tamagui/lucide-icons";
 import { useToastController } from "@tamagui/toast";
 import * as Clipboard from "expo-clipboard";
 import { ListItem, Text, ListItemTitle, Switch, YGroup, YStack, Stack, Button } from "tamagui";
@@ -18,6 +18,7 @@ import { DisconnectBtn } from "@/components/ConnectionButton";
 import { APP_SCHEME, IS_DEV, IS_PROD, IS_STAGING, VERSION } from "@/constants";
 import { useColors } from "@/hooks/use-colors";
 import { useMultiPressHandler } from "@/hooks/use-multi-press-handler";
+import { useHomeNavigation, useRootNavigation, useSettingsNavigation } from "@/hooks/use-navigation";
 import { useNotification } from "@/hooks/use-notification";
 import type { NotificationError } from "@/hooks/use-notification-setup";
 import { useThemeStore } from "@/hooks/use-theme-store";
@@ -30,6 +31,7 @@ export interface Props {
 export const Settings: React.FC<Props> = () => {
   const { primary, background } = useColors();
   const [devMenuVisible, setDevMenuVisible] = React.useState(false);
+  const isConnected = useIsConnected();
   const handleMultiPress = useMultiPressHandler(
     () => setDevMenuVisible(true),
     {
@@ -45,6 +47,7 @@ export const Settings: React.FC<Props> = () => {
   const { t } = useTranslation("common");
   const connectedAccount = useConnectedAccount();
   const toast = useToastController();
+  const navigation = useRootNavigation();
   const { expoPushToken, requestPermissions } = useNotification();
   const { toggleMode, toggleFollowSystem, followSystem, isDarkMode } = useThemeStore();
 
@@ -83,6 +86,12 @@ export const Settings: React.FC<Props> = () => {
     }
   };
 
+  const navigateToAdvancedPage = () => {
+    navigation.navigate("SettingsNavigator", {
+      screen: "Advanced",
+    });
+  };
+
   return (
     <>
       <AlertDialog
@@ -92,7 +101,7 @@ export const Settings: React.FC<Props> = () => {
         renderCancel={() => <Button onPress={closeAlertDialog}>{t("Cancel")}</Button>}
         renderConfirm={() => <Button onPress={onConfirm}>{t("Confirm")}</Button>}
       />
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView edges={["bottom"]} style={styles.container}>
         <YStack flex={1}>
           <ScrollView>
             <YStack gap="$3" padding="$3">
@@ -145,6 +154,22 @@ export const Settings: React.FC<Props> = () => {
                     </ListItemTitle>
                   </ListItem>
                 </YGroup.Item>
+                {
+                  isConnected && (
+                    <YGroup.Item>
+                      <ListItem
+                        icon={Cog}
+                        scaleIcon={1.2}
+                        iconAfter={<ArrowRight />}
+                        onPress={navigateToAdvancedPage}
+                      >
+                        <ListItemTitle>
+                          {t("Advanced")}
+                        </ListItemTitle>
+                      </ListItem>
+                    </YGroup.Item>
+                  )
+                }
                 <YGroup.Item>
                   <ListItem
                     icon={Info}
