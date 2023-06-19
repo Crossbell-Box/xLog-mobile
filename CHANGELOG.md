@@ -1,5 +1,11 @@
 # xlog
 
+## 0.11.1
+
+### Patch Changes
+
+- 825c8b3: Support account deletion.
+
 ## 0.11.0
 
 ### Minor Changes
