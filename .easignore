@@ -63,3 +63,6 @@ xcuserdata
 
 # VSCode
 .history/
+
+# Submission Resource
+submission/*
