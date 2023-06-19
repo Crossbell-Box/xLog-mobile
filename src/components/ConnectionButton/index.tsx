@@ -69,6 +69,7 @@ function ConnectBtn({ navigateToLogin }: { navigateToLogin: boolean }) {
   return (
     <Animated.View entering={FlipInXDown.delay(500).duration(300)} exiting={FlipOutXUp.delay(500).duration(300)}>
       <Button
+        borderWidth={0}
         pressStyle={{ opacity: 0.85 }}
         color={"white"}
         fontSize={"$6"}
@@ -108,6 +109,7 @@ function OPSignToggleBtn() {
             color={"white"}
             fontSize={"$6"}
             backgroundColor={"$primary"}
+            borderWidth={0}
             onPress={OPSign}
             icon={<Plug size={"$1.5"} />}
           >

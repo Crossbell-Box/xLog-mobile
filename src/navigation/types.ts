@@ -1,4 +1,7 @@
 /* eslint-disable @typescript-eslint/consistent-type-definitions */
+import type { NavigatorScreenParams } from "@react-navigation/native";
+
+import type { Props as AdvancedPageProps } from "@/pages/Advanced";
 import type { Props as CharacterListPageProps } from "@/pages/CharacterList";
 import type { Props as FeedPageProps } from "@/pages/Feed";
 import type { Props as LoginPageProps } from "@/pages/Login";
@@ -17,7 +20,6 @@ import type { Props as WebPageProps } from "@/pages/Web";
 
 export type HomeBottomTabsParamList = {
   Feed: FeedPageProps
-  Settings: SettingsPageProps
   Profile: UserInfoPageProps
   Notifications: NotificationsPageProps
 };
@@ -33,7 +35,8 @@ export type ProfilePagesParamList = {
 };
 
 export type RootStackParamList = {
-  Home: undefined
+  Home: NavigatorScreenParams<HomeBottomTabsParamList>
+  SettingsNavigator: NavigatorScreenParams<SettingsStackParamList>
   PostDetails: PostDetailsPageProps
   Replies: RepliesPageProps
   CharacterListPage: CharacterListPageProps
@@ -41,4 +44,9 @@ export type RootStackParamList = {
   Login: LoginPageProps
   UserInfo: UserInfoPageProps
 } & ProfilePagesParamList;
+
+export type SettingsStackParamList = {
+  Advanced: AdvancedPageProps
+  Settings: SettingsPageProps
+};
 
