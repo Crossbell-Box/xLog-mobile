@@ -1,5 +1,26 @@
 # xlog
 
+## 0.11.0
+
+### Minor Changes
+
+- fc9b21c: - Get environment variables correctly.
+
+### Patch Changes
+
+- 1c40b14: Solved the theme changing problem.
+- 2774d0e: - Added Dev menu in settings page
+  - Optimized the skeleton loading of post detail page
+  - Fixed some bugs
+
+## 0.10.2
+
+### Patch Changes
+
+- a1022e2: Some UI Improvements.
+- 87b1935: Disabled sentry if not set DSN.
+- 1528ae0: Fixed storage issues that can not restore value correctly.
+
 ## 0.10.1
 
 ### Patch Changes
