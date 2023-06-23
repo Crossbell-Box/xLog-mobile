@@ -57,6 +57,19 @@ function decrementVersion(version: string) {
 
 const version = decrementVersion(_version);
 
+const postPublish = [];
+
+if (ENV !== "development") {
+  postPublish.push({
+    file: "sentry-expo/upload-sourcemaps",
+    config: {
+      organization: process.env.SENTRY_ORG,
+      project: process.env.SENTRY_PROJECT,
+      authToken: process.env.SENTRY_AUTH_TOKEN,
+    },
+  });
+}
+
 export default (_: ConfigContext): ExpoConfig => {
   return {
     name: config.name,
@@ -68,16 +81,7 @@ export default (_: ConfigContext): ExpoConfig => {
     icon: config.icon,
     userInterfaceStyle: "automatic",
     hooks: {
-      postPublish: [
-        {
-          file: "sentry-expo/upload-sourcemaps",
-          config: {
-            organization: process.env.SENTRY_ORG,
-            project: process.env.SENTRY_PROJECT,
-            authToken: process.env.SENTRY_AUTH_TOKEN,
-          },
-        },
-      ],
+      postPublish,
     },
     plugins: [
       [
