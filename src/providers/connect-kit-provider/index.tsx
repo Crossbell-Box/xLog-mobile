@@ -6,6 +6,7 @@ import { useAccountState, ReactAccountProvider } from "@crossbell/react-account"
 import { useRefCallback } from "@crossbell/util-hooks";
 import { Web3Provider } from "@ethersproject/providers";
 import { useWalletConnect } from "@walletconnect/react-native-dapp";
+import * as Sentry from "sentry-expo";
 import type { Address } from "viem";
 
 import { Web3Context } from "@/context/web3-context";
@@ -32,6 +33,22 @@ export function ConnectKitProvider({ children }: React.PropsWithChildren) {
       accountState.connectWallet(address);
     }
   }, [address]);
+
+  React.useEffect(() => {
+    const isConnected = !!accountState?.wallet || !!accountState?.email;
+
+    if (!isConnected) {
+      Sentry.Native.setUser(null);
+      return;
+    }
+
+    Sentry.Native.setUser({
+      id: accountState?.wallet?.characterId?.toString(),
+      address: accountState?.wallet?.address || "",
+      email: accountState?.email?.email || "",
+      username: accountState?.wallet?.character?.metadata?.content?.name || "",
+    });
+  }, [accountState]);
 
   React.useEffect(() => {
     accountState.refreshEmail();

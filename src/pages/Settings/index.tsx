@@ -76,6 +76,12 @@ export const Settings: React.FC<Props> = () => {
 
   const testSentry = () => {
     Sentry.Native.captureException(new Error("Test Sentry"));
+    toast.show(t("Sended"), {
+      burntOptions: {
+        preset: "done",
+        haptic: "success",
+      },
+    });
   };
 
   const closeAlertDialog = () => alertDialogRef.current?.toggle(false);
@@ -204,18 +210,20 @@ export const Settings: React.FC<Props> = () => {
                           </ListItemTitle>
                         </ListItem>
                       </YGroup.Item>
-                      <YGroup.Item>
-                        <ListItem
-                          icon={TestTube}
-                          scaleIcon={1.2}
-                          iconAfter={<ArrowRight />}
-                          onPress={testSentry}
-                        >
-                          <ListItemTitle>
-                            {t("Test Sentry")}
-                          </ListItemTitle>
-                        </ListItem>
-                      </YGroup.Item>
+                      {!IS_DEV && (
+                        <YGroup.Item>
+                          <ListItem
+                            icon={TestTube}
+                            scaleIcon={1.2}
+                            iconAfter={<ArrowRight />}
+                            onPress={testSentry}
+                          >
+                            <ListItemTitle>
+                              {t("Test Sentry")}
+                            </ListItemTitle>
+                          </ListItem>
+                        </YGroup.Item>
+                      )}
                     </YGroup>
                   </Animated.View>
                 )
