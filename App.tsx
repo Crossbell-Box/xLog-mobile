@@ -27,8 +27,8 @@ import { TamaguiProvider } from "tamagui";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import ProviderComposer from "@/components/ProviderComposer";
 import { StatusBar } from "@/components/StatusBar";
+import { IS_DEV } from "@/constants";
 import { SENTRY_DSN } from "@/constants/env";
-import { useNotificationSetup } from "@/hooks/use-notification-setup";
 import { ConnectKitProvider } from "@/providers/connect-kit-provider";
 import { DrawerProvider } from "@/providers/drawer-provider";
 import LoadingProvider from "@/providers/loading-provider";
@@ -49,7 +49,7 @@ if (SENTRY_DSN) {
   const SENTRY_CONFIG = {
     dsn: SENTRY_DSN,
     enableInExpoDevelopment: true,
-    debug: false,
+    debug: IS_DEV,
   };
 
   Sentry.init(SENTRY_CONFIG);
