@@ -67,6 +67,17 @@ export default (_: ConfigContext): ExpoConfig => {
     orientation: "portrait",
     icon: config.icon,
     userInterfaceStyle: "automatic",
+    hooks: {
+      postPublish: [
+        {
+          file: "sentry-expo/upload-sourcemaps",
+          config: {
+            organization: process.env.SENTRY_ORG,
+            project: process.env.SENTRY_PROJECT,
+          },
+        },
+      ],
+    },
     plugins: [
       [
         "expo-build-properties",
@@ -92,6 +103,7 @@ export default (_: ConfigContext): ExpoConfig => {
         },
       ],
       "expo-localization",
+      "sentry-expo",
     ],
     splash: {
       image: "./assets/splash.png",

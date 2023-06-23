@@ -6,5 +6,10 @@
       "*": ["./modules/*"]
     }
   },
-  "extends": "expo/tsconfig.base"
+  "extends": "expo/tsconfig.base",
+  "exclude": [
+    "node_modules",
+    "android",
+    "ios",
+  ]
 }
