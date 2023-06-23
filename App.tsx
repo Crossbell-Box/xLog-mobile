@@ -22,13 +22,14 @@ import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client
 import WalletConnectProvider from "@walletconnect/react-native-dapp";
 import { resolveScheme } from "expo-linking";
 import * as Sentry from "sentry-expo";
+import type { SentryExpoNativeOptions } from "sentry-expo";
 import { TamaguiProvider } from "tamagui";
 
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import ProviderComposer from "@/components/ProviderComposer";
 import { StatusBar } from "@/components/StatusBar";
 import { IS_DEV } from "@/constants";
-import { SENTRY_DSN } from "@/constants/env";
+import { ENV, SENTRY_DSN } from "@/constants/env";
 import { ConnectKitProvider } from "@/providers/connect-kit-provider";
 import { DrawerProvider } from "@/providers/drawer-provider";
 import LoadingProvider from "@/providers/loading-provider";
@@ -38,6 +39,7 @@ import { ThemeProvider } from "@/providers/theme-provider";
 import { ToastProvider } from "@/providers/toast-provider";
 import { checkHotUpdates } from "@/utils/hot-updates";
 
+import { version } from "./package.json";
 import { RootNavigator } from "./src/navigation/root";
 import { createAsyncStoragePersister } from "./src/utils/persister";
 import config from "./tamagui.config";
@@ -45,14 +47,17 @@ import config from "./tamagui.config";
 enableScreens(true);
 enableFreeze(true);
 
-if (SENTRY_DSN) {
-  const SENTRY_CONFIG = {
+if (!IS_DEV) {
+  const SENTRY_CONFIG: SentryExpoNativeOptions = {
     dsn: SENTRY_DSN,
     enableInExpoDevelopment: true,
     debug: IS_DEV,
+    attachScreenshot: true,
+    environment: ENV,
   };
 
   Sentry.init(SENTRY_CONFIG);
+  Sentry.Native.setTag("version", version);
 
   // eslint-disable-next-line no-console
   console.log("Sentry init config: ", SENTRY_CONFIG);
