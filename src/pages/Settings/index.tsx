@@ -1,13 +1,14 @@
 import React, { useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, ScrollView, View, Linking, Platform } from "react-native";
-import Animated, { FadeIn, FadeInDown, FadeInUp } from "react-native-reanimated";
+import { StyleSheet, ScrollView, Linking, Platform } from "react-native";
+import Animated, { FadeInUp } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { useConnectedAccount, useIsConnected } from "@crossbell/react-account";
-import { ArrowRight, Check, Cog, Copy, Eye, Info, Palette, Thermometer } from "@tamagui/lucide-icons";
+import { ArrowRight, Check, Cog, Copy, Eye, Info, Palette, TestTube, Thermometer } from "@tamagui/lucide-icons";
 import { useToastController } from "@tamagui/toast";
 import * as Clipboard from "expo-clipboard";
+import * as Sentry from "sentry-expo";
 import { ListItem, Text, ListItemTitle, Switch, YGroup, YStack, Stack, Button } from "tamagui";
 
 import type { AlertDialogInstance } from "@/components/AlertDialog";
@@ -71,6 +72,10 @@ export const Settings: React.FC<Props> = () => {
         alertDialogRef.current?.toggle(true);
       });
     }
+  };
+
+  const testSentry = () => {
+    Sentry.Native.captureException(new Error("Test Sentry"));
   };
 
   const closeAlertDialog = () => alertDialogRef.current?.toggle(false);
@@ -195,7 +200,19 @@ export const Settings: React.FC<Props> = () => {
                           onPress={copyPushToken}
                         >
                           <ListItemTitle>
-                            {t("Copy Device Token")}
+                            {t("Copy Push Token")}
+                          </ListItemTitle>
+                        </ListItem>
+                      </YGroup.Item>
+                      <YGroup.Item>
+                        <ListItem
+                          icon={TestTube}
+                          scaleIcon={1.2}
+                          iconAfter={<ArrowRight />}
+                          onPress={testSentry}
+                        >
+                          <ListItemTitle>
+                            {t("Test Sentry")}
                           </ListItemTitle>
                         </ListItem>
                       </YGroup.Item>

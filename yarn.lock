@@ -3170,15 +3170,15 @@
     component-type "^1.2.1"
     join-component "^1.1.0"
 
-"@sentry/browser@7.29.0":
-  version "7.29.0"
-  resolved "https://registry.npmjs.org/@sentry/browser/-/browser-7.29.0.tgz#eb162b50adec33ac49ecd3dc930bdffbfda8098e"
-  integrity sha512-Af+dIcntaw405Wt7myDOMGDxiszfy4aBdshrEKYbGgcfHjgXBIdF3iKlNatvl6nrOm+IOVuKgSpCLOr2hiCwzw==
+"@sentry/browser@7.37.2":
+  version "7.37.2"
+  resolved "https://registry.npmjs.org/@sentry/browser/-/browser-7.37.2.tgz#355dd28ad12677d63e0b12c5209d12b3f98ac3a4"
+  integrity sha512-UvKfpx6+BUdV+rGAXqDBznagfz44Ut+x2h/i0OZPNCEpXaH9KAQOlv06I66861aXiucWFRb1lAMrN4+cE9aJIg==
   dependencies:
-    "@sentry/core" "7.29.0"
-    "@sentry/replay" "7.29.0"
-    "@sentry/types" "7.29.0"
-    "@sentry/utils" "7.29.0"
+    "@sentry/core" "7.37.2"
+    "@sentry/replay" "7.37.2"
+    "@sentry/types" "7.37.2"
+    "@sentry/utils" "7.37.2"
     tslib "^1.9.3"
 
 "@sentry/cli@1.74.4":
@@ -3217,13 +3217,13 @@
     "@sentry/utils" "5.30.0"
     tslib "^1.9.3"
 
-"@sentry/core@7.29.0":
-  version "7.29.0"
-  resolved "https://registry.npmjs.org/@sentry/core/-/core-7.29.0.tgz#bc4b54d56cf7652598d4430cf43ea97cc069f6fe"
-  integrity sha512-+e9aIp2ljtT4EJq3901z6TfEVEeqZd5cWzbKEuQzPn2UO6If9+Utd7kY2Y31eQYb4QnJgZfiIEz1HonuYY6zqQ==
+"@sentry/core@7.37.2":
+  version "7.37.2"
+  resolved "https://registry.npmjs.org/@sentry/core/-/core-7.37.2.tgz#959b2bf953f442b07f8377d90f4f7735cf260ae4"
+  integrity sha512-LjofMDSTyVeBErl9N7TTqlyEVuW1g6U4iuJtdZ75JohnvVxzWdpZfWfddwQ6h7nGWfe9dNg0fGs1wxKtMhY+MA==
   dependencies:
-    "@sentry/types" "7.29.0"
-    "@sentry/utils" "7.29.0"
+    "@sentry/types" "7.37.2"
+    "@sentry/utils" "7.37.2"
     tslib "^1.9.3"
 
 "@sentry/hub@5.30.0":
@@ -3235,23 +3235,23 @@
     "@sentry/utils" "5.30.0"
     tslib "^1.9.3"
 
-"@sentry/hub@7.29.0":
-  version "7.29.0"
-  resolved "https://registry.npmjs.org/@sentry/hub/-/hub-7.29.0.tgz#916f818617b3c3993853737db3e752c21f8f8445"
-  integrity sha512-nIV2NtTn16VukTtWFhROHJ35NyUIXgEGtesG8a1i7D4iRSvkfLkLrQ9i6D0BAE2huqKqQemO3zGEPR00szqsiA==
+"@sentry/hub@7.37.2":
+  version "7.37.2"
+  resolved "https://registry.npmjs.org/@sentry/hub/-/hub-7.37.2.tgz#5082c20780b0518ebaf9f298e08aac08bf44fd58"
+  integrity sha512-DxZCMTAVnoliJ+18OeocWUIBuzlVNIZI0hOvugaIxEf5sGPrC2HEfq6vyhJyHz2oNc68xs/f9k0maOgGpWUqmg==
   dependencies:
-    "@sentry/core" "7.29.0"
-    "@sentry/types" "7.29.0"
-    "@sentry/utils" "7.29.0"
+    "@sentry/core" "7.37.2"
+    "@sentry/types" "7.37.2"
+    "@sentry/utils" "7.37.2"
     tslib "^1.9.3"
 
-"@sentry/integrations@7.29.0":
-  version "7.29.0"
-  resolved "https://registry.npmjs.org/@sentry/integrations/-/integrations-7.29.0.tgz#12595ac8d964b8006148618b8d5fad294e623c7f"
-  integrity sha512-BkZe3ALij320VtC5bNkeSz3OUhT9oxZsj2lf5rCuRFqcqw4tvVNADF/Y98mf0L4VCy582M9MlNXmwfewJjxGOA==
+"@sentry/integrations@7.37.2":
+  version "7.37.2"
+  resolved "https://registry.npmjs.org/@sentry/integrations/-/integrations-7.37.2.tgz#2ea6b228c8df24f201802eea1306035b0fc7e571"
+  integrity sha512-kqfXo2hRLo3y0vM9ZcjbrB3grOYfPuKpSHN8MZVx3MHTbAUkjHVwjPf5dfi5a0nMvMYAjg2v/Olt8OGayBgjmg==
   dependencies:
-    "@sentry/types" "7.29.0"
-    "@sentry/utils" "7.29.0"
+    "@sentry/types" "7.37.2"
+    "@sentry/utils" "7.37.2"
     localforage "^1.8.1"
     tslib "^1.9.3"
 
@@ -3279,41 +3279,41 @@
     lru_map "^0.3.3"
     tslib "^1.9.3"
 
-"@sentry/react-native@4.13.0":
-  version "4.13.0"
-  resolved "https://registry.npmjs.org/@sentry/react-native/-/react-native-4.13.0.tgz#d1b532f481080aed16532ac2778b20c1275391af"
-  integrity sha512-CxQd5jWPKEPgR1SH5ppf555h7DMhSBZMU3eSZ/VNT+BocgzxxBnf/tcJj92+gpwrzt2m7MiZ3uDfyfQOgyMc8Q==
+"@sentry/react-native@4.15.2":
+  version "4.15.2"
+  resolved "https://registry.npmjs.org/@sentry/react-native/-/react-native-4.15.2.tgz#39411aae8fce2707b0f4c8b7570e0305f75e0be4"
+  integrity sha512-1VcCUqf5sgBrDubq/8MjEkRHW+ynGOjq5qv9Oig2D3BQD9M76zNw3J4nGbLHob5e0w3kM5pXM+dXv1s+j7RmGg==
   dependencies:
-    "@sentry/browser" "7.29.0"
+    "@sentry/browser" "7.37.2"
     "@sentry/cli" "1.74.4"
-    "@sentry/core" "7.29.0"
-    "@sentry/hub" "7.29.0"
-    "@sentry/integrations" "7.29.0"
-    "@sentry/react" "7.29.0"
-    "@sentry/tracing" "7.29.0"
-    "@sentry/types" "7.29.0"
-    "@sentry/utils" "7.29.0"
+    "@sentry/core" "7.37.2"
+    "@sentry/hub" "7.37.2"
+    "@sentry/integrations" "7.37.2"
+    "@sentry/react" "7.37.2"
+    "@sentry/tracing" "7.37.2"
+    "@sentry/types" "7.37.2"
+    "@sentry/utils" "7.37.2"
     "@sentry/wizard" "1.4.0"
 
-"@sentry/react@7.29.0":
-  version "7.29.0"
-  resolved "https://registry.npmjs.org/@sentry/react/-/react-7.29.0.tgz#a1c2ef522a4ccf1e948d77584e59e1254e09c92b"
-  integrity sha512-pJ138QTChfAiYzFrCgycBgXrAVARV6TdVvLB8z/HsqbHzPq17RhyF9M1xPE4ffeLDQAEuSudwED9CLOpJqKnAw==
+"@sentry/react@7.37.2":
+  version "7.37.2"
+  resolved "https://registry.npmjs.org/@sentry/react/-/react-7.37.2.tgz#f5ecc4071c5dd0e8446103c24e94edda520a1217"
+  integrity sha512-e5NFQAwHSGVyMUGYjvYXLI/QECkXkZ2BNUo+OHr5mAYqcIyGSA38tX7RJetrhonVjjpJp/ZVzlOyxQkpnBfBLw==
   dependencies:
-    "@sentry/browser" "7.29.0"
-    "@sentry/types" "7.29.0"
-    "@sentry/utils" "7.29.0"
+    "@sentry/browser" "7.37.2"
+    "@sentry/types" "7.37.2"
+    "@sentry/utils" "7.37.2"
     hoist-non-react-statics "^3.3.2"
     tslib "^1.9.3"
 
-"@sentry/replay@7.29.0":
-  version "7.29.0"
-  resolved "https://registry.npmjs.org/@sentry/replay/-/replay-7.29.0.tgz#75d5bb9df39e0a31994be245032c9998af62a304"
-  integrity sha512-Gw7HgviJQu6pX5RFQGVY38Av4qFn9otrZdwSSl/QK5hIyg6yhlh5h7U0ydZkrYYGiW6Z6SYYRpEWCJc/Wbh+ZQ==
+"@sentry/replay@7.37.2":
+  version "7.37.2"
+  resolved "https://registry.npmjs.org/@sentry/replay/-/replay-7.37.2.tgz#eb49b7a1286335c1a4de49b386d0258e5c789682"
+  integrity sha512-y8Gfc7EGfGU4eVae5HAtch2YgkiTzNPi16dcqPX9jtIHDwiurGqWcaOgs5HoGJm45eMfl6LvcE7MPbwqcDkPIA==
   dependencies:
-    "@sentry/core" "7.29.0"
-    "@sentry/types" "7.29.0"
-    "@sentry/utils" "7.29.0"
+    "@sentry/core" "7.37.2"
+    "@sentry/types" "7.37.2"
+    "@sentry/utils" "7.37.2"
 
 "@sentry/tracing@5.30.0":
   version "5.30.0"
@@ -3326,14 +3326,14 @@
     "@sentry/utils" "5.30.0"
     tslib "^1.9.3"
 
-"@sentry/tracing@7.29.0":
-  version "7.29.0"
-  resolved "https://registry.npmjs.org/@sentry/tracing/-/tracing-7.29.0.tgz#767f309cbff46ab12bec6ab3c266f7f03fec91fd"
-  integrity sha512-MAN/G6XROtRhzo/KDjddb6VJn/Q1TaPLwdyj9vvfkUkBNtlt5k16oXp+u7eHWX0uujER9wnZtj2ivXaPeqq0VA==
+"@sentry/tracing@7.37.2":
+  version "7.37.2"
+  resolved "https://registry.npmjs.org/@sentry/tracing/-/tracing-7.37.2.tgz#88f149aea6a4d5a3cfb9145868d885fac9fffb52"
+  integrity sha512-XBVvxbV5TADq2rHg/kJqGqDfOP8n2myMUxMMpfHMb38NrxkxQwXy+gDe41bA8FJKA2k7Y3Wkn8ZC/PelQ8c+ag==
   dependencies:
-    "@sentry/core" "7.29.0"
-    "@sentry/types" "7.29.0"
-    "@sentry/utils" "7.29.0"
+    "@sentry/core" "7.37.2"
+    "@sentry/types" "7.37.2"
+    "@sentry/utils" "7.37.2"
     tslib "^1.9.3"
 
 "@sentry/types@5.30.0":
@@ -3341,10 +3341,10 @@
   resolved "https://registry.npmjs.org/@sentry/types/-/types-5.30.0.tgz#19709bbe12a1a0115bc790b8942917da5636f402"
   integrity sha512-R8xOqlSTZ+htqrfteCWU5Nk0CDN5ApUTvrlvBuiH1DyP6czDZ4ktbZB0hAgBlVcK0U+qpD3ag3Tqqpa5Q67rPw==
 
-"@sentry/types@7.29.0":
-  version "7.29.0"
-  resolved "https://registry.npmjs.org/@sentry/types/-/types-7.29.0.tgz#ed829b6014ee19049035fec6af2b4fea44ff28b8"
-  integrity sha512-DmoEpoqHPty3VxqubS/5gxarwebHRlcBd/yuno+PS3xy++/i9YPjOWLZhU2jYs1cW68M9R6CcCOiC9f2ckJjdw==
+"@sentry/types@7.37.2":
+  version "7.37.2"
+  resolved "https://registry.npmjs.org/@sentry/types/-/types-7.37.2.tgz#99fd76230d7c1d3c6901ed4c0bea35be7d6fe26d"
+  integrity sha512-SxKQOCX94ZaQM4C2ysNjHdJsjYapu/NYZCz1cnPyCdDvYfhwiVge1uq6ZHiQ/ARfxAAOmc3R4Mh3VvEz7WUOdw==
 
 "@sentry/utils@5.30.0":
   version "5.30.0"
@@ -3354,12 +3354,12 @@
     "@sentry/types" "5.30.0"
     tslib "^1.9.3"
 
-"@sentry/utils@7.29.0":
-  version "7.29.0"
-  resolved "https://registry.npmjs.org/@sentry/utils/-/utils-7.29.0.tgz#cbf8f87dd851b0fdc7870db9c68014c321c3bab8"
-  integrity sha512-ICcBwTiBGK8NQA8H2BJo0JcMN6yCeKLqNKNMVampRgS6wSfSk1edvcTdhRkW3bSktIGrIPZrKskBHyMwDGF2XQ==
+"@sentry/utils@7.37.2":
+  version "7.37.2"
+  resolved "https://registry.npmjs.org/@sentry/utils/-/utils-7.37.2.tgz#14dea644454e3df247fb113fc834f509c1f0e48c"
+  integrity sha512-5irN1nN/mtdOoWwsJiwBK0gPgNMkciUubEMbCaaXqJaGyGz8+yfDvXj7L+xGYiU57z+7+QkkSKxKEZ/IcBpjVQ==
   dependencies:
-    "@sentry/types" "7.29.0"
+    "@sentry/types" "7.37.2"
     tslib "^1.9.3"
 
 "@sentry/wizard@1.4.0":
@@ -4780,10 +4780,10 @@
     "@types/scheduler" "*"
     csstype "^3.0.2"
 
-"@types/react@~18.2.6":
-  version "18.2.6"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.2.6.tgz#5cd53ee0d30ffc193b159d3516c8c8ad2f19d571"
-  integrity sha512-wRZClXn//zxCFW+ye/D2qY65UsYP1Fpex2YXorHc8awoNamkMZSvBxwxdYVInsHOZZd2Ppq8isnSzJL5Mpf8OA==
+"@types/react@~18.0.27":
+  version "18.0.38"
+  resolved "https://registry.npmjs.org/@types/react/-/react-18.0.38.tgz#02a23bef8848b360a0d1dceef4432c15c21c600c"
+  integrity sha512-ExsidLLSzYj4cvaQjGnQCk4HFfVT9+EZ9XZsQ8Hsrcn8QNgXtpZ3m9vSIC2MWtx7jHictK6wYhQgGh6ic58oOw==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -16170,16 +16170,16 @@ send@0.18.0, send@^0.18.0:
     range-parser "~1.2.1"
     statuses "2.0.1"
 
-sentry-expo@~6.1.0:
-  version "6.1.1"
-  resolved "https://registry.npmjs.org/sentry-expo/-/sentry-expo-6.1.1.tgz#e5cb74523ef09b7cdc185ba696333c69d87ed703"
-  integrity sha512-eNrWvvDY/Z6Yba+jjjYWX6s5Qk3jzCaSAs8I6EkXUFiXqEi3ONJ+LKanf9Wuy0pjjtWtxHyPHTrb+93Kn0cVmg==
+sentry-expo@~6.2.0:
+  version "6.2.2"
+  resolved "https://registry.npmjs.org/sentry-expo/-/sentry-expo-6.2.2.tgz#af593f5a5927773c7398d562b6063eb257d93aa0"
+  integrity sha512-3T710+Hw8QuaZujv2EFsL7oyOenQm0W81UWaeWsbT8EZfM6+orEusGu25EpdDyrkPLwgcFVKDAmcwJr17OJtuw==
   dependencies:
     "@expo/spawn-async" "^1.7.0"
-    "@sentry/integrations" "7.29.0"
-    "@sentry/react" "7.29.0"
-    "@sentry/react-native" "4.13.0"
-    "@sentry/types" "7.29.0"
+    "@sentry/integrations" "7.37.2"
+    "@sentry/react" "7.37.2"
+    "@sentry/react-native" "4.15.2"
+    "@sentry/types" "7.37.2"
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
@@ -17598,6 +17598,11 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.npmjs.org/typedarray/-/typedarray-0.0.6.tgz"
   integrity sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==
+
+typescript@^4.9.4:
+  version "4.9.5"
+  resolved "https://registry.npmjs.org/typescript/-/typescript-4.9.5.tgz#095979f9bcc0d09da324d58d03ce8f8374cbe65a"
+  integrity sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==
 
 typescript@^5.0.4:
   version "5.0.4"
