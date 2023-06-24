@@ -167,37 +167,41 @@ const run = async () => {
 
       const version = config.exp.version || config.exp.runtimeVersion;
 
-      const result = spawnAsync(
-        "node_modules/@sentry/cli/bin/sentry-cli",
-        [
-          "releases",
-          "files",
-          `${bundleIdentifier}@${version}+${buildNumber}`,
-          "upload-sourcemaps",
-          "--dist",
-          updateId,
-          "--rewrite",
-          platform === "ios"
-            ? "dist/bundles/main.jsbundle"
-            : "dist/bundles/index.android.bundle",
-          platform === "ios"
-            ? `dist/bundles/${iosMap}`
-            : `dist/bundles/${androidMap}`,
-        ],
-        {
-          env: {
-            ...process.env,
-            SENTRY_ORG: sentryConfig?.organization || process.env.SENTRY_ORG,
-            SENTRY_PROJECT: sentryConfig?.project || process.env.SENTRY_PROJECT,
-            SENTRY_AUTH_TOKEN:
+      const sentryCliPath = "node_modules/@sentry/cli/bin/sentry-cli";
+      const args = [
+        "releases",
+        "files",
+        `${bundleIdentifier}@${version}+${buildNumber}`,
+        "upload-sourcemaps",
+        "--dist",
+        updateId,
+        "--rewrite",
+        platform === "ios"
+          ? "dist/bundles/main.jsbundle"
+          : "dist/bundles/index.android.bundle",
+        platform === "ios"
+          ? `dist/bundles/${iosMap}`
+          : `dist/bundles/${androidMap}`,
+      ];
+
+      console.log(
+        chalk.green("[eas-update-sentry] Running the following command:"),
+      );
+      console.log(sentryCliPath, args.join(" "));
+
+      const result = spawnAsync(sentryCliPath, args, {
+        env: {
+          ...process.env,
+          SENTRY_ORG: sentryConfig?.organization || process.env.SENTRY_ORG,
+          SENTRY_PROJECT: sentryConfig?.project || process.env.SENTRY_PROJECT,
+          SENTRY_AUTH_TOKEN:
               sentryConfig?.authToken || process.env.SENTRY_AUTH_TOKEN,
-            SENTRY_URL:
+          SENTRY_URL:
               sentryConfig?.url
               || process.env.SENTRY_URL
               || "https://sentry.io/",
-          },
         },
-      );
+      });
 
       result.child.stdout?.on("data", (data) => {
         console.log(
