@@ -5,6 +5,8 @@ const { getConfig } = require("@expo/config");
 const spawnAsync = require("@expo/spawn-async");
 const chalk = require("chalk");
 
+const easConfig = require("../eas.json");
+
 require("./set-app-config-env.js")();
 
 const appDir = process.cwd();
@@ -27,15 +29,15 @@ console.log("Expo Config imported for", chalk.blue(config.exp.name));
 const skipUpdate = "SKIP_EAS_UPDATE" in process.env;
 
 const run = async () => {
-  //   read in arguments from the CLI script
-
   const [command, ..._args] = process.argv.slice(2);
 
   const args = [..._args];
 
   const versionCommand = "eas";
 
-  const versionArgs = ["build:version:get", "-p", "all"];
+  const profile = Object.values(easConfig.build).find(build => build.env.NODE_ENV === process.env.NODE_ENV).channel;
+
+  const versionArgs = ["build:version:get", "-p", "all", "-e", profile];
 
   const getRemoteVersions = async () => {
     try {
@@ -165,37 +167,41 @@ const run = async () => {
 
       const version = config.exp.version || config.exp.runtimeVersion;
 
-      const result = spawnAsync(
-        "node_modules/@sentry/cli/bin/sentry-cli",
-        [
-          "releases",
-          "files",
-          `${bundleIdentifier}@${version}+${buildNumber}`,
-          "upload-sourcemaps",
-          "--dist",
-          updateId,
-          "--rewrite",
-          platform === "ios"
-            ? "dist/bundles/main.jsbundle"
-            : "dist/bundles/index.android.bundle",
-          platform === "ios"
-            ? `dist/bundles/${iosMap}`
-            : `dist/bundles/${androidMap}`,
-        ],
-        {
-          env: {
-            ...process.env,
-            SENTRY_ORG: sentryConfig?.organization || process.env.SENTRY_ORG,
-            SENTRY_PROJECT: sentryConfig?.project || process.env.SENTRY_PROJECT,
-            SENTRY_AUTH_TOKEN:
+      const sentryCliPath = "node_modules/@sentry/cli/bin/sentry-cli";
+      const args = [
+        "releases",
+        "files",
+        `${bundleIdentifier}@${version}+${buildNumber}`,
+        "upload-sourcemaps",
+        "--dist",
+        updateId,
+        "--rewrite",
+        platform === "ios"
+          ? "dist/bundles/main.jsbundle"
+          : "dist/bundles/index.android.bundle",
+        platform === "ios"
+          ? `dist/bundles/${iosMap}`
+          : `dist/bundles/${androidMap}`,
+      ];
+
+      console.log(
+        chalk.green("[eas-update-sentry] Running the following command:"),
+      );
+      console.log(sentryCliPath, args.join(" "));
+
+      const result = spawnAsync(sentryCliPath, args, {
+        env: {
+          ...process.env,
+          SENTRY_ORG: sentryConfig?.organization || process.env.SENTRY_ORG,
+          SENTRY_PROJECT: sentryConfig?.project || process.env.SENTRY_PROJECT,
+          SENTRY_AUTH_TOKEN:
               sentryConfig?.authToken || process.env.SENTRY_AUTH_TOKEN,
-            SENTRY_URL:
+          SENTRY_URL:
               sentryConfig?.url
               || process.env.SENTRY_URL
               || "https://sentry.io/",
-          },
         },
-      );
+      });
 
       result.child.stdout?.on("data", (data) => {
         console.log(
@@ -212,7 +218,7 @@ const run = async () => {
     };
 
     const uploadIosSourceMap = async (buildNumber) => {
-      console.log(`[eas-update-sentry] iOS: ${{ iosUpdateId, iosBundle, iosMap }}`);
+      console.log(`[eas-update-sentry] iOS: ${JSON.stringify({ iosUpdateId, iosBundle, iosMap }, null, 4)}`);
 
       if (iosUpdateId && iosBundle && iosMap) {
         console.log();
@@ -262,7 +268,7 @@ const run = async () => {
     };
 
     const uploadAndroidSourceMap = async (buildNumber) => {
-      console.log(`[eas-update-sentry] Android: ${{ iosUpdateId, iosBundle, iosMap }}`);
+      console.log(`[eas-update-sentry] Android: ${JSON.stringify({ iosUpdateId, iosBundle, iosMap }, null, 4)}`);
 
       if (androidUpdateId && androidBundle && androidMap) {
         console.log();
