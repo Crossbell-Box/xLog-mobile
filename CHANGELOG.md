@@ -1,5 +1,17 @@
 # xlog
 
+## 0.13.0
+
+### Minor Changes
+
+- e0c5434: New build for Sentry.
+
+## 0.12.1
+
+### Patch Changes
+
+- e23f3df: Upload sourcemaps after updates published.
+
 ## 0.12.0
 
 ### Minor Changes
