@@ -28,6 +28,30 @@ console.log("Expo Config imported for", chalk.blue(config.exp.name));
 
 const skipUpdate = "SKIP_EAS_UPDATE" in process.env;
 
+function parseUpdateInfo(infoString = "") {
+  const iosPrefix = "iOS update ID";
+  const androidPrefix = "Android update ID";
+
+  if (
+    !infoString.includes(androidPrefix)
+    && !infoString.includes(iosPrefix)
+  ) {
+    return {};
+  }
+
+  const lines = infoString.split("\n");
+  const androidLine = lines.find(line => line.includes(androidPrefix));
+  const iosLine = lines.find(line => line.includes(iosPrefix));
+
+  const androidUpdateId = androidLine ? androidLine.split(androidPrefix)[1].trim() : undefined;
+  const iosUpdateId = iosLine ? iosLine.split(iosPrefix)[1].trim() : undefined;
+
+  return {
+    androidUpdateId,
+    iosUpdateId,
+  };
+}
+
 const run = async () => {
   const [command, ..._args] = process.argv.slice(2);
 
@@ -114,36 +138,29 @@ const run = async () => {
     console.log(command, args.join(" "));
     console.log();
 
+    let iosUpdateId;
+    let androidUpdateId;
+
     stdout.on("data", (data) => {
       const stringData = data.toString("utf8");
+
+      const { iosUpdateId: _iosUpdateId, androidUpdateId: _androidUpdateId } = parseUpdateInfo(stringData);
+
+      if (_iosUpdateId) {
+        iosUpdateId = _iosUpdateId;
+        console.log(chalk.green("[eas-update-sentry] iOS update ID found: ", iosUpdateId));
+      }
+
+      if (_androidUpdateId) {
+        androidUpdateId = _androidUpdateId;
+        console.log(chalk.green(`[eas-update-sentry] Android update ID found: ${androidUpdateId}`));
+      }
+
       console.log(chalk.green("[eas-update-sentry]"), stringData);
       output = stringData.split("\n").map(s => s.trim());
     });
 
     await updateProcess;
-
-    function parseUpdateInfo(infoString) {
-      const lines = infoString.split("\n");
-      const androidLine = lines.find(line => line.includes("Android update ID"));
-      const iosLine = lines.find(line => line.includes("iOS update ID"));
-
-      const androidUpdateId = androidLine ? androidLine.split("Android update ID")[1].trim() : undefined;
-      const iosUpdateId = iosLine ? iosLine.split("iOS update ID")[1].trim() : undefined;
-
-      if (androidUpdateId) {
-        console.log(chalk.green("[eas-update-sentry] Android update ID found: ", androidUpdateId));
-      }
-      if (iosUpdateId) {
-        console.log(chalk.green("[eas-update-sentry] iOS update ID found: ", iosUpdateId));
-      }
-
-      return {
-        androidUpdateId,
-        iosUpdateId,
-      };
-    }
-
-    const { iosUpdateId, androidUpdateId } = parseUpdateInfo(output);
 
     const getBundles = () => {
       const bundles = fs.readdirSync(path.resolve(appDir, "dist/bundles"));
@@ -164,6 +181,7 @@ const run = async () => {
 
       return { iosBundle, iosMap, androidBundle, androidMap };
     };
+
     const { iosBundle, iosMap, androidBundle, androidMap } = getBundles();
 
     const uploadSourceMap = async ({
