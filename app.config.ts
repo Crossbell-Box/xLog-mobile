@@ -1,7 +1,9 @@
 /* eslint-disable no-console */
 import type { ExpoConfig, ConfigContext } from "expo/config";
 
-import { appConfig, environment, decreasedVersion } from "./scripts/set-app-config-env.js";
+import setAppConfigEnv from "./scripts/set-app-config-env.js";
+
+const { appConfig, environment, decreasedVersion } = setAppConfigEnv();
 
 const config = appConfig;
 

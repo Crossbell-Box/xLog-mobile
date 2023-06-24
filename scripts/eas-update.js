@@ -4,7 +4,8 @@ const path = require("path");
 const { getConfig } = require("@expo/config");
 const spawnAsync = require("@expo/spawn-async");
 const chalk = require("chalk");
-require("./set-app-config-env.js");
+
+require("./set-app-config-env.js")();
 
 const appDir = process.cwd();
 
