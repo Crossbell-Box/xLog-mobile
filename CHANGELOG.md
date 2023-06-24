@@ -1,5 +1,15 @@
 # xlog
 
+## 0.12.0
+
+### Minor Changes
+
+- 0f0c398: Added a button for Sentry testing.
+
+### Patch Changes
+
+- c0fc0b0: Added more information to sentry.
+
 ## 0.11.1
 
 ### Patch Changes
