@@ -3206,6 +3206,17 @@
     proxy-from-env "^1.1.0"
     which "^2.0.2"
 
+"@sentry/cli@^2.19.1":
+  version "2.19.1"
+  resolved "https://registry.npmjs.org/@sentry/cli/-/cli-2.19.1.tgz#68ea7098c4078fb0c910844fa26209af71cc0d4c"
+  integrity sha512-7RVwOUwVoOplsG1Jqo8YCke2BEQpGU+AvXAhl1HP6S4qB4mFat6Asr9EhvapPZvufpC85RvLt22h3q0yakRgaA==
+  dependencies:
+    https-proxy-agent "^5.0.0"
+    node-fetch "^2.6.7"
+    progress "^2.0.3"
+    proxy-from-env "^1.1.0"
+    which "^2.0.2"
+
 "@sentry/core@5.30.0":
   version "5.30.0"
   resolved "https://registry.npmjs.org/@sentry/core/-/core-5.30.0.tgz#6b203664f69e75106ee8b5a2fe1d717379b331f3"

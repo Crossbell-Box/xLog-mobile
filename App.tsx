@@ -20,7 +20,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { QueryClient } from "@tanstack/react-query";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import WalletConnectProvider from "@walletconnect/react-native-dapp";
+import ExpoConstants from "expo-constants";
 import { resolveScheme } from "expo-linking";
+import { updateId } from "expo-updates";
 import * as Sentry from "sentry-expo";
 import type { SentryExpoNativeOptions } from "sentry-expo";
 import { TamaguiProvider } from "tamagui";
@@ -28,7 +30,7 @@ import { TamaguiProvider } from "tamagui";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import ProviderComposer from "@/components/ProviderComposer";
 import { StatusBar } from "@/components/StatusBar";
-import { IS_DEV } from "@/constants";
+import { IS_IOS } from "@/constants";
 import { ENV, SENTRY_DSN } from "@/constants/env";
 import { ConnectKitProvider } from "@/providers/connect-kit-provider";
 import { DrawerProvider } from "@/providers/drawer-provider";
@@ -44,16 +46,22 @@ import { RootNavigator } from "./src/navigation/root";
 import { createAsyncStoragePersister } from "./src/utils/persister";
 import config from "./tamagui.config";
 
+const bundleIdentifier = ExpoConstants.expoConfig.scheme;
+
+const versionNumber = IS_IOS ? ExpoConstants.expoConfig.ios.buildNumber : ExpoConstants.expoConfig.android.versionCode;
+
 enableScreens(true);
 enableFreeze(true);
 
-if (!IS_DEV) {
+if (!__DEV__) {
   const SENTRY_CONFIG: SentryExpoNativeOptions = {
     dsn: SENTRY_DSN,
     enableInExpoDevelopment: true,
-    debug: IS_DEV,
+    debug: __DEV__,
     attachScreenshot: true,
     environment: ENV,
+    dist: updateId,
+    release: `${bundleIdentifier}@${version}+${versionNumber}`,
   };
 
   Sentry.init(SENTRY_CONFIG);
