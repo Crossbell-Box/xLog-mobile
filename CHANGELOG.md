@@ -1,5 +1,11 @@
 # xlog
 
+## 0.13.1
+
+### Patch Changes
+
+- 4fee69b: Remove the dist and release fields from Sentry initialization.
+
 ## 0.13.0
 
 ### Minor Changes
