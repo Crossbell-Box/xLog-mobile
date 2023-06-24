@@ -1,5 +1,11 @@
 # xlog
 
+## 0.12.1
+
+### Patch Changes
+
+- e23f3df: Upload sourcemaps after updates published.
+
 ## 0.12.0
 
 ### Minor Changes
