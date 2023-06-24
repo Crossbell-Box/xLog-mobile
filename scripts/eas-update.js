@@ -122,17 +122,28 @@ const run = async () => {
 
     await updateProcess;
 
-    const findUpdateId = (output, platform) => {
-      return output
-        .find(line => line.toLowerCase().includes(`${platform} update id`))
-        ?.split(" ")
-        .map(r => r.trim())
-        .pop()
-        ?.trim();
-    };
+    function parseUpdateInfo(infoString) {
+      const lines = infoString.split("\n");
+      const androidLine = lines.find(line => line.includes("Android update ID"));
+      const iosLine = lines.find(line => line.includes("iOS update ID"));
 
-    const iosUpdateId = findUpdateId(output, "ios");
-    const androidUpdateId = findUpdateId(output, "android");
+      const androidUpdateId = androidLine ? androidLine.split("Android update ID")[1].trim() : undefined;
+      const iosUpdateId = iosLine ? iosLine.split("iOS update ID")[1].trim() : undefined;
+
+      if (androidUpdateId) {
+        console.log(chalk.green("[eas-update-sentry] Android update ID found: ", androidUpdateId));
+      }
+      if (iosUpdateId) {
+        console.log(chalk.green("[eas-update-sentry] iOS update ID found: ", iosUpdateId));
+      }
+
+      return {
+        androidUpdateId,
+        iosUpdateId,
+      };
+    }
+
+    const { iosUpdateId, androidUpdateId } = parseUpdateInfo(output);
 
     const getBundles = () => {
       const bundles = fs.readdirSync(path.resolve(appDir, "dist/bundles"));
