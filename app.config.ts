@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import type { ExpoConfig, ConfigContext } from "expo/config";
 
-import { appConfig, environment, decreasedVersion } from "./scripts/app-config";
+import { appConfig, environment, decreasedVersion } from "./scripts/set-app-config-env.js";
 
 const config = appConfig;
 
@@ -20,7 +20,7 @@ if (environment !== "development") {
     },
   });
 }
-console.log(process.env);
+
 export default (_: ConfigContext): ExpoConfig => {
   return {
     name: config.name,

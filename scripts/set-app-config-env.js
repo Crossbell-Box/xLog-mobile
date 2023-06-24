@@ -50,8 +50,8 @@ function decrementVersion(version) {
 }
 
 module.exports = {
-  appConfig: envConfig[ENV],
   version,
-  environment: ENV,
+  appConfig: envConfig[ENV],
   decreasedVersion: decrementVersion(version),
+  environment: ENV,
 };

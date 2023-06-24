@@ -1,9 +1,10 @@
-import fs from "fs";
-import path from "path";
+const fs = require("fs");
+const path = require("path");
 
-import { getConfig } from "@expo/config";
-import spawnAsync from "@expo/spawn-async";
-import chalk from "chalk";
+const { getConfig } = require("@expo/config");
+const spawnAsync = require("@expo/spawn-async");
+const chalk = require("chalk");
+require("./set-app-config-env.js");
 
 const appDir = process.cwd();
 
