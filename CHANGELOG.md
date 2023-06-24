@@ -1,5 +1,11 @@
 # xlog
 
+## 0.13.4
+
+### Patch Changes
+
+- ab98186: Test sentry.
+
 ## 0.13.3
 
 ### Patch Changes
