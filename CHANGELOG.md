@@ -1,5 +1,12 @@
 # xlog
 
+## 0.13.3
+
+### Patch Changes
+
+- d45153f: Send a test error to Sentry.
+- c65193e: fix parese update info err.
+
 ## 0.13.2
 
 ### Patch Changes
