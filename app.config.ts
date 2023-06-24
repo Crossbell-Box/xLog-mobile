@@ -1,81 +1,32 @@
 /* eslint-disable no-console */
-import * as dotenv from "dotenv";
 import type { ExpoConfig, ConfigContext } from "expo/config";
 
-import { version as _version } from "./package.json";
+import { appConfig, environment, decreasedVersion } from "./scripts/app-config";
 
-const ENV = process.env.NODE_ENV ?? "production";
-
-if (process.env.EAS_BUILD === "true") {
-  dotenv.config({ path: process.env.ENV_FILE_COMMON });
-  dotenv.config({ path: process.env[`ENV_FILE_${ENV.toUpperCase()}`] });
-}
-else {
-  dotenv.config({ path: ".env.common" });
-  dotenv.config({ path: `.env.${ENV}` });
-}
-
-console.log("ENV:", ENV);
-
-const SCHEME = process.env.APP_SCHEME;
-const HOST = process.env.APP_HOST;
-
-const envConfig = {
-  development: {
-    name: "xLog-dev",
-    host: HOST,
-    scheme: `${SCHEME}.development`,
-    icon: "./assets/icon.development.png",
-  },
-  staging: {
-    name: "xLog-preview",
-    host: HOST,
-    scheme: `${SCHEME}.staging`,
-    icon: "./assets/icon.staging.png",
-  },
-  production: {
-    name: "xLog",
-    host: HOST,
-    scheme: SCHEME,
-    icon: "./assets/icon.png",
-  },
-};
-
-const config = envConfig[ENV] as typeof envConfig[keyof typeof envConfig];
+const config = appConfig;
 
 console.log(JSON.stringify(config, null, 4));
 
-/**
- * Ignoring patch version
- * @example 1.1.1 -> 1.1.0 / 4.2.1 -> 4.2.0
- * */
-function decrementVersion(version: string) {
-  const parts = version.split(".");
-  parts[parts.length - 1] = "0";
-  return parts.join(".");
-}
-
-const version = decrementVersion(_version);
-
 const postPublish = [];
 
-if (ENV !== "development") {
+if (environment !== "development") {
   postPublish.push({
     file: "sentry-expo/upload-sourcemaps",
     config: {
+      setCommit: true,
       organization: process.env.SENTRY_ORG,
       project: process.env.SENTRY_PROJECT,
       authToken: process.env.SENTRY_AUTH_TOKEN,
     },
   });
 }
-
+console.log(process.env);
 export default (_: ConfigContext): ExpoConfig => {
   return {
     name: config.name,
     description: "The first on-chain and open-source blogging platform for everyone",
     slug: "xlog",
-    version,
+    version: decreasedVersion,
     scheme: config.scheme,
     orientation: "portrait",
     icon: config.icon,
@@ -161,7 +112,7 @@ export default (_: ConfigContext): ExpoConfig => {
       CSB_XCHAR: process.env.CSB_XCHAR,
       SENTRY_DSN: process.env.SENTRY_DSN,
       APP_HOST: config.host,
-      ENV,
+      ENV: environment,
       eas: {
         projectId: process.env.EXPO_PROJECT_ID,
       },

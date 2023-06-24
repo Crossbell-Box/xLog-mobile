@@ -34,7 +34,8 @@
       "ios": {
         "resourceClass": "large"
       },
-      "channel": "preview"
+      "channel": "preview",
+      "autoIncrement": true
     },
     "production": {
       "env": {
