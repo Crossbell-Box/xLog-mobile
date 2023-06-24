@@ -1,5 +1,11 @@
 # xlog
 
+## 0.13.2
+
+### Patch Changes
+
+- 1298685: Test Sentry.
+
 ## 0.13.1
 
 ### Patch Changes
