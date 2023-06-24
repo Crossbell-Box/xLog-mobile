@@ -75,6 +75,7 @@ export const Settings: React.FC<Props> = () => {
   };
 
   const testSentry = () => {
+    // Send a test error to Sentry.
     Sentry.Native.captureException(new Error("Test Sentry"));
     toast.show(t("Sended"), {
       burntOptions: {
