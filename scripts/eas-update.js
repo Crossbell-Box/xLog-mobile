@@ -33,9 +33,9 @@ const run = async () => {
 
   const args = [..._args];
 
-  const versionCommand = "npx";
+  const versionCommand = "eas";
 
-  const versionArgs = ["eas", "build:version:get", "-p", "all"];
+  const versionArgs = ["build:version:get", "-p", "all"];
 
   const getRemoteVersions = async () => {
     try {
@@ -54,7 +54,7 @@ const run = async () => {
       let output = [];
       console.log();
       console.log(
-        chalk.green("[eas-update-sentry] Running the follwing command:"),
+        chalk.green("[eas-update-sentry] Running the following command:"),
       );
       console.log(versionCommand, versionArgs.join(" "));
       console.log();
@@ -107,7 +107,7 @@ const run = async () => {
     let output = [];
     console.log();
     console.log(
-      chalk.green("[eas-update-sentry] Running the follwing command:"),
+      chalk.green("[eas-update-sentry] Running the following command:"),
     );
     console.log(command, args.join(" "));
     console.log();
@@ -166,9 +166,8 @@ const run = async () => {
       const version = config.exp.version || config.exp.runtimeVersion;
 
       const result = spawnAsync(
-        "npx",
+        "node_modules/@sentry/cli/bin/sentry-cli",
         [
-          "@sentry/cli",
           "releases",
           "files",
           `${bundleIdentifier}@${version}+${buildNumber}`,
@@ -213,6 +212,8 @@ const run = async () => {
     };
 
     const uploadIosSourceMap = async (buildNumber) => {
+      console.log(`[eas-update-sentry] iOS: ${{ iosUpdateId, iosBundle, iosMap }}`);
+
       if (iosUpdateId && iosBundle && iosMap) {
         console.log();
         console.log(
@@ -261,6 +262,8 @@ const run = async () => {
     };
 
     const uploadAndroidSourceMap = async (buildNumber) => {
+      console.log(`[eas-update-sentry] Android: ${{ iosUpdateId, iosBundle, iosMap }}`);
+
       if (androidUpdateId && androidBundle && androidMap) {
         console.log();
         console.log(
