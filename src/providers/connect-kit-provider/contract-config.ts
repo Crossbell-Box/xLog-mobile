@@ -4,7 +4,7 @@ import type { ContractConfig } from "@crossbell/contract";
 import { useAccountState } from "@crossbell/react-account";
 import type { ModalConfig } from "@crossbell/react-account/modal-config";
 import { setupModal } from "@crossbell/react-account/modal-config";
-import { useWalletConnect } from "@walletconnect/react-native-dapp";
+import { WalletConnectModal, useWalletConnectModal } from "@walletconnect/modal-react-native";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import type { Address } from "viem";
 
@@ -14,30 +14,17 @@ import { INFURA_ID } from "@/constants/env";
 // import { modals } from "./modals";
 
 export function useContractConfig() {
-  const connector = useWalletConnect();
+  const { provider: walletConnectProvider, open, address } = useWalletConnectModal();
 
-  const address = connector.accounts?.[0] as Address;
   const [provider, setProvider] = React.useState<Exclude<ContractConfig["provider"], string>>();
 
   React.useEffect(() => {
-    if (address) {
+    if (address && walletConnectProvider) {
       (async function setWeb3Provider() {
-        let walletConnectProvider: WalletConnectProvider;
-
-        try {
-          walletConnectProvider = new WalletConnectProvider({
-            connector,
-            infuraId: INFURA_ID,
-            chainId: 3737,
-            rpc: {
-              3737: "https://rpc.crossbell.io",
-            },
-          });
-        }
-        catch (error) {
-          console.error(error);
-          return;
-        }
+        walletConnectProvider.setDefaultChain(
+          "3737",
+          "https://rpc.crossbell.io",
+        );
 
         await walletConnectProvider.enable();
 
@@ -46,7 +33,7 @@ export function useContractConfig() {
         setProvider(walletConnectProvider);
       })().catch(console.error);
     }
-  }, [address]);
+  }, [address, walletConnectProvider]);
 
   const modals: ModalConfig = {
     showClaimCSBTipsModal() {
@@ -60,7 +47,7 @@ export function useContractConfig() {
     },
 
     async showConnectModal() {
-      await connector.connect();
+      await open();
     },
 
     showUpgradeEmailAccountModal() {
@@ -75,7 +62,7 @@ export function useContractConfig() {
   };
 
   const contractConfig = React.useMemo(() => ({
-    address,
+    address: address as Address,
 
     provider,
 
