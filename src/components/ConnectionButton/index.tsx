@@ -141,7 +141,6 @@ function OPSignToggleBtn() {
 
 export function DisconnectBtn({ navigateToLogin }: { navigateToLogin: boolean }) {
   const _disconnect = useDisconnectAccount();
-  const { closeDrawer } = useDrawer();
   const { t } = useTranslation();
   const navigation = useRootNavigation();
 
@@ -150,8 +149,9 @@ export function DisconnectBtn({ navigateToLogin }: { navigateToLogin: boolean })
       navigation.navigate("Login");
       return;
     }
-    closeDrawer();
+
     _disconnect();
+    navigation.navigate("Home", { screen: "Feed" });
   };
 
   return (
