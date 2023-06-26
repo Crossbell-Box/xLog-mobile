@@ -22,7 +22,6 @@ import type { RootStackParamList } from "@/navigation/types";
 import { useGetPage } from "@/queries/page";
 import { getNoteSlug } from "@/utils/get-slug";
 
-import { javascriptContent } from "./javascript-before-content-loaded";
 import { javaScriptBeforeContentLoaded } from "./javascript-content";
 import { Skeleton } from "./Skeleton";
 
@@ -77,7 +76,7 @@ export const Content: FC<Props> = (props) => {
   const { top, bottom } = useSafeAreaInsets();
   const { width, height } = useWindowDimensions();
   const headerHeight = top + headerContainerHeight;
-  const contentLoaderDimensions = { width, height: headerHeight + 200 };
+  const contentLoaderDimensions = { width, height: height - headerHeight };
   const webviewLoadingAnimValue = useSharedValue<number>(0);
   const followAnimValue = useSharedValue<number>(0);
   const [webviewLoaded, setWebviewLoaded] = React.useState(false);
@@ -164,6 +163,7 @@ export const Content: FC<Props> = (props) => {
             ]}>
               {webviewUri && userAgent && (
                 <WebView
+                  javaScriptEnabled
                   userAgent={userAgent}
                   source={{ uri: webviewUri }}
                   style={[styles.webview, { backgroundColor: isDarkMode ? "black" : "white" }]}
@@ -180,11 +180,9 @@ export const Content: FC<Props> = (props) => {
 
                     return false;
                   }}
-                  injectedJavaScriptBeforeContentLoaded={javaScriptBeforeContentLoaded(
+                  injectedJavaScript={javaScriptBeforeContentLoaded(
                     isDarkMode,
                     mode,
-                  )}
-                  injectedJavaScript={javascriptContent(
                     bottomBarHeight,
                     height,
                   )}
@@ -192,7 +190,7 @@ export const Content: FC<Props> = (props) => {
               )}
             </Animated.View>
             {
-              !webviewLoaded && <Skeleton webviewLoadingAnimValue={webviewLoadingAnimValue} headerHeight={headerHeight + 200} />
+              !webviewLoaded && <Skeleton webviewLoadingAnimValue={webviewLoadingAnimValue} headerHeight={headerHeight + 250} />
             }
           </Animated.ScrollView>
         )}

@@ -44,7 +44,7 @@ export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, "Pos
 
   return (
     <>
-      <Stack flex={1} backgroundColor={"$background"}>
+      <Stack flex={1} backgroundColor={isDarkMode ? "black" : "white"}>
         <Header
           isExpandedAnimValue={scrollVisibilityHandler.isExpandedAnimValue}
           characterId={params.characterId}
