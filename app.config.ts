@@ -87,6 +87,7 @@ export default (_: ConfigContext): ExpoConfig => {
     },
     android: {
       package: config.scheme,
+      googleServicesFile: config.googleServicesFile,
       intentFilters: [
         {
           action: "VIEW",

@@ -4,8 +4,9 @@ const { version } = require("../package.json");
 
 function setAppConfigEnv() {
   const ENV = process.env.NODE_ENV ?? "production";
+  const IS_EAS_CI = process.env.EAS_BUILD === "true";
 
-  if (process.env.EAS_BUILD === "true") {
+  if (IS_EAS_CI) {
     dotenv.config({ path: process.env.ENV_FILE_COMMON });
     dotenv.config({ path: process.env[`ENV_FILE_${ENV.toUpperCase()}`] });
   }
@@ -25,18 +26,21 @@ function setAppConfigEnv() {
       host: HOST,
       scheme: `${SCHEME}.development`,
       icon: "./assets/icon.development.png",
+      googleServicesFile: IS_EAS_CI ? "./GOOGLE_SERVICES_DEVELOPMENT" : "./google-services.development.json",
     },
     staging: {
       name: "xLog-preview",
       host: HOST,
       scheme: `${SCHEME}.staging`,
       icon: "./assets/icon.staging.png",
+      googleServicesFile: IS_EAS_CI ? "./GOOGLE_SERVICES_STAGING" : "./google-services.staging.json",
     },
     production: {
       name: "xLog",
       host: HOST,
       scheme: SCHEME,
       icon: "./assets/icon.png",
+      googleServicesFile: IS_EAS_CI ? "./GOOGLE_SERVICES_PRODUCTION" : "./google-services.production.json",
     },
   };
 

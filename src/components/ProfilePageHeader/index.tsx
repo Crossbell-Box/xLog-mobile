@@ -10,7 +10,7 @@ export interface ProfilePageHeaderProps {
 export const ProfilePageHeader: React.FC<ProfilePageHeaderProps> = (props) => {
   const { title, description } = props;
   return (
-    <YStack marginBottom="$6">
+    <YStack margin="$3" marginBottom="$6">
       <H3 marginBottom={description ? "$3" : "$-3"}>{title}</H3>
       {description && <SizableText size={"$4"} color={"$colorSubtitle"}>{description}</SizableText>}
     </YStack>

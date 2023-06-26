@@ -38,8 +38,11 @@ jobs:
         run: |
           echo "${{ secrets.ENV_FILE_COMMON }}" > .env.common
           echo "${{ secrets.ENV_FILE_DEVELOPMENT }}" > .env.development
-          echo "${{ secrets.ENV_FILE_PRODUCTION }}" > .env.productiona
+          echo "${{ secrets.ENV_FILE_PRODUCTION }}" > .env.production
           echo "${{ secrets.ENV_FILE_STAGING }}" > .env.staging
+          echo "${{ secrets.GOOGLE_SERVICES_DEVELOPMENT }}" > GOOGLE_SERVICES_DEVELOPMENT
+          echo "${{ secrets.GOOGLE_SERVICES_STAGING }}" > GOOGLE_SERVICES_STAGING
+          echo "${{ secrets.GOOGLE_SERVICES_PRODUCTION }}" > GOOGLE_SERVICES_PRODUCTION
 
       - name: Install dependencies
         run: yarn install

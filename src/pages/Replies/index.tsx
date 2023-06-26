@@ -26,7 +26,7 @@ export const RepliesPage: FC<NativeStackScreenProps<RootStackParamList, "Replies
   const mounted = useMounted();
   const comments = useGetComments({ characterId: comment.characterId, noteId: comment.noteId, limit: 10 });
   const repliesCount = comments.data?.pages?.[0]?.count;
-  const flatedComments = comments.data?.pages?.flatMap((page) => {
+  const flattedComments = comments.data?.pages?.flatMap((page) => {
     return page?.list?.flatMap(comment => flatComments(comment, depth));
   });
 
@@ -42,7 +42,7 @@ export const RepliesPage: FC<NativeStackScreenProps<RootStackParamList, "Replies
             paddingTop: 16 * 2,
             paddingBottom: bottom + 16,
           }}
-          data={flatedComments}
+          data={flattedComments}
           ListHeaderComponent={() => {
             return (
               <YStack backgroundColor={"$background"}>
@@ -71,7 +71,7 @@ export const RepliesPage: FC<NativeStackScreenProps<RootStackParamList, "Replies
             Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
             comments?.fetchNextPage?.();
           }}
-          ListFooterComponent={comments.isFetchingNextPage && <Spinner paddingBottom="$5"/>}
+          ListFooterComponent={(comments.isFetchingNextPage || (comments.isFetching && flattedComments.length === 0)) && <Spinner paddingBottom="$5"/>}
           showsVerticalScrollIndicator={false}
           keyExtractor={item => item?.data?.blockNumber?.toString()}
           renderItem={({ item }) => {

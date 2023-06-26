@@ -3,10 +3,11 @@ import type { SvgProps } from "react-native-svg";
 import { ClipPath, Rect, G, Svg, Path, Defs } from "react-native-svg";
 
 import type { ParsedNotification } from "@crossbell/indexer";
+import { indexer, Indexer } from "@crossbell/indexer";
 import type { NoteEntity } from "crossbell";
 import dayjs from "dayjs";
 import removeMd from "remove-markdown";
-import { Card, Text, XStack, YStack } from "tamagui";
+import { Card, Circle, Text, XStack, YStack } from "tamagui";
 import { formatUnits } from "viem";
 
 import { Avatar } from "../Avatar";
@@ -61,8 +62,12 @@ export interface ItemProps {
 export function NotificationItem({ notification }: ItemProps) {
   const titleInfo = getTitleInfo(notification);
 
+  const markAsReadHandler = () => {
+    // console.log(11);
+  };
+
   return (
-    <Card elevate size="$4" bordered marginBottom="$4" paddingHorizontal="$4">
+    <Card elevate size="$4" bordered marginBottom="$4" paddingHorizontal="$4" onPress={markAsReadHandler}>
       <XStack alignItems="center" gap="$3">
         <Avatar useDefault character={notification?.fromCharacter} />
         <YStack paddingVertical="$4" gap="$1.5" flex={1}>
@@ -86,6 +91,7 @@ export function NotificationItem({ notification }: ItemProps) {
           )}
         </YStack>
       </XStack>
+      {!notification.isReadBefore && <Circle backgroundColor={"$red10"} size="$0.25" position="absolute" right={"$2"} top={"$3"}/>}
     </Card>
   );
 }

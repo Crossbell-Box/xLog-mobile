@@ -83,6 +83,7 @@ export const PostsPage: FC<NativeStackScreenProps<RootStackParamList, "Posts">> 
         orientation="horizontal"
         flexDirection="column"
         flex={1}
+        margin="$3"
         borderRadius="$4"
         overflow="hidden"
       >

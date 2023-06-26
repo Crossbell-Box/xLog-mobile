@@ -1,38 +1,38 @@
-import { useAccountCharacterId } from "@crossbell/react-account";
-import type { BottomTabBarButtonProps } from "@react-navigation/bottom-tabs";
+import { useAccountCharacterId, useIsConnected } from "@crossbell/react-account";
+import type { BottomTabNavigationEventMap } from "@react-navigation/bottom-tabs";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Bell, Home, Settings2, User2 } from "@tamagui/lucide-icons";
-import { Stack } from "tamagui";
+import type { EventListenerCallback } from "@react-navigation/native";
+import { Bell, Home, User2 } from "@tamagui/lucide-icons";
 
 import { Drawer } from "@/components/Drawer";
+import { useColors } from "@/hooks/use-colors";
 import { useRootNavigation } from "@/hooks/use-navigation";
+import { useGetUnreadCount } from "@/models/site.model";
 import { FeedPage } from "@/pages/Feed";
 import { NotificationsPageWithBottomTab } from "@/pages/Profile/Notifications";
-import { Settings } from "@/pages/Settings";
 import { UserInfoPageWithBottomTab } from "@/pages/UserInfo";
 
-import { SettingsNavigator } from "./settings";
 import type { HomeBottomTabsParamList } from "./types";
 
 const HomeBottomTabs = createBottomTabNavigator<HomeBottomTabsParamList>();
 
 export const HomeNavigator = () => {
+  const { pick } = useColors();
   const { characterId } = useAccountCharacterId();
+  const isConnected = useIsConnected();
   const navigation = useRootNavigation();
+  const notificationUnreadCount = useGetUnreadCount(characterId);
 
-  const TabBarButton = ({ children, onPress }: BottomTabBarButtonProps) => {
-    return (
-      <Stack flex={1} onPress={onPress}>
-        {children}
-      </Stack>
-    );
-  };
-
-  const navigateWithAuth = (fn: BottomTabBarButtonProps["onPress"]) => {
-    if (!characterId) {
-      return () => navigation.navigate("Login");
-    }
-    return fn;
+  const tabPressHandler = (name: keyof HomeBottomTabsParamList): EventListenerCallback<BottomTabNavigationEventMap, "tabPress"> => {
+    return (e) => {
+      if (name === "Notifications") {
+        notificationUnreadCount.refetch();
+      }
+      if (!isConnected) {
+        navigation.navigate("Login");
+        e.preventDefault();
+      }
+    };
   };
 
   return (
@@ -49,26 +49,37 @@ export const HomeNavigator = () => {
           options={{
             tabBarShowLabel: false,
             tabBarIcon: props => <Home {...props} />,
-            tabBarButton: props => <TabBarButton {...props} />,
           }}
         />
         <HomeBottomTabs.Screen
           name={"Notifications"}
           component={NotificationsPageWithBottomTab}
+          listeners={{
+            tabPress: tabPressHandler("Notifications"),
+          }}
           options={{
             tabBarShowLabel: false,
             tabBarIcon: props => <Bell {...props} />,
-            tabBarButton: props => <TabBarButton {...props} onPress={navigateWithAuth(props.onPress)} />,
+            // @ts-expect-error
+            tabBarBadge: isConnected
+              ? notificationUnreadCount?.data?.count > 0 ? true : undefined
+              : undefined,
+            tabBarBadgeStyle: {
+              backgroundColor: pick("red10"),
+              transform: [{ scale: 0.5 }],
+            },
           }}
         />
         <HomeBottomTabs.Screen
           name={"Profile"}
           initialParams={{ characterId }}
           component={UserInfoPageWithBottomTab}
+          listeners={{
+            tabPress: tabPressHandler("Profile"),
+          }}
           options={{
             tabBarShowLabel: false,
             tabBarIcon: props => <User2 {...props} />,
-            tabBarButton: props => <TabBarButton {...props} onPress={navigateWithAuth(props.onPress)} />,
           }}
         />
       </HomeBottomTabs.Navigator>

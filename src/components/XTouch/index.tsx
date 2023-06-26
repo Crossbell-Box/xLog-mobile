@@ -10,11 +10,12 @@ interface Props extends GenericTouchableProps {
   touchableComponent: React.ComponentType<GenericTouchableProps>
 
   enableHaptics?: boolean
+  hapticsType?: Haptics.ImpactFeedbackStyle
   hitSlopSize?: number
 }
 
 export const XTouch: FC<Props> = (props) => {
-  const { enableHaptics = false, hitSlopSize = 0 } = props;
+  const { enableHaptics = false, hapticsType = Haptics.ImpactFeedbackStyle.Light, hitSlopSize = 0 } = props;
 
   const hitSlop = useHitSlopSize(hitSlopSize);
 
@@ -27,7 +28,7 @@ export const XTouch: FC<Props> = (props) => {
         props.onPressIn,
         () => {
           if (enableHaptics) {
-            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+            Haptics.impactAsync(hapticsType);
           }
         },
       ])}

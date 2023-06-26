@@ -10,14 +10,21 @@ import {
   useIsWalletSignedIn,
 } from "@crossbell/react-account";
 import { Plug } from "@tamagui/lucide-icons";
-import { useWalletConnect } from "@walletconnect/react-native-dapp";
+import type { IProviderMetadata } from "@walletconnect/modal-react-native";
+import { WalletConnectModal, useWalletConnectModal } from "@walletconnect/modal-react-native";
+import type { ConnectParams } from "@walletconnect/universal-provider";
+import * as Clipboard from "expo-clipboard";
 import * as Haptics from "expo-haptics";
+import { resolveScheme } from "expo-linking";
 import type { StackProps } from "tamagui";
 import { Button, Card, H4, Paragraph, Stack } from "tamagui";
 
+import { APP_SCHEME } from "@/constants";
+import { WALLET_PROJECT_ID, WALLET_RELAY_URL } from "@/constants/env";
 import { useDrawer } from "@/hooks/use-drawer";
 import { useRootNavigation } from "@/hooks/use-navigation";
 import { useOneTimeTogglerWithSignOP } from "@/hooks/use-signin-tips-toggler";
+import { useThemeStore } from "@/hooks/use-theme-store";
 
 import { DelayedRender } from "../DelayRender";
 import { ModalWithFadeAnimation } from "../ModalWithFadeAnimation";
@@ -25,6 +32,33 @@ import { ModalWithFadeAnimation } from "../ModalWithFadeAnimation";
 interface Props extends StackProps {
   navigateToLogin?: boolean
 }
+
+const providerMetadata: IProviderMetadata = {
+  name: "WalletConnect",
+  url: "https://walletconnect.com/",
+  icons: ["https://walletconnect.org/walletconnect-logo.png"],
+  description: "Connect with WalletConnect",
+  redirect: {
+    native: `${resolveScheme({})}://`,
+  },
+};
+
+const sessionParams: ConnectParams = {
+  namespaces: {
+    eip155: {
+      methods: [
+        "eth_sendTransaction",
+        "eth_signTransaction",
+        "eth_sign",
+        "personal_sign",
+        "eth_signTypedData",
+      ],
+      chains: ["eip155:1"],
+      events: ["chainChanged", "accountsChanged"],
+      rpcMap: {},
+    },
+  },
+};
 
 export const ConnectionButton: FC<Props> = (props) => {
   const { navigateToLogin = false, ...stackProps } = props;
@@ -53,8 +87,9 @@ export const ConnectionButton: FC<Props> = (props) => {
 
 function ConnectBtn({ navigateToLogin }: { navigateToLogin: boolean }) {
   const i18n = useTranslation();
-  const connector = useWalletConnect();
+  const { mode } = useThemeStore();
   const navigation = useRootNavigation();
+  const { isOpen, open, close, provider, isConnected, address } = useWalletConnectModal();
 
   const handleConnect = () => {
     if (navigateToLogin) {
@@ -62,8 +97,12 @@ function ConnectBtn({ navigateToLogin }: { navigateToLogin: boolean }) {
       return;
     }
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    // eslint-disable-next-line no-console
-    connector.connect().catch(console.log);
+
+    open({ route: "ConnectWallet" });
+  };
+
+  const onCopyClipboard = (value: string) => {
+    return Clipboard.setStringAsync(value);
   };
 
   return (
@@ -80,6 +119,14 @@ function ConnectBtn({ navigateToLogin }: { navigateToLogin: boolean }) {
       >
         {i18n.t("Connect")}
       </Button>
+      <WalletConnectModal
+        projectId={WALLET_PROJECT_ID}
+        providerMetadata={providerMetadata}
+        onCopyClipboard={onCopyClipboard}
+        sessionParams={sessionParams}
+        relayUrl={WALLET_RELAY_URL}
+        themeMode={mode}
+      />
     </Animated.View>
   );
 }
@@ -141,7 +188,6 @@ function OPSignToggleBtn() {
 
 export function DisconnectBtn({ navigateToLogin }: { navigateToLogin: boolean }) {
   const _disconnect = useDisconnectAccount();
-  const { closeDrawer } = useDrawer();
   const { t } = useTranslation();
   const navigation = useRootNavigation();
 
@@ -150,8 +196,9 @@ export function DisconnectBtn({ navigateToLogin }: { navigateToLogin: boolean })
       navigation.navigate("Login");
       return;
     }
-    closeDrawer();
+
     _disconnect();
+    navigation.navigate("Home", { screen: "Feed" });
   };
 
   return (

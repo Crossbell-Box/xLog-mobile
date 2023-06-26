@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useCallback } from "react";
 
 import { InitContractProvider } from "@crossbell/contract";
 import type { BaseSigner } from "@crossbell/react-account";
 import { useAccountState, ReactAccountProvider } from "@crossbell/react-account";
 import { useRefCallback } from "@crossbell/util-hooks";
 import { Web3Provider } from "@ethersproject/providers";
-import { useWalletConnect } from "@walletconnect/react-native-dapp";
+import { useWalletConnectModal } from "@walletconnect/modal-react-native";
 import * as Sentry from "sentry-expo";
 import type { Address } from "viem";
 
@@ -15,9 +15,8 @@ import { useContractConfig } from "./contract-config";
 
 export function ConnectKitProvider({ children }: React.PropsWithChildren) {
   const accountState = useAccountState();
-  const connector = useWalletConnect();
+  const { address, provider: walletConnectProvider } = useWalletConnectModal();
   const contractConfig = useContractConfig();
-  const address = (connector.accounts?.[0] ?? null) as Address;
   const web3Provider = React.useMemo(() => {
     if (contractConfig.provider)
       return new Web3Provider(contractConfig.provider, 3737);
@@ -25,12 +24,13 @@ export function ConnectKitProvider({ children }: React.PropsWithChildren) {
       return null;
   }, [contractConfig.provider]);
 
-  const onDisconnect = useRefCallback(() => connector.killSession());
-  const getSigner = useRefCallback(async (): Promise<BaseSigner> => web3Provider.getSigner(address) as BaseSigner);
+  const onDisconnect = useCallback(() => walletConnectProvider?.disconnect?.(), [walletConnectProvider]);
+
+  const getSigner = useCallback<() => Promise<BaseSigner>>(async () => web3Provider.getSigner(address) as BaseSigner, [web3Provider, address]);
 
   React.useEffect(() => {
     if (address) {
-      accountState.connectWallet(address);
+      accountState.connectWallet(address as Address);
     }
   }, [address]);
 

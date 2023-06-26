@@ -1,5 +1,5 @@
 import { useContract } from "@crossbell/contract";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { cacheExchange, createClient, fetchExchange } from "@urql/core";
 import { Indexer } from "crossbell";
 import dayjs from "dayjs";
@@ -24,6 +24,15 @@ export type GetUserSitesParams =
     handle: string
     unidata: Unidata
   };
+
+export const useGetUnreadCount = (
+  data: Partial<Parameters<typeof indexer.notification.getUnreadCount>[0]>,
+) => {
+  return useQuery({
+    queryKey: ["getUnreadCount", data],
+    queryFn: async () => indexer.notification.getUnreadCount(data),
+  });
+};
 
 export const useGetTips = (
   data: Partial<Parameters<typeof getTips>[0]>,

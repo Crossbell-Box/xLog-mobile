@@ -58,7 +58,7 @@ export const FeedList: FC<Props> = (props) => {
         renderItem={({ item, index }) => (
           <FeedListItem key={index} note={item}/>
         )}
-        ListFooterComponent={feed.isFetchingNextPage && <Spinner paddingBottom="$5"/>}
+        ListFooterComponent={(feed.isFetchingNextPage || (feed.isFetching && feedList.length === 0)) && <Spinner paddingBottom="$5"/>}
         ItemSeparatorComponent={() => <Separator borderColor={"$gray5"}/>}
         estimatedItemSize={238}
         bounces

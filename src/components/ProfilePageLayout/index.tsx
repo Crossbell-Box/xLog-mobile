@@ -7,5 +7,5 @@ export interface ProfilePageLayoutProps extends React.ComponentProps<typeof YSta
 }
 
 export const ProfilePageLayout: React.FC<ProfilePageLayoutProps> = (props) => {
-  return <YStack flex={1} padding="$4" {...props} />;
+  return <YStack flex={1} {...props} />;
 };
