@@ -288,7 +288,7 @@ export const CommentButton: React.FC<Props> = ({ characterId, noteId, iconSize =
                         space="$2"
                         flex={1}
                         onPress={onPressInput}>
-                        <Text fontSize={"$6"} flex={1} borderWidth={1} borderRadius={10} color={"$colorSubtitle"}>
+                        <Text fontSize={"$6"} flex={1} borderRadius={10} color={"$colorSubtitle"}>
                           {t("Write a comment on the blockchain")}
                         </Text>
                       </XStack>
