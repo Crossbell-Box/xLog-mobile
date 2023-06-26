@@ -70,6 +70,7 @@ export const PagesPage: FC<NativeStackScreenProps<RootStackParamList, "Pages">> 
         orientation="horizontal"
         flexDirection="column"
         flex={1}
+        margin="$3"
         borderRadius="$4"
         overflow="hidden"
       >

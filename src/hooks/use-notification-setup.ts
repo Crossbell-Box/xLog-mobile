@@ -1,8 +1,10 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Platform } from "react-native";
 
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
+
+import { useRootNavigation } from "./use-navigation";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -11,6 +13,15 @@ Notifications.setNotificationHandler({
     shouldSetBadge: false,
   }),
 });
+
+interface NotificationNavigateActionTypes {
+  route: "Notifications"
+  params: {}
+}
+
+type NotificationActionTypes = ({
+  type: "navigate"
+} & NotificationNavigateActionTypes);
 
 export class NotificationError extends Error {
   constructor(message: string, status: Notifications.PermissionStatus) {
@@ -26,6 +37,40 @@ export function useNotificationSetup() {
   const [notification, setNotification] = useState<Notifications.Notification>();
   const notificationListener = useRef<Notifications.Subscription>();
   const responseListener = useRef<Notifications.Subscription>();
+  const navigation = useRootNavigation();
+
+  const navigateAction = useCallback(async (data: NotificationNavigateActionTypes) => {
+    const { route, params } = data;
+
+    switch (route) {
+      case "Notifications":
+        // TODO: Set this notification as read
+        // ...
+
+        // TODO: Update badge count
+        // await recomputedBadgeCount(notification.request.content.badge);
+
+        // Navigate to PostDetails
+        navigation.navigate("Notifications", {});
+        break;
+    }
+  }, []);
+
+  const performAction = useCallback(async (data: NotificationActionTypes) => {
+    switch (data.type) {
+      case "navigate":
+        await navigateAction(data);
+        break;
+    }
+  }, []);
+
+  const recomputedBadgeCount = useCallback(async (badgeCount: number) => {
+    const totalBadgeCount = await Notifications.getBadgeCountAsync();
+    // TODO
+    const removeBadgeResponse = await Notifications.setBadgeCountAsync(0);
+  }, []);
+
+  const clearBadgeCount = useCallback(() => Notifications.setBadgeCountAsync(0), []);
 
   useEffect(() => {
     requestPermissions();
@@ -35,13 +80,14 @@ export function useNotificationSetup() {
     });
 
     responseListener.current = Notifications.addNotificationResponseReceivedListener(async (response) => {
-      await Notifications.dismissNotificationAsync(response.notification.request.identifier);
-      const totalBadgeCount = await Notifications.getBadgeCountAsync();
-      const badgeCount = response.notification.request.content.badge;
-      // TODO
-      const removeBadgeResponse = await Notifications.setBadgeCountAsync(Math.max(totalBadgeCount - badgeCount, 0));
       // eslint-disable-next-line no-console
       console.log("AddNotificationResponseReceivedListener:", JSON.stringify(response, null, 4));
+
+      const { notification } = response;
+      await Notifications.dismissNotificationAsync(notification.request.identifier);
+
+      const notificationActions = (notification.request.content.data || {}) as NotificationActionTypes;
+      performAction(notificationActions);
     });
 
     return () => {
@@ -64,6 +110,7 @@ export function useNotificationSetup() {
     expoPushToken,
     notification,
     requestPermissions,
+    clearBadgeCount,
   };
 }
 

@@ -127,6 +127,18 @@ export const CommentButton: React.FC<Props> = ({ characterId, noteId, iconSize =
     }
   });
 
+  const data = comments.data?.pages.length
+    ? [
+      { type: "header", data: null } as ItemData,
+      ...comments.data?.pages.flatMap(page =>
+        (page?.list || []).map(data => ({
+          type: "data",
+          data,
+        })),
+      ) as Array<ItemData>,
+    ]
+    : [];
+
   return (
     <>
       <XTouch enableHaptics hitSlopSize={44} touchableComponent={TouchableWithoutFeedback} onPress={openBottomSheet} delayLongPress={150}>
@@ -158,19 +170,7 @@ export const CommentButton: React.FC<Props> = ({ characterId, noteId, iconSize =
                 contentContainerStyle={{
                   paddingBottom: bottom + 16,
                 }}
-                data={
-                  comments.data?.pages.length
-                    ? [
-                      { type: "header", data: null } as ItemData,
-                      ...comments.data?.pages.flatMap(page =>
-                        (page?.list || []).map(data => ({
-                          type: "data",
-                          data,
-                        })),
-                      ) as Array<ItemData>,
-                    ]
-                    : []
-                }
+                data={data}
                 showsVerticalScrollIndicator={false}
                 stickyHeaderIndices={[0]}
                 onEndReachedThreshold={0.5}
@@ -185,7 +185,7 @@ export const CommentButton: React.FC<Props> = ({ characterId, noteId, iconSize =
                   Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
                   comments?.fetchNextPage?.();
                 }}
-                ListFooterComponent={comments.isFetchingNextPage && <Spinner paddingBottom="$5" />}
+                ListFooterComponent={(comments.isFetchingNextPage || (comments.isFetching && data.length === 0)) && <Spinner paddingBottom="$5" />}
                 keyExtractor={(item) => {
                   if (item.type === "header") {
                     return "header";

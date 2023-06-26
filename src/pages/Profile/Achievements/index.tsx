@@ -2,7 +2,7 @@ import type { FC } from "react";
 import { useTranslation } from "react-i18next";
 
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { H5, XStack, YStack } from "tamagui";
+import { H5, Stack, XStack, YStack } from "tamagui";
 
 import { AchievementItem } from "@/components/AchievementItem";
 import { ProfilePageHeader } from "@/components/ProfilePageHeader";
@@ -22,35 +22,37 @@ export const AchievementsPage: FC<NativeStackScreenProps<RootStackParamList, "Ac
   return (
     <ProfilePageLayout>
       <ProfilePageHeader title={t("Achievements")} description={null} />
-      {achievement.data?.list?.map((series) => {
-        const length = series.groups?.length;
-        if (!length) {
-          return null;
-        }
-        return (
-          <YStack key={series.info.name} marginBottom="$4">
-            <H5 marginBottom="$2">
-              {series.info.title}
-            </H5>
-            <XStack flexWrap="wrap" gap="$4">
-              {
-                series.groups?.map((group) => {
-                  return (
-                    <AchievementItem
-                      group={group}
-                      key={group.info.name}
-                      layoutId="achievements"
-                      size={80}
-                      characterId={characterId}
-                      isOwner
-                    />
-                  );
-                })
-              }
-            </XStack>
-          </YStack>
-        );
-      })}
+      <Stack margin="$3">
+        {achievement.data?.list?.map((series) => {
+          const length = series.groups?.length;
+          if (!length) {
+            return null;
+          }
+          return (
+            <YStack key={series.info.name} marginBottom="$4">
+              <H5 marginBottom="$2">
+                {series.info.title}
+              </H5>
+              <XStack flexWrap="wrap" gap="$4">
+                {
+                  series.groups?.map((group) => {
+                    return (
+                      <AchievementItem
+                        group={group}
+                        key={group.info.name}
+                        layoutId="achievements"
+                        size={80}
+                        characterId={characterId}
+                        isOwner
+                      />
+                    );
+                  })
+                }
+              </XStack>
+            </YStack>
+          );
+        })}
+      </Stack>
     </ProfilePageLayout>
   );
 };

@@ -21,7 +21,7 @@ export const CommentsPage: FC<NativeStackScreenProps<RootStackParamList, "Commen
   const comments = useGetCommentsBySite({ characterId });
   const i18n = useTranslation();
 
-  const flatedComments = comments.data?.pages?.flatMap((page) => {
+  const flattedComments = comments.data?.pages?.flatMap((page) => {
     return page?.list || [];
   });
 
@@ -30,12 +30,9 @@ export const CommentsPage: FC<NativeStackScreenProps<RootStackParamList, "Commen
       <ProfilePageHeader title={i18n.t("Comments")} description={null} />
       <FlatList
         style={{ flex: 1 }}
-        contentContainerStyle={{ width: "100%", alignSelf: "center" }}
-        data={flatedComments}
+        contentContainerStyle={{ width: "100%", alignSelf: "center", paddingHorizontal: 16 }}
+        data={flattedComments}
         ItemSeparatorComponent={() => <Separator marginBottom="$3" />}
-        scrollIndicatorInsets={{
-          right: -16,
-        }}
         onEndReachedThreshold={0.5}
         onEndReached={() => {
           if (
@@ -48,7 +45,7 @@ export const CommentsPage: FC<NativeStackScreenProps<RootStackParamList, "Commen
           Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
           comments?.fetchNextPage?.();
         }}
-        ListFooterComponent={comments.isFetchingNextPage && <Spinner paddingBottom="$5"/>}
+        ListFooterComponent={(comments.isFetchingNextPage || (comments.isFetching && flattedComments.length === 0)) && <Spinner paddingBottom="$5"/>}
         keyExtractor={item => item.transactionHash}
         renderItem={({ item }) => {
           const type = item.toNote?.metadata?.content?.tags?.[0];

@@ -8,10 +8,10 @@ interface NotificationProviderProps extends React.PropsWithChildren {
 }
 
 export function NotificationProvider({ children }: NotificationProviderProps) {
-  const { expoPushToken, notification, requestPermissions } = useNotificationSetup();
+  const { expoPushToken, notification, clearBadgeCount, requestPermissions } = useNotificationSetup();
 
   return (
-    <NotificationContext.Provider value={{ expoPushToken, notification, requestPermissions }}>
+    <NotificationContext.Provider value={{ expoPushToken, notification, clearBadgeCount, requestPermissions }}>
       {children}
     </NotificationContext.Provider>
   );

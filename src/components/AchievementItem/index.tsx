@@ -28,6 +28,7 @@ const animDuration = 300;
 export const AchievementItem: React.FC<AchievementItemProps> = (props) => {
   const { group, isOwner, size = 100 } = props;
   const window = useWindowDimensions();
+  const finalSize = Math.min(window.width * 0.8, window.height * 0.8);
   const safeAreaInsets = useSafeAreaInsets();
   const date = useDate();
   const { t } = useTranslation("common");
@@ -57,17 +58,17 @@ export const AchievementItem: React.FC<AchievementItemProps> = (props) => {
 
   const topAnimValue = useDerivedValue(() => {
     const { top, bottom } = safeAreaInsets;
-    const centerTop = (window.height - top - bottom) / 2 - initialStatus.value.height * 1.5;
+    const centerTop = (window.height - top - bottom) / 2 - finalSize / 2;
 
     return interpolate(openedAnimValue.value, [0, 0.1, 1], [initialStatus.value.y, initialStatus.value.y, centerTop]);
-  }, [window, safeAreaInsets]);
+  }, [window, safeAreaInsets, finalSize]);
 
   const leftAnimValue = useDerivedValue(() => {
     const { left, right } = safeAreaInsets;
-    const centerLeft = (window.width - left - right) / 2 - initialStatus.value.width * 1.5;
+    const centerLeft = (window.width - left - right) / 2 - finalSize / 2;
 
     return interpolate(openedAnimValue.value, [0, 0.1, 1], [initialStatus.value.x, initialStatus.value.x, centerLeft]);
-  }, [window, safeAreaInsets]);
+  }, [window, safeAreaInsets, finalSize]);
 
   const imgPosAnimStyles = useAnimatedStyle(() => {
     return {
@@ -79,28 +80,27 @@ export const AchievementItem: React.FC<AchievementItemProps> = (props) => {
 
   const imgSizeAnimStyles = useAnimatedStyle(() => {
     return {
-      width: interpolate(openedAnimValue.value, [0, 0.1, 1], [initialStatus.value.width, initialStatus.value.width, window.width * 0.8]),
-      height: interpolate(openedAnimValue.value, [0, 0.1, 1], [initialStatus.value.height, initialStatus.value.height, window.width * 0.8]),
+      width: interpolate(openedAnimValue.value, [0, 0.1, 1], [initialStatus.value.width, initialStatus.value.width, finalSize]),
+      height: interpolate(openedAnimValue.value, [0, 0.1, 1], [initialStatus.value.height, initialStatus.value.height, finalSize]),
     };
-  }, [window]);
+  }, [finalSize]);
 
   const descriptionAnimStyles = useAnimatedStyle(() => {
     const { top, bottom } = safeAreaInsets;
-    const centerTop = (window.height - top - bottom) / 2 - initialStatus.value.height * 1.5;
+    const centerTop = (window.height - top - bottom) / 2 + finalSize / 2 + 28; // 28 is an offset
 
     const { left, right } = safeAreaInsets;
-    const centerLeft = (window.width - left - right) / 2 - initialStatus.value.width * 1.5;
+    const centerLeft = (window.width - left - right) / 2 - finalSize / 2;
 
     const width = window.width * 0.8;
-    const height = window.width * 0.8;
 
     return {
-      top: interpolate(openedAnimValue.value, [0, 0.1, 1], [initialStatus.value.y, initialStatus.value.y, centerTop]) + height + 28,
-      left: interpolate(openedAnimValue.value, [0, 0.1, 1], [initialStatus.value.x, initialStatus.value.x, centerLeft]),
+      top: interpolate(openedAnimValue.value, [0, 0.1, 1], [initialStatus.value.y, centerTop - 30, centerTop]),
+      left: centerLeft,
       width,
       opacity: interpolate(openedAnimValue.value, [0, 0.1, 1], [0, 0, 1]),
     };
-  }, []);
+  }, [finalSize]);
 
   const backdropAnimStyles = useAnimatedStyle(() => {
     return {
@@ -162,7 +162,6 @@ export const AchievementItem: React.FC<AchievementItemProps> = (props) => {
             )
             : (
               <Animated.View ref={originalImgRef} style={originalImgAnimStyles}>
-                {/* <Animated.Image source={AchievementItemBg} style={[imgSizeAnimStyles]} /> */}
                 <Grayscale style={{ width: size, height: size }}>
                   <Animated.Image onLoad={() => setLoaded(true)} source={{ uri: toGateway(media) }} style={{ width: size, height: size }} />
                 </Grayscale>

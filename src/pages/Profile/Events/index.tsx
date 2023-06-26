@@ -38,8 +38,8 @@ export const EventsPage: FC<NativeStackScreenProps<RootStackParamList, "Events">
   return (
     <ProfilePageLayout>
       <ProfilePageHeader title={t("Events")} description={null} />
-      <Loading isLoading={pages.isLoading}>
-        <ScrollView showsVerticalScrollIndicator={false}>
+      <Loading isLoading={pages.isLoading} >
+        <ScrollView style={{ paddingHorizontal: 12 }}>
           {pages.data?.pages[0]?.list.map((item) => {
             let status: "Ended" | "Upcoming" | "Ongoing" = "Ended";
             if (item.metadata?.content?.frontMatter?.EndTime < new Date()) {

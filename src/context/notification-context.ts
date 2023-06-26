@@ -6,6 +6,7 @@ interface NotificationContextType {
   expoPushToken?: string
   notification?: Notifications.Notification
   requestPermissions: () => Promise<string>
+  clearBadgeCount: () => Promise<boolean>
 }
 
 export const NotificationContext = createContext<NotificationContextType | null>(null);
