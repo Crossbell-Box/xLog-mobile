@@ -26,21 +26,21 @@ function setAppConfigEnv() {
       host: HOST,
       scheme: `${SCHEME}.development`,
       icon: "./assets/icon.development.png",
-      googleServicesFile: IS_EAS_CI ? "./GOOGLE_SERVICES_DEVELOPMENT" : "./google-services.development.json",
+      googleServicesFile: IS_EAS_CI ? process.env.GOOGLE_SERVICES_DEVELOPMENT : "./google-services.development.json",
     },
     staging: {
       name: "xLog-preview",
       host: HOST,
       scheme: `${SCHEME}.staging`,
       icon: "./assets/icon.staging.png",
-      googleServicesFile: IS_EAS_CI ? "./GOOGLE_SERVICES_STAGING" : "./google-services.staging.json",
+      googleServicesFile: IS_EAS_CI ? process.env.GOOGLE_SERVICES_STAGING : "./google-services.staging.json",
     },
     production: {
       name: "xLog",
       host: HOST,
       scheme: SCHEME,
       icon: "./assets/icon.png",
-      googleServicesFile: IS_EAS_CI ? "./GOOGLE_SERVICES_PRODUCTION" : "./google-services.production.json",
+      googleServicesFile: IS_EAS_CI ? process.env.GOOGLE_SERVICES_PRODUCTION : "./google-services.production.json",
     },
   };
 
