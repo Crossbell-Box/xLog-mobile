@@ -7,7 +7,6 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Download, Loader } from "@tamagui/lucide-icons";
 import { useToastController } from "@tamagui/toast";
 import * as FileSystem from "expo-file-system";
-import * as Haptics from "expo-haptics";
 import { Image } from "expo-image";
 import * as MediaLibrary from "expo-media-library";
 import { Circle, Spinner, Stack } from "tamagui";
@@ -15,9 +14,8 @@ import { Circle, Spinner, Stack } from "tamagui";
 import { useHitSlopSize } from "@/hooks/use-hit-slop-size";
 
 import { ModalWithFadeAnimation } from "../ModalWithFadeAnimation";
-import { XTouch } from "../XTouch";
 
-const { width } = Dimensions.get("window");
+const { width, height } = Dimensions.get("window");
 
 interface Props {
   uris: string[]
@@ -86,7 +84,7 @@ export const ImageGallery: FC<Props> = (props) => {
       hideModalContentWhileAnimating
       onBackdropPress={onClose}
     >
-      <Stack height={width} width={width}>
+      <Stack flex={1}>
         <ScrollView
           horizontal
           pagingEnabled
@@ -106,7 +104,7 @@ export const ImageGallery: FC<Props> = (props) => {
             uris.map((uri, index) => {
               const priority = index <= 3 ? "high" : "low";
               return (
-                <ImageItem key={index} uri={uri} priority={priority}/>
+                <ImageItem key={index} uri={uri} priority={priority} onPress={onClose}/>
               );
             })
           }
@@ -124,6 +122,12 @@ export const ImageGallery: FC<Props> = (props) => {
         zIndex={2}
         left={30}
         disabled={isSavingImage}
+        backgroundColor="$background"
+        width={44}
+        height={44}
+        borderRadius={22}
+        alignItems="center"
+        justifyContent="center"
       >
         {
           isSavingImage
@@ -139,8 +143,8 @@ export const ImageGallery: FC<Props> = (props) => {
   );
 };
 
-const ImageItem: FC<{ uri: string; priority: "high" | "low" }> = (props) => {
-  const { uri, priority } = props;
+const ImageItem: FC<{ uri: string; priority: "high" | "low";onPress: () => void }> = (props) => {
+  const { uri, priority, onPress } = props;
   const [loading, setLoading] = useState(true);
 
   const onLoadStart = useCallback(() => {
@@ -152,8 +156,8 @@ const ImageItem: FC<{ uri: string; priority: "high" | "low" }> = (props) => {
   }, []);
 
   return (
-    <Stack width={width} height={width} alignItems="center" justifyContent="center">
-      <Image onLoadStart={onLoadStart} onLoadEnd={onLoadEnd} priority={priority} source={uri} contentFit="cover" style={styles.modalImage} />
+    <Stack width={width} height={height} alignItems="center" justifyContent="center" onPress={onPress}>
+      <Image onLoadStart={onLoadStart} onLoadEnd={onLoadEnd} priority={priority} source={uri} contentFit="contain" style={styles.modalImage}/>
       {loading && <Spinner position="absolute"/>}
     </Stack>
   );
@@ -168,7 +172,7 @@ const styles = StyleSheet.create({
   },
   modalImage: {
     width,
-    height: width,
+    height,
   },
   modal: {
     margin: 0,
