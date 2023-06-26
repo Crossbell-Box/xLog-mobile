@@ -44,7 +44,7 @@
     "@crossbell/contract": "1.4.6",
     "@crossbell/indexer": "1.4.6",
     "@crossbell/react-account": "1.4.6",
-    "@crossbell/util-hooks": "1.4.6",
+    "@crossbell/util-hooks": "1.4.4",
     "@dohooo/eslint-config": "^0.0.7",
     "@ethersproject/providers": "^5.7.2",
     "@ethersproject/shims": "^5.7.0",

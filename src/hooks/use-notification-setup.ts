@@ -51,7 +51,9 @@ export function useNotificationSetup() {
         // await recomputedBadgeCount(notification.request.content.badge);
 
         // Navigate to PostDetails
-        navigation.navigate("Notifications", {});
+        navigation.navigate("Home", {
+          screen: "Notifications",
+        });
         break;
     }
   }, []);
