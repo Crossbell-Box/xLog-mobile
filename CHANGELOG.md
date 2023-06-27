@@ -1,5 +1,23 @@
 # xlog
 
+## 0.14.0
+
+### Minor Changes
+
+- a950bc6: Support Android FCM notification.
+- d6c1404: Display notifications separately
+- e974ede: Support walletconnectv2.
+- b62080e: UX improvements and some bug fixes.
+
+### Patch Changes
+
+- b5dfe8b: Fixed style issues in comment box.
+- b5dfe8b: Fixed styles issue in ImageGallery component.
+- 7a8bbdf: Fixed styles issue in PostDetails page on Android device.
+- b5dfe8b: Fixed compatibility issues with wc2
+- dabf7e8: Fixed some bugs with wc2.
+- 8b6891e: Navigate to home page after disconnected.
+
 ## 0.13.4
 
 ### Patch Changes
