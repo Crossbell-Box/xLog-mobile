@@ -38,9 +38,7 @@ export const FeedList: FC<Props> = (props) => {
     daysInterval,
   });
 
-  const feedList = useMemo<NoteEntity[]>(() => {
-    return feed.data?.pages?.reduce((acc, page) => [...acc, ...(page?.list || [])], []) ?? [];
-  }, [feed.data]);
+  const feedList = feed.data?.pages?.flatMap(page => page?.list) || [];
 
   if (feed.isLoading) {
     return (

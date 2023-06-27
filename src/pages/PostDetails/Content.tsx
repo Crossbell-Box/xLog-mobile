@@ -50,11 +50,12 @@ export const Content: FC<Props> = (props) => {
 
     if (!slug) return null;
     const webviewUrl = new URL(`/site/${character?.data?.handle}/${slug}`, `https://${DOMAIN}`);
-    webviewUrl.search = new URLSearchParams({
-      "only-content": "true",
-    }).toString();
+    webviewUrl.search = new URLSearchParams({ "only-content": "true" }).toString();
     return webviewUrl.toString();
-  }, [note]);
+  }, [
+    note.data,
+    character?.data?.handle,
+  ]);
 
   const page = useGetPage(
     {

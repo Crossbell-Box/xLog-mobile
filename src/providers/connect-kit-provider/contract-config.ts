@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 
 import type { ContractConfig } from "@crossbell/contract";
 import { useAccountState } from "@crossbell/react-account";
@@ -6,6 +6,7 @@ import type { ModalConfig } from "@crossbell/react-account/modal-config";
 import { setupModal } from "@crossbell/react-account/modal-config";
 import { WalletConnectModal, useWalletConnectModal } from "@walletconnect/modal-react-native";
 import WalletConnectProvider from "@walletconnect/web3-provider";
+import { ethers } from "ethers";
 import type { Address } from "viem";
 
 import { INFURA_ID } from "@/constants/env";

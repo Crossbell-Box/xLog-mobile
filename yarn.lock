@@ -5281,10 +5281,10 @@
     events "3.3.0"
     fast-text-encoding "^1.0.6"
 
-"@walletconnect/react-native-compat@^2.7.6":
-  version "2.7.6"
-  resolved "https://registry.yarnpkg.com/@walletconnect/react-native-compat/-/react-native-compat-2.7.6.tgz#ce44e7dcec0ad93db1af6b1e29c31ca19c96738d"
-  integrity sha512-uxW241I8tr6Ga5TAy3A6qQmViGbSie9NjYVynyYIXfciEyaPjMXkFrbwezx6f35Z6Em5JGHW3TMvVxlkX0kgLg==
+"@walletconnect/react-native-compat@^2.8.3":
+  version "2.8.3"
+  resolved "https://registry.npmjs.org/@walletconnect/react-native-compat/-/react-native-compat-2.8.3.tgz#393632fa677633eddc8a861d001938bb9881fb14"
+  integrity sha512-dKcA2OGjZfYWFAGZlvDfNppwVmhSo5ATKCTHCWsKGYReMXZe1CyVKOn/4ZEG14X8kMYxDLiE3fTa1kJS558adQ==
   dependencies:
     events "3.3.0"
     fast-text-encoding "^1.0.6"
@@ -5408,6 +5408,18 @@
   version "1.8.0"
   resolved "https://registry.npmjs.org/@walletconnect/types/-/types-1.8.0.tgz#3f5e85b2d6b149337f727ab8a71b8471d8d9a195"
   integrity sha512-Cn+3I0V0vT9ghMuzh1KzZvCkiAxTq+1TR2eSqw5E5AVWfmCtECFkVZBP6uUJZ8YjwLqXheI+rnjqPy7sVM4Fyg==
+
+"@walletconnect/types@^2.8.3":
+  version "2.8.3"
+  resolved "https://registry.npmjs.org/@walletconnect/types/-/types-2.8.3.tgz#2a389458ebda56b4119231579e1b37b0fe24f981"
+  integrity sha512-crZ5IfWEp+ctygfDNifzB68sVWKwfLMiF7GZuoOzKJuFYbXtcNjtpmFdAd3cPT+a8L30XMgv0shEdIHTj2JglQ==
+  dependencies:
+    "@walletconnect/events" "^1.0.1"
+    "@walletconnect/heartbeat" "1.2.1"
+    "@walletconnect/jsonrpc-types" "1.0.3"
+    "@walletconnect/keyvaluestorage" "^1.0.2"
+    "@walletconnect/logger" "^2.0.1"
+    events "^3.3.0"
 
 "@walletconnect/universal-provider@2.8.2":
   version "2.8.2"

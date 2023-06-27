@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { createStackNavigator } from "@react-navigation/stack";
 import type { TransitionSpec } from "@react-navigation/stack/lib/typescript/src/types";
 import { XCircle } from "@tamagui/lucide-icons";
+import * as SplashScreen from "expo-splash-screen";
 import { XStack } from "tamagui";
 
+import { useMounted } from "@/hooks/use-mounted";
 import { CharacterListPage } from "@/pages/CharacterList";
 import { LoginPage } from "@/pages/Login";
 import { PostDetailsPage } from "@/pages/PostDetails";
@@ -38,10 +40,13 @@ const config: TransitionSpec = {
     restSpeedThreshold: 0.01,
   },
 };
-
 export const RootNavigator = () => {
   const { top, bottom } = useSafeAreaInsets();
   const { t } = useTranslation("common");
+
+  useEffect(() => {
+    SplashScreen.hideAsync().catch(() => { });
+  }, []);
 
   return (
     <RootStack.Navigator

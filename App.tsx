@@ -21,6 +21,7 @@ import { QueryClient } from "@tanstack/react-query";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import WalletConnectProvider from "@walletconnect/react-native-dapp";
 import { resolveScheme } from "expo-linking";
+import * as SplashScreen from "expo-splash-screen";
 import * as Sentry from "sentry-expo";
 import type { SentryExpoNativeOptions } from "sentry-expo";
 import { TamaguiProvider } from "tamagui";
@@ -42,6 +43,8 @@ import { version } from "./package.json";
 import { RootNavigator } from "./src/navigation/root";
 import { createAsyncStoragePersister } from "./src/utils/persister";
 import config from "./tamagui.config";
+
+SplashScreen.preventAutoHideAsync().catch(() => { });
 
 enableScreens(true);
 enableFreeze(true);

@@ -57,7 +57,7 @@ const NotificationsPage: FC<NativeStackScreenProps<RootStackParamList, "Notifica
   const { t } = useTranslation("dashboard");
   const [activeTab, setActiveTab] = React.useState<CharacterNotificationType>(tabs[0].key);
   const notifications = useCharacterNotification(characterId, activeTab);
-  const data = notifications?.data?.pages.reduce((acc, page) => [...acc, ...(page?.list || [])], []) ?? [];
+  const data = notifications?.data?.pages?.flatMap(page => page?.list) || [];
   const { setOptions } = useHomeNavigation();
   const { clearBadgeCount } = useNotification();
 
