@@ -58,7 +58,13 @@ const DrawerContent = () => {
     setTimeout(() => {
       closeDrawer();
     }, 600);
-    rootNavigation.navigate(name);
+
+    if (name === "Notifications") {
+      rootNavigation.navigate("Home", { screen: "Notifications" });
+    }
+    else {
+      rootNavigation.navigate(name);
+    }
   };
 
   return (

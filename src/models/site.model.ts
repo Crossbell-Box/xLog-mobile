@@ -30,7 +30,9 @@ export const useGetUnreadCount = (
 ) => {
   return useQuery({
     queryKey: ["getUnreadCount", data],
-    queryFn: async () => indexer.notification.getUnreadCount(data),
+    queryFn: async () => indexer.notification.getUnreadCount(data).catch(() => ({
+      count: 0,
+    })),
   });
 };
 

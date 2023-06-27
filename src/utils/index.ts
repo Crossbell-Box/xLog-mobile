@@ -1,1 +1,1 @@
-export { useWalletConnect } from "@walletconnect/react-native-dapp";
+// export { useWalletConnect } from "@walletconnect/react-native-dapp";

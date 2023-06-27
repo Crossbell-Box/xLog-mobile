@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { createStackNavigator } from "@react-navigation/stack";
+import { CardStyleInterpolators, createStackNavigator } from "@react-navigation/stack";
 import type { TransitionSpec } from "@react-navigation/stack/lib/typescript/src/types";
 import { XCircle } from "@tamagui/lucide-icons";
+import * as SplashScreen from "expo-splash-screen";
 import { XStack } from "tamagui";
 
+import { useMounted } from "@/hooks/use-mounted";
 import { CharacterListPage } from "@/pages/CharacterList";
 import { LoginPage } from "@/pages/Login";
 import { PostDetailsPage } from "@/pages/PostDetails";
@@ -18,7 +20,7 @@ import { NotificationsPageWithModal } from "@/pages/Profile/Notifications";
 import { PagesPage } from "@/pages/Profile/Pages";
 import { PostsPage } from "@/pages/Profile/Posts";
 import { RepliesPage } from "@/pages/Replies";
-import { UserInfoPageWithModal } from "@/pages/UserInfo";
+import { OthersUserInfoPage } from "@/pages/UserInfo";
 import { WebPage } from "@/pages/Web";
 
 import { HomeNavigator } from "./home";
@@ -38,10 +40,13 @@ const config: TransitionSpec = {
     restSpeedThreshold: 0.01,
   },
 };
-
 export const RootNavigator = () => {
   const { top, bottom } = useSafeAreaInsets();
   const { t } = useTranslation("common");
+
+  useEffect(() => {
+    SplashScreen.hideAsync().catch(() => { });
+  }, []);
 
   return (
     <RootStack.Navigator
@@ -53,22 +58,15 @@ export const RootNavigator = () => {
       <RootStack.Screen name={"Home"} component={HomeNavigator} />
       <RootStack.Screen name={"PostDetails"} component={PostDetailsPage} />
 
-      <RootStack.Group screenOptions={{ presentation: "modal", headerShown: true }}>
+      <RootStack.Group screenOptions={{
+        presentation: "transparentModal",
+        cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS,
+        headerShown: true,
+      }}>
         <RootStack.Screen
           name={"Login"}
           component={LoginPage}
-          options={{
-            title: t("Connect Wallet"),
-            headerStyle: { elevation: 0, shadowOpacity: 0 },
-            headerBackTitleVisible: false,
-            headerBackImage(props) {
-              return (
-                <XStack {...props} paddingLeft={"$4"} >
-                  <XCircle size={24} color={props.tintColor} />
-                </XStack>
-              );
-            },
-          }}
+          options={{ headerShown: false }}
         />
       </RootStack.Group>
 
@@ -76,7 +74,7 @@ export const RootNavigator = () => {
         <RootStack.Screen name={"Replies"} component={RepliesPage} options={{ title: t("Replies") }} />
         <RootStack.Screen name={"CharacterListPage"} component={CharacterListPage} options={{ title: "" }} />
         <RootStack.Screen name={"Web"} component={WebPage} options={{ title: "" }} />
-        <RootStack.Screen name={"UserInfo"} component={UserInfoPageWithModal} options={{ title: "", headerBackTitleVisible: false }} />
+        <RootStack.Screen name={"UserInfo"} component={OthersUserInfoPage} options={{ title: "", headerBackTitleVisible: false }} />
 
         <RootStack.Screen name={"SettingsNavigator"} component={SettingsNavigator} options={{ headerShown: false }}/>
       </RootStack.Group>

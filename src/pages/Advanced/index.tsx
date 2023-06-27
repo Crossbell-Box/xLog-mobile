@@ -51,7 +51,7 @@ export const Advanced: React.FC<Props> = () => {
   });
 
   const openDeleteAccountModal = useCallback(() => bottomSheetRef.current.present(), []);
-  const onDismiss = useCallback(() => () => setEnteredUsername(""), []);
+  const onDismiss = useCallback(() => setEnteredUsername(""), []);
   const deleteCharacter = useCallback(() => {
     globalLoading.show();
     mutateAsync({ characterId: character.characterId }).finally(globalLoading.hide);

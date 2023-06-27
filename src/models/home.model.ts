@@ -231,6 +231,7 @@ export const getShowcase = async () => {
       },
     )
     .toPromise();
+
   const characterList = listResponse.data?.characters.map((c: any) =>
     parseInt(c.characterId),
   );

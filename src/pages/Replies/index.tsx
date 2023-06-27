@@ -27,8 +27,8 @@ export const RepliesPage: FC<NativeStackScreenProps<RootStackParamList, "Replies
   const comments = useGetComments({ characterId: comment.characterId, noteId: comment.noteId, limit: 10 });
   const repliesCount = comments.data?.pages?.[0]?.count;
   const flattedComments = comments.data?.pages?.flatMap((page) => {
-    return page?.list?.flatMap(comment => flatComments(comment, depth));
-  });
+    return page?.list?.flatMap(comment => flatComments(comment, depth)) || [];
+  }) || [];
 
   const refetch = comments.refetch;
 

@@ -3,15 +3,12 @@ import { useCallback, useEffect, useState } from "react";
 import { useColorScheme } from "react-native";
 
 import { useFonts } from "expo-font";
-import * as SplashScreen from "expo-splash-screen";
 import { Theme as TamaguiTheme } from "tamagui";
 
 import { ThemeContext } from "@/context/theme-context";
 import { useStorage } from "@/hooks/use-storage";
 import { allThemes } from "@/styles/theme";
 import type { Mode, Theme } from "@/styles/theme/types";
-
-SplashScreen.preventAutoHideAsync();
 
 const defaultTheme: Theme = "Official";
 const defaultMode: Mode = "dark";
@@ -43,10 +40,6 @@ export const ThemeProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
     InterBold: require("@tamagui/font-inter/otf/Inter-Bold.otf"),
     InterSemiBold: require("@tamagui/font-inter/otf/Inter-SemiBold.otf"),
   });
-
-  useEffect(() => {
-    loaded && SplashScreen.hideAsync();
-  }, [loaded]);
 
   const toggleMode = useCallback(() => {
     const _mode = mode === "dark" ? "light" : "dark";

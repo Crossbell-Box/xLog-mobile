@@ -21,9 +21,7 @@ export const CommentsPage: FC<NativeStackScreenProps<RootStackParamList, "Commen
   const comments = useGetCommentsBySite({ characterId });
   const i18n = useTranslation();
 
-  const flattedComments = comments.data?.pages?.flatMap((page) => {
-    return page?.list || [];
-  });
+  const flattedComments = comments.data?.pages?.flatMap(page => page?.list) || [];
 
   return (
     <ProfilePageLayout>

@@ -21,6 +21,7 @@ import { QueryClient } from "@tanstack/react-query";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import WalletConnectProvider from "@walletconnect/react-native-dapp";
 import { resolveScheme } from "expo-linking";
+import * as SplashScreen from "expo-splash-screen";
 import * as Sentry from "sentry-expo";
 import type { SentryExpoNativeOptions } from "sentry-expo";
 import { TamaguiProvider } from "tamagui";
@@ -28,6 +29,7 @@ import { TamaguiProvider } from "tamagui";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import ProviderComposer from "@/components/ProviderComposer";
 import { StatusBar } from "@/components/StatusBar";
+import { WalletConnectModal } from "@/components/WalletConnectModal";
 import { ENV, SENTRY_DSN } from "@/constants/env";
 import { ConnectKitProvider } from "@/providers/connect-kit-provider";
 import { DrawerProvider } from "@/providers/drawer-provider";
@@ -42,6 +44,8 @@ import { version } from "./package.json";
 import { RootNavigator } from "./src/navigation/root";
 import { createAsyncStoragePersister } from "./src/utils/persister";
 import config from "./tamagui.config";
+
+SplashScreen.preventAutoHideAsync().catch(() => { });
 
 enableScreens(true);
 enableFreeze(true);
@@ -100,21 +104,6 @@ export default () => {
           },
         }}
       />,
-      <WalletConnectProvider
-        key={"WalletConnectProvider"}
-        bridge="https://bridge.walletconnect.org"
-        clientMeta={{
-          description: "Connect with WalletConnect",
-          url: "https://walletconnect.org",
-          icons: ["https://walletconnect.org/walletconnect-logo.png"],
-          name: "WalletConnect",
-        }}
-        redirectUrl={`${resolveScheme({})}://`}
-        storageOptions={{
-          // @ts-expect-error: Internal
-          asyncStorage: AsyncStorage,
-        }}
-      />,
       <ConnectKitProvider key={"ConnectKitProvider"} />,
       <ToastProvider key={"ToastProvider"} />,
       <ThemeProvider key={"ThemeProvider"} />,
@@ -128,6 +117,7 @@ export default () => {
     ]}>
       <StatusBar />
       <RootNavigator />
+      <WalletConnectModal />
     </ProviderComposer>
   );
 };

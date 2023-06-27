@@ -1,16 +1,18 @@
-import { useAccountCharacterId, useIsConnected } from "@crossbell/react-account";
+import { useIsConnected } from "@crossbell/react-account";
 import type { BottomTabNavigationEventMap } from "@react-navigation/bottom-tabs";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import type { EventListenerCallback } from "@react-navigation/native";
 import { Bell, Home, User2 } from "@tamagui/lucide-icons";
+import * as Haptics from "expo-haptics";
 
 import { Drawer } from "@/components/Drawer";
+import { useCharacterId } from "@/hooks/use-character-id";
 import { useColors } from "@/hooks/use-colors";
 import { useRootNavigation } from "@/hooks/use-navigation";
 import { useGetUnreadCount } from "@/models/site.model";
 import { FeedPage } from "@/pages/Feed";
 import { NotificationsPageWithBottomTab } from "@/pages/Profile/Notifications";
-import { UserInfoPageWithBottomTab } from "@/pages/UserInfo";
+import { MyUserInfoPage } from "@/pages/UserInfo";
 
 import type { HomeBottomTabsParamList } from "./types";
 
@@ -18,7 +20,7 @@ const HomeBottomTabs = createBottomTabNavigator<HomeBottomTabsParamList>();
 
 export const HomeNavigator = () => {
   const { pick } = useColors();
-  const { characterId } = useAccountCharacterId();
+  const characterId = useCharacterId();
   const isConnected = useIsConnected();
   const navigation = useRootNavigation();
   const notificationUnreadCount = useGetUnreadCount(characterId);
@@ -29,6 +31,7 @@ export const HomeNavigator = () => {
         notificationUnreadCount.refetch();
       }
       if (!isConnected) {
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
         navigation.navigate("Login");
         e.preventDefault();
       }
@@ -72,8 +75,8 @@ export const HomeNavigator = () => {
         />
         <HomeBottomTabs.Screen
           name={"Profile"}
-          initialParams={{ characterId }}
-          component={UserInfoPageWithBottomTab}
+          key={characterId}
+          component={MyUserInfoPage}
           listeners={{
             tabPress: tabPressHandler("Profile"),
           }}
