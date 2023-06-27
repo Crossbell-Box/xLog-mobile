@@ -29,6 +29,7 @@ import { TamaguiProvider } from "tamagui";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import ProviderComposer from "@/components/ProviderComposer";
 import { StatusBar } from "@/components/StatusBar";
+import { WalletConnectModal } from "@/components/WalletConnectModal";
 import { ENV, SENTRY_DSN } from "@/constants/env";
 import { ConnectKitProvider } from "@/providers/connect-kit-provider";
 import { DrawerProvider } from "@/providers/drawer-provider";
@@ -131,6 +132,7 @@ export default () => {
     ]}>
       <StatusBar />
       <RootNavigator />
+      <WalletConnectModal />
     </ProviderComposer>
   );
 };
