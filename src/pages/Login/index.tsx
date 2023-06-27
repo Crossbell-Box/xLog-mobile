@@ -1,19 +1,22 @@
 import type { FC } from "react";
-import React, { useEffect } from "react";
+import React, { useCallback, useMemo, useRef, useEffect } from "react";
 import { Dimensions } from "react-native";
 import Animated, { Easing, Extrapolate, interpolate, useAnimatedStyle } from "react-native-reanimated";
 import Carousel from "react-native-reanimated-carousel";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useIsConnected, useIsWalletSignedIn } from "@crossbell/react-account";
+import BottomSheet, { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { CharacterEntity } from "crossbell";
 import { Stack, Text, XStack, YStack } from "tamagui";
 
 import { Avatar } from "@/components/Avatar";
+import type { BottomSheetModalInstance } from "@/components/BottomSheetModal";
 import { ConnectionButton } from "@/components/ConnectionButton";
 import { MeasuredContainer } from "@/components/MeasuredContainer";
 import { useAppIsActive } from "@/hooks/use-app-state";
+import { useColors } from "@/hooks/use-colors";
 import type { RootStackParamList } from "@/navigation/types";
 import { useGetShowcase } from "@/queries/home";
 import { withAnchorPoint } from "@/utils/anchor-point";
@@ -34,6 +37,7 @@ export const LoginPage: FC<NativeStackScreenProps<RootStackParamList, "Web">> = 
   const { bottom } = useSafeAreaInsets();
   const isConnected = useIsConnected();
   const appIsActive = useAppIsActive();
+  const { background } = useColors();
 
   useEffect(() => {
     if (appIsActive && isConnected) {
@@ -41,50 +45,30 @@ export const LoginPage: FC<NativeStackScreenProps<RootStackParamList, "Web">> = 
     }
   }, [appIsActive, isConnected]);
 
+  const bottomSheetRef = useRef<BottomSheetModalInstance>(null);
+  const snapPoints = useMemo(() => ["20%"], []);
+  const onDismiss = useCallback(() => navigation.goBack(), []);
+
   return (
-    <Stack flex={1} alignItems="center" paddingHorizontal={24} paddingBottom={bottom}>
-      <Text fontSize={"$2"} color={"$primary"} textAlign="center">Discovering these amazing teams and creators on xLog!</Text>
-      <MeasuredContainer flex={1}>
-        {({ height }) => {
-          return (
-            <YStack flex={1} width={"100%"} marginVertical="$4">
-              <Carousel<CharacterEntity>
-                data={showcaseSites.data}
-                width={ITEM_WIDTH}
-                height={ITEM_HEIGHT}
-                style={{
-                  flex: 1,
-                }}
-                vertical
-                enabled={false}
-                autoPlay
-                scrollAnimationDuration={700}
-                withAnimation={{
-                  type: "timing",
-                  config: {
-                    duration: 550,
-                    easing: Easing.inOut(Easing.ease),
-                  },
-                }}
-                windowSize={Math.fround(height / ITEM_HEIGHT) + 2}
-                renderItem={({ item, index, animationValue }) => (
-                  <CharacterCard
-                    item={item}
-                    index={index}
-                    key={item.characterId}
-                    parentLatyoutHeight={height}
-                    animationValue={animationValue}
-                  />
-                )}
-              />
-            </YStack>
-          );
-        }}
-      </MeasuredContainer>
-      <ConnectionButton width={"100%"} marginBottom="$3"/>
-      <Text color="$colorSubtitle" fontSize={"$3"}>
+    <Stack flex={1} backgroundColor="$colorTransparent" onPress={() => navigation.goBack()}>
+      <BottomSheet
+        ref={bottomSheetRef}
+        snapPoints={snapPoints}
+        enablePanDownToClose
+        onClose={onDismiss}
+        index={0}
+        backgroundStyle={{ backgroundColor: background }}
+      >
+        <YStack flex={1} alignItems="center" justifyContent="space-between" paddingHorizontal={24} paddingBottom={bottom} >
+          <Text fontSize={"$2"} color={"$primary"} textAlign="center">Discovering amazing teams and creators on xLog!</Text>
+          <YStack width={"100%"}>
+            <ConnectionButton width={"100%"} marginBottom="$3"/>
+            <Text color="$colorSubtitle" fontSize={"$3"}>
           By connecting you agree to our <Text onPress={navigateToTerms} color="$color" fontSize={"$3"}>Terms & Conditions</Text>
-      </Text>
+            </Text>
+          </YStack>
+        </YStack>
+      </BottomSheet>
     </Stack>
   );
 };
@@ -93,10 +77,10 @@ const CharacterCard: FC<{
   item: CharacterEntity
   index: number
   animationValue: Animated.SharedValue<number>
-  parentLatyoutHeight: number
+  parentLayoutHeight: number
 }> = (props) => {
-  const { item, animationValue, index, parentLatyoutHeight } = props;
-  const validItemLength = Math.max(Math.floor(parentLatyoutHeight / ITEM_HEIGHT) - 1, 2);
+  const { item, animationValue, index, parentLayoutHeight } = props;
+  const validItemLength = Math.max(Math.floor(parentLayoutHeight / ITEM_HEIGHT) - 1, 2);
   const validItemsArrayInput = Array.from({ length: validItemLength }).map((_, i) => i);
   const scaleValidItemsArrayOutput = Array.from({ length: validItemLength }).map((_, i) => 1);
   const rotateXValidItemsArrayOutput = Array.from({ length: validItemLength }).map((_, i) => 0);

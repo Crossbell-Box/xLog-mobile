@@ -8,6 +8,7 @@ import { useSharedValue } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { useCharacter } from "@crossbell/indexer";
+import { useFocusEffect } from "@react-navigation/native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { Route } from "@showtime-xyz/tab-view";
 import { TabFlatList, TabScrollView, TabView } from "@showtime-xyz/tab-view";
@@ -15,6 +16,7 @@ import * as Haptics from "expo-haptics";
 import { ScrollView, Separator, Spinner, Stack, Text, XStack } from "tamagui";
 
 import { DOMAIN } from "@/constants";
+import { useCharacterId } from "@/hooks/use-character-id";
 import { useRootNavigation } from "@/hooks/use-navigation";
 import type { RootStackParamList } from "@/navigation/types";
 import { getIdBySlug, useGetPagesBySiteLite } from "@/queries/page";
@@ -146,7 +148,7 @@ export interface Props {
 
 const UserInfoPage: FC<NativeStackScreenProps<RootStackParamList, "UserInfo"> & { displayHeader?: boolean }> = (props) => {
   const { route, displayHeader } = props;
-  const { characterId } = route.params;
+  const characterId = route?.params?.characterId;
   const character = useCharacter(characterId);
   const [index, setIndex] = useState(0);
   const animationHeaderPosition = useSharedValue(0);
@@ -220,8 +222,16 @@ const UserInfoPage: FC<NativeStackScreenProps<RootStackParamList, "UserInfo"> & 
   );
 };
 
-export const UserInfoPageWithModal = (props: ComponentPropsWithRef<typeof UserInfoPage>) => <UserInfoPage {...props} displayHeader />;
-export const UserInfoPageWithBottomTab = (props: ComponentPropsWithRef<typeof UserInfoPage>) => <SafeAreaView edges={["top"]} style={styles.safeArea}><UserInfoPage {...props} /></SafeAreaView>;
+export const OthersUserInfoPage = (props: ComponentPropsWithRef<typeof UserInfoPage>) => <UserInfoPage {...props} displayHeader />;
+export const MyUserInfoPage = (props: ComponentPropsWithRef<typeof UserInfoPage>) => {
+  const characterId = useCharacterId();
+
+  useEffect(() => {
+    props.navigation.setParams({ characterId });
+  }, [characterId]);
+
+  return <SafeAreaView edges={["top"]} style={styles.safeArea}><UserInfoPage {...props} /></SafeAreaView>;
+};
 
 const styles = StyleSheet.create({
   safeArea: {

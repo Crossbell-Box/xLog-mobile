@@ -1,18 +1,11 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 
 import type { ContractConfig } from "@crossbell/contract";
 import { useAccountState } from "@crossbell/react-account";
 import type { ModalConfig } from "@crossbell/react-account/modal-config";
 import { setupModal } from "@crossbell/react-account/modal-config";
-import { WalletConnectModal, useWalletConnectModal } from "@walletconnect/modal-react-native";
-import WalletConnectProvider from "@walletconnect/web3-provider";
-import { ethers } from "ethers";
+import { useWalletConnectModal } from "@walletconnect/modal-react-native";
 import type { Address } from "viem";
-
-import { INFURA_ID } from "@/constants/env";
-
-// TODO
-// import { modals } from "./modals";
 
 export function useContractConfig() {
   const { provider: walletConnectProvider, open, address } = useWalletConnectModal();
@@ -48,7 +41,7 @@ export function useContractConfig() {
     },
 
     async showConnectModal() {
-      await open();
+      return open();
     },
 
     showUpgradeEmailAccountModal() {

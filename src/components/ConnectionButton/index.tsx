@@ -12,6 +12,7 @@ import {
 import { Plug } from "@tamagui/lucide-icons";
 import { useWalletConnectModal } from "@walletconnect/modal-react-native";
 import * as Haptics from "expo-haptics";
+import * as Sentry from "sentry-expo";
 import type { StackProps } from "tamagui";
 import { Button, Card, H4, Paragraph, Stack } from "tamagui";
 
@@ -53,7 +54,7 @@ export const ConnectionButton: FC<Props> = (props) => {
 function ConnectBtn({ navigateToLogin }: { navigateToLogin: boolean }) {
   const i18n = useTranslation();
   const navigation = useRootNavigation();
-  const { isOpen, open, close, provider, isConnected, address } = useWalletConnectModal();
+  const { open } = useWalletConnectModal();
 
   const handleConnect = () => {
     if (navigateToLogin) {
@@ -62,7 +63,11 @@ function ConnectBtn({ navigateToLogin }: { navigateToLogin: boolean }) {
     }
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
 
-    open({ route: "ConnectWallet" });
+    open({ route: "ConnectWallet" }).catch((e) => {
+      Sentry.Native.captureException(e);
+      // eslint-disable-next-line no-console
+      console.log(`[WalletConnect] ${e.message}`);
+    });
   };
 
   return (

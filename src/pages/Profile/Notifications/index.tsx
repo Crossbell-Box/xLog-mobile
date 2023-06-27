@@ -84,7 +84,7 @@ const NotificationsPage: FC<NativeStackScreenProps<RootStackParamList, "Notifica
       <FlashList
         data={data}
         keyExtractor={item => item.transactionHash}
-        ListEmptyComponent={!notifications.isFetching && (
+        ListEmptyComponent={data.length === 0 && (
           <Stack flex={1} alignItems="center" justifyContent="center" paddingTop="$10">
             <SizableText color={"$colorSubtitle"}>
               There are no notifications yet.
@@ -114,7 +114,7 @@ const NotificationsPage: FC<NativeStackScreenProps<RootStackParamList, "Notifica
           </XStack>
         )}
         renderItem={({ item }) => <NotificationItem notification={item} />}
-        ListFooterComponent={(notifications.isFetchingNextPage || (notifications.isFetching && data.length === 0)) && <Spinner paddingVertical="$5"/>}
+        ListFooterComponent={notifications.isFetchingNextPage && <Spinner paddingVertical="$5"/>}
         estimatedItemSize={100}
         scrollEventThrottle={16}
         bounces
@@ -127,7 +127,6 @@ const NotificationsPage: FC<NativeStackScreenProps<RootStackParamList, "Notifica
             || notifications.hasNextPage === false
           )
             return;
-
           Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
           notifications?.fetchNextPage?.();
         }}

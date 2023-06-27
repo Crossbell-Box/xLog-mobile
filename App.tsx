@@ -104,21 +104,6 @@ export default () => {
           },
         }}
       />,
-      <WalletConnectProvider
-        key={"WalletConnectProvider"}
-        bridge="https://bridge.walletconnect.org"
-        clientMeta={{
-          description: "Connect with WalletConnect",
-          url: "https://walletconnect.org",
-          icons: ["https://walletconnect.org/walletconnect-logo.png"],
-          name: "WalletConnect",
-        }}
-        redirectUrl={`${resolveScheme({})}://`}
-        storageOptions={{
-          // @ts-expect-error: Internal
-          asyncStorage: AsyncStorage,
-        }}
-      />,
       <ConnectKitProvider key={"ConnectKitProvider"} />,
       <ToastProvider key={"ToastProvider"} />,
       <ThemeProvider key={"ThemeProvider"} />,
