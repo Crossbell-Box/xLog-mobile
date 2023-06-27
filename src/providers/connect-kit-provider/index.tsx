@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React from "react";
 
 import { InitContractProvider } from "@crossbell/contract";
 import type { BaseSigner } from "@crossbell/react-account";
@@ -24,9 +24,9 @@ export function ConnectKitProvider({ children }: React.PropsWithChildren) {
       return null;
   }, [contractConfig.provider]);
 
-  const onDisconnect = useCallback(() => walletConnectProvider?.disconnect?.(), [walletConnectProvider]);
+  const onDisconnect = useRefCallback(() => walletConnectProvider?.disconnect?.());
 
-  const getSigner = useCallback<() => Promise<BaseSigner>>(async () => web3Provider.getSigner(address) as BaseSigner, [web3Provider, address]);
+  const getSigner = useRefCallback(async () => web3Provider.getSigner(address) as BaseSigner);
 
   React.useEffect(() => {
     if (address) {
