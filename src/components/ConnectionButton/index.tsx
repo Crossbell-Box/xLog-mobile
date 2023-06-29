@@ -9,7 +9,7 @@ import {
   useDisconnectAccount,
   useIsWalletSignedIn,
 } from "@crossbell/react-account";
-import { Plug } from "@tamagui/lucide-icons";
+import { Plug, Wallet } from "@tamagui/lucide-icons";
 import { useWalletConnectModal } from "@walletconnect/modal-react-native";
 import * as Haptics from "expo-haptics";
 import * as Sentry from "sentry-expo";
@@ -40,7 +40,7 @@ export const ConnectionButton: FC<Props> = (props) => {
       {(() => {
         switch (connectedAccount?.type) {
           case "email":
-            return <DisconnectBtn navigateToLogin={navigateToLogin} />;
+            return null;
           case "wallet":
             return <OPSignToggleBtn />;
           default:
@@ -71,7 +71,7 @@ function ConnectBtn({ navigateToLogin }: { navigateToLogin: boolean }) {
   };
 
   return (
-    <Animated.View entering={FlipInXDown.delay(500).duration(300)} exiting={FlipOutXUp.delay(500).duration(300)}>
+    <Animated.View>
       <Button
         borderWidth={0}
         pressStyle={{ opacity: 0.85 }}
@@ -80,9 +80,9 @@ function ConnectBtn({ navigateToLogin }: { navigateToLogin: boolean }) {
         fontWeight={"700"}
         backgroundColor={"$primary"}
         onPress={handleConnect}
-        icon={<Plug size={"$1.5"} />}
+        icon={navigateToLogin ? <Plug size="$1.5" /> : <Wallet size={"$1.5"} />}
       >
-        {i18n.t("Connect")}
+        {i18n.t(navigateToLogin ? "Connect" : "Connect Wallet")}
       </Button>
     </Animated.View>
   );
