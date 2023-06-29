@@ -4,15 +4,14 @@ import { useTranslation } from "react-i18next";
 import type { ViewStyle } from "react-native";
 import { Dimensions, StyleSheet } from "react-native";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
+import Highlighter from "react-native-highlight-words";
 
-import { useNavigation } from "@react-navigation/native";
-import type { StackNavigationProp } from "@react-navigation/stack";
 import { Image } from "expo-image";
-import removeMd from "remove-markdown";
 import { Card, H5, H6, Paragraph, SizableText, Spacer, Text, XStack } from "tamagui";
 
 import { Avatar } from "@/components/Avatar";
 import { ImageGallery } from "@/components/ImageGallery";
+import { useColors } from "@/hooks/use-colors";
 import { useDate } from "@/hooks/use-date";
 import { useRootNavigation } from "@/hooks/use-navigation";
 import type { RootStackParamList } from "@/navigation/types";
@@ -23,12 +22,14 @@ type NoteEntity = any;
 export interface Props {
   note: NoteEntity
   style?: ViewStyle
+  searchKeyword?: string
 }
 
 const { width } = Dimensions.get("window");
 
 export const FeedListItem: FC<Props> = (props) => {
-  const { note } = props;
+  const { note, searchKeyword } = props;
+  const { primary } = useColors();
   const date = useDate();
   const navigation = useRootNavigation();
   const i18n = useTranslation();
@@ -90,7 +91,16 @@ export const FeedListItem: FC<Props> = (props) => {
                     lineHeight={"$2"}
                     size={"$4"}
                   >
-                    {note?.metadata?.content?.summary}
+                    {
+                      searchKeyword
+                        ? (
+                          <Highlighter
+                            highlightStyle={{ backgroundColor: primary }}
+                            searchWords={[searchKeyword]}
+                            textToHighlight={note?.metadata?.content?.summary}
+                          />
+                        )
+                        : note?.metadata?.content?.summary}
                   </Paragraph>
                 )
               }

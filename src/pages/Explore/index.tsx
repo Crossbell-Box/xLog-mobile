@@ -11,7 +11,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Search } from "@tamagui/lucide-icons";
 import type { CharacterEntity } from "crossbell";
-import { Text, ListItem, SizableText, Stack, XStack, YGroup, YStack } from "tamagui";
+import { Text, ListItem, SizableText, Stack, XStack, YGroup, YStack, Separator } from "tamagui";
 
 import { Avatar } from "@/components/Avatar";
 import { MeasuredContainer } from "@/components/MeasuredContainer";
@@ -33,7 +33,6 @@ const ITEM_HEIGHT = 100 + 2 * ITEM_VERTICAL_GAP;
 export const ExplorePage: FC<NativeStackScreenProps<HomeBottomTabsParamList, "Explore">> = (props) => {
   const i18n = useTranslation("common");
   const showcaseSites = useGetShowcase();
-
   const navigation = useRootNavigation();
 
   return (
@@ -56,19 +55,23 @@ export const ExplorePage: FC<NativeStackScreenProps<HomeBottomTabsParamList, "Ex
         <Search color="$colorSubtitle" size={"$1"}/>
         <SizableText color="$colorSubtitle" size="$5">{i18n.t("Search for your interest")}</SizableText>
       </XStack>
-      <ScrollView style={{ flex: 1, paddingHorizontal: 12, paddingTop: 18 }}>
+      <ScrollView style={{ flex: 1, paddingHorizontal: 12, paddingTop: 18 }} contentContainerStyle={{ paddingBottom: 50 }}>
         <YStack marginBottom={"$3"}>
-          <SizableText fontWeight={"700"} color="$color" size="$6">{i18n.t("Hot Topics")}</SizableText>
+          <XStack alignItems="center">
+            <Stack borderLeftColor={"$primary"} borderLeftWidth={3} height="$0.5" marginRight="$2"/>
+            <SizableText fontWeight={"700"} color="$color" size="$6">{i18n.t("Hot Topics")}</SizableText>
+          </XStack>
           {topics.map((topic: any) => (
-            <ListItem paddingHorizontal={0} key={topic.name} title={i18n.t(topic.name)} subTitle={i18n.t(topic.description)}/>
+            <ListItem paddingHorizontal={4} key={topic.name} title={i18n.t(topic.name)} subTitle={i18n.t(topic.description)}/>
           ))}
         </YStack>
-        {/* <YStack>
-          <SizableText fontWeight={"700"} color="$color" size="$6">{i18n.t("Suggested creators for you")}</SizableText>
-          {showcaseSites.data?.map(item => (
-            <CharacterCard item={item} key={item.characterId} />
-          ))}
-        </YStack> */}
+        <YStack>
+          <XStack alignItems="center" marginBottom="$3">
+            <Stack borderLeftColor={"$primary"} borderLeftWidth={3} height="$0.5" marginRight="$2"/>
+            <SizableText fontWeight={"700"} color="$color" size="$6">{i18n.t("Suggested creators for you")}</SizableText>
+          </XStack>
+          {showcaseSites.data?.slice(0, 15)?.map(item => <CharacterCard item={item} key={item.characterId} />)}
+        </YStack>
       </ScrollView>
     </SafeAreaView>
   );
@@ -82,7 +85,7 @@ const CharacterCard: FC<{
   return (
     <XStack height={ITEM_HEIGHT} paddingBottom={ITEM_VERTICAL_GAP} backgroundColor={"$background"}>
       <XStack flex={1} alignItems="center" gap="$3" borderWidth={1} borderColor={"$borderColor"} borderRadius={"$5"} paddingHorizontal={"$3"}>
-        <Avatar size={42} character={item} isNavigateToUserInfo={false}/>
+        <Avatar size={42} character={item} isNavigateToUserInfo useDefault/>
         <YStack flex={1} gap="$2">
           <Text numberOfLines={1} color={"$color"} fontSize={"$7"} fontWeight={"$10"}>{item.metadata?.content?.name}</Text>
           {item.metadata?.content?.bio && <Text color="$colorSubtitle" numberOfLines={2}>{item.metadata?.content?.bio}</Text>}

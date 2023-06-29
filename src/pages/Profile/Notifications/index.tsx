@@ -84,7 +84,7 @@ const NotificationsPage: FC<NativeStackScreenProps<RootStackParamList, "Notifica
       <FlashList
         data={data}
         keyExtractor={item => item.transactionHash}
-        ListEmptyComponent={data.length === 0 && (
+        ListEmptyComponent={(
           <Stack flex={1} alignItems="center" justifyContent="center" paddingTop="$10">
             <SizableText color={"$colorSubtitle"}>
               There are no notifications yet.

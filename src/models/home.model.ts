@@ -1,4 +1,6 @@
+import { gql } from "@apollo/client";
 import { indexer } from "@crossbell/indexer";
+import { createClient, cacheExchange, fetchExchange } from "@urql/core";
 import type { CharacterEntity } from "crossbell";
 import dayjs from "dayjs";
 
@@ -147,36 +149,35 @@ export async function getFeed({
           )
           .join("\n");
         const result = await client
-          .query(
-            `
-                query getNotes {
-                  notes(
-                    where: {
-                      OR: [
-                        ${orString}
-                      ]
-                    },
-                    orderBy: [{ createdAt: desc }],
-                    take: 1000,
-                  ) {
-                    characterId
-                    noteId
-                    character {
-                      handle
-                      metadata {
-                        content
-                      }
-                    }
-                    createdAt
+          .query({
+            query: gql`
+              query getNotes {
+                notes(
+                  where: {
+                    OR: [
+                      ${orString}
+                    ]
+                  },
+                  orderBy: [{ createdAt: desc }],
+                  take: 1000,
+                ) {
+                  characterId
+                  noteId
+                  character {
+                    handle
                     metadata {
-                      uri
                       content
                     }
                   }
-                }`,
-            {},
-          )
-          .toPromise();
+                  createdAt
+                  metadata {
+                    uri
+                    content
+                  }
+                }
+              }
+            `,
+          });
 
         const list = await Promise.all(
           result?.data?.notes.map(async (page: any) => {
@@ -204,60 +205,58 @@ export async function getFeed({
           )
           .join("\n");
         const result = await client
-          .query(
-            `
-              query getNotes {
-                notes(
-                  where: {
-                    metadata: {
-                      content: {
-                        path: "sources",
-                        array_contains: "xlog"
-                      },
-                      AND: [{
-                        content: {
-                          path: "tags",
-                          array_contains: "post"
-                        }
-                      }, {
-                        OR: [
-                          ${includeString}
-                        ]
-                      }]
+          .query({
+            query: gql`
+            query getNotes {
+              notes(
+                where: {
+                  metadata: {
+                    content: {
+                      path: "sources",
+                      array_contains: "xlog"
                     },
+                    AND: [{
+                      content: {
+                        path: "tags",
+                        array_contains: "post"
+                      }
+                    }, {
+                      OR: [
+                        ${includeString}
+                      ]
+                    }]
                   },
-                  orderBy: [{ createdAt: desc }],
-                  take: ${limit},
-                  ${
+                },
+                orderBy: [{ createdAt: desc }],
+                take: ${limit},
+                ${
   cursor
     ? `
-                  cursor: {
-                    note_characterId_noteId_unique: {
-                      characterId: ${cursor.split("_")[0]},
-                      noteId: ${cursor.split("_")[1]}
-                    },
-                  },`
+                cursor: {
+                  note_characterId_noteId_unique: {
+                    characterId: ${cursor.split("_")[0]},
+                    noteId: ${cursor.split("_")[1]}
+                  },
+                },`
     : ""
 }
-                ) {
-                  characterId
-                  noteId
-                  character {
-                    handle
-                    metadata {
-                      content
-                    }
-                  }
-                  createdAt
+              ) {
+                characterId
+                noteId
+                character {
+                  handle
                   metadata {
-                    uri
                     content
                   }
                 }
-              }`,
-            {},
-          )
-          .toPromise();
+                createdAt
+                metadata {
+                  uri
+                  content
+                }
+              }
+            }`,
+          });
 
         const list = await Promise.all(
           result?.data?.notes.map(async (page: any) => {
@@ -285,39 +284,39 @@ export async function getFeed({
       if (daysInterval) {
         time = dayjs().subtract(daysInterval, "day").toISOString();
       }
+
       const result = await client
-        .query(
-          `
-              query getNotes {
-                notes(
-                  where: {
-                    ${time ? `createdAt: { gt: "${time}" },` : ""}
-                    stat: { viewDetailCount: { gt: 0 } },
-                    metadata: { content: { path: "sources", array_contains: "xlog" }, AND: { content: { path: "tags", array_contains: "post" } } }
-                  },
-                  orderBy: { stat: { viewDetailCount: desc } },
-                  take: 25,
-                ) {
-                  stat {
-                    viewDetailCount
-                  }
-                  characterId
-                  noteId
-                  character {
-                    handle
-                    metadata {
-                      content
-                    }
-                  }
-                  createdAt
-                  metadata {
-                    uri
-                    content
-                  }
+        .query({
+          query: gql`
+          query getNotes {
+            notes(
+              where: {
+                ${time ? `createdAt: { gt: "${time}" },` : ""}
+                stat: { viewDetailCount: { gt: 0 } },
+                metadata: { content: { path: "sources", array_contains: "xlog" }, AND: { content: { path: "tags", array_contains: "post" } } }
+              },
+              orderBy: { stat: { viewDetailCount: desc } },
+              take: 25,
+            ) {
+              stat {
+                viewDetailCount
+              }
+              characterId
+              noteId
+              character {
+                handle
+                metadata {
+                  content
                 }
-              }`,
-          {},
-        );
+              }
+              createdAt
+              metadata {
+                uri
+                content
+              }
+            }
+          }`,
+        });
 
       let list: ExpandedNote[] = await Promise.all(
         result?.data?.notes.map(async (page: any) => {
@@ -427,60 +426,58 @@ export const getShowcase = async () => {
   const oneMonthAgo = dayjs().subtract(10, "day").toISOString();
 
   const listResponse = await client
-    .query(
-      `
-        query getCharacters($filter: [Int!]) {
-          characters(
-            where: {
-              characterId: {
-                notIn: $filter
-              }
-              notes: {
-                some: {
-                  stat: { viewDetailCount: { gte: 100 } }
-                  metadata: {
-                    content: { path: "sources", array_contains: "xlog" }
-                    AND: { content: { path: "tags", array_contains: "post" } }
-                  }
+    .query({
+      query: gql`
+      query getCharacters($filter: [Int!]) {
+        characters(
+          where: {
+            characterId: {
+              notIn: $filter
+            }
+            notes: {
+              some: {
+                stat: { viewDetailCount: { gte: 100 } }
+                metadata: {
+                  content: { path: "sources", array_contains: "xlog" }
+                  AND: { content: { path: "tags", array_contains: "post" } }
                 }
               }
             }
-          ) {
-            characterId
           }
-        }`,
-      {
+        ) {
+          characterId
+        }
+      }`,
+      variables: {
         filter: filter.latest,
       },
-    )
-    .toPromise();
+    });
 
   const characterList = listResponse.data?.characters.map((c: any) =>
     parseInt(c.characterId),
   );
 
   const result = await client
-    .query(
-      `
-        query getCharacters($identities: [Int!]) {
-          characters( where: { characterId: { in: $identities } }, orderBy: [{ updatedAt: desc }] ) {
-            handle
-            characterId
-            metadata {
-              uri
-              content
-            }
+    .query({
+      query: gql`
+      query getCharacters($identities: [Int!]) {
+        characters( where: { characterId: { in: $identities } }, orderBy: [{ updatedAt: desc }] ) {
+          handle
+          characterId
+          metadata {
+            uri
+            content
           }
-          notes( where: { characterId: { in: $identities }, createdAt: { gt: "${oneMonthAgo}" }, metadata: { content: { path: "sources", array_contains: "xlog" } } }, orderBy: [{ updatedAt: desc }] ) {
-            characterId
-            createdAt
-          }
-        }`,
-      {
+        }
+        notes( where: { characterId: { in: $identities }, createdAt: { gt: "${oneMonthAgo}" }, metadata: { content: { path: "sources", array_contains: "xlog" } } }, orderBy: [{ updatedAt: desc }] ) {
+          characterId
+          createdAt
+        }
+      }`,
+      variables: {
         identities: characterList,
       },
-    )
-    .toPromise();
+    });
 
   result.data?.characters?.forEach((site: any) => {
     if (site.metadata?.content) {

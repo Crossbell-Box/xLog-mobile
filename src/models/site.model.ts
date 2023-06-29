@@ -1,3 +1,4 @@
+import { gql } from "@apollo/client";
 import { useContract } from "@crossbell/contract";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { cacheExchange, createClient, fetchExchange } from "@urql/core";
@@ -8,6 +9,7 @@ import type Unidata from "unidata.js";
 import type { Profiles as UniProfiles } from "unidata.js";
 import type { Address } from "viem";
 
+import { client } from "@/queries/graphql";
 import type { Profile, SiteNavigationItem } from "@/types/crossbell";
 import { expandCrossbellCharacter, expandUnidataProfile } from "@/utils/expand-unit";
 
@@ -167,33 +169,28 @@ export const getSite = async (input: string) => {
 };
 
 export const getSites = async (input: number[]) => {
-  const client = createClient({
-    url: "https://indexer.crossbell.io/v1/graphql",
-    exchanges: [cacheExchange, fetchExchange],
-  });
   const oneMonthAgo = dayjs().subtract(15, "day").toISOString();
   const result = await client
-    .query(
-      `
-        query getCharacters($identities: [Int!], $limit: Int) {
-          characters( where: { characterId: { in: $identities } }, orderBy: [{ updatedAt: desc }], take: $limit ) {
-            handle
-            characterId
-            metadata {
-              uri
-              content
-            }
+    .query({
+      query: gql`
+      query getCharacters($identities: [Int!], $limit: Int) {
+        characters( where: { characterId: { in: $identities } }, orderBy: [{ updatedAt: desc }], take: $limit ) {
+          handle
+          characterId
+          metadata {
+            uri
+            content
           }
-          notes( where: { characterId: { in: $identities }, createdAt: { gt: "${oneMonthAgo}" }, metadata: { content: { path: "sources", array_contains: "xlog" } } }, orderBy: [{ updatedAt: desc }] ) {
-            characterId
-            createdAt
-          }
-        }`,
-      {
+        }
+        notes( where: { characterId: { in: $identities }, createdAt: { gt: "${oneMonthAgo}" }, metadata: { content: { path: "sources", array_contains: "xlog" } } }, orderBy: [{ updatedAt: desc }] ) {
+          characterId
+          createdAt
+        }
+      }`,
+      variables: {
         identities: input,
       },
-    )
-    .toPromise();
+    });
 
   result.data?.characters?.forEach((site: any) => {
     if (site.metadata.content) {

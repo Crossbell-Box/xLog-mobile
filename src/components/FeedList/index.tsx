@@ -1,11 +1,10 @@
 import type { FC } from "react";
-import { useState, useMemo } from "react";
 import type { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
 import type { useAnimatedScrollHandler } from "react-native-reanimated";
 
 import type { NoteEntity } from "crossbell";
 import * as Haptics from "expo-haptics";
-import { Separator, Spinner, Stack, useWindowDimensions } from "tamagui";
+import { Separator, SizableText, Spinner, Stack, useWindowDimensions } from "tamagui";
 
 import { useCharacterId } from "@/hooks/use-character-id";
 import type { FeedType, SearchType } from "@/models/home.model";
@@ -66,7 +65,14 @@ export const FeedList: FC<Props> = (props) => {
         data={feedList}
         keyExtractor={(post, index) => `${type}-${post?.noteId}-${index}`}
         renderItem={({ item, index }) => (
-          <FeedListItem key={index} note={item}/>
+          <FeedListItem key={index} note={item} searchKeyword={searchKeyword}/>
+        )}
+        ListEmptyComponent={(
+          <Stack flex={1} alignItems="center" justifyContent="center" paddingTop="$10">
+            <SizableText color={"$colorSubtitle"}>
+              There are no posts yet.
+            </SizableText>
+          </Stack>
         )}
         ListFooterComponent={(feed.isFetchingNextPage || (feed.isFetching && feedList.length === 0)) && <Spinner paddingBottom="$5"/>}
         ItemSeparatorComponent={() => <Separator borderColor={"$gray5"}/>}
@@ -75,6 +81,9 @@ export const FeedList: FC<Props> = (props) => {
         estimatedListSize={{
           height: height * 0.8,
           width,
+        }}
+        scrollIndicatorInsets={{
+          right: 2,
         }}
         scrollEventThrottle={16}
         onScroll={onScroll}
