@@ -113,16 +113,16 @@ export const BlockchainInfoIcon: FC<Props> = (props) => {
                       onPress={closeModal}
                       url={`${CSB_SCAN}/tx/${page?.transactionHash}`}
                     >
-                      {i18n.t("Creation")} {page?.transactionHash.slice(0, 10)}
-                          ...{page?.transactionHash.slice(-10)}
+                      {i18n.t("Creation")} {page?.transactionHash?.slice(0, 10)}
+                          ...{page?.transactionHash?.slice(-10)}
                     </BlockchainInfoLink>
                     <BlockchainInfoLink
                       onPress={closeModal}
                       url={`${CSB_SCAN}/tx/${page?.updatedTransactionHash}`}
                     >
                       {i18n.t("Last Update")}&nbsp;
-                      {page?.updatedTransactionHash.slice(0, 10)}...
-                      {page?.updatedTransactionHash.slice(-10)}
+                      {page?.updatedTransactionHash?.slice(0, 10)}...
+                      {page?.updatedTransactionHash?.slice(-10)}
                     </BlockchainInfoLink>
                   </>
                 )
@@ -132,16 +132,16 @@ export const BlockchainInfoIcon: FC<Props> = (props) => {
                       onPress={closeModal}
                       url={`${CSB_SCAN}/tx/${site?.transactionHash}`}
                     >
-                      {i18n.t("Creation")} {site?.transactionHash.slice(0, 10)}
-                          ...{site?.transactionHash.slice(-10)}
+                      {i18n.t("Creation")} {site?.transactionHash?.slice(0, 10)}
+                          ...{site?.transactionHash?.slice(-10)}
                     </BlockchainInfoLink>
                     <BlockchainInfoLink
                       onPress={closeModal}
                       url={`${CSB_SCAN}/tx/${site?.updatedTransactionHash}`}
                     >
                       {i18n.t("Last Update")}&nbsp;
-                      {site?.updatedTransactionHash.slice(0, 10)}...
-                      {site?.updatedTransactionHash.slice(-10)}
+                      {site?.updatedTransactionHash?.slice(0, 10)}...
+                      {site?.updatedTransactionHash?.slice(-10)}
                     </BlockchainInfoLink>
                   </>
                 )}

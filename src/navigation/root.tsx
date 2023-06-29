@@ -20,6 +20,7 @@ import { NotificationsPageWithModal } from "@/pages/Profile/Notifications";
 import { PagesPage } from "@/pages/Profile/Pages";
 import { PostsPage } from "@/pages/Profile/Posts";
 import { RepliesPage } from "@/pages/Replies";
+import { SearchPage } from "@/pages/Search";
 import { OthersUserInfoPage } from "@/pages/UserInfo";
 import { WebPage } from "@/pages/Web";
 
@@ -73,10 +74,10 @@ export const RootNavigator = () => {
       <RootStack.Group screenOptions={{ headerShown: true, headerBackTitle: i18n.t("Back") }}>
         <RootStack.Screen name={"Replies"} component={RepliesPage} options={{ title: i18n.t("Replies") }} />
         <RootStack.Screen name={"CharacterListPage"} component={CharacterListPage} options={{ title: "" }} />
-        <RootStack.Screen name={"Web"} component={WebPage} options={{ title: "" }} />
         <RootStack.Screen name={"UserInfo"} component={OthersUserInfoPage} options={{ title: "", headerBackTitleVisible: false }} />
-
         <RootStack.Screen name={"SettingsNavigator"} component={SettingsNavigator} options={{ headerShown: false }}/>
+        <RootStack.Screen name={"Web"} component={WebPage} options={{ title: "" }} />
+        <RootStack.Screen name={"Search"} component={SearchPage} options={{ headerShown: false }} />
       </RootStack.Group>
 
       <RootStack.Group screenOptions={{

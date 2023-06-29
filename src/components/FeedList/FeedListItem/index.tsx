@@ -44,7 +44,7 @@ export const FeedListItem: FC<Props> = (props) => {
   }, [note]);
 
   const coverImage = useMemo(() => {
-    const imageUrls = findCoverImage(note.metadata.content.content);
+    const imageUrls = findCoverImage(note?.metadata?.content?.content);
 
     return {
       uri: imageUrls.length > 1 ? imageUrls : imageUrls[0],
@@ -59,7 +59,7 @@ export const FeedListItem: FC<Props> = (props) => {
       isSingle: false
       isMultiple: true
     };
-  }, [note.metadata.content.content]);
+  }, [note?.metadata?.content?.content]);
 
   const closeModal = React.useCallback(() => {
     setDisplayImageUris([]);
@@ -73,26 +73,24 @@ export const FeedListItem: FC<Props> = (props) => {
             <XStack alignItems="center" gap={"$3"} marginBottom={"$1"}>
               <Avatar character={note?.character} useDefault/>
               <XStack alignItems="center">
-                <SizableText size="$5" fontWeight={"700"}>{note.character?.metadata?.content?.name || note.character?.handle}</SizableText>
+                <SizableText size="$5" fontWeight={"700"}>{note?.character?.metadata?.content?.name || note?.character?.handle}</SizableText>
               </XStack>
             </XStack>
 
             {
-              note.metadata.content.title && <SizableText size={"$6"} fontWeight={"700"} color="$color" marginBottom={"$1"} numberOfLines={1}>{String(note.metadata.content.title)}</SizableText>
+              note.metadata?.content?.title && <SizableText size={"$6"} fontWeight={"700"} color="$color" marginBottom={"$1"} numberOfLines={1}>{String(note?.metadata?.content?.title)}</SizableText>
             }
 
             <XStack justifyContent={coverImage.isSingle ? "space-between" : "flex-start"} gap="$2">
               {
-                note.metadata?.content?.content && (
+                note?.metadata?.content?.summary && (
                   <Paragraph
                     width={coverImage.isSingle ? "65%" : "100%"}
                     numberOfLines={coverImage.isSingle ? 5 : 3}
                     lineHeight={"$2"}
                     size={"$4"}
                   >
-                    {removeMd(
-                      String(note.metadata.content.content.slice(0, 100)).replace(/(\r\n|\n|\r)/gm, " "),
-                    )}
+                    {note?.metadata?.content?.summary}
                   </Paragraph>
                 )
               }
@@ -142,9 +140,9 @@ export const FeedListItem: FC<Props> = (props) => {
             <XStack marginTop={"$3"} justifyContent="space-between">
               <Text numberOfLines={1} maxWidth={"70%"}>
                 {
-                  !!note.metadata?.content?.tags?.filter(tag => tag !== "post" && tag !== "page").length && (
+                  !!note?.metadata?.content?.tags?.filter(tag => tag !== "post" && tag !== "page").length && (
                     <SizableText size={"$2"} numberOfLines={1} color="$colorSubtitle">
-                      {note.metadata?.content?.tags
+                      {note?.metadata?.content?.tags
                         ?.filter(tag => tag !== "post" && tag !== "page")
                         .map((tag, index) => (
                           <Text key={tag + index} fontSize={12} color="$colorSubtitle">

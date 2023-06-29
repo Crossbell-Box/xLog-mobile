@@ -2,7 +2,7 @@ import { useIsConnected } from "@crossbell/react-account";
 import type { BottomTabNavigationEventMap } from "@react-navigation/bottom-tabs";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import type { EventListenerCallback } from "@react-navigation/native";
-import { Bell, Home, User2 } from "@tamagui/lucide-icons";
+import { Bell, Home, Search, User2 } from "@tamagui/lucide-icons";
 import * as Haptics from "expo-haptics";
 
 import { Drawer } from "@/components/Drawer";
@@ -10,6 +10,7 @@ import { useCharacterId } from "@/hooks/use-character-id";
 import { useColors } from "@/hooks/use-colors";
 import { useRootNavigation } from "@/hooks/use-navigation";
 import { useGetUnreadCount } from "@/models/site.model";
+import { ExplorePage } from "@/pages/Explore";
 import { FeedPage } from "@/pages/Feed";
 import { NotificationsPageWithBottomTab } from "@/pages/Profile/Notifications";
 import { MyUserInfoPage } from "@/pages/UserInfo";
@@ -52,6 +53,14 @@ export const HomeNavigator = () => {
           options={{
             tabBarShowLabel: false,
             tabBarIcon: props => <Home {...props} />,
+          }}
+        />
+        <HomeBottomTabs.Screen
+          name={"Explore"}
+          component={ExplorePage}
+          options={{
+            tabBarShowLabel: false,
+            tabBarIcon: props => <Search {...props} />,
           }}
         />
         <HomeBottomTabs.Screen

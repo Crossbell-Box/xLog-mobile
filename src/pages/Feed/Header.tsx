@@ -10,40 +10,40 @@ import { Button, isWeb, Stack, Text, XStack, YStack } from "tamagui";
 import { NavigationHeader } from "@/components/Header";
 import { isAndroid } from "@/constants/platform";
 import { useColors } from "@/hooks/use-colors";
-import type { FeedType } from "@/models/home.model";
+import type { FeedType as AllFeedType } from "@/models/home.model";
 
 import { HotInterval } from "./HotInterval";
 
-// TODO
-export type SortType = Exclude<FeedType, "topic">;
+export type FeedType = Extract<AllFeedType, "latest" | "hottest" | "following">;
 
-export const sortType: Record<Uppercase<SortType>, SortType> = {
+export const feedType: Record<Uppercase<FeedType>, FeedType> = {
   LATEST: "latest",
-  HOT: "hot",
+  HOTTEST: "hottest",
   FOLLOWING: "following",
 };
 
 export interface Props {
   isExpandedAnimValue: Animated.SharedValue<0 | 1>
-  currentSortType: SortType
+  currentFeedType: FeedType
   daysInterval: number
-  onSortTypeChange: (type: SortType) => void
+  onFeedTypeChange: (type: FeedType) => void
   onDaysIntervalChange: (days: number) => void
+  isSearching?: boolean
 }
 
 type Measurements = Array<Partial<{ x: number; width: number }>>;
 
 export const Header: FC<Props> = (props) => {
-  const { daysInterval, onDaysIntervalChange } = props;
+  const { daysInterval, isSearching, onDaysIntervalChange } = props;
   const { primary: primaryColor, subtitle: inactiveColor } = useColors();
   const i18n = useTranslation("dashboard");
-  const lengthOfSortType = Object.values(sortType).length;
-  const { isExpandedAnimValue, currentSortType, onSortTypeChange } = props;
+  const countOfFeedType = Object.values(feedType).length;
+  const { isExpandedAnimValue, currentFeedType, onFeedTypeChange } = props;
   const [_measurements, setMeasurements] = useState<Measurements>([]);
   const connectedAccount = useConnectedAccount();
-  const indicatorAnimValuePos = useDerivedValue(() => withTiming(Object.values(sortType).indexOf(currentSortType)), [currentSortType]);
+  const indicatorAnimValuePos = useDerivedValue(() => withTiming(Object.values(feedType).indexOf(currentFeedType)), [currentFeedType]);
   const measurements = useMemo<Measurements | undefined>(() => {
-    if (_measurements.filter(m => !!m).length === lengthOfSortType)
+    if (_measurements.filter(m => !!m).length === countOfFeedType)
       return _measurements;
 
     return undefined;
@@ -78,16 +78,16 @@ export const Header: FC<Props> = (props) => {
     return {
       opacity: 0,
     };
-  }, [currentSortType, measurements]);
+  }, [currentFeedType, measurements]);
 
   const tabs: Array<{
-    type: SortType
+    type: FeedType
     title: string | ((props: { tintColor: string; fontWeight: string }) => React.ReactNode)
     onPress?: () => void
   }> = useMemo(() => {
     const tabs = [
       {
-        type: sortType.LATEST,
+        type: feedType.LATEST,
         title: ({ tintColor, fontWeight }) => (
           <Text
             color={tintColor}
@@ -99,7 +99,7 @@ export const Header: FC<Props> = (props) => {
         ),
       },
       {
-        type: sortType.HOT,
+        type: feedType.HOTTEST,
         title: ({ tintColor, fontWeight }) => (
           <XStack alignItems="center" gap="$1">
             <Stack height={18}>
@@ -111,7 +111,7 @@ export const Header: FC<Props> = (props) => {
                 {i18n.t("Hot")}
               </Text>
             </Stack>
-            {currentSortType === sortType.HOT && (
+            {currentFeedType === feedType.HOTTEST && (
               <Animated.View entering={FadeInLeft.duration(200)} exiting={FadeOutLeft.duration(200)}>
                 <Stack paddingTop={isAndroid ? "$1" : undefined}>
                   <ChevronDown
@@ -135,17 +135,17 @@ export const Header: FC<Props> = (props) => {
           </XStack>
         ),
         onPress: () => {
-          const isHotActive = currentSortType === sortType.HOT;
+          const isHotActive = currentFeedType === feedType.HOTTEST;
           isHotActive
             ? setIsHotIntervalBottomSheetOpen(true)
-            : onSortTypeChange(sortType.HOT);
+            : onFeedTypeChange(feedType.HOTTEST);
         },
       },
     ];
 
-    if (connectedAccount) {
+    if (connectedAccount && !isSearching) {
       tabs.push({
-        type: sortType.FOLLOWING,
+        type: feedType.FOLLOWING,
         title: ({ tintColor, fontWeight }) => (
           <Text
             color={tintColor}
@@ -157,14 +157,16 @@ export const Header: FC<Props> = (props) => {
         ),
       });
     }
+
     return tabs;
   }, [
     connectedAccount,
-    currentSortType,
+    currentFeedType,
     i18n,
     isHotIntervalBottomSheetOpen,
-    onSortTypeChange,
     daysInterval,
+    isSearching,
+    onFeedTypeChange,
     onDaysIntervalChange,
   ]);
 
@@ -175,7 +177,7 @@ export const Header: FC<Props> = (props) => {
         <XStack alignItems="center">
           {
             tabs.map(({ type, title, onPress }, index) => {
-              const isActive = type === currentSortType;
+              const isActive = type === currentFeedType;
               const tintColor = isActive ? primaryColor : inactiveColor;
               const fontWeight = isActive ? "bold" : "normal";
               const content = typeof title === "string"
@@ -208,7 +210,7 @@ export const Header: FC<Props> = (props) => {
                     onPress={() => {
                       onPress
                         ? onPress?.()
-                        : onSortTypeChange(type);
+                        : onFeedTypeChange(type);
                     }}
                   >
                     {content}
