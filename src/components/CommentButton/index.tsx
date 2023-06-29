@@ -231,6 +231,9 @@ export const CommentButton: React.FC<Props> = ({ characterId, noteId, iconSize =
                       }}
                       onComment={comments.refetch}
                       onEdit={comments.refetch}
+                      closeBottomSheet={() => {
+                        bottomSheetRef.current.close();
+                      }}
                     />
                   );
                 }}
