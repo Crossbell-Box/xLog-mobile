@@ -29,9 +29,7 @@ interface UseDate {
 }
 
 export function useDate(): UseDate {
-  const { i18n } = useTranslation();
-
-  const locale = i18n.language;
+  const [_, { language: locale }] = useTranslation();
 
   dayjs.locale(locale);
 

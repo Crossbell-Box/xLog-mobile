@@ -43,7 +43,7 @@ export const Advanced: React.FC<Props> = () => {
   const characterName = character.metadata?.content?.name;
   const bottomSheetRef = useRef<BottomSheetModalInstance>(null);
   const snapPoints = useMemo(() => ["45%"], []);
-  const { t } = useTranslation("common");
+  const i18n = useTranslation("common");
   const [enteredUsername, setEnteredUsername] = useState("");
   const globalLoading = useGlobalLoading();
   const { mutateAsync } = useDeleteCharacter({
@@ -72,8 +72,8 @@ export const Advanced: React.FC<Props> = () => {
                     scaleIcon={1.2}
                     iconAfter={<ArrowRight />}
                     onPress={openDeleteAccountModal}
-                    title={t("Delete account")}
-                    subTitle={t("This action cannot be undone.")}
+                    title={i18n.t("Delete account")}
+                    subTitle={i18n.t("This action cannot be undone.")}
                   />
                 </YGroup.Item>
               </YGroup>
@@ -91,10 +91,9 @@ export const Advanced: React.FC<Props> = () => {
         >
           <ScrollView keyboardShouldPersistTaps={"always"}>
             <YStack gap="$3" padding="$3">
-              <H4 textAlign="center">{t("Delete Account?")}</H4>
+              <H4 textAlign="center">{i18n.t("Delete Account?")}</H4>
               <Paragraph>
                 <Trans
-                  i18n={i18n}
                   i18nKey="delete account alert"
                   values={{ name: characterName }}
                   components={{

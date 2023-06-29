@@ -54,7 +54,7 @@ const tabs: Array<{
 
 const NotificationsPage: FC<NativeStackScreenProps<RootStackParamList, "Notifications">> = () => {
   const characterId = useCharacterId();
-  const { t } = useTranslation("dashboard");
+  const i18n = useTranslation("dashboard");
   const [activeTab, setActiveTab] = React.useState<CharacterNotificationType>(tabs[0].key);
   const notifications = useCharacterNotification(characterId, activeTab);
   const data = notifications?.data?.pages?.flatMap(page => page?.list) || [];
@@ -80,7 +80,7 @@ const NotificationsPage: FC<NativeStackScreenProps<RootStackParamList, "Notifica
 
   return (
     <ProfilePageLayout>
-      <ProfilePageHeader title={t("Notifications")} description={null} />
+      <ProfilePageHeader title={i18n.t("Notifications")} description={null} />
       <FlashList
         data={data}
         keyExtractor={item => item.transactionHash}

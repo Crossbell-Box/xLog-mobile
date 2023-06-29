@@ -9,8 +9,6 @@ import {
 
 import * as siteModel from "@/models/site.model";
 
-import { useUnidata } from "./unidata";
-
 export const useGetSite = (input?: string) => {
   return useQuery(["getSite", input], async () => {
     if (!input) {

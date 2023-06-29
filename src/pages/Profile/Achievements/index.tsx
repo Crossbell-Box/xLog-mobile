@@ -16,12 +16,12 @@ export interface Props {
 
 export const AchievementsPage: FC<NativeStackScreenProps<RootStackParamList, "Achievements">> = () => {
   const characterId = useCharacterId();
-  const { t } = useTranslation("dashboard");
+  const i18n = useTranslation("dashboard");
   const achievement = useGetAchievements(characterId?.toString());
 
   return (
     <ProfilePageLayout>
-      <ProfilePageHeader title={t("Achievements")} description={null} />
+      <ProfilePageHeader title={i18n.t("Achievements")} description={null} />
       <Stack margin="$3">
         {achievement.data?.list?.map((series) => {
           const length = series.groups?.length;

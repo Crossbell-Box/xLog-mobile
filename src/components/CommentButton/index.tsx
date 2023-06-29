@@ -50,7 +50,7 @@ type ItemData = {
 export const CommentButton: React.FC<Props> = ({ characterId, noteId, iconSize = "$1", fontSize = "$6" }) => {
   const comments = useGetComments({ characterId, noteId });
   const [isLoading, setIsLoading] = useState(false);
-  const { t } = useTranslation("site");
+  const i18n = useTranslation("site");
   const { bottom } = useSafeAreaInsets();
   const { width } = useWindowDimensions();
   const [content, setContent] = useState("");
@@ -200,7 +200,7 @@ export const CommentButton: React.FC<Props> = ({ characterId, noteId, iconSize =
                   if (item.type === "header") {
                     return (
                       <Stack backgroundColor={background} paddingBottom={8} marginBottom="$3">
-                        <H4>{t("Comments")} {commentsCount}</H4>
+                        <H4>{i18n.t("Comments")} {commentsCount}</H4>
                       </Stack>
                     );
                   }
@@ -258,12 +258,12 @@ export const CommentButton: React.FC<Props> = ({ characterId, noteId, iconSize =
                         placeholder={
                           isEditing
                             ? selectedEditComment?.metadata?.content?.content
-                            : t("Write a comment on the blockchain")
+                            : i18n.t("Write a comment on the blockchain")
                         }
                         placeholderTextColor={subtitle}
                       />
                       <Button alignSelf="center" onPress={submitComment} alignItems="center" justifyContent="center">
-                        {t("Publish")}
+                        {i18n.t("Publish")}
                       </Button>
                     </XStack>
                   )
@@ -289,7 +289,7 @@ export const CommentButton: React.FC<Props> = ({ characterId, noteId, iconSize =
                         flex={1}
                         onPress={onPressInput}>
                         <Text fontSize={"$6"} flex={1} borderRadius={10} color={"$colorSubtitle"}>
-                          {t("Write a comment on the blockchain")}
+                          {i18n.t("Write a comment on the blockchain")}
                         </Text>
                       </XStack>
                     </XStack>

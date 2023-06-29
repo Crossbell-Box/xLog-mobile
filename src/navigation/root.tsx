@@ -42,7 +42,7 @@ const config: TransitionSpec = {
 };
 export const RootNavigator = () => {
   const { top, bottom } = useSafeAreaInsets();
-  const { t } = useTranslation("common");
+  const i18n = useTranslation("common");
 
   useEffect(() => {
     SplashScreen.hideAsync().catch(() => { });
@@ -70,8 +70,8 @@ export const RootNavigator = () => {
         />
       </RootStack.Group>
 
-      <RootStack.Group screenOptions={{ headerShown: true, headerBackTitle: t("Back") }}>
-        <RootStack.Screen name={"Replies"} component={RepliesPage} options={{ title: t("Replies") }} />
+      <RootStack.Group screenOptions={{ headerShown: true, headerBackTitle: i18n.t("Back") }}>
+        <RootStack.Screen name={"Replies"} component={RepliesPage} options={{ title: i18n.t("Replies") }} />
         <RootStack.Screen name={"CharacterListPage"} component={CharacterListPage} options={{ title: "" }} />
         <RootStack.Screen name={"Web"} component={WebPage} options={{ title: "" }} />
         <RootStack.Screen name={"UserInfo"} component={OthersUserInfoPage} options={{ title: "", headerBackTitleVisible: false }} />
@@ -87,13 +87,13 @@ export const RootNavigator = () => {
           close: config,
         },
       }}>
-        <RootStack.Screen name={"Dashboard"} component={DashboardPage} options={{ title: t("Dashboard") }} />
-        <RootStack.Screen name={"Posts"} component={PostsPage} options={{ title: t("Posts") }} />
-        <RootStack.Screen name={"Pages"} component={PagesPage} options={{ title: t("Pages") }} />
-        <RootStack.Screen name={"Comments"} component={CommentsPage} options={{ title: t("Comment") }} />
-        <RootStack.Screen name={"Achievements"} component={AchievementsPage} options={{ title: t("Achievements") }} />
-        <RootStack.Screen name={"Events"} component={EventsPage} options={{ title: t("Events") }} />
-        <RootStack.Screen name={"Notifications"} component={NotificationsPageWithModal} options={{ title: t("Notifications") }} />
+        <RootStack.Screen name={"Dashboard"} component={DashboardPage} options={{ title: i18n.t("Dashboard") }} />
+        <RootStack.Screen name={"Posts"} component={PostsPage} options={{ title: i18n.t("Posts") }} />
+        <RootStack.Screen name={"Pages"} component={PagesPage} options={{ title: i18n.t("Pages") }} />
+        <RootStack.Screen name={"Comments"} component={CommentsPage} options={{ title: i18n.t("Comment") }} />
+        <RootStack.Screen name={"Achievements"} component={AchievementsPage} options={{ title: i18n.t("Achievements") }} />
+        <RootStack.Screen name={"Events"} component={EventsPage} options={{ title: i18n.t("Events") }} />
+        <RootStack.Screen name={"Notifications"} component={NotificationsPageWithModal} options={{ title: i18n.t("Notifications") }} />
       </RootStack.Group>
     </RootStack.Navigator>
   );

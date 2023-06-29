@@ -50,7 +50,7 @@ export const BlockchainInfoIcon: FC<Props> = (props) => {
 
   const { page, character: site } = props;
   const [isModalVisible, setModalVisible] = useState(false);
-  const { t } = useTranslation("common");
+  const i18n = useTranslation("common");
 
   const openModal = () => {
     setModalVisible(true);
@@ -72,7 +72,7 @@ export const BlockchainInfoIcon: FC<Props> = (props) => {
   return (
     <>
       <TouchableWithoutFeedback onPress={openModal}>
-        <ShieldCheck color="green" width={size}/>
+        <ShieldCheck color="$green10" width={size}/>
       </TouchableWithoutFeedback>
       <ModalWithFadeAnimation
         isVisible={isModalVisible}
@@ -82,9 +82,9 @@ export const BlockchainInfoIcon: FC<Props> = (props) => {
           <XStack borderRadius={5} alignItems="center" marginBottom="$4">
             <Paragraph>
               {
-                t("signed and stored on the blockchain", {
+                i18n.t("signed and stored on the blockchain", {
                   ns: "site",
-                  name: t(type),
+                  name: i18n.t(type),
                 })
               }
             </Paragraph>
@@ -92,7 +92,7 @@ export const BlockchainInfoIcon: FC<Props> = (props) => {
           <YStack gap="$2">
             <Stack>
               <SizableText color="$colorSubtitle" fontWeight={"700"}>
-                {t("Owner")}:
+                {i18n.t("Owner")}:
               </SizableText>
               <BlockchainInfoLink
                 onPress={closeModal}
@@ -104,7 +104,7 @@ export const BlockchainInfoIcon: FC<Props> = (props) => {
 
             <Stack>
               <SizableText color="$colorSubtitle" fontWeight={"700"}>
-                {t("Transaction Hash")}:
+                {i18n.t("Transaction Hash")}:
               </SizableText>
               {page
                 ? (
@@ -113,14 +113,14 @@ export const BlockchainInfoIcon: FC<Props> = (props) => {
                       onPress={closeModal}
                       url={`${CSB_SCAN}/tx/${page?.transactionHash}`}
                     >
-                      {t("Creation")} {page?.transactionHash.slice(0, 10)}
+                      {i18n.t("Creation")} {page?.transactionHash.slice(0, 10)}
                           ...{page?.transactionHash.slice(-10)}
                     </BlockchainInfoLink>
                     <BlockchainInfoLink
                       onPress={closeModal}
                       url={`${CSB_SCAN}/tx/${page?.updatedTransactionHash}`}
                     >
-                      {t("Last Update")}&nbsp;
+                      {i18n.t("Last Update")}&nbsp;
                       {page?.updatedTransactionHash.slice(0, 10)}...
                       {page?.updatedTransactionHash.slice(-10)}
                     </BlockchainInfoLink>
@@ -132,14 +132,14 @@ export const BlockchainInfoIcon: FC<Props> = (props) => {
                       onPress={closeModal}
                       url={`${CSB_SCAN}/tx/${site?.transactionHash}`}
                     >
-                      {t("Creation")} {site?.transactionHash.slice(0, 10)}
+                      {i18n.t("Creation")} {site?.transactionHash.slice(0, 10)}
                           ...{site?.transactionHash.slice(-10)}
                     </BlockchainInfoLink>
                     <BlockchainInfoLink
                       onPress={closeModal}
                       url={`${CSB_SCAN}/tx/${site?.updatedTransactionHash}`}
                     >
-                      {t("Last Update")}&nbsp;
+                      {i18n.t("Last Update")}&nbsp;
                       {site?.updatedTransactionHash.slice(0, 10)}...
                       {site?.updatedTransactionHash.slice(-10)}
                     </BlockchainInfoLink>
@@ -149,7 +149,7 @@ export const BlockchainInfoIcon: FC<Props> = (props) => {
 
             <Stack>
               <SizableText color="$colorSubtitle" fontWeight={"700"}>
-                {t("IPFS Address")}:
+                {i18n.t("IPFS Address")}:
               </SizableText>
               <BlockchainInfoLink
                 onPress={closeModal}
@@ -162,7 +162,7 @@ export const BlockchainInfoIcon: FC<Props> = (props) => {
             {greenfieldId.data?.greenfieldId && (
               <Stack>
                 <SizableText color="$colorSubtitle" fontWeight={"700"}>
-                  {t("BNB Greenfield Address")}:
+                  {i18n.t("BNB Greenfield Address")}:
                 </SizableText>
                 <BlockchainInfoLink
                   onPress={closeModal}

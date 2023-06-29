@@ -11,7 +11,7 @@ import { useFnLoadingWithStateChange } from "./use-fn-loading-with-state-change"
 export const useFollow = ({ character }: { character: CharacterEntity }) => {
   const subscribeToSite = useSubscribeToSite();
   const unsubscribeFromSite = useUnsubscribeFromSite();
-  const { t } = useTranslation("common");
+  const i18n = useTranslation("common");
   const toast = useToastController();
 
   const handleClickSubscribe = useFnLoadingWithStateChange(() => {
@@ -42,11 +42,11 @@ export const useFollow = ({ character }: { character: CharacterEntity }) => {
   useEffect(() => {
     if (subscribeToSite.isSuccess) {
       subscribeToSite.reset();
-      toast.show(t("Successfully followed"), {
+      toast.show(i18n.t("Successfully followed"), {
         status: "success",
       });
     }
-  }, [subscribeToSite, t]);
+  }, [subscribeToSite, i18n.t]);
 
   const isLoading = subscription.data
     ? unsubscribeFromSite.isLoading || subscribeToSite.isLoading

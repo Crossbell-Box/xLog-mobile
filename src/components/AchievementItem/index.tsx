@@ -31,7 +31,7 @@ export const AchievementItem: React.FC<AchievementItemProps> = (props) => {
   const finalSize = Math.min(window.width * 0.8, window.height * 0.8);
   const safeAreaInsets = useSafeAreaInsets();
   const date = useDate();
-  const { t } = useTranslation("common");
+  const i18n = useTranslation("common");
 
   const achievement = group.items
     .filter(item => item.status === "MINTED")
@@ -211,7 +211,7 @@ export const AchievementItem: React.FC<AchievementItemProps> = (props) => {
                   </SizableText>
                   <Paragraph color={"$colorSubtitle"}>
                     {achievement
-                      ? t("ago", {
+                      ? i18n.t("ago", {
                         time: date.dayjs
                           .duration(
                             date
@@ -221,7 +221,7 @@ export const AchievementItem: React.FC<AchievementItemProps> = (props) => {
                           )
                           .humanize(),
                       })
-                      : t(achievementMintable ? "Mintable" : "Coming soon")}
+                      : i18n.t(achievementMintable ? "Mintable" : "Coming soon")}
                   </Paragraph>
                 </Animated.View>
               </YStack>

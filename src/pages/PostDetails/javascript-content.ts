@@ -85,6 +85,8 @@ export const javaScriptBeforeContentLoaded = (
       const mainEle = document.querySelector("body > div.xlog-page.xlog-page-post.xlog-user.xlog-deprecated-class > main")
       if(mainEle){
         mainEle.style.paddingTop = "0px";
+        mainEle.style.paddingLeft = "8px";
+        mainEle.style.paddingRight = "8px";
       }
 
       sendHeight();

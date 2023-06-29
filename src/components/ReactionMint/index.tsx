@@ -28,7 +28,7 @@ interface Props {
 export const ReactionMint: React.FC<Props> = ({ characterId, noteId, iconSize = "$1", fontSize = "$6" }) => {
   const mintPage = useMintPage();
   const navigation = useRootNavigation();
-  const { t, i18n } = useTranslation("common");
+  const i18n = useTranslation("common");
 
   const account = useAccountState(s => s.computed.account);
 
@@ -69,7 +69,7 @@ export const ReactionMint: React.FC<Props> = ({ characterId, noteId, iconSize = 
 
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     navigation.navigate("CharacterListPage", {
-      title: t("Mint List"),
+      title: i18n.t("Mint List"),
       characterId,
       noteId,
       type: "mint",
@@ -102,11 +102,11 @@ export const ReactionMint: React.FC<Props> = ({ characterId, noteId, iconSize = 
       >
         <Card elevate bordered>
           <Card.Header bordered padding="$3">
-            <H4>{t("Mint successfully") || ""}</H4>
+            <H4>{i18n.t("Mint successfully") || ""}</H4>
           </Card.Header>
           <YStack padding="$3">
             <Paragraph>
-              <Trans i18nKey="mint stored" i18n={i18n}>
+              <Trans i18nKey="mint stored">
             This post has been minted to NFT by you, view it on&nbsp;
                 <UniLink
                   url={`${CSB_XCHAR}/${account?.character?.handle}/collections`}
@@ -125,7 +125,7 @@ export const ReactionMint: React.FC<Props> = ({ characterId, noteId, iconSize = 
             </Paragraph>
           </YStack>
           <Card.Footer padded alignItems="center" justifyContent="center" gap="$4">
-            <Button minWidth={"45%"} onPress={closeIsMintOpen} backgroundColor={"$backgroundFocus"} color={"$primary"} borderRadius="$5">{t("Got it, thanks!")}</Button>
+            <Button minWidth={"45%"} onPress={closeIsMintOpen} backgroundColor={"$backgroundFocus"} color={"$primary"} borderRadius="$5">{i18n.t("Got it, thanks!")}</Button>
           </Card.Footer>
         </Card>
       </ModalWithFadeAnimation>

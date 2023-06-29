@@ -45,7 +45,7 @@ export const Settings: React.FC<Props> = () => {
   const bottomSheetRef = useRef<BottomSheetModalInstance>(null);
   const { mode, theme, changeTheme } = useThemeStore();
   const snapPoints = useMemo(() => ["40%"], []);
-  const { t } = useTranslation("common");
+  const i18n = useTranslation("common");
   const connectedAccount = useConnectedAccount();
   const toast = useToastController();
   const navigation = useRootNavigation();
@@ -59,7 +59,7 @@ export const Settings: React.FC<Props> = () => {
   const copyPushToken = () => {
     if (expoPushToken) {
       Clipboard.setStringAsync(expoPushToken).then(() => {
-        toast.show(t("Push Token Copied"), {
+        toast.show(i18n.t("Push Token Copied"), {
           burntOptions: {
             preset: "done",
             haptic: "success",
@@ -77,7 +77,7 @@ export const Settings: React.FC<Props> = () => {
   const testSentry = () => {
     // Send a test error to Sentry.
     Sentry.Native.captureException(new Error("Test Sentry"));
-    toast.show(t("Sended"), {
+    toast.show(i18n.t("Sended"), {
       burntOptions: {
         preset: "done",
         haptic: "success",
@@ -108,10 +108,10 @@ export const Settings: React.FC<Props> = () => {
     <>
       <AlertDialog
         ref={alertDialogRef}
-        title={t("Alert")}
-        description={t("Please allow xLog to send you notifications so that you can receive the latest updates from the creators you follow.")}
-        renderCancel={() => <Button onPress={closeAlertDialog}>{t("Cancel")}</Button>}
-        renderConfirm={() => <Button onPress={onConfirm}>{t("Confirm")}</Button>}
+        title={i18n.t("Alert")}
+        description={i18n.t("Please allow xLog to send you notifications so that you can receive the latest updates from the creators you follow.")}
+        renderCancel={() => <Button onPress={closeAlertDialog}>{i18n.t("Cancel")}</Button>}
+        renderConfirm={() => <Button onPress={onConfirm}>{i18n.t("Confirm")}</Button>}
       />
       <SafeAreaView edges={["bottom"]} style={styles.container}>
         <YStack flex={1}>
@@ -129,7 +129,7 @@ export const Settings: React.FC<Props> = () => {
                     )}
                   >
                     <ListItemTitle>
-                      {t("Follow System")}
+                      {i18n.t("Follow System")}
                     </ListItemTitle>
                   </ListItem>
                 </YGroup.Item>
@@ -148,7 +148,7 @@ export const Settings: React.FC<Props> = () => {
                         }}
                       >
                         <ListItemTitle>
-                          {t("Dark Mode")}
+                          {i18n.t("Dark Mode")}
                         </ListItemTitle>
                       </ListItem>
                     </YGroup.Item>
@@ -162,7 +162,7 @@ export const Settings: React.FC<Props> = () => {
                     iconAfter={<ArrowRight />}
                   >
                     <ListItemTitle>
-                      {t("Theme")}
+                      {i18n.t("Theme")}
                     </ListItemTitle>
                   </ListItem>
                 </YGroup.Item>
@@ -176,7 +176,7 @@ export const Settings: React.FC<Props> = () => {
                         onPress={navigateToAdvancedPage}
                       >
                         <ListItemTitle>
-                          {t("Advanced")}
+                          {i18n.t("Advanced")}
                         </ListItemTitle>
                       </ListItem>
                     </YGroup.Item>
@@ -190,7 +190,7 @@ export const Settings: React.FC<Props> = () => {
                     onPress={handleMultiPress}
                   >
                     <ListItemTitle>
-                      {t("Version")}
+                      {i18n.t("Version")}
                     </ListItemTitle>
                   </ListItem>
                 </YGroup.Item>
@@ -207,7 +207,7 @@ export const Settings: React.FC<Props> = () => {
                           onPress={copyPushToken}
                         >
                           <ListItemTitle>
-                            {t("Copy Push Token")}
+                            {i18n.t("Copy Push Token")}
                           </ListItemTitle>
                         </ListItem>
                       </YGroup.Item>
@@ -220,7 +220,7 @@ export const Settings: React.FC<Props> = () => {
                             onPress={testSentry}
                           >
                             <ListItemTitle>
-                              {t("Test Sentry")}
+                              {i18n.t("Test Sentry")}
                             </ListItemTitle>
                           </ListItem>
                         </YGroup.Item>

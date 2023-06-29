@@ -1,21 +1,25 @@
-import type { FC } from "react";
-import React, { useEffect, useMemo } from "react";
+import React, { useImperativeHandle, useRef, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Dimensions, StyleSheet } from "react-native";
 import DeviceInfo from "react-native-device-info";
-import Animated, { interpolate, useAnimatedStyle, useSharedValue, withTiming, withSpring, withDelay } from "react-native-reanimated";
+import Animated, { interpolate, useAnimatedStyle, useSharedValue, withTiming, withSpring, withDelay, measure, runOnUI } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { captureRef } from "react-native-view-shot";
 
 import { useCharacter, useNote } from "@crossbell/indexer";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useToastController } from "@tamagui/toast";
 import { Image } from "expo-image";
+import * as MediaLibrary from "expo-media-library";
 import { H2, Spacer, useWindowDimensions, YStack } from "tamagui";
 
 import { ImageGallery } from "@/components/ImageGallery";
 import { WebView } from "@/components/WebView";
-import { DOMAIN, VERSION } from "@/constants";
+import { VERSION } from "@/constants";
 import { IPFS_GATEWAY } from "@/constants/env";
 import { PageNotFound } from "@/constants/resource";
+import { useGlobalLoading } from "@/hooks/use-global-loading";
+import { usePostWebViewLink } from "@/hooks/use-post-link";
 import type { useScrollVisibilityHandler } from "@/hooks/use-scroll-visibility-handler";
 import { useThemeStore } from "@/hooks/use-theme-store";
 import type { RootStackParamList } from "@/navigation/types";
@@ -32,30 +36,25 @@ export interface Props {
   scrollEventHandler: ReturnType<typeof useScrollVisibilityHandler>
   headerContainerHeight: number
   bottomBarHeight: number
-  headerComponent?: React.ReactNode
+  postUri: string
+  renderHeaderComponent?: (isCapturing: boolean) => React.ReactNode
+}
+
+export interface PostDetailsContentInstance {
+  takeScreenshot: () => Promise<string>
 }
 
 const { width } = Dimensions.get("window");
 
-export const Content: FC<Props> = (props) => {
-  const { noteId, headerComponent, characterId, navigation, scrollEventHandler, bottomBarHeight, headerContainerHeight } = props;
+export const Content = React.forwardRef<PostDetailsContentInstance, Props>((props, ref) => {
+  const { noteId, postUri, renderHeaderComponent, characterId, navigation, scrollEventHandler, bottomBarHeight, headerContainerHeight } = props;
   const { isDarkMode, mode } = useThemeStore();
   const note = useNote(characterId, noteId);
   const character = useCharacter(characterId);
-  const { t } = useTranslation("site");
+  const [siteT] = useTranslation("site");
+  const [commonT] = useTranslation("common");
+  const screenshotsRef = useRef<Animated.ScrollView>(null);
   const [displayImageUris, setDisplayImageUris] = React.useState<string[]>([]);
-
-  const webviewUri = useMemo(() => {
-    const slug = getNoteSlug(note.data);
-
-    if (!slug) return null;
-    const webviewUrl = new URL(`/site/${character?.data?.handle}/${slug}`, `https://${DOMAIN}`);
-    webviewUrl.search = new URLSearchParams({ "only-content": "true" }).toString();
-    return webviewUrl.toString();
-  }, [
-    note.data,
-    character?.data?.handle,
-  ]);
 
   const page = useGetPage(
     {
@@ -74,6 +73,7 @@ export const Content: FC<Props> = (props) => {
     );
   }, [page]);
 
+  const i18n = useTranslation("common");
   const { top, bottom } = useSafeAreaInsets();
   const { width, height } = useWindowDimensions();
   const headerHeight = top + headerContainerHeight;
@@ -84,6 +84,10 @@ export const Content: FC<Props> = (props) => {
   const [webviewHeight, setWebviewHeight] = React.useState(contentLoaderDimensions.height);
   const { ...scrollVisibilityHandler } = scrollEventHandler;
   const [userAgent, setUserAgent] = React.useState<string>(null);
+  const [isCapturing, setIsCapturing] = React.useState(false);
+  const globalLoading = useGlobalLoading();
+  const toast = useToastController();
+  const [contentPositionY, setContentPositionY] = React.useState(0);
 
   const onWebViewMessage = (event) => {
     try {
@@ -112,6 +116,61 @@ export const Content: FC<Props> = (props) => {
     setDisplayImageUris([]);
   }, []);
 
+  const webviewAnimStyles = useAnimatedStyle(() => {
+    return {
+      opacity: interpolate(webviewLoadingAnimValue.value, [0, 1], [0, 1]),
+    };
+  }, []);
+
+  const onSaveImageAsync = async () => {
+    try {
+      globalLoading.show();
+
+      const mediaLibraryPermissions = await MediaLibrary.requestPermissionsAsync();
+      if (!mediaLibraryPermissions.granted) {
+        toast.show(commonT("Permission denied"), {
+          burntOptions: {
+            preset: "none",
+            haptic: "warning",
+          },
+        });
+        return;
+      }
+
+      setIsCapturing(true);
+
+      await new Promise(resolve => setTimeout(resolve, 250));
+
+      const localUri = await captureRef(screenshotsRef, {
+        width,
+        quality: 1,
+        snapshotContentContainer: true,
+        // @ts-expect-error
+        useRenderInContext: true,
+      });
+
+      setIsCapturing(false);
+
+      return localUri;
+    }
+    catch (error) {
+      console.error(error);
+      toast.show(i18n.t("Failed to save image"), {
+        burntOptions: {
+          preset: "error",
+          haptic: "error",
+        },
+      });
+    }
+    finally {
+      globalLoading.hide();
+    }
+  };
+
+  useImperativeHandle(ref, () => ({
+    takeScreenshot: onSaveImageAsync,
+  }));
+
   useEffect(() => {
     followAnimValue.value = withDelay(1500, withSpring(1));
   }, []);
@@ -120,12 +179,6 @@ export const Content: FC<Props> = (props) => {
     DeviceInfo.getUserAgent().then((us) => {
       setUserAgent(`${us} ReactNative/${VERSION}`);
     });
-  }, []);
-
-  const webviewAnimStyles = useAnimatedStyle(() => {
-    return {
-      opacity: interpolate(webviewLoadingAnimValue.value, [0, 1], [0, 1]),
-    };
   }, []);
 
   useEffect(() => {
@@ -138,14 +191,15 @@ export const Content: FC<Props> = (props) => {
     <>
       {pageIsNotFound
         ? (
-          <YStack paddingTop={headerHeight + 50} paddingHorizontal="$4" alignItems="center">
-            <H2>{t("404 - Whoops, this page is gone.")}</H2>
+          <YStack paddingTop={headerHeight + 50} paddingHorizontal="$2" alignItems="center">
+            <H2>{siteT("404 - Whoops, this page is gone.")}</H2>
             <Spacer size={100} />
             <Image source={PageNotFound} contentFit={"contain"} style={styles.notFound} />
           </YStack>
         )
         : (
           <Animated.ScrollView
+            ref={screenshotsRef}
             bounces={false}
             {...scrollVisibilityHandler}
             style={styles.scrollView}
@@ -156,17 +210,21 @@ export const Content: FC<Props> = (props) => {
               bottom: bottomBarHeight - bottom,
             }}
           >
-            {headerComponent}
-            <Animated.View style={[
-              webviewAnimStyles,
-              styles.webviewContainer,
-              { height: webviewHeight },
-            ]}>
-              {webviewUri && userAgent && (
+            {renderHeaderComponent?.(isCapturing)}
+            <Animated.ScrollView
+              style={[
+                webviewAnimStyles,
+                styles.webviewContainer,
+                { height: webviewHeight },
+              ]}
+              onLayout={e => setContentPositionY(e.nativeEvent.layout.y)}
+              contentContainerStyle={{ height: webviewHeight }}
+            >
+              {postUri && userAgent && (
                 <WebView
                   javaScriptEnabled
                   userAgent={userAgent}
-                  source={{ uri: webviewUri }}
+                  source={{ uri: postUri }}
                   style={[styles.webview, { backgroundColor: isDarkMode ? "black" : "white" }]}
                   scrollEnabled={false}
                   showsVerticalScrollIndicator={false}
@@ -177,7 +235,7 @@ export const Content: FC<Props> = (props) => {
                       return false;
                     }
 
-                    if (request.url === webviewUri) return true;
+                    if (request.url === postUri) return true;
 
                     return false;
                   }}
@@ -189,7 +247,7 @@ export const Content: FC<Props> = (props) => {
                   )}
                 />
               )}
-            </Animated.View>
+            </Animated.ScrollView>
             {
               !webviewLoaded && <Skeleton webviewLoadingAnimValue={webviewLoadingAnimValue} headerHeight={headerHeight + 250} />
             }
@@ -203,7 +261,7 @@ export const Content: FC<Props> = (props) => {
       />
     </>
   );
-};
+});
 
 const styles = StyleSheet.create({
   webview: {
