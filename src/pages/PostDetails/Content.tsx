@@ -11,7 +11,7 @@ import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useToastController } from "@tamagui/toast";
 import { Image } from "expo-image";
 import * as MediaLibrary from "expo-media-library";
-import { H2, Spacer, useWindowDimensions, YStack } from "tamagui";
+import { H2, Spacer, Stack, useWindowDimensions, YStack } from "tamagui";
 
 import { ImageGallery } from "@/components/ImageGallery";
 import { WebView } from "@/components/WebView";
@@ -80,7 +80,6 @@ export const Content = React.forwardRef<PostDetailsContentInstance, Props>((prop
   const contentLoaderDimensions = { width, height: height - headerHeight };
   const webviewLoadingAnimValue = useSharedValue<number>(0);
   const followAnimValue = useSharedValue<number>(0);
-  const [webviewLoaded, setWebviewLoaded] = React.useState(false);
   const [webviewHeight, setWebviewHeight] = React.useState(contentLoaderDimensions.height);
   const { ...scrollVisibilityHandler } = scrollEventHandler;
   const [userAgent, setUserAgent] = React.useState<string>(null);
@@ -100,7 +99,6 @@ export const Content = React.forwardRef<PostDetailsContentInstance, Props>((prop
 
       if (height) {
         setWebviewHeight(Math.max(height, contentLoaderDimensions.height));
-        setWebviewLoaded(true);
       }
 
       if (imageUrlArray) {
@@ -114,12 +112,6 @@ export const Content = React.forwardRef<PostDetailsContentInstance, Props>((prop
 
   const closeModal = React.useCallback(() => {
     setDisplayImageUris([]);
-  }, []);
-
-  const webviewAnimStyles = useAnimatedStyle(() => {
-    return {
-      opacity: interpolate(webviewLoadingAnimValue.value, [0, 1], [0, 1]),
-    };
   }, []);
 
   const onSaveImageAsync = async () => {
@@ -181,11 +173,7 @@ export const Content = React.forwardRef<PostDetailsContentInstance, Props>((prop
     });
   }, []);
 
-  useEffect(() => {
-    if (webviewLoaded) {
-      webviewLoadingAnimValue.value = withTiming(1, { duration: 300 });
-    }
-  }, [webviewLoaded]);
+  const backgroundColor = isDarkMode ? "#000" : "#fff";
 
   return (
     <>
@@ -213,7 +201,6 @@ export const Content = React.forwardRef<PostDetailsContentInstance, Props>((prop
             {renderHeaderComponent?.(isCapturing)}
             <Animated.ScrollView
               style={[
-                webviewAnimStyles,
                 styles.webviewContainer,
                 { height: webviewHeight },
               ]}
@@ -225,20 +212,20 @@ export const Content = React.forwardRef<PostDetailsContentInstance, Props>((prop
                   javaScriptEnabled
                   userAgent={userAgent}
                   source={{ uri: postUri }}
-                  style={[styles.webview, { backgroundColor: isDarkMode ? "black" : "white" }]}
+                  style={[styles.webview, { backgroundColor }]}
+                  containerStyle={styles.webview}
                   scrollEnabled={false}
+                  cacheEnabled
+                  renderLoading={() => (
+                    <Stack position="absolute" flex={1} backgroundColor={backgroundColor} {...StyleSheet.absoluteFillObject}>
+                      <Skeleton webviewLoadingAnimValue={webviewLoadingAnimValue} headerHeight={0} />
+                    </Stack>
+                  )}
+                  startInLoadingState={true}
+                  cacheMode="LOAD_CACHE_ELSE_NETWORK"
                   showsVerticalScrollIndicator={false}
                   showsHorizontalScrollIndicator={false}
                   onMessage={onWebViewMessage}
-                  onShouldStartLoadWithRequest={(request) => {
-                    if (request.url.startsWith(IPFS_GATEWAY)) {
-                      return false;
-                    }
-
-                    if (request.url === postUri) return true;
-
-                    return false;
-                  }}
                   injectedJavaScript={javaScriptBeforeContentLoaded(
                     isDarkMode,
                     mode,
@@ -248,9 +235,6 @@ export const Content = React.forwardRef<PostDetailsContentInstance, Props>((prop
                 />
               )}
             </Animated.ScrollView>
-            {
-              !webviewLoaded && <Skeleton webviewLoadingAnimValue={webviewLoadingAnimValue} headerHeight={headerHeight + 250} />
-            }
           </Animated.ScrollView>
         )}
 
