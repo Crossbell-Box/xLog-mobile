@@ -64,7 +64,7 @@
     ```
 
 ### Publishing
-Refer to this [document](https://docs.expo.dev/build/setup/) and check scripts in the [packages.json](./packages.json) file.
+Refer to this [document](https://docs.expo.dev/build/setup/) and check scripts in the [package.json](./package.json) file.
 
 ### Continuous Integration
 Refer to this [document](https://docs.expo.dev/eas-update/how-eas-update-works/) and check CI configuration files in the [.github/workflows](./.github/workflows) directory.
