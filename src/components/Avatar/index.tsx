@@ -17,6 +17,7 @@ interface Props {
   size?: number
   useDefault?: boolean
   isNavigateToUserInfo?: boolean
+  handleBeforeNavigate?: () => void
 }
 
 const isValidUrl = (url) => {
@@ -31,7 +32,7 @@ const isValidUrl = (url) => {
 };
 
 export const Avatar: FC<Props> = (props) => {
-  const { character, size = 45, useDefault = false, isNavigateToUserInfo = true } = props;
+  const { character, size = 45, useDefault = false, isNavigateToUserInfo = true, handleBeforeNavigate } = props;
   const navigation = useRootNavigation();
   const uri = character?.metadata?.content?.avatars?.[0];
   const name = character?.metadata?.content?.name;
@@ -45,6 +46,7 @@ export const Avatar: FC<Props> = (props) => {
     if (!character?.characterId) {
       return;
     }
+    handleBeforeNavigate && handleBeforeNavigate();
     navigation.navigate("UserInfo", { characterId: character?.characterId });
   };
 
