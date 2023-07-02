@@ -36,6 +36,7 @@ export interface CommentItemProps extends ListItemProps {
   onPressEdit?: (comment: Comment) => void
   onComment?: () => Promise<any>
   onEdit?: () => Promise<any>
+  onNavigateToUserProfile?: () => void
 }
 
 export type Comment = NoteEntity & {
@@ -55,6 +56,7 @@ export const CommentItem: React.FC<CommentItemProps> = (props) => {
     onPressEdit: _onPressEdit,
     onComment,
     onEdit,
+    onNavigateToUserProfile,
     ...restProps
   } = props;
   const date = useDate();
@@ -133,7 +135,7 @@ export const CommentItem: React.FC<CommentItemProps> = (props) => {
   return (
     <>
       <XStack marginBottom="$2" gap="$3" {...restProps}>
-        <Avatar useDefault size={isSubComment ? 36 : 40} character={comment?.character} />
+        <Avatar useDefault size={isSubComment ? 36 : 40} character={comment?.character} handleBeforeNavigate={onNavigateToUserProfile} />
         <YStack flex={1}>
           <YStack flex={1}>
             <XStack alignItems="center" marginBottom="$1">
