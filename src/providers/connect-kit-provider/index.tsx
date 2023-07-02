@@ -15,7 +15,7 @@ import { useContractConfig } from "./contract-config";
 
 export function ConnectKitProvider({ children }: React.PropsWithChildren) {
   const accountState = useAccountState();
-  const { address, provider: walletConnectProvider } = useWalletConnectModal();
+  const { address, provider: walletConnectProvider, isConnected } = useWalletConnectModal();
   const contractConfig = useContractConfig();
   const web3Provider = React.useMemo(() => {
     if (contractConfig.provider)
@@ -24,7 +24,11 @@ export function ConnectKitProvider({ children }: React.PropsWithChildren) {
       return null;
   }, [contractConfig.provider]);
 
-  const onDisconnect = useRefCallback(() => walletConnectProvider?.disconnect?.());
+  const onDisconnect = useRefCallback(() => {
+    if (isConnected) {
+      walletConnectProvider?.disconnect?.();
+    }
+  });
 
   const getSigner = useRefCallback(async () => web3Provider.getSigner(address) as BaseSigner);
 
