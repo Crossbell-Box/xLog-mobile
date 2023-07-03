@@ -13,6 +13,7 @@ import { Stack, Text, XStack, YStack } from "tamagui";
 
 import { Avatar } from "@/components/Avatar";
 import type { BottomSheetModalInstance } from "@/components/BottomSheetModal";
+import { ConnectEmailButton } from "@/components/ConnectEmailButton";
 import { ConnectionButton } from "@/components/ConnectionButton";
 import { MeasuredContainer } from "@/components/MeasuredContainer";
 import { useAppIsActive } from "@/hooks/use-app-state";
@@ -46,7 +47,7 @@ export const LoginPage: FC<NativeStackScreenProps<RootStackParamList, "Web">> = 
   }, [appIsActive, isConnected]);
 
   const bottomSheetRef = useRef<BottomSheetModalInstance>(null);
-  const snapPoints = useMemo(() => ["20%"], []);
+  const snapPoints = useMemo(() => ["30%"], []);
   const onDismiss = useCallback(() => navigation.goBack(), []);
 
   return (
@@ -59,14 +60,13 @@ export const LoginPage: FC<NativeStackScreenProps<RootStackParamList, "Web">> = 
         index={0}
         backgroundStyle={{ backgroundColor: background }}
       >
-        <YStack flex={1} alignItems="center" justifyContent="space-between" paddingHorizontal={24} paddingBottom={bottom} >
+        <YStack flex={1} alignItems="stretch" justifyContent="space-between" paddingHorizontal={24} paddingBottom={bottom} >
           <Text fontSize={"$2"} color={"$primary"} textAlign="center">Discovering amazing teams and creators on xLog!</Text>
-          <YStack width={"100%"}>
-            <ConnectionButton width={"100%"} marginBottom="$3"/>
-            <Text color="$colorSubtitle" fontSize={"$3"}>
+          <ConnectionButton />
+          <ConnectEmailButton />
+          <Text color="$colorSubtitle" fontSize={"$3"}>
           By connecting you agree to our <Text onPress={navigateToTerms} color="$color" fontSize={"$3"}>Terms & Conditions</Text>
-            </Text>
-          </YStack>
+          </Text>
         </YStack>
       </BottomSheet>
     </Stack>

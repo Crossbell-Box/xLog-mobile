@@ -6,12 +6,19 @@ import { toGateway } from "@/utils/ipfs-parser";
 
 import { renderPageContent } from "./markdown";
 
-export const expandCrossbellNote = async (
-  note: NoteEntity,
-  useStat?: boolean,
-  useScore?: boolean,
-  keyword?: string,
-) => {
+export const expandCrossbellNote = async ({
+  note,
+  useStat,
+  useScore,
+  keyword,
+  useHTML,
+}: {
+  note: NoteEntity
+  useStat?: boolean
+  useScore?: boolean
+  keyword?: string
+  useHTML?: boolean
+}) => {
   const expandedNote: ExpandedNote = Object.assign(
     {
       metadata: {
@@ -20,6 +27,7 @@ export const expandCrossbellNote = async (
     },
     note,
   );
+
   if (expandedNote.metadata?.content) {
     if (expandedNote.metadata?.content?.content) {
       const rendered = renderPageContent(expandedNote.metadata.content.content);

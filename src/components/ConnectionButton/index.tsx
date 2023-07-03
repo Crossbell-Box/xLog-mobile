@@ -9,7 +9,7 @@ import {
   useDisconnectAccount,
   useIsWalletSignedIn,
 } from "@crossbell/react-account";
-import { Plug } from "@tamagui/lucide-icons";
+import { Plug, Wallet } from "@tamagui/lucide-icons";
 import { useWalletConnectModal } from "@walletconnect/modal-react-native";
 import * as Haptics from "expo-haptics";
 import * as Sentry from "sentry-expo";
@@ -40,7 +40,7 @@ export const ConnectionButton: FC<Props> = (props) => {
       {(() => {
         switch (connectedAccount?.type) {
           case "email":
-            return <DisconnectBtn navigateToLogin={navigateToLogin} />;
+            return null;
           case "wallet":
             return <OPSignToggleBtn />;
           default:
@@ -71,7 +71,7 @@ function ConnectBtn({ navigateToLogin }: { navigateToLogin: boolean }) {
   };
 
   return (
-    <Animated.View entering={FlipInXDown.delay(500).duration(300)} exiting={FlipOutXUp.delay(500).duration(300)}>
+    <Animated.View>
       <Button
         borderWidth={0}
         pressStyle={{ opacity: 0.85 }}
@@ -80,9 +80,9 @@ function ConnectBtn({ navigateToLogin }: { navigateToLogin: boolean }) {
         fontWeight={"700"}
         backgroundColor={"$primary"}
         onPress={handleConnect}
-        icon={<Plug size={"$1.5"} />}
+        icon={navigateToLogin ? <Plug size="$1.5" /> : <Wallet size={"$1.5"} />}
       >
-        {i18n.t("Connect")}
+        {i18n.t(navigateToLogin ? "Connect" : "Connect Wallet")}
       </Button>
     </Animated.View>
   );
@@ -91,7 +91,7 @@ function ConnectBtn({ navigateToLogin }: { navigateToLogin: boolean }) {
 function OPSignToggleBtn() {
   const { mutate: signIn, isLoading: isSignInLoading } = useWalletSignIn();
   const isWalletSignedIn = useIsWalletSignedIn();
-  const { t } = useTranslation();
+  const i18n = useTranslation();
   const { hasBeenDisplayed, closePermanently } = useOneTimeTogglerWithSignOP();
 
   const OPSign = () => {
@@ -117,21 +117,21 @@ function OPSignToggleBtn() {
             onPress={OPSign}
             icon={<Plug size={"$1.5"} />}
           >
-            {isSignInLoading ? `${t("Loading")}...` : t("Operator Sign")}
+            {isSignInLoading ? `${i18n.t("Loading")}...` : i18n.t("Operator Sign")}
           </Button>
         </Animated.View>
         <DelayedRender timeout={2000}>
           <ModalWithFadeAnimation isVisible={!hasBeenDisplayed}>
             <Card elevate bordered>
               <Card.Header bordered padding="$3">
-                <H4>{t("Operator Sign") || ""}</H4>
+                <H4>{i18n.t("Operator Sign") || ""}</H4>
               </Card.Header>
               <Paragraph padding="$3">
-                {t("By signing, you can interact without clicking to agree the smart contracts every time. We are in Beta, and new users who try it out will be rewarded with 0.01 $CSB.")}
+                {i18n.t("By signing, you can interact without clicking to agree the smart contracts every time. We are in Beta, and new users who try it out will be rewarded with 0.01 $CSB.")}
               </Paragraph>
               <Card.Footer padded alignItems="center" justifyContent="center" gap="$4">
-                <Button minWidth={"45%"} onPress={closeAndOPSign} backgroundColor={"$backgroundFocus"} color={"$primary"} borderRadius="$5">{t("Confirm")}</Button>
-                <Button minWidth={"45%"} onPress={closePermanently} borderRadius="$5">{t("Do not show again")}</Button>
+                <Button minWidth={"45%"} onPress={closeAndOPSign} backgroundColor={"$backgroundFocus"} color={"$primary"} borderRadius="$5">{i18n.t("Confirm")}</Button>
+                <Button minWidth={"45%"} onPress={closePermanently} borderRadius="$5">{i18n.t("Do not show again")}</Button>
               </Card.Footer>
             </Card>
           </ModalWithFadeAnimation>
@@ -145,7 +145,7 @@ function OPSignToggleBtn() {
 
 export function DisconnectBtn({ navigateToLogin }: { navigateToLogin: boolean }) {
   const _disconnect = useDisconnectAccount();
-  const { t } = useTranslation();
+  const i18n = useTranslation();
   const navigation = useRootNavigation();
 
   const disconnect = () => {
@@ -167,7 +167,7 @@ export function DisconnectBtn({ navigateToLogin }: { navigateToLogin: boolean })
         borderColor={"$borderColorFocus"}
         onPress={disconnect}
       >
-        {t("Disconnect")}
+        {i18n.t("Disconnect")}
       </Button>
     </Animated.View>
   );

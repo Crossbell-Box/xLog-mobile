@@ -59,7 +59,7 @@ export const CommentItem: React.FC<CommentItemProps> = (props) => {
   } = props;
   const date = useDate();
   const myCharacterId = useCharacterId();
-  const i18n = useTranslation();
+  const commonI18n = useTranslation("common");
   const comments = useGetComments({ characterId: comment?.characterId, noteId: comment?.noteId });
   const repliesCount = comments.data?.pages?.[0]?.count;
   const siteI18n = useTranslation("site");
@@ -165,7 +165,7 @@ export const CommentItem: React.FC<CommentItemProps> = (props) => {
             </Paragraph>
             <XStack alignItems="center">
               <Text color={"$colorSubtitle"}>
-                {i18n.t("ago", {
+                {commonI18n.t("ago", {
                   time: date.dayjs
                     .duration(
                       date.dayjs(comment?.createdAt).diff(date.dayjs(), "minute"),
@@ -188,7 +188,7 @@ export const CommentItem: React.FC<CommentItemProps> = (props) => {
                 <TouchableOpacity onPress={onPressComment}>
                   <XStack alignItems="center" gap="$1.5" minWidth={"$3"}justifyContent="center">
                     <Text color={"$color"} fontSize={"$4"}>
-                      {i18n.t("Reply")}&nbsp;
+                      {commonI18n.t("Reply")}&nbsp;
                       {(comment as any)?.fromNotes?.count || 0}
                     </Text>
                   </XStack>
@@ -201,7 +201,7 @@ export const CommentItem: React.FC<CommentItemProps> = (props) => {
                   <XStack alignItems="center" gap="$1.5" minWidth={"$3"} justifyContent="center">
                     <Edit size={"$0.75"} fontSize={"$4"}/>
                     <Text color={"$color"} fontSize={"$4"}>
-                    &nbsp;{i18n.t("Edit")}
+                    &nbsp;{commonI18n.t("Edit")}
                     </Text>
                   </XStack>
                 </TouchableOpacity>

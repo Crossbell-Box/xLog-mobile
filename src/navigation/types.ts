@@ -3,6 +3,8 @@ import type { NavigatorScreenParams } from "@react-navigation/native";
 
 import type { Props as AdvancedPageProps } from "@/pages/Advanced";
 import type { Props as CharacterListPageProps } from "@/pages/CharacterList";
+import type { Props as EmailLoginProps } from "@/pages/EmailLogin";
+import type { Props as ExplorePageProps } from "@/pages/Explore";
 import type { Props as FeedPageProps } from "@/pages/Feed";
 import type { Props as LoginPageProps } from "@/pages/Login";
 import type { Props as PostDetailsPageProps } from "@/pages/PostDetails";
@@ -14,12 +16,14 @@ import type { Props as NotificationsPageProps } from "@/pages/Profile/Notificati
 import type { Props as PagesPageProps } from "@/pages/Profile/Pages";
 import type { Props as PostsPageProps } from "@/pages/Profile/Posts";
 import type { Props as RepliesPageProps } from "@/pages/Replies";
+import type { Props as SearchPageProps } from "@/pages/Search";
 import type { Props as SettingsPageProps } from "@/pages/Settings";
 import type { Props as UserInfoPageProps } from "@/pages/UserInfo";
 import type { Props as WebPageProps } from "@/pages/Web";
 
 export type HomeBottomTabsParamList = {
   Feed: FeedPageProps
+  Explore: ExplorePageProps
   Profile: UserInfoPageProps
   Notifications: NotificationsPageProps
 };
@@ -41,7 +45,9 @@ export type RootStackParamList = {
   Replies: RepliesPageProps
   CharacterListPage: CharacterListPageProps
   Web: WebPageProps
+  Search: SearchPageProps
   Login: LoginPageProps
+  EmailLogin: EmailLoginProps
   UserInfo: UserInfoPageProps
 } & ProfilePagesParamList;
 

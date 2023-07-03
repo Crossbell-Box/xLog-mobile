@@ -4,15 +4,14 @@ import { useTranslation } from "react-i18next";
 import type { ViewStyle } from "react-native";
 import { Dimensions, StyleSheet } from "react-native";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
+import Highlighter from "react-native-highlight-words";
 
-import { useNavigation } from "@react-navigation/native";
-import type { StackNavigationProp } from "@react-navigation/stack";
 import { Image } from "expo-image";
-import removeMd from "remove-markdown";
 import { Card, H5, H6, Paragraph, SizableText, Spacer, Text, XStack } from "tamagui";
 
 import { Avatar } from "@/components/Avatar";
 import { ImageGallery } from "@/components/ImageGallery";
+import { useColors } from "@/hooks/use-colors";
 import { useDate } from "@/hooks/use-date";
 import { useRootNavigation } from "@/hooks/use-navigation";
 import type { RootStackParamList } from "@/navigation/types";
@@ -23,12 +22,14 @@ type NoteEntity = any;
 export interface Props {
   note: NoteEntity
   style?: ViewStyle
+  searchKeyword?: string
 }
 
 const { width } = Dimensions.get("window");
 
 export const FeedListItem: FC<Props> = (props) => {
-  const { note } = props;
+  const { note, searchKeyword } = props;
+  const { primary } = useColors();
   const date = useDate();
   const navigation = useRootNavigation();
   const i18n = useTranslation();
@@ -44,7 +45,7 @@ export const FeedListItem: FC<Props> = (props) => {
   }, [note]);
 
   const coverImage = useMemo(() => {
-    const imageUrls = findCoverImage(note.metadata.content.content);
+    const imageUrls = findCoverImage(note?.metadata?.content?.content);
 
     return {
       uri: imageUrls.length > 1 ? imageUrls : imageUrls[0],
@@ -59,7 +60,7 @@ export const FeedListItem: FC<Props> = (props) => {
       isSingle: false
       isMultiple: true
     };
-  }, [note.metadata.content.content]);
+  }, [note?.metadata?.content?.content]);
 
   const closeModal = React.useCallback(() => {
     setDisplayImageUris([]);
@@ -73,26 +74,33 @@ export const FeedListItem: FC<Props> = (props) => {
             <XStack alignItems="center" gap={"$3"} marginBottom={"$1"}>
               <Avatar character={note?.character} useDefault/>
               <XStack alignItems="center">
-                <SizableText size="$5" fontWeight={"700"}>{note.character?.metadata?.content?.name || note.character?.handle}</SizableText>
+                <SizableText size="$5" fontWeight={"700"}>{note?.character?.metadata?.content?.name || note?.character?.handle}</SizableText>
               </XStack>
             </XStack>
 
             {
-              note.metadata.content.title && <SizableText size={"$6"} fontWeight={"700"} color="$color" marginBottom={"$1"} numberOfLines={1}>{String(note.metadata.content.title)}</SizableText>
+              note.metadata?.content?.title && <SizableText size={"$6"} fontWeight={"700"} color="$color" marginBottom={"$1"} numberOfLines={1}>{String(note?.metadata?.content?.title)}</SizableText>
             }
 
             <XStack justifyContent={coverImage.isSingle ? "space-between" : "flex-start"} gap="$2">
               {
-                note.metadata?.content?.content && (
+                note?.metadata?.content?.summary && (
                   <Paragraph
                     width={coverImage.isSingle ? "65%" : "100%"}
                     numberOfLines={coverImage.isSingle ? 5 : 3}
                     lineHeight={"$2"}
                     size={"$4"}
                   >
-                    {removeMd(
-                      String(note.metadata.content.content.slice(0, 100)).replace(/(\r\n|\n|\r)/gm, " "),
-                    )}
+                    {
+                      searchKeyword
+                        ? (
+                          <Highlighter
+                            highlightStyle={{ backgroundColor: primary }}
+                            searchWords={[searchKeyword]}
+                            textToHighlight={note?.metadata?.content?.summary}
+                          />
+                        )
+                        : note?.metadata?.content?.summary}
                   </Paragraph>
                 )
               }
@@ -142,9 +150,9 @@ export const FeedListItem: FC<Props> = (props) => {
             <XStack marginTop={"$3"} justifyContent="space-between">
               <Text numberOfLines={1} maxWidth={"70%"}>
                 {
-                  !!note.metadata?.content?.tags?.filter(tag => tag !== "post" && tag !== "page").length && (
+                  !!note?.metadata?.content?.tags?.filter(tag => tag !== "post" && tag !== "page").length && (
                     <SizableText size={"$2"} numberOfLines={1} color="$colorSubtitle">
-                      {note.metadata?.content?.tags
+                      {note?.metadata?.content?.tags
                         ?.filter(tag => tag !== "post" && tag !== "page")
                         .map((tag, index) => (
                           <Text key={tag + index} fontSize={12} color="$colorSubtitle">

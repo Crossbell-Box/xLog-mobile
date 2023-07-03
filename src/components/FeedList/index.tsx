@@ -1,18 +1,18 @@
 import type { FC } from "react";
-import { useMemo } from "react";
 import type { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
 import type { useAnimatedScrollHandler } from "react-native-reanimated";
 
 import type { NoteEntity } from "crossbell";
 import * as Haptics from "expo-haptics";
-import { Separator, Spinner, Stack, useWindowDimensions } from "tamagui";
+import { Separator, SizableText, Spinner, Stack, useWindowDimensions } from "tamagui";
 
 import { useCharacterId } from "@/hooks/use-character-id";
-import type { FeedType } from "@/models/home.model";
+import type { FeedType, SearchType } from "@/models/home.model";
 import { useGetFeed } from "@/queries/home";
 
 import { FeedListItem } from "./FeedListItem";
 
+import topics from "../../data/topics.json";
 import { ReanimatedFlashList } from "../ReanimatedFlashList";
 
 export interface Props {
@@ -24,18 +24,29 @@ export interface Props {
    * @default 7
    * */
   daysInterval?: number
+  searchKeyword?: string
+  tag?: string
+  topic?: string
+  searchType?: SearchType
 }
 
 export const FeedList: FC<Props> = (props) => {
-  const { type, noteIds, daysInterval = 7, onScroll, onScrollEndDrag } = props;
+  const { type, searchType, searchKeyword, tag, topic, noteIds, daysInterval = 7, onScroll, onScrollEndDrag } = props;
   const { width, height } = useWindowDimensions();
   const characterId = useCharacterId();
+
   const feed = useGetFeed({
     type,
     limit: 10,
     characterId,
     noteIds,
     daysInterval,
+    searchKeyword,
+    searchType,
+    tag,
+    topicIncludeKeywords: topic
+      ? topics.find(t => t.name === topic)?.includeKeywords
+      : undefined,
   });
 
   const feedList = feed.data?.pages?.flatMap(page => page?.list) || [];
@@ -52,9 +63,16 @@ export const FeedList: FC<Props> = (props) => {
     <Stack flex={1}>
       <ReanimatedFlashList<NoteEntity>
         data={feedList}
-        keyExtractor={(post, index) => `${type}-${post.noteId}-${index}`}
+        keyExtractor={(post, index) => `${type}-${post?.noteId}-${index}`}
         renderItem={({ item, index }) => (
-          <FeedListItem key={index} note={item}/>
+          <FeedListItem key={index} note={item} searchKeyword={searchKeyword}/>
+        )}
+        ListEmptyComponent={(
+          <Stack flex={1} alignItems="center" justifyContent="center" paddingTop="$10">
+            <SizableText color={"$colorSubtitle"}>
+              There are no posts yet.
+            </SizableText>
+          </Stack>
         )}
         ListFooterComponent={(feed.isFetchingNextPage || (feed.isFetching && feedList.length === 0)) && <Spinner paddingBottom="$5"/>}
         ItemSeparatorComponent={() => <Separator borderColor={"$gray5"}/>}
@@ -63,6 +81,9 @@ export const FeedList: FC<Props> = (props) => {
         estimatedListSize={{
           height: height * 0.8,
           width,
+        }}
+        scrollIndicatorInsets={{
+          right: 2,
         }}
         scrollEventThrottle={16}
         onScroll={onScroll}

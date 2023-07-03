@@ -21,9 +21,9 @@ const resources = {
   },
   en: {
     translation: en,
-    dashboard: en_dashboard,
     common: en_common,
     site: en_site,
+    dashboard: en_dashboard,
   },
 };
 

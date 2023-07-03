@@ -5,7 +5,6 @@ import Animated, { FadeIn, FadeOut, interpolate, useAnimatedStyle } from "react-
 import ContentLoader, { Rect } from "react-content-loader/native";
 import { useWindowDimensions, YStack } from "tamagui";
 
-import { useColors } from "@/hooks/use-colors";
 import { useThemeStore } from "@/hooks/use-theme-store";
 
 export const Skeleton: FC<{
@@ -24,6 +23,8 @@ export const Skeleton: FC<{
     };
   }, []);
 
+  const paddingSize = 4;
+
   return (
     <Animated.View
       style={[skeletonAnimStyles, {
@@ -38,20 +39,20 @@ export const Skeleton: FC<{
     >
       <YStack height={contentLoaderDimensions.height} alignItems={"flex-start"} justifyContent={"flex-start"}>
         <ContentLoader
-          viewBox={`0 0 ${contentLoaderDimensions.width - 10 * 2} 
+          viewBox={`0 0 ${contentLoaderDimensions.width - paddingSize * 2} 
                           ${contentLoaderDimensions.height}`}
           backgroundColor={"gray"}
           opacity="0.3"
         >
-          <Rect x="10" y="20" rx="3" ry="3" width={`${(contentLoaderDimensions.width - 40) * 0.5}`} height="36" />
-          <Rect x="10" y="70" rx="3" ry="3" width={`${(contentLoaderDimensions.width - 40) * 0.25}`} height="13" />
-          <Rect x={`${10 + (contentLoaderDimensions.width - 40) * 0.25 + 10}`} y="70" rx="3" ry="3" width={`${(contentLoaderDimensions.width - 40) * 0.35}`} height="13" />
-          <Rect x="10" y="100" rx="3" ry="3" width={`${(contentLoaderDimensions.width - 40) * 0.75}`} height="20" />
-          <Rect x="10" y="130" rx="3" ry="3" width={`${(contentLoaderDimensions.width - 40)}`} height="20" />
-          <Rect x="10" y="160" rx="3" ry="3" width={`${(contentLoaderDimensions.width - 40)}`} height="20" />
-          <Rect x="10" y="190" rx="3" ry="3" width={`${(contentLoaderDimensions.width - 40)}`} height="20" />
-          <Rect x="10" y="220" rx="3" ry="3" width={`${(contentLoaderDimensions.width - 40)}`} height="20" />
-          <Rect x="10" y="250" rx="3" ry="3" width={`${(contentLoaderDimensions.width - 40) * 0.75}`} height="20" />
+          <Rect x={paddingSize} y="20" rx="3" ry="3" width={`${(contentLoaderDimensions.width - paddingSize * 2) * 0.5}`} height="36" />
+          <Rect x={paddingSize} y="70" rx="3" ry="3" width={`${(contentLoaderDimensions.width - paddingSize * 2) * 0.25}`} height="13" />
+          <Rect x={`${paddingSize + (contentLoaderDimensions.width - 40) * 0.25 + paddingSize}`} y="70" rx="3" ry="3" width={`${(contentLoaderDimensions.width - paddingSize * 2) * 0.35}`} height="13" />
+          <Rect x={paddingSize} y="100" rx="3" ry="3" width={`${(contentLoaderDimensions.width - paddingSize * 2) * 0.75}`} height="20" />
+          <Rect x={paddingSize} y="130" rx="3" ry="3" width={`${(contentLoaderDimensions.width - paddingSize * 2)}`} height="20" />
+          <Rect x={paddingSize} y="160" rx="3" ry="3" width={`${(contentLoaderDimensions.width - paddingSize * 2)}`} height="20" />
+          <Rect x={paddingSize} y="190" rx="3" ry="3" width={`${(contentLoaderDimensions.width - paddingSize * 2)}`} height="20" />
+          <Rect x={paddingSize} y="220" rx="3" ry="3" width={`${(contentLoaderDimensions.width - paddingSize * 2)}`} height="20" />
+          <Rect x={paddingSize} y="250" rx="3" ry="3" width={`${(contentLoaderDimensions.width - paddingSize * 2) * 0.75}`} height="20" />
         </ContentLoader>
       </YStack>
     </Animated.View>

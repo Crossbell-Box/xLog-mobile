@@ -4,12 +4,13 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { CardStyleInterpolators, createStackNavigator } from "@react-navigation/stack";
 import type { TransitionSpec } from "@react-navigation/stack/lib/typescript/src/types";
-import { XCircle } from "@tamagui/lucide-icons";
+import { ArrowLeftCircle } from "@tamagui/lucide-icons";
 import * as SplashScreen from "expo-splash-screen";
 import { XStack } from "tamagui";
 
 import { useMounted } from "@/hooks/use-mounted";
 import { CharacterListPage } from "@/pages/CharacterList";
+import { EmailLoginPage } from "@/pages/EmailLogin";
 import { LoginPage } from "@/pages/Login";
 import { PostDetailsPage } from "@/pages/PostDetails";
 import { AchievementsPage } from "@/pages/Profile/Achievements";
@@ -20,6 +21,7 @@ import { NotificationsPageWithModal } from "@/pages/Profile/Notifications";
 import { PagesPage } from "@/pages/Profile/Pages";
 import { PostsPage } from "@/pages/Profile/Posts";
 import { RepliesPage } from "@/pages/Replies";
+import { SearchPage } from "@/pages/Search";
 import { OthersUserInfoPage } from "@/pages/UserInfo";
 import { WebPage } from "@/pages/Web";
 
@@ -42,7 +44,7 @@ const config: TransitionSpec = {
 };
 export const RootNavigator = () => {
   const { top, bottom } = useSafeAreaInsets();
-  const { t } = useTranslation("common");
+  const i18n = useTranslation("common");
 
   useEffect(() => {
     SplashScreen.hideAsync().catch(() => { });
@@ -63,20 +65,35 @@ export const RootNavigator = () => {
         cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS,
         headerShown: true,
       }}>
+        <RootStack.Screen name={"Login"} component={LoginPage} options={{ headerShown: false }}/>
+      </RootStack.Group>
+
+      <RootStack.Group screenOptions={{ presentation: "modal", headerShown: true }}>
         <RootStack.Screen
-          name={"Login"}
-          component={LoginPage}
-          options={{ headerShown: false }}
+          name={"EmailLogin"}
+          component={EmailLoginPage}
+          options={{
+            title: i18n.t("Connect Email"),
+            headerStyle: { elevation: 0, shadowOpacity: 0 },
+            headerBackTitleVisible: false,
+            headerBackImage(props) {
+              return (
+                <XStack {...props} paddingLeft={"$4"} >
+                  <ArrowLeftCircle size={24} color={props.tintColor} />
+                </XStack>
+              );
+            },
+          }}
         />
       </RootStack.Group>
 
-      <RootStack.Group screenOptions={{ headerShown: true, headerBackTitle: t("Back") }}>
-        <RootStack.Screen name={"Replies"} component={RepliesPage} options={{ title: t("Replies") }} />
+      <RootStack.Group screenOptions={{ headerShown: true, headerBackTitle: i18n.t("Back") }}>
+        <RootStack.Screen name={"Replies"} component={RepliesPage} options={{ title: i18n.t("Replies") }} />
         <RootStack.Screen name={"CharacterListPage"} component={CharacterListPage} options={{ title: "" }} />
-        <RootStack.Screen name={"Web"} component={WebPage} options={{ title: "" }} />
         <RootStack.Screen name={"UserInfo"} component={OthersUserInfoPage} options={{ title: "", headerBackTitleVisible: false }} />
-
         <RootStack.Screen name={"SettingsNavigator"} component={SettingsNavigator} options={{ headerShown: false }}/>
+        <RootStack.Screen name={"Web"} component={WebPage} options={{ title: "" }} />
+        <RootStack.Screen name={"Search"} component={SearchPage} options={{ headerShown: false }} />
       </RootStack.Group>
 
       <RootStack.Group screenOptions={{
@@ -87,13 +104,13 @@ export const RootNavigator = () => {
           close: config,
         },
       }}>
-        <RootStack.Screen name={"Dashboard"} component={DashboardPage} options={{ title: t("Dashboard") }} />
-        <RootStack.Screen name={"Posts"} component={PostsPage} options={{ title: t("Posts") }} />
-        <RootStack.Screen name={"Pages"} component={PagesPage} options={{ title: t("Pages") }} />
-        <RootStack.Screen name={"Comments"} component={CommentsPage} options={{ title: t("Comment") }} />
-        <RootStack.Screen name={"Achievements"} component={AchievementsPage} options={{ title: t("Achievements") }} />
-        <RootStack.Screen name={"Events"} component={EventsPage} options={{ title: t("Events") }} />
-        <RootStack.Screen name={"Notifications"} component={NotificationsPageWithModal} options={{ title: t("Notifications") }} />
+        <RootStack.Screen name={"Dashboard"} component={DashboardPage} options={{ title: i18n.t("Dashboard") }} />
+        <RootStack.Screen name={"Posts"} component={PostsPage} options={{ title: i18n.t("Posts") }} />
+        <RootStack.Screen name={"Pages"} component={PagesPage} options={{ title: i18n.t("Pages") }} />
+        <RootStack.Screen name={"Comments"} component={CommentsPage} options={{ title: i18n.t("Comment") }} />
+        <RootStack.Screen name={"Achievements"} component={AchievementsPage} options={{ title: i18n.t("Achievements") }} />
+        <RootStack.Screen name={"Events"} component={EventsPage} options={{ title: i18n.t("Events") }} />
+        <RootStack.Screen name={"Notifications"} component={NotificationsPageWithModal} options={{ title: i18n.t("Notifications") }} />
       </RootStack.Group>
     </RootStack.Navigator>
   );

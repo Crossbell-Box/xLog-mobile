@@ -11,7 +11,7 @@ import type { SettingsStackParamList } from "./types";
 const SettingsStack = createStackNavigator<SettingsStackParamList>();
 
 export const SettingsNavigator = () => {
-  const { t } = useTranslation("common");
+  const i18n = useTranslation("common");
 
   return (
     <SettingsStack.Navigator initialRouteName="Settings">
@@ -19,7 +19,7 @@ export const SettingsNavigator = () => {
         name={"Settings"}
         component={Settings}
         options={{
-          title: t("Settings"),
+          title: i18n.t("Settings"),
           headerBackTitleVisible: false,
         }}
       />
@@ -27,7 +27,7 @@ export const SettingsNavigator = () => {
         name={"Advanced"}
         component={Advanced}
         options={{
-          title: t("Advanced"),
+          title: i18n.t("Advanced"),
           headerBackTitleVisible: false,
         }}
       />

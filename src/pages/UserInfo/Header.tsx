@@ -2,10 +2,10 @@ import type { FC } from "react";
 import React, { useCallback, useMemo, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import Animated, { Extrapolate, interpolate, useAnimatedStyle } from "react-native-reanimated";
+import Animated, { Extrapolate, FadeIn, FadeOut, FlipInXDown, FlipOutXDown, interpolate, useAnimatedStyle } from "react-native-reanimated";
 
 import { useCharacter } from "@crossbell/indexer";
-import { useNavigation, useNavigationState } from "@react-navigation/native";
+import { useNavigationState } from "@react-navigation/native";
 import { Award, Settings, UserMinus, UserPlus } from "@tamagui/lucide-icons";
 import * as Haptics from "expo-haptics";
 import { Button, Circle, H3, Paragraph, Separator, SizableText, Stack, Text, XStack, YStack } from "tamagui";
@@ -23,10 +23,11 @@ import { useGetAchievements, useGetSiteSubscriptions, useGetSiteToSubscriptions,
 export interface Props {
   characterId: number
   titleAnimatedValue?: Animated.SharedValue<number>
+  replaceFollowButtonWithOtherComponent?: React.ReactNode
 }
 
 export const Header: FC<Props> = (props) => {
-  const { characterId, titleAnimatedValue } = props;
+  const { characterId, titleAnimatedValue, replaceFollowButtonWithOtherComponent } = props;
   const character = useCharacter(characterId);
   const stat = useGetStat({ characterId: characterId?.toString() });
   const i18n = useTranslation();
@@ -106,39 +107,47 @@ export const Header: FC<Props> = (props) => {
             }
           </XStack>
         </XStack>
-        <XStack justifyContent="space-between" alignItems="center">
+        <XStack justifyContent="space-between" alignItems="center" minHeight={"$5"}>
           <H3 fontWeight={"700"}>{character.data?.metadata?.content?.name}</H3>
           {
-            displaySettingsEntry
-              ? (
-                <XTouch enableHaptics touchableComponent={TouchableOpacity} onPress={navigateToSettingsPage}>
-                  <Settings color={"$colorSubtitle"} size={"$1.5"}/>
-                </XTouch>
-              )
-              : (myCharacterId !== characterId && (
-                <XStack>
-                  <Button
-                    size={"$3"}
-                    backgroundColor={isFollowing ? "$backgroundFocus" : "$primary"}
-                    icon={isFollowing
-                      ? (
-                        <UserMinus width={16} disabled={isLoading} />
+            replaceFollowButtonWithOtherComponent || (
+              <Stack>
+                {
+                  displaySettingsEntry
+                    ? (
+                      <XTouch enableHaptics touchableComponent={TouchableOpacity} onPress={navigateToSettingsPage}>
+                        <Settings color={"$colorSubtitle"} size={"$1.5"}/>
+                      </XTouch>
+                    )
+                    : (
+                      myCharacterId !== characterId && (
+                        <XStack>
+                          <Button
+                            size={"$3"}
+                            backgroundColor={isFollowing ? "$backgroundFocus" : "$primary"}
+                            icon={isFollowing
+                              ? (
+                                <UserMinus width={16} disabled={isLoading} />
+                              )
+                              : (
+                                <UserPlus size={16} disabled={isLoading} />
+                              )}
+                            onPress={handleToggleSubscribe}
+                            color={"white"}
+                          >
+                            {
+                              isFollowing ? i18n.t("Unfollow") : i18n.t("Follow")
+                            }
+                          </Button>
+                        </XStack>
                       )
-                      : (
-                        <UserPlus size={16} disabled={isLoading} />
-                      )}
-                    onPress={handleToggleSubscribe}
-                    color={"white"}
-                  >
-                    {
-                      isFollowing ? i18n.t("Unfollow") : i18n.t("Follow")
-                    }
-                  </Button>
-                </XStack>
-              ))
+                    )
+                }
+              </Stack>
+            )
           }
         </XStack>
-        <Paragraph color="$colorSubtitle" numberOfLines={3}>
+        <Paragraph color="$colorSubtitle" numberOfLines={3} maxWidth={replaceFollowButtonWithOtherComponent ? "70%" : undefined}>
           {character?.data?.metadata?.content?.bio}
         </Paragraph>
         <XStack justifyContent="space-between" alignItems="center">

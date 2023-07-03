@@ -44,6 +44,12 @@ export const ImageGallery: FC<Props> = (props) => {
     try {
       const mediaLibraryPermissions = await MediaLibrary.requestPermissionsAsync();
       if (!mediaLibraryPermissions.granted) {
+        toast.show(i18n.t("Permission denied"), {
+          burntOptions: {
+            preset: "none",
+            haptic: "warning",
+          },
+        });
         return;
       }
 

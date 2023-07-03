@@ -29,13 +29,13 @@ interface UseDate {
 }
 
 export function useDate(): UseDate {
-  const { i18n } = useTranslation();
-
-  const locale = i18n.language;
+  const [_, { language: locale }] = useTranslation();
 
   dayjs.locale(locale);
 
-  const formatDate = (date: DateInput, format = "ll", timeZone?: string): string => {
+  const formatDate = (date?: DateInput, format = "ll", timeZone?: string): string => {
+    if (!date) return "";
+
     const options: Intl.DateTimeFormatOptions = {
       year: "numeric",
       month: "long",

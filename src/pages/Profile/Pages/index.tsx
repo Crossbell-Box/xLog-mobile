@@ -6,7 +6,7 @@ import { ScrollView } from "react-native";
 import { useAccountState } from "@crossbell/react-account";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Newspaper } from "@tamagui/lucide-icons";
-import { ListItem, Separator, SizableText, Tabs, Text, ListItemSubtitle, YGroup, Spinner, Stack } from "tamagui";
+import { ListItem, Separator, SizableText, Tabs, ListItemSubtitle, YGroup, Spinner, Stack } from "tamagui";
 
 import { ProfilePageHeader } from "@/components/ProfilePageHeader";
 import { ProfilePageLayout } from "@/components/ProfilePageLayout";

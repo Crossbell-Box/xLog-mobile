@@ -1,9 +1,11 @@
 import jsYaml from "js-yaml";
 import type { Root } from "mdast";
-import { toc } from "mdast-util-toc";
 import type { Result as TocResult } from "mdast-util-toc";
+import rehypeInferDescriptionMeta from "rehype-infer-description-meta";
+import rehypeStringify from "rehype-stringify";
 import remarkFrontmatter from "remark-frontmatter";
 import remarkParse from "remark-parse";
+import remarkRehype from "remark-rehype";
 import { unified } from "unified";
 
 export interface MarkdownEnv {
@@ -28,31 +30,40 @@ export const renderPageContent = (content: string): Rendered => {
     tree: null,
   };
 
+  let result: any = null;
+
   try {
-    const tree = unified()
+    const processor = unified()
       .use(remarkParse)
       .use(remarkFrontmatter, ["yaml"])
-      .parse(content);
+      .use(() => (tree) => {
+        const yaml = tree.children.find(node => node.type === "yaml");
+        if ((yaml as any)?.value) {
+          try {
+            env.frontMatter = jsYaml.load((yaml as any)?.value) as Record<
+            string,
+            any
+            >;
+          }
+          catch (e) {
+            console.error(e);
+          }
+        }
 
-    const yamlNode = tree.children.find(node => node.type === "yaml");
+        // Remove the frontmatter from the original content for processing the rest of the content
+        tree.children = tree.children.filter(node => node.type !== "yaml");
+      })
+      .use(remarkRehype)
+      .use(rehypeStringify)
+      .use(rehypeInferDescriptionMeta);
 
-    if ((yamlNode as any)?.value) {
-      try {
-        env.frontMatter = jsYaml.load((yamlNode as any)?.value) as Record<string, any>;
-        env.excerpt = env.frontMatter.description || "";
-      }
-      catch (e) {
-        console.error(e);
-      }
-    }
-
-    env.toc = toc(tree, { tight: true, ordered: true });
+    result = processor.processSync(content);
   }
   catch (e) {
     console.error(e);
   }
   return {
-    excerpt: env.excerpt,
+    excerpt: result?.data.meta.description,
     frontMatter: env.frontMatter,
     toc: env.toc,
     tree: env.tree,

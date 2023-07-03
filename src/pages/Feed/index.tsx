@@ -8,16 +8,16 @@ import { FeedList } from "@/components/FeedList";
 import { useScrollVisibilityHandler } from "@/hooks/use-scroll-visibility-handler";
 
 import { AnimatedConnectionButton } from "./AnimatedConnectionButton";
-import type { SortType } from "./Header";
-import { Header, sortType } from "./Header";
+import type { FeedType } from "./Header";
+import { Header, feedType } from "./Header";
 
 export interface Props {
-  sortType?: any
+  feedType?: FeedType
 }
 
 export const FeedPage: FC<Props> = (props) => {
-  const { sortType: _sortType = sortType.LATEST } = props;
-  const [currentSortType, setCurrentSortType] = useState<SortType>(_sortType);
+  const { feedType: _feedType = feedType.LATEST } = props;
+  const [currentSortType, setCurrentFeedType] = useState<FeedType>(_feedType);
   const [daysInterval, setDaysInterval] = useState<number>(7);
   const {
     isExpandedAnimValue,
@@ -27,18 +27,22 @@ export const FeedPage: FC<Props> = (props) => {
   return (
     <Animated.View style={{ flex: 1 }}>
       <Header
-        currentSortType={currentSortType}
+        currentFeedType={currentSortType}
         isExpandedAnimValue={isExpandedAnimValue}
         onDaysIntervalChange={(days) => {
           setDaysInterval(days);
         }}
         daysInterval={daysInterval}
-        onSortTypeChange={(type) => {
-          setCurrentSortType(type);
+        onFeedTypeChange={(type) => {
+          setCurrentFeedType(type);
           Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
         }}
       />
-      <FeedList daysInterval={daysInterval} type={currentSortType} {...scrollVisibilityHandler}/>
+      <FeedList
+        daysInterval={daysInterval}
+        type={currentSortType}
+        {...scrollVisibilityHandler}
+      />
       <AnimatedConnectionButton visibleAnimValue={isExpandedAnimValue} />
     </Animated.View>
   );

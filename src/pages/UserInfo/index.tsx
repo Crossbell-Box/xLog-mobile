@@ -99,7 +99,7 @@ interface TabBarItemProps extends TabBarProps {
 
 export const TabItem: FC<TabBarItemProps> = (props) => {
   const { isActive, characterId, link, jumpTo, onPressTab } = props;
-  const { i18n } = useTranslation();
+  const i18n = useTranslation();
   const [noteId, setNoteId] = useState<number | undefined>(undefined);
   const [loading, setLoading] = useState(false);
   const isInternalTab = useMemo(() => link.key.startsWith("/") && internalPages.find(p => p.startsWith(link.key)), [link.key]);

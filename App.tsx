@@ -9,6 +9,7 @@ import "./error-handler";
 import "@/providers/connect-kit-provider/setup-react-account";
 
 import { useEffect } from "react";
+import { I18nextProvider } from "react-i18next";
 import { StyleSheet } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { KeyboardProvider } from "react-native-keyboard-controller";
@@ -31,6 +32,8 @@ import ProviderComposer from "@/components/ProviderComposer";
 import { StatusBar } from "@/components/StatusBar";
 import { WalletConnectModal } from "@/components/WalletConnectModal";
 import { ENV, SENTRY_DSN } from "@/constants/env";
+import { i18n } from "@/i18n";
+import { ApolloProvider } from "@/providers/apollo-provider";
 import { ConnectKitProvider } from "@/providers/connect-kit-provider";
 import { DrawerProvider } from "@/providers/drawer-provider";
 import LoadingProvider from "@/providers/loading-provider";
@@ -104,6 +107,7 @@ export default () => {
           },
         }}
       />,
+      <I18nextProvider key={"I18nextProvider"} i18n={i18n} />,
       <ConnectKitProvider key={"ConnectKitProvider"} />,
       <ToastProvider key={"ToastProvider"} />,
       <ThemeProvider key={"ThemeProvider"} />,
@@ -114,6 +118,7 @@ export default () => {
       // @ts-expect-error: Internal
       <KeyboardProvider key={"KeyboardProvider"} />,
       <NotificationProvider key={"NotificationProvider"} />,
+      <ApolloProvider key={"ApolloProvider"} />,
     ]}>
       <StatusBar />
       <RootNavigator />

@@ -1,7 +1,8 @@
 import type { PropsWithChildren } from "react";
 import { useImperativeHandle, forwardRef, useState } from "react";
+import type { ViewStyle } from "react-native";
 
-import { Button, AlertDialog as TAlertDialog, XStack, YStack } from "tamagui";
+import { Button, AlertDialog as TAlertDialog, XStack, YStack, Stack } from "tamagui";
 
 interface CallBackParams {
   toggle: (visible?: boolean) => void
@@ -9,13 +10,14 @@ interface CallBackParams {
 
 interface Props extends PropsWithChildren {
   title: string
-  description: string
+  description: React.ReactNode
   confirmText?: string
   cancelText?: string
   renderConfirm?: (props: CallBackParams) => JSX.Element
   renderCancel?: (props: CallBackParams) => JSX.Element
   onConfirm?: (props: CallBackParams) => void
   onCancel?: (props: CallBackParams) => void
+  containerStyle?: ViewStyle
 }
 
 export interface AlertDialogInstance extends CallBackParams {
@@ -30,6 +32,7 @@ export const AlertDialog = forwardRef<AlertDialogInstance, Props>(({
   cancelText,
   renderCancel,
   renderConfirm,
+  containerStyle,
   onConfirm: _onConfirm,
   onCancel: _onCancel,
 }, ref) => {
@@ -77,13 +80,21 @@ export const AlertDialog = forwardRef<AlertDialogInstance, Props>(({
           scale={1}
           opacity={1}
           width="90%"
+          maxWidth={400}
           y={0}
+          style={containerStyle}
         >
           <YStack space>
-            <TAlertDialog.Title>{title}</TAlertDialog.Title>
-            <TAlertDialog.Description>
-              {description}
-            </TAlertDialog.Description>
+            {title && <TAlertDialog.Title>{title}</TAlertDialog.Title>}
+            {
+              typeof description === "string"
+                ? (
+                  <TAlertDialog.Description>
+                    {description}
+                  </TAlertDialog.Description>
+                )
+                : description
+            }
 
             <XStack space="$3" justifyContent="flex-end">
               <TAlertDialog.Cancel asChild>

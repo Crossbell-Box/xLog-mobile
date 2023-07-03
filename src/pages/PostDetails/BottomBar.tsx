@@ -1,23 +1,19 @@
 import type { FC } from "react";
 import React, { useEffect, useMemo } from "react";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
-import Animated, { interpolate, useAnimatedStyle, useSharedValue, withSpring, withDelay } from "react-native-reanimated";
+import { useSharedValue, withSpring, withDelay } from "react-native-reanimated";
 
 import { useCharacter, useNote } from "@crossbell/indexer";
-import { UserMinus, UserPlus } from "@tamagui/lucide-icons";
-import * as Haptics from "expo-haptics";
 import { Spacer, XStack } from "tamagui";
 
-import { Avatar } from "@/components/Avatar";
+import { BlockchainInfoIcon } from "@/components/BlockchainInfoIcon";
 import { CommentButton } from "@/components/CommentButton";
 import { ReactionLike } from "@/components/ReactionLike";
 import { ReactionMint } from "@/components/ReactionMint";
 import { ReportButton } from "@/components/ReportButton";
-import { XTouch } from "@/components/XTouch";
-import { useAuthPress } from "@/hooks/use-auth-press";
 import { useColors } from "@/hooks/use-colors";
 import { useFollow } from "@/hooks/use-follow";
 import { useGetPage } from "@/queries/page";
+import { useGetSite } from "@/queries/site";
 import { getNoteSlug } from "@/utils/get-slug";
 
 export interface Props {
@@ -32,6 +28,7 @@ export const BottomBar: FC<Props> = (props) => {
   const { backgroundFocus, primary } = useColors();
   const note = useNote(characterId, noteId);
   const character = useCharacter(characterId);
+  const site = useGetSite(character.data?.handle);
   const { isFollowing, isLoading, toggleSubscribe } = useFollow({ character: character?.data });
 
   const page = useGetPage(
@@ -99,7 +96,7 @@ export const BottomBar: FC<Props> = (props) => {
       paddingHorizontal={"$5"}
       paddingTop={"$1"}
     >
-      <XStack width={"100%"} height={"$4"} justifyContent="flex-end" alignItems="center">
+      <XStack width={"100%"} height={"$4"} justifyContent="space-between" alignItems="center">
         {/* <Animated.View style={[followContainerAnimStyle, {
           alignItems: "center",
           justifyContent: "space-between",
@@ -124,6 +121,7 @@ export const BottomBar: FC<Props> = (props) => {
             </Animated.View>
           </XTouch>
         </Animated.View> */}
+        <BlockchainInfoIcon page={page?.data} character={site?.data}/>
         <XStack alignItems="center">
           {
             !pageIsNotFound && (
