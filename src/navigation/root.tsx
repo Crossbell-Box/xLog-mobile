@@ -65,11 +65,7 @@ export const RootNavigator = () => {
         cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS,
         headerShown: true,
       }}>
-        <RootStack.Screen
-          name={"Login"}
-          component={LoginPage}
-          options={{ headerShown: false }}
-        />
+        <RootStack.Screen name={"Login"} component={LoginPage} options={{ headerShown: false }}/>
       </RootStack.Group>
 
       <RootStack.Group screenOptions={{ presentation: "modal", headerShown: true }}>

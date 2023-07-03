@@ -96,8 +96,8 @@ export const EventsPage: FC<NativeStackScreenProps<RootStackParamList, "Events">
                         <Text color={"$colorSubtitle"} fontWeight={"700"}>{i18n.t("Winners")}:</Text>
                         <XStack gap="$2" flexWrap="wrap">
                           {item.metadata?.content?.frontMatter?.Winners?.map?.(
-                            (winner: string) => (
-                              <SiteAvatar key={winner} siteId={winner} />
+                            (winner, index) => (
+                              <SiteAvatar key={index} siteId={winner} />
                             ),
                           )}
                         </XStack>

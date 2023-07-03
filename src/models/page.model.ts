@@ -1,7 +1,9 @@
+import { gql } from "@apollo/client";
 import { indexer } from "@crossbell/indexer";
 import type { CharacterEntity, Contract, ListResponse, MintedNoteEntity, NoteEntity } from "crossbell";
 import type { Address } from "viem";
 
+import { client } from "@/queries/graphql";
 import { PageVisibilityEnum } from "@/types";
 import type { ExpandedNote } from "@/types/crossbell";
 import { expandCrossbellNote } from "@/utils/expand-unit";
@@ -14,8 +16,8 @@ const getLocalPages = async (input: {
 }) => {
   const pages: ExpandedNote[] = [];
   const keys = getKeys([`draft-${input.characterId}-`, `draft-${input.handle}-`]);
-  for (let index = 0; index < keys.length; index++) {
-    const key = keys[index];
+
+  for (const key of keys) {
     const page = await getStorage(key);
     if (input.isPost === undefined || page.isPost === input.isPost) {
       const note: ExpandedNote = {
@@ -39,15 +41,16 @@ const getLocalPages = async (input: {
         locked: false,
         contractAddress: null,
         uri: null,
-        operator: "0x",
-        owner: "0x",
+        operator: "" as Address, // TODO: check usage and replace it with viem's `zeroAddress`.
+        owner: "" as Address, // TODO: check usage and replace it with viem's `zeroAddress`.
         createdAt: new Date(page.date).toISOString(),
+        publishedAt: new Date(page.date).toISOString(),
         updatedAt: new Date(page.date).toISOString(),
         deletedAt: null,
-        transactionHash: "0x",
+        transactionHash: "" as Address, // TODO: check usage and replace it with viem's `zeroAddress`.
         blockNumber: 0,
         logIndex: 0,
-        updatedTransactionHash: "0x",
+        updatedTransactionHash: "" as Address, // TODO: check usage and replace it with viem's `zeroAddress`.
         updatedBlockNumber: 0,
         updatedLogIndex: 0,
         metadata: {
@@ -65,6 +68,7 @@ const getLocalPages = async (input: {
             ],
             slug: page.values?.slug,
             sources: ["xlog"],
+            disableAISummary: page.values?.disableAISummary,
           },
         },
         local: true,
@@ -72,6 +76,7 @@ const getLocalPages = async (input: {
       pages.push(note);
     }
   }
+
   return pages;
 };
 
@@ -200,29 +205,130 @@ export async function checkMirror(characterId: number) {
   return notes.count === 0;
 }
 
-export async function getPage(input: {
+export async function getPage<TRender extends boolean = false>(input: {
   slug?: string
   characterId: number
   useStat?: boolean
   noteId?: number
   handle?: string // In order to be compatible with old drafts
 }) {
-  const mustLocal = input.slug?.startsWith("local-");
+  const mustLocal = input.slug?.startsWith("local-") && !input.noteId;
 
   let page: NoteEntity | null = null;
 
   if (!mustLocal) {
     if (!input.noteId) {
-      const response = await fetch(
-        `${indexer.endpoint}/api/slug2id?${new URLSearchParams({
-          characterId: `${input.characterId}`,
-          slug: input.slug!,
-        }).toString()}`,
-      );
-      input.noteId = (await response.json())?.noteId;
+      const result = await client
+        .query({
+          query: gql`
+          query getNotes {
+            notes(
+              where: {
+                characterId: {
+                  equals: ${input.characterId},
+                },
+                deleted: {
+                  equals: false,
+                },
+                metadata: {
+                  AND: [
+                    {
+                      content: {
+                        path: ["sources"],
+                        array_contains: ["xlog"]
+                      },
+                    },
+                    {
+                      OR: [
+                        {
+                          content: {
+                            path: ["attributes"],
+                            array_contains: [{
+                              trait_type: "xlog_slug",
+                              value: "${input.slug}",
+                            }]
+                          }
+                        },
+                        {
+                          content: {
+                            path: ["title"],
+                            equals: "${decodeURIComponent(input.slug!)}"
+                          },
+                        }
+                      ]
+                    }
+                  ]
+                },
+              },
+              orderBy: [{ createdAt: desc }],
+              take: 1,
+            ) {
+              characterId
+              noteId
+              uri
+              metadata {
+                uri
+                content
+              }
+              owner
+              createdAt
+              updatedAt
+              publishedAt
+              transactionHash
+              blockNumber
+              updatedTransactionHash
+              updatedBlockNumber
+              ${
+  input.useStat
+    ? `stat {
+                viewDetailCount
+              }`
+    : ""
+}
+            }
+          }`,
+        });
+      page = result.data.notes[0];
     }
-    if (input.noteId) {
-      page = await indexer.note.get(input.characterId, input.noteId);
+    else {
+      const result = await client
+        .query({
+          query: gql`
+          query getNote {
+            note(
+              where: {
+                note_characterId_noteId_unique: {
+                  characterId: ${input.characterId},
+                  noteId: ${input.noteId},
+                },
+              },
+            ) {
+              characterId
+              noteId
+              uri
+              metadata {
+                uri
+                content
+              }
+              owner
+              createdAt
+              updatedAt
+              publishedAt
+              transactionHash
+              blockNumber
+              updatedTransactionHash
+              updatedBlockNumber
+              ${
+  input.useStat
+    ? `stat {
+                viewDetailCount
+              }`
+    : ""
+}
+            }
+          }`,
+        });
+      page = result.data.note;
     }
   }
 
@@ -242,9 +348,11 @@ export async function getPage(input: {
     });
 
   let expandedNote: ExpandedNote | undefined;
-
   if (page) {
-    expandedNote = await expandCrossbellNote(page, input.useStat);
+    expandedNote = await expandCrossbellNote({
+      note: page,
+      useStat: input.useStat,
+    });
   }
 
   if (localPage) {
@@ -264,10 +372,6 @@ export async function getPage(input: {
     }
   }
 
-  if (!expandedNote && !mustLocal) {
-    throw new Error(`page ${input.slug} not found`);
-  }
-
   return expandedNote;
 }
 
@@ -279,6 +383,7 @@ export async function getPagesBySite(input: {
   cursor?: string
   tags?: string[]
   useStat?: boolean
+  useHTML?: boolean
   keepBody?: boolean
   handle?: string // In order to be compatible with old drafts
 }) {
@@ -303,7 +408,12 @@ export async function getPagesBySite(input: {
 
   const list = await Promise.all(
     notes?.list.map(async (note) => {
-      const expanded = await expandCrossbellNote(note, input.useStat);
+      const expanded = await expandCrossbellNote({
+        note,
+        useStat: input.useStat,
+        useHTML: input.useHTML,
+        useScore: false,
+      });
       if (!input.keepBody) {
         delete expanded.metadata?.content?.content;
       }
@@ -371,12 +481,20 @@ export async function getPagesBySite(input: {
       break;
   }
 
-  expandedNotes.list = expandedNotes.list.sort((a, b) =>
-    a.metadata?.content?.date_published && b.metadata?.content?.date_published
-      ? +new Date(b.metadata?.content?.date_published)
-      - +new Date(a.metadata?.content?.date_published)
-      : 0,
-  );
+  expandedNotes.list = expandedNotes.list.sort((a, b) => {
+    if (!a.metadata?.content?.date_published) {
+      return -1;
+    }
+    else if (!b.metadata?.content?.date_published) {
+      return 1;
+    }
+    else {
+      return (
+        +new Date(b.metadata?.content?.date_published)
+        - +new Date(a.metadata?.content?.date_published)
+      );
+    }
+  });
 
   return expandedNotes;
 }
