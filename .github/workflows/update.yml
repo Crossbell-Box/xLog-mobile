@@ -40,12 +40,12 @@ jobs:
           echo "${{ secrets.ENV_FILE_DEVELOPMENT }}" > .env.development
           echo "${{ secrets.ENV_FILE_PRODUCTION }}" > .env.production
           echo "${{ secrets.ENV_FILE_STAGING }}" > .env.staging
-          echo "${{ secrets.ANDROID_GOOGLE_SERVICES_DEVELOPMENT }}" > ANDROID_GOOGLE_SERVICES_DEVELOPMENT
-          echo "${{ secrets.ANDROID_GOOGLE_SERVICES_STAGING }}" > ANDROID_GOOGLE_SERVICES_STAGING
-          echo "${{ secrets.ANDROID_GOOGLE_SERVICES_PRODUCTION }}" > ANDROID_GOOGLE_SERVICES_PRODUCTION
-          echo "${{ secrets.IOS_GOOGLE_SERVICES_DEVELOPMENT }}" > IOS_GOOGLE_SERVICES_DEVELOPMENT
-          echo "${{ secrets.IOS_GOOGLE_SERVICES_STAGING }}" > IOS_GOOGLE_SERVICES_STAGING
-          echo "${{ secrets.IOS_GOOGLE_SERVICES_PRODUCTION }}" > IOS_GOOGLE_SERVICES_PRODUCTION
+          echo "${{ secrets.ANDROID_GOOGLE_SERVICES_DEVELOPMENT }}" > google-services.development.json
+          echo "${{ secrets.ANDROID_GOOGLE_SERVICES_STAGING }}" > google-services.staging.json
+          echo "${{ secrets.ANDROID_GOOGLE_SERVICES_PRODUCTION }}" > google-services.production.json
+          echo "${{ secrets.IOS_GOOGLE_SERVICES_DEVELOPMENT }}" > GoogleService-Info.development.plist
+          echo "${{ secrets.IOS_GOOGLE_SERVICES_STAGING }}" > GoogleService-Info.staging.plist
+          echo "${{ secrets.IOS_GOOGLE_SERVICES_PRODUCTION }}" > GoogleService-Info.production.plist
 
       - name: Install dependencies
         run: yarn install
