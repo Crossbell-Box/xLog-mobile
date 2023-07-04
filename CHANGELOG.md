@@ -1,5 +1,17 @@
 # xlog
 
+## 0.15.0
+
+### Minor Changes
+
+- f8210bb: Added explore and search pages.
+- eb3849d: Support to share post via link, photo and twitter.
+
+### Patch Changes
+
+- 75db22b: optimized the speed of PostDetails page loading.
+- cac9fb9: Fixed some bugs causing page crashes.
+
 ## 0.14.0
 
 ### Minor Changes

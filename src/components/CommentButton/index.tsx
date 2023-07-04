@@ -236,9 +236,6 @@ export const CommentButton: React.FC<Props> = ({ characterId, noteId, iconSize =
                       }}
                       onComment={comments.refetch}
                       onEdit={comments.refetch}
-                      onNavigateToUserProfile={() => {
-                        bottomSheetRef.current.close();
-                      }}
                     />
                   );
                 }}
