@@ -7,6 +7,7 @@ import type { ButtonProps } from "tamagui";
 import { Button } from "tamagui";
 
 import { useRootNavigation } from "@/hooks/use-navigation";
+import { GA } from "@/utils/GA";
 
 export const ConnectEmailButton = (props: ButtonProps) => {
   const i18n = useTranslation();
@@ -14,6 +15,7 @@ export const ConnectEmailButton = (props: ButtonProps) => {
   const account = useConnectedAccount();
 
   const openWebPage = () => {
+    GA.logLogin({ method: "email" });
     navigation.navigate("EmailLogin");
   };
 

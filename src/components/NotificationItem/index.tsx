@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import type { SvgProps } from "react-native-svg";
 import { ClipPath, Rect, G, Svg, Path, Defs } from "react-native-svg";
 
@@ -9,6 +9,9 @@ import dayjs from "dayjs";
 import removeMd from "remove-markdown";
 import { Card, Circle, Text, XStack, YStack } from "tamagui";
 import { formatUnits } from "viem";
+
+import type { CharacterNotificationType } from "@/hooks/use-character-notification";
+import { GA } from "@/utils/GA";
 
 import { Avatar } from "../Avatar";
 
@@ -57,14 +60,25 @@ export const CrossbellChainLogo: React.FC<SvgProps> = props => (
 
 export interface ItemProps {
   notification: ParsedNotification
+  tabType: CharacterNotificationType
 }
 
-export function NotificationItem({ notification }: ItemProps) {
+export function NotificationItem({ notification, tabType }: ItemProps) {
   const titleInfo = getTitleInfo(notification);
 
-  const markAsReadHandler = () => {
-    // console.log(11);
-  };
+  const markAsReadHandler = useCallback(() => {
+    GA.logSelectItem({
+      content_type: "notification_tab_list_item",
+      item_list_id: `notification_tab_${tabType}`,
+      item_list_name: `notification_tab_${tabType}`,
+      items: [{
+        item_category: notification.type,
+      }],
+    });
+  }, [
+    notification.type,
+    tabType,
+  ]);
 
   return (
     <Card elevate size="$4" bordered marginBottom="$4" paddingHorizontal="$4" onPress={markAsReadHandler}>

@@ -40,9 +40,12 @@ jobs:
           echo "${{ secrets.ENV_FILE_DEVELOPMENT }}" > .env.development
           echo "${{ secrets.ENV_FILE_PRODUCTION }}" > .env.production
           echo "${{ secrets.ENV_FILE_STAGING }}" > .env.staging
-          echo "${{ secrets.GOOGLE_SERVICES_DEVELOPMENT }}" > GOOGLE_SERVICES_DEVELOPMENT
-          echo "${{ secrets.GOOGLE_SERVICES_STAGING }}" > GOOGLE_SERVICES_STAGING
-          echo "${{ secrets.GOOGLE_SERVICES_PRODUCTION }}" > GOOGLE_SERVICES_PRODUCTION
+          echo "${{ secrets.ANDROID_GOOGLE_SERVICES_DEVELOPMENT }}" > ANDROID_GOOGLE_SERVICES_DEVELOPMENT
+          echo "${{ secrets.ANDROID_GOOGLE_SERVICES_STAGING }}" > ANDROID_GOOGLE_SERVICES_STAGING
+          echo "${{ secrets.ANDROID_GOOGLE_SERVICES_PRODUCTION }}" > ANDROID_GOOGLE_SERVICES_PRODUCTION
+          echo "${{ secrets.IOS_GOOGLE_SERVICES_DEVELOPMENT }}" > IOS_GOOGLE_SERVICES_DEVELOPMENT
+          echo "${{ secrets.IOS_GOOGLE_SERVICES_STAGING }}" > IOS_GOOGLE_SERVICES_STAGING
+          echo "${{ secrets.IOS_GOOGLE_SERVICES_PRODUCTION }}" > IOS_GOOGLE_SERVICES_PRODUCTION
 
       - name: Install dependencies
         run: yarn install

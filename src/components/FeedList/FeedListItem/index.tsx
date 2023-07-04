@@ -16,6 +16,7 @@ import { useDate } from "@/hooks/use-date";
 import { useRootNavigation } from "@/hooks/use-navigation";
 import type { RootStackParamList } from "@/navigation/types";
 import { findCoverImage } from "@/utils/find-cover-image";
+import { GA } from "@/utils/GA";
 
 type NoteEntity = any;
 

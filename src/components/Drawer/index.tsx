@@ -6,11 +6,11 @@ import { TouchableOpacity, TouchableWithoutFeedback } from "react-native-gesture
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useAccountBalance, useAccountCharacter, useIsConnected } from "@crossbell/react-account";
-import { Bell, Copy, Euro, File, Flag, LayoutDashboard, MessageSquare, Newspaper, TreeDeciduous, Trophy } from "@tamagui/lucide-icons";
+import { Copy, Euro, File, Flag, LayoutDashboard, MessageSquare, Newspaper, Trophy } from "@tamagui/lucide-icons";
 import type { IconProps } from "@tamagui/lucide-icons/types/IconProps";
 import * as Clipboard from "expo-clipboard";
 import * as Haptics from "expo-haptics";
-import { H4, Paragraph, Separator, SizableText, Spacer, Stack, Text, useWindowDimensions, XStack, YStack } from "tamagui";
+import { H4, Separator, SizableText, Spacer, Stack, Text, useWindowDimensions, XStack, YStack } from "tamagui";
 
 import { Avatar } from "@/components/Avatar";
 import { useColors } from "@/hooks/use-colors";
@@ -32,7 +32,6 @@ const profilePages: Array<{
   { name: "Comments", title: i18n.t("Comment"), icon: MessageSquare },
   { name: "Achievements", title: i18n.t("Achievements"), icon: Trophy },
   { name: "Events", title: i18n.t("Events"), icon: Flag },
-  { name: "Notifications", title: i18n.t("Notifications"), icon: Bell },
 ];
 
 const DrawerContent = () => {
@@ -59,12 +58,7 @@ const DrawerContent = () => {
       closeDrawer();
     }, 600);
 
-    if (name === "Notifications") {
-      rootNavigation.navigate("Home", { screen: "Notifications" });
-    }
-    else {
-      rootNavigation.navigate(name);
-    }
+    rootNavigation.navigate(name);
   };
 
   return (

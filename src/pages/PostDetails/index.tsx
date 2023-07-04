@@ -13,6 +13,7 @@ import { useScrollVisibilityHandler } from "@/hooks/use-scroll-visibility-handle
 import { useThemeStore } from "@/hooks/use-theme-store";
 import type { RootStackParamList } from "@/navigation/types";
 import { Header as UserInfoHeader } from "@/pages/UserInfo/Header";
+import { GA } from "@/utils/GA";
 
 import { BottomBar } from "./BottomBar";
 import type { PostDetailsContentInstance } from "./Content";
@@ -59,6 +60,10 @@ export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, "Pos
 
   useEffect(() => {
     followAnimValue.value = withDelay(1500, withSpring(1));
+    GA.logEvent("start_reading_post", {
+      node_id: params.noteId,
+      character_id: params.characterId,
+    });
   }, []);
 
   return (

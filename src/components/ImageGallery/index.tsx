@@ -4,6 +4,7 @@ import { Dimensions, StyleSheet } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+import { useNavigation } from "@react-navigation/native";
 import { Download, Loader } from "@tamagui/lucide-icons";
 import { useToastController } from "@tamagui/toast";
 import * as FileSystem from "expo-file-system";
@@ -11,7 +12,11 @@ import { Image } from "expo-image";
 import * as MediaLibrary from "expo-media-library";
 import { Circle, Spinner, Stack } from "tamagui";
 
+import { useGAWithScreenParams } from "@/hooks/ga/use-ga-with-screen-name-params";
+import { useCurrentRoute } from "@/hooks/use-current-route";
 import { useHitSlopSize } from "@/hooks/use-hit-slop-size";
+import { GA } from "@/utils/GA";
+import { getActiveRoute } from "@/utils/get-active-route";
 
 import { ModalWithFadeAnimation } from "../ModalWithFadeAnimation";
 
@@ -31,14 +36,21 @@ export const ImageGallery: FC<Props> = (props) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isSavingImage, setIsSavingImage] = useState(false);
   const hitSlop = useHitSlopSize(44);
+  const gaWithScreenParams = useGAWithScreenParams();
 
   useEffect(() => {
     if (isVisible) {
+      GA.logEvent("open_image_gallery", gaWithScreenParams);
       setCurrentImageIndex(0);
     }
-  }, [isVisible]);
+  }, [isVisible, gaWithScreenParams]);
 
   const saveImage = useCallback(async (uri: string) => {
+    GA.logEvent("save_image_from_gallery", {
+      ...gaWithScreenParams,
+      uri,
+    });
+
     setIsSavingImage(true);
 
     try {

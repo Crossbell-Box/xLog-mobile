@@ -49,6 +49,7 @@ export default (_: ConfigContext): ExpoConfig => {
           },
           ios: {
             deploymentTarget: "13.0",
+            useFrameworks: "static",
           },
         },
       ],
@@ -62,6 +63,7 @@ export default (_: ConfigContext): ExpoConfig => {
       ],
       "expo-localization",
       "sentry-expo",
+      "@react-native-firebase/app",
     ],
     splash: {
       image: "./assets/splash.png",
@@ -80,6 +82,7 @@ export default (_: ConfigContext): ExpoConfig => {
     ios: {
       supportsTablet: true,
       bundleIdentifier: config.scheme,
+      googleServicesFile: config.iosGoogleServicesFile,
       associatedDomains: [
         `applinks:${config.host}`,
         `applinks:oia.${config.host}`,
@@ -87,7 +90,7 @@ export default (_: ConfigContext): ExpoConfig => {
     },
     android: {
       package: config.scheme,
-      googleServicesFile: config.googleServicesFile,
+      googleServicesFile: config.androidGoogleServicesFile,
       intentFilters: [
         {
           action: "VIEW",

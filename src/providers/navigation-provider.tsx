@@ -1,12 +1,14 @@
 import type { FC } from "react";
-import React, { useEffect, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 
-import type { LinkingOptions } from "@react-navigation/native";
+import type { LinkingOptions, NavigationState } from "@react-navigation/native";
 import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import * as Linking from "expo-linking";
 
 import { APP_HOST } from "@/constants/env";
 import { useColors } from "@/hooks/use-colors";
+import { GA } from "@/utils/GA";
+import { getActiveRoute } from "@/utils/get-active-route";
 
 const prefix = Linking.createURL("/");
 
@@ -31,6 +33,10 @@ export const NavigationProvider: FC<React.PropsWithChildren<{}>> = ({ children }
     const listener = Linking.addEventListener("url", ({ url }) => {
       // eslint-disable-next-line no-console
       console.log("Deep link URL:", url);
+      GA.logEvent("open_app", {
+        type: "deep_link",
+        url,
+      });
     });
 
     return () => {
@@ -57,8 +63,22 @@ export const NavigationProvider: FC<React.PropsWithChildren<{}>> = ({ children }
     background,
   ]);
 
+  const onStateChange = useCallback((state: NavigationState | undefined) => {
+    const currentScreen = getActiveRoute(state);
+    if (currentScreen) {
+      GA.logScreenView({
+        screen_class: currentScreen.name,
+        screen_name: currentScreen.name,
+      });
+    }
+  }, []);
+
   return (
-    <NavigationContainer linking={linking} theme={theme}>
+    <NavigationContainer
+      linking={linking}
+      theme={theme}
+      onStateChange={onStateChange}
+    >
       {children}
     </NavigationContainer>
   );

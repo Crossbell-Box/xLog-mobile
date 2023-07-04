@@ -126,10 +126,10 @@ export const BottomBar: FC<Props> = (props) => {
           {
             !pageIsNotFound && (
               <>
-                <ReactionLike {...reactionCommonProps} />
+                <ReactionLike ga={{ type: "post" }} {...reactionCommonProps} />
                 <Spacer size="$4" />
-                <ReactionMint {...reactionCommonProps} />
-                <Spacer size="$4" />
+                {/* <ReactionMint {...reactionCommonProps} />
+                <Spacer size="$4" /> */}
                 <CommentButton {...reactionCommonProps} />
                 <Spacer size="$4" />
                 <ReportButton/>

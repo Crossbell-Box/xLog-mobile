@@ -26,21 +26,24 @@ function setAppConfigEnv() {
       host: HOST,
       scheme: `${SCHEME}.development`,
       icon: "./assets/icon.development.png",
-      googleServicesFile: IS_EAS_CI ? process.env.GOOGLE_SERVICES_DEVELOPMENT : "./google-services.development.json",
+      androidGoogleServicesFile: IS_EAS_CI ? process.env.ANDROID_GOOGLE_SERVICES_DEVELOPMENT : "./google-services.development.json",
+      iosGoogleServicesFile: IS_EAS_CI ? process.env.IOS_GOOGLE_SERVICES_DEVELOPMENT : "./GoogleService-Info.development.plist",
     },
     staging: {
       name: "xLog-preview",
       host: HOST,
       scheme: `${SCHEME}.staging`,
       icon: "./assets/icon.staging.png",
-      googleServicesFile: IS_EAS_CI ? process.env.GOOGLE_SERVICES_STAGING : "./google-services.staging.json",
+      androidGoogleServicesFile: IS_EAS_CI ? process.env.ANDROID_GOOGLE_SERVICES_STAGING : "./google-services.staging.json",
+      iosGoogleServicesFile: IS_EAS_CI ? process.env.IOS_GOOGLE_SERVICES_STAGING : "./GoogleService-Info.staging.plist",
     },
     production: {
       name: "xLog",
       host: HOST,
       scheme: SCHEME,
       icon: "./assets/icon.png",
-      googleServicesFile: IS_EAS_CI ? process.env.GOOGLE_SERVICES_PRODUCTION : "./google-services.production.json",
+      androidGoogleServicesFile: IS_EAS_CI ? process.env.ANDROID_GOOGLE_SERVICES_PRODUCTION : "./google-services.production.json",
+      iosGoogleServicesFile: IS_EAS_CI ? process.env.IOS_GOOGLE_SERVICES_PRODUCTION : "./GoogleService-Info.production.plist",
     },
   };
 
