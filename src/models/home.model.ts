@@ -52,7 +52,7 @@ export async function getFeed({
     case "latest": {
       const result = await indexer.note.getMany({
         sources: "xlog",
-        // tags: ["post"],
+        tags: ["post"],
         limit,
         cursor,
         includeCharacter: true,

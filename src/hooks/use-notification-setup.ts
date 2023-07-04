@@ -4,6 +4,8 @@ import { Platform } from "react-native";
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 
+import { GA } from "@/utils/GA";
+
 import { useRootNavigation } from "./use-navigation";
 
 Notifications.setNotificationHandler({
@@ -89,6 +91,12 @@ export function useNotificationSetup() {
       await Notifications.dismissNotificationAsync(notification.request.identifier);
 
       const notificationActions = (notification.request.content.data || {}) as NotificationActionTypes;
+
+      GA.logEvent("open_app", {
+        type: "notification",
+        data: notificationActions,
+      });
+
       performAction(notificationActions);
     });
 

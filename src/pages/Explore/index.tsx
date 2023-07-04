@@ -1,25 +1,19 @@
 import type { FC } from "react";
-import { useTransition } from "react";
+import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { Dimensions } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import type Animated from "react-native-reanimated";
-import { Easing, Extrapolate, interpolate, useAnimatedStyle } from "react-native-reanimated";
-import Carousel from "react-native-reanimated-carousel";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Search } from "@tamagui/lucide-icons";
 import type { CharacterEntity } from "crossbell";
-import { Text, ListItem, SizableText, Stack, XStack, YGroup, YStack, Separator } from "tamagui";
+import { Text, ListItem, SizableText, Stack, XStack, YStack } from "tamagui";
 
 import { Avatar } from "@/components/Avatar";
-import { MeasuredContainer } from "@/components/MeasuredContainer";
 import { useRootNavigation } from "@/hooks/use-navigation";
 import type { HomeBottomTabsParamList } from "@/navigation/types";
-import { RootStackParamList } from "@/navigation/types";
 import { useGetShowcase } from "@/queries/home";
-import { withAnchorPoint } from "@/utils/anchor-point";
+import { GA } from "@/utils/GA";
 
 import topics from "../../data/topics.json";
 
@@ -34,6 +28,18 @@ export const ExplorePage: FC<NativeStackScreenProps<HomeBottomTabsParamList, "Ex
   const i18n = useTranslation("common");
   const showcaseSites = useGetShowcase();
   const navigation = useRootNavigation();
+
+  const onPressTopicItem = useCallback((topic: any) => {
+    GA.logSelectItem({
+      content_type: "explore_page_topic",
+      item_list_id: topic,
+      item_list_name: topic,
+      items: [{
+        item_id: topic,
+        item_name: i18n.t(topic.name),
+      }],
+    });
+  }, []);
 
   return (
     <SafeAreaView edges={["top"]} style={{ flex: 1 }} >
@@ -62,7 +68,7 @@ export const ExplorePage: FC<NativeStackScreenProps<HomeBottomTabsParamList, "Ex
             <SizableText fontWeight={"700"} color="$color" size="$6">{i18n.t("Hot Topics")}</SizableText>
           </XStack>
           {topics.map((topic: any) => (
-            <ListItem paddingHorizontal={4} key={topic.name} title={i18n.t(topic.name)} subTitle={i18n.t(topic.description)}/>
+            <ListItem onPress={onPressTopicItem} paddingHorizontal={4} key={topic.name} title={i18n.t(topic.name)} subTitle={i18n.t(topic.description)}/>
           ))}
         </YStack>
         <YStack>
@@ -82,8 +88,20 @@ const CharacterCard: FC<{
 }> = (props) => {
   const { item } = props;
 
+  const onHandleAvatarPress = useCallback(() => {
+    GA.logSelectItem({
+      content_type: "explore_page_creator",
+      item_list_id: "explore_page_creator_list",
+      item_list_name: "explore_page_creator_list",
+      items: [{
+        item_id: item?.characterId?.toString(),
+        item_name: item.metadata?.content?.name,
+      }],
+    });
+  }, [item]);
+
   return (
-    <XStack height={ITEM_HEIGHT} paddingBottom={ITEM_VERTICAL_GAP} backgroundColor={"$background"}>
+    <XStack onPress={onHandleAvatarPress} height={ITEM_HEIGHT} paddingBottom={ITEM_VERTICAL_GAP} backgroundColor={"$background"}>
       <XStack flex={1} alignItems="center" gap="$3" borderWidth={1} borderColor={"$borderColor"} borderRadius={"$5"} paddingHorizontal={"$3"}>
         <Avatar size={42} character={item} isNavigateToUserInfo useDefault/>
         <YStack flex={1} gap="$2">

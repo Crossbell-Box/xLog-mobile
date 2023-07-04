@@ -1,12 +1,12 @@
 # xLog-mobile  
 
-<p align="center">
-  WIP 🟡
-</p>
-
 > Mobile app for the first on-chain and open-source blogging platform for everyone. 
 
-[![Discord](https://img.shields.io/badge/chat-Discord-5865F2.svg?logo=discord&style=flat-square)](https://discord.gg/46VJMMVCuF) &nbsp;[![Twitter](https://img.shields.io/badge/Twitter-@_xLog-1d9bf0.svg?logo=twitter&style=flat-square)](https://twitter.com/_xLog) &nbsp;[![build](https://img.shields.io/github/actions/workflow/status/Crossbell-Box/xLog/docker-build-push-prod.yml?logo=github&style=flat-square)](https://github.com/Crossbell-Box/xLog/actions/workflows/docker-build-push.yml)
+[![Discord](https://img.shields.io/badge/chat-Discord-5865F2.svg?logo=discord&style=flat-square)](https://discord.gg/46VJMMVCuF) &nbsp;[![Twitter](https://img.shields.io/badge/Twitter-@_xLog-1d9bf0.svg?logo=twitter&style=flat-square)](https://twitter.com/_xLog) &nbsp;[![build](https://img.shields.io/github/actions/workflow/status/Crossbell-Box/xLog/docker-build-push-prod.yml?logo=github&style=flat-square)](https://github.com/Crossbell-Box/xLog/actions/workflows/docker-build-push.yml) &nbsp;[![iOS Download](https://img.shields.io/badge/iOS-Download-000000?style=flat-square&logo=apple)](https://apps.apple.com/cn/app/xlog-on-chain-blogging/id6449499296) &nbsp;[![Android Download](https://img.shields.io/badge/Android-Download-3DDC84?style=flat-square&logo=android)](https://play.google.com/store/apps/details?id=com.crossbell.xlog)
+
+<p align="center">
+    <img src="./assets/download-qrcode.png" width="20%" />
+</p>
 
 
 ## Development
@@ -54,13 +54,15 @@
 - Prebuild the project
 
     ```sh
-    nr prebuild
+    nr prebuild:dev
     ```
 
 - Start the app
-
+    
     ```sh
-    nr ios/android # If you want to run on your real device, you need to add `-d` flag.
+    # If you want to run on your real device, you need to add `-d` flag.
+    nr ios 
+    nr android
     ```
 
 ### Publishing

@@ -17,12 +17,14 @@ import { Button, H4, Input, SizableText, Spinner, Stack, Text, XStack, YStack, u
 import { BottomSheetModal } from "@/components/BottomSheetModal";
 import type { BottomSheetModalInstance } from "@/components/BottomSheetModal";
 import { isIOS } from "@/constants/platform";
+import { useGAWithScreenParams } from "@/hooks/ga/use-ga-with-screen-name-params";
 import { useAuthPress } from "@/hooks/use-auth-press";
 import { useColors } from "@/hooks/use-colors";
 import { useGlobalLoading } from "@/hooks/use-global-loading";
 import { useMounted } from "@/hooks/use-mounted";
 import { useRootNavigation } from "@/hooks/use-navigation";
 import { useCommentPage, useGetComments, useSubmitComment, useUpdateComment } from "@/queries/page";
+import { GA } from "@/utils/GA";
 
 import type { Comment } from "../CommentItem";
 import { CommentItem } from "../CommentItem";
@@ -64,9 +66,11 @@ export const CommentButton: React.FC<Props> = ({ characterId, noteId, iconSize =
   const [modalVisible, setModalVisible] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const { background, color, subtitle, borderColor } = useColors();
+  const gaWithScreenParams = useGAWithScreenParams();
   const openBottomSheet = () => {
     bottomSheetRef.current?.present();
     comments.refetch();
+    GA.logEvent("open_comment_sheet", gaWithScreenParams);
   };
 
   const navigation = useRootNavigation();
@@ -92,6 +96,7 @@ export const CommentButton: React.FC<Props> = ({ characterId, noteId, iconSize =
 
   const submitComment = () => {
     setIsLoading(true);
+    GA.logEvent("submit_comment", gaWithScreenParams);
 
     return _submitComment({
       characterId: isEditing ? selectedEditComment.characterId : characterId,

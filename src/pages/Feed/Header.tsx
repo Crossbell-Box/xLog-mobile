@@ -11,6 +11,7 @@ import { NavigationHeader } from "@/components/Header";
 import { isAndroid } from "@/constants/platform";
 import { useColors } from "@/hooks/use-colors";
 import type { FeedType as AllFeedType } from "@/models/home.model";
+import { GA } from "@/utils/GA";
 
 import { HotInterval } from "./HotInterval";
 
@@ -208,6 +209,8 @@ export const Header: FC<Props> = (props) => {
                     unstyled
                     padding={12}
                     onPress={() => {
+                      GA.logEvent("feed_type_changed", { feed_type: type });
+
                       onPress
                         ? onPress?.()
                         : onFeedTypeChange(type);

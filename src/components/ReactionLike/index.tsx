@@ -10,10 +10,12 @@ import type { FontSizeTokens, SizeTokens } from "tamagui";
 import { Button, Card, H4, Paragraph, SizableText, XStack, YStack, Spinner } from "tamagui";
 
 import { CSB_SCAN } from "@/constants/env";
+import { useGAWithScreenParams } from "@/hooks/ga/use-ga-with-screen-name-params";
 import { useAuthPress } from "@/hooks/use-auth-press";
 import { useFnLoadingWithStateChange } from "@/hooks/use-fn-loading-with-state-change";
 import { useRootNavigation } from "@/hooks/use-navigation";
 import { useCheckLike, useGetLikeCounts, useGetLikes, useToggleLikePage } from "@/queries/page";
+import { GA } from "@/utils/GA";
 
 import { ModalWithFadeAnimation } from "../ModalWithFadeAnimation";
 import { UniLink } from "../UniLink";
@@ -24,11 +26,19 @@ interface Props {
   noteId: number
   iconSize?: SizeTokens
   fontSize?: FontSizeTokens
+  ga: {
+    type: "post" | "reply"
+  }
 }
 
-export const ReactionLike: React.FC<Props> = ({ characterId, noteId, iconSize = "$1", fontSize = "$6" }) => {
+export const ReactionLike: React.FC<Props> = ({ characterId, noteId, ga, iconSize = "$1", fontSize = "$6" }) => {
   const navigation = useRootNavigation();
   const i18n = useTranslation("common");
+  const gaWithScreenParams = useGAWithScreenParams();
+  const gaParams = {
+    ...gaWithScreenParams,
+    type: ga.type,
+  };
   const [isLoading, setIsLoading] = useState(false);
   const [isLikeOpen, setIsLikeOpen] = useState(false);
   const [isUnlikeOpen, setIsUnlikeOpen] = useState(false);
@@ -51,6 +61,7 @@ export const ReactionLike: React.FC<Props> = ({ characterId, noteId, iconSize = 
 
   const like = useFnLoadingWithStateChange(() => {
     setIsLoading(true);
+    GA.logEvent("like", gaParams);
     return toggleLikePage.mutateAsync({
       characterId,
       noteId,
@@ -60,6 +71,7 @@ export const ReactionLike: React.FC<Props> = ({ characterId, noteId, iconSize = 
 
   const unlike = useFnLoadingWithStateChange(() => {
     setIsLoading(true);
+    GA.logEvent("like", gaParams);
     return toggleLikePage.mutateAsync({
       noteId,
       characterId,

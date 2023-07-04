@@ -18,6 +18,7 @@ import { Button, Card, H4, Paragraph, Stack } from "tamagui";
 
 import { useRootNavigation } from "@/hooks/use-navigation";
 import { useOneTimeTogglerWithSignOP } from "@/hooks/use-signin-tips-toggler";
+import { GA } from "@/utils/GA";
 
 import { DelayedRender } from "../DelayRender";
 import { ModalWithFadeAnimation } from "../ModalWithFadeAnimation";
@@ -63,11 +64,13 @@ function ConnectBtn({ navigateToLogin }: { navigateToLogin: boolean }) {
     }
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
 
-    open({ route: "ConnectWallet" }).catch((e) => {
-      Sentry.Native.captureException(e);
-      // eslint-disable-next-line no-console
-      console.log(`[WalletConnect] ${e.message}`);
-    });
+    open({ route: "ConnectWallet" })
+      .catch((e) => {
+        Sentry.Native.captureException(e);
+        // eslint-disable-next-line no-console
+        console.log(`[WalletConnect] ${e.message}`);
+      })
+      .finally(() => GA.logLogin({ method: "walletconnect" }));
   };
 
   return (
@@ -96,6 +99,7 @@ function OPSignToggleBtn() {
 
   const OPSign = () => {
     signIn();
+    GA.logEvent("Operator Sign");
     closePermanently();
   };
 
@@ -155,6 +159,7 @@ export function DisconnectBtn({ navigateToLogin }: { navigateToLogin: boolean })
     }
 
     _disconnect();
+    GA.logEvent("user_signout");
     navigation.navigate("Home", { screen: "Feed" });
   };
 

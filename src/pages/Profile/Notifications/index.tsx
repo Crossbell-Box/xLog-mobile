@@ -6,7 +6,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { indexer } from "@crossbell/indexer";
-import { useFocusEffect, useNavigation, useNavigationState } from "@react-navigation/native";
+import { useFocusEffect } from "@react-navigation/native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FlashList } from "@shopify/flash-list";
 import { AtSign, Eye, MessageSquare, ThumbsUp } from "@tamagui/lucide-icons";
@@ -17,7 +17,6 @@ import { Separator, SizableText, Spinner, Stack, XStack, YStack } from "tamagui"
 import { NotificationItem } from "@/components/NotificationItem";
 import { ProfilePageHeader } from "@/components/ProfilePageHeader";
 import { ProfilePageLayout } from "@/components/ProfilePageLayout";
-import { ReactionLike } from "@/components/ReactionLike";
 import { XTouch } from "@/components/XTouch";
 import { useCharacterId } from "@/hooks/use-character-id";
 import type { CharacterNotificationType } from "@/hooks/use-character-notification";
@@ -26,6 +25,7 @@ import { useHomeNavigation } from "@/hooks/use-navigation";
 import { useNotification } from "@/hooks/use-notification";
 import { i18n } from "@/i18n";
 import type { RootStackParamList } from "@/navigation/types";
+import { GA } from "@/utils/GA";
 
 export interface Props {
 }
@@ -75,6 +75,9 @@ const NotificationsPage: FC<NativeStackScreenProps<RootStackParamList, "Notifica
   });
 
   const onTabChange = (tab: CharacterNotificationType) => {
+    GA.logEvent("change_notification_tab", {
+      tab,
+    });
     setActiveTab(tab);
   };
 
@@ -113,7 +116,7 @@ const NotificationsPage: FC<NativeStackScreenProps<RootStackParamList, "Notifica
             }
           </XStack>
         )}
-        renderItem={({ item }) => <NotificationItem notification={item} />}
+        renderItem={({ item }) => <NotificationItem tabType={activeTab} notification={item} />}
         ListFooterComponent={notifications.isFetchingNextPage && <Spinner paddingVertical="$5"/>}
         estimatedItemSize={100}
         scrollEventThrottle={16}

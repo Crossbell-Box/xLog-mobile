@@ -1,4 +1,5 @@
 import type { FC } from "react";
+import { useEffect } from "react";
 import type { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
 import type { useAnimatedScrollHandler } from "react-native-reanimated";
 
@@ -9,6 +10,8 @@ import { Separator, SizableText, Spinner, Stack, useWindowDimensions } from "tam
 import { useCharacterId } from "@/hooks/use-character-id";
 import type { FeedType, SearchType } from "@/models/home.model";
 import { useGetFeed } from "@/queries/home";
+import { debounce } from "@/utils/debounce";
+import { GA } from "@/utils/GA";
 
 import { FeedListItem } from "./FeedListItem";
 
@@ -34,8 +37,13 @@ export const FeedList: FC<Props> = (props) => {
   const { type, searchType, searchKeyword, tag, topic, noteIds, daysInterval = 7, onScroll, onScrollEndDrag } = props;
   const { width, height } = useWindowDimensions();
   const characterId = useCharacterId();
+  const gaLog = debounce(() => GA.logSearch({ search_term: searchKeyword }), 2000);
 
-  const feed = useGetFeed({
+  useEffect(() => {
+    typeof searchKeyword === "string" && gaLog();
+  }, [searchKeyword]);
+
+  const queryParams = {
     type,
     limit: 10,
     characterId,
@@ -47,7 +55,9 @@ export const FeedList: FC<Props> = (props) => {
     topicIncludeKeywords: topic
       ? topics.find(t => t.name === topic)?.includeKeywords
       : undefined,
-  });
+  };
+
+  const feed = useGetFeed(queryParams);
 
   const feedList = feed.data?.pages?.flatMap(page => page?.list) || [];
 
@@ -96,6 +106,19 @@ export const FeedList: FC<Props> = (props) => {
             || feed.hasNextPage === false
           )
             return;
+
+          GA.logEvent("feed_list_view", {
+            feed_length: feedList.length,
+            feed_type: queryParams.type,
+            query_limit: queryParams.limit,
+            character_id: queryParams.characterId,
+            note_ids: queryParams.noteIds,
+            days_interval: queryParams.daysInterval,
+            search_keyword: queryParams.searchKeyword,
+            search_type: queryParams.searchType,
+            tag: queryParams.tag,
+            topic_include_keywords: queryParams.topicIncludeKeywords,
+          });
 
           Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
           feed?.fetchNextPage?.();

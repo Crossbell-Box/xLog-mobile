@@ -11,12 +11,14 @@ import type { ListResponse, NoteEntity } from "crossbell";
 import type { ListItemProps } from "tamagui";
 import { Text, XStack, YStack, Stack, Spacer, Paragraph, Button, Input } from "tamagui";
 
+import { useGAWithScreenParams } from "@/hooks/ga/use-ga-with-screen-name-params";
 import { useCharacterId } from "@/hooks/use-character-id";
 import { useColors } from "@/hooks/use-colors";
 import { useDate } from "@/hooks/use-date";
 import { useGlobalLoading } from "@/hooks/use-global-loading";
 import { useGetComments, useSubmitComment } from "@/queries/page";
 import { flatComments } from "@/utils/flat-comments";
+import { GA } from "@/utils/GA";
 
 import { Avatar } from "../Avatar";
 import { BlockchainInfoIcon } from "../BlockchainInfoIcon";
@@ -71,6 +73,7 @@ export const CommentItem: React.FC<CommentItemProps> = (props) => {
   const [content, setContent] = useState("");
   const _submitComment = useSubmitComment();
   const { show, hide } = useGlobalLoading();
+  const gaWithScreenParams = useGAWithScreenParams();
   const isAuthor = comment?.characterId === myCharacterId;
   const isSubComment = depth > 0;
 
@@ -109,7 +112,7 @@ export const CommentItem: React.FC<CommentItemProps> = (props) => {
     closeModal();
     await new Promise(resolve => setTimeout(resolve, 500));
     show();
-
+    GA.logEvent("submit_reply", gaWithScreenParams);
     return _submitComment({
       characterId: comment?.characterId,
       noteId: comment?.noteId,
@@ -182,7 +185,7 @@ export const CommentItem: React.FC<CommentItemProps> = (props) => {
           </YStack>
 
           <XStack justifyContent="flex-end" gap="$3" marginTop="$2" alignItems="center">
-            <ReactionLike iconSize={"$0.75"} fontSize={"$4"} characterId={comment?.characterId} noteId={comment?.noteId}/>
+            <ReactionLike ga={{ type: "reply" }} iconSize={"$0.75"} fontSize={"$4"} characterId={comment?.characterId} noteId={comment?.noteId}/>
             {
               depth < 2 && (
                 <TouchableOpacity onPress={onPressComment}>

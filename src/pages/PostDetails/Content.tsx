@@ -18,12 +18,17 @@ import { WebView } from "@/components/WebView";
 import { VERSION } from "@/constants";
 import { IPFS_GATEWAY } from "@/constants/env";
 import { PageNotFound } from "@/constants/resource";
+import useGAWithPageStayTime from "@/hooks/ga/use-ga-with-page-stay-time";
+import { useCharacterId } from "@/hooks/use-character-id";
 import { useGlobalLoading } from "@/hooks/use-global-loading";
+import { useOneTimeToggler } from "@/hooks/use-one-time-toggle";
 import { usePostWebViewLink } from "@/hooks/use-post-link";
 import type { useScrollVisibilityHandler } from "@/hooks/use-scroll-visibility-handler";
 import { useThemeStore } from "@/hooks/use-theme-store";
 import type { RootStackParamList } from "@/navigation/types";
 import { useGetPage } from "@/queries/page";
+import { callChain } from "@/utils/call-chain";
+import { GA } from "@/utils/GA";
 import { getNoteSlug } from "@/utils/get-slug";
 
 import { javaScriptBeforeContentLoaded } from "./javascript-content";
@@ -51,6 +56,7 @@ export const Content = React.forwardRef<PostDetailsContentInstance, Props>((prop
   const { isDarkMode, mode } = useThemeStore();
   const note = useNote(characterId, noteId);
   const character = useCharacter(characterId);
+  const myCharacterId = useCharacterId();
   const [siteT] = useTranslation("site");
   const [commonT] = useTranslation("common");
   const screenshotsRef = useRef<Animated.ScrollView>(null);
@@ -86,7 +92,17 @@ export const Content = React.forwardRef<PostDetailsContentInstance, Props>((prop
   const [isCapturing, setIsCapturing] = React.useState(false);
   const globalLoading = useGlobalLoading();
   const toast = useToastController();
-  const [contentPositionY, setContentPositionY] = React.useState(0);
+  const gaReadEventLogged = useRef(false);
+  const noteTitle = note.data?.metadata?.content?.title;
+
+  useGAWithPageStayTime({
+    page_name: "post_details",
+    params: {
+      character_id: myCharacterId,
+      note_id: noteId,
+      note_title: noteTitle,
+    },
+  });
 
   const onWebViewMessage = (event) => {
     try {
@@ -190,6 +206,28 @@ export const Content = React.forwardRef<PostDetailsContentInstance, Props>((prop
             ref={screenshotsRef}
             bounces={false}
             {...scrollVisibilityHandler}
+            onMomentumScrollEnd={
+              callChain([
+                scrollVisibilityHandler.onMomentumScrollEnd,
+                (e) => {
+                  if (gaReadEventLogged.current) {
+                    return;
+                  }
+                  const offsetY = e.nativeEvent.contentOffset.y + e.nativeEvent.layoutMeasurement.height;
+                  const height = e.nativeEvent.contentSize.height;
+                  // 是否到达底部
+                  if (offsetY / height >= 0.9) {
+                    GA.logEvent("post_details_read_completely", {
+                      character_id: myCharacterId,
+                      note_id: noteId,
+                      note_title: noteTitle,
+                    }).then(() => {
+                      gaReadEventLogged.current = true;
+                    });
+                  }
+                },
+              ])
+            }
             style={styles.scrollView}
             contentContainerStyle={{ paddingBottom: bottomBarHeight }}
             scrollEventThrottle={16}
@@ -204,8 +242,8 @@ export const Content = React.forwardRef<PostDetailsContentInstance, Props>((prop
                 styles.webviewContainer,
                 { height: webviewHeight },
               ]}
-              onLayout={e => setContentPositionY(e.nativeEvent.layout.y)}
               contentContainerStyle={{ height: webviewHeight }}
+              scrollEventThrottle={16}
             >
               {postUri && userAgent && (
                 <WebView

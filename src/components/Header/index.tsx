@@ -1,4 +1,5 @@
 import type { FC } from "react";
+import { useCallback } from "react";
 import { StyleSheet } from "react-native";
 import { useDrawerProgress } from "react-native-drawer-layout";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
@@ -13,6 +14,7 @@ import { H2, useWindowDimensions, XStack } from "tamagui";
 import { LogoDark, LogoLight } from "@/constants/resource";
 import { useDrawer } from "@/hooks/use-drawer";
 import { useThemeStore } from "@/hooks/use-theme-store";
+import { GA } from "@/utils/GA";
 
 import { Avatar } from "../Avatar";
 import { XTouch } from "../XTouch";
@@ -25,7 +27,7 @@ export const NavigationHeader: FC<Props> = (props) => {
   const { expanded } = props;
   const { top } = useSafeAreaInsets();
   const { width } = useWindowDimensions();
-  const { openDrawer } = useDrawer();
+  const { openDrawer: _openDrawer } = useDrawer();
   const { isDarkMode: isDark } = useThemeStore();
   const character = useAccountCharacter();
   const drawerProgress = useDrawerProgress() as SharedValue<number>;
@@ -56,6 +58,11 @@ export const NavigationHeader: FC<Props> = (props) => {
       ],
     };
   }, [expanded, width]);
+
+  const openDrawer = useCallback(() => {
+    _openDrawer();
+    GA.logEvent("open_drawer_from_header_avatar");
+  }, []);
 
   return (
     <Animated.View style={containerAnimStyles}>

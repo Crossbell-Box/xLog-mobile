@@ -9,11 +9,13 @@ import { Button, H4, ListItem, Stack, XStack, YGroup } from "tamagui";
 
 import { BottomSheetModal } from "@/components/BottomSheetModal";
 import type { BottomSheetModalInstance } from "@/components/BottomSheetModal";
+import { useGAWithScreenParams } from "@/hooks/ga/use-ga-with-screen-name-params";
 import { useColors } from "@/hooks/use-colors";
+import { GA } from "@/utils/GA";
 
 import { XTouch } from "../XTouch";
 
-const NFT_REPORT_LIST = [
+const REPORT_LIST = [
   "I just don't like it",
   "It's spam",
   "Not safe for work",
@@ -29,11 +31,19 @@ export const ReportButton: React.FC<Props> = () => {
   const toast = useToastController();
   const { background, borderColor, color, subtitle } = useColors();
   const [commentsInputVisible, setCommentsInputVisible] = useState(false);
+  const [text, setText] = useState("");
+  const gaWithScreenParams = useGAWithScreenParams();
   const openBottomSheet = () => {
     bottomSheetRef.current?.present();
   };
 
-  const onSubmit = () => {
+  const onSubmit = (reportContent: string, isCustom: boolean) => {
+    GA.logEvent("report", {
+      is_custom: isCustom,
+      report_content: reportContent,
+      ...gaWithScreenParams,
+    });
+
     bottomSheetRef.current?.close();
 
     toast.show("Report submitted!", {
@@ -69,9 +79,9 @@ export const ReportButton: React.FC<Props> = () => {
             <H4>Why are you reporting this?</H4>
             <YGroup alignSelf="center" bordered>
               {
-                NFT_REPORT_LIST.map((item, index) => (
+                REPORT_LIST.map((item, index) => (
                   <YGroup.Item key={item}>
-                    <ListItem onPress={onSubmit} hoverTheme title={item} size={"$5"} iconAfter={<ArrowRight/>}/>
+                    <ListItem onPress={() => onSubmit(item, false)} hoverTheme title={item} size={"$5"} iconAfter={<ArrowRight/>}/>
                   </YGroup.Item>
                 ))
               }
@@ -87,10 +97,14 @@ export const ReportButton: React.FC<Props> = () => {
                   <BottomSheetTextInput
                     placeholder={"What are you trying to report?"}
                     multiline
+                    onChangeText={setText}
                     placeholderTextColor={subtitle}
                     style={[styles.input, { borderColor, color }]}
                   />
-                  <Button onPress={onSubmit}>Submit</Button>
+                  <Button onPress={() => {
+                    onSubmit(text, true);
+                    setText("");
+                  }}>Submit</Button>
                 </>
               )
             }

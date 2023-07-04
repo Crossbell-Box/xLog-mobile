@@ -29,6 +29,7 @@ import { useGlobalLoading } from "@/hooks/use-global-loading";
 import { useHitSlopSize } from "@/hooks/use-hit-slop-size";
 import { useGetPage } from "@/queries/page";
 import { useGetSite } from "@/queries/site";
+import { GA } from "@/utils/GA";
 import { getNoteSlug } from "@/utils/get-slug";
 import { getTwitterShareUrl } from "@/utils/helpers";
 
@@ -100,6 +101,12 @@ export const Header: FC<Props> = (props) => {
   };
 
   const handleCopyLink = () => {
+    GA.logShare({
+      item_id: noteId.toString(),
+      method: "copy link",
+      content_type: "post",
+    });
+
     Clipboard.setStringAsync(postUri).then(() => {
       toast.show(commonT("Post Link Copied"), {
         burntOptions: {
@@ -124,11 +131,18 @@ export const Header: FC<Props> = (props) => {
   };
 
   const onCancel = async () => {
+    GA.logEvent("cancel_saving_image");
     closeAlertDialog();
     await clearGeneratedImage();
   };
 
   const handleShareOnTwitter = () => {
+    GA.logShare({
+      item_id: noteId.toString(),
+      method: "twitter",
+      content_type: "post",
+    });
+
     Linking.openURL(getTwitterShareUrl({
       page: page.data,
       site: site.data,
@@ -151,6 +165,12 @@ export const Header: FC<Props> = (props) => {
         return;
       }
       await MediaLibrary.saveToLibraryAsync(generatedImageUri);
+
+      GA.logShare({
+        item_id: noteId.toString(),
+        method: "save image",
+        content_type: "post",
+      });
 
       toast.show(commonT("Image saved successfully"), {
         burntOptions: {

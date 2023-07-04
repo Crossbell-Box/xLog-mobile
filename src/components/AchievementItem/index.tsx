@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Modal, StyleSheet } from "react-native";
+import { Modal, StyleSheet, TouchableNativeFeedback } from "react-native";
 import {
   Grayscale,
 } from "react-native-color-matrix-image-filters";
@@ -187,19 +187,9 @@ export const AchievementItem: React.FC<AchievementItemProps> = (props) => {
             <Animated.View style={[StyleSheet.absoluteFill, backdropAnimStyles]}>
               <YStack justifyContent="center">
                 <Animated.View style={[imgPosAnimStyles, imgSizeAnimStyles]}>
-                  <TouchableWithoutFeedback onPress={closeHandler}>
+                  <TouchableNativeFeedback onPress={closeHandler}>
                     <Animated.Image source={{ uri: toGateway(media) }} style={imgSizeAnimStyles} />
-                    {/* // TODO: Using <Grayscale> will flash */}
-                    {/* {
-                    achievement
-                    ? <Animated.Image source={{ uri: toGateway(media) }} style={imgSizeAnimStyles} />
-                    : (
-                      <Grayscale>
-                      <Animated.Image source={{ uri: toGateway(media) }} style={imgSizeAnimStyles} />
-                      </Grayscale>
-                      )
-                    } */}
-                  </TouchableWithoutFeedback>
+                  </TouchableNativeFeedback>
                 </Animated.View>
                 <Animated.View style={[descriptionAnimStyles, styles.description]}>
                   <H3>{group.info.title} {achievement && `#${achievement.tokenId}`}</H3>

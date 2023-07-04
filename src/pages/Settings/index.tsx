@@ -5,7 +5,7 @@ import Animated, { FadeInUp } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { useConnectedAccount, useIsConnected } from "@crossbell/react-account";
-import { ArrowRight, Check, Cog, Copy, Eye, Info, Palette, TestTube, Thermometer } from "@tamagui/lucide-icons";
+import { ArrowRight, Check, Cog, Copy, Eye, Info, Palette, TestTube, Thermometer, TrendingUp } from "@tamagui/lucide-icons";
 import { useToastController } from "@tamagui/toast";
 import * as Clipboard from "expo-clipboard";
 import * as Sentry from "sentry-expo";
@@ -19,11 +19,11 @@ import { DisconnectBtn } from "@/components/ConnectionButton";
 import { APP_SCHEME, IS_DEV, IS_PROD, IS_STAGING, VERSION } from "@/constants";
 import { useColors } from "@/hooks/use-colors";
 import { useMultiPressHandler } from "@/hooks/use-multi-press-handler";
-import { useHomeNavigation, useRootNavigation, useSettingsNavigation } from "@/hooks/use-navigation";
+import { useRootNavigation } from "@/hooks/use-navigation";
 import { useNotification } from "@/hooks/use-notification";
-import type { NotificationError } from "@/hooks/use-notification-setup";
 import { useThemeStore } from "@/hooks/use-theme-store";
 import { allThemes } from "@/styles/theme";
+import { GA } from "@/utils/GA";
 
 export interface Props {
 
@@ -72,6 +72,26 @@ export const Settings: React.FC<Props> = () => {
         alertDialogRef.current?.toggle(true);
       });
     }
+  };
+
+  const testGA = () => {
+    GA.logEvent("test", {
+      test: "test",
+    }).then(() => {
+      toast.show(i18n.t("Sended"), {
+        burntOptions: {
+          preset: "done",
+          haptic: "success",
+        },
+      });
+    }).catch((err) => {
+      toast.show(err.message, {
+        burntOptions: {
+          preset: "error",
+          haptic: "error",
+        },
+      });
+    });
   };
 
   const testSentry = () => {
@@ -208,6 +228,18 @@ export const Settings: React.FC<Props> = () => {
                         >
                           <ListItemTitle>
                             {i18n.t("Copy Push Token")}
+                          </ListItemTitle>
+                        </ListItem>
+                      </YGroup.Item>
+                      <YGroup.Item>
+                        <ListItem
+                          icon={TrendingUp}
+                          scaleIcon={1.2}
+                          iconAfter={<ArrowRight />}
+                          onPress={testGA}
+                        >
+                          <ListItemTitle>
+                            {i18n.t("Test GA")}
                           </ListItemTitle>
                         </ListItem>
                       </YGroup.Item>
