@@ -4,7 +4,9 @@ const { version } = require("../package.json");
 
 function setAppConfigEnv() {
   const ENV = process.env.NODE_ENV ?? "production";
-  const IS_CI = process.env.EAS_BUILD === "true" || process.env.GITHUB_ACTIONS === "true";
+  const IS_CI = process.env.EAS_BUILD === "true" || process.env.CI === "true";
+
+  console.log("ENV:", process.env);
 
   if (IS_CI) {
     dotenv.config({ path: process.env.ENV_FILE_COMMON });
