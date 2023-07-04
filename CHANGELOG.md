@@ -1,5 +1,16 @@
 # xlog
 
+## 0.16.0
+
+### Minor Changes
+
+- f748cbc: Support GA.
+
+### Patch Changes
+
+- 3384691: excluded comments in feedlist
+- f041fb4: Fixed bug that is can't close modal when open the achievement item on Android.
+
 ## 0.15.0
 
 ### Minor Changes

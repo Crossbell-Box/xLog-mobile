@@ -1,6 +1,6 @@
 {
   "name": "xlog",
-  "version": "0.15.0",
+  "version": "0.16.0",
   "private": true,
   "packageManager": "yarn@1.22.0",
   "scripts": {
