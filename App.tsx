@@ -17,17 +17,16 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { enableFreeze, enableScreens } from "react-native-screens";
 
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { QueryClient } from "@tanstack/react-query";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
-import WalletConnectProvider from "@walletconnect/react-native-dapp";
-import { resolveScheme } from "expo-linking";
 import * as SplashScreen from "expo-splash-screen";
 import * as Sentry from "sentry-expo";
 import type { SentryExpoNativeOptions } from "sentry-expo";
 import { TamaguiProvider } from "tamagui";
 
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { NetworkChecker } from "@/components/NetworkChecker";
+import { NetworkSafeView } from "@/components/NetworkSafeView";
 import ProviderComposer from "@/components/ProviderComposer";
 import { StatusBar } from "@/components/StatusBar";
 import { WalletConnectModal } from "@/components/WalletConnectModal";
@@ -120,9 +119,10 @@ export default () => {
       <NotificationProvider key={"NotificationProvider"} />,
       <ApolloProvider key={"ApolloProvider"} />,
     ]}>
+      <NetworkChecker/>
       <StatusBar />
       <RootNavigator />
-      <WalletConnectModal />
+      <NetworkSafeView ifReachable={<WalletConnectModal />}/>
     </ProviderComposer>
   );
 };

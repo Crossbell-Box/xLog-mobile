@@ -40,8 +40,6 @@ const useGAWithPageStayTime = (event: Event) => {
       });
     };
   }, [event, startTime]);
-
-  return { milliseconds: Date.now() - startTime, formatted: formatTime(Date.now() - startTime) };
 };
 
 export default useGAWithPageStayTime;

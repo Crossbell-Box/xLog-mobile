@@ -55,6 +55,7 @@
     "@nomiclabs/hardhat-waffle": "^2.0.6",
     "@openzeppelin/contracts": "^4.8.3",
     "@react-native-async-storage/async-storage": "1.17.11",
+    "@react-native-community/netinfo": "9.3.7",
     "@react-native-firebase/analytics": "^18.1.0",
     "@react-native-firebase/app": "^18.1.0",
     "@react-navigation/bottom-tabs": "^6.5.7",
