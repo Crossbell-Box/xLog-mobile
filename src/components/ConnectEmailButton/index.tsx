@@ -19,6 +19,16 @@ export const ConnectEmailButton = (props: ButtonProps) => {
     navigation.navigate("EmailLogin");
   };
 
+  // const openWebPage = async () => {
+  //   const redirectUrl = `${APP_SCHEME}://auth`;
+  //   const requestUrl = new URL("http://192.168.1.190:9080");
+  //   requestUrl.searchParams.set("redirect_uri", redirectUrl);
+  //   const result = await WebBrowser.openAuthSessionAsync(
+  //     requestUrl.toString(),
+  //     redirectUrl,
+  //   );
+  // };
+
   if (account) return null;
 
   return (
