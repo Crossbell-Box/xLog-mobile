@@ -99,7 +99,7 @@ function OPSignToggleBtn() {
 
   const OPSign = () => {
     signIn();
-    GA.logEvent("Operator Sign");
+    GA.logEvent("operator_sign");
     closePermanently();
   };
 

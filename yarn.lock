@@ -3038,6 +3038,11 @@
     prompts "^2.4.0"
     semver "^6.3.0"
 
+"@react-native-community/netinfo@9.3.7":
+  version "9.3.7"
+  resolved "https://registry.npmjs.org/@react-native-community/netinfo/-/netinfo-9.3.7.tgz#92407f679f00bae005c785a9284e61d63e292b34"
+  integrity sha512-+taWmE5WpBp0uS6kf+bouCx/sn89G9EpR4s2M/ReLvctVIFL2Qh8WnWfBxqK9qwgmFha/uqjSr2Gq03OOtiDcw==
+
 "@react-native-firebase/analytics@^18.1.0":
   version "18.1.0"
   resolved "https://registry.npmjs.org/@react-native-firebase/analytics/-/analytics-18.1.0.tgz#3f647b4fe7bbe2434fd87919c7e5e88e6f156e44"

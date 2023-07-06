@@ -205,7 +205,7 @@ export const Header: FC<Props> = (props) => {
         position: "absolute",
         zIndex: 2,
       }, headerBgAnimStyles]}>
-        <TouchableWithoutFeedback onPress={goBack} containerStyle={{
+        <TouchableWithoutFeedback onPress={() => goBack()} containerStyle={{
           position: "absolute",
           left: 8,
           top: top + 5,

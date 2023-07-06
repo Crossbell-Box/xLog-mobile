@@ -45,7 +45,7 @@ export const SearchPage: FC<NativeStackScreenProps<RootStackParamList, "Search">
             <Search color="$colorSubtitle" size={"$1"}/>
             <TextInput ref={ref} style={{ color, flex: 1 }} autoFocus onChangeText={setSearch}/>
           </XStack>
-          <Button onPress={navigation.goBack}>{i18n.t("Cancel")}</Button>
+          <Button onPress={() => navigation.goBack()}>{i18n.t("Cancel")}</Button>
         </XStack>
       </Animated.View>
       <FeedList

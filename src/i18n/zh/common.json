@@ -116,6 +116,7 @@
   "Link": "复制链接",
   "Image": "生成图片",
   "Save": "保存",
+  "Network Error": "网络错误",
   "delete account alert": "您确定要删除您的账户吗？此操作无法撤销。请键入 <T> {{name}} </T> 以确认。",
   "By signing, you can interact without clicking to agree the smart contracts every time. We are in Beta, and new users who try it out will be rewarded with 0.01 $CSB.": "通过签署授权，你可以在每次互动时无需点击同意智能合约。我们正在测试阶段，新用户试用将获得0.01 $CSB的奖励。"
 }

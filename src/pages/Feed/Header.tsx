@@ -109,7 +109,7 @@ export const Header: FC<Props> = (props) => {
                 fontWeight={fontWeight}
                 fontSize={"$5"}
               >
-                {i18n.t("Hot")}
+                {i18n.t("Hottest")}
               </Text>
             </Stack>
             {currentFeedType === feedType.HOTTEST && (

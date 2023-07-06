@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { Platform } from "react-native";
 
 import { GA } from "@/utils/GA";
 
@@ -13,7 +14,7 @@ interface Time {
 }
 
 const useGAWithPageStayTime = (event: Event) => {
-  const startTime = Date.now();
+  const startTime = useRef(Date.now());
 
   const formatTime = (ms: number): string => {
     const seconds = Math.floor(ms / 1000);
@@ -29,7 +30,7 @@ const useGAWithPageStayTime = (event: Event) => {
 
   useEffect(() => {
     return () => {
-      const stayTime = Date.now() - startTime;
+      const stayTime = Date.now() - startTime.current;
       const { page_name, params } = event;
       const formattedTime = formatTime(stayTime);
       GA.logEvent("page_stay_time", {
@@ -39,9 +40,7 @@ const useGAWithPageStayTime = (event: Event) => {
         stay_time_formatted: formattedTime,
       });
     };
-  }, [event, startTime]);
-
-  return { milliseconds: Date.now() - startTime, formatted: formatTime(Date.now() - startTime) };
+  }, []);
 };
 
 export default useGAWithPageStayTime;
