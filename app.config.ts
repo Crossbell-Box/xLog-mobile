@@ -49,7 +49,6 @@ export default (_: ConfigContext): ExpoConfig => {
           },
           ios: {
             deploymentTarget: "13.0",
-            useFrameworks: "static",
           },
         },
       ],
@@ -64,6 +63,7 @@ export default (_: ConfigContext): ExpoConfig => {
       "expo-localization",
       "sentry-expo",
       "@react-native-firebase/app",
+      "./plugins/with-react-native-firebase.js",
     ],
     splash: {
       image: "./assets/splash.png",
