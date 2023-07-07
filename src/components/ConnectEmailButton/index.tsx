@@ -8,27 +8,26 @@ import type { ButtonProps } from "tamagui";
 import { Button } from "tamagui";
 
 import { APP_SCHEME } from "@/constants";
-import { useRootNavigation } from "@/hooks/use-navigation";
+import { useGlobalLoading } from "@/hooks/use-global-loading";
 
 export const ConnectEmailButton = (props: ButtonProps) => {
   const i18n = useTranslation();
-  const navigation = useRootNavigation();
   const account = useConnectedAccount();
+  const globalLoading = useGlobalLoading();
 
   const openWebPage = async () => {
     const redirectUrl = `${APP_SCHEME}://auth`;
     const requestUrl = new URL("https://f.crossbell.io/mobile-login");
-    requestUrl.searchParams.set("redirect", redirectUrl);
+    requestUrl.searchParams.set("redirect_uri", redirectUrl);
     const result = await openAuthSessionAsync(
       requestUrl.toString(),
       redirectUrl,
     );
     if (result.type === "success") {
+      globalLoading.show();
       const url = new URL(result.url);
       const token = url.searchParams.get("token");
-      useAccountState.getState().connectEmail(token).then(() => {
-        navigation.goBack();
-      });
+      useAccountState.getState().connectEmail(token);
     }
   };
 
