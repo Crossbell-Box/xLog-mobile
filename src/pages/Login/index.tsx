@@ -18,6 +18,7 @@ import { ConnectionButton } from "@/components/ConnectionButton";
 import { MeasuredContainer } from "@/components/MeasuredContainer";
 import { useAppIsActive } from "@/hooks/use-app-state";
 import { useColors } from "@/hooks/use-colors";
+import { useGlobalLoading } from "@/hooks/use-global-loading";
 import type { RootStackParamList } from "@/navigation/types";
 import { useGetShowcase } from "@/queries/home";
 import { withAnchorPoint } from "@/utils/anchor-point";
@@ -33,7 +34,7 @@ const ITEM_HEIGHT = 100 + 2 * ITEM_VERTICAL_GAP;
 
 export const LoginPage: FC<NativeStackScreenProps<RootStackParamList, "Web">> = (props) => {
   const { navigation } = props;
-  const showcaseSites = useGetShowcase();
+  const globalLoading = useGlobalLoading();
   const navigateToTerms = () => navigation.navigate("Web", { url: "https://rss3.notion.site/Legal-Public-f30edd47c3be4dd7ae5ed4e39aefbbd9?pvs=4" });
   const { bottom } = useSafeAreaInsets();
   const isConnected = useIsConnected();
@@ -42,6 +43,7 @@ export const LoginPage: FC<NativeStackScreenProps<RootStackParamList, "Web">> = 
 
   useEffect(() => {
     if (appIsActive && isConnected) {
+      globalLoading.hide();
       navigation.goBack();
     }
   }, [appIsActive, isConnected]);

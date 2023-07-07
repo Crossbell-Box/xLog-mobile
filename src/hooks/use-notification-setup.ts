@@ -114,7 +114,7 @@ export function useNotificationSetup() {
   };
 
   // eslint-disable-next-line no-console
-  console.log("ExpoPushToken:", expoPushToken);
+  expoPushToken && console.log("ExpoPushToken:", expoPushToken);
 
   return {
     expoPushToken,
