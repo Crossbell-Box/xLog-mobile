@@ -27,12 +27,10 @@ if (typeof BigInt === "undefined")
   global.BigInt = require("big-integer");
 
 if (typeof __dirname === "undefined")
-  global.__dirname = "/"
-  ;
+  global.__dirname = "/";
 
 if (typeof __filename === "undefined")
-  global.__filename = ""
-  ;
+  global.__filename = "";
 
 if (typeof process === "undefined") {
   global.process = require("process");
@@ -49,6 +47,7 @@ else {
 global.BigInt.prototype.toJSON = function () { return this.toString(); };
 
 process.browser = false;
+
 if (typeof Buffer === "undefined")
   global.Buffer = require("buffer").Buffer;
 
