@@ -3,7 +3,7 @@ import type { ExpoConfig, ConfigContext } from "expo/config";
 
 import setAppConfigEnv from "./scripts/set-app-config-env.js";
 
-const { appConfig, environment, decreasedVersion } = setAppConfigEnv();
+const { appConfig, environment, decreasedVersion, IS_PROD } = setAppConfigEnv();
 
 const config = appConfig;
 
@@ -62,7 +62,7 @@ export default (_: ConfigContext): ExpoConfig => {
       ],
       "expo-localization",
       "sentry-expo",
-      "@react-native-firebase/app",
+      ...IS_PROD ? ["@react-native-firebase/app"] : [],
       "./plugins/with-react-native-firebase.js",
     ],
     splash: {
@@ -82,15 +82,14 @@ export default (_: ConfigContext): ExpoConfig => {
     ios: {
       supportsTablet: true,
       bundleIdentifier: config.scheme,
-      googleServicesFile: config.iosGoogleServicesFile,
       associatedDomains: [
         `applinks:${config.host}`,
         `applinks:oia.${config.host}`,
       ],
+      googleServicesFile: config.iosGoogleServicesFile,
     },
     android: {
       package: config.scheme,
-      googleServicesFile: config.androidGoogleServicesFile,
       intentFilters: [
         {
           action: "VIEW",
@@ -110,6 +109,7 @@ export default (_: ConfigContext): ExpoConfig => {
           category: ["BROWSABLE", "DEFAULT"],
         },
       ],
+      googleServicesFile: config.androidGoogleServicesFile,
     },
     extra: {
       WALLET_PROJECT_ID: process.env.WALLET_PROJECT_ID,
