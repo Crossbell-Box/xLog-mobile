@@ -1,5 +1,20 @@
 # xlog
 
+## 0.17.0
+
+### Minor Changes
+
+- af91b17: Using expo-web-browser instead of webview.
+- 0d3d9f8: Fixed crush error when go back on iOS.
+- f7cfa70: Support network checking.
+
+### Patch Changes
+
+- f7cfa70: Fixed the wrong events key of GA.
+- 0d3d9f8: Only enable GA in production envrionment.
+- f7cfa70: Typo fixes.
+- 0d3d9f8: Fixed the problem of inaccurate recording of reading time.
+
 ## 0.16.0
 
 ### Minor Changes
