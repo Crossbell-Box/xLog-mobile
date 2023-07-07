@@ -1,17 +1,6 @@
-const fs = require("fs");
-const { join } = require("path");
-
 const dotenv = require("dotenv");
 
 const { version } = require("../package.json");
-
-function checkFileExists(path) {
-  if (fs.existsSync(join(__dirname, "..", path))) {
-    return path;
-  }
-
-  return undefined;
-}
 
 function setAppConfigEnv() {
   const ENV = process.env.NODE_ENV ?? "production";
@@ -39,10 +28,10 @@ function setAppConfigEnv() {
       icon: "./assets/icon.development.png",
       androidGoogleServicesFile: IS_EAS_CI
         ? process.env.ANDROID_GOOGLE_SERVICES_DEVELOPMENT
-        : checkFileExists("./google-services.development.json"),
+        : "./google-services.development.json",
       iosGoogleServicesFile: IS_EAS_CI
         ? process.env.IOS_GOOGLE_SERVICES_DEVELOPMENT
-        : checkFileExists("./GoogleService-Info.development.plist"),
+        : "./GoogleService-Info.development.plist",
     },
     staging: {
       name: "xLog-preview",
@@ -51,10 +40,10 @@ function setAppConfigEnv() {
       icon: "./assets/icon.staging.png",
       androidGoogleServicesFile: IS_EAS_CI
         ? process.env.ANDROID_GOOGLE_SERVICES_STAGING
-        : checkFileExists("./google-services.staging.json"),
+        : "./google-services.staging.json",
       iosGoogleServicesFile: IS_EAS_CI
         ? process.env.IOS_GOOGLE_SERVICES_STAGING
-        : checkFileExists("./GoogleService-Info.staging.plist"),
+        : "./GoogleService-Info.staging.plist",
     },
     production: {
       name: "xLog",
@@ -63,10 +52,10 @@ function setAppConfigEnv() {
       icon: "./assets/icon.png",
       androidGoogleServicesFile: IS_EAS_CI
         ? process.env.ANDROID_GOOGLE_SERVICES_PRODUCTION
-        : checkFileExists("./google-services.production.json"),
+        : "./google-services.production.json",
       iosGoogleServicesFile: IS_EAS_CI
         ? process.env.IOS_GOOGLE_SERVICES_PRODUCTION
-        : checkFileExists("./GoogleService-Info.production.plist"),
+        : "./GoogleService-Info.production.plist",
     },
   };
 
@@ -78,6 +67,11 @@ function setAppConfigEnv() {
     const parts = version.split(".");
     parts[parts.length - 1] = "0";
     return parts.join(".");
+  }
+
+  if (process.env.USING_GOOGLE_SERVICES !== "true") {
+    delete envConfig[ENV].androidGoogleServicesFile;
+    delete envConfig[ENV].iosGoogleServicesFile;
   }
 
   return {

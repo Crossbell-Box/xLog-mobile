@@ -1,12 +1,12 @@
-/* eslint-disable no-console */
 import type { ExpoConfig, ConfigContext } from "expo/config";
 
 import setAppConfigEnv from "./scripts/set-app-config-env.js";
 
-const { appConfig, environment, decreasedVersion, IS_PROD } = setAppConfigEnv();
+const { appConfig, environment, decreasedVersion } = setAppConfigEnv();
 
 const config = appConfig;
 
+// eslint-disable-next-line no-console
 console.log(JSON.stringify(config, null, 4));
 
 const postPublish = [];
@@ -22,6 +22,9 @@ if (environment !== "development") {
     },
   });
 }
+
+// eslint-disable-next-line no-console
+console.log("🚀 app.config.ts - ENV:", JSON.stringify(process.env, null, 4));
 
 export default (_: ConfigContext): ExpoConfig => {
   return {
@@ -62,7 +65,7 @@ export default (_: ConfigContext): ExpoConfig => {
       ],
       "expo-localization",
       "sentry-expo",
-      ...IS_PROD ? ["@react-native-firebase/app"] : [],
+      ...process.env.USING_GOOGLE_SERVICES === "true" ? ["@react-native-firebase/app"] : [],
       "./plugins/with-react-native-firebase.js",
     ],
     splash: {
