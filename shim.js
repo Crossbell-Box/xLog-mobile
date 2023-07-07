@@ -6,6 +6,7 @@ import { btoa, atob, toByteArray } from "react-native-quick-base64";
 // Polyfill for expo-crypto until issue with react-native-get-random-values is solved
 // Apply only with Expo SDK >= 48
 
+import EventEmitter from "eventemitter3";
 import { getRandomValues as expoCryptoGetRandomValues } from "expo-crypto";
 
 class Crypto {
@@ -28,12 +29,10 @@ if (typeof BigInt === "undefined")
   global.BigInt = require("big-integer");
 
 if (typeof __dirname === "undefined")
-  global.__dirname = "/"
-  ;
+  global.__dirname = "/";
 
 if (typeof __filename === "undefined")
-  global.__filename = ""
-  ;
+  global.__filename = "";
 
 if (typeof process === "undefined") {
   global.process = require("process");
@@ -50,6 +49,7 @@ else {
 global.BigInt.prototype.toJSON = function () { return this.toString(); };
 
 process.browser = false;
+
 if (typeof Buffer === "undefined")
   global.Buffer = require("buffer").Buffer;
 
@@ -75,5 +75,28 @@ if (Platform.OS !== "web") {
       this._setReadyState(this.DONE);
     };
     fr.readAsDataURL(blob);
+  };
+}
+
+if (typeof CustomEvent === "undefined") {
+  const emitter = new EventEmitter();
+
+  global.CustomEvent = class {
+    constructor(event, params = {}) {
+      this.event = event;
+      this.params = params;
+    }
+
+    dispatchEvent() {
+      emitter.emit(this.event, this.params);
+    }
+
+    addEventListener(event, callback) {
+      emitter.on(event, callback);
+    }
+
+    removeEventListener(event, callback) {
+      emitter.off(event, callback);
+    }
   };
 }

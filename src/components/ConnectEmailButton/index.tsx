@@ -1,33 +1,36 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 
-import { useConnectedAccount } from "@crossbell/react-account";
+import { useConnectedAccount, useAccountState } from "@crossbell/react-account";
 import { Mail } from "@tamagui/lucide-icons";
+import { openAuthSessionAsync } from "expo-web-browser";
 import type { ButtonProps } from "tamagui";
 import { Button } from "tamagui";
 
+import { APP_SCHEME } from "@/constants";
 import { useRootNavigation } from "@/hooks/use-navigation";
-import { GA } from "@/utils/GA";
 
 export const ConnectEmailButton = (props: ButtonProps) => {
   const i18n = useTranslation();
   const navigation = useRootNavigation();
   const account = useConnectedAccount();
 
-  const openWebPage = () => {
-    GA.logLogin({ method: "email" });
-    navigation.navigate("EmailLogin");
+  const openWebPage = async () => {
+    const redirectUrl = `${APP_SCHEME}://auth`;
+    const requestUrl = new URL("https://f.crossbell.io/mobile-login");
+    requestUrl.searchParams.set("redirect", redirectUrl);
+    const result = await openAuthSessionAsync(
+      requestUrl.toString(),
+      redirectUrl,
+    );
+    if (result.type === "success") {
+      const url = new URL(result.url);
+      const token = url.searchParams.get("token");
+      useAccountState.getState().connectEmail(token).then(() => {
+        navigation.goBack();
+      });
+    }
   };
-
-  // const openWebPage = async () => {
-  //   const redirectUrl = `${APP_SCHEME}://auth`;
-  //   const requestUrl = new URL("http://192.168.1.190:9080");
-  //   requestUrl.searchParams.set("redirect_uri", redirectUrl);
-  //   const result = await WebBrowser.openAuthSessionAsync(
-  //     requestUrl.toString(),
-  //     redirectUrl,
-  //   );
-  // };
 
   if (account) return null;
 
