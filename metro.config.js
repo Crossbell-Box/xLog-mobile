@@ -6,5 +6,6 @@ module.exports = (async () => {
     ...(config.resolver.extraNodeModules || {}),
     ...(require("node-libs-expo")),
   };
+
   return config;
 })();
