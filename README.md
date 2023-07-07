@@ -2,11 +2,13 @@
 
 > The best on-chain and open-source blogging community for everyone. Now, Carry your blockchain creativity world in your pocket and access it anywhere, anytime!
 
-[![Discord](https://img.shields.io/badge/chat-Discord-5865F2.svg?logo=discord&style=flat-square)](https://discord.gg/46VJMMVCuF) &nbsp;[![Twitter](https://img.shields.io/badge/Twitter-@_xLog-1d9bf0.svg?logo=twitter&style=flat-square)](https://twitter.com/_xLog) &nbsp;[![build](https://img.shields.io/github/actions/workflow/status/Crossbell-Box/xLog/docker-build-push-prod.yml?logo=github&style=flat-square)](https://github.com/Crossbell-Box/xLog/actions/workflows/docker-build-push.yml) &nbsp;[![iOS Download](https://img.shields.io/badge/iOS-Download-000000?style=flat-square&logo=apple)](https://apps.apple.com/cn/app/xlog-on-chain-blogging/id6449499296) &nbsp;[![Android Download](https://img.shields.io/badge/Android-Download-3DDC84?style=flat-square&logo=android)](https://play.google.com/store/apps/details?id=com.crossbell.xlog)
+[![Discord](https://img.shields.io/badge/chat-Discord-5865F2.svg?logo=discord&style=flat-square)](https://discord.gg/46VJMMVCuF) &nbsp;[![Twitter](https://img.shields.io/badge/Twitter-@_xLog-1d9bf0.svg?logo=twitter&style=flat-square)](https://twitter.com/_xLog) &nbsp;[![build](https://img.shields.io/github/actions/workflow/status/Crossbell-Box/xLog-mobile/release.yml?logo=github&style=flat-square)](https://github.com/Crossbell-Box/xLog-mobile/actions/workflows/release.yml) &nbsp;[![iOS Download](https://img.shields.io/badge/iOS-Download-000000?style=flat-square&logo=apple)](https://apps.apple.com/cn/app/xlog-on-chain-blogging/id6449499296) &nbsp;[![Android Download](https://img.shields.io/badge/Android-Download-3DDC84?style=flat-square&logo=android)](https://play.google.com/store/apps/details?id=com.crossbell.xlog)
 
+<br/>
 <p align="center">
     <img src="./assets/download-qrcode.png" width="20%" />
 </p>
+
 
 <p align="center">
 <img src="assets/screenshots/ios/IMG_9327-8249_iphone13progold_portrait.png" width="45%" /> 
