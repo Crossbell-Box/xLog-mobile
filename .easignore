@@ -14,6 +14,7 @@ modules/**/android/build
 __generated__
 web-build
 dist
+assets/screenshots/*
 
 # macOS
 .DS_Store

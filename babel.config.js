@@ -4,9 +4,9 @@ const fs = require("fs");
 const path = require("path");
 const srcDir = path.resolve(__dirname, "src");
 const dirs = fs.readdirSync(srcDir).filter(file => fs.statSync(path.join(srcDir, file)).isDirectory());
-const { resolve } = require("path");
 
-const isProd = process.env.NODE_ENV === "production";
+// eslint-disable-next-line no-console
+console.log("🚀 babel.config.js - ENV:", JSON.stringify(process.env, null, 4));
 
 module.exports = function (api) {
   api.cache(true);
@@ -27,7 +27,7 @@ module.exports = function (api) {
           }, {
             "crossbell/network": path.resolve(__dirname, "node_modules/crossbell/dist/network.js"),
             "crossbell/ipfs": path.resolve(__dirname, "node_modules/crossbell/dist/ipfs.js"),
-            ...(isProd ? {} : { "@react-native-firebase/analytics": resolve(__dirname, "./mocks/analytics.js") }),
+            ...(process.env.USING_GOOGLE_SERVICES === "true" ? {} : { "@react-native-firebase/analytics": path.resolve(__dirname, "./mocks/analytics.js") }),
           }),
         },
       ],
