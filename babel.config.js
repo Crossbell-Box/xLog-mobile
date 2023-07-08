@@ -2,6 +2,8 @@ process.env.TAMAGUI_TARGET = "native";
 
 const fs = require("fs");
 const path = require("path");
+
+require("./scripts/set-app-config-env.js")();
 const srcDir = path.resolve(__dirname, "src");
 const dirs = fs.readdirSync(srcDir).filter(file => fs.statSync(path.join(srcDir, file)).isDirectory());
 
