@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import type { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
 import type { useAnimatedScrollHandler } from "react-native-reanimated";
 
+import { useFocusEffect } from "@react-navigation/native";
 import type { NoteEntity } from "crossbell";
 import * as Haptics from "expo-haptics";
 import { Separator, SizableText, Spinner, Stack, useWindowDimensions } from "tamagui";
@@ -58,6 +59,10 @@ export const FeedList: FC<Props> = (props) => {
   };
 
   const feed = useGetFeed(queryParams);
+
+  useFocusEffect(() => {
+    feed.refetch();
+  });
 
   const feedList = feed.data?.pages?.flatMap(page => page?.list) || [];
 

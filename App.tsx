@@ -80,7 +80,7 @@ const queryClient = new QueryClient({
 
 export default () => {
   useEffect(() => {
-    checkHotUpdates();
+    checkHotUpdates().catch(() => { });
   }, []);
 
   return (

@@ -46,7 +46,7 @@ export function useContractConfig() {
 
     showUpgradeEmailAccountModal() {
       // TODO: implement
-      throw new Error("showUpgradeAccountModal is not implemented yet");
+      return Promise.resolve();
     },
 
     showWalletMintNewCharacterModal() {

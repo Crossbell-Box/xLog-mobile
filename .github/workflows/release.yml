@@ -49,6 +49,7 @@ jobs:
           title: 'chore: update versions'
 
       - name: Trigger Publish Preview workflow
+        if: steps.release-type.outputs.result != ''
         uses: benc-uk/workflow-dispatch@v1
         with:
           workflow: preview.yml
