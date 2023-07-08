@@ -1,9 +1,11 @@
 name: Preview
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      release_type:
+        description: 'Release type'
+        required: true
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
