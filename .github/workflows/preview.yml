@@ -1,0 +1,69 @@
+name: Preview
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  preview:
+    name: Preview
+    runs-on: macos-latest
+    permissions:
+      pull-requests: write
+      contents: write
+    steps:
+      - name: Check for EXPO_TOKEN
+        run: |
+          if [ -z "${{ secrets.EXPO_TOKEN }}" ]; then
+            echo "You must provide an EXPO_TOKEN secret linked to this project's Expo account in this repo's secrets. Learn more: https://docs.expo.dev/eas-update/github-actions"
+            exit 1
+          fi
+
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js 16
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: yarn
+
+      - name: Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Create env file
+        run: |
+          echo "${{ secrets.ENV_FILE_COMMON }}" > .env.common
+          echo "${{ secrets.ENV_FILE_DEVELOPMENT }}" > .env.development
+          echo "${{ secrets.ENV_FILE_PRODUCTION }}" > .env.production
+          echo "${{ secrets.ENV_FILE_STAGING }}" > .env.staging
+          echo "${{ secrets.ANDROID_GOOGLE_SERVICES_DEVELOPMENT }}" > google-services.development.json
+          echo "${{ secrets.ANDROID_GOOGLE_SERVICES_STAGING }}" > google-services.staging.json
+          echo "${{ secrets.ANDROID_GOOGLE_SERVICES_PRODUCTION }}" > google-services.production.json
+          echo "${{ secrets.IOS_GOOGLE_SERVICES_DEVELOPMENT }}" > GoogleService-Info.development.plist
+          echo "${{ secrets.IOS_GOOGLE_SERVICES_STAGING }}" > GoogleService-Info.staging.plist
+          echo "${{ secrets.IOS_GOOGLE_SERVICES_PRODUCTION }}" > GoogleService-Info.production.plist
+
+      - name: Install Dependencies
+        run: yarn
+
+      - name: Create Release Pull Request
+        env:
+          NODE_OPTIONS: --max_old_space_size=4096
+        run: |
+          RELEASE_TYPE=${{ github.event.inputs.release_type }}
+          echo "Release type: $RELEASE_TYPE"
+
+          if [ "$RELEASE_TYPE" == "patch" ]; then
+            yarn run update:preview
+          elif [ "$RELEASE_TYPE" == "minor" ] || [ "$RELEASE_TYPE" == "major" ]; then
+            yarn run build:preview -p all
+          else
+            echo "No release type detected"
+          fi
