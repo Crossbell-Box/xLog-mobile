@@ -176,7 +176,7 @@ export const Settings: React.FC<Props> = () => {
         title={i18n.t("Alert")}
         description={i18n.t("Please allow xLog to send you notifications so that you can receive the latest updates from the creators you follow.")}
         renderCancel={() => <Button onPress={closeNotificationAlertDialog}>{i18n.t("Cancel")}</Button>}
-        renderConfirm={() => <Button backgroundColor="$color" color="$background" onPress={onNotificationAlertConfirm}>{i18n.t("Confirm")}</Button>}
+        renderConfirm={() => <Button backgroundColor="$primary" color="$color" onPress={onNotificationAlertConfirm}>{i18n.t("Confirm")}</Button>}
       />
 
       <AlertDialog
@@ -184,7 +184,7 @@ export const Settings: React.FC<Props> = () => {
         title={i18n.t("Alert")}
         description={i18n.t("New update available, click to restart.")}
         renderCancel={() => <Button onPress={closeUpdatesAlertDialog}>{i18n.t("Cancel")}</Button>}
-        renderConfirm={() => <Button backgroundColor="$color" color="$background" onPress={onUpdatesAlertConfirm}>{i18n.t("Confirm")}</Button>}
+        renderConfirm={() => <Button backgroundColor="$primary" color="$color" onPress={onUpdatesAlertConfirm}>{i18n.t("Confirm")}</Button>}
       />
 
       <SafeAreaView edges={["bottom"]} style={styles.container}>

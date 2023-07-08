@@ -1,4 +1,5 @@
 import type { FC } from "react";
+import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import Animated, { FadeIn, FadeOut, FlipInXDown, FlipOutXUp } from "react-native-reanimated";
 
@@ -20,6 +21,8 @@ import { useRootNavigation } from "@/hooks/use-navigation";
 import { useOneTimeTogglerWithSignOP } from "@/hooks/use-signin-tips-toggler";
 import { GA } from "@/utils/GA";
 
+import type { AlertDialogInstance } from "../AlertDialog";
+import { AlertDialog } from "../AlertDialog";
 import { DelayedRender } from "../DelayRender";
 import { ModalWithFadeAnimation } from "../ModalWithFadeAnimation";
 
@@ -95,6 +98,7 @@ function OPSignToggleBtn() {
   const { mutate: signIn, isLoading: isSignInLoading } = useWalletSignIn();
   const isWalletSignedIn = useIsWalletSignedIn();
   const i18n = useTranslation();
+  const alertDialogRef = useRef<AlertDialogInstance>(null);
   const { hasBeenDisplayed, closePermanently } = useOneTimeTogglerWithSignOP();
 
   const OPSign = () => {
@@ -107,6 +111,10 @@ function OPSignToggleBtn() {
     closePermanently();
     OPSign();
   };
+
+  useEffect(() => {
+    alertDialogRef.current?.toggle(!hasBeenDisplayed);
+  }, [hasBeenDisplayed]);
 
   if (!isWalletSignedIn) {
     return (
@@ -125,20 +133,13 @@ function OPSignToggleBtn() {
           </Button>
         </Animated.View>
         <DelayedRender timeout={2000}>
-          <ModalWithFadeAnimation isVisible={!hasBeenDisplayed}>
-            <Card elevate bordered>
-              <Card.Header bordered padding="$3">
-                <H4>{i18n.t("Operator Sign") || ""}</H4>
-              </Card.Header>
-              <Paragraph padding="$3">
-                {i18n.t("By signing, you can interact without clicking to agree the smart contracts every time. We are in Beta, and new users who try it out will be rewarded with 0.01 $CSB.")}
-              </Paragraph>
-              <Card.Footer padded alignItems="center" justifyContent="center" gap="$4">
-                <Button minWidth={"45%"} onPress={closeAndOPSign} backgroundColor={"$backgroundFocus"} color={"$primary"} borderRadius="$5">{i18n.t("Confirm")}</Button>
-                <Button minWidth={"45%"} onPress={closePermanently} borderRadius="$5">{i18n.t("Do not show again")}</Button>
-              </Card.Footer>
-            </Card>
-          </ModalWithFadeAnimation>
+          <AlertDialog
+            ref={alertDialogRef}
+            title={i18n.t("Operator Sign")}
+            description={i18n.t("By signing, you can interact without clicking to agree the smart contracts every time. We are in Beta, and new users who try it out will be rewarded with 0.01 $CSB.")}
+            renderCancel={() => <Button onPress={closePermanently}>{i18n.t("Do not show again")}</Button>}
+            renderConfirm={() => <Button backgroundColor="$primary" color="$color" onPress={closeAndOPSign}>{i18n.t("Confirm")}</Button>}
+          />
         </DelayedRender>
       </Stack>
     );

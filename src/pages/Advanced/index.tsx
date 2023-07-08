@@ -1,3 +1,4 @@
+import type { FC } from "react";
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { StyleSheet, ScrollView, Linking, Platform } from "react-native";
@@ -7,54 +8,62 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import {
   useDisconnectAccount,
   useAccountCharacter,
+  useAccountState,
   useDeleteCharacter,
+  useDeleteEmailAccount,
 } from "@crossbell/react-account";
 import { BottomSheetTextInput } from "@gorhom/bottom-sheet";
-import { useNavigation } from "@react-navigation/native";
-import { ArrowRight, Check, Cog, Copy, Droplet, Eye, Info, Palette, Thermometer, Trash2 } from "@tamagui/lucide-icons";
-import { useToastController } from "@tamagui/toast";
-import * as Clipboard from "expo-clipboard";
-import { ListItem, Text, ListItemTitle, Switch, YGroup, YStack, Stack, Button, ListItemSubtitle, ListItemText, H3, H4, Paragraph, Input, XStack } from "tamagui";
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { ArrowRight, Trash2 } from "@tamagui/lucide-icons";
+import { ListItem, Text, YGroup, YStack, Stack, Button, H4, Paragraph } from "tamagui";
 
-import type { AlertDialogInstance } from "@/components/AlertDialog";
-import { AlertDialog } from "@/components/AlertDialog";
 import { BottomSheetModal } from "@/components/BottomSheetModal";
 import type { BottomSheetModalInstance } from "@/components/BottomSheetModal";
-import { DisconnectBtn } from "@/components/ConnectionButton";
-import { UniLink } from "@/components/UniLink";
-import { APP_SCHEME, IS_DEV, IS_PROD, IS_STAGING, VERSION } from "@/constants";
 import { useColors } from "@/hooks/use-colors";
 import { useGlobalLoading } from "@/hooks/use-global-loading";
-import { useMultiPressHandler } from "@/hooks/use-multi-press-handler";
 import { useRootNavigation } from "@/hooks/use-navigation";
-import { useNotification } from "@/hooks/use-notification";
-import { useThemeStore } from "@/hooks/use-theme-store";
-import { i18n } from "@/i18n";
-import { allThemes } from "@/styles/theme";
+import type { SettingsStackParamList } from "@/navigation/types";
 
 export interface Props {
 
 }
 
-export const Advanced: React.FC<Props> = () => {
+export const Advanced: FC<NativeStackScreenProps<SettingsStackParamList, "Advanced">> = (props) => {
   const { color, background } = useColors();
   const character = useAccountCharacter();
+  const account = useAccountState();
   const disconnect = useDisconnectAccount();
-  const characterName = character.metadata?.content?.name;
+  const characterName = character?.metadata?.content?.name;
   const bottomSheetRef = useRef<BottomSheetModalInstance>(null);
   const snapPoints = useMemo(() => ["45%"], []);
   const i18n = useTranslation("common");
   const [enteredUsername, setEnteredUsername] = useState("");
   const globalLoading = useGlobalLoading();
-  const { mutateAsync } = useDeleteCharacter({
+  const { mutateAsync: characterMutateAsync } = useDeleteCharacter({
     onSuccess: disconnect,
   });
-
+  const { mutateAsync: emailMutateAsync } = useDeleteEmailAccount({
+    onSuccess: disconnect,
+  });
+  const rootNavigation = useRootNavigation();
   const openDeleteAccountModal = useCallback(() => bottomSheetRef.current.present(), []);
   const onDismiss = useCallback(() => setEnteredUsername(""), []);
   const deleteCharacter = useCallback(() => {
     globalLoading.show();
-    mutateAsync({ characterId: character.characterId }).finally(globalLoading.hide);
+    (
+      account.email
+        ? emailMutateAsync()
+        : characterMutateAsync({ characterId: character.characterId })
+    )
+      .then(() => {
+        disconnect();
+        bottomSheetRef.current.close();
+        rootNavigation.reset({
+          index: 0,
+          routes: [{ name: "Home" }],
+        });
+      })
+      .finally(globalLoading.hide);
   }, [character]);
 
   const usernameIsMatched = enteredUsername === characterName;

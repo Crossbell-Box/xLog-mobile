@@ -80,7 +80,7 @@ export const FeedListItem: FC<Props> = (props) => {
             </XStack>
 
             {
-              note.metadata?.content?.title && <SizableText size={"$6"} fontWeight={"700"} color="$color" marginBottom={"$1"} numberOfLines={1}>{String(note?.metadata?.content?.title)}</SizableText>
+              note?.metadata?.content?.title && <SizableText size={"$6"} fontWeight={"700"} color="$color" marginBottom={"$1"} numberOfLines={1}>{String(note?.metadata?.content?.title)}</SizableText>
             }
 
             <XStack justifyContent={coverImage.isSingle ? "space-between" : "flex-start"} gap="$2">

@@ -85,7 +85,7 @@ export const AlertDialog = forwardRef<AlertDialogInstance, Props>(({
           style={containerStyle}
         >
           <YStack space>
-            {title && <TAlertDialog.Title>{title}</TAlertDialog.Title>}
+            {title && <TAlertDialog.Title size={"$7"}>{title}</TAlertDialog.Title>}
             {
               typeof description === "string"
                 ? (
