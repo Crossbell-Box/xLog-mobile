@@ -1,5 +1,11 @@
 # xlog
 
+## 0.17.1
+
+### Patch Changes
+
+- 94f63a3: Fixed a bug that GA doesn't work correctly.
+
 ## 0.17.0
 
 ### Minor Changes
