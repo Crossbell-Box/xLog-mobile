@@ -5,9 +5,11 @@ import Animated, { FadeInUp } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { useConnectedAccount, useIsConnected } from "@crossbell/react-account";
-import { ArrowRight, Check, Cog, Copy, Eye, Info, Palette, TestTube, Thermometer, TrendingUp } from "@tamagui/lucide-icons";
+import { ArrowDownToLine, ArrowRight, Check, Cog, Copy, Eye, Info, Palette, TestTube, Thermometer, TrendingUp } from "@tamagui/lucide-icons";
 import { useToastController } from "@tamagui/toast";
 import * as Clipboard from "expo-clipboard";
+import * as Haptics from "expo-haptics";
+import * as Updates from "expo-updates";
 import * as Sentry from "sentry-expo";
 import { ListItem, Text, ListItemTitle, Switch, YGroup, YStack, Stack, Button } from "tamagui";
 
@@ -24,6 +26,7 @@ import { useNotification } from "@/hooks/use-notification";
 import { useThemeStore } from "@/hooks/use-theme-store";
 import { allThemes } from "@/styles/theme";
 import { GA } from "@/utils/GA";
+import { checkHotUpdates } from "@/utils/hot-updates";
 
 export interface Props {
 
@@ -34,14 +37,22 @@ export const Settings: React.FC<Props> = () => {
   const [devMenuVisible, setDevMenuVisible] = React.useState(false);
   const isConnected = useIsConnected();
   const handleMultiPress = useMultiPressHandler(
-    () => setDevMenuVisible(true),
+    () => {
+      if (IS_STAGING) {
+        setDevMenuVisible(true);
+      }
+      else if (IS_PROD) {
+        checkNewUpdates(true);
+      }
+    },
     {
       threshold: 7,
       interval: 300,
-      disabled: IS_PROD || devMenuVisible,
+      disabled: IS_STAGING || devMenuVisible,
     },
   );
-  const alertDialogRef = useRef<AlertDialogInstance>(null);
+  const notificationAlertDialogRef = useRef<AlertDialogInstance>(null);
+  const updatesAlertDialogRef = useRef<AlertDialogInstance>(null);
   const bottomSheetRef = useRef<BottomSheetModalInstance>(null);
   const { mode, theme, changeTheme } = useThemeStore();
   const snapPoints = useMemo(() => ["40%"], []);
@@ -54,6 +65,33 @@ export const Settings: React.FC<Props> = () => {
 
   const openBottomSheet = () => {
     bottomSheetRef.current?.present();
+  };
+
+  const checkNewUpdates = (silent: boolean) => {
+    checkHotUpdates()
+      .then(async () => {
+        if (silent) {
+          await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+          await new Promise(resolve => setTimeout(resolve, 1000));
+          await Updates.reloadAsync();
+        }
+        else {
+          updatesAlertDialogRef.current?.toggle(true);
+        }
+      })
+      .catch(() => {
+        if (silent) {
+          Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+        }
+        else {
+          toast.show(i18n.t("No Updates"), {
+            burntOptions: {
+              preset: "error",
+              haptic: "error",
+            },
+          });
+        }
+      });
   };
 
   const copyPushToken = () => {
@@ -69,7 +107,7 @@ export const Settings: React.FC<Props> = () => {
     }
     else {
       requestPermissions().catch(() => {
-        alertDialogRef.current?.toggle(true);
+        notificationAlertDialogRef.current?.toggle(true);
       });
     }
   };
@@ -105,10 +143,11 @@ export const Settings: React.FC<Props> = () => {
     });
   };
 
-  const closeAlertDialog = () => alertDialogRef.current?.toggle(false);
+  const closeNotificationAlertDialog = () => notificationAlertDialogRef.current?.toggle(false);
+  const closeUpdatesAlertDialog = () => updatesAlertDialogRef.current?.toggle(false);
 
-  const onConfirm = () => {
-    closeAlertDialog();
+  const onNotificationAlertConfirm = () => {
+    closeNotificationAlertDialog();
 
     if (Platform.OS === "ios") {
       Linking.openURL(`app-settings:${APP_SCHEME}`);
@@ -118,21 +157,36 @@ export const Settings: React.FC<Props> = () => {
     }
   };
 
+  const onUpdatesAlertConfirm = () => {
+    Updates.reloadAsync();
+  };
+
   const navigateToAdvancedPage = () => {
     navigation.navigate("SettingsNavigator", {
       screen: "Advanced",
     });
   };
 
+  const checkUpdates = () => checkNewUpdates(false);
+
   return (
     <>
       <AlertDialog
-        ref={alertDialogRef}
+        ref={notificationAlertDialogRef}
         title={i18n.t("Alert")}
         description={i18n.t("Please allow xLog to send you notifications so that you can receive the latest updates from the creators you follow.")}
-        renderCancel={() => <Button onPress={closeAlertDialog}>{i18n.t("Cancel")}</Button>}
-        renderConfirm={() => <Button onPress={onConfirm}>{i18n.t("Confirm")}</Button>}
+        renderCancel={() => <Button onPress={closeNotificationAlertDialog}>{i18n.t("Cancel")}</Button>}
+        renderConfirm={() => <Button backgroundColor="$color" color="$background" onPress={onNotificationAlertConfirm}>{i18n.t("Confirm")}</Button>}
       />
+
+      <AlertDialog
+        ref={updatesAlertDialogRef}
+        title={i18n.t("Alert")}
+        description={i18n.t("New update available, click to restart.")}
+        renderCancel={() => <Button onPress={closeUpdatesAlertDialog}>{i18n.t("Cancel")}</Button>}
+        renderConfirm={() => <Button backgroundColor="$color" color="$background" onPress={onUpdatesAlertConfirm}>{i18n.t("Confirm")}</Button>}
+      />
+
       <SafeAreaView edges={["bottom"]} style={styles.container}>
         <YStack flex={1}>
           <ScrollView>
@@ -240,6 +294,18 @@ export const Settings: React.FC<Props> = () => {
                         >
                           <ListItemTitle>
                             {i18n.t("Test GA")}
+                          </ListItemTitle>
+                        </ListItem>
+                      </YGroup.Item>
+                      <YGroup.Item>
+                        <ListItem
+                          icon={ArrowDownToLine}
+                          scaleIcon={1.2}
+                          iconAfter={<ArrowRight />}
+                          onPress={checkUpdates}
+                        >
+                          <ListItemTitle>
+                            {i18n.t("Check updates")}
                           </ListItemTitle>
                         </ListItem>
                       </YGroup.Item>
