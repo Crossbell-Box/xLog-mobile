@@ -66,11 +66,10 @@ const DrawerContent = () => {
       {character && (
         <YStack flex={1}>
           <Spacer size="$2" />
-          {/* Userinfo */}
           <XStack gap="$3" alignItems="center">
             <XTouch onPress={navigateToProfile} enableHaptics touchableComponent={TouchableOpacity}>
               <Stack width={55} height={55}>
-                {character && <Avatar isNavigateToUserInfo={false} size={55} character={character} />}
+                {character && <Avatar useDefault isNavigateToUserInfo={false} size={55} character={character} />}
               </Stack>
             </XTouch>
             <YStack flex={1} gap="$-1.5">
