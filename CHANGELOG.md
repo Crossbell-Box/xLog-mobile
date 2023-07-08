@@ -1,5 +1,12 @@
 # xlog
 
+## 0.17.2
+
+### Patch Changes
+
+- 7fcd366: Support checking updates manually.
+- 116f7cb: Fixed the issue that account couldn't be deleted.
+
 ## 0.17.1
 
 ### Patch Changes
