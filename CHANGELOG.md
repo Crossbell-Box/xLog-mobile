@@ -1,5 +1,11 @@
 # xlog
 
+## 0.17.4
+
+### Patch Changes
+
+- 6f7223d: Using default avatar in the drawer content.
+
 ## 0.17.3
 
 ### Patch Changes
