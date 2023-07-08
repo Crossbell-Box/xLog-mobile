@@ -48,7 +48,7 @@ export const Settings: React.FC<Props> = () => {
     {
       threshold: 7,
       interval: 300,
-      disabled: IS_STAGING || devMenuVisible,
+      disabled: IS_DEV || devMenuVisible,
     },
   );
   const notificationAlertDialogRef = useRef<AlertDialogInstance>(null);
