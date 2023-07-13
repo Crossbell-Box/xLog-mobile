@@ -1300,74 +1300,74 @@
     human-id "^1.0.2"
     prettier "^2.7.1"
 
-"@crossbell/contract@1.4.6", "@crossbell/contract@^1.4.6":
-  version "1.4.6"
-  resolved "https://registry.npmjs.org/@crossbell/contract/-/contract-1.4.6.tgz#21e05565e59e36322ff860904449e7eb75fc5112"
-  integrity sha512-65Eg8ygJ8Q0TUJEey89e6CehQFMvaB2YBxZ0aMUmkyCF24DCR5Q6fSAJ6A8Hf0RBamem/K618OOXyD0FXcG6Ow==
+"@crossbell/contract@1.5.0", "@crossbell/contract@^1.5.0":
+  version "1.5.0"
+  resolved "https://registry.npmmirror.com/@crossbell/contract/-/contract-1.5.0.tgz#2b433397a5b43f400212e76f438a681a56ec69d7"
+  integrity sha512-zOBAJQjGUK+6P4Xo5NlsUQko1VWWn4sfYRtU44LK4mioAHEAaGLi1BhXhPbJnOtsjQE63tjmjRDRdzNp4X4+Ng==
   dependencies:
-    "@crossbell/indexer" "^1.4.6"
-    "@crossbell/util-hooks" "^1.4.4"
-    crossbell "^1.4.0"
-    viem "^1.1.6"
+    "@crossbell/indexer" "^1.5.0"
+    "@crossbell/util-hooks" "^1.5.0"
+    crossbell "^1.4.1"
+    viem "^1.2.10"
 
-"@crossbell/indexer@1.4.6", "@crossbell/indexer@^1.4.6":
-  version "1.4.6"
-  resolved "https://registry.npmjs.org/@crossbell/indexer/-/indexer-1.4.6.tgz#157e908691b5936a419da828648ec1a5d6ca7047"
-  integrity sha512-C/PPKv4VVA5AY65TzM0EtErWUZ3XE50f+RL91llURnMUjQdrbWeh6J91jnmXKO36e0eaTTjhCExzKrPm5ZSULw==
+"@crossbell/indexer@1.5.0", "@crossbell/indexer@^1.5.0":
+  version "1.5.0"
+  resolved "https://registry.npmmirror.com/@crossbell/indexer/-/indexer-1.5.0.tgz#0615e21c1acf869d9dc8856aeef4486c065d8270"
+  integrity sha512-8ltfjmRlCWO5FhPb7+cdGYLusntu7TfxnMfCMqmLDpO5ddmbIITyzAuetlZ2wg89foxi58n0qqQSUF/S2Obr8Q==
   dependencies:
     "@tanstack/react-query" "^4"
-    crossbell "^1.4.0"
-    dayjs "^1.11.8"
+    crossbell "^1.4.1"
+    dayjs "^1.11.9"
     lodash.compact "^3"
     lru-cache "10.0.0"
-    viem "^1.1.6"
+    viem "^1.2.10"
 
 "@crossbell/ipfs-fetch@^0.0.19":
   version "0.0.19"
   resolved "https://registry.npmjs.org/@crossbell/ipfs-fetch/-/ipfs-fetch-0.0.19.tgz#70b738495c2fbca11576e87f370629cf7c4534c2"
   integrity sha512-0Yf9+MMTSD+JJkFbNaK/s+kl3CXhr4oq2yj3K0dvheB+e8uykcpM7yomxHie/sr0ushw3G7Ppf5NXYkfH0eiSw==
 
-"@crossbell/react-account@1.4.6":
-  version "1.4.6"
-  resolved "https://registry.npmjs.org/@crossbell/react-account/-/react-account-1.4.6.tgz#bf2d0f2d39b07af900e41206760a477c09066647"
-  integrity sha512-SRpEGIVq01H5eRPCFNzABQu+S9UH8FMfpcjYIXqwzO0m+5eC98t1QRiqAYp5jHczUruXqdpjsNG+kXGBWXsQlg==
+"@crossbell/react-account@1.5.0":
+  version "1.5.0"
+  resolved "https://registry.npmmirror.com/@crossbell/react-account/-/react-account-1.5.0.tgz#b1b31d7b39269a6be625d30c95955741aef89b37"
+  integrity sha512-G+N7ytLZFicXRyOzL2zbWBbgbq0k/zVnTqJW9hLwJmlyr6zX88ESCaWeezA0MV8Hh4oXhPY1oYH9dxIZ/Wt3sA==
   dependencies:
-    "@crossbell/contract" "^1.4.6"
-    "@crossbell/indexer" "^1.4.6"
-    "@crossbell/util-ethers" "^1.4.0"
-    "@crossbell/util-hooks" "^1.4.4"
-    "@crossbell/util-metadata" "^1.4.0"
+    "@crossbell/contract" "^1.5.0"
+    "@crossbell/indexer" "^1.5.0"
+    "@crossbell/util-ethers" "^1.5.0"
+    "@crossbell/util-hooks" "^1.5.0"
+    "@crossbell/util-metadata" "^1.5.0"
     check-password-strength "^2"
-    crossbell "^1.4.0"
+    crossbell "^1.4.1"
     immer "^10"
     lodash.debounce "4.0.8"
     react "^18"
     rxjs "^7.8.1"
     ts-essentials "^9.3.2"
-    viem "^1.1.6"
+    viem "^1.2.10"
     zustand "^4"
 
-"@crossbell/util-ethers@^1.4.0":
-  version "1.4.0"
-  resolved "https://registry.npmjs.org/@crossbell/util-ethers/-/util-ethers-1.4.0.tgz#98e5145dc8d3742df0cd198e4e4c994f4770f1b5"
-  integrity sha512-U4ClTu/akp/X/kUmZ652wqJ748552jxfIv0bt2HYAI/pyCeNtnuP1A6WDA4TTMlWEGaa2xfoLde8Ga0zUWYngA==
+"@crossbell/util-ethers@^1.5.0":
+  version "1.5.0"
+  resolved "https://registry.npmmirror.com/@crossbell/util-ethers/-/util-ethers-1.5.0.tgz#48ac604af1fb69e2904e3ec74d66b881477989d9"
+  integrity sha512-6ft4p4246ufWohu82Jr24vW1TP/IgXPPyc7pMtFskMajdQca78gtfEa2oyUn/GeMPMIpMVXaHDbbXwzhRIFs1g==
 
-"@crossbell/util-hooks@1.4.4", "@crossbell/util-hooks@^1.4.4":
-  version "1.4.4"
-  resolved "https://registry.npmjs.org/@crossbell/util-hooks/-/util-hooks-1.4.4.tgz#facc20f7faec04b56d1506996bf2b0571d81ce6c"
-  integrity sha512-FXps9gUV3gpslk9C18kcyAlXdKg/1civGMPPAyAMQ2R65SUj65zQBrsi04aNCf9BCgy7KxB6cGWmVTBc1oUqmw==
+"@crossbell/util-hooks@1.5.0", "@crossbell/util-hooks@^1.5.0":
+  version "1.5.0"
+  resolved "https://registry.npmmirror.com/@crossbell/util-hooks/-/util-hooks-1.5.0.tgz#3e55c3c3b959dd626cb18a8853e6e7c23227a5d2"
+  integrity sha512-VANGirVw9+U6fzGtfNVozT4P5JhUjOp208/ozrSED2BKStp4YKMaOA+BGFss3HnJHelR0SX/stS6SErQx+yEBg==
   dependencies:
     "@tanstack/react-query" "^4"
-    crossbell "^1.4.0"
+    crossbell "^1.4.1"
 
-"@crossbell/util-metadata@^1.4.0":
-  version "1.4.0"
-  resolved "https://registry.npmjs.org/@crossbell/util-metadata/-/util-metadata-1.4.0.tgz#38d56497604926a2b5159ce5148b717517442a6a"
-  integrity sha512-FmfuWZdbCZyMsHje8A/j0GoTkthLjPo0fDXAn42qvFMlTBYzkQ/pOS08i9m/KeMNKssFQ9WcXPdqmYn0ze9hIA==
+"@crossbell/util-metadata@^1.5.0":
+  version "1.5.0"
+  resolved "https://registry.npmmirror.com/@crossbell/util-metadata/-/util-metadata-1.5.0.tgz#9496f63c4308caa73837896d60dd5ed404c25640"
+  integrity sha512-YVi5AU3A4cmiSxq4vFzSBf2A62Qk2M10iOtr3UCiix4XhtcQ5Gfe0roKuW0hJHe6wgJcg32EsNEFQ6rz9Gv8HQ==
   dependencies:
-    "@crossbell/util-ethers" "^1.4.0"
+    "@crossbell/util-ethers" "^1.5.0"
     "@fastify/deepmerge" "^1.3.0"
-    crossbell "^1.4.0"
+    crossbell "^1.4.1"
 
 "@cspotcode/source-map-support@^0.8.0":
   version "0.8.1"
@@ -5648,15 +5648,15 @@ Base64@~0.2.0:
   resolved "https://registry.npmjs.org/Base64/-/Base64-0.2.1.tgz"
   integrity sha512-reGEWshDmTDQDsCec/HduOO9Wyj6yMOupMfhIf3ugN1TDlK2NQW4DDJSqNNtp380SNcvRfXtO8HSCQot0d0SMw==
 
+abitype@0.8.11:
+  version "0.8.11"
+  resolved "https://registry.npmmirror.com/abitype/-/abitype-0.8.11.tgz#66e1cf2cbf46f48d0e57132d7c1c392447536cc1"
+  integrity sha512-bM4v2dKvX08sZ9IU38IN5BKmN+ZkOSd2oI4a9f0ejHYZQYV6cDr7j+d95ga0z2XHG36Y4jzoG5Z7qDqxp7fi/A==
+
 abitype@0.8.2:
   version "0.8.2"
   resolved "https://registry.npmjs.org/abitype/-/abitype-0.8.2.tgz#cacd330d07488a4020d84f54fc361361234b9c83"
   integrity sha512-B1ViNMGpfx/qjVQi0RTc2HEFHuR9uoCoTEkwELT5Y7pBPtBbctYijz9BK6+Kd0hQ3S70FhYTO2dWWk0QNUEXMA==
-
-abitype@0.8.7:
-  version "0.8.7"
-  resolved "https://registry.npmjs.org/abitype/-/abitype-0.8.7.tgz#e4b3f051febd08111f486c0cc6a98fa72d033622"
-  integrity sha512-wQ7hV8Yg/yKmGyFpqrNZufCxbszDe5es4AZGYPBitocfSqXtjrTG9JMWFcc4N30ukl2ve48aBTwt7NJxVQdU3w==
 
 abort-controller@^3.0.0:
   version "3.0.0"
@@ -7753,17 +7753,6 @@ cross-spawn@^7.0.2, cross-spawn@^7.0.3:
     shebang-command "^2.0.0"
     which "^2.0.1"
 
-crossbell@1.4.0, crossbell@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.npmjs.org/crossbell/-/crossbell-1.4.0.tgz#d76cb497e56ef2cfe7d0fa08b764fc7a8775d3ed"
-  integrity sha512-lRQV5RRIMt4kGqYHGEBT5itdOr11cAmyBccUbZfbbq/PvZxMdyXUkXb03Z2NNVX/mgigNxq+2rYAp8iTVxFBfQ==
-  dependencies:
-    "@crossbell/ipfs-fetch" "^0.0.19"
-    async-retry "^1.3.3"
-    eip1193-types "^0.2.1"
-    p-limit "^3.1.0"
-    viem "^1.0.2"
-
 crossbell@^1.1.0:
   version "1.1.0"
   resolved "https://registry.npmjs.org/crossbell/-/crossbell-1.1.0.tgz#cdeba02f2d103d74e8c9dec595c9e5b93a20a97c"
@@ -7774,6 +7763,17 @@ crossbell@^1.1.0:
     eip1193-types "^0.2.0"
     p-limit "^3.1.0"
     viem "^0.3.16"
+
+crossbell@^1.4.1, crossbell@^1.4.2:
+  version "1.4.2"
+  resolved "https://registry.npmmirror.com/crossbell/-/crossbell-1.4.2.tgz#f55af9bcda39ab88a07bc2ca73429ea712fb1c2a"
+  integrity sha512-6wS6X3r3zWjQOL1v2dMJ8hIfzCl1hQ5AoVV6nFGngKuk+LPoZeZjrrD7KTRueFqwE9F6oJmg7S6vHJNYu3STqQ==
+  dependencies:
+    "@crossbell/ipfs-fetch" "^0.0.19"
+    async-retry "^1.3.3"
+    eip1193-types "^0.2.1"
+    p-limit "^3.1.0"
+    viem "^1.2.11"
 
 crypt@0.0.2, crypt@~0.0.1:
   version "0.0.2"
@@ -7903,10 +7903,10 @@ dayjs@1.11.7, dayjs@^1.8.15:
   resolved "https://registry.npmjs.org/dayjs/-/dayjs-1.11.7.tgz"
   integrity sha512-+Yw9U6YO5TQohxLcIkrXBeY73WP3ejHWVvx8XCk3gxvQDCTEmS48ZrSZCKciI7Bhl/uCMyxYtE9UqRILmFphkQ==
 
-dayjs@^1.11.8:
-  version "1.11.8"
-  resolved "https://registry.npmjs.org/dayjs/-/dayjs-1.11.8.tgz#4282f139c8c19dd6d0c7bd571e30c2d0ba7698ea"
-  integrity sha512-LcgxzFoWMEPO7ggRv1Y2N31hUf2R0Vj7fuy/m+Bg1K8rr+KAs1AEy4y9jd5DXe8pbHgX+srkHNS7TH6Q6ZhYeQ==
+dayjs@^1.11.9:
+  version "1.11.9"
+  resolved "https://registry.npmmirror.com/dayjs/-/dayjs-1.11.9.tgz#9ca491933fadd0a60a2c19f6c237c03517d71d1a"
+  integrity sha512-QvzAURSbQ0pKdIye2txOzNaHmxtUBXerpY0FJsFXUMKbIZeFm5ht1LS/jFsrncjnmtv8HsG0W2g6c0zUjZWmpA==
 
 debug@2.6.9, debug@^2.2.0, debug@^2.3.3:
   version "2.6.9"
@@ -18851,7 +18851,7 @@ vfile@^5.0.0:
     unist-util-stringify-position "^3.0.0"
     vfile-message "^3.0.0"
 
-viem@^0.3.16, viem@^0.3.29, viem@^0.3.33:
+viem@^0.3.16, viem@^0.3.29:
   version "0.3.33"
   resolved "https://registry.yarnpkg.com/viem/-/viem-0.3.33.tgz#baba139fc656cf66e3a58710fbf47e6c01627975"
   integrity sha512-ITB7wiYIWMxSyOQePPVa+6YcCrQiBLY/S758iZcjIZFqyqF8i/9PBhAPiqbiUrdfydaqjjRtWR1PAaXlMxmgtg==
@@ -18866,10 +18866,10 @@ viem@^0.3.16, viem@^0.3.29, viem@^0.3.33:
     isomorphic-ws "5.0.0"
     ws "8.12.0"
 
-viem@^1.0.2, viem@^1.1.6:
-  version "1.1.7"
-  resolved "https://registry.npmjs.org/viem/-/viem-1.1.7.tgz#bbaf2dffc878d855d994afaac37ab6aa264a43d3"
-  integrity sha512-3lBDRS0ejb4Eo9c/S+RBadwIHNK1RS0ffW7HkSt3pMtzl4nis1aF1tHrU6yqI+yCWqAPl36a48qGD4mEhxPuDw==
+viem@^1.2.10, viem@^1.2.11, viem@^1.2.14:
+  version "1.2.14"
+  resolved "https://registry.npmmirror.com/viem/-/viem-1.2.14.tgz#f3d3f2262c420336a1aa453f50e1d8b1834df289"
+  integrity sha512-Hak+NGxdm+vRyt/cV8NbTlW1IRPKAmJBCx1SZZIc1uNVA/Rs6eN0Nh7mB8MbmA3FLJ0ymD/dSbB4MI9GGbGCgA==
   dependencies:
     "@adraffy/ens-normalize" "1.9.0"
     "@noble/curves" "1.0.0"
@@ -18877,7 +18877,7 @@ viem@^1.0.2, viem@^1.1.6:
     "@scure/bip32" "1.3.0"
     "@scure/bip39" "1.2.0"
     "@wagmi/chains" "1.2.0"
-    abitype "0.8.7"
+    abitype "0.8.11"
     isomorphic-ws "5.0.0"
     ws "8.12.0"
 

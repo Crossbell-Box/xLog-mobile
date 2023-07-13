@@ -7,9 +7,6 @@ require("./scripts/set-app-config-env.js")();
 const srcDir = path.resolve(__dirname, "src");
 const dirs = fs.readdirSync(srcDir).filter(file => fs.statSync(path.join(srcDir, file)).isDirectory());
 
-// eslint-disable-next-line no-console
-console.log("🚀 babel.config.js - ENV:", JSON.stringify(process.env, null, 4));
-
 module.exports = function (api) {
   api.cache(true);
   return {

@@ -23,9 +23,6 @@ if (environment !== "development") {
   });
 }
 
-// eslint-disable-next-line no-console
-console.log("🚀 app.config.ts - ENV:", JSON.stringify(process.env, null, 4));
-
 export default (_: ConfigContext): ExpoConfig => {
   return {
     name: config.name,
