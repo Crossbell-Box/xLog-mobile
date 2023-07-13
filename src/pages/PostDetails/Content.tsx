@@ -2,7 +2,7 @@ import React, { useImperativeHandle, useRef, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Dimensions, StyleSheet } from "react-native";
 import DeviceInfo from "react-native-device-info";
-import Animated, { interpolate, useAnimatedStyle, useSharedValue, withTiming, withSpring, withDelay, measure, runOnUI } from "react-native-reanimated";
+import Animated, { useSharedValue, withSpring, withDelay } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { captureRef } from "react-native-view-shot";
 
@@ -16,13 +16,10 @@ import { H2, Spacer, Stack, useWindowDimensions, YStack } from "tamagui";
 import { ImageGallery } from "@/components/ImageGallery";
 import { WebView } from "@/components/WebView";
 import { VERSION } from "@/constants";
-import { IPFS_GATEWAY } from "@/constants/env";
 import { PageNotFound } from "@/constants/resource";
 import useGAWithPageStayTime from "@/hooks/ga/use-ga-with-page-stay-time";
 import { useCharacterId } from "@/hooks/use-character-id";
 import { useGlobalLoading } from "@/hooks/use-global-loading";
-import { useOneTimeToggler } from "@/hooks/use-one-time-toggle";
-import { usePostWebViewLink } from "@/hooks/use-post-link";
 import type { useScrollVisibilityHandler } from "@/hooks/use-scroll-visibility-handler";
 import { useThemeStore } from "@/hooks/use-theme-store";
 import type { RootStackParamList } from "@/navigation/types";
@@ -153,7 +150,6 @@ export const Content = React.forwardRef<PostDetailsContentInstance, Props>((prop
         width,
         quality: 1,
         snapshotContentContainer: true,
-        // @ts-expect-error
         useRenderInContext: true,
       });
 

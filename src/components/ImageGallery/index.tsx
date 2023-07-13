@@ -1,10 +1,9 @@
 import { useState, type FC, useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Dimensions, StyleSheet } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import Carousel from "react-native-reanimated-carousel";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { useNavigation } from "@react-navigation/native";
 import { Download, Loader } from "@tamagui/lucide-icons";
 import { useToastController } from "@tamagui/toast";
 import * as FileSystem from "expo-file-system";
@@ -13,10 +12,8 @@ import * as MediaLibrary from "expo-media-library";
 import { Circle, Spinner, Stack } from "tamagui";
 
 import { useGAWithScreenParams } from "@/hooks/ga/use-ga-with-screen-name-params";
-import { useCurrentRoute } from "@/hooks/use-current-route";
 import { useHitSlopSize } from "@/hooks/use-hit-slop-size";
 import { GA } from "@/utils/GA";
-import { getActiveRoute } from "@/utils/get-active-route";
 
 import { ModalWithFadeAnimation } from "../ModalWithFadeAnimation";
 
@@ -103,30 +100,15 @@ export const ImageGallery: FC<Props> = (props) => {
       onBackdropPress={onClose}
     >
       <Stack flex={1}>
-        <ScrollView
-          horizontal
-          pagingEnabled
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}
-          scrollEnabled={uris.length > 1}
-          onMomentumScrollEnd={(event) => {
-            const slideIndex = Math.ceil(
-              event.nativeEvent.contentOffset.x / event.nativeEvent.layoutMeasurement.width,
-            );
-            if (slideIndex !== currentImageIndex) {
-              setCurrentImageIndex(slideIndex);
-            }
+        <Carousel
+          data={uris}
+          width={width}
+          style={{ flex: 1 }}
+          renderItem={({ item, index }) => {
+            const priority = index <= 3 ? "high" : "low";
+            return <ImageItem key={index} uri={item} priority={priority} onPress={onClose}/>;
           }}
-        >
-          {
-            uris.map((uri, index) => {
-              const priority = index <= 3 ? "high" : "low";
-              return (
-                <ImageItem key={index} uri={uri} priority={priority} onPress={onClose}/>
-              );
-            })
-          }
-        </ScrollView>
+        />
       </Stack>
       <Stack
         onLayout={hitSlop.onLayout}

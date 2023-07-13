@@ -7,16 +7,14 @@ import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import Highlighter from "react-native-highlight-words";
 
 import { Image } from "expo-image";
-import { Card, H5, H6, Paragraph, SizableText, Spacer, Text, XStack } from "tamagui";
+import { Card, Paragraph, SizableText, Spacer, Text, XStack } from "tamagui";
 
 import { Avatar } from "@/components/Avatar";
 import { ImageGallery } from "@/components/ImageGallery";
 import { useColors } from "@/hooks/use-colors";
 import { useDate } from "@/hooks/use-date";
 import { useRootNavigation } from "@/hooks/use-navigation";
-import type { RootStackParamList } from "@/navigation/types";
 import { findCoverImage } from "@/utils/find-cover-image";
-import { GA } from "@/utils/GA";
 
 type NoteEntity = any;
 
