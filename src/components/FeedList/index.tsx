@@ -5,7 +5,6 @@ import type { useAnimatedScrollHandler } from "react-native-reanimated";
 
 import { useFocusEffect } from "@react-navigation/native";
 import type { NoteEntity } from "crossbell";
-import * as Haptics from "expo-haptics";
 import { Separator, SizableText, Spinner, Stack, useWindowDimensions } from "tamagui";
 
 import { useCharacterId } from "@/hooks/use-character-id";
@@ -125,7 +124,6 @@ export const FeedList: FC<Props> = (props) => {
             topic_include_keywords: queryParams.topicIncludeKeywords,
           });
 
-          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
           feed?.fetchNextPage?.();
         }}
       />
