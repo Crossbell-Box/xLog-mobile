@@ -1,11 +1,12 @@
-const { getDefaultConfig } = require("@expo/metro-config");
+const { getDefaultConfig } = require("expo/metro-config");
 
-module.exports = (async () => {
-  const config = await getDefaultConfig(__dirname);
-  config.resolver.extraNodeModules = {
-    ...(config.resolver.extraNodeModules || {}),
-    ...(require("node-libs-expo")),
-  };
+const config = getDefaultConfig(__dirname);
 
-  return config;
-})();
+config.resolver.extraNodeModules = {
+  ...(config.resolver.extraNodeModules || {}),
+  ...(require("node-libs-expo")),
+};
+
+config.resolver.sourceExts.push("mjs");
+
+module.exports = config;

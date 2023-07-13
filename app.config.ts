@@ -6,9 +6,6 @@ const { appConfig, environment, decreasedVersion } = setAppConfigEnv();
 
 const config = appConfig;
 
-// eslint-disable-next-line no-console
-console.log(JSON.stringify(config, null, 4));
-
 const postPublish = [];
 
 if (environment !== "development") {

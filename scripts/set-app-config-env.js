@@ -15,8 +15,6 @@ function setAppConfigEnv() {
     dotenv.config({ path: `.env.${ENV}` });
   }
 
-  console.log("ENV:", ENV);
-
   const SCHEME = process.env.APP_SCHEME;
   const HOST = process.env.APP_HOST ?? "xlog.app";
 
