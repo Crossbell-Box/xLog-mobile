@@ -360,28 +360,16 @@ export const useCheckMint = ({
 export const useGetPage = (
   input: Partial<Parameters<typeof getPage>[0]>,
 ) => {
-  const key = ["getPage", input.characterId, input];
   return useQuery(["getPage", input.characterId, input], async () => {
-    if (!input.characterId || !input.slug) {
+    if (!input.characterId || (!input.slug && !input.noteId)) {
       return null;
     }
-    if (!input.noteId) {
-      const slug2Id = await getIdBySlug(input.slug, input.characterId);
-      if (!slug2Id?.noteId) {
-        return null;
-      }
-      input.noteId = slug2Id.noteId;
-    }
-    return cacheGet({
-      key,
-      getValueFun: () =>
-        getPage({
-          slug: input.slug,
-          characterId: input.characterId!,
-          useStat: input.useStat,
-          noteId: input.noteId,
-          handle: input.handle,
-        }),
-    }) as Promise<ReturnType<typeof getPage>>;
+    return getPage({
+      characterId: input.characterId,
+      slug: input.slug,
+      noteId: input.noteId,
+      useStat: input.useStat,
+      handle: input.handle,
+    });
   });
 };

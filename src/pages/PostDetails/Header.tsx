@@ -66,6 +66,7 @@ export const Header: FC<Props> = (props) => {
       useStat: true,
     },
   );
+
   const site = useGetSite(character?.data?.handle);
   const { top } = useSafeAreaInsets();
   const headerHeight = top + headerContainerHeight;
