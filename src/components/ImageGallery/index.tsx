@@ -1,6 +1,8 @@
-import { useState, type FC, useCallback, useEffect } from "react";
+import { useState, type FC, useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Dimensions, StyleSheet } from "react-native";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import type { ICarouselInstance } from "react-native-reanimated-carousel";
 import Carousel from "react-native-reanimated-carousel";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -9,7 +11,7 @@ import { useToastController } from "@tamagui/toast";
 import * as FileSystem from "expo-file-system";
 import { Image } from "expo-image";
 import * as MediaLibrary from "expo-media-library";
-import { Circle, Spinner, Stack } from "tamagui";
+import { Button, Circle, Spinner, Stack } from "tamagui";
 
 import { useGAWithScreenParams } from "@/hooks/ga/use-ga-with-screen-name-params";
 import { useHitSlopSize } from "@/hooks/use-hit-slop-size";
@@ -34,6 +36,7 @@ export const ImageGallery: FC<Props> = (props) => {
   const [isSavingImage, setIsSavingImage] = useState(false);
   const hitSlop = useHitSlopSize(44);
   const gaWithScreenParams = useGAWithScreenParams();
+  const ref = useRef<ICarouselInstance>(null);
 
   useEffect(() => {
     if (isVisible) {
@@ -101,12 +104,16 @@ export const ImageGallery: FC<Props> = (props) => {
     >
       <Stack flex={1}>
         <Carousel
+          ref={ref}
           data={uris}
           width={width}
+          loop={uris.length > 1}
           style={{ flex: 1 }}
           renderItem={({ item, index }) => {
             const priority = index <= 3 ? "high" : "low";
-            return <ImageItem key={index} uri={item} priority={priority} onPress={onClose}/>;
+            return (
+              <ImageItem key={index} uri={item} priority={priority} onPress={onClose}/>
+            );
           }}
         />
       </Stack>
@@ -156,10 +163,12 @@ const ImageItem: FC<{ uri: string; priority: "high" | "low";onPress: () => void 
   }, []);
 
   return (
-    <Stack width={width} height={height} alignItems="center" justifyContent="center" onPress={onPress}>
-      <Image onLoadStart={onLoadStart} onLoadEnd={onLoadEnd} priority={priority} source={uri} contentFit="contain" style={styles.modalImage}/>
-      {loading && <Spinner position="absolute"/>}
-    </Stack>
+    <TouchableWithoutFeedback onPress={onPress}>
+      <Stack width={width} height={height} alignItems="center" justifyContent="center">
+        <Image onLoadStart={onLoadStart} onLoadEnd={onLoadEnd} priority={priority} source={uri} contentFit="contain" style={styles.modalImage}/>
+        {loading && <Spinner position="absolute"/>}
+      </Stack>
+    </TouchableWithoutFeedback>
   );
 };
 

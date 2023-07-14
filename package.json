@@ -165,7 +165,7 @@
     "react-native-quick-base64": "2.0.5",
     "react-native-randombytes": "^3.6.1",
     "react-native-reanimated": "~3.3.0",
-    "react-native-reanimated-carousel": "^3.3.0",
+    "react-native-reanimated-carousel": "^3.5.1",
     "react-native-redash": "^18.1.0",
     "react-native-safe-area-context": "4.6.3",
     "react-native-screens": "~3.22.0",
