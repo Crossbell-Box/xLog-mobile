@@ -3,7 +3,7 @@ import { config as tamaguiConfig } from "@tamagui/config";
 import { createMedia } from "@tamagui/react-native-media-driver";
 import { shorthands } from "@tamagui/shorthands";
 import { tokens } from "@tamagui/themes";
-import { createTamagui } from "tamagui";
+import { createTamagui, createTokens } from "tamagui";
 
 import { bodyFont } from "./src/styles/body-fonts";
 import { themes } from "./src/styles/theme";
@@ -39,7 +39,7 @@ const config = createTamagui({
     body: bodyFont,
   },
   themes,
-  tokens: {
+  tokens: createTokens({
     ...tokens,
     size: {
       ...tokens.size,
@@ -48,7 +48,7 @@ const config = createTamagui({
       0.5: 12,
       0.75: 16,
     },
-  },
+  }),
   media: createMedia({
     xs: { maxWidth: 660 },
     sm: { maxWidth: 800 },
