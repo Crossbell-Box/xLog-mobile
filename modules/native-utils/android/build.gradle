@@ -35,19 +35,11 @@ buildscript {
   }
 }
 
-// Creating sources with comments
-task androidSourcesJar(type: Jar) {
-  classifier = 'sources'
-  from android.sourceSets.main.java.srcDirs
-}
-
 afterEvaluate {
   publishing {
     publications {
       release(MavenPublication) {
         from components.release
-        // Add additional sourcesJar to artifacts
-        artifact(androidSourcesJar)
       }
     }
     repositories {
@@ -59,6 +51,8 @@ afterEvaluate {
 }
 
 android {
+  namespace = "expo.modules.nativeutils"
+
   compileSdkVersion safeExtGet("compileSdkVersion", 33)
 
   compileOptions {
@@ -78,6 +72,12 @@ android {
   }
   lintOptions {
     abortOnError false
+  }
+
+  publishing {
+    singleVariant("release") {
+      withSourcesJar()
+    }
   }
 }
 

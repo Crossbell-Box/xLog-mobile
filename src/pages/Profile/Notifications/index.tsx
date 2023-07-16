@@ -9,8 +9,8 @@ import { indexer } from "@crossbell/indexer";
 import { useFocusEffect } from "@react-navigation/native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FlashList } from "@shopify/flash-list";
+import type { IconProps } from "@tamagui/helpers-icon";
 import { AtSign, Eye, MessageSquare, ThumbsUp } from "@tamagui/lucide-icons";
-import type { IconProps } from "@tamagui/lucide-icons/types/IconProps";
 import * as Haptics from "expo-haptics";
 import { Separator, SizableText, Spinner, Stack, XStack, YStack } from "tamagui";
 

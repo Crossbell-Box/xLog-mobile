@@ -3,7 +3,6 @@ import "intl-pluralrules";
 import "react-native-url-polyfill/auto";
 import "react-native-get-random-values";
 import "@ethersproject/shims";
-import "@walletconnect/react-native-compat";
 import "expo-dev-client";
 import "./error-handler";
 import "@/providers/connect-kit-provider/setup-react-account";

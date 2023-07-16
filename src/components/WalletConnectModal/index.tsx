@@ -1,5 +1,6 @@
+import type { ComponentProps } from "react";
+
 import { WalletConnectModal as Modal, type IProviderMetadata } from "@walletconnect/modal-react-native";
-import type { ConnectParams } from "@walletconnect/universal-provider";
 import * as Clipboard from "expo-clipboard";
 import { resolveScheme } from "expo-linking";
 
@@ -10,7 +11,7 @@ const onCopyClipboard = (value: string) => {
   return Clipboard.setStringAsync(value);
 };
 
-const sessionParams: ConnectParams = {
+const sessionParams: ComponentProps<typeof Modal>["sessionParams"] = {
   namespaces: {
     eip155: {
       methods: [

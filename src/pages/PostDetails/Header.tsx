@@ -9,8 +9,8 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useCharacter, useNote } from "@crossbell/indexer";
 import { useNavigation } from "@react-navigation/native";
+import type { IconProps } from "@tamagui/helpers-icon";
 import { ArrowLeft, Image as ImageIcon, Link, MoreHorizontal, Twitter } from "@tamagui/lucide-icons";
-import type { IconProps } from "@tamagui/lucide-icons/types/IconProps";
 import { useToastController } from "@tamagui/toast";
 import * as Clipboard from "expo-clipboard";
 import * as MediaLibrary from "expo-media-library";
@@ -66,6 +66,7 @@ export const Header: FC<Props> = (props) => {
       useStat: true,
     },
   );
+
   const site = useGetSite(character?.data?.handle);
   const { top } = useSafeAreaInsets();
   const headerHeight = top + headerContainerHeight;

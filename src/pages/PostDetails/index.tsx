@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import React, { useEffect } from "react";
 import QRCode from "react-native-qrcode-svg";
-import { useSharedValue, withSpring, withDelay } from "react-native-reanimated";
+import Animated, { useSharedValue, withSpring, withDelay } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";

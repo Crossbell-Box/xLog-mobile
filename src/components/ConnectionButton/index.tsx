@@ -15,7 +15,7 @@ import { useWalletConnectModal } from "@walletconnect/modal-react-native";
 import * as Haptics from "expo-haptics";
 import * as Sentry from "sentry-expo";
 import type { StackProps } from "tamagui";
-import { Button, Card, H4, Paragraph, Stack } from "tamagui";
+import { Button, Stack } from "tamagui";
 
 import { useRootNavigation } from "@/hooks/use-navigation";
 import { useOneTimeTogglerWithSignOP } from "@/hooks/use-signin-tips-toggler";
@@ -24,7 +24,6 @@ import { GA } from "@/utils/GA";
 import type { AlertDialogInstance } from "../AlertDialog";
 import { AlertDialog } from "../AlertDialog";
 import { DelayedRender } from "../DelayRender";
-import { ModalWithFadeAnimation } from "../ModalWithFadeAnimation";
 
 interface Props extends StackProps {
   navigateToLogin?: boolean
@@ -95,7 +94,7 @@ function ConnectBtn({ navigateToLogin }: { navigateToLogin: boolean }) {
 }
 
 function OPSignToggleBtn() {
-  const { mutate: signIn, isLoading: isSignInLoading } = useWalletSignIn();
+  const { mutate: signIn } = useWalletSignIn();
   const isWalletSignedIn = useIsWalletSignedIn();
   const i18n = useTranslation();
   const alertDialogRef = useRef<AlertDialogInstance>(null);
@@ -129,7 +128,7 @@ function OPSignToggleBtn() {
             onPress={OPSign}
             icon={<Plug size={"$1.5"} />}
           >
-            {isSignInLoading ? `${i18n.t("Loading")}...` : i18n.t("Operator Sign")}
+            {i18n.t("Operator Sign")}
           </Button>
         </Animated.View>
         <DelayedRender timeout={2000}>

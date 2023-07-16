@@ -3,6 +3,7 @@ import type { NavigatorScreenParams } from "@react-navigation/native";
 
 import type { Props as AdvancedPageProps } from "@/pages/Advanced";
 import type { Props as CharacterListPageProps } from "@/pages/CharacterList";
+import type { Props as ClaimCSBProps } from "@/pages/ClaimCSB";
 import type { Props as ExplorePageProps } from "@/pages/Explore";
 import type { Props as FeedPageProps } from "@/pages/Feed";
 import type { Props as LoginPageProps } from "@/pages/Login";
@@ -47,6 +48,7 @@ export type RootStackParamList = {
   Search: SearchPageProps
   Login: LoginPageProps
   UserInfo: UserInfoPageProps
+  ClaimCSB: ClaimCSBProps
 } & ProfilePagesParamList;
 
 export type SettingsStackParamList = {

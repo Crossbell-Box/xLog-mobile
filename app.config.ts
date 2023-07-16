@@ -6,9 +6,6 @@ const { appConfig, environment, decreasedVersion } = setAppConfigEnv();
 
 const config = appConfig;
 
-// eslint-disable-next-line no-console
-console.log(JSON.stringify(config, null, 4));
-
 const postPublish = [];
 
 if (environment !== "development") {
@@ -22,9 +19,6 @@ if (environment !== "development") {
     },
   });
 }
-
-// eslint-disable-next-line no-console
-console.log("🚀 app.config.ts - ENV:", JSON.stringify(process.env, null, 4));
 
 export default (_: ConfigContext): ExpoConfig => {
   return {
@@ -48,7 +42,7 @@ export default (_: ConfigContext): ExpoConfig => {
             targetSdkVersion: 33,
             minSdkVersion: 23,
             buildToolsVersion: "33.0.0",
-            kotlinVersion: "1.6.21",
+            kotlinVersion: "1.8.0",
           },
           ios: {
             deploymentTarget: "13.0",

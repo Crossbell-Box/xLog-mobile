@@ -17,6 +17,7 @@ import type { AlertDialogInstance } from "@/components/AlertDialog";
 import { AlertDialog } from "@/components/AlertDialog";
 import { BottomSheetModal } from "@/components/BottomSheetModal";
 import type { BottomSheetModalInstance } from "@/components/BottomSheetModal";
+import { ClaimCSBButton } from "@/components/ClaimCSBButton";
 import { DisconnectBtn } from "@/components/ConnectionButton";
 import { APP_SCHEME, IS_DEV, IS_PROD, IS_STAGING, VERSION } from "@/constants";
 import { useColors } from "@/hooks/use-colors";
@@ -331,7 +332,7 @@ export const Settings: React.FC<Props> = () => {
 
           </ScrollView>
           {connectedAccount && (
-            <Stack marginHorizontal="$4">
+            <Stack marginHorizontal="$4" gap="$3">
               <DisconnectBtn navigateToLogin={false} />
             </Stack>
           )}

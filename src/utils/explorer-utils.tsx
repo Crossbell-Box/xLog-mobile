@@ -40,6 +40,7 @@ function formatNativeUrl(appUrl: string, wcUri: string): string {
 
 function formatUniversalUrl(appUrl: string, wcUri: string): string {
   let plainAppUrl = appUrl;
+
   if (appUrl.endsWith("/"))
     plainAppUrl = appUrl.slice(0, -1);
 

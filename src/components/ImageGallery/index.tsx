@@ -1,22 +1,21 @@
-import { useState, type FC, useCallback, useEffect } from "react";
+import { useState, type FC, useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Dimensions, StyleSheet } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import type { ICarouselInstance } from "react-native-reanimated-carousel";
+import Carousel from "react-native-reanimated-carousel";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { useNavigation } from "@react-navigation/native";
 import { Download, Loader } from "@tamagui/lucide-icons";
 import { useToastController } from "@tamagui/toast";
 import * as FileSystem from "expo-file-system";
 import { Image } from "expo-image";
 import * as MediaLibrary from "expo-media-library";
-import { Circle, Spinner, Stack } from "tamagui";
+import { Button, Circle, Spinner, Stack } from "tamagui";
 
 import { useGAWithScreenParams } from "@/hooks/ga/use-ga-with-screen-name-params";
-import { useCurrentRoute } from "@/hooks/use-current-route";
 import { useHitSlopSize } from "@/hooks/use-hit-slop-size";
 import { GA } from "@/utils/GA";
-import { getActiveRoute } from "@/utils/get-active-route";
 
 import { ModalWithFadeAnimation } from "../ModalWithFadeAnimation";
 
@@ -37,6 +36,7 @@ export const ImageGallery: FC<Props> = (props) => {
   const [isSavingImage, setIsSavingImage] = useState(false);
   const hitSlop = useHitSlopSize(44);
   const gaWithScreenParams = useGAWithScreenParams();
+  const ref = useRef<ICarouselInstance>(null);
 
   useEffect(() => {
     if (isVisible) {
@@ -103,30 +103,20 @@ export const ImageGallery: FC<Props> = (props) => {
       onBackdropPress={onClose}
     >
       <Stack flex={1}>
-        <ScrollView
-          horizontal
-          pagingEnabled
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}
-          scrollEnabled={uris.length > 1}
-          onMomentumScrollEnd={(event) => {
-            const slideIndex = Math.ceil(
-              event.nativeEvent.contentOffset.x / event.nativeEvent.layoutMeasurement.width,
+        <Carousel
+          ref={ref}
+          data={uris}
+          width={width}
+          loop={uris.length > 1}
+          style={{ flex: 1 }}
+          onSnapToItem={setCurrentImageIndex}
+          renderItem={({ item, index }) => {
+            const priority = index <= 3 ? "high" : "low";
+            return (
+              <ImageItem key={index} uri={item} priority={priority} onPress={onClose}/>
             );
-            if (slideIndex !== currentImageIndex) {
-              setCurrentImageIndex(slideIndex);
-            }
           }}
-        >
-          {
-            uris.map((uri, index) => {
-              const priority = index <= 3 ? "high" : "low";
-              return (
-                <ImageItem key={index} uri={uri} priority={priority} onPress={onClose}/>
-              );
-            })
-          }
-        </ScrollView>
+        />
       </Stack>
       <Stack
         onLayout={hitSlop.onLayout}
@@ -174,10 +164,12 @@ const ImageItem: FC<{ uri: string; priority: "high" | "low";onPress: () => void 
   }, []);
 
   return (
-    <Stack width={width} height={height} alignItems="center" justifyContent="center" onPress={onPress}>
-      <Image onLoadStart={onLoadStart} onLoadEnd={onLoadEnd} priority={priority} source={uri} contentFit="contain" style={styles.modalImage}/>
-      {loading && <Spinner position="absolute"/>}
-    </Stack>
+    <TouchableWithoutFeedback onPress={onPress}>
+      <Stack width={width} height={height} alignItems="center" justifyContent="center">
+        <Image onLoadStart={onLoadStart} onLoadEnd={onLoadEnd} priority={priority} source={uri} contentFit="contain" style={styles.modalImage}/>
+        {loading && <Spinner position="absolute"/>}
+      </Stack>
+    </TouchableWithoutFeedback>
   );
 };
 

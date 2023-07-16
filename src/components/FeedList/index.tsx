@@ -1,11 +1,10 @@
 import type { FC } from "react";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import type { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
 import type { useAnimatedScrollHandler } from "react-native-reanimated";
 
 import { useFocusEffect } from "@react-navigation/native";
 import type { NoteEntity } from "crossbell";
-import * as Haptics from "expo-haptics";
 import { Separator, SizableText, Spinner, Stack, useWindowDimensions } from "tamagui";
 
 import { useCharacterId } from "@/hooks/use-character-id";
@@ -44,7 +43,7 @@ export const FeedList: FC<Props> = (props) => {
     typeof searchKeyword === "string" && gaLog();
   }, [searchKeyword]);
 
-  const queryParams = {
+  const queryParams = useMemo(() => ({
     type,
     limit: 10,
     characterId,
@@ -56,23 +55,20 @@ export const FeedList: FC<Props> = (props) => {
     topicIncludeKeywords: topic
       ? topics.find(t => t.name === topic)?.includeKeywords
       : undefined,
-  };
+  }), [
+    type,
+    characterId,
+    noteIds,
+    daysInterval,
+    searchKeyword,
+    searchType,
+    tag,
+    topic,
+  ]);
 
   const feed = useGetFeed(queryParams);
 
-  useFocusEffect(() => {
-    feed.refetch();
-  });
-
   const feedList = feed.data?.pages?.flatMap(page => page?.list) || [];
-
-  if (feed.isLoading) {
-    return (
-      <Stack justifyContent="center" alignItems="center" flex={1}>
-        <Spinner />
-      </Stack>
-    );
-  }
 
   return (
     <Stack flex={1}>
@@ -83,13 +79,17 @@ export const FeedList: FC<Props> = (props) => {
           <FeedListItem key={index} note={item} searchKeyword={searchKeyword}/>
         )}
         ListEmptyComponent={(
-          <Stack flex={1} alignItems="center" justifyContent="center" paddingTop="$10">
-            <SizableText color={"$colorSubtitle"}>
+          feed.isFetching
+            ? <Spinner paddingBottom="$5"/>
+            : (
+              <Stack flex={1} alignItems="center" justifyContent="center" paddingTop="$10">
+                <SizableText color={"$colorSubtitle"}>
               There are no posts yet.
-            </SizableText>
-          </Stack>
+                </SizableText>
+              </Stack>
+            )
         )}
-        ListFooterComponent={(feed.isFetchingNextPage || (feed.isFetching && feedList.length === 0)) && <Spinner paddingBottom="$5"/>}
+        ListFooterComponent={feed.isFetchingNextPage && <Spinner paddingBottom="$5"/>}
         ItemSeparatorComponent={() => <Separator borderColor={"$gray5"}/>}
         estimatedItemSize={238}
         bounces
@@ -125,7 +125,6 @@ export const FeedList: FC<Props> = (props) => {
             topic_include_keywords: queryParams.topicIncludeKeywords,
           });
 
-          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
           feed?.fetchNextPage?.();
         }}
       />
