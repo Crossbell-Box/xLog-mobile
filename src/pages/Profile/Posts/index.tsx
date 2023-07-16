@@ -8,7 +8,7 @@ import { useNavigation } from "@react-navigation/native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { StackNavigationProp } from "@react-navigation/stack";
 import { Newspaper } from "@tamagui/lucide-icons";
-import { ListItem, Separator, SizableText, Tabs, Text, ListItemSubtitle, YGroup, Spinner, Stack } from "tamagui";
+import { ListItem, Separator, SizableText, Tabs, YGroup, Spinner, Stack } from "tamagui";
 
 import { ProfilePageHeader } from "@/components/ProfilePageHeader";
 import { ProfilePageLayout } from "@/components/ProfilePageLayout";
@@ -128,16 +128,13 @@ export const PostsPage: FC<NativeStackScreenProps<RootStackParamList, "Posts">> 
                               icon={Newspaper}
                               title={item?.metadata?.content?.title}
                               onPress={() => toDetails(item.characterId, item.noteId)}
-                              subTitle={(
-                                <ListItemSubtitle>
-                                  已发布 · {
-                                    getPageVisibility(item) === PageVisibilityEnum.Draft
-                                      ? date.formatDate(item.updatedAt)
-                                      : date.formatDate(
-                                        item.metadata?.content?.date_published || "",
-                                      )
-                                  }</ListItemSubtitle>
-                              )}
+                              subTitle={`已发布 · ${
+                                getPageVisibility(item) === PageVisibilityEnum.Draft
+                                  ? date.formatDate(item.updatedAt)
+                                  : date.formatDate(
+                                    item.metadata?.content?.date_published || "",
+                                  )
+                              }`}
                             />
                           </YGroup.Item>
                         );

@@ -109,6 +109,7 @@ export const ImageGallery: FC<Props> = (props) => {
           width={width}
           loop={uris.length > 1}
           style={{ flex: 1 }}
+          onSnapToItem={setCurrentImageIndex}
           renderItem={({ item, index }) => {
             const priority = index <= 3 ? "high" : "low";
             return (

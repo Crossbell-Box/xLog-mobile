@@ -6,7 +6,7 @@ import { ScrollView } from "react-native";
 import { useAccountState } from "@crossbell/react-account";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Newspaper } from "@tamagui/lucide-icons";
-import { ListItem, Separator, SizableText, Tabs, ListItemSubtitle, YGroup, Spinner, Stack } from "tamagui";
+import { ListItem, Separator, SizableText, Tabs, YGroup, Spinner, Stack } from "tamagui";
 
 import { ProfilePageHeader } from "@/components/ProfilePageHeader";
 import { ProfilePageLayout } from "@/components/ProfilePageLayout";
@@ -114,16 +114,13 @@ export const PagesPage: FC<NativeStackScreenProps<RootStackParamList, "Pages">> 
                               hoverTheme
                               icon={Newspaper}
                               title={item?.metadata?.content?.title}
-                              subTitle={(
-                                <ListItemSubtitle>
-                                  已发布 · {
-                                    getPageVisibility(item) === PageVisibilityEnum.Draft
-                                      ? date.formatDate(item.updatedAt)
-                                      : date.formatDate(
-                                        item.metadata?.content?.date_published || "",
-                                      )
-                                  }</ListItemSubtitle>
-                              )}
+                              subTitle={`已发布 · ${
+                                getPageVisibility(item) === PageVisibilityEnum.Draft
+                                  ? date.formatDate(item.updatedAt)
+                                  : date.formatDate(
+                                    item.metadata?.content?.date_published || "",
+                                  )
+                              }`}
                             />
                           </YGroup.Item>
                         );
