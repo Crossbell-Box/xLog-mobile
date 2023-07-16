@@ -6,7 +6,7 @@
   "build": {
     "development-simulator": {
       "env": {
-        "NODE_ENV": "development"
+        "STAGE": "development"
       },
       "developmentClient": true,
       "distribution": "internal",
@@ -17,7 +17,7 @@
     },
     "development": {
       "env": {
-        "NODE_ENV": "development"
+        "STAGE": "development"
       },
       "developmentClient": true,
       "distribution": "internal",
@@ -28,7 +28,7 @@
     },
     "preview": {
       "env": {
-        "NODE_ENV": "test"
+        "STAGE": "test"
       },
       "distribution": "internal",
       "ios": {
@@ -39,7 +39,7 @@
     },
     "production": {
       "env": {
-        "NODE_ENV": "production"
+        "STAGE": "production"
       },
       "ios": {
         "resourceClass": "large"

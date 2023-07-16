@@ -59,7 +59,7 @@ const run = async () => {
 
   const versionCommand = "eas";
 
-  const profile = Object.values(easConfig.build).find(build => build.env.NODE_ENV === process.env.NODE_ENV).channel;
+  const profile = Object.values(easConfig.build).find(build => build.env.STAGE === process.env.STAGE).channel;
 
   const versionArgs = ["build:version:get", "-p", "all", "-e", profile];
 
