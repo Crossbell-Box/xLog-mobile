@@ -10,13 +10,13 @@ async function main() {
   const common = await getSecretContent(".env.common");
   const development = await getSecretContent(".env.development");
   const production = await getSecretContent(".env.production");
-  const staging = await getSecretContent(".env.staging");
+  const test = await getSecretContent(".env.test");
 
   const output = `${base}
 ENV_FILE_COMMON="${common}"
 ENV_FILE_DEVELOPMENT="${development}"
 ENV_FILE_PRODUCTION="${production}"
-ENV_FILE_STAGING="${staging}"
+ENV_FILE_TEST="${test}"
   `;
 
   await fs.writeFile(".act.secrets", output, { encoding: "utf-8" });

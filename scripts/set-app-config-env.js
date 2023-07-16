@@ -31,17 +31,17 @@ function setAppConfigEnv() {
         ? process.env.IOS_GOOGLE_SERVICES_DEVELOPMENT
         : "./GoogleService-Info.development.plist",
     },
-    staging: {
+    test: {
       name: "xLog-preview",
       host: HOST,
-      scheme: `${SCHEME}.staging`,
-      icon: "./assets/icon.staging.png",
+      scheme: `${SCHEME}.test`,
+      icon: "./assets/icon.test.png",
       androidGoogleServicesFile: IS_EAS_CI
-        ? process.env.ANDROID_GOOGLE_SERVICES_STAGING
-        : "./google-services.staging.json",
+        ? process.env.ANDROID_GOOGLE_SERVICES_TEST
+        : "./google-services.test.json",
       iosGoogleServicesFile: IS_EAS_CI
-        ? process.env.IOS_GOOGLE_SERVICES_STAGING
-        : "./GoogleService-Info.staging.plist",
+        ? process.env.IOS_GOOGLE_SERVICES_TEST
+        : "./GoogleService-Info.test.plist",
     },
     production: {
       name: "xLog",
@@ -78,7 +78,7 @@ function setAppConfigEnv() {
     decreasedVersion: decrementVersion(version),
     environment: ENV,
     IS_DEV: ENV === "development",
-    IS_STAGING: ENV === "staging",
+    IS_TEST: ENV === "test",
     IS_PROD: ENV === "production",
   };
 }
