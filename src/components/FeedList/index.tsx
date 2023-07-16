@@ -43,7 +43,7 @@ export const FeedList: FC<Props> = (props) => {
     typeof searchKeyword === "string" && gaLog();
   }, [searchKeyword]);
 
-  const queryParams = useMemo(() => ({
+  const feed = useGetFeed({
     type,
     limit: 10,
     characterId,
@@ -55,18 +55,7 @@ export const FeedList: FC<Props> = (props) => {
     topicIncludeKeywords: topic
       ? topics.find(t => t.name === topic)?.includeKeywords
       : undefined,
-  }), [
-    type,
-    characterId,
-    noteIds,
-    daysInterval,
-    searchKeyword,
-    searchType,
-    tag,
-    topic,
-  ]);
-
-  const feed = useGetFeed(queryParams);
+  });
 
   const feedList = feed.data?.pages?.flatMap(page => page?.list) || [];
 
