@@ -29,7 +29,7 @@
     nr generate-env-types
     ```
 
-- Create `.env.development`, `.env.staging` and `.env.production` files and fill the `APP_HOST` variable for various environments.  
+- Create `.env.development`, `.env.test` and `.env.production` files and fill the `APP_HOST` variable for various environments.  
     ```
     APP_HOST=xlog.app
     ```

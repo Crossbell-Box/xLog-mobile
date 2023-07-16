@@ -19,7 +19,7 @@ import { BottomSheetModal } from "@/components/BottomSheetModal";
 import type { BottomSheetModalInstance } from "@/components/BottomSheetModal";
 import { ClaimCSBButton } from "@/components/ClaimCSBButton";
 import { DisconnectBtn } from "@/components/ConnectionButton";
-import { APP_SCHEME, IS_DEV, IS_PROD, IS_STAGING, VERSION } from "@/constants";
+import { APP_SCHEME, IS_DEV, IS_PROD, IS_TEST, VERSION } from "@/constants";
 import { useColors } from "@/hooks/use-colors";
 import { useMultiPressHandler } from "@/hooks/use-multi-press-handler";
 import { useRootNavigation } from "@/hooks/use-navigation";
@@ -39,7 +39,7 @@ export const Settings: React.FC<Props> = () => {
   const isConnected = useIsConnected();
   const handleMultiPress = useMultiPressHandler(
     () => {
-      if (IS_STAGING) {
+      if (IS_TEST) {
         setDevMenuVisible(true);
       }
       else if (IS_PROD) {
@@ -271,7 +271,7 @@ export const Settings: React.FC<Props> = () => {
                 </YGroup.Item>
               </YGroup>
               {
-                ((devMenuVisible && IS_STAGING) || IS_DEV) && (
+                ((devMenuVisible && IS_TEST) || IS_DEV) && (
                   <Animated.View entering={FadeInUp.duration(250)}>
                     <YGroup bordered>
                       <YGroup.Item>

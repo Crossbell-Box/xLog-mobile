@@ -44,12 +44,12 @@ jobs:
           echo "${{ secrets.ENV_FILE_COMMON }}" > .env.common
           echo "${{ secrets.ENV_FILE_DEVELOPMENT }}" > .env.development
           echo "${{ secrets.ENV_FILE_PRODUCTION }}" > .env.production
-          echo "${{ secrets.ENV_FILE_STAGING }}" > .env.staging
+          echo "${{ secrets.ENV_FILE_TEST }}" > .env.test
           echo "${{ secrets.ANDROID_GOOGLE_SERVICES_DEVELOPMENT }}" > google-services.development.json
-          echo "${{ secrets.ANDROID_GOOGLE_SERVICES_STAGING }}" > google-services.staging.json
+          echo "${{ secrets.ANDROID_GOOGLE_SERVICES_TEST }}" > google-services.test.json
           echo "${{ secrets.ANDROID_GOOGLE_SERVICES_PRODUCTION }}" > google-services.production.json
           echo "${{ secrets.IOS_GOOGLE_SERVICES_DEVELOPMENT }}" > GoogleService-Info.development.plist
-          echo "${{ secrets.IOS_GOOGLE_SERVICES_STAGING }}" > GoogleService-Info.staging.plist
+          echo "${{ secrets.IOS_GOOGLE_SERVICES_TEST }}" > GoogleService-Info.test.plist
           echo "${{ secrets.IOS_GOOGLE_SERVICES_PRODUCTION }}" > GoogleService-Info.production.plist
 
       - name: Install Dependencies
