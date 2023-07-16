@@ -9,6 +9,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { XStack } from "tamagui";
 
 import { CharacterListPage } from "@/pages/CharacterList";
+import { ClaimCSBPage } from "@/pages/ClaimCSB";
 import { LoginPage } from "@/pages/Login";
 import { PostDetailsPage } from "@/pages/PostDetails";
 import { AchievementsPage } from "@/pages/Profile/Achievements";
@@ -64,6 +65,25 @@ export const RootNavigator = () => {
         headerShown: true,
       }}>
         <RootStack.Screen name={"Login"} component={LoginPage} options={{ headerShown: false }}/>
+      </RootStack.Group>
+
+      <RootStack.Group screenOptions={{ presentation: "modal", headerShown: true }}>
+        <RootStack.Screen
+          name={"ClaimCSB"}
+          component={ClaimCSBPage}
+          options={{
+            title: i18n.t("Claim CSB"),
+            headerStyle: { elevation: 0, shadowOpacity: 0 },
+            headerBackTitleVisible: false,
+            headerBackImage(props) {
+              return (
+                <XStack {...props} paddingLeft={"$4"} >
+                  <ArrowLeftCircle size={24} color={props.tintColor} />
+                </XStack>
+              );
+            },
+          }}
+        />
       </RootStack.Group>
 
       <RootStack.Group screenOptions={{ headerShown: true, headerBackTitle: i18n.t("Back") }}>
