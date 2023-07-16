@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import { useClaimCSBStatus, useAccountState } from "@crossbell/react-account";
 import { useRefCallback } from "@crossbell/util-hooks";
+import { Coins } from "@tamagui/lucide-icons";
 import { useToastController } from "@tamagui/toast";
 import { Button } from "tamagui";
 
@@ -10,13 +11,14 @@ import { useRootNavigation } from "@/hooks/use-navigation";
 
 export function ClaimCSBButton() {
   const i18n = useTranslation();
-  const { claim, isLoading } = useClaimCSB();
+  const { claim, isLoading, isWalletUserEligibleToClaim } = useClaimCSB();
 
   return (
     <Button
       pressStyle={{ opacity: 0.85 }}
-      color={"$colorFocus"}
+      color={isWalletUserEligibleToClaim ? "$color" : "$colorSubtitle"}
       fontSize={"$6"}
+      bg={isWalletUserEligibleToClaim ? "$primary" : undefined}
       borderColor={"$borderColorFocus"}
       disabled={isLoading}
       onPress={claim}
@@ -25,7 +27,9 @@ export function ClaimCSBButton() {
         ? (
           i18n.t("Loading")
         )
-        : i18n.t("Claim CSB")}
+        : (
+          i18n.t("Claim CSB")
+        )}
     </Button>
   );
 }
@@ -74,5 +78,5 @@ export function useClaimCSB() {
     }
   });
 
-  return { claim, isLoading };
+  return { claim, isLoading, isWalletUserEligibleToClaim };
 }

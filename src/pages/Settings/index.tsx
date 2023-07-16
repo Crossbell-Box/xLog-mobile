@@ -333,7 +333,6 @@ export const Settings: React.FC<Props> = () => {
           </ScrollView>
           {connectedAccount && (
             <Stack marginHorizontal="$4" gap="$3">
-              <ClaimCSBButton />
               <DisconnectBtn navigateToLogin={false} />
             </Stack>
           )}

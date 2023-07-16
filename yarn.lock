@@ -4407,7 +4407,7 @@
     "@tamagui/use-controllable-state" "1.42.0"
     reforest "^0.12.1"
 
-"@tamagui/helpers-icon@1.42.0":
+"@tamagui/helpers-icon@1.42.0", "@tamagui/helpers-icon@^1.42.0":
   version "1.42.0"
   resolved "https://registry.npmmirror.com/@tamagui/helpers-icon/-/helpers-icon-1.42.0.tgz#d3cf8e9648415adca83278f7297b7f31564064d7"
   integrity sha512-pCA9mRQm303DKFf9RWYnM8isaduMlOvh4db9QeTj+BXkkHuL4AgU7phvQwK4zBTui0jx3inlXbHcWgoVB0R/QQ==

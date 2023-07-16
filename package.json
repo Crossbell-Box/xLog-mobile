@@ -71,6 +71,7 @@
     "@tamagui/babel-plugin": "1.42.0",
     "@tamagui/config": "1.42.0",
     "@tamagui/font-inter": "1.42.0",
+    "@tamagui/helpers-icon": "^1.42.0",
     "@tamagui/lucide-icons": "1.42.0",
     "@tamagui/theme-base": "1.42.0",
     "@tamagui/toast": "1.42.0",

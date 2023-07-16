@@ -1,5 +1,5 @@
+import type { IconProps } from "@tamagui/helpers-icon";
 import { Terminal } from "@tamagui/lucide-icons";
-import type { IconProps } from "@tamagui/lucide-icons/types/IconProps";
 import { XStack } from "tamagui";
 
 import { useColors } from "@/hooks/use-colors";

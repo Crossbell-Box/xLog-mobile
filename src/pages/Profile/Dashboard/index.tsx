@@ -2,8 +2,8 @@ import type { FC } from "react";
 import { useTranslation } from "react-i18next";
 
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import type { IconProps } from "@tamagui/helpers-icon";
 import { Clock, Eye, Heart, MessageSquare, Newspaper, UserCheck } from "@tamagui/lucide-icons";
-import type { IconProps } from "@tamagui/lucide-icons/types/IconProps";
 import { Card, H3, SizableText, XStack } from "tamagui";
 
 import { useCharacterId } from "@/hooks/use-character-id";

@@ -6,8 +6,8 @@ import { TouchableOpacity, TouchableWithoutFeedback } from "react-native-gesture
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useAccountBalance, useAccountCharacter, useIsConnected } from "@crossbell/react-account";
-import { Copy, Euro, File, Flag, LayoutDashboard, MessageSquare, Newspaper, Trophy } from "@tamagui/lucide-icons";
-import type { IconProps } from "@tamagui/lucide-icons/types/IconProps";
+import type { IconProps } from "@tamagui/helpers-icon";
+import { Copy, Euro, File, Flag, LayoutDashboard, MessageSquare, Newspaper, PlusSquare, Trophy } from "@tamagui/lucide-icons";
 import * as Clipboard from "expo-clipboard";
 import * as Haptics from "expo-haptics";
 import { H4, Separator, SizableText, Spacer, Stack, Text, useWindowDimensions, XStack, YStack } from "tamagui";
@@ -19,6 +19,7 @@ import { useHomeNavigation, useRootNavigation } from "@/hooks/use-navigation";
 import { i18n } from "@/i18n";
 import type { ProfilePagesParamList } from "@/navigation/types";
 
+import { ClaimCSBButton } from "../ClaimCSBButton";
 import { XTouch } from "../XTouch";
 
 const profilePages: Array<{
@@ -96,6 +97,8 @@ const DrawerContent = () => {
         </YStack>
       )}
       <YStack paddingHorizontal="$1">
+        <ClaimCSBButton />
+        <Spacer/>
         <XStack alignItems="center" justifyContent="space-between">
           {character && (
             <XStack width={"49%"}>
