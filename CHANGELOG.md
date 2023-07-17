@@ -1,5 +1,77 @@
 # xlog
 
+## 0.18.0
+
+### Minor Changes
+
+- ba0a929: Modified bundleID for preview App.
+- 89d5de5: Animated splash screen.
+- e7f80f2: chore: upgrade to Expo49.
+- c935920: Disabled dotenv in EAS CI.
+- c964427: Updated and removed some deps.
+
+### Patch Changes
+
+- 8ffc5fc: Solved display issues of tab indicator in the home page.
+- 1babeed: Using RNRC instead of scrollview of ImageGallery.
+- fcc2a21: Fixed an issue where the list could not be displayed when opening the app for the first time
+- 37ef3d2: Removed haptics in the home page when load the next page
+- 9a98e77: Solved header style error in the post page.
+- 384fa5f: Support claim csb.
+- ce2ca71: Updated crossbell deps.
+- aefb565: Fixed sharing issues with Twitter.
+
+## 0.17.4
+
+### Patch Changes
+
+- 6f7223d: Using default avatar in the drawer content.
+
+## 0.17.3
+
+### Patch Changes
+
+- a22639b: bug fixes.
+
+## 0.17.2
+
+### Patch Changes
+
+- 7fcd366: Support checking updates manually.
+- 116f7cb: Fixed the issue that account couldn't be deleted.
+
+## 0.17.1
+
+### Patch Changes
+
+- 94f63a3: Fixed a bug that GA doesn't work correctly.
+
+## 0.17.0
+
+### Minor Changes
+
+- af91b17: Using expo-web-browser instead of webview.
+- 0d3d9f8: Fixed crush error when go back on iOS.
+- f7cfa70: Support network checking.
+
+### Patch Changes
+
+- f7cfa70: Fixed the wrong events key of GA.
+- 0d3d9f8: Only enable GA in production envrionment.
+- f7cfa70: Typo fixes.
+- 0d3d9f8: Fixed the problem of inaccurate recording of reading time.
+
+## 0.16.0
+
+### Minor Changes
+
+- f748cbc: Support GA.
+
+### Patch Changes
+
+- 3384691: excluded comments in feedlist
+- f041fb4: Fixed bug that is can't close modal when open the achievement item on Android.
+
 ## 0.15.0
 
 ### Minor Changes
