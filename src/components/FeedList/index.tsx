@@ -1,9 +1,8 @@
 import type { FC } from "react";
 import { useEffect, useMemo } from "react";
-import type { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
+import { type NativeScrollEvent, type NativeSyntheticEvent } from "react-native";
 import type { useAnimatedScrollHandler } from "react-native-reanimated";
 
-import { useFocusEffect } from "@react-navigation/native";
 import type { NoteEntity } from "crossbell";
 import { Separator, SizableText, Spinner, Stack, useWindowDimensions } from "tamagui";
 
@@ -35,7 +34,6 @@ export interface Props {
 
 export const FeedList: FC<Props> = (props) => {
   const { type, searchType, searchKeyword, tag, topic, noteIds, daysInterval = 7, onScroll, onScrollEndDrag } = props;
-  const { width, height } = useWindowDimensions();
   const characterId = useCharacterId();
   const gaLog = debounce(() => GA.logSearch({ search_term: searchKeyword }), 2000);
 
@@ -59,66 +57,62 @@ export const FeedList: FC<Props> = (props) => {
 
   const feed = useGetFeed(queryParams);
 
-  const feedList = feed.data?.pages?.flatMap(page => page?.list) || [];
+  const feedList = useMemo(() => (feed.data?.pages?.flatMap(page => page?.list) || []), [
+    feed.data?.pages,
+  ]);
 
   return (
-    <Stack flex={1}>
-      <ReanimatedFlashList<NoteEntity>
-        data={feedList}
-        keyExtractor={(post, index) => `${type}-${post?.noteId}-${index}`}
-        renderItem={({ item, index }) => (
-          <FeedListItem key={index} note={item} searchKeyword={searchKeyword}/>
-        )}
-        ListEmptyComponent={(
-          feed.isFetching
-            ? <Spinner paddingBottom="$5"/>
-            : (
-              <Stack flex={1} alignItems="center" justifyContent="center" paddingTop="$10">
-                <SizableText color={"$colorSubtitle"}>
+    <ReanimatedFlashList<NoteEntity>
+      data={feedList}
+      keyExtractor={post => `${post.characterId}-${post.noteId}`}
+      renderItem={({ item, index }) => (
+        <FeedListItem key={index} note={item} searchKeyword={searchKeyword}/>
+      )}
+      ListEmptyComponent={(
+        feed.isFetching
+          ? <Spinner paddingBottom="$5"/>
+          : (
+            <Stack flex={1} alignItems="center" justifyContent="center" paddingTop="$10">
+              <SizableText color={"$colorSubtitle"}>
               There are no posts yet.
-                </SizableText>
-              </Stack>
-            )
-        )}
-        ListFooterComponent={feed.isFetchingNextPage && <Spinner paddingBottom="$5"/>}
-        ItemSeparatorComponent={() => <Separator borderColor={"$gray5"}/>}
-        estimatedItemSize={238}
-        bounces
-        estimatedListSize={{
-          height: height * 0.8,
-          width,
-        }}
-        scrollIndicatorInsets={{
-          right: 2,
-        }}
-        scrollEventThrottle={16}
-        onScroll={onScroll}
-        onScrollEndDrag={onScrollEndDrag}
-        onEndReachedThreshold={0.5}
-        onEndReached={() => {
-          if (
-            feedList.length === 0
+              </SizableText>
+            </Stack>
+          )
+      )}
+      ListFooterComponent={feed.isFetchingNextPage && <Spinner paddingBottom="$5"/>}
+      ItemSeparatorComponent={() => <Separator borderColor={"$gray5"}/>}
+      estimatedItemSize={324}
+      bounces
+      scrollIndicatorInsets={{
+        right: 2,
+      }}
+      scrollEventThrottle={16}
+      onScroll={onScroll}
+      onScrollEndDrag={onScrollEndDrag}
+      onEndReachedThreshold={0.5}
+      onEndReached={() => {
+        if (
+          feedList.length === 0
             || feed.isFetchingNextPage
             || feed.hasNextPage === false
-          )
-            return;
+        )
+          return;
 
-          GA.logEvent("feed_list_view", {
-            feed_length: feedList.length,
-            feed_type: queryParams.type,
-            query_limit: queryParams.limit,
-            character_id: queryParams.characterId,
-            note_ids: queryParams.noteIds,
-            days_interval: queryParams.daysInterval,
-            search_keyword: queryParams.searchKeyword,
-            search_type: queryParams.searchType,
-            tag: queryParams.tag,
-            topic_include_keywords: queryParams.topicIncludeKeywords,
-          });
+        GA.logEvent("feed_list_view", {
+          feed_length: feedList.length,
+          feed_type: queryParams.type,
+          query_limit: queryParams.limit,
+          character_id: queryParams.characterId,
+          note_ids: queryParams.noteIds,
+          days_interval: queryParams.daysInterval,
+          search_keyword: queryParams.searchKeyword,
+          search_type: queryParams.searchType,
+          tag: queryParams.tag,
+          topic_include_keywords: queryParams.topicIncludeKeywords,
+        });
 
-          feed?.fetchNextPage?.();
-        }}
-      />
-    </Stack>
+        feed?.fetchNextPage?.();
+      }}
+    />
   );
 };
