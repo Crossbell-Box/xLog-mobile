@@ -63,7 +63,7 @@ export default (_: ConfigContext): ExpoConfig => {
       "./plugins/with-react-native-firebase.js",
     ],
     splash: {
-      image: "./assets/splash.png",
+      image: "./assets/splash-light.png",
       resizeMode: "contain",
       backgroundColor: "#ffffff",
     },

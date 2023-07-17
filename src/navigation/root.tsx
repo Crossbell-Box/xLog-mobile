@@ -5,9 +5,9 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { CardStyleInterpolators, createStackNavigator } from "@react-navigation/stack";
 import type { TransitionSpec } from "@react-navigation/stack/lib/typescript/src/types";
 import { ArrowLeftCircle } from "@tamagui/lucide-icons";
-import * as SplashScreen from "expo-splash-screen";
 import { XStack } from "tamagui";
 
+import { useSplash } from "@/hooks/use-splash";
 import { CharacterListPage } from "@/pages/CharacterList";
 import { ClaimCSBPage } from "@/pages/ClaimCSB";
 import { LoginPage } from "@/pages/Login";
@@ -44,9 +44,10 @@ const config: TransitionSpec = {
 export const RootNavigator = () => {
   const { top, bottom } = useSafeAreaInsets();
   const i18n = useTranslation("common");
+  const { hideSplash } = useSplash();
 
   useEffect(() => {
-    SplashScreen.hideAsync().catch(() => { });
+    hideSplash();
   }, []);
 
   return (

@@ -38,48 +38,11 @@ export const Header: FC<Props> = (props) => {
   const { daysInterval, isSearching, onDaysIntervalChange } = props;
   const { primary: primaryColor, subtitle: inactiveColor } = useColors();
   const i18n = useTranslation("dashboard");
-  const countOfFeedType = Object.values(feedType).length;
   const { isExpandedAnimValue, currentFeedType, onFeedTypeChange } = props;
   const [_measurements, setMeasurements] = useState<Measurements>([]);
   const connectedAccount = useConnectedAccount();
   const indicatorAnimValuePos = useDerivedValue(() => withTiming(Object.values(feedType).indexOf(currentFeedType)), [currentFeedType]);
-  const measurements = useMemo<Measurements | undefined>(() => {
-    if (_measurements.filter(m => !!m).length === countOfFeedType)
-      return _measurements;
-
-    return undefined;
-  }, [_measurements]);
-
   const [isHotIntervalBottomSheetOpen, setIsHotIntervalBottomSheetOpen] = useState(false);
-
-  const indicatorAnimStyle = useAnimatedStyle(() => {
-    if ((_WORKLET || isWeb) && measurements) {
-      const width = interpolate(
-        indicatorAnimValuePos.value,
-        [0, 1, 2],
-        measurements.map(m => (m?.width ?? 0) / 2),
-      );
-
-      return {
-        width,
-        opacity: 1,
-        left: interpolate(
-          indicatorAnimValuePos.value,
-          [0, 1, 2],
-          measurements.map(m => m?.x ?? 0),
-        ),
-        transform: [
-          {
-            translateX: width / 2,
-          },
-        ],
-      };
-    }
-
-    return {
-      opacity: 0,
-    };
-  }, [currentFeedType, measurements]);
 
   const tabs: Array<{
     type: FeedType
@@ -171,6 +134,41 @@ export const Header: FC<Props> = (props) => {
     onDaysIntervalChange,
   ]);
 
+  const measurements = useMemo<Measurements | undefined>(() => {
+    if (_measurements.filter(m => !!m).length === tabs.length)
+      return _measurements;
+
+    return undefined;
+  }, [_measurements, tabs]);
+
+  const indicatorAnimStyle = useAnimatedStyle(() => {
+    if ((_WORKLET || isWeb) && measurements) {
+      const width = interpolate(
+        indicatorAnimValuePos.value,
+        [0, 1, 2],
+        measurements.map(m => (m?.width ?? 0) / 2),
+      );
+
+      return {
+        width,
+        opacity: 1,
+        left: interpolate(
+          indicatorAnimValuePos.value,
+          [0, 1, 2],
+          measurements.map(m => m?.x ?? 0),
+        ),
+        transform: [
+          {
+            translateX: width / 2,
+          },
+        ],
+      };
+    }
+    return {
+      opacity: 0,
+    };
+  }, [currentFeedType, measurements]);
+
   return (
     <>
       <NavigationHeader expanded={isExpandedAnimValue} />
@@ -185,7 +183,7 @@ export const Header: FC<Props> = (props) => {
                 ? (
                   <Text
                     color={tintColor}
-                    fontWeight={fontWeight}
+                    fontWeight={"$16"}
                   >
                     {title}
                   </Text>

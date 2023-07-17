@@ -3,7 +3,7 @@ const dotenv = require("dotenv");
 const { version } = require("../package.json");
 
 function setAppConfigEnv() {
-  const ENV = process.env.NODE_ENV ?? "production";
+  const ENV = process.env.STAGE ?? "production";
   const IS_EAS_CI = process.env.EAS_BUILD === "true";
 
   if (IS_EAS_CI) {

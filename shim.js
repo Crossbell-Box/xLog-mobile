@@ -53,7 +53,7 @@ if (typeof Buffer === "undefined")
 
 // eslint-disable-next-line no-undef
 const isDev = typeof __DEV__ === "boolean" && __DEV__;
-process.env.NODE_ENV = isDev ? "development" : "production";
+process.env.STAGE = isDev ? "development" : "production";
 if (typeof localStorage !== "undefined")
   localStorage.debug = isDev ? "*" : "";
 

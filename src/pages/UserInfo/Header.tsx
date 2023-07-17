@@ -83,9 +83,9 @@ export const Header: FC<Props> = (props) => {
   return (
     <YStack paddingTop="$3">
       <YStack gap={"$3"}>
-        <XStack gap={"$4"}>
-          <Circle width={65} height={65}>
-            {character.data && <Avatar useDefault character={character.data} size={65} isNavigateToUserInfo={false} />}
+        <XStack gap={"$4"} paddingHorizontal="$2" pt="$2">
+          <Circle width={55} height={55}>
+            {character.data && <Avatar useDefault character={character.data} size={55} isNavigateToUserInfo={false} />}
           </Circle>
           <XStack gap={"$1"} flex={1}>
             {

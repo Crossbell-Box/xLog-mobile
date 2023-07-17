@@ -55,16 +55,7 @@ export const FeedList: FC<Props> = (props) => {
     topicIncludeKeywords: topic
       ? topics.find(t => t.name === topic)?.includeKeywords
       : undefined,
-  }), [
-    type,
-    characterId,
-    noteIds,
-    daysInterval,
-    searchKeyword,
-    searchType,
-    tag,
-    topic,
-  ]);
+  }), [props]);
 
   const feed = useGetFeed(queryParams);
 
