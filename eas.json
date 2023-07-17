@@ -6,7 +6,9 @@
   "build": {
     "development-simulator": {
       "env": {
-        "STAGE": "development"
+        "STAGE": "development",
+        "FLIPPER_DISABLE": "1",
+        "EXPO_NO_DOTENV": "1"
       },
       "developmentClient": true,
       "distribution": "internal",
@@ -17,7 +19,9 @@
     },
     "development": {
       "env": {
-        "STAGE": "development"
+        "STAGE": "development",
+        "FLIPPER_DISABLE": "1",
+        "EXPO_NO_DOTENV": "1"
       },
       "developmentClient": true,
       "distribution": "internal",
@@ -28,7 +32,9 @@
     },
     "preview": {
       "env": {
-        "STAGE": "test"
+        "STAGE": "test",
+        "FLIPPER_DISABLE": "1",
+        "EXPO_NO_DOTENV": "1"
       },
       "distribution": "internal",
       "ios": {
@@ -39,7 +45,9 @@
     },
     "production": {
       "env": {
-        "STAGE": "production"
+        "STAGE": "production",
+        "FLIPPER_DISABLE": "1",
+        "EXPO_NO_DOTENV": "1"
       },
       "ios": {
         "resourceClass": "large"
