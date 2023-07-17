@@ -1,5 +1,26 @@
 # xlog
 
+## 0.18.0
+
+### Minor Changes
+
+- ba0a929: Modified bundleID for preview App.
+- 89d5de5: Animated splash screen.
+- e7f80f2: chore: upgrade to Expo49.
+- c935920: Disabled dotenv in EAS CI.
+- c964427: Updated and removed some deps.
+
+### Patch Changes
+
+- 8ffc5fc: Solved display issues of tab indicator in the home page.
+- 1babeed: Using RNRC instead of scrollview of ImageGallery.
+- fcc2a21: Fixed an issue where the list could not be displayed when opening the app for the first time
+- 37ef3d2: Removed haptics in the home page when load the next page
+- 9a98e77: Solved header style error in the post page.
+- 384fa5f: Support claim csb.
+- ce2ca71: Updated crossbell deps.
+- aefb565: Fixed sharing issues with Twitter.
+
 ## 0.17.4
 
 ### Patch Changes
