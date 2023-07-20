@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
+import { Alert, Linking } from "react-native";
 import Animated, { FadeIn, FadeOut, FlipInXDown, FlipOutXUp } from "react-native-reanimated";
 
 import {
@@ -11,12 +12,17 @@ import {
   useIsWalletSignedIn,
 } from "@crossbell/react-account";
 import { Plug, Wallet } from "@tamagui/lucide-icons";
+import { useToastController } from "@tamagui/toast";
 import { useWalletConnectModal } from "@walletconnect/modal-react-native";
 import * as Haptics from "expo-haptics";
+import { WebBrowserPresentationStyle, openBrowserAsync } from "expo-web-browser";
 import * as Sentry from "sentry-expo";
 import type { StackProps } from "tamagui";
 import { Button, Stack } from "tamagui";
 
+import { IS_IOS } from "@/constants";
+import { useAppIsActive, useAppState } from "@/hooks/use-app-state";
+import { useGlobalLoading } from "@/hooks/use-global-loading";
 import { useRootNavigation } from "@/hooks/use-navigation";
 import { useOneTimeTogglerWithSignOP } from "@/hooks/use-signin-tips-toggler";
 import { GA } from "@/utils/GA";
@@ -57,7 +63,80 @@ export const ConnectionButton: FC<Props> = (props) => {
 function ConnectBtn({ navigateToLogin }: { navigateToLogin: boolean }) {
   const i18n = useTranslation();
   const navigation = useRootNavigation();
-  const { open } = useWalletConnectModal();
+  const { open, isOpen } = useWalletConnectModal();
+  const toast = useToastController();
+
+  const isActive = useAppIsActive();
+
+  /**
+   * Temporarily fix.
+   * https://github.com/WalletConnect/modal-react-native/issues/49
+  */
+  useEffect(() => { isActive && toast.hide(); }, [isActive]);
+  useEffect(() => {
+    if (!IS_IOS) {
+      return;
+    }
+
+    async function getAppId(scheme) {
+      const response = await fetch(`https://itunes.apple.com/search?term=${scheme}&entity=software`);
+      const data = await response.json();
+      const id = data.results[0].trackId;
+      return id;
+    }
+
+    const _originalOpenURL = Linking.openURL.bind(Linking);
+    let prevScheme = "";
+
+    Linking.openURL = async (url) => {
+      const isHttp = url.startsWith("http") || url.startsWith("https");
+
+      if (isHttp) {
+        Alert.alert(
+          i18n.t("Alert"),
+          i18n.t("Didn't find your wallet, would you like to download it?"),
+          [
+            {
+              text: i18n.t("Cancel"),
+              style: "cancel",
+            },
+            {
+              text: i18n.t("Confirm"),
+              onPress: async () => {
+                toast.show(i18n.t("Redirecting..."), {
+                  burntOptions: {
+                    preset: "none",
+                    haptic: "none",
+                  },
+                });
+                try {
+                  const appId = await getAppId(prevScheme);
+                  await openBrowserAsync(
+                    `https://apps.apple.com/app/id${appId}`,
+                    { presentationStyle: WebBrowserPresentationStyle.FORM_SHEET },
+                  );
+                }
+                catch (e) {
+                  Alert.alert(
+                    i18n.t("Alert"),
+                    i18n.t("Redirecting failed, please download it from App Store manually."),
+                  );
+                }
+              },
+            },
+          ],
+        );
+      }
+      else {
+        prevScheme = url.split(":")[0];
+        await _originalOpenURL(url);
+      }
+    };
+
+    return () => {
+      Linking.openURL = _originalOpenURL;
+    };
+  }, [isOpen]);
 
   const handleConnect = () => {
     if (navigateToLogin) {
