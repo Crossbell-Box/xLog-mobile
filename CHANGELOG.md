@@ -1,5 +1,15 @@
 # xlog
 
+## 0.19.0
+
+### Minor Changes
+
+- a1772da: Support App Store review in app.
+
+### Patch Changes
+
+- 2ab3679: Avoid redirect to official website with external browser if didn't download wallet. It will now go directly to the App Store.
+
 ## 0.18.0
 
 ### Minor Changes
