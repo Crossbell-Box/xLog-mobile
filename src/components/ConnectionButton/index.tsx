@@ -2,7 +2,7 @@ import type { FC } from "react";
 import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, Linking } from "react-native";
-import Animated, { FadeIn, FadeOut, FlipInXDown, FlipOutXUp } from "react-native-reanimated";
+import Animated, { FadeIn, FadeOut, FlipInXDown } from "react-native-reanimated";
 
 import {
   useConnectedAccount,
@@ -15,14 +15,13 @@ import { Plug, Wallet } from "@tamagui/lucide-icons";
 import { useToastController } from "@tamagui/toast";
 import { useWalletConnectModal } from "@walletconnect/modal-react-native";
 import * as Haptics from "expo-haptics";
-import { WebBrowserPresentationStyle, openBrowserAsync } from "expo-web-browser";
+import * as StoreReview from "expo-store-review";
 import * as Sentry from "sentry-expo";
 import type { StackProps } from "tamagui";
 import { Button, Stack } from "tamagui";
 
 import { IS_IOS } from "@/constants";
-import { useAppIsActive, useAppState } from "@/hooks/use-app-state";
-import { useGlobalLoading } from "@/hooks/use-global-loading";
+import { useAppIsActive } from "@/hooks/use-app-state";
 import { useRootNavigation } from "@/hooks/use-navigation";
 import { useOneTimeTogglerWithSignOP } from "@/hooks/use-signin-tips-toggler";
 import { GA } from "@/utils/GA";
@@ -111,10 +110,7 @@ function ConnectBtn({ navigateToLogin }: { navigateToLogin: boolean }) {
                 });
                 try {
                   const appId = await getAppId(prevScheme);
-                  await openBrowserAsync(
-                    `https://apps.apple.com/app/id${appId}`,
-                    { presentationStyle: WebBrowserPresentationStyle.FORM_SHEET },
-                  );
+                  Linking.openURL(`itms-apps://itunes.apple.com/app/id${appId}`);
                 }
                 catch (e) {
                   Alert.alert(

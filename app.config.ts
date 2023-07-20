@@ -77,6 +77,7 @@ export default (_: ConfigContext): ExpoConfig => {
       policy: "appVersion",
     },
     ios: {
+      appStoreUrl: "https://apps.apple.com/app/xlog-on-chain-blogging/id6449499296",
       supportsTablet: true,
       bundleIdentifier: config.scheme,
       associatedDomains: [
@@ -86,6 +87,7 @@ export default (_: ConfigContext): ExpoConfig => {
       googleServicesFile: config.iosGoogleServicesFile,
     },
     android: {
+      playStoreUrl: "https://play.google.com/store/apps/details?id=com.crossbell.xlog",
       package: config.scheme,
       intentFilters: [
         {
