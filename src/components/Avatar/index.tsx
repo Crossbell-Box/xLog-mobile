@@ -6,7 +6,7 @@ import type { CharacterEntity } from "crossbell";
 import { Image } from "expo-image";
 import { Circle, Text, Avatar as _Avatar } from "tamagui";
 
-import { useRootNavigation } from "@/hooks/use-navigation";
+import { useNavigateToUserInfo } from "@/hooks/use-navigate-to-user-info";
 import { toGateway } from "@/utils/ipfs-parser";
 
 import { LogoResource } from "../Logo";
@@ -32,7 +32,7 @@ const isValidUrl = (url) => {
 
 export const Avatar: FC<Props> = (props) => {
   const { character, size = 45, useDefault = false, isNavigateToUserInfo = true } = props;
-  const navigation = useRootNavigation();
+  const { navigateToUserInfo } = useNavigateToUserInfo();
   const uri = character?.metadata?.content?.avatars?.[0];
   const name = character?.metadata?.content?.name;
   const nameAbbr = (name || "")
@@ -40,13 +40,6 @@ export const Avatar: FC<Props> = (props) => {
     .slice(0, 2)
     .map(word => word[0])
     .join("");
-
-  const navigateToUserInfo = () => {
-    if (!character?.characterId) {
-      return;
-    }
-    navigation.navigate("UserInfo", { characterId: character?.characterId });
-  };
 
   if (!uri || (!uri.startsWith("/assets/") && !isValidUrl(uri))) {
     if (useDefault) {

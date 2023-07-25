@@ -10,6 +10,7 @@ import type { CharacterEntity } from "crossbell";
 import { Text, ListItem, SizableText, Stack, XStack, YStack } from "tamagui";
 
 import { Avatar } from "@/components/Avatar";
+import { useNavigateToUserInfo } from "@/hooks/use-navigate-to-user-info";
 import { useRootNavigation } from "@/hooks/use-navigation";
 import type { HomeBottomTabsParamList } from "@/navigation/types";
 import { useGetShowcase } from "@/queries/home";
@@ -89,8 +90,10 @@ const CharacterCard: FC<{
   item: CharacterEntity
 }> = (props) => {
   const { item } = props;
+  const { navigateToUserInfo } = useNavigateToUserInfo(props.item);
 
   const onHandleAvatarPress = useCallback(() => {
+    navigateToUserInfo();
     GA.logSelectItem({
       content_type: "explore_page_creator",
       item_list_id: "explore_page_creator_list",
@@ -105,7 +108,7 @@ const CharacterCard: FC<{
   return (
     <XStack onPress={onHandleAvatarPress} height={ITEM_HEIGHT} paddingBottom={ITEM_VERTICAL_GAP} backgroundColor={"$background"}>
       <XStack flex={1} alignItems="center" gap="$3" borderWidth={1} borderColor={"$borderColor"} borderRadius={"$5"} paddingHorizontal={"$3"}>
-        <Avatar size={42} character={item} isNavigateToUserInfo useDefault/>
+        <Avatar size={42} character={item} useDefault/>
         <YStack flex={1} gap="$2">
           <Text numberOfLines={1} color={"$color"} fontSize={"$7"} fontWeight={"$10"}>{item.metadata?.content?.name}</Text>
           {item.metadata?.content?.bio && <Text color="$colorSubtitle" numberOfLines={2}>{item.metadata?.content?.bio}</Text>}
