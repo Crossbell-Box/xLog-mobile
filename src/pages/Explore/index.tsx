@@ -30,13 +30,13 @@ export const ExplorePage: FC<NativeStackScreenProps<HomeBottomTabsParamList, "Ex
   const showcaseSites = useGetShowcase();
   const navigation = useRootNavigation();
 
-  const onPressTopicItem = useCallback((topic: any) => {
+  const onPressTopicItem = useCallback((topic: (typeof topics)[number]) => {
     GA.logSelectItem({
       content_type: "explore_page_topic",
-      item_list_id: topic,
-      item_list_name: topic,
+      item_list_id: "explore_page_topic_list",
+      item_list_name: "explore_page_topic_list",
       items: [{
-        item_id: topic,
+        item_id: topic.name,
         item_name: i18n.t(topic.name),
       }],
     });
@@ -68,8 +68,8 @@ export const ExplorePage: FC<NativeStackScreenProps<HomeBottomTabsParamList, "Ex
             <Stack borderLeftColor={"$primary"} borderLeftWidth={3} height="$0.5" marginRight="$2"/>
             <SizableText fontWeight={"700"} color="$color" size="$6">{i18n.t("Hot Topics")}</SizableText>
           </XStack>
-          {topics.map((topic: any) => {
-            return <ListItem onPress={onPressTopicItem} paddingHorizontal={4} key={topic.name} title={i18n.t(topic.name)} subTitle={i18n.t(topic.description)}/>;
+          {topics.map((topic) => {
+            return <ListItem onPress={() => onPressTopicItem(topic)} paddingHorizontal={4} key={topic.name} title={i18n.t(topic.name)} subTitle={i18n.t(topic.description)}/>;
           })}
         </YStack>
         {!!showcaseSites.data.length && (
