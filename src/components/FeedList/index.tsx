@@ -9,6 +9,7 @@ import { Separator, SizableText, Spinner, Stack, useWindowDimensions } from "tam
 import { useCharacterId } from "@/hooks/use-character-id";
 import type { FeedType, SearchType } from "@/models/home.model";
 import { useGetFeed } from "@/queries/home";
+import type { ExpandedNote } from "@/types/crossbell";
 import { debounce } from "@/utils/debounce";
 import { GA } from "@/utils/GA";
 
@@ -62,7 +63,7 @@ export const FeedList: FC<Props> = (props) => {
   ]);
 
   return (
-    <ReanimatedFlashList<NoteEntity>
+    <ReanimatedFlashList<ExpandedNote>
       data={feedList}
       keyExtractor={post => `${post.characterId}-${post.noteId}`}
       renderItem={({ item, index }) => (

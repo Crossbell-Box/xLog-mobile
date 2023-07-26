@@ -68,6 +68,7 @@ const getLocalPages = async (input: {
             ],
             slug: page.values?.slug,
             sources: ["xlog"],
+            // @ts-expect-error
             disableAISummary: page.values?.disableAISummary,
           },
         },
