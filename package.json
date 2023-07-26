@@ -195,6 +195,7 @@
     "string_decoder": "^0.10.31",
     "strip-markdown": "^5.0.1",
     "tamagui": "^1.42.0",
+    "text-encoding-polyfill": "^0.6.7",
     "timers-browserify": "^1.4.2",
     "ts-essentials": "^9.3.1",
     "ts-node": "^10.9.1",

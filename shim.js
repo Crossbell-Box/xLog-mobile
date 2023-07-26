@@ -1,4 +1,9 @@
 import "node-libs-expo/globals";
+import "intl-pluralrules";
+import "text-encoding-polyfill";
+import "react-native-url-polyfill/auto";
+import "react-native-get-random-values";
+import "@ethersproject/shims";
 import { Platform } from "react-native";
 import { btoa, atob, toByteArray } from "react-native-quick-base64";
 
