@@ -1,14 +1,15 @@
 import { gql } from "@apollo/client";
 import { indexer } from "@crossbell/indexer";
-import { createClient, cacheExchange, fetchExchange } from "@urql/core";
-import type { CharacterEntity } from "crossbell";
+import type { CharacterEntity, NoteEntity } from "crossbell";
 import dayjs from "dayjs";
 
 import { client } from "@/queries/graphql";
 import type { ExpandedNote } from "@/types/crossbell";
+import countCharacters from "@/utils/character-count";
 import { expandCrossbellNote } from "@/utils/expand-unit";
 
 import filter from "../data/filter.json";
+import topics from "../data/topics.json";
 
 export type FeedType =
   | "latest"
@@ -16,81 +17,224 @@ export type FeedType =
   | "topic"
   | "hottest"
   | "search"
-  | "tag";
+  | "tag"
+  | "comments"
+  | "featured";
+
 export type SearchType = "latest" | "hottest";
 
 export async function getFeed({
   type,
   cursor,
-  limit = 30,
+  limit = 12,
   characterId,
-  noteIds,
   daysInterval,
   searchKeyword,
   searchType,
   tag,
   useHTML,
-  topicIncludeKeywords,
+  topic,
 }: {
   type?: FeedType
   cursor?: string
   limit?: number
   characterId?: number
-  noteIds?: string[]
   daysInterval?: number
   searchKeyword?: string
   searchType?: SearchType
   tag?: string
   useHTML?: boolean
-  topicIncludeKeywords?: string[]
+  topic?: string
 }) {
   if (type === "search" && !searchKeyword) {
     type = "latest";
   }
 
+  const cursorQuery = cursor
+    ? `
+    cursor: {
+      note_characterId_noteId_unique: {
+        characterId: ${cursor.split("_")[0]},
+        noteId: ${cursor.split("_")[1]}
+      },
+    },
+  `
+    : "";
+  const resultFields = `
+    characterId
+    noteId
+    character {
+      handle
+      characterId
+      metadata {
+        content
+      }
+    }
+    createdAt
+    metadata {
+      uri
+      content
+    }
+  `;
+
+  let resultAll: {
+    list: ExpandedNote[]
+    cursor?: string | null
+    count?: number
+  } = {
+    list: [],
+    count: 0,
+  };
+
   switch (type) {
     case "latest": {
-      const result = await indexer.note.getMany({
-        sources: "xlog",
-        tags: ["post"],
-        limit,
-        cursor,
-        includeCharacter: true,
-        excludeCharacterId: filter.latest,
-      } as any);
+      const result = await client
+        .query({
+          query: gql`
+          query getNotes($filter: [Int!], $limit: Int) {
+            notes(
+              where: {
+                characterId: {
+                  notIn: $filter
+                },
+                deleted: {
+                  equals: false,
+                },
+                metadata: {
+                  content: {
+                    path: "sources",
+                    array_contains: "xlog"
+                  },
+                  NOT: [{
+                    content: {
+                      path: "tags",
+                      array_starts_with: "comment"
+                    }
+                  }]
+                },
+              },
+              orderBy: [{ createdAt: desc }],
+              take: $limit,
+              ${cursorQuery}
+            ) {
+              ${resultFields}
+            }
+          }
+        `,
+          variables: {
+            filter: filter.latest,
+            limit,
+          },
+        },
+        );
 
       const list = await Promise.all(
-        result.list
-          .filter((page) => {
-            return !(
-              page.metadata?.content?.tags?.includes("comment")
-              && page.toNote?.metadata?.content?.tags?.includes("comment")
-            );
+        result?.data?.notes.map((page: NoteEntity) =>
+          expandCrossbellNote({
+            note: page,
+            useScore: true,
+            useHTML,
+          }),
+        ),
+      );
+
+      resultAll = {
+        list,
+        cursor: list?.length
+          ? `${list[list.length - 1]?.characterId}_${list[list.length - 1]
+            ?.noteId}`
+          : undefined,
+        count: list?.length || 0,
+      };
+      break;
+    }
+    case "comments": {
+      const result = await client
+        .query(
+          {
+            query: gql`
+            query getNotes($filter: [Int!], $limit: Int) {
+              notes(
+                where: {
+                  characterId: {
+                    notIn: $filter
+                  },
+                  deleted: {
+                    equals: false,
+                  },
+                  metadata: {
+                    AND: [{
+                      content: {
+                        path: "sources",
+                        array_contains: "xlog"
+                      }
+                    }, {
+                      content: {
+                        path: "tags",
+                        array_starts_with: "comment"
+                      }
+                    }]
+                  },
+                },
+                orderBy: [{ createdAt: desc }],
+                take: $limit,
+                ${cursorQuery}
+              ) {
+                ${resultFields}
+                toNote {
+                  characterId
+                  noteId
+                  character {
+                    handle
+                    metadata {
+                      content
+                    }
+                  }
+                  createdAt
+                  metadata {
+                    uri
+                    content
+                  }
+                }
+              }
+            }
+          `,
+            variables: {
+              filter: filter.latest,
+              limit,
+            },
+          },
+        );
+
+      const list = await Promise.all(
+        result?.data?.notes
+          .filter((page: NoteEntity) => {
+            return !page.toNote?.metadata?.content?.tags?.includes("comment");
           })
-          .map(async (page) => {
-            const isComment = page.metadata?.content?.tags?.includes("comment");
+          .map(async (page: NoteEntity) => {
             const expand = await expandCrossbellNote({
               note: page,
-              useScore: !isComment,
               useHTML,
             });
-            if (isComment && expand.toNote) {
+            if (expand.toNote) {
               expand.toNote = await expandCrossbellNote({
                 note: expand.toNote,
                 useHTML,
               });
             }
-            // console.log(expand.metadata?.content.content, "===");
-            // delete expand.metadata?.content.content;
             return expand;
           }),
       );
 
-      return {
+      resultAll = {
         list,
-        cursor: result.cursor,
-        count: result.count,
+        cursor: list?.length
+          ? `${list[list.length - 1]?.characterId}_${list[list.length - 1]
+            ?.noteId}`
+          : undefined,
+        count: list?.length || 0,
       };
+      break;
     }
     case "following": {
       if (!characterId) {
@@ -113,25 +257,26 @@ export async function getFeed({
         );
 
         const list = await Promise.all(
-          result.list.map(async (page: any) => {
-            const expand = await expandCrossbellNote({
+          result.list.map((page: NoteEntity) =>
+            expandCrossbellNote({
               note: page,
               useHTML,
-            });
-            delete expand.metadata?.content.content;
-            return expand;
-          }),
+            }),
+          ),
         );
 
-        return {
+        resultAll = {
           list,
           cursor: result.cursor,
           count: result.count,
         };
+        break;
       }
     }
     case "topic": {
-      if (!topicIncludeKeywords && !noteIds) {
+      const info = topics.find(t => t.name === topic);
+
+      if (!info) {
         return {
           list: [],
           cursor: "",
@@ -139,8 +284,19 @@ export async function getFeed({
         };
       }
 
-      if (noteIds) {
-        const orString = noteIds
+      const includeString = [
+        ...(info.includeKeywords?.map(
+          topicIncludeKeyword =>
+            `{ content: { path: "title", string_contains: "${topicIncludeKeyword}" } }, { content: { path: "content", string_contains: "${topicIncludeKeyword}" } }`,
+        ) || []),
+        ...(info.includeTags?.map(
+          topicIncludeTag =>
+            `{ content: { path: "tags", array_contains: "${topicIncludeTag}" } },`,
+        ) || []),
+      ].join("\n");
+
+      if (info.notes) {
+        const orString = info.notes
           .map(
             note =>
               `{ noteId: { equals: ${
@@ -149,135 +305,160 @@ export async function getFeed({
           )
           .join("\n");
         const result = await client
-          .query({
-            query: gql`
-              query getNotes {
-                notes(
-                  where: {
-                    OR: [
-                      ${orString}
-                    ]
-                  },
-                  orderBy: [{ createdAt: desc }],
-                  take: 1000,
-                ) {
-                  characterId
-                  noteId
-                  character {
-                    handle
-                    metadata {
-                      content
-                    }
-                  }
-                  createdAt
-                  metadata {
-                    uri
-                    content
-                  }
-                }
-              }
-            `,
-          });
-
-        const list = await Promise.all(
-          result?.data?.notes.map(async (page: any) => {
-            const expand = await expandCrossbellNote({
-              note: page,
-              useHTML,
-            });
-            delete expand.metadata?.content.content;
-            return expand;
-          }),
-        );
-
-        return {
-          list,
-          cursor: "",
-          count: list?.length || 0,
-        };
-      }
-
-      if (topicIncludeKeywords) {
-        const includeString = topicIncludeKeywords
-          .map(
-            topicIncludeKeyword =>
-              `{ content: { path: "title", string_contains: "${topicIncludeKeyword}" } }, { content: { path: "content", string_contains: "${topicIncludeKeyword}" } },`,
-          )
-          .join("\n");
-        const result = await client
-          .query({
-            query: gql`
-            query getNotes {
+          .query(
+            {
+              query: gql`
+            query getNotes($filter: [Int!], $limit: Int) {
               notes(
                 where: {
+                  characterId: {
+                    notIn: $filter
+                  },
+                  deleted: {
+                    equals: false,
+                  },
                   metadata: {
-                    content: {
-                      path: "sources",
-                      array_contains: "xlog"
-                    },
-                    AND: [{
-                      content: {
-                        path: "tags",
-                        array_contains: "post"
+                    AND: [
+                      {
+                        content: {
+                          path: "sources",
+                          array_contains: "xlog"
+                        },
+                      },
+                      {
+                        content: {
+                          path: "tags",
+                          array_contains: "post"
+                        }
                       }
-                    }, {
+                    ]
+                  },
+                  OR: [
+                    {
+                      metadata: {
+                        OR: [
+                          ${includeString}
+                        ]
+                      }
+                    },
+                    {
                       OR: [
-                        ${includeString}
+                        ${orString}
                       ]
-                    }]
+                    }
+                  ]
+                },
+                orderBy: [{ createdAt: desc }],
+                take: $limit,
+                ${cursorQuery}
+              ) {
+                ${resultFields}
+              }
+            }
+          `,
+              variables: {
+                filter: filter.latest,
+                limit,
+              },
+            },
+          );
+
+        const list = await Promise.all(
+          result?.data?.notes.map((page: NoteEntity) =>
+            expandCrossbellNote({
+              note: page,
+              useHTML,
+            }),
+          ),
+        );
+
+        resultAll = {
+          list,
+          cursor: list?.length
+            ? `${list[list.length - 1]?.characterId}_${list[list.length - 1]
+              ?.noteId}`
+            : undefined,
+          count: list?.length || 0,
+        };
+        break;
+      }
+      else {
+        const excludeString = [
+          ...(info.excludeKeywords?.map(
+            topicExcludeKeyword =>
+              `{ NOT: { content: { path: "content", string_contains: "${topicExcludeKeyword}" } } },`,
+          ) || []),
+        ].join("\n");
+        const result = await client
+          .query(
+            {
+              query: gql`
+            query getNotes($filter: [Int!], $limit: Int) {
+              notes(
+                where: {
+                  characterId: {
+                    notIn: $filter
+                  },
+                  deleted: {
+                    equals: false,
+                  },
+                  metadata: {
+                    AND: [
+                      {
+                        content: {
+                          path: "sources",
+                          array_contains: "xlog"
+                        },
+                      },
+                      {
+                        content: {
+                          path: "tags",
+                          array_contains: "post"
+                        }
+                      },
+                      ${excludeString},
+                      {
+                        OR: [
+                          ${includeString}
+                        ]
+                      }
+                    ]
                   },
                 },
                 orderBy: [{ createdAt: desc }],
-                take: ${limit},
-                ${
-  cursor
-    ? `
-                cursor: {
-                  note_characterId_noteId_unique: {
-                    characterId: ${cursor.split("_")[0]},
-                    noteId: ${cursor.split("_")[1]}
-                  },
-                },`
-    : ""
-}
+                take: $limit,
+                ${cursorQuery}
               ) {
-                characterId
-                noteId
-                character {
-                  handle
-                  metadata {
-                    content
-                  }
-                }
-                createdAt
-                metadata {
-                  uri
-                  content
-                }
+                ${resultFields}
               }
-            }`,
-          });
+            }
+          `,
+              variables: {
+                filter: filter.latest,
+                limit,
+              },
+            },
+          );
 
         const list = await Promise.all(
-          result?.data?.notes.map(async (page: any) => {
-            const expand = await expandCrossbellNote({
+          result?.data?.notes.map((page: NoteEntity) =>
+            expandCrossbellNote({
               note: page,
               useHTML,
-            });
-            delete expand.metadata?.content.content;
-            return expand;
-          }),
+            }),
+          ),
         );
 
-        return {
+        resultAll = {
           list,
-          cursor: `${list[list.length - 1]?.characterId}_${
-            list[list.length - 1]?.noteId
-          }`,
+          cursor: list?.length
+            ? `${list[list.length - 1]?.characterId}_${list[list.length - 1]
+              ?.noteId}`
+            : undefined,
           count: list?.length || 0,
         };
+        break;
       }
-      break;
     }
     case "hottest": {
       let time;
@@ -286,71 +467,230 @@ export async function getFeed({
       }
 
       const result = await client
-        .query({
-          query: gql`
-          query getNotes {
+        .query(
+
+          {
+            query: gql`
+          query getNotes($filter: [Int!]) {
             notes(
               where: {
-                ${time ? `createdAt: { gt: "${time}" },` : ""}
-                stat: { viewDetailCount: { gt: 0 } },
-                metadata: { content: { path: "sources", array_contains: "xlog" }, AND: { content: { path: "tags", array_contains: "post" } } }
+                characterId: {
+                  notIn: $filter
+                },
+                deleted: {
+                  equals: false,
+                },
+                ${
+  time
+    ? `
+                createdAt: {
+                  gt: "${time}"
+                },
+                `
+    : ""
+}
+                stat: {
+                  viewDetailCount: {
+                    gt: 0
+                  },
+                },
+                metadata: {
+                  AND: [{
+                    content: {
+                      path: "sources",
+                      array_contains: "xlog"
+                    },
+                  }, {
+                    content: {
+                      path: "tags",
+                      array_contains: "post"
+                    }
+                  }]
+                },
               },
-              orderBy: { stat: { viewDetailCount: desc } },
-              take: 25,
+              take: 40,
+              orderBy: {
+                stat: {
+                  viewDetailCount: desc
+                }
+              },
             ) {
               stat {
                 viewDetailCount
               }
-              characterId
-              noteId
-              character {
-                handle
-                metadata {
-                  content
-                }
-              }
-              createdAt
-              metadata {
-                uri
-                content
-              }
+              ${resultFields}
             }
-          }`,
-        });
+          }
+        `,
+            variables: {
+              filter: filter.latest,
+            },
+          },
+        );
 
       let list: ExpandedNote[] = await Promise.all(
-        result?.data?.notes.map(async (page: any) => {
-          if (daysInterval) {
-            const secondAgo = dayjs().diff(dayjs(page.createdAt), "second");
-            page.stat.hotScore
-              = page.stat.viewDetailCount / Math.max(Math.log10(secondAgo), 1);
-          }
+        result?.data?.notes.map(
+          async (
+            page: NoteEntity & {
+              stat: {
+                viewDetailCount: number
+                hotScore?: number
+              }
+            },
+          ) => {
+            if (daysInterval) {
+              const secondAgo = dayjs().diff(dayjs(page.createdAt), "second");
+              page.stat.hotScore
+                = page.stat.viewDetailCount / Math.max(Math.log10(secondAgo), 1);
+            }
 
-          const expand = await expandCrossbellNote({
-            note: page,
-            useHTML,
-          });
-          delete expand.metadata?.content.content;
-          return expand;
-        }),
+            const expand = await expandCrossbellNote({
+              note: page,
+              useHTML,
+            });
+            return expand;
+          },
+        ),
       );
 
       if (daysInterval) {
-        list = list.sort((a, b) => {
-          if (a.stat?.hotScore && b.stat?.hotScore) {
-            return b.stat.hotScore - a.stat.hotScore;
-          }
-          else {
-            return 0;
-          }
-        });
+        list = list
+          .sort((a, b) => {
+            if (a.stat?.hotScore && b.stat?.hotScore) {
+              return b.stat.hotScore - a.stat.hotScore;
+            }
+            else {
+              return 0;
+            }
+          })
+          .slice(0, 24);
       }
 
-      return {
+      resultAll = {
         list,
         cursor: "",
         count: list?.length || 0,
       };
+      break;
+    }
+    case "featured": {
+      const result = await client
+        .query(
+          {
+            query: gql`
+          query getNotes($filter: [Int!], $limit: Int) {
+            notes(
+              where: {
+                characterId: {
+                  notIn: $filter
+                },
+                deleted: {
+                  equals: false,
+                },
+                metadata: {
+                  content: {
+                    path: "sources",
+                    array_contains: "xlog"
+                  },
+                  NOT: [{
+                    content: {
+                      path: "tags",
+                      array_starts_with: "comment"
+                    }
+                  }]
+                },
+                OR: [
+                  # With over 30 views
+                  {
+                    stat: {
+                      viewDetailCount: {
+                        gt: 30
+                      },
+                    },
+                  },
+                  # Or have received comments
+                  {
+                    fromNotes: {
+                      some: {
+                        deleted: {
+                          equals: false,
+                        }
+                      }
+                    }
+                  },
+                  # Or have received tips
+                  {
+                    receivedTips: {
+                      some: {
+                        blockNumber: {
+                          gt: 0
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              orderBy: [{ createdAt: desc }],
+              take: $limit,
+              ${cursorQuery}
+            ) {
+              stat {
+                viewDetailCount
+              }
+              ${resultFields}
+            }
+          }
+        `,
+            variables: {
+              filter: filter.latest,
+              limit,
+            },
+          },
+        );
+
+      let list = await Promise.all(
+        result?.data?.notes.map(
+          async (
+            page: NoteEntity & {
+              stat: {
+                viewDetailCount: number
+                hotScore?: number
+              }
+            },
+          ) => {
+            const secondAgo = dayjs().diff(dayjs(page.createdAt), "second");
+            page.stat.hotScore
+              = page.stat.viewDetailCount / Math.max(Math.log10(secondAgo), 1);
+
+            const expand = await expandCrossbellNote({
+              note: page,
+              useHTML,
+            });
+            return expand;
+          },
+        ),
+      );
+
+      const cursor = list?.length
+        ? `${list[list.length - 1]?.characterId}_${list[list.length - 1]
+          ?.noteId}`
+        : undefined;
+
+      list = list.sort((a, b) => {
+        if (a.stat?.hotScore && b.stat?.hotScore) {
+          return b.stat.hotScore - a.stat.hotScore;
+        }
+        else {
+          return 0;
+        }
+      });
+
+      resultAll = {
+        list,
+        cursor,
+        count: list?.length || 0,
+      };
+      break;
     }
     case "search": {
       const result = await indexer.search.notes(searchKeyword!, {
@@ -363,32 +703,32 @@ export async function getFeed({
       });
 
       const list = await Promise.all(
-        result.list.map(async (page: any) => {
-          const expand = await expandCrossbellNote({
+        result.list.map((page: NoteEntity) =>
+          expandCrossbellNote({
             note: page,
             useStat: false,
             useScore: false,
             keyword: searchKeyword,
             useHTML,
-          });
-          delete expand.metadata?.content.content;
-          return expand;
-        }),
+          }),
+        ),
       );
 
-      return {
+      resultAll = {
         list,
         cursor: result.cursor,
         count: result.count,
       };
+      break;
     }
     case "tag": {
       if (!tag) {
-        return {
+        resultAll = {
           list: [],
           cursor: "",
           count: 0,
         };
+        break;
       }
 
       const result = await indexer.note.getMany({
@@ -401,25 +741,41 @@ export async function getFeed({
       } as any);
 
       const list = await Promise.all(
-        result.list.map(async (page: any) => {
-          const expand = await expandCrossbellNote({
+        result.list.map((page: NoteEntity) =>
+          expandCrossbellNote({
             note: page,
             useStat: false,
             useScore: true,
             useHTML,
-          });
-          delete expand.metadata?.content.content;
-          return expand;
-        }),
+          }),
+        ),
       );
 
-      return {
+      resultAll = {
         list,
         cursor: result.cursor,
         count: result.count,
       };
+      break;
     }
   }
+
+  resultAll.list = resultAll.list
+    .filter(
+      post =>
+        countCharacters(post?.metadata?.content?.content || "")
+          > (post?.metadata?.content?.tags?.[0] === "comment" ? 6 : 300)
+        && !(
+          new Date(post.metadata?.content?.date_published || "") > new Date()
+        )
+        && !post.toNote?.metadata?.content?.tags?.includes("comment"),
+    )
+    .map((post) => {
+      delete post.metadata?.content.content;
+      return post;
+    });
+
+  return resultAll;
 }
 
 export const getShowcase = async () => {
