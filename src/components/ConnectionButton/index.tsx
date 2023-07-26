@@ -15,19 +15,20 @@ import { Plug, Wallet } from "@tamagui/lucide-icons";
 import { useToastController } from "@tamagui/toast";
 import { useWalletConnectModal } from "@walletconnect/modal-react-native";
 import * as Haptics from "expo-haptics";
-import * as StoreReview from "expo-store-review";
 import * as Sentry from "sentry-expo";
 import type { StackProps } from "tamagui";
-import { Button, Stack } from "tamagui";
+import { Stack } from "tamagui";
 
 import { IS_IOS } from "@/constants";
 import { useAppIsActive } from "@/hooks/use-app-state";
 import { useRootNavigation } from "@/hooks/use-navigation";
 import { useOneTimeTogglerWithSignOP } from "@/hooks/use-signin-tips-toggler";
+import { useToggle } from "@/hooks/use-toggle";
 import { GA } from "@/utils/GA";
 
 import type { AlertDialogInstance } from "../AlertDialog";
 import { AlertDialog } from "../AlertDialog";
+import { Button } from "../Base/Button";
 import { DelayedRender } from "../DelayRender";
 
 interface Props extends StackProps {
@@ -172,7 +173,7 @@ function OPSignToggleBtn() {
   const { mutate: signIn } = useWalletSignIn();
   const isWalletSignedIn = useIsWalletSignedIn();
   const i18n = useTranslation();
-  const alertDialogRef = useRef<AlertDialogInstance>(null);
+  const [visible, toggle] = useToggle(false);
   const { hasBeenDisplayed, closePermanently } = useOneTimeTogglerWithSignOP();
 
   const OPSign = () => {
@@ -187,7 +188,7 @@ function OPSignToggleBtn() {
   };
 
   useEffect(() => {
-    alertDialogRef.current?.toggle(!hasBeenDisplayed);
+    toggle(!hasBeenDisplayed);
   }, [hasBeenDisplayed]);
 
   if (!isWalletSignedIn) {
@@ -208,11 +209,11 @@ function OPSignToggleBtn() {
         </Animated.View>
         <DelayedRender timeout={2000}>
           <AlertDialog
-            ref={alertDialogRef}
+            visible={visible}
             title={i18n.t("Operator Sign")}
             description={i18n.t("By signing, you can interact without clicking to agree the smart contracts every time. We are in Beta, and new users who try it out will be rewarded with 0.01 $CSB.")}
             renderCancel={() => <Button onPress={closePermanently}>{i18n.t("Do not show again")}</Button>}
-            renderConfirm={() => <Button backgroundColor="$primary" color="$color" onPress={closeAndOPSign}>{i18n.t("Confirm")}</Button>}
+            renderConfirm={() => <Button type="primary" onPress={closeAndOPSign}>{i18n.t("Confirm")}</Button>}
           />
         </DelayedRender>
       </Stack>

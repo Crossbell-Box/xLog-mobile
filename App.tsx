@@ -105,8 +105,8 @@ export default () => {
         }}
       />,
       <I18nextProvider key={"I18nextProvider"} i18n={i18n} />,
-      <ConnectKitProvider key={"ConnectKitProvider"} />,
       <ToastProvider key={"ToastProvider"} />,
+      <ConnectKitProvider key={"ConnectKitProvider"} />,
       <ThemeProvider key={"ThemeProvider"} />,
       <LoadingProvider key={"LoadingProvider"} />,
       <NavigationProvider key={"NavigationProvider"} />,

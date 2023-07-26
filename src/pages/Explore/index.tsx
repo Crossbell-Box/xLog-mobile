@@ -72,7 +72,7 @@ export const ExplorePage: FC<NativeStackScreenProps<HomeBottomTabsParamList, "Ex
             return <ListItem onPress={() => onPressTopicItem(topic)} paddingHorizontal={4} key={topic.name} title={i18n.t(topic.name)} subTitle={i18n.t(topic.description)}/>;
           })}
         </YStack>
-        {!!showcaseSites.data.length && (
+        {!!showcaseSites.data?.length && (
           <YStack>
             <XStack alignItems="center" marginBottom="$3">
               <Stack borderLeftColor={"$primary"} borderLeftWidth={3} height="$0.5" marginRight="$2"/>

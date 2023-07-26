@@ -1,31 +1,29 @@
 import React, { useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { InteractionManager, KeyboardAvoidingView, StyleSheet } from "react-native";
+import { InteractionManager, StyleSheet } from "react-native";
 import { FlatList, TouchableWithoutFeedback } from "react-native-gesture-handler";
-import Modal from "react-native-modal";
-import Animated, { FadeIn, FadeInRight, measure } from "react-native-reanimated";
-import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
+import Animated, { FadeIn } from "react-native-reanimated";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { useNote } from "@crossbell/indexer";
+import { useIsConnected } from "@crossbell/react-account";
 import { BottomSheetTextInput } from "@gorhom/bottom-sheet";
 import { MessageSquare } from "@tamagui/lucide-icons";
 import type { ListResponse, NoteEntity } from "crossbell";
 import * as Haptics from "expo-haptics";
 import type { FontSizeTokens, SizeTokens } from "tamagui";
-import { Button, H4, Input, SizableText, Spinner, Stack, Text, XStack, YStack, useWindowDimensions } from "tamagui";
+import { H4, SizableText, Spinner, Stack, Text, XStack, useWindowDimensions } from "tamagui";
 
 import { BottomSheetModal } from "@/components/BottomSheetModal";
 import type { BottomSheetModalInstance } from "@/components/BottomSheetModal";
-import { isIOS } from "@/constants/platform";
 import { useGAWithScreenParams } from "@/hooks/ga/use-ga-with-screen-name-params";
-import { useAuthPress } from "@/hooks/use-auth-press";
+import { useNavigateToLogin } from "@/hooks/use-auth-press";
 import { useColors } from "@/hooks/use-colors";
-import { useGlobalLoading } from "@/hooks/use-global-loading";
-import { useMounted } from "@/hooks/use-mounted";
 import { useRootNavigation } from "@/hooks/use-navigation";
-import { useCommentPage, useGetComments, useSubmitComment, useUpdateComment } from "@/queries/page";
+import { useSetupAnonymousComment } from "@/hooks/use-setup-anonymous-comment";
+import { useGetComments, useSubmitComment } from "@/queries/page";
 import { GA } from "@/utils/GA";
 
+import { Button } from "../Base/Button";
 import type { Comment } from "../CommentItem";
 import { CommentItem } from "../CommentItem";
 import { DelayedRender } from "../DelayRender";
@@ -53,10 +51,16 @@ export const CommentButton: React.FC<Props> = ({ characterId, noteId, iconSize =
   const comments = useGetComments({ characterId, noteId });
   const [isLoading, setIsLoading] = useState(false);
   const i18n = useTranslation("site");
+  const { anonymousCommentDialog, withAnonymousComment } = useSetupAnonymousComment();
+  const isConnected = useIsConnected();
+  const navigateToLogin = useNavigateToLogin();
   const { bottom } = useSafeAreaInsets();
   const { width } = useWindowDimensions();
   const [content, setContent] = useState("");
-  const [selectedCommentId, setSelectedCommentId] = useState<number | null>(null);
+  const [selectedComment, setSelectedComment] = useState<{
+    characterId: number
+    noteId: number
+  }>(null);
   const [selectedEditComment, setSelectedEditComment] = useState<Comment | null>(null);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(0);
   const bottomSheetRef = useRef<BottomSheetModalInstance>(null);
@@ -94,17 +98,18 @@ export const CommentButton: React.FC<Props> = ({ characterId, noteId, iconSize =
     setContent("");
   };
 
-  const submitComment = () => {
+  const submitComment = withAnonymousComment(() => {
     setIsLoading(true);
     GA.logEvent("submit_comment", gaWithScreenParams);
 
     return _submitComment({
-      characterId: isEditing ? selectedEditComment.characterId : characterId,
-      noteId: isEditing ? selectedEditComment.noteId : selectedCommentId,
+      characterId: selectedComment.characterId,
+      noteId: selectedComment.noteId,
+      originalCharacterId: isEditing ? selectedEditComment.characterId : characterId,
+      originalNoteId: isEditing ? selectedEditComment.noteId : noteId,
       content,
-      targetComment: isEditing
-        ? selectedEditComment
-        : undefined,
+      comment: isEditing ? selectedEditComment : undefined,
+      anonymous: !isConnected,
     })
       .then(() => comments.refetch())
       .finally(() => {
@@ -112,7 +117,7 @@ export const CommentButton: React.FC<Props> = ({ characterId, noteId, iconSize =
         hideInput();
         scrollToIndex(selectedIndex);
       });
-  };
+  });
 
   const scrollToIndex = (index: number) => {
     flatListRef.current?.scrollToIndex({
@@ -121,16 +126,20 @@ export const CommentButton: React.FC<Props> = ({ characterId, noteId, iconSize =
     });
   };
 
-  const onPressInput = useAuthPress(() => {
+  const login = () => {
+    bottomSheetRef.current.close();
+    navigateToLogin();
+  };
+
+  const onPressInput = () => {
     setIsEditing(false);
-    setSelectedCommentId(noteId);
+    setSelectedComment({
+      characterId,
+      noteId,
+    });
     setSelectedIndex(0);
     displayInput();
-  }, (isConnected) => {
-    if (!isConnected) {
-      bottomSheetRef.current.close();
-    }
-  });
+  };
 
   const data = comments.data?.pages.length
     ? [
@@ -157,6 +166,8 @@ export const CommentButton: React.FC<Props> = ({ characterId, noteId, iconSize =
           </SizableText>
         </XStack>
       </XTouch>
+
+      {anonymousCommentDialog}
 
       <BottomSheetModal
         ref={bottomSheetRef}
@@ -227,7 +238,10 @@ export const CommentButton: React.FC<Props> = ({ characterId, noteId, iconSize =
                       }}
                       onPressComment={(comment) => {
                         setIsEditing(false);
-                        setSelectedCommentId(comment.noteId);
+                        setSelectedComment({
+                          characterId: comment.characterId,
+                          noteId: comment.noteId,
+                        });
                         setSelectedIndex(options.index);
                         displayInput();
                       }}
@@ -263,11 +277,11 @@ export const CommentButton: React.FC<Props> = ({ characterId, noteId, iconSize =
                         placeholder={
                           isEditing
                             ? selectedEditComment?.metadata?.content?.content
-                            : i18n.t("Write a comment on the blockchain")
+                            : i18n.t("Write a comment")
                         }
                         placeholderTextColor={subtitle}
                       />
-                      <Button alignSelf="center" onPress={submitComment} alignItems="center" justifyContent="center">
+                      <Button type={content ? "primary" : "disabled"} alignSelf="center" onPress={submitComment} alignItems="center" justifyContent="center">
                         {i18n.t("Publish")}
                       </Button>
                     </XStack>
@@ -275,6 +289,7 @@ export const CommentButton: React.FC<Props> = ({ characterId, noteId, iconSize =
                   : (
                     <XStack
                       width={width}
+                      mih={90}
                       position="absolute"
                       paddingBottom={bottom}
                       paddingTop={8}
@@ -282,19 +297,25 @@ export const CommentButton: React.FC<Props> = ({ characterId, noteId, iconSize =
                       left={0}
                       backgroundColor={"$background"}
                       paddingHorizontal="$3"
+                      gap="$2"
                     >
                       <XStack
                         paddingHorizontal={12}
-                        height={50}
+                        h={"100%"}
                         borderWidth={1}
                         borderRadius={10}
                         borderColor={"$borderColor"}
                         alignItems="center"
                         space="$2"
                         flex={1}
-                        onPress={onPressInput}>
-                        <Text fontSize={"$6"} flex={1} borderRadius={10} color={"$colorSubtitle"}>
-                          {i18n.t("Write a comment on the blockchain")}
+                        onPress={onPressInput}
+                      >
+                        <Text fontSize={"$5"} flex={1} borderRadius={10} color={"$colorSubtitle"}>
+                          {
+                            isConnected
+                              ? i18n.t("Write a comment")
+                              : i18n.t("Write a anonymous comment")
+                          }
                         </Text>
                       </XStack>
                     </XStack>

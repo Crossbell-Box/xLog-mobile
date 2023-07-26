@@ -124,4 +124,9 @@
   "Didn't find your wallet, would you like to download it?": "没有找到该钱包，是否前往下载？",
   "Redirecting...": "跳转中...",
   "Redirecting to App Store failed, please download it from App Store manually.": "跳转失败，请前往App Store进行下载。",
+  "Nickname": "昵称",
+  "Email": "电子邮箱",
+  "Please set your anonymous comment information, which can be modified on the settings page.":"请设置你的匿名评论信息，可在设置页面修改",
+  "You do not have enough $CSB to perform this action.": "你没有足够的 $CSB 来执行此操作",
+  "Please switch to the Crossbell network in your wallet.": "请在钱包中切换到 Crossbell 网络"
 }

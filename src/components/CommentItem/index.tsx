@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useCallback, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { TextInput } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -6,6 +6,7 @@ import Modal from "react-native-modal";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { useCharacter } from "@crossbell/indexer";
+import { useIsConnected } from "@crossbell/react-account";
 import { ArrowRight, Edit } from "@tamagui/lucide-icons";
 import type { ListResponse, NoteEntity } from "crossbell";
 import type { ListItemProps } from "tamagui";
@@ -16,23 +17,26 @@ import { useCharacterId } from "@/hooks/use-character-id";
 import { useColors } from "@/hooks/use-colors";
 import { useDate } from "@/hooks/use-date";
 import { useGlobalLoading } from "@/hooks/use-global-loading";
+import { useSetupAnonymousComment } from "@/hooks/use-setup-anonymous-comment";
 import { useGetComments, useSubmitComment } from "@/queries/page";
 import { flatComments } from "@/utils/flat-comments";
 import { GA } from "@/utils/GA";
 
 import { Avatar } from "../Avatar";
 import { BlockchainInfoIcon } from "../BlockchainInfoIcon";
+import { DelayedRender } from "../DelayRender";
 import { KeyboardAvoidingView } from "../KeyboardAvoidingView";
 import { ReactionLike } from "../ReactionLike";
 import { Titles } from "../Titles";
 
 export interface CommentItemProps extends ListItemProps {
   comment: Comment
-  toCharacterId?: number
   displayReply?: boolean
   depth?: number
   commentable?: boolean
   editable?: boolean
+  originalCharacterId?: number
+  originalNoteId?: number
   onPressMore?: () => void
   onPressComment?: (comment: Comment) => void
   onPressEdit?: (comment: Comment) => void
@@ -51,7 +55,8 @@ export const CommentItem: React.FC<CommentItemProps> = (props) => {
     depth = 0,
     commentable = false,
     editable = false,
-    toCharacterId,
+    originalCharacterId,
+    originalNoteId,
     onPressMore,
     onPressComment: _onPressComment,
     onPressEdit: _onPressEdit,
@@ -61,11 +66,11 @@ export const CommentItem: React.FC<CommentItemProps> = (props) => {
   } = props;
   const date = useDate();
   const myCharacterId = useCharacterId();
-  const commonI18n = useTranslation("common");
+  const isConnected = useIsConnected();
   const comments = useGetComments({ characterId: comment?.characterId, noteId: comment?.noteId });
-  const repliesCount = comments.data?.pages?.[0]?.count;
-  const siteI18n = useTranslation("site");
+  const commonI18n = useTranslation();
   const inputRef = useRef<TextInput>(null);
+  const toCharacterId = comment.toCharacterId;
   const toCharacter = useCharacter(toCharacterId);
   const [modalVisible, setModalVisible] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -73,8 +78,10 @@ export const CommentItem: React.FC<CommentItemProps> = (props) => {
   const [content, setContent] = useState("");
   const _submitComment = useSubmitComment();
   const { show, hide } = useGlobalLoading();
+  const { anonymousCommentDialog, withAnonymousComment } = useSetupAnonymousComment();
   const gaWithScreenParams = useGAWithScreenParams();
   const isAuthor = comment?.characterId === myCharacterId;
+  const repliesCount = comments.data?.pages?.[0]?.count;
   const isSubComment = depth > 0;
 
   const onPressComment = React.useCallback(() => {
@@ -95,20 +102,16 @@ export const CommentItem: React.FC<CommentItemProps> = (props) => {
     _onPressEdit?.(comment);
   }, [_onPressEdit, comment, editable]);
 
-  const openModal = () => {
+  const openModal = useCallback(() => {
     setModalVisible(true);
-  };
+  }, []);
 
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     inputRef.current?.blur();
     setModalVisible(false);
-  };
+  }, []);
 
-  const hideInput = () => {
-    closeModal();
-  };
-
-  const submitComment = async () => {
+  const submitComment = withAnonymousComment(async () => {
     closeModal();
     await new Promise(resolve => setTimeout(resolve, 500));
     show();
@@ -116,25 +119,30 @@ export const CommentItem: React.FC<CommentItemProps> = (props) => {
     return _submitComment({
       characterId: comment?.characterId,
       noteId: comment?.noteId,
+      originalCharacterId: comment?.characterId,
+      originalNoteId: comment?.noteId,
       content,
-      targetComment: isEditing ? comment : undefined,
+      comment: isEditing ? comment : undefined,
+      anonymous: !isConnected,
     })
       .then(isEditing ? onEdit : onComment)
       .finally(() => {
         hide();
         setContent("");
       });
-  };
+  });
 
-  const flatedComments = flatComments(
+  const flattedComments = useMemo(() => flatComments(
     comment?.fromNotes?.list?.length ? comment : undefined,
     1,
-  )?.sort((a, b) => b?.data?.createdAt > a?.data?.createdAt ? 1 : -1);
-  const splitedComments = displayReply ? flatedComments?.slice(0, 2) : [];
-  const displayMore = flatedComments?.length > 2;
+  )?.sort((a, b) => b?.data?.createdAt > a?.data?.createdAt ? 1 : -1), [comment]);
+
+  const splitComments = useMemo(() => displayReply ? flattedComments?.slice(0, 2) : [], [displayReply, flattedComments]);
+  const displayMore = useMemo(() => flattedComments?.length > 2, [flattedComments]);
 
   return (
     <>
+      {anonymousCommentDialog}
       <XStack marginBottom="$2" gap="$3" {...restProps}>
         <Avatar useDefault size={isSubComment ? 36 : 40} character={comment?.character} />
         <YStack flex={1}>
@@ -142,6 +150,7 @@ export const CommentItem: React.FC<CommentItemProps> = (props) => {
             <XStack alignItems="center" marginBottom="$1">
               <Text fontWeight={isSubComment ? "400" : "700"} maxWidth={"40%"} numberOfLines={1}>
                 {comment?.character?.metadata?.content?.name}
+                {/*  {comment?.characterId}-{comment?.noteId} */}
               </Text>
               <Spacer size={2} />
               <Titles characterId={comment?.characterId} />
@@ -155,6 +164,7 @@ export const CommentItem: React.FC<CommentItemProps> = (props) => {
 
                     <Text fontWeight={"400"} maxWidth={"40%"} numberOfLines={1}>
                       {toCharacter?.data?.metadata?.content?.name}
+                      {/* {comment.toCharacterId}-{comment.toNoteId} */}
                     </Text>
                     <Spacer size={2} />
                     <Titles characterId={toCharacter?.data?.characterId} />
@@ -187,7 +197,7 @@ export const CommentItem: React.FC<CommentItemProps> = (props) => {
           <XStack justifyContent="flex-end" gap="$3" marginTop="$2" alignItems="center">
             <ReactionLike ga={{ type: "reply" }} iconSize={"$0.75"} fontSize={"$4"} characterId={comment?.characterId} noteId={comment?.noteId}/>
             {
-              depth < 2 && (
+              depth < 2 && commentable && (
                 <TouchableOpacity onPress={onPressComment}>
                   <XStack alignItems="center" gap="$1.5" minWidth={"$3"}justifyContent="center">
                     <Text color={"$color"} fontSize={"$4"}>
@@ -199,7 +209,7 @@ export const CommentItem: React.FC<CommentItemProps> = (props) => {
               )
             }
             {
-              isAuthor && (
+              isAuthor && editable && (
                 <TouchableOpacity onPress={onPressEdit}>
                   <XStack alignItems="center" gap="$1.5" minWidth={"$3"} justifyContent="center">
                     <Edit size={"$0.75"} fontSize={"$4"}/>
@@ -213,10 +223,10 @@ export const CommentItem: React.FC<CommentItemProps> = (props) => {
           </XStack>
 
           {
-            splitedComments.length > 0 && (
+            splitComments.length > 0 && (
               <Stack marginTop="$3">
                 {
-                  splitedComments?.map(
+                  splitComments?.map(
                     ({ depth, data }) => {
                       return (
                         <Stack key={data?.blockNumber} marginBottom="$2">
@@ -224,7 +234,6 @@ export const CommentItem: React.FC<CommentItemProps> = (props) => {
                             editable={editable}
                             commentable={commentable}
                             comment={data}
-                            toCharacterId={comment?.toCharacterId}
                             onPressComment={_onPressComment}
                             displayReply={false}
                             depth={depth}
@@ -249,54 +258,60 @@ export const CommentItem: React.FC<CommentItemProps> = (props) => {
           }
         </YStack>
       </XStack>
-      <Modal isVisible={modalVisible} style={{ margin: 0 }} backdropTransitionOutTiming={0}>
-        <SafeAreaView style={{ flex: 1 }}>
-          <KeyboardAvoidingView style={{ flex: 1, justifyContent: "flex-end" }}>
-            <YStack flex={1} justifyContent="flex-end" onPress={hideInput}>
-              <XStack
-                width={"100%"}
-                paddingVertical={8}
-                alignSelf="flex-end"
-                backgroundColor={"$background"}
-                paddingHorizontal="$3"
-                gap="$2"
+      <DelayedRender when={modalVisible}>
+        <Modal isVisible={modalVisible} style={{ margin: 0 }} backdropTransitionOutTiming={0}>
+          <SafeAreaView style={{ flex: 1 }}>
+            <KeyboardAvoidingView style={{ flex: 1, justifyContent: "flex-end" }}>
+              <YStack
+                flex={1}
+                justifyContent="flex-end"
+                onPress={closeModal}
               >
-                <Input
-                  ref={inputRef}
-                  borderColor={borderColor}
-                  color={color}
-                  flex={1}
-                  multiline
-                  minHeight={"$4"}
-                  paddingVertical={12}
-                  alignItems="center"
-                  onBlur={hideInput}
-                  autoFocus
-                  size={"$6"}
-                  fontSize={"$4"}
-                  lineHeight={16}
-                  onChangeText={setContent}
-                  placeholder={
-                    isEditing
-                      ? comment?.metadata?.content?.content
-                      : siteI18n.t("Write a comment on the blockchain")
-                  }
-                  placeholderTextColor={subtitle}
-                />
-                <Button
-                  alignSelf="center"
-                  size={"$4"}
-                  alignItems="center"
-                  justifyContent="center"
-                  onPress={submitComment}
+                <XStack
+                  width={"100%"}
+                  paddingVertical={8}
+                  alignSelf="flex-end"
+                  backgroundColor={"$background"}
+                  paddingHorizontal="$3"
+                  gap="$2"
                 >
-                  {siteI18n.t("Publish")}
-                </Button>
-              </XStack>
-            </YStack>
-          </KeyboardAvoidingView>
-        </SafeAreaView>
-      </Modal>
+                  <Input
+                    ref={inputRef}
+                    borderColor={borderColor}
+                    color={color}
+                    height={"100%"}
+                    flex={1}
+                    multiline
+                    minHeight={"$4"}
+                    paddingVertical={12}
+                    alignItems="center"
+                    onBlur={closeModal}
+                    autoFocus
+                    size={"$4"}
+                    fontSize={"$4"}
+                    lineHeight={16}
+                    onChangeText={setContent}
+                    placeholder={
+                      isEditing
+                        ? comment?.metadata?.content?.content
+                        : commonI18n.t("Write a comment")
+                    }
+                    placeholderTextColor={subtitle}
+                  />
+                  <Button
+                    alignSelf="flex-end"
+                    alignItems="center"
+                    justifyContent="center"
+                    onPress={submitComment}
+                  >
+                    {commonI18n.t("Publish")}
+                  </Button>
+                </XStack>
+              </YStack>
+            </KeyboardAvoidingView>
+          </SafeAreaView>
+        </Modal>
+      </DelayedRender>
     </>
   );
 };
