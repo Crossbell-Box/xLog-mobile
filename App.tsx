@@ -1,8 +1,4 @@
 import "./shim";
-import "intl-pluralrules";
-import "react-native-url-polyfill/auto";
-import "react-native-get-random-values";
-import "@ethersproject/shims";
 import "expo-dev-client";
 import "./error-handler";
 import "@/providers/connect-kit-provider/setup-react-account";
@@ -25,6 +21,7 @@ import { TamaguiProvider } from "tamagui";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { NetworkChecker } from "@/components/NetworkChecker";
 import { NetworkSafeView } from "@/components/NetworkSafeView";
+import { NotificationRegister } from "@/components/NotificationRegister";
 import ProviderComposer from "@/components/ProviderComposer";
 import { StatusBar } from "@/components/StatusBar";
 import { WalletConnectModal } from "@/components/WalletConnectModal";
@@ -118,6 +115,7 @@ export default () => {
       <ApolloProvider key={"ApolloProvider"} />,
     ]}>
       <NetworkChecker/>
+      <NotificationRegister/>
       <StatusBar />
       <RootNavigator />
       <NetworkSafeView ifReachable={<WalletConnectModal />}/>
