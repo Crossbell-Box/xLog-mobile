@@ -68,7 +68,7 @@ export const ExplorePage: FC<NativeStackScreenProps<HomeBottomTabsParamList, "Ex
             <Stack borderLeftColor={"$primary"} borderLeftWidth={3} height="$0.5" marginRight="$2"/>
             <SizableText fontWeight={"700"} color="$color" size="$6">{i18n.t("Hot Topics")}</SizableText>
           </XStack>
-          {topics.map((topic) => {
+          {topics.sort((a, b) => (a.description || "")?.length - (b.description || "")?.length).map((topic) => {
             return <ListItem onPress={() => onPressTopicItem(topic)} paddingHorizontal={4} key={topic.name} title={i18n.t(topic.name)} subTitle={i18n.t(topic.description)}/>;
           })}
         </YStack>

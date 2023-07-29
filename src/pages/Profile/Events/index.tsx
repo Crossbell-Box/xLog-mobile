@@ -7,7 +7,7 @@ import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Button, Card, Paragraph, SizableText, Stack, Text, XStack, YStack } from "tamagui";
 
 import { Avatar } from "@/components/Avatar";
-import { Loading } from "@/components/Loading";
+import { Loading } from "@/components/Base/Loading";
 import { ProfilePageHeader } from "@/components/ProfilePageHeader";
 import { ProfilePageLayout } from "@/components/ProfilePageLayout";
 import { useDate } from "@/hooks/use-date";

@@ -13,7 +13,7 @@ export const useNavigateToUserInfo = (character?: CharacterEntity) => {
 
     navigation.navigate("UserInfo", { characterId: character?.characterId });
   }, [
-    character?.characterId,
+    character,
     navigation,
   ]);
 

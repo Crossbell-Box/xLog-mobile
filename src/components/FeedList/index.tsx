@@ -15,7 +15,7 @@ import { GA } from "@/utils/GA";
 import { FeedListItem } from "./FeedListItem";
 
 import topics from "../../data/topics.json";
-import { Center } from "../Center";
+import { Center } from "../Base/Center";
 import { FillSpinner } from "../FillSpinner";
 import { ReanimatedFlashList } from "../ReanimatedFlashList";
 import { MeasureContainer } from "../utils/MeasureContainer";

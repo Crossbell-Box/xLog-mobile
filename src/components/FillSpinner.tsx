@@ -3,7 +3,7 @@ import type { FC } from "react";
 import type { StackProps } from "tamagui";
 import { Spinner } from "tamagui";
 
-import { Center } from "./Center";
+import { Center } from "./Base/Center";
 
 export const FillSpinner: FC<StackProps> = (props) => {
   return (
