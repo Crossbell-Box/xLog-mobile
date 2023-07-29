@@ -1,5 +1,25 @@
 # xlog
 
+## 0.20.0
+
+### Minor Changes
+
+- 6f75ab1: Support anonymous comment.
+- 03ed8a2: Updated tamagui.
+- a09b6aa: Support to notification.
+
+### Patch Changes
+
+- 6f75ab1: Made some improvements in commenting.
+- 70984dd: Fixed webview rendering errors.
+- ab3d18a: Block some users and fixed types error.
+- 56483c4: Solved the styles problem of skeleton in post details page.
+- cd7064f: Display suggestion part of explore page correctly.
+- 8883a17: Makes it easier to navigate to UserInfo page in explore page.
+- 56b72ab: Fixed crush problem when pressed topic item in explore page.
+- 283ce82: Updated the logic of feed searching in the home page.
+- 23b2296: Some refactoring and UI bug fixes
+
 ## 0.19.0
 
 ### Minor Changes
