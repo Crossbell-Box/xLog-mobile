@@ -205,7 +205,7 @@ export const Content = React.forwardRef<PostDetailsContentInstance, Props>((prop
             onMomentumScrollEnd={
               callChain([
                 scrollVisibilityHandler.onMomentumScrollEnd,
-                (e) => {
+                (e: any) => {
                   if (gaReadEventLogged.current) {
                     return;
                   }

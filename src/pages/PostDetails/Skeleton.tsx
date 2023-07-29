@@ -16,7 +16,7 @@ export const Skeleton: FC<{
 }) => {
   const { width, height } = useWindowDimensions();
   const { isDarkMode } = useThemeStore();
-  const contentLoaderDimensions = { width, height: headerHeight + 200 };
+  const contentLoaderDimensions = { width, height: headerHeight + 300 };
   const skeletonAnimStyles = useAnimatedStyle(() => {
     return {
       opacity: interpolate(webviewLoadingAnimValue.value, [0, 1], [1, 0]),
@@ -39,14 +39,13 @@ export const Skeleton: FC<{
     >
       <YStack height={contentLoaderDimensions.height} alignItems={"flex-start"} justifyContent={"flex-start"}>
         <ContentLoader
-          viewBox={`0 0 ${contentLoaderDimensions.width - paddingSize * 2} 
-                          ${contentLoaderDimensions.height}`}
+          viewBox={`0 0 ${contentLoaderDimensions.width - paddingSize * 2} ${contentLoaderDimensions.height}`}
           backgroundColor={"gray"}
           opacity="0.3"
         >
           <Rect x={paddingSize} y="20" rx="3" ry="3" width={`${(contentLoaderDimensions.width - paddingSize * 2) * 0.5}`} height="36" />
           <Rect x={paddingSize} y="70" rx="3" ry="3" width={`${(contentLoaderDimensions.width - paddingSize * 2) * 0.25}`} height="13" />
-          <Rect x={`${paddingSize + (contentLoaderDimensions.width - 40) * 0.25 + paddingSize}`} y="70" rx="3" ry="3" width={`${(contentLoaderDimensions.width - paddingSize * 2) * 0.35}`} height="13" />
+          <Rect x={`${paddingSize + (contentLoaderDimensions.width + 20) * 0.25 + paddingSize}`} y="70" rx="3" ry="3" width={`${(contentLoaderDimensions.width - paddingSize * 2) * 0.35}`} height="13" />
           <Rect x={paddingSize} y="100" rx="3" ry="3" width={`${(contentLoaderDimensions.width - paddingSize * 2) * 0.75}`} height="20" />
           <Rect x={paddingSize} y="130" rx="3" ry="3" width={`${(contentLoaderDimensions.width - paddingSize * 2)}`} height="20" />
           <Rect x={paddingSize} y="160" rx="3" ry="3" width={`${(contentLoaderDimensions.width - paddingSize * 2)}`} height="20" />
