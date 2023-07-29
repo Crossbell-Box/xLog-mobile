@@ -1,16 +1,23 @@
-import type { PropsWithChildren } from "react";
-import { useImperativeHandle, forwardRef, useState } from "react";
+import type { FC, PropsWithChildren } from "react";
+import { useImperativeHandle, forwardRef, useState, useMemo, useCallback, useEffect } from "react";
 import type { ViewStyle } from "react-native";
 
 import { Button, AlertDialog as TAlertDialog, XStack, YStack, Stack } from "tamagui";
 
+import { useKeyboardStatus } from "@/utils/useKeyboardStatus";
+
+import { KeyboardAvoidingView } from "./KeyboardAvoidingView";
+
 interface CallBackParams {
   toggle: (visible?: boolean) => void
+  open: () => void
+  close: () => void
 }
 
 interface Props extends PropsWithChildren {
   title: string
   description: React.ReactNode
+  visible?: boolean
   confirmText?: string
   cancelText?: string
   renderConfirm?: (props: CallBackParams) => JSX.Element
@@ -24,9 +31,10 @@ export interface AlertDialogInstance extends CallBackParams {
 
 }
 
-export const AlertDialog = forwardRef<AlertDialogInstance, Props>(({
+export const AlertDialog: FC<Props> = ({
   children,
   title,
+  visible,
   description,
   confirmText,
   cancelText,
@@ -35,19 +43,24 @@ export const AlertDialog = forwardRef<AlertDialogInstance, Props>(({
   containerStyle,
   onConfirm: _onConfirm,
   onCancel: _onCancel,
-}, ref) => {
-  const [visible, setVisible] = useState(false);
+}) => {
+  const [_visible, setVisible] = useState(false);
+  const { isKeyboardVisible } = useKeyboardStatus();
+  const toggle = useCallback((visible?: boolean) => { setVisible(typeof visible === "undefined" ? !_visible : visible); }, [_visible]);
+  const open = useCallback(() => { toggle(true); }, [toggle]);
+  const close = useCallback(() => { toggle(false); }, [toggle]);
+  const params = useMemo(() => ({ toggle, open, close }), [toggle]);
+  const onConfirm = () => { _onConfirm?.(params); };
+  const onCancel = () => { _onCancel?.(params); };
 
-  const toggle = (visible?: boolean) => { setVisible(typeof visible === "undefined" ? !visible : visible); };
-  const onConfirm = () => { _onConfirm?.({ toggle }); };
-  const onCancel = () => { _onCancel?.({ toggle }); };
-
-  useImperativeHandle(ref, () => ({
-    toggle,
-  }));
+  useEffect(() => {
+    if (typeof visible === "boolean") {
+      setVisible(visible);
+    }
+  }, [visible]);
 
   return (
-    <TAlertDialog open={visible}>
+    <TAlertDialog open={_visible}>
       {children && (
         <TAlertDialog.Trigger asChild>
           {children}
@@ -58,7 +71,7 @@ export const AlertDialog = forwardRef<AlertDialogInstance, Props>(({
         <TAlertDialog.Overlay
           key="overlay"
           animation="quick"
-          opacity={0.5}
+          backgroundColor={"$backgroundTransparent"}
           enterStyle={{ opacity: 0 }}
           exitStyle={{ opacity: 0 }}
         />
@@ -81,7 +94,7 @@ export const AlertDialog = forwardRef<AlertDialogInstance, Props>(({
           opacity={1}
           width="90%"
           maxWidth={400}
-          y={0}
+          y={isKeyboardVisible ? -100 : 0}
           style={containerStyle}
         >
           <YStack space>
@@ -99,12 +112,12 @@ export const AlertDialog = forwardRef<AlertDialogInstance, Props>(({
             <XStack space="$3" justifyContent="flex-end">
               <TAlertDialog.Cancel asChild>
                 {
-                  renderCancel ? renderCancel({ toggle }) : <Button onPress={onCancel}>{cancelText}</Button>
+                  renderCancel ? renderCancel(params) : <Button onPress={onCancel}>{cancelText}</Button>
                 }
               </TAlertDialog.Cancel>
               <TAlertDialog.Action asChild>
                 {
-                  renderConfirm ? renderConfirm({ toggle }) : <Button onPress={onConfirm}>{confirmText}</Button>
+                  renderConfirm ? renderConfirm(params) : <Button onPress={onConfirm}>{confirmText}</Button>
                 }
               </TAlertDialog.Action>
             </XStack>
@@ -113,4 +126,4 @@ export const AlertDialog = forwardRef<AlertDialogInstance, Props>(({
       </TAlertDialog.Portal>
     </TAlertDialog>
   );
-});
+};

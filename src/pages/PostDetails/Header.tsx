@@ -27,6 +27,7 @@ import { XTouch } from "@/components/XTouch";
 import { useColors } from "@/hooks/use-colors";
 import { useGlobalLoading } from "@/hooks/use-global-loading";
 import { useHitSlopSize } from "@/hooks/use-hit-slop-size";
+import { useToggle } from "@/hooks/use-toggle";
 import { useGetPage } from "@/queries/page";
 import { useGetSite } from "@/queries/site";
 import { GA } from "@/utils/GA";
@@ -56,7 +57,7 @@ export const Header: FC<Props> = (props) => {
   const character = useCharacter(characterId);
   const hitSlop = useHitSlopSize(44);
   const globalLoading = useGlobalLoading();
-  const alertDialogRef = useRef<AlertDialogInstance>(null);
+  const [visible, toggle] = useToggle(false);
   const [generatedImageUri, setGeneratedImageUri] = React.useState<string | null>(null);
 
   const page = useGetPage(
@@ -98,7 +99,7 @@ export const Header: FC<Props> = (props) => {
   };
 
   const closeAlertDialog = () => {
-    alertDialogRef.current?.toggle(false);
+    toggle(false);
   };
 
   const handleCopyLink = () => {
@@ -123,7 +124,7 @@ export const Header: FC<Props> = (props) => {
     closeBottomSheetModal();
     const uri = await onTakeScreenshot();
     setGeneratedImageUri(uri);
-    alertDialogRef.current?.toggle(true);
+    toggle(true);
   };
 
   const clearGeneratedImage = async () => {
@@ -252,7 +253,7 @@ export const Header: FC<Props> = (props) => {
       </Animated.View>
 
       <AlertDialog
-        ref={alertDialogRef}
+        visible={visible}
         title={undefined}
         containerStyle={{
           paddingLeft: 4,

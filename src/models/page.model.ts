@@ -68,6 +68,7 @@ const getLocalPages = async (input: {
             ],
             slug: page.values?.slug,
             sources: ["xlog"],
+            // @ts-expect-error
             disableAISummary: page.values?.disableAISummary,
           },
         },
@@ -111,6 +112,28 @@ export async function getMints({
     character: CharacterEntity
   }
   >;
+}
+
+export async function anonymousComment(input: {
+  targetCharacterId: number
+  targetNoteId: number
+  content: string
+  name: string
+  email: string
+}) {
+  return await fetch("https://xlog.app/api/anonymous/comment", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      targetCharacterId: input.targetCharacterId,
+      targetNoteId: input.targetNoteId,
+      content: input.content,
+      name: input.name,
+      email: input.email,
+    }),
+  });
 }
 
 export async function checkMint({
@@ -171,12 +194,10 @@ export async function getComments({
 export async function updateComment(
   {
     content,
-    externalUrl,
     characterId,
     noteId,
   }: {
     content: string
-    externalUrl: string
     characterId: number
     noteId: number
   },
@@ -187,7 +208,6 @@ export async function updateComment(
     noteId,
     metadata: {
       content,
-      external_urls: [externalUrl],
       tags: ["comment"],
       sources: ["xlog"],
     },

@@ -14,12 +14,11 @@ import { ImageGallery } from "@/components/ImageGallery";
 import { useColors } from "@/hooks/use-colors";
 import { useDate } from "@/hooks/use-date";
 import { useRootNavigation } from "@/hooks/use-navigation";
+import type { ExpandedNote } from "@/types/crossbell";
 import { findCoverImage } from "@/utils/find-cover-image";
 
-type NoteEntity = any;
-
 export interface Props {
-  note: NoteEntity
+  note: ExpandedNote
   style?: ViewStyle
   searchKeyword?: string
 }

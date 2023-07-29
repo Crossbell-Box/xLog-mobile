@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import React, { useEffect } from "react";
 import QRCode from "react-native-qrcode-svg";
-import Animated, { useSharedValue, withSpring, withDelay } from "react-native-reanimated";
+import { useSharedValue, withSpring, withDelay } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -44,7 +44,7 @@ export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, "Pos
 
   const onTakeScreenshot = React.useCallback(async (): Promise<string> => contentRef.current.takeScreenshot(), []);
 
-  const qrCodeComponent = (
+  const qrCodeComponent = postUri && (
     <Stack
       backgroundColor={"$color"}
       padding={"$2"}
@@ -79,7 +79,7 @@ export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, "Pos
         />
         <Content
           ref={contentRef}
-          postUri={`${postUri}?only-content=true`}
+          postUri={postUri ? `${postUri}?only-content=true` : undefined}
           renderHeaderComponent={(isCapturing) => {
             return (
               <YStack

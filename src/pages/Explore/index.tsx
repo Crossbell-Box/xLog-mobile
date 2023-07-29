@@ -10,6 +10,7 @@ import type { CharacterEntity } from "crossbell";
 import { Text, ListItem, SizableText, Stack, XStack, YStack } from "tamagui";
 
 import { Avatar } from "@/components/Avatar";
+import { useNavigateToUserInfo } from "@/hooks/use-navigate-to-user-info";
 import { useRootNavigation } from "@/hooks/use-navigation";
 import type { HomeBottomTabsParamList } from "@/navigation/types";
 import { useGetShowcase } from "@/queries/home";
@@ -29,13 +30,13 @@ export const ExplorePage: FC<NativeStackScreenProps<HomeBottomTabsParamList, "Ex
   const showcaseSites = useGetShowcase();
   const navigation = useRootNavigation();
 
-  const onPressTopicItem = useCallback((topic: any) => {
+  const onPressTopicItem = useCallback((topic: (typeof topics)[number]) => {
     GA.logSelectItem({
       content_type: "explore_page_topic",
-      item_list_id: topic,
-      item_list_name: topic,
+      item_list_id: "explore_page_topic_list",
+      item_list_name: "explore_page_topic_list",
       items: [{
-        item_id: topic,
+        item_id: topic.name,
         item_name: i18n.t(topic.name),
       }],
     });
@@ -67,17 +68,19 @@ export const ExplorePage: FC<NativeStackScreenProps<HomeBottomTabsParamList, "Ex
             <Stack borderLeftColor={"$primary"} borderLeftWidth={3} height="$0.5" marginRight="$2"/>
             <SizableText fontWeight={"700"} color="$color" size="$6">{i18n.t("Hot Topics")}</SizableText>
           </XStack>
-          {topics.map((topic: any) => {
-            return <ListItem onPress={onPressTopicItem} paddingHorizontal={4} key={topic.name} title={i18n.t(topic.name)} subTitle={i18n.t(topic.description)}/>;
+          {topics.sort((a, b) => (a.description || "")?.length - (b.description || "")?.length).map((topic) => {
+            return <ListItem onPress={() => onPressTopicItem(topic)} paddingHorizontal={4} key={topic.name} title={i18n.t(topic.name)} subTitle={i18n.t(topic.description)}/>;
           })}
         </YStack>
-        <YStack>
-          <XStack alignItems="center" marginBottom="$3">
-            <Stack borderLeftColor={"$primary"} borderLeftWidth={3} height="$0.5" marginRight="$2"/>
-            <SizableText fontWeight={"700"} color="$color" size="$6">{i18n.t("Suggested creators for you")}</SizableText>
-          </XStack>
-          {showcaseSites.data?.slice(0, 15)?.map(item => <CharacterCard item={item} key={item.characterId} />)}
-        </YStack>
+        {!!showcaseSites.data?.length && (
+          <YStack>
+            <XStack alignItems="center" marginBottom="$3">
+              <Stack borderLeftColor={"$primary"} borderLeftWidth={3} height="$0.5" marginRight="$2"/>
+              <SizableText fontWeight={"700"} color="$color" size="$6">{i18n.t("Suggested creators for you")}</SizableText>
+            </XStack>
+            {showcaseSites.data?.slice(0, 15)?.map(item => <CharacterCard item={item} key={item.characterId} />)}
+          </YStack>
+        )}
       </ScrollView>
     </SafeAreaView>
   );
@@ -87,8 +90,10 @@ const CharacterCard: FC<{
   item: CharacterEntity
 }> = (props) => {
   const { item } = props;
+  const { navigateToUserInfo } = useNavigateToUserInfo(props.item);
 
   const onHandleAvatarPress = useCallback(() => {
+    navigateToUserInfo();
     GA.logSelectItem({
       content_type: "explore_page_creator",
       item_list_id: "explore_page_creator_list",
@@ -103,7 +108,7 @@ const CharacterCard: FC<{
   return (
     <XStack onPress={onHandleAvatarPress} height={ITEM_HEIGHT} paddingBottom={ITEM_VERTICAL_GAP} backgroundColor={"$background"}>
       <XStack flex={1} alignItems="center" gap="$3" borderWidth={1} borderColor={"$borderColor"} borderRadius={"$5"} paddingHorizontal={"$3"}>
-        <Avatar size={42} character={item} isNavigateToUserInfo useDefault/>
+        <Avatar size={42} character={item} useDefault/>
         <YStack flex={1} gap="$2">
           <Text numberOfLines={1} color={"$color"} fontSize={"$7"} fontWeight={"$10"}>{item.metadata?.content?.name}</Text>
           {item.metadata?.content?.bio && <Text color="$colorSubtitle" numberOfLines={2}>{item.metadata?.content?.bio}</Text>}

@@ -11,13 +11,12 @@ import * as Clipboard from "expo-clipboard";
 import * as Haptics from "expo-haptics";
 import * as Updates from "expo-updates";
 import * as Sentry from "sentry-expo";
-import { ListItem, Text, ListItemTitle, Switch, YGroup, YStack, Stack, Button } from "tamagui";
+import { ListItem, Text, ListItemTitle, Switch, YGroup, YStack, Stack } from "tamagui";
 
-import type { AlertDialogInstance } from "@/components/AlertDialog";
 import { AlertDialog } from "@/components/AlertDialog";
+import { Button } from "@/components/Base/Button";
 import { BottomSheetModal } from "@/components/BottomSheetModal";
 import type { BottomSheetModalInstance } from "@/components/BottomSheetModal";
-import { ClaimCSBButton } from "@/components/ClaimCSBButton";
 import { DisconnectBtn } from "@/components/ConnectionButton";
 import { APP_SCHEME, IS_DEV, IS_PROD, IS_TEST, VERSION } from "@/constants";
 import { useColors } from "@/hooks/use-colors";
@@ -25,6 +24,7 @@ import { useMultiPressHandler } from "@/hooks/use-multi-press-handler";
 import { useRootNavigation } from "@/hooks/use-navigation";
 import { useNotification } from "@/hooks/use-notification";
 import { useThemeStore } from "@/hooks/use-theme-store";
+import { useToggle } from "@/hooks/use-toggle";
 import { allThemes } from "@/styles/theme";
 import { GA } from "@/utils/GA";
 import { checkHotUpdates } from "@/utils/hot-updates";
@@ -52,8 +52,8 @@ export const Settings: React.FC<Props> = () => {
       disabled: IS_DEV || devMenuVisible,
     },
   );
-  const notificationAlertDialogRef = useRef<AlertDialogInstance>(null);
-  const updatesAlertDialogRef = useRef<AlertDialogInstance>(null);
+  const [notificationAlertDialogVisible, notificationAlertDialogToggle] = useToggle(false);
+  const [updatesAlertDialogVisible, updatesAlertDialogToggle] = useToggle(false);
   const bottomSheetRef = useRef<BottomSheetModalInstance>(null);
   const { mode, theme, changeTheme } = useThemeStore();
   const snapPoints = useMemo(() => ["40%"], []);
@@ -77,7 +77,7 @@ export const Settings: React.FC<Props> = () => {
           await Updates.reloadAsync();
         }
         else {
-          updatesAlertDialogRef.current?.toggle(true);
+          updatesAlertDialogToggle(true);
         }
       })
       .catch(() => {
@@ -108,7 +108,7 @@ export const Settings: React.FC<Props> = () => {
     }
     else {
       requestPermissions().catch(() => {
-        notificationAlertDialogRef.current?.toggle(true);
+        notificationAlertDialogToggle(true);
       });
     }
   };
@@ -144,8 +144,8 @@ export const Settings: React.FC<Props> = () => {
     });
   };
 
-  const closeNotificationAlertDialog = () => notificationAlertDialogRef.current?.toggle(false);
-  const closeUpdatesAlertDialog = () => updatesAlertDialogRef.current?.toggle(false);
+  const closeNotificationAlertDialog = () => notificationAlertDialogToggle(false);
+  const closeUpdatesAlertDialog = () => updatesAlertDialogToggle(false);
 
   const onNotificationAlertConfirm = () => {
     closeNotificationAlertDialog();
@@ -173,19 +173,19 @@ export const Settings: React.FC<Props> = () => {
   return (
     <>
       <AlertDialog
-        ref={notificationAlertDialogRef}
         title={i18n.t("Alert")}
+        visible={notificationAlertDialogVisible}
         description={i18n.t("Please allow xLog to send you notifications so that you can receive the latest updates from the creators you follow.")}
         renderCancel={() => <Button onPress={closeNotificationAlertDialog}>{i18n.t("Cancel")}</Button>}
-        renderConfirm={() => <Button backgroundColor="$primary" color="$color" onPress={onNotificationAlertConfirm}>{i18n.t("Confirm")}</Button>}
+        renderConfirm={() => <Button type="primary" onPress={onNotificationAlertConfirm}>{i18n.t("Confirm")}</Button>}
       />
 
       <AlertDialog
-        ref={updatesAlertDialogRef}
         title={i18n.t("Alert")}
+        visible={updatesAlertDialogVisible}
         description={i18n.t("New update available, click to restart.")}
         renderCancel={() => <Button onPress={closeUpdatesAlertDialog}>{i18n.t("Cancel")}</Button>}
-        renderConfirm={() => <Button backgroundColor="$primary" color="$color" onPress={onUpdatesAlertConfirm}>{i18n.t("Confirm")}</Button>}
+        renderConfirm={() => <Button type="primary" onPress={onUpdatesAlertConfirm}>{i18n.t("Confirm")}</Button>}
       />
 
       <SafeAreaView edges={["bottom"]} style={styles.container}>

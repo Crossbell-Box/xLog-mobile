@@ -4,7 +4,8 @@ import { useRefCallback } from "@crossbell/util-hooks";
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import type { Comment } from "@/components/CommentItem";
-import { checkMint, getComment, getComments, getMints, getPage, getPagesBySite, updateComment } from "@/models/page.model";
+import { getAnonymousCommentInformation } from "@/hooks/use-setup-anonymous-comment";
+import { anonymousComment, checkMint, getComment, getComments, getMints, getPage, getPagesBySite, updateComment } from "@/models/page.model";
 import { cacheDelete, cacheGet } from "@/utils/cache";
 import { getNoteSlug } from "@/utils/get-slug";
 
@@ -90,6 +91,30 @@ export async function getIdBySlug(slug: string, characterId: string | number) {
   return result;
 }
 
+export function useAnonymousComment() {
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    async (
+      payload: Parameters<typeof anonymousComment>[0] & {
+        originalNoteId?: number
+        originalCharacterId?: number
+      },
+    ) => {
+      return anonymousComment(payload);
+    },
+    {
+      onSuccess: (data, variables) => {
+        queryClient.invalidateQueries([
+          "getComments",
+          variables.originalCharacterId || variables.targetCharacterId,
+          variables.originalNoteId || variables.targetNoteId,
+        ]);
+      },
+    },
+  );
+}
+
 export const useGetLikeCounts = ({
   characterId,
   noteId,
@@ -114,14 +139,12 @@ export function useCommentPage() {
       characterId,
       noteId,
       content,
-      externalUrl,
       originalCharacterId,
       originalNoteId,
     }: {
       characterId: number
       noteId: number
       content: string
-      externalUrl: string
       originalCharacterId?: number
       originalNoteId?: number
     }) => {
@@ -133,7 +156,6 @@ export function useCommentPage() {
           },
           metadata: {
             content,
-            external_urls: [externalUrl],
             tags: ["comment"],
             sources: ["xlog"],
           },
@@ -160,27 +182,56 @@ export function useCommentPage() {
 export const useSubmitComment = () => {
   const commentPage = useCommentPage();
   const updateComment = useUpdateComment();
+  const anonymousComment = useAnonymousComment();
+
   const submitComment = async ({
+    originalCharacterId,
+    originalNoteId,
     characterId,
     noteId,
     content,
-    targetComment,
+    comment,
+    anonymous,
   }: {
-    characterId: number
-    noteId: number
+    originalCharacterId: number
+    originalNoteId: number
+    characterId?: number
+    noteId?: number
     content: string
-    targetComment?: Comment
+    comment?: Comment
+    anonymous?: boolean
   }) => {
-    if (characterId && noteId) {
-      if (targetComment) {
-        if (content) {
-          await updateComment.mutateAsync({
+    if (!characterId || !noteId) {
+      return;
+    }
+
+    if (comment) {
+      if (content) {
+        await updateComment.mutateAsync({
+          content,
+          characterId: comment.characterId,
+          noteId: comment.noteId,
+          originalCharacterId,
+          originalNoteId,
+        });
+      }
+    }
+    else {
+      if (anonymous) {
+        const { email, nickname } = await getAnonymousCommentInformation();
+        if (
+          content
+            && email
+            && nickname
+        ) {
+          await anonymousComment.mutate({
+            targetCharacterId: characterId,
+            targetNoteId: noteId,
             content,
-            externalUrl: window.location.href,
-            characterId: targetComment.characterId,
-            noteId: targetComment.noteId,
-            originalCharacterId: characterId,
-            originalNoteId: noteId,
+            name: nickname,
+            email,
+            originalCharacterId,
+            originalNoteId,
           });
         }
       }
@@ -189,9 +240,8 @@ export const useSubmitComment = () => {
           characterId,
           noteId,
           content,
-          externalUrl: window.location.href,
-          originalCharacterId: characterId,
-          originalNoteId: noteId,
+          originalCharacterId,
+          originalNoteId,
         });
       }
     }

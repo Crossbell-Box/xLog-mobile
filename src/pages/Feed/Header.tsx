@@ -206,6 +206,7 @@ export const Header: FC<Props> = (props) => {
                     height={40}
                     unstyled
                     padding={12}
+                    paddingBottom={0}
                     onPress={() => {
                       GA.logEvent("feed_type_changed", { feed_type: type });
 

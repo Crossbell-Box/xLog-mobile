@@ -1335,7 +1335,7 @@
   resolved "https://registry.npmjs.org/@babel/regjsgen/-/regjsgen-0.8.0.tgz"
   integrity sha512-x/rqGMdzj+fWZvCOYForTghzbtqPDZ5gPwaoNGHdgDfF2QA/XZbCBp4Moo5scrkAMPhB7z26XM/AaHuIJdgauA==
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.13.10", "@babel/runtime@^7.15.4", "@babel/runtime@^7.18.6", "@babel/runtime@^7.20.0", "@babel/runtime@^7.20.1", "@babel/runtime@^7.20.6", "@babel/runtime@^7.21.5", "@babel/runtime@^7.5.5", "@babel/runtime@^7.8.4":
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.15.4", "@babel/runtime@^7.18.6", "@babel/runtime@^7.20.0", "@babel/runtime@^7.20.1", "@babel/runtime@^7.20.6", "@babel/runtime@^7.21.5", "@babel/runtime@^7.5.5", "@babel/runtime@^7.8.4":
   version "7.21.5"
   resolved "https://registry.npmjs.org/@babel/runtime/-/runtime-7.21.5.tgz#8492dddda9644ae3bda3b45eabe87382caee7200"
   integrity sha512-8jI69toZqqcsnqGGqwGS4Qb1VwLOEp4hz+CXPywcvjs60u3B4Pom/U/7rm4W8tMOYEB+E9wgD0mW1l3r8qlI9Q==
@@ -2810,10 +2810,10 @@
   resolved "https://registry.npmjs.org/@gar/promisify/-/promisify-1.1.3.tgz"
   integrity sha512-k2Ty1JcVojjJFwrg/ThKi2ujJ7XNLYaFGNB/bWT9wGR+oSMJHMa5w+CUq6p/pVrKeNNgA7pCqEcjSnHVoqJQFw==
 
-"@gorhom/bottom-sheet@4.4.5":
-  version "4.4.5"
-  resolved "https://registry.npmjs.org/@gorhom/bottom-sheet/-/bottom-sheet-4.4.5.tgz#b9041b01ce1af9a936e7c0fc1d78f026d759eebe"
-  integrity sha512-Z5Z20wshLUB8lIdtMKoJaRnjd64wBR/q8EeVPThrg+skrcBwBPHfUwZJ2srB0rEszA/01ejSJy/ixyd7Ra7vUA==
+"@gorhom/bottom-sheet@4.4.7":
+  version "4.4.7"
+  resolved "https://registry.npmmirror.com/@gorhom/bottom-sheet/-/bottom-sheet-4.4.7.tgz#fc80b3f0b7ebab056ce226f3aa3a89b2db8660dd"
+  integrity sha512-ukTuTqDQi2heo68hAJsBpUQeEkdqP9REBcn47OpuvPKhdPuO1RBOOADjqXJNCnZZRcY+HqbnGPMSLFVc31zylQ==
   dependencies:
     "@gorhom/portal" "1.0.14"
     invariant "^2.2.4"
@@ -3128,28 +3128,6 @@
   resolved "https://registry.yarnpkg.com/@openzeppelin/contracts/-/contracts-4.8.3.tgz#cbef3146bfc570849405f59cba18235da95a252a"
   integrity sha512-bQHV8R9Me8IaJoJ2vPG4rXcL7seB7YVuskr4f+f5RyOStSZetwzkWtoqDMl5erkBJy0lDRUnIR2WIkPiC0GJlg==
 
-"@radix-ui/react-use-callback-ref@1.0.0":
-  version "1.0.0"
-  resolved "https://registry.npmjs.org/@radix-ui/react-use-callback-ref/-/react-use-callback-ref-1.0.0.tgz#9e7b8b6b4946fe3cbe8f748c82a2cce54e7b6a90"
-  integrity sha512-GZtyzoHz95Rhs6S63D2t/eqvdFCm7I+yHMLVQheKM7nBD8mbZIt+ct1jz4536MDnaOGKIxynJ8eHTkVGVVkoTg==
-  dependencies:
-    "@babel/runtime" "^7.13.10"
-
-"@radix-ui/react-use-escape-keydown@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.npmjs.org/@radix-ui/react-use-escape-keydown/-/react-use-escape-keydown-1.0.2.tgz#09ab6455ab240b4f0a61faf06d4e5132c4d639f6"
-  integrity sha512-DXGim3x74WgUv+iMNCF+cAo8xUHHeqvjx8zs7trKf+FkQKPQXLk2sX7Gx1ysH7Q76xCpZuxIJE7HLPxRE+Q+GA==
-  dependencies:
-    "@babel/runtime" "^7.13.10"
-    "@radix-ui/react-use-callback-ref" "1.0.0"
-
-"@radix-ui/react-use-previous@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.npmjs.org/@radix-ui/react-use-previous/-/react-use-previous-1.0.0.tgz#e48a69c3a7d8078a967084038df66d0d181c56ac"
-  integrity sha512-RG2K8z/K7InnOKpq6YLDmT49HGjNmrK+fr82UCVKT2sW0GYfVnYp4wZWBooT/EYfQ5faA9uIjvsuMMhH61rheg==
-  dependencies:
-    "@babel/runtime" "^7.13.10"
-
 "@react-native-async-storage/async-storage@1.18.2":
   version "1.18.2"
   resolved "https://registry.npmmirror.com/@react-native-async-storage/async-storage/-/async-storage-1.18.2.tgz#ec8fd487a0b6c9500b43ece4b8779d1561f12e91"
@@ -3157,44 +3135,44 @@
   dependencies:
     merge-options "^3.0.4"
 
-"@react-native-community/cli-clean@11.3.3":
-  version "11.3.3"
-  resolved "https://registry.npmmirror.com/@react-native-community/cli-clean/-/cli-clean-11.3.3.tgz#e3b2d5a374f1b35d158087c3be196b59e1757262"
-  integrity sha512-5csu0Z2wNkLRZs4AxA+5UVtOdyGqdjZ9DEPccePlkN9IXEHTia2GdDuWZVVnlC50Ab3eTaGDKvFzy9QONHQusw==
+"@react-native-community/cli-clean@11.3.5":
+  version "11.3.5"
+  resolved "https://registry.npmmirror.com/@react-native-community/cli-clean/-/cli-clean-11.3.5.tgz#07c8a01e433ea6c6e32eb647908be48952888cdd"
+  integrity sha512-1+7BU962wKkIkHRp/uW3jYbQKKGtU7L+R3g59D8K6uLccuxJYUBJv18753ojMa6SD3SAq5Xh31bAre+YwVcOTA==
   dependencies:
-    "@react-native-community/cli-tools" "11.3.3"
+    "@react-native-community/cli-tools" "11.3.5"
     chalk "^4.1.2"
     execa "^5.0.0"
     prompts "^2.4.0"
 
-"@react-native-community/cli-config@11.3.3":
-  version "11.3.3"
-  resolved "https://registry.npmmirror.com/@react-native-community/cli-config/-/cli-config-11.3.3.tgz#85dc44dd4f43a73f73b395241db24235e81c5914"
-  integrity sha512-j87RHJlybNHD1mYSkHnWA4qLkEO6qVn0+sREZGdQ6gVmOzxvLzvEB+YMoNEEqFGmPiyt3WTMLgi7jUr6WVoKuQ==
+"@react-native-community/cli-config@11.3.5":
+  version "11.3.5"
+  resolved "https://registry.npmmirror.com/@react-native-community/cli-config/-/cli-config-11.3.5.tgz#07e48bb6cdecaa2aafa20da9888b5f35383a4382"
+  integrity sha512-fMblIsHlUleKfGsgWyjFJYfx1SqrsnhS/QXfA8w7iT6GrNOOjBp5UWx8+xlMDFcmOb9e42g1ExFDKl3n8FWkxQ==
   dependencies:
-    "@react-native-community/cli-tools" "11.3.3"
+    "@react-native-community/cli-tools" "11.3.5"
     chalk "^4.1.2"
     cosmiconfig "^5.1.0"
     deepmerge "^4.3.0"
     glob "^7.1.3"
     joi "^17.2.1"
 
-"@react-native-community/cli-debugger-ui@11.3.3":
-  version "11.3.3"
-  resolved "https://registry.npmmirror.com/@react-native-community/cli-debugger-ui/-/cli-debugger-ui-11.3.3.tgz#4bdf5665926c63d73a96d21adde03a93df447215"
-  integrity sha512-iVKcwyK2iKlq/qVtSbhk5fGsrOamAx7j50QhDMrZ6NmYZq+k75k253+YTzXoxWdPPZhsdhmILuBJgf8orIYCPQ==
+"@react-native-community/cli-debugger-ui@11.3.5":
+  version "11.3.5"
+  resolved "https://registry.npmmirror.com/@react-native-community/cli-debugger-ui/-/cli-debugger-ui-11.3.5.tgz#0dbb27759b9f6e4ca8cfcaab4fabfe349f765356"
+  integrity sha512-o5JVCKEpPUXMX4r3p1cYjiy3FgdOEkezZcQ6owWEae2dYvV19lLYyJwnocm9Y7aG9PvpgI3PIMVh3KZbhS21eA==
   dependencies:
     serve-static "^1.13.1"
 
-"@react-native-community/cli-doctor@11.3.3":
-  version "11.3.3"
-  resolved "https://registry.npmmirror.com/@react-native-community/cli-doctor/-/cli-doctor-11.3.3.tgz#cc0066e60f0a73e6d061681661ab9f1a2f1550ed"
-  integrity sha512-11MlCYZkZ602lmoxZUM6FZYjqFgyYci0X0QoBgBHi+3hqmrlA9JkYR/6OpPo34ASVObhE4DQ7eZ1+EQnVJHXsA==
+"@react-native-community/cli-doctor@11.3.5":
+  version "11.3.5"
+  resolved "https://registry.npmmirror.com/@react-native-community/cli-doctor/-/cli-doctor-11.3.5.tgz#f11e0651c53e0b58487837a272af725f046a5842"
+  integrity sha512-+4BuFHjoV4FFjX5y60l0s6nS0agidb1izTVwsFixeFKW73LUkOLu+Ae5HI94RAFEPE4ePEVNgYX3FynIau6K0g==
   dependencies:
-    "@react-native-community/cli-config" "11.3.3"
-    "@react-native-community/cli-platform-android" "11.3.3"
-    "@react-native-community/cli-platform-ios" "11.3.3"
-    "@react-native-community/cli-tools" "11.3.3"
+    "@react-native-community/cli-config" "11.3.5"
+    "@react-native-community/cli-platform-android" "11.3.5"
+    "@react-native-community/cli-platform-ios" "11.3.5"
+    "@react-native-community/cli-tools" "11.3.5"
     chalk "^4.1.2"
     command-exists "^1.2.8"
     envinfo "^7.7.2"
@@ -3210,64 +3188,64 @@
     wcwidth "^1.0.1"
     yaml "^2.2.1"
 
-"@react-native-community/cli-hermes@11.3.3":
-  version "11.3.3"
-  resolved "https://registry.npmmirror.com/@react-native-community/cli-hermes/-/cli-hermes-11.3.3.tgz#f3006a119ce8888a10b2b52a4e7cfb2ffbb2c59f"
-  integrity sha512-IoBLspPg4EwKwYj+5Ki4xrGUz7vVeE9soULCXJij2IKB68U63WmjG42+ng96+ryJDaQqERqF7NGll1jqnenJYQ==
+"@react-native-community/cli-hermes@11.3.5":
+  version "11.3.5"
+  resolved "https://registry.npmmirror.com/@react-native-community/cli-hermes/-/cli-hermes-11.3.5.tgz#fb557790a34f4354fa7a91b02217cdded26cafc4"
+  integrity sha512-+3m34hiaJpFel8BlJE7kJOaPzWR/8U8APZG2LXojbAdBAg99EGmQcwXIgsSVJFvH8h/nezf4DHbsPKigIe33zA==
   dependencies:
-    "@react-native-community/cli-platform-android" "11.3.3"
-    "@react-native-community/cli-tools" "11.3.3"
+    "@react-native-community/cli-platform-android" "11.3.5"
+    "@react-native-community/cli-tools" "11.3.5"
     chalk "^4.1.2"
     hermes-profile-transformer "^0.0.6"
     ip "^1.1.5"
 
-"@react-native-community/cli-platform-android@11.3.3":
-  version "11.3.3"
-  resolved "https://registry.npmmirror.com/@react-native-community/cli-platform-android/-/cli-platform-android-11.3.3.tgz#b4dad813f8ccbe84872baa2bc27fcd9b93f0b784"
-  integrity sha512-hjkPTJXKw2PZNKdeZZ1I4Mv2gRbPOfZmpgRVXtDwEP4cXZUGTDP54lBhFnC+8KxiKJBWJ/m4wYyC3ZqX87M2jg==
+"@react-native-community/cli-platform-android@11.3.5":
+  version "11.3.5"
+  resolved "https://registry.npmmirror.com/@react-native-community/cli-platform-android/-/cli-platform-android-11.3.5.tgz#8be7ef382a3182fe63a698ed2edd4d90ab19246a"
+  integrity sha512-s4Lj7FKxJ/BofGi/ifjPfrA9MjFwIgYpHnHBSlqtbsvPoSYzmVCU2qlWM8fb3AmkXIwyYt4A6MEr3MmNT2UoBg==
   dependencies:
-    "@react-native-community/cli-tools" "11.3.3"
+    "@react-native-community/cli-tools" "11.3.5"
     chalk "^4.1.2"
     execa "^5.0.0"
     glob "^7.1.3"
     logkitty "^0.7.1"
 
-"@react-native-community/cli-platform-ios@11.3.3":
-  version "11.3.3"
-  resolved "https://registry.npmmirror.com/@react-native-community/cli-platform-ios/-/cli-platform-ios-11.3.3.tgz#b7f7387928e38f9deb4c1fd1c2efd3f6abbed57d"
-  integrity sha512-mFdZjOaPCQy3y4DoMdA5l5/zVXtvsi8pbJFTV7ms7avNShuqqvue/Fm4wmiccZd0Zfi5p9TOP3Bh9Aw/jC+UAQ==
+"@react-native-community/cli-platform-ios@11.3.5":
+  version "11.3.5"
+  resolved "https://registry.npmmirror.com/@react-native-community/cli-platform-ios/-/cli-platform-ios-11.3.5.tgz#12a8cbf2638400b9986709466653ce4e7c9eca2a"
+  integrity sha512-ytJC/YCFD7P+KuQHOT5Jzh1ho2XbJEjq71yHa1gJP2PG/Q/uB4h1x2XpxDqv5iXU6E250yjvKMmkReKTW4CTig==
   dependencies:
-    "@react-native-community/cli-tools" "11.3.3"
+    "@react-native-community/cli-tools" "11.3.5"
     chalk "^4.1.2"
     execa "^5.0.0"
     fast-xml-parser "^4.0.12"
     glob "^7.1.3"
     ora "^5.4.1"
 
-"@react-native-community/cli-plugin-metro@11.3.3":
-  version "11.3.3"
-  resolved "https://registry.npmmirror.com/@react-native-community/cli-plugin-metro/-/cli-plugin-metro-11.3.3.tgz#a838a09fe371f50d54f4968271d5e852dd781b6d"
-  integrity sha512-jbutvKqjIUTIuSK6mGmVt+x/MygLAIG6VNIwbywFtY+P4CCxUxo8o8h3O2cPRB2xeg9qikksm3Wys7fME4Ly+A==
+"@react-native-community/cli-plugin-metro@11.3.5":
+  version "11.3.5"
+  resolved "https://registry.npmmirror.com/@react-native-community/cli-plugin-metro/-/cli-plugin-metro-11.3.5.tgz#5614c7ef3bc83cf70bcb0e6d988ab9d84a76008a"
+  integrity sha512-r9AekfeLKdblB7LfWB71IrNy1XM03WrByQlUQajUOZAP2NmUUBLl9pMZscPjJeOSgLpHB9ixEFTIOhTabri/qg==
   dependencies:
-    "@react-native-community/cli-server-api" "11.3.3"
-    "@react-native-community/cli-tools" "11.3.3"
+    "@react-native-community/cli-server-api" "11.3.5"
+    "@react-native-community/cli-tools" "11.3.5"
     chalk "^4.1.2"
     execa "^5.0.0"
-    metro "0.76.5"
-    metro-config "0.76.5"
-    metro-core "0.76.5"
-    metro-react-native-babel-transformer "0.76.5"
-    metro-resolver "0.76.5"
-    metro-runtime "0.76.5"
+    metro "0.76.7"
+    metro-config "0.76.7"
+    metro-core "0.76.7"
+    metro-react-native-babel-transformer "0.76.7"
+    metro-resolver "0.76.7"
+    metro-runtime "0.76.7"
     readline "^1.3.0"
 
-"@react-native-community/cli-server-api@11.3.3":
-  version "11.3.3"
-  resolved "https://registry.npmmirror.com/@react-native-community/cli-server-api/-/cli-server-api-11.3.3.tgz#fe5c8b57abeadad743954ca65bf0b47c8728154d"
-  integrity sha512-3ja7WZzXMCeGTaeWLzKxAoueqLjsuo0YURcAjqf044rkY5F1Xk5yIaTN8fb66Lnl2eB3DwuatqEB4dYl34/GZw==
+"@react-native-community/cli-server-api@11.3.5":
+  version "11.3.5"
+  resolved "https://registry.npmmirror.com/@react-native-community/cli-server-api/-/cli-server-api-11.3.5.tgz#6f43f5844bd1eb73166546b8fa8bfd32064b21e7"
+  integrity sha512-PM/jF13uD1eAKuC84lntNuM5ZvJAtyb+H896P1dBIXa9boPLa3KejfUvNVoyOUJ5s8Ht25JKbc3yieV2+GMBDA==
   dependencies:
-    "@react-native-community/cli-debugger-ui" "11.3.3"
-    "@react-native-community/cli-tools" "11.3.3"
+    "@react-native-community/cli-debugger-ui" "11.3.5"
+    "@react-native-community/cli-tools" "11.3.5"
     compression "^1.7.1"
     connect "^3.6.5"
     errorhandler "^1.5.1"
@@ -3276,10 +3254,10 @@
     serve-static "^1.13.1"
     ws "^7.5.1"
 
-"@react-native-community/cli-tools@11.3.3":
-  version "11.3.3"
-  resolved "https://registry.npmmirror.com/@react-native-community/cli-tools/-/cli-tools-11.3.3.tgz#96fa0b5979f8d1a3feb785ce8d3566a2d31e0e88"
-  integrity sha512-rRFSOAVVwI9R9PyPMff5WqmHbgJYrzGHFH1PA+tFvuiSmWlAf51bzkZIPehTBAQON03a6d5epNsGlBKMLA/BKw==
+"@react-native-community/cli-tools@11.3.5":
+  version "11.3.5"
+  resolved "https://registry.npmmirror.com/@react-native-community/cli-tools/-/cli-tools-11.3.5.tgz#3f9d23a4c961d963f85c254718636db8a5fa3bce"
+  integrity sha512-zDklE1+ah/zL4BLxut5XbzqCj9KTHzbYBKX7//cXw2/0TpkNCaY9c+iKx//gZ5m7U1OKbb86Fm2b0AKtKVRf6Q==
   dependencies:
     appdirsjs "^1.2.4"
     chalk "^4.1.2"
@@ -3291,27 +3269,27 @@
     semver "^6.3.0"
     shell-quote "^1.7.3"
 
-"@react-native-community/cli-types@11.3.3":
-  version "11.3.3"
-  resolved "https://registry.npmmirror.com/@react-native-community/cli-types/-/cli-types-11.3.3.tgz#72840a6dab9593cd96591bc69c37807ee31aa72e"
-  integrity sha512-/u7N93ZUsKAGv3WSGAjKhpK2uCPBkyaw/SuScjHAuL9ifPjvwDhi71K5NbCcYl3ZYh5K39EF3Hm664Jfk9c0MQ==
+"@react-native-community/cli-types@11.3.5":
+  version "11.3.5"
+  resolved "https://registry.npmmirror.com/@react-native-community/cli-types/-/cli-types-11.3.5.tgz#9051205e164d5585f1ae3869a3b3ca1f2f43b9ba"
+  integrity sha512-pf0kdWMEfPSV/+8rcViDCFzbLMtWIHMZ8ay7hKwqaoWegsJ0oprSF2tSTH+LSC/7X1Beb9ssIvHj1m5C4es5Xg==
   dependencies:
     joi "^17.2.1"
 
-"@react-native-community/cli@11.3.3":
-  version "11.3.3"
-  resolved "https://registry.npmmirror.com/@react-native-community/cli/-/cli-11.3.3.tgz#a18634282f535f5cec7436aeda1ffacd796b7a0c"
-  integrity sha512-+XwD9IEtaff0q8hyWTQL4xVc7V4P8B7zD0zpcEV8FVV+qUfIFMbNpaYNJFlNOFYRzZmo0/hXsa66S/Im5perlQ==
+"@react-native-community/cli@11.3.5":
+  version "11.3.5"
+  resolved "https://registry.npmmirror.com/@react-native-community/cli/-/cli-11.3.5.tgz#18ac20ba96182662cf1088cbed20b6065935ddba"
+  integrity sha512-wMXgKEWe6uesw7vyXKKjx5EDRog0QdXHxdgRguG14AjQRao1+4gXEWq2yyExOTi/GDY6dfJBUGTCwGQxhnk/Lg==
   dependencies:
-    "@react-native-community/cli-clean" "11.3.3"
-    "@react-native-community/cli-config" "11.3.3"
-    "@react-native-community/cli-debugger-ui" "11.3.3"
-    "@react-native-community/cli-doctor" "11.3.3"
-    "@react-native-community/cli-hermes" "11.3.3"
-    "@react-native-community/cli-plugin-metro" "11.3.3"
-    "@react-native-community/cli-server-api" "11.3.3"
-    "@react-native-community/cli-tools" "11.3.3"
-    "@react-native-community/cli-types" "11.3.3"
+    "@react-native-community/cli-clean" "11.3.5"
+    "@react-native-community/cli-config" "11.3.5"
+    "@react-native-community/cli-debugger-ui" "11.3.5"
+    "@react-native-community/cli-doctor" "11.3.5"
+    "@react-native-community/cli-hermes" "11.3.5"
+    "@react-native-community/cli-plugin-metro" "11.3.5"
+    "@react-native-community/cli-server-api" "11.3.5"
+    "@react-native-community/cli-tools" "11.3.5"
+    "@react-native-community/cli-types" "11.3.5"
     chalk "^4.1.2"
     commander "^9.4.1"
     execa "^5.0.0"
@@ -4002,116 +3980,119 @@
   dependencies:
     defer-to-connect "^2.0.1"
 
-"@tamagui/accordion@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/accordion/-/accordion-1.42.0.tgz#c7cf34efa5ef107c0e256b7177607e3ce3fd6247"
-  integrity sha512-jVvXNTQUn4YYzx4eUl6kgURGjzS89GXZqkha6xTkrfgJrSVR7UX6Opu5+bqP7GnkEnFolNQaafZGZ/e/nfRyTA==
+"@tamagui/accordion@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/accordion/-/accordion-1.47.2.tgz#1712648e760579d90e8e85770c38cc0f5451235e"
+  integrity sha512-TQdNXdH2iYfIe3Lypc+dj8jEjjg4P0Nz6Ei+OIfFZzCvctNTr1z243hhAq1vtqMLOjfwxHRHQMbw2EqG34miEQ==
   dependencies:
-    "@tamagui/collapsible" "1.42.0"
-    "@tamagui/collection" "1.42.0"
-    "@tamagui/compose-refs" "1.42.0"
-    "@tamagui/core" "1.42.0"
-    "@tamagui/create-context" "1.42.0"
-    "@tamagui/polyfill-dev" "1.42.0"
-    "@tamagui/stacks" "1.42.0"
-    "@tamagui/use-controllable-state" "1.42.0"
+    "@tamagui/collapsible" "1.47.2"
+    "@tamagui/collection" "1.47.2"
+    "@tamagui/compose-refs" "1.47.2"
+    "@tamagui/core" "1.47.2"
+    "@tamagui/create-context" "1.47.2"
+    "@tamagui/polyfill-dev" "1.47.2"
+    "@tamagui/stacks" "1.47.2"
+    "@tamagui/use-controllable-state" "1.47.2"
 
-"@tamagui/adapt@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/adapt/-/adapt-1.42.0.tgz#d60f4852ecd075e25b3618627a5373c971baabbc"
-  integrity sha512-es32EKuEwaaZ9nN1NTmK0enVCNaY5dIKIvFTz1uKBUVksmqwwmH8zkVYrpAt6vNJVQbAUtloAKQ3xg/dSc3wlw==
+"@tamagui/adapt@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/adapt/-/adapt-1.47.2.tgz#3da76f5614b8a5c397924c274cf12b4e5a648ae5"
+  integrity sha512-9/AwU0Przb554J+yTxzeDkV2i19b2YaGCBTnSoRKU+1RLi54ic4aLl7tvKxIf+18V9CQNuYRCo/p8zgXLapSUw==
   dependencies:
-    "@tamagui/core" "1.42.0"
+    "@tamagui/core" "1.47.2"
 
-"@tamagui/alert-dialog@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/alert-dialog/-/alert-dialog-1.42.0.tgz#41d2e1aacb2343229fc93d72895f7f2520fb1fe2"
-  integrity sha512-872KY3gJhyEuRnLNKRjpbmHHHFWOyLuSBghi13Zwp+W7FqLbtw2WtHVzDrIxn1X6H+Iw5JuTuzSYkSX//V8Paw==
+"@tamagui/alert-dialog@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/alert-dialog/-/alert-dialog-1.47.2.tgz#197ee8a36b0a581bf487dc607d0fd3cbe0c4fb66"
+  integrity sha512-2vCAJlSMIlLvov8dVvc+oOGAIg6arNgWtaNo2f9VGbIcdgHrGl1zxNT+CIK6gBwXrnwjqEYPMOEiO+stoHdINw==
   dependencies:
-    "@tamagui/animate-presence" "1.42.0"
-    "@tamagui/aria-hidden" "1.42.0"
-    "@tamagui/compose-refs" "1.42.0"
-    "@tamagui/core" "1.42.0"
-    "@tamagui/create-context" "1.42.0"
-    "@tamagui/dialog" "1.42.0"
-    "@tamagui/dismissable" "1.42.0"
-    "@tamagui/focus-scope" "1.42.0"
-    "@tamagui/polyfill-dev" "1.42.0"
-    "@tamagui/popper" "1.42.0"
-    "@tamagui/portal" "1.42.0"
-    "@tamagui/remove-scroll" "1.42.0"
-    "@tamagui/stacks" "1.42.0"
-    "@tamagui/text" "1.42.0"
-    "@tamagui/use-controllable-state" "1.42.0"
+    "@tamagui/animate-presence" "1.47.2"
+    "@tamagui/aria-hidden" "1.47.2"
+    "@tamagui/compose-refs" "1.47.2"
+    "@tamagui/core" "1.47.2"
+    "@tamagui/create-context" "1.47.2"
+    "@tamagui/dialog" "1.47.2"
+    "@tamagui/dismissable" "1.47.2"
+    "@tamagui/focus-scope" "1.47.2"
+    "@tamagui/polyfill-dev" "1.47.2"
+    "@tamagui/popper" "1.47.2"
+    "@tamagui/portal" "1.47.2"
+    "@tamagui/remove-scroll" "1.47.2"
+    "@tamagui/stacks" "1.47.2"
+    "@tamagui/text" "1.47.2"
+    "@tamagui/use-controllable-state" "1.47.2"
 
-"@tamagui/animate-presence@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/animate-presence/-/animate-presence-1.42.0.tgz#eb593cb73f6c9d93608a77f7c862d8131d3ea854"
-  integrity sha512-DNmMGKYfmxfVjhsDoxnHg+tG514oQ9RmZOY2OhuakM7wiToY8vOePzmRYvpxjW5HlJnHtdP23LaxXBWgpAwrsg==
+"@tamagui/animate-presence@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/animate-presence/-/animate-presence-1.47.2.tgz#2109e5cc83d1334642fc3576dcb05359b0183cb8"
+  integrity sha512-/A87AwCzIjpV851Ckdsjv/P+KoXa4DFgggyEKscoswW+iUSVMISgNk0CR1ysREUXnWKyStKSPzPIEQWbSBLsrw==
   dependencies:
-    "@tamagui/use-presence" "1.42.0"
-    "@tamagui/web" "1.42.0"
+    "@tamagui/use-presence" "1.47.2"
+    "@tamagui/web" "1.47.2"
 
-"@tamagui/animations-css@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/animations-css/-/animations-css-1.42.0.tgz#88b05f6463dda1aba3f5f3971e031283e64b7394"
-  integrity sha512-AlHk5tr4Ts3jpSr0c9gCw3BGM/LJwe0hV3WXsmo92W1jgD7hYVmcMohXoou2PcmX971lICRofEvWXf32rvY+Iw==
+"@tamagui/animate@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/animate/-/animate-1.47.2.tgz#63878a845d1ddf738e4003b0cfba2889a8ace4d3"
+  integrity sha512-cGiNIe/0Pcl5voYBnz0g/UOYwp+dgTpEyVempkHWsMO9rB77IZWuCYO+Jcd+JrC5q6XqjVs/5lc2OzTMMhK36w==
   dependencies:
-    "@tamagui/cubic-bezier-animator" "1.42.0"
-    "@tamagui/use-presence" "1.42.0"
-    "@tamagui/web" "1.42.0"
+    "@tamagui/animate-presence" "1.47.2"
 
-"@tamagui/animations-react-native@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/animations-react-native/-/animations-react-native-1.42.0.tgz#b5d8934c5508bf92af4e9de5fb7a034f02a32fb9"
-  integrity sha512-CDvBechqSWvlz+ATmRCZfeexYyupjNDNajjfLTnYZP+2Wa5wt07cfYDsOhZ13bu3DxonZ5k6j+PHGq59ZE95Sw==
+"@tamagui/animations-css@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/animations-css/-/animations-css-1.47.2.tgz#72efc4f19e8c5c1ec745b2250185ce6301f7b225"
+  integrity sha512-cEC3X/yErDDwqNW8cXBXd6H7EkZuThYT94fnRdrd6KgE/vvwf31x7vpLuUE6aFPOaIjuOFWeVSvTc7jbzKuezg==
   dependencies:
-    "@tamagui/use-presence" "1.42.0"
-    "@tamagui/web" "1.42.0"
+    "@tamagui/cubic-bezier-animator" "1.47.2"
+    "@tamagui/use-presence" "1.47.2"
+    "@tamagui/web" "1.47.2"
 
-"@tamagui/animations-reanimated@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/animations-reanimated/-/animations-reanimated-1.42.0.tgz#935332179bfe1bbc9fdcc1d6ac28b038d2c550d5"
-  integrity sha512-l9VJ2pZGVdyrjk8uajUI+XEbP5LYpf9Vy+dE03J8Qe+cDCWDwjFHBwTEL/7Cgb9RrzjwIYBJKt9yglGYBlNlGg==
+"@tamagui/animations-react-native@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/animations-react-native/-/animations-react-native-1.47.2.tgz#3d990a05f508043bff3091be6af0bfae254f8992"
+  integrity sha512-DAUrpb7ZOV0KhLNp6GnhhnMQpL1LSCfinI4NlUrYxTeVivx1Hwv85GQqOpBW6Lly8Te906WwgKKJ5XepRjEOLw==
   dependencies:
-    "@tamagui/animations-react-native" "1.42.0"
-    "@tamagui/use-presence" "1.42.0"
-    "@tamagui/web" "1.42.0"
+    "@tamagui/use-presence" "1.47.2"
+    "@tamagui/web" "1.47.2"
 
-"@tamagui/aria-hidden@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/aria-hidden/-/aria-hidden-1.42.0.tgz#23a9f4f4deb5f0dcb44783b0b71123fe9e86e75b"
-  integrity sha512-UlNE63e9CdnE/XF2Mi4AHUrbGzKGT94zpcLDfV0bKKLDdvkWDm9v0Gd6/YEGFCzEIWhDeIy/c2PH8lBu3Ynehg==
+"@tamagui/animations-reanimated@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/animations-reanimated/-/animations-reanimated-1.47.2.tgz#eef5b392627434c03a578357b6885d011af2b939"
+  integrity sha512-2GJwTbhQTX2dNZm2XK731mnOQ6O1M8JxP+XyvCMEPwR4LPs7dFEHxIWc7xhiBihIRjTFAJ4HSLWKrqeYZlHpfw==
+
+"@tamagui/aria-hidden@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/aria-hidden/-/aria-hidden-1.47.2.tgz#1509b6d885c03b8e3a666db9cac286810aa9b6b8"
+  integrity sha512-HVdGU364r5J4jd32x84+w2q1F0UagDY59W+Ros9Ae1llUXXNwv+qvXsoVtSIzxhBP7S6h1xP4Xgswlt0+4P5Hg==
   dependencies:
     aria-hidden "^1.1.3"
 
-"@tamagui/avatar@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/avatar/-/avatar-1.42.0.tgz#ed1c7db818a2659a9339442e58262f1fc8788f28"
-  integrity sha512-VY2CMc6MMQ2GKO7AvnpT9uHYIZapqORYd5urp4SlEamA20HtC6g18P8D3qSCTsHjxjYcsVnursgvS9G4yRbSNw==
+"@tamagui/avatar@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/avatar/-/avatar-1.47.2.tgz#278cc9c5b0b5c09b2db9fe5f5e2885d48030e5e6"
+  integrity sha512-r4YDnVtmfVUFQ5SdG66yJ+KC4ORyPVYFwYI6vEqftWtp9c7jPqf6tZP2B2Xjw9rXClAv6Cm1pT3swA2FRfzTgg==
   dependencies:
-    "@tamagui/core" "1.42.0"
-    "@tamagui/image" "1.42.0"
-    "@tamagui/shapes" "1.42.0"
-    "@tamagui/text" "1.42.0"
-    "@tamagui/use-event" "1.42.0"
+    "@tamagui/core" "1.47.2"
+    "@tamagui/image" "1.47.2"
+    "@tamagui/shapes" "1.47.2"
+    "@tamagui/text" "1.47.2"
+    "@tamagui/use-event" "1.47.2"
 
-"@tamagui/babel-plugin@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/babel-plugin/-/babel-plugin-1.42.0.tgz#592066bb3c3d14da8e5658279feaea4318d11a08"
-  integrity sha512-fkvuDY2F+MOeQbRQiYKQlFbQnrCy7wFJmfGyEpPFPHpLJP9xFNY9jv2PLd0SOmlh7pPrnu9ms8AnBlCmQHGXcg==
+"@tamagui/babel-plugin@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/babel-plugin/-/babel-plugin-1.47.2.tgz#6bd5eed8f08243f60c030086bb65258300d91d0d"
+  integrity sha512-+EprHofNTLJBtuLj0FM9BYK9GEQpVXk5uaM1ZPe1b6BE6OLtzrUAZkSz7jkbJBJH93II+6TX2BQA5RwGDUf1wg==
   dependencies:
     "@babel/generator" "^7.21.5"
     "@babel/helper-plugin-utils" "^7.21.5"
     "@babel/template" "^7.20.7"
     "@babel/traverse" "^7.21.5"
-    "@tamagui/simple-hash" "1.42.0"
-    "@tamagui/static" "1.42.0"
+    "@tamagui/simple-hash" "1.47.2"
+    "@tamagui/static" "1.47.2"
 
-"@tamagui/build@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/build/-/build-1.42.0.tgz#56093b61e11abef4b802c7ee82e8cc506787d481"
-  integrity sha512-NSnUmFTyeq+07zsvpsOIrsy5fgORbKzWBujQCSMBoPcCXAmMpLlzEOxaJUMXR90nU37ASsiqxjZHglVSfNqMJA==
+"@tamagui/build@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/build/-/build-1.47.2.tgz#24fde932a210cabdb52309ec1fca0092488f24e3"
+  integrity sha512-mWswk0aTU5uOAEw2vF41mj+VS++WNz73Zaoj7LThlsSK069RoITI1DHzy0h7AIl0hvp7d58/0Tejq+L1jflHew==
   dependencies:
     "@types/fs-extra" "^9.0.13"
     chokidar "^3.5.2"
@@ -4123,593 +4104,588 @@
     lodash.debounce "^4.0.8"
     typescript "^5.1.3"
 
-"@tamagui/button@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/button/-/button-1.42.0.tgz#fe1e40184a0400a35efcaceea203b2687f2c3bd2"
-  integrity sha512-XxScV3Aifw86vjmjOp3W11HsRTH5Hy4x3iDgF5MUJUqY3AjGiXRxaiRDPHBsv7HwSSsesTQv2441JJWBGS2+Rg==
+"@tamagui/button@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/button/-/button-1.47.2.tgz#5343b3d70f40d8180f6ed8de75517de33d84b6db"
+  integrity sha512-2kTbNLan2KscrTSW5KbJ775B6WDIWaXaW2vZ0d41fbTEZ6Rkmu9gsO9nFFtsN5VtweQcmRw1gNBSrbOEDt/1JQ==
   dependencies:
-    "@tamagui/font-size" "1.42.0"
-    "@tamagui/get-button-sized" "1.42.0"
-    "@tamagui/helpers-tamagui" "1.42.0"
-    "@tamagui/text" "1.42.0"
-    "@tamagui/web" "1.42.0"
+    "@tamagui/font-size" "1.47.2"
+    "@tamagui/get-button-sized" "1.47.2"
+    "@tamagui/helpers-tamagui" "1.47.2"
+    "@tamagui/text" "1.47.2"
+    "@tamagui/web" "1.47.2"
 
-"@tamagui/card@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/card/-/card-1.42.0.tgz#0cfc19440ef336439cc8686099b72ab1d2930a54"
-  integrity sha512-8NJv9uFmJgcjHfiL2E9gpJR7VVh+wv6XRt1pUiSsiv5KVNWYIeFALr1BbubHrMfc3xwgj6+m2LpAdW2Fmy1QlQ==
+"@tamagui/card@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/card/-/card-1.47.2.tgz#fa501fcfa457b02147298c4ac2bdfba5f9209f36"
+  integrity sha512-foXIpYpJ9oJPkrhrTAfnOxxScJeKjYn6KexvEByAb+OwbzGfDvOdmTLoqpzdnvBwSTICF/PWxBuPiH4VJ/gZ3A==
   dependencies:
-    "@tamagui/create-context" "1.42.0"
-    "@tamagui/stacks" "1.42.0"
-    "@tamagui/web" "1.42.0"
+    "@tamagui/create-context" "1.47.2"
+    "@tamagui/stacks" "1.47.2"
+    "@tamagui/web" "1.47.2"
 
-"@tamagui/checkbox@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/checkbox/-/checkbox-1.42.0.tgz#fbf4d0b2fcb90507dccc2d482798f01370011e07"
-  integrity sha512-lH0A/MU9DOI8TjHyZbZeor3hTUEEpPzDgdh5dJZwIYoAkn3nOV6ZMXgAuaD61m9qZPnfF62H0aulFd4YAV/Qqg==
+"@tamagui/checkbox@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/checkbox/-/checkbox-1.47.2.tgz#78932473375b77b260b0a92abd35b7159664b46f"
+  integrity sha512-n1bbTnczW2XXMZRkzu+pFUwoQkiGXMdrD9DyYHQzMH8mfgM8GKskg7qzlRCxUgxW0iFT9XJaUV5DT51gocQwlQ==
   dependencies:
-    "@radix-ui/react-use-previous" "^1.0.0"
-    "@tamagui/core" "1.42.0"
-    "@tamagui/create-context" "1.42.0"
-    "@tamagui/focusable" "1.42.0"
-    "@tamagui/font-size" "1.42.0"
-    "@tamagui/get-token" "1.42.0"
-    "@tamagui/helpers-tamagui" "1.42.0"
-    "@tamagui/label" "1.42.0"
-    "@tamagui/stacks" "1.42.0"
-    "@tamagui/use-controllable-state" "1.42.0"
+    "@tamagui/core" "1.47.2"
+    "@tamagui/create-context" "1.47.2"
+    "@tamagui/focusable" "1.47.2"
+    "@tamagui/font-size" "1.47.2"
+    "@tamagui/get-token" "1.47.2"
+    "@tamagui/helpers-tamagui" "1.47.2"
+    "@tamagui/label" "1.47.2"
+    "@tamagui/stacks" "1.47.2"
+    "@tamagui/use-controllable-state" "1.47.2"
+    "@tamagui/use-previous" "1.47.2"
 
-"@tamagui/cli-color@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/cli-color/-/cli-color-1.42.0.tgz#463a37883de22ec2d90407cb0ed62601b3f9b830"
-  integrity sha512-RnY1znvFG/HzgHMb+p0nHmf0vvR740RoGaTWcb0V86aLyfj3vvLGeWIYK2s0Mbh40A+1V1peuk8eoXnaqqg4xA==
+"@tamagui/cli-color@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/cli-color/-/cli-color-1.47.2.tgz#75c1933ca83784ca08fd6b5f3c40722236b45401"
+  integrity sha512-KxzHg2sREFXKPHKb8ifoli422BhZodMW8hluDuth6l7dIGU3DNhCkTMlFtdXkTqL2osYwTzotrB9ljlh9Wuc6A==
 
-"@tamagui/collapsible@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/collapsible/-/collapsible-1.42.0.tgz#39decee6ce69adc2ee4fe96ed610b48649c06daf"
-  integrity sha512-rkrrxc3lMF2Pnw5NcohlKYWfAkdkMo8PG3UATsdE/NfbmBknjH/u9tJc3H3+vTQtpvJS46atRx8phRIoY5auuw==
+"@tamagui/collapsible@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/collapsible/-/collapsible-1.47.2.tgz#ccb20928a40c0a86a6a6535f333407a73ba42c16"
+  integrity sha512-Ux0xH2QLxYTmXUgUARdEJL5eFcaQMp7Q0w/966CFaXzFm+yxvq5eg0McaVaZS6/DVhQFOY3/cJd9n3jh5MQvqA==
   dependencies:
-    "@tamagui/animate-presence" "1.42.0"
-    "@tamagui/compose-refs" "1.42.0"
-    "@tamagui/core" "1.42.0"
-    "@tamagui/create-context" "1.42.0"
-    "@tamagui/polyfill-dev" "1.42.0"
-    "@tamagui/stacks" "1.42.0"
-    "@tamagui/use-controllable-state" "1.42.0"
+    "@tamagui/animate-presence" "1.47.2"
+    "@tamagui/compose-refs" "1.47.2"
+    "@tamagui/core" "1.47.2"
+    "@tamagui/create-context" "1.47.2"
+    "@tamagui/polyfill-dev" "1.47.2"
+    "@tamagui/stacks" "1.47.2"
+    "@tamagui/use-controllable-state" "1.47.2"
 
-"@tamagui/collection@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/collection/-/collection-1.42.0.tgz#f5443391adfe9335572ecd45619f6aac6b9c4994"
-  integrity sha512-/taC903DRzJGI8/L7DwHcFiKwg/xKqVEP8nqixAo0M9OR9OucN1pYNIrmCiYrzsdvoV0JqXu2IGrjGXU66D11Q==
+"@tamagui/collection@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/collection/-/collection-1.47.2.tgz#9dc65a71e42c7aaa31d10ba36aad01de4b3eeaa2"
+  integrity sha512-vk+qQVJEfkfiDlyO3feGyWcdj5wDOYMwjBBaK8ujGd5LA0GSLsktoEKLr1KQ/ZXuASIrPV1/XEuJfCUrVQYARg==
   dependencies:
-    "@tamagui/compose-refs" "1.42.0"
-    "@tamagui/core" "1.42.0"
-    "@tamagui/create-context" "1.42.0"
-    "@tamagui/polyfill-dev" "1.42.0"
-    "@tamagui/stacks" "1.42.0"
-    "@tamagui/use-controllable-state" "1.42.0"
+    "@tamagui/compose-refs" "1.47.2"
+    "@tamagui/core" "1.47.2"
+    "@tamagui/create-context" "1.47.2"
+    "@tamagui/polyfill-dev" "1.47.2"
+    "@tamagui/stacks" "1.47.2"
+    "@tamagui/use-controllable-state" "1.47.2"
 
-"@tamagui/colors@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/colors/-/colors-1.42.0.tgz#403afb273dfd633842b863f01cab574b94566858"
-  integrity sha512-xrBonU7vKnijfXWO5k2QqvAHPwtFHY2ePomhY+zYL+U523IN1FNSLrpy3dmgiSOKQhyIHiBBHzNJr6aNly1Ixw==
+"@tamagui/colors@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/colors/-/colors-1.47.2.tgz#1411c9a2925ade49b5390c6c628e456edd577872"
+  integrity sha512-9VT2pnAUGC6mzpR9uEgXmgqZTmT/aQVu8vCnmkYRKOeEZd1YTLkEcm9a1uKrY/0+vbyeeIorJ+v7y/ISKz6NRA==
 
-"@tamagui/compose-refs@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/compose-refs/-/compose-refs-1.42.0.tgz#5b216ab4bb531f5c55ab518a3c4f96533f9044a4"
-  integrity sha512-jr5360fpGcG3lBA9CPGAMAEkcZH44i2XLbJDz4+EoNcjXku3+cxkpbIDpK+u6im5WEUsRDqdShWlJNUpNra21A==
+"@tamagui/compose-refs@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/compose-refs/-/compose-refs-1.47.2.tgz#d92b69c50d7b8986571000327c739f5a44af17cf"
+  integrity sha512-KDBoq+FOm0VjaGz+X3pbPWbyAUtWwcc34zLJ8vjSTzv8T6tc7ypzPd121Jh8HWZgSglH3Cz3VUdVNEORN48JuA==
 
-"@tamagui/config-default-node@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/config-default-node/-/config-default-node-1.42.0.tgz#fa7f8aa4659455c47dc649df9c81dd0919328e97"
-  integrity sha512-Ev7aYFXM7erZyz19Fe7bA4GNCFakNV9va3QyOzpxOrdtgJul7LW070FE1VK/ipm3iaPP91zIuN6JdQUMPfW+mw==
+"@tamagui/config-default-node@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/config-default-node/-/config-default-node-1.47.2.tgz#2be24d3270dbe638ecf9511f901a9acc12fad346"
+  integrity sha512-dGs4IW13zE+LMzDjY+Ykb0QdML65pgcODf7RRKNyciWfZOkrCKQ9pqwpGaFWlQxnhmp1/a9oSS57YG/BNnZitw==
   dependencies:
-    "@tamagui/shorthands" "1.42.0"
+    "@tamagui/core-node" "1.47.2"
+    "@tamagui/shorthands" "1.47.2"
 
-"@tamagui/config@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/config/-/config-1.42.0.tgz#8b5fc1ce0da40a9cd285b496b55629f753cac287"
-  integrity sha512-ddEJfICWWcQaQt+eEzRi7u4hogHXD7YiUf7oXoiOaJGpDn+0X+KBsfUQHJ1IMZt+060GdqCWXXCxlzK1Wwazpw==
+"@tamagui/config@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/config/-/config-1.47.2.tgz#e7bc2ee26cd30845cd750cc284ddc6bb5eddc6f1"
+  integrity sha512-EZ+2PFT3bHB8ejSB7AEkq8lmtt8He4OIm+8bRR+12YK9Tavy3ambl9S7nBfJrcem5A8TtUBugkk5GMkDOUthFQ==
   dependencies:
-    "@tamagui/animations-css" "1.42.0"
-    "@tamagui/animations-react-native" "1.42.0"
-    "@tamagui/colors" "1.42.0"
-    "@tamagui/font-inter" "1.42.0"
-    "@tamagui/font-silkscreen" "1.42.0"
-    "@tamagui/react-native-media-driver" "1.42.0"
-    "@tamagui/shorthands" "1.42.0"
-    "@tamagui/themes" "1.42.0"
-    "@tamagui/web" "1.42.0"
+    "@tamagui/animations-css" "1.47.2"
+    "@tamagui/animations-react-native" "1.47.2"
+    "@tamagui/colors" "1.47.2"
+    "@tamagui/font-inter" "1.47.2"
+    "@tamagui/font-silkscreen" "1.47.2"
+    "@tamagui/react-native-media-driver" "1.47.2"
+    "@tamagui/shorthands" "1.47.2"
+    "@tamagui/themes" "1.47.2"
+    "@tamagui/web" "1.47.2"
 
-"@tamagui/constants@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/constants/-/constants-1.42.0.tgz#dcd95a5bb7f63581650fed5e11b43ff9a1c27bdc"
-  integrity sha512-Snlzm9xpAZWKevPnSJ8t6U4RKXWsEvDGlAXkkkdp27zxDpJ9kc0Ya2RLD+KJ2L28E7ngrW2XmIIIWeaZQyGF+A==
+"@tamagui/constants@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/constants/-/constants-1.47.2.tgz#f1237337779e930f47209693c4e6ba063a675a98"
+  integrity sha512-JbTm5hf9IsUMlcNrVepDhw3JumuHHikHC62ADOO2CIrwBCQK0vQDQ9Zq5+RdpU+34E1b/0bWCRwLdvrCenfLqA==
 
-"@tamagui/core-node@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/core-node/-/core-node-1.42.0.tgz#a5119a0926d912c266ad8714ac08607935522ac8"
-  integrity sha512-cDZfOBEy/MU4RxVzGpQYllU+nMXVOPfImQpBnU5uAmeGgLyR3whdQiXlFccqPnWfqd+Z1Ng8d7l3bL/BkPGORQ==
+"@tamagui/core-node@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/core-node/-/core-node-1.47.2.tgz#4918c6ddf744b10c4955c556dafc7d6017f6764b"
+  integrity sha512-lOLqYeYxuG7y4oI4g9pn+n3bqaPZIdNH5vucHhkL8TMSSukWvK9OBcMYKgSyN6Zg1lCrnbh4aD1gHVC5u5yYnQ==
   dependencies:
     "@babel/runtime" "^7.21.5"
-    "@tamagui/core" "1.42.0"
-    "@tamagui/helpers" "1.42.0"
+    "@tamagui/core" "1.47.2"
+    "@tamagui/helpers" "1.47.2"
 
-"@tamagui/core@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/core/-/core-1.42.0.tgz#0673b14f248e15c15e84cd48471e844d5601fc7a"
-  integrity sha512-PIoJ53voBQFo81+8DJkNiqU3RWGqE5QTwb5NRFGeTkQPoKgqnRmZIXHjUOwrbJlP/PpCDU550trSJjRISdqnSw==
+"@tamagui/core@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/core/-/core-1.47.2.tgz#ac4f300abfef1a24e6a558daa74c4da7adc15623"
+  integrity sha512-U+sEVfDjIUEa6QOS7zALlVf0jIhfj6nIkzHKyrvAnqWJJs/goJIvWuVRscCnin+si0vska6FaSkjufewVJlong==
   dependencies:
-    "@tamagui/react-native-use-pressable" "1.42.0"
-    "@tamagui/react-native-use-responder-events" "1.42.0"
-    "@tamagui/use-event" "1.42.0"
-    "@tamagui/web" "1.42.0"
+    "@tamagui/react-native-use-pressable" "1.47.2"
+    "@tamagui/react-native-use-responder-events" "1.47.2"
+    "@tamagui/use-event" "1.47.2"
+    "@tamagui/web" "1.47.2"
 
-"@tamagui/create-context@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/create-context/-/create-context-1.42.0.tgz#66a0d2f40d5f2cd00b32a34b16e3eb4cca69458a"
-  integrity sha512-K1xRi8YG5xR2w5+MpyWGQldo693VkpaRS8R6+xoW25R0J0HtclJOAGy3JVef9cjeVcid/uICjNoxclwwRuap/A==
+"@tamagui/create-context@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/create-context/-/create-context-1.47.2.tgz#0a26c2a7a649b2db0d5b41b32dd8e9e340055ab0"
+  integrity sha512-invXhC+NSHDuxwD5/olje4CrL53UK9rNRbP8SeNRQ8gKBoz/tL1jb6fqlHwovrxVGSXm1nygCmdhk/BR3YYXDw==
 
-"@tamagui/create-theme@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/create-theme/-/create-theme-1.42.0.tgz#89ffd279fbc39dd6692fdac420ddfaa998ea8d0e"
-  integrity sha512-6ZECejMdwVXxRn3GI/Me5YuSP87ow/eipXWg4ghu+SRmZsrID/NysIfj5ioIMXZiEscZHds7qEFJoBVKLoGf8Q==
+"@tamagui/create-theme@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/create-theme/-/create-theme-1.47.2.tgz#4b35111bf4fce132d3e30110228c06aa93dce7af"
+  integrity sha512-HZUh56QHmNxZD2k75MDEYiPMCQPSIZbgDEz6M0lrn/ReiBoi4s7GaEJGVs751u7EsHPDSt5B2FzB7FK7bQ1/NQ==
   dependencies:
-    "@tamagui/web" "1.42.0"
+    "@tamagui/web" "1.47.2"
 
-"@tamagui/create-themes@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/create-themes/-/create-themes-1.42.0.tgz#a93a4da0e28d0087e27c8f40d55c4ffbec75ee3e"
-  integrity sha512-bN1YPY5UflmR1UlD7Wi1YbSAfVlWIz9wrluSnKrWQTMsLcZ76U+9KDtebQVOZIC/+9YWTlAhKzfC4sfb59fE8w==
+"@tamagui/cubic-bezier-animator@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/cubic-bezier-animator/-/cubic-bezier-animator-1.47.2.tgz#8b089af5164d9d1a0559477a372327912c8b737d"
+  integrity sha512-UV9bMF71EZHiq/S1i183gwLtxdEFuzaUGzC80V74kepJLJdkJbmXZmYG+iwJvvMkT+Ys5RoBLFzWEhrYLnXglA==
+
+"@tamagui/dialog@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/dialog/-/dialog-1.47.2.tgz#7688f815d4d03c3d9564242871b80737df8bfb9d"
+  integrity sha512-ZmUdY+01+PM3KWWxUNJqT3u0FmEiwhvJQKCinblVc6pb7qWivfLmvsE0QGGj0GTp9LqbNxXAVqc8rsdbyBa39w==
   dependencies:
-    "@tamagui/core" "1.42.0"
+    "@tamagui/adapt" "1.47.2"
+    "@tamagui/animate-presence" "1.47.2"
+    "@tamagui/aria-hidden" "1.47.2"
+    "@tamagui/compose-refs" "1.47.2"
+    "@tamagui/core" "1.47.2"
+    "@tamagui/create-context" "1.47.2"
+    "@tamagui/dismissable" "1.47.2"
+    "@tamagui/focus-scope" "1.47.2"
+    "@tamagui/polyfill-dev" "1.47.2"
+    "@tamagui/popper" "1.47.2"
+    "@tamagui/portal" "1.47.2"
+    "@tamagui/remove-scroll" "1.47.2"
+    "@tamagui/sheet" "1.47.2"
+    "@tamagui/stacks" "1.47.2"
+    "@tamagui/text" "1.47.2"
+    "@tamagui/use-controllable-state" "1.47.2"
 
-"@tamagui/cubic-bezier-animator@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/cubic-bezier-animator/-/cubic-bezier-animator-1.42.0.tgz#7abdfbb66428500bf97ad87be73324a9818dee4f"
-  integrity sha512-KjWjgevpIUHIW4N9Mja1PjIK9yMRzCcRPh0T2HlNMS3eMAMvEB3B/cPNJPNSWs2ECFTcBe8wUa82tg/d6oWKVw==
-
-"@tamagui/dialog@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/dialog/-/dialog-1.42.0.tgz#640793cfd41552e9b432b0e737778b1f538da2bc"
-  integrity sha512-t+Pt+rukuep9+xbJdfsBQTEY1aQZnNPQ1GtXINU1I2jDWVmfS8XXWZLGPLpicHyc4y1ywwr4bN92EOn9SGK/gg==
+"@tamagui/dismissable@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/dismissable/-/dismissable-1.47.2.tgz#94f81b0038ab2cd911ad5342c12110434ede14bd"
+  integrity sha512-V1OSDzG5NX//out60cc/86Djlq3xcugirgFxsM1Zkqpkt4j5a3RjQfENrDqYZvzxkmX0ebQHXs4mwm6JsErS4g==
   dependencies:
-    "@tamagui/adapt" "1.42.0"
-    "@tamagui/animate-presence" "1.42.0"
-    "@tamagui/aria-hidden" "1.42.0"
-    "@tamagui/compose-refs" "1.42.0"
-    "@tamagui/core" "1.42.0"
-    "@tamagui/create-context" "1.42.0"
-    "@tamagui/dismissable" "1.42.0"
-    "@tamagui/focus-scope" "1.42.0"
-    "@tamagui/polyfill-dev" "1.42.0"
-    "@tamagui/popper" "1.42.0"
-    "@tamagui/portal" "1.42.0"
-    "@tamagui/remove-scroll" "1.42.0"
-    "@tamagui/sheet" "1.42.0"
-    "@tamagui/stacks" "1.42.0"
-    "@tamagui/text" "1.42.0"
-    "@tamagui/use-controllable-state" "1.42.0"
+    "@tamagui/compose-refs" "1.47.2"
+    "@tamagui/core" "1.47.2"
+    "@tamagui/use-escape-keydown" "1.47.2"
+    "@tamagui/use-event" "1.47.2"
 
-"@tamagui/dismissable@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/dismissable/-/dismissable-1.42.0.tgz#2ed0a1beef9606f1beb6f6f1e705c432fbc6d157"
-  integrity sha512-qQbbVhZ375wPiHXYBVmRkuj0OVksJB+lVY2U6XBUPVlkITutZupAWWR8v0SB47F/qIKHY1ety2N9yXbWxw4biw==
-  dependencies:
-    "@radix-ui/react-use-escape-keydown" "^1.0.2"
-    "@tamagui/compose-refs" "1.42.0"
-    "@tamagui/core" "1.42.0"
-    "@tamagui/use-event" "1.42.0"
+"@tamagui/fake-react-native@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/fake-react-native/-/fake-react-native-1.47.2.tgz#557a40f246a9f788f6a9b125ff7bec2b25448b9a"
+  integrity sha512-XkJZd2ATzUGARIH6X9PWxo5486X0zix0oduvPanvKcJR12recCYbGEl25W/5epDEq8yXxzC8tqf+efhSpBOGEw==
 
-"@tamagui/fake-react-native@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/fake-react-native/-/fake-react-native-1.42.0.tgz#33be0a14b70f6b0c8f04e4be123edb43b3434028"
-  integrity sha512-MO/AfsUwc0hQjhmgC32ooEIoao7gIDBxMSWniTVaGnEXLaQEVQOc8INxhJv5ZLhmprZJqTjmuWsFj3FiY/C6dg==
-
-"@tamagui/floating@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/floating/-/floating-1.42.0.tgz#5faea85b0dbf3108453b0f3f1fe71c8c54e2d8af"
-  integrity sha512-AfJNvOxSUJau3SOqLWRzDoqA95q9ejJXqWBDUqgcOeEzi5VF6tiasjRAOYqSzgsddDcA3Xj2M82cH5BMMFrBtw==
+"@tamagui/floating@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/floating/-/floating-1.47.2.tgz#19179c4cf0edfec1483d3db5dac74459d85142f2"
+  integrity sha512-ywBR/MP4OlCk0bUp5ImtACyJCl0aTkrucjIvK6dovxFYm2WD1KUCfS+9GMK/pA3qzauxvkAAifBouOrdm8x75Q==
   dependencies:
     "@floating-ui/react-dom" "^2.0.1"
     "@floating-ui/react-native" "^0.10.1"
 
-"@tamagui/focus-scope@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/focus-scope/-/focus-scope-1.42.0.tgz#656288da2cc7d81bb663a0890c40280dd8b0da85"
-  integrity sha512-3mc9hcWugMePN0L2bBwRpL4rhCpUMriHiC/Lk1lOVcZ6JrPsKrWTmHkfDpqJKjpykOtV0vKPcldPdd3kF7EnrA==
+"@tamagui/focus-scope@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/focus-scope/-/focus-scope-1.47.2.tgz#ed55c3d1bd268f0910312f5bf416c9d7d624d9f5"
+  integrity sha512-4PFyf7+6sqm2M1oqYEwT54OVyOZ1i9MWHYZy4Dlf218TINKC4GKHjP7CrvWvi+hZROHNIgRVH1K5QJtP8v9brg==
   dependencies:
-    "@tamagui/compose-refs" "1.42.0"
-    "@tamagui/use-event" "1.42.0"
+    "@tamagui/compose-refs" "1.47.2"
+    "@tamagui/use-event" "1.47.2"
 
-"@tamagui/focusable@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/focusable/-/focusable-1.42.0.tgz#a0f1427ed508bc9606838391b0f55db44cecf8d3"
-  integrity sha512-gaXxAVG9NziszRyKeq3SNcJzDpb+VjFqqVwXULoeuihk0X0ZPHXO4kAzpbtHtyLvbPAjy/6egUP3gJW+6i8EFw==
+"@tamagui/focusable@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/focusable/-/focusable-1.47.2.tgz#f898c1b9abee999ab465757799440042f7684120"
+  integrity sha512-cnXTV9QxULSHgoy24tl0mKtJ5J6PZOaV31GEF71ixwoQxG8Wz/SvQwtkc2FpEvu7VI7L316Zl5iA9zCbgj7YVg==
   dependencies:
-    "@tamagui/compose-refs" "1.42.0"
-    "@tamagui/web" "1.42.0"
+    "@tamagui/compose-refs" "1.47.2"
+    "@tamagui/web" "1.47.2"
 
-"@tamagui/font-inter@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/font-inter/-/font-inter-1.42.0.tgz#dcbc9386d00dafd0a59175ffe08e8d293a46ebe9"
-  integrity sha512-LVRirlIzkpuW0hxhtbpD3vHz7F6ALjGEKB2HUDEbIqvlPXtJeTSPBeGtXaWuldulRHLwT7GLDeR79dK1Vau70Q==
+"@tamagui/font-inter@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/font-inter/-/font-inter-1.47.2.tgz#18641063ca469f9dc4fa6fb11c7c7dc2816dc247"
+  integrity sha512-dJGAaseCiwzxClfUmWRcs5I+76yo7Yazeq9WIJjDpSf9jAWXGM6wX6a/+GebVViLlgOFI7ZluMMIgIagv1uttw==
   dependencies:
-    "@tamagui/core" "1.42.0"
+    "@tamagui/core" "1.47.2"
 
-"@tamagui/font-silkscreen@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/font-silkscreen/-/font-silkscreen-1.42.0.tgz#5151c6e332129c156e3f1a4f9acd4d8f84d58c23"
-  integrity sha512-heZFyj+6ieH827VzNWZcTKFugMVdvY6RjN9pPd/uc9meAY7i3ygQZQXn/BMp0qzNRFMmATEVrARX4SOdeWsMPA==
+"@tamagui/font-silkscreen@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/font-silkscreen/-/font-silkscreen-1.47.2.tgz#86dbf2ec2ff7f1c619c8eed8a609b79ffa0020cf"
+  integrity sha512-MD5qXeTGihxc4cK+YRer0RmGe71aeRInNl3VVVq2N7cpX+MGNJBHqHTv5e19fRpHwEPlQ2o4yJ2QvcwdxN9AfQ==
   dependencies:
-    "@tamagui/core" "1.42.0"
+    "@tamagui/core" "1.47.2"
 
-"@tamagui/font-size@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/font-size/-/font-size-1.42.0.tgz#2e8af7024b26a53f67b327bf6ca133c7c9cd3d1d"
-  integrity sha512-Fg+KJjPCfMkkHvsZFzQNW2UTXRGMMiEP4yK+CAkbXDocE+FBkceKdxVvhy4W8rBri9HqF2Rt6MG15lEyJpbHZg==
+"@tamagui/font-size@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/font-size/-/font-size-1.47.2.tgz#33aa6efb9405f26d2cbc37ba5bc4ec766a772fdd"
+  integrity sha512-zmQeYyRLtdAYxt6wAuL2GXD82KfdBkJmHnIWsbIEVuQEAjjFmZutReTrBxMkYgooHMO5rkRLjysClsh15UGpUw==
   dependencies:
-    "@tamagui/core" "1.42.0"
+    "@tamagui/core" "1.47.2"
 
-"@tamagui/form@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/form/-/form-1.42.0.tgz#3baa34b541815495234a804a6308f49de6b29011"
-  integrity sha512-rq6YKhjpV+vvRQF8m6UG1/fd24mk0kN6u9LYt4zayTEF/pB9sYKGOW/nRJLXyQJJa5d0Mie/+Y5jawWWL4zKSg==
+"@tamagui/form@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/form/-/form-1.47.2.tgz#5b766ff192518cdd5c9dd67cae18abab87826359"
+  integrity sha512-LvEDwc9pDtd1Y2urinfuUicNk1LANK1AODSVx+q1gzXOuIW1t3Qvq9M7yRF0GMbxLOcYsgeKlqcPbtNpxmw6xg==
   dependencies:
-    "@tamagui/compose-refs" "1.42.0"
-    "@tamagui/core" "1.42.0"
-    "@tamagui/create-context" "1.42.0"
-    "@tamagui/focusable" "1.42.0"
-    "@tamagui/get-button-sized" "1.42.0"
-    "@tamagui/get-font-sized" "1.42.0"
-    "@tamagui/text" "1.42.0"
+    "@tamagui/compose-refs" "1.47.2"
+    "@tamagui/core" "1.47.2"
+    "@tamagui/create-context" "1.47.2"
+    "@tamagui/focusable" "1.47.2"
+    "@tamagui/get-button-sized" "1.47.2"
+    "@tamagui/get-font-sized" "1.47.2"
+    "@tamagui/text" "1.47.2"
 
-"@tamagui/generate-themes@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/generate-themes/-/generate-themes-1.42.0.tgz#6ccb6eaa9cb4889679b09557adec03f37c25b473"
-  integrity sha512-XPVMvReCyvfFBnPkJ5c3domlx+TlnopDoiXRneJWtrl94/251ia2V9fqqnseqF5/8rc7VlKmM4fQh9ZWTr7evg==
+"@tamagui/generate-themes@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/generate-themes/-/generate-themes-1.47.2.tgz#80e181df2e73f1054f40fd1429f7abf60666dba5"
+  integrity sha512-g88165dNEhQnl1T9Gq8VljDM8NG5X89tmBx1koMyokZK3nb3UC/q9pjPzU9m1jAdMlHNq+MO1nSoZGnaK6UJhA==
   dependencies:
-    "@tamagui/create-theme" "1.42.0"
-    "@tamagui/types" "1.42.0"
+    "@tamagui/create-theme" "1.47.2"
+    "@tamagui/types" "1.47.2"
     esbuild-register "^3.4.2"
     fs-extra "^11.1.0"
 
-"@tamagui/get-button-sized@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/get-button-sized/-/get-button-sized-1.42.0.tgz#c6dda27672b63f579d76c066ba351331b2aab341"
-  integrity sha512-cf9AXyBUhJ/SCmRRZGH3Rex48jH9D4oCa2RIuBoQPXssI8SMqSFIl6m6/IitgZT9r87IRjW7DgikodvLl5KatA==
+"@tamagui/get-button-sized@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/get-button-sized/-/get-button-sized-1.47.2.tgz#ce60c2df12b30daafa3195f934aa074883784619"
+  integrity sha512-Rn9S8z3p/NnQ+Mp1LPPgDfZbdt7VK0Rpy1fd4qVU+d6I+qy0b1BMYkmZhLrYtkRdAKJPURvyuc/trfhR2Kbh8Q==
   dependencies:
-    "@tamagui/get-token" "1.42.0"
-    "@tamagui/web" "1.42.0"
+    "@tamagui/get-token" "1.47.2"
+    "@tamagui/web" "1.47.2"
 
-"@tamagui/get-font-sized@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/get-font-sized/-/get-font-sized-1.42.0.tgz#997bc15ca93f8d4333618d4bf3b2cc28b6165267"
-  integrity sha512-nIYZ4IWkQcUAKVQIqrPqk+/djnW3hldYXQq6Os4tWO/ILMTSqDbw2CkmOg5KUagMD5MSnVCDP+N8AnvDv2qCBA==
+"@tamagui/get-font-sized@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/get-font-sized/-/get-font-sized-1.47.2.tgz#4ab45bc9335ce5d008d9464ef17856cc7793b180"
+  integrity sha512-6IUgs13LTULJjE29PeZwUB2rYvoTQDhunbUGqhWPwwzUbexerBByEJvkTuSWQeEHYwrDR8/zQuYtvUUwdawe1w==
   dependencies:
-    "@tamagui/core" "1.42.0"
+    "@tamagui/core" "1.47.2"
 
-"@tamagui/get-token@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/get-token/-/get-token-1.42.0.tgz#7427fc3112b4bcadeab204623e937d8f0c58b04a"
-  integrity sha512-myWS+no9rQ0VpLgSyxap0/+Dx8pSblaT9byPUUFMBoK23XjU77zUcfPBWXDHNDx/udNweQoXZg4hKzHZkpISQQ==
+"@tamagui/get-token@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/get-token/-/get-token-1.47.2.tgz#4f13503a37bff78244aa8356ed853649c80bf39e"
+  integrity sha512-yx6R0ew7r96mY6wviC4ukap/ViQ8L8Wa4d83XqACywV/ghAxMStScczWMPwMzP3VS2QIq+CoFiacdi47cYrqWw==
   dependencies:
-    "@tamagui/web" "1.42.0"
+    "@tamagui/web" "1.47.2"
 
-"@tamagui/group@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/group/-/group-1.42.0.tgz#e5b9b13af47f2306e5484babd3d441cd6fa63a16"
-  integrity sha512-kxIGu7pwgP/2Rof0k/vlmjmJTlg8DL5jmV5rObVaEpmi5/bI/rBtSvLXYpbYGMu2choWMd6+CcfWjbTWU6jAbw==
+"@tamagui/group@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/group/-/group-1.47.2.tgz#8ddea901b96ec532ffbeb99a60735b4962d684d3"
+  integrity sha512-JfdfGe4Gj2xlwITeht1h0NFAon1JfkqfmreqrZdRS7r4JZRf21hkSNukJ4jHJ3cCEGXQkSqnaFQFl8N7x0bV2Q==
   dependencies:
-    "@tamagui/core" "1.42.0"
-    "@tamagui/create-context" "1.42.0"
-    "@tamagui/stacks" "1.42.0"
-    "@tamagui/use-controllable-state" "1.42.0"
+    "@tamagui/core" "1.47.2"
+    "@tamagui/create-context" "1.47.2"
+    "@tamagui/stacks" "1.47.2"
+    "@tamagui/use-controllable-state" "1.47.2"
     reforest "^0.12.1"
 
-"@tamagui/helpers-icon@1.42.0", "@tamagui/helpers-icon@^1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/helpers-icon/-/helpers-icon-1.42.0.tgz#d3cf8e9648415adca83278f7297b7f31564064d7"
-  integrity sha512-pCA9mRQm303DKFf9RWYnM8isaduMlOvh4db9QeTj+BXkkHuL4AgU7phvQwK4zBTui0jx3inlXbHcWgoVB0R/QQ==
+"@tamagui/helpers-icon@1.47.2", "@tamagui/helpers-icon@^1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/helpers-icon/-/helpers-icon-1.47.2.tgz#5c33c47da83bda653a4261ae6e282b9c2b203771"
+  integrity sha512-N36vQQOYQUxiFKgZ+ZFGM+YuE+mVm6f8N0jRdc+s88rk35IOYSg8dBlFk4vk9+WOZMmDUiCXe/QbYSc6tZLG3g==
   dependencies:
-    "@tamagui/core" "1.42.0"
+    "@tamagui/core" "1.47.2"
 
-"@tamagui/helpers-node@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/helpers-node/-/helpers-node-1.42.0.tgz#2ef3751b80d3e692b89baebbb8d26185b3ba1fd9"
-  integrity sha512-psJ5SCAQJFsu5PugY2O0qGCVUd3T0F4vBB2bazZqbbK8CFbkjZ2pciylBYOXGwno60ShGumhi/m0387OkRT3ow==
+"@tamagui/helpers-node@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/helpers-node/-/helpers-node-1.47.2.tgz#16cf6f927dad71d5b23b8d8e25a91c2013f8b391"
+  integrity sha512-JUtArGVWSpDwYufT+Pf0R236ww7cOmg6FqvJ9rb3X2ATbS9CzZ60at1e6WcIeZRwcoI15Lss8oLdsj12kEil3Q==
   dependencies:
-    "@tamagui/types" "1.42.0"
+    "@tamagui/types" "1.47.2"
 
-"@tamagui/helpers-tamagui@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/helpers-tamagui/-/helpers-tamagui-1.42.0.tgz#1cc3583bb73a3f3cb6f456cca8456d11a83a9352"
-  integrity sha512-9V10stJY1MUwlcDiNb/oHNCe6cNa6ZBfczsqdAmzAI2NQ9EuW62VhCsJWbzDw2vN6+h6aRyo1pC3VP2R8m4UhA==
+"@tamagui/helpers-tamagui@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/helpers-tamagui/-/helpers-tamagui-1.47.2.tgz#601258af00cc5a64959c059f27460494b6fe07b4"
+  integrity sha512-zVUDSpRYfwfr40AB6OXrRoGdRuWXrWWaZzD6AyRZ6Aw33qU1ewztWNr5JogtE1EGW/vxaVwLbxpPuDKICEDpWg==
   dependencies:
-    "@tamagui/helpers" "1.42.0"
-    "@tamagui/web" "1.42.0"
+    "@tamagui/helpers" "1.47.2"
+    "@tamagui/web" "1.47.2"
 
-"@tamagui/helpers@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/helpers/-/helpers-1.42.0.tgz#bc2f42bb3e5dd3e940ef7387546882e373616fbf"
-  integrity sha512-iXOl1vTJ5zJOisnnl3HpLoayETv7GBppNNzo/jEdroZ7Zwvk0h/3lU8lQcitogmRYekQnRm4vjXS9P8qp+W0Fw==
+"@tamagui/helpers@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/helpers/-/helpers-1.47.2.tgz#2fdc98a8e1ea96dc2f082a42f6c89cec59ff345b"
+  integrity sha512-1rNry7aNy6rcNZuTIYcFeZxnfIlQSsN1P22bFQQv2dJ8JXuZ6Mkc523P8gLHp9VBRTXwawlKdJU5LQF2yCjVdA==
   dependencies:
-    "@tamagui/simple-hash" "1.42.0"
+    "@tamagui/simple-hash" "1.47.2"
 
-"@tamagui/image@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/image/-/image-1.42.0.tgz#d929e7622e336ddcf0aa83c0007cebdab7ba55c5"
-  integrity sha512-SrWlXc+tKyFiLmpueb7JjtTp5ntXFB75HLaVqeIBpCioxeAKrr7NQSI4zu9HCKBBwH28VLq6NCInhEchH9uO+Q==
+"@tamagui/image@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/image/-/image-1.47.2.tgz#79de982b49615c593b8ffac6c088d4a7f7623046"
+  integrity sha512-UhhMfFZiLYQAkP4fRGlBfFcE4Cl7+3RB/emU6HUnkgSACJaZUXrugauhO0VVabzcvQUN6F94vVzK1RgwdQWhrQ==
   dependencies:
-    "@tamagui/core" "1.42.0"
+    "@tamagui/core" "1.47.2"
 
-"@tamagui/label@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/label/-/label-1.42.0.tgz#47f450f54495e11cda829a22619bfc68e4e5924d"
-  integrity sha512-VgUN91PHXtLYN1NssLob3UA79MwvDEF+nDfj7i6KYhq8opnelWL+iChVQAOY47A8auo06u8x13toYnj1qulpYQ==
+"@tamagui/label@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/label/-/label-1.47.2.tgz#54b2f1c6d5f2c253b5aaf8bf32f368f1383b8db2"
+  integrity sha512-YFAYo2B3abAJPndEOf/H/Z/3Xj9KeLOp1DN/mepiKJz6dLRW+j7pDrWfK59C0+OYuRDtW5u0/vNK2hTN/1aK/g==
   dependencies:
-    "@tamagui/compose-refs" "1.42.0"
-    "@tamagui/create-context" "1.42.0"
-    "@tamagui/focusable" "1.42.0"
-    "@tamagui/get-button-sized" "1.42.0"
-    "@tamagui/get-font-sized" "1.42.0"
-    "@tamagui/text" "1.42.0"
-    "@tamagui/web" "1.42.0"
+    "@tamagui/compose-refs" "1.47.2"
+    "@tamagui/create-context" "1.47.2"
+    "@tamagui/focusable" "1.47.2"
+    "@tamagui/get-button-sized" "1.47.2"
+    "@tamagui/get-font-sized" "1.47.2"
+    "@tamagui/text" "1.47.2"
+    "@tamagui/web" "1.47.2"
 
-"@tamagui/linear-gradient@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/linear-gradient/-/linear-gradient-1.42.0.tgz#9c7af9a8626fc280d91151eb3a6b14ff6fc675ed"
-  integrity sha512-Yp4aWa9R/r8SReR9/HAjaUQ/FCbYybcNy6TJUAWmVn7/kK+7c3DzuCPfBX/EGDab0trHOpx2V4pjoA5fZdIt5Q==
+"@tamagui/linear-gradient@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/linear-gradient/-/linear-gradient-1.47.2.tgz#0ed331ee31b31f15fc29d54972c9d4ba501ea344"
+  integrity sha512-Fj7M9W0lZ31DEqjxOOhvH3cHP95pWTAjoDHerqnCw6gH/Elt7thlakbww8J5VYQrQYA1nG7yKfWxED6miwcW5Q==
   dependencies:
-    "@tamagui/core" "1.42.0"
-    "@tamagui/stacks" "1.42.0"
+    "@tamagui/core" "1.47.2"
+    "@tamagui/stacks" "1.47.2"
 
-"@tamagui/list-item@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/list-item/-/list-item-1.42.0.tgz#fb8f009a32fc4ae98253c3dc12172ee294fb2884"
-  integrity sha512-Biq1OLxPNSHGdJUJrq4WTXTN9eOYnMk1/I/PZiFhPgTFn2cVsL8E1o7/EPWT83oFY/t3RlMJvhSLZG3X3a3FFg==
+"@tamagui/list-item@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/list-item/-/list-item-1.47.2.tgz#ce62b34c705d29b81e44c84a6bf680f518afed5c"
+  integrity sha512-0XTaL8vjJzUS3qXEPQf9fqdvbOnzGNXriHDjZuH8NblKaipYhQeLVkQJRC2/upGA5MsQxF5XAtNBscoyQV/MHQ==
   dependencies:
-    "@tamagui/font-size" "1.42.0"
-    "@tamagui/get-font-sized" "1.42.0"
-    "@tamagui/get-token" "1.42.0"
-    "@tamagui/helpers-tamagui" "1.42.0"
-    "@tamagui/text" "1.42.0"
-    "@tamagui/web" "1.42.0"
+    "@tamagui/font-size" "1.47.2"
+    "@tamagui/get-font-sized" "1.47.2"
+    "@tamagui/get-token" "1.47.2"
+    "@tamagui/helpers-tamagui" "1.47.2"
+    "@tamagui/text" "1.47.2"
+    "@tamagui/web" "1.47.2"
 
-"@tamagui/lucide-icons@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/lucide-icons/-/lucide-icons-1.42.0.tgz#972dc1b8a6b56a4419d010b85f4d3fae08b4d5af"
-  integrity sha512-SmPRpgFcoKhDhVsDPR32HI4n/nvgrBjD7E7Ilk2KZoJsmVWMd7tJ58UiTr3NMARXtux8GDo8eW0guu+wDF3FUg==
+"@tamagui/lucide-icons@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/lucide-icons/-/lucide-icons-1.47.2.tgz#5aeb76aca2fc1dfcdd4a1b1f6c75d0c662128126"
+  integrity sha512-CQtz41KyFi7Kwr0P41UZ+oYMTvVXVYlrP53a42ISj3uz9U3NsDfj5iNCe30qzv1Dnygj2HhAmF5QWgyAkDp4Tw==
   dependencies:
-    "@tamagui/core" "1.42.0"
-    "@tamagui/helpers-icon" "1.42.0"
+    "@tamagui/core" "1.47.2"
+    "@tamagui/helpers-icon" "1.47.2"
 
-"@tamagui/normalize-css-color@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/normalize-css-color/-/normalize-css-color-1.42.0.tgz#4a6f08d02bb81565c3f402015340cb6a23585a13"
-  integrity sha512-bYHNBA0C1nHYiVe28Lr4FsXqhfqeuRZjwh/+6Rjwrb7LH0u7sUX2851ErZ/yKo65sgC93MDSVGfRwqcZuplA8A==
+"@tamagui/normalize-css-color@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/normalize-css-color/-/normalize-css-color-1.47.2.tgz#56be78e41c469d5069143968807869ae81f0ab4b"
+  integrity sha512-pJaVpImytQ45w2bVgyD4QoFDMFlfwVEhmWCY28vctfgR3cc75NMUR5DZhWQJ49z0a59TjMwrzfPp7rt4Bj13RQ==
 
-"@tamagui/polyfill-dev@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/polyfill-dev/-/polyfill-dev-1.42.0.tgz#019372fcd02aac0381960d7211a58605b200b80c"
-  integrity sha512-kvo9HDuOFcdiMOofqbTw6wjyg4sOZ/MJil65An1PHF9HXB0/osqYwWG0fp5WL0NYJVXAY1s+yPzVgpqfd8JVag==
+"@tamagui/polyfill-dev@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/polyfill-dev/-/polyfill-dev-1.47.2.tgz#a92d497a93f67309a527431a8b1e499b2e84bf8e"
+  integrity sha512-78TPfUuPsqSfM+uyaNu9HCZiyKWX4h6Mo+y3HDx5p3uSdkGp9TW2uCtkydgL6lH8t0+u6w+iuXvqSpDFuzLyAQ==
 
-"@tamagui/popover@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/popover/-/popover-1.42.0.tgz#b247f5d53883e3c370e30b4a26cdc06045958f28"
-  integrity sha512-iDGXi5Vfkqi6pp/Fxhk+8zmeqb5T6kDmCCJQqVIntQD5wd+lFzq5fnY1q0IXdoPhkLpmdCWw0aO1R6eT4EVlZA==
+"@tamagui/popover@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/popover/-/popover-1.47.2.tgz#f09ff6734d14fb9a2ce9a8035cd134ed7363598c"
+  integrity sha512-1P3M/osJ9w5DMw9ztw1CqNIpDFvBWOdTx8sL/fAGl1Uwc4y992qJXgXjuiStv3iy6sRlgX6zDczAa7aDc1zzjw==
   dependencies:
     "@floating-ui/react" "^0.24.7"
-    "@tamagui/adapt" "1.42.0"
-    "@tamagui/animate-presence" "1.42.0"
-    "@tamagui/aria-hidden" "1.42.0"
-    "@tamagui/compose-refs" "1.42.0"
-    "@tamagui/core" "1.42.0"
-    "@tamagui/dismissable" "1.42.0"
-    "@tamagui/floating" "1.42.0"
-    "@tamagui/focus-scope" "1.42.0"
-    "@tamagui/polyfill-dev" "1.42.0"
-    "@tamagui/popper" "1.42.0"
-    "@tamagui/portal" "1.42.0"
-    "@tamagui/remove-scroll" "1.42.0"
-    "@tamagui/scroll-view" "1.42.0"
-    "@tamagui/sheet" "1.42.0"
-    "@tamagui/stacks" "1.42.0"
-    "@tamagui/use-controllable-state" "1.42.0"
+    "@tamagui/adapt" "1.47.2"
+    "@tamagui/animate" "1.47.2"
+    "@tamagui/aria-hidden" "1.47.2"
+    "@tamagui/compose-refs" "1.47.2"
+    "@tamagui/core" "1.47.2"
+    "@tamagui/dismissable" "1.47.2"
+    "@tamagui/floating" "1.47.2"
+    "@tamagui/focus-scope" "1.47.2"
+    "@tamagui/polyfill-dev" "1.47.2"
+    "@tamagui/popper" "1.47.2"
+    "@tamagui/portal" "1.47.2"
+    "@tamagui/remove-scroll" "1.47.2"
+    "@tamagui/scroll-view" "1.47.2"
+    "@tamagui/sheet" "1.47.2"
+    "@tamagui/stacks" "1.47.2"
+    "@tamagui/use-controllable-state" "1.47.2"
+    react-freeze "^1.0.3"
 
-"@tamagui/popper@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/popper/-/popper-1.42.0.tgz#2c3b1acd03691875b4dac8e9fa0e02d1a79557fd"
-  integrity sha512-1ph/fjSk6KD9U1vunI/AML5yyoRSRoDTAh/72BOXkR1nrTBzgjKWa59FYROkjtMpqCZn1eN655du89Q9UyHXbQ==
+"@tamagui/popper@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/popper/-/popper-1.47.2.tgz#315a1981d633b8a71992ead1526d1c43b3445182"
+  integrity sha512-K3E+KkNQJ6B7C3gMU6HsGfk4hX2iIqD1YFHsg2ziv4Oe947gaJADxbntfz3VHoTrLdWRiW1RqGH34Y1hkIij+Q==
   dependencies:
     "@floating-ui/react-dom" "^2.0.1"
     "@floating-ui/react-native" "^0.10.1"
-    "@tamagui/compose-refs" "1.42.0"
-    "@tamagui/core" "1.42.0"
-    "@tamagui/floating" "1.42.0"
-    "@tamagui/get-token" "1.42.0"
-    "@tamagui/stacks" "1.42.0"
-    "@tamagui/use-controllable-state" "1.42.0"
+    "@tamagui/compose-refs" "1.47.2"
+    "@tamagui/core" "1.47.2"
+    "@tamagui/floating" "1.47.2"
+    "@tamagui/get-token" "1.47.2"
+    "@tamagui/stacks" "1.47.2"
+    "@tamagui/use-controllable-state" "1.47.2"
 
-"@tamagui/portal@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/portal/-/portal-1.42.0.tgz#874712739428a8a38dc4eb597f3ce3c4cd96595b"
-  integrity sha512-/kqXvEoslUaMdhqEZBJSNs747hTjwWaqaMWSfJ/7fuzhKXLglfLVbnNgu61+DxCgVSnhUIkR++G35vZmY6pOHw==
+"@tamagui/portal@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/portal/-/portal-1.47.2.tgz#bb55ca26dd59d9d126b973316ff25a6e6c031bcf"
+  integrity sha512-jqZW35WfPwBDLQ2+jGC2SXJ08OX81HeK35Y1fMnTQzSpQh2hIEUUu6ZvlI7uwxMZIiJtPBqC/UPjItBtXIPaPA==
   dependencies:
-    "@tamagui/core" "1.42.0"
-    "@tamagui/stacks" "1.42.0"
-    "@tamagui/use-event" "1.42.0"
+    "@tamagui/core" "1.47.2"
+    "@tamagui/stacks" "1.47.2"
+    "@tamagui/use-event" "1.47.2"
 
-"@tamagui/progress@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/progress/-/progress-1.42.0.tgz#68ea35c7d7834b1303ce9a7f6da136c9a909744f"
-  integrity sha512-R7ZIL5KRRgfZrtp/TyFv+GTIPnU7sjz1Rjslv1rHL+aJ8QQ81k7DB9J4RNzA6a8n9sbT9eLxtL4AiCRk89zU+w==
+"@tamagui/progress@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/progress/-/progress-1.47.2.tgz#0810913bb889e01a37e47a57fd5149cc350732f3"
+  integrity sha512-vxGyG2aJfBQeEFrseAme+IsiTwatLm3AXxcXe9ScFCItllbQx7mIlc7/LnCuBXthg73g5ggqlOvsWHH0aR8wmw==
   dependencies:
-    "@tamagui/compose-refs" "1.42.0"
-    "@tamagui/core" "1.42.0"
-    "@tamagui/create-context" "1.42.0"
-    "@tamagui/get-token" "1.42.0"
-    "@tamagui/stacks" "1.42.0"
+    "@tamagui/compose-refs" "1.47.2"
+    "@tamagui/core" "1.47.2"
+    "@tamagui/create-context" "1.47.2"
+    "@tamagui/get-token" "1.47.2"
+    "@tamagui/stacks" "1.47.2"
 
-"@tamagui/proxy-worm@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/proxy-worm/-/proxy-worm-1.42.0.tgz#9357d3bc5474cb59e49a4363a1c8b9577b1c3661"
-  integrity sha512-hjq9ocyT9O0x3GYsA5onz6f+HZz+Oxiw04u6RZ6yvm7bGxQ94CauCY/hyMWaEtfwNHjNydYNvYIOY8lETDW3WA==
+"@tamagui/proxy-worm@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/proxy-worm/-/proxy-worm-1.47.2.tgz#18f91884cb8a940da83c41efab97007d07a628aa"
+  integrity sha512-HCaIQjNmZgW1Ocov/BqN9D4DawSPuduAxJ57pi2nN/6P1PrBlbaPihxxFdas13jSZHjv6CFFyDpYPQdfDpum1g==
 
-"@tamagui/radio-group@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/radio-group/-/radio-group-1.42.0.tgz#2e21f15417657cf2b67f16a014171198cbe39c4b"
-  integrity sha512-c1a8/STPZYc6Hu9orA6ulS23ZCPQeeVOh5xDBxJl4jUy9GSglknkEAyX0ENB0ceQuPgfKN+XT/e/nyTiONvAig==
+"@tamagui/radio-group@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/radio-group/-/radio-group-1.47.2.tgz#957bd094d2c00d199e088e36ece5f07aa02ad5ab"
+  integrity sha512-VvkLEKvRH/VU6lKD29sc2i18abq8XMCDOnnmMWGVh3YOqwwQwLAjjm5y2sn0QW3A/bZ7Y8rH4U0m4GluEthOhA==
   dependencies:
-    "@radix-ui/react-use-previous" "^1.0.0"
-    "@tamagui/compose-refs" "1.42.0"
-    "@tamagui/core" "1.42.0"
-    "@tamagui/create-context" "1.42.0"
-    "@tamagui/focusable" "1.42.0"
-    "@tamagui/get-token" "1.42.0"
-    "@tamagui/label" "1.42.0"
-    "@tamagui/stacks" "1.42.0"
-    "@tamagui/use-controllable-state" "1.42.0"
+    "@tamagui/compose-refs" "1.47.2"
+    "@tamagui/core" "1.47.2"
+    "@tamagui/create-context" "1.47.2"
+    "@tamagui/focusable" "1.47.2"
+    "@tamagui/get-token" "1.47.2"
+    "@tamagui/label" "1.47.2"
+    "@tamagui/stacks" "1.47.2"
+    "@tamagui/use-controllable-state" "1.47.2"
+    "@tamagui/use-previous" "1.47.2"
 
-"@tamagui/react-native-media-driver@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/react-native-media-driver/-/react-native-media-driver-1.42.0.tgz#6179c964445c3f96f0cd5644123c7a685a8b5a3e"
-  integrity sha512-J5GQhl1jexImEecNEX/JPh+a/WnDzxnNDEF7FsPbDtcDp7Uwe3SgizxwXLj/vAlLaIxmEUbaJPJHpA/YH0mejw==
+"@tamagui/react-native-media-driver@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/react-native-media-driver/-/react-native-media-driver-1.47.2.tgz#e26d5d3502eac9b26fae131ba24f30b4699294d2"
+  integrity sha512-M/38F0mtCZaho38YRpRz3Xln9MWAnlzKsfz5EL6arrgSVfVEredL84VkfuZkb4L9p4PRNxC5WFXRqNLsscM72g==
   dependencies:
-    "@tamagui/web" "1.42.0"
+    "@tamagui/web" "1.47.2"
     css-mediaquery "^0.1.2"
 
-"@tamagui/react-native-use-pressable@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/react-native-use-pressable/-/react-native-use-pressable-1.42.0.tgz#d4288226806927bf55f339517a28b8fd0ca254ec"
-  integrity sha512-bTiVMgJdw6x/VHduMWywzX+QvLclvM/YJjYh71HID0h2LedZD8+yTW8lrQf98ZXXznwfFSNXYi1k6oWYh2mHiw==
+"@tamagui/react-native-use-pressable@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/react-native-use-pressable/-/react-native-use-pressable-1.47.2.tgz#ed61077e42680defdd1b48a23ef8e9a422ca3780"
+  integrity sha512-ttYNZZb11cpeNlNi/1LPT55ud9G/jrnv9O1q1XkFcKJux8M9xHWQjzlHe463COOpPvv5T3W1dsS5Yti09licJg==
 
-"@tamagui/react-native-use-responder-events@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/react-native-use-responder-events/-/react-native-use-responder-events-1.42.0.tgz#a3beef284170057414548831a50f2fb2e3fbf1f6"
-  integrity sha512-FsXHar03t94XwLO+PMwXOkSGKY7VaWiKa+FynYta3AaUz3VBb3HYSJAxi1f9GsNKVM3zVFPYMisXHyPvT67dRw==
+"@tamagui/react-native-use-responder-events@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/react-native-use-responder-events/-/react-native-use-responder-events-1.47.2.tgz#95960f6c46fbab9cc44cd7995fd157c40f921254"
+  integrity sha512-D13uuovrVAXCg9S8jUlrflbS77/7z9PlkpkvTIjhvQL3PRWO3MxJEogEJnNEB8zJullbE1ldRGAO2xTOpcf8ew==
 
-"@tamagui/remove-scroll@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/remove-scroll/-/remove-scroll-1.42.0.tgz#64af334718afca1a5ab1b88ecf5236c0cfa3916c"
-  integrity sha512-MJHLVjd9U7AwTt1IAc65NY5506FET07dFU8lhRwbxthtxDpdoOfrDl7Q6u9HJ2wi5/99Nlhe6b1kdqC1MtxFjg==
+"@tamagui/remove-scroll@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/remove-scroll/-/remove-scroll-1.47.2.tgz#7bc3b74002998929907a75d657f3691d0118a459"
+  integrity sha512-CeUxXAsZJ7Ac5rRAUeTDD4Ab8LKL0ifr7RrDnsj5qqS56Wi0bFRMysCNQp3Bx0GxVtIbWIQsuVWr5+fXbmSkig==
   dependencies:
     react-remove-scroll "^2.5.5"
 
-"@tamagui/roving-focus@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/roving-focus/-/roving-focus-1.42.0.tgz#f818eb19b39314a70b337f0e1229f3b0c38c3765"
-  integrity sha512-L3vh6Q93wHJD/mtziCYCT0gOQc4jaIgVGWcawTlz6So53wbaqSkGlMrh6eoVYKS8etJe6N3dl+MhMEOG1L+bfg==
+"@tamagui/roving-focus@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/roving-focus/-/roving-focus-1.47.2.tgz#f99e1a42d7dcc42f821589f11d78f49f0ee852f1"
+  integrity sha512-87ugx5cUdgT5vE3SYyR1fggWfCKkpAifF1LRzLE6LoO28yl7DNEHhEiqP4+NLd2jJanDij7nXke21IAlcyjUaA==
   dependencies:
-    "@tamagui/collection" "1.42.0"
-    "@tamagui/compose-refs" "1.42.0"
-    "@tamagui/core" "1.42.0"
-    "@tamagui/create-context" "1.42.0"
-    "@tamagui/use-controllable-state" "1.42.0"
-    "@tamagui/use-direction" "1.42.0"
-    "@tamagui/use-event" "1.42.0"
+    "@tamagui/collection" "1.47.2"
+    "@tamagui/compose-refs" "1.47.2"
+    "@tamagui/core" "1.47.2"
+    "@tamagui/create-context" "1.47.2"
+    "@tamagui/use-controllable-state" "1.47.2"
+    "@tamagui/use-direction" "1.47.2"
+    "@tamagui/use-event" "1.47.2"
 
-"@tamagui/scroll-view@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/scroll-view/-/scroll-view-1.42.0.tgz#9e5f79d7762ed8fce9ef358caf3bfac1e111a916"
-  integrity sha512-HPs4kwfcN+B3xBPf3TCudwBh0cjtUtvCa/CZhM/dVs58LnjzQjcIq2ODfRSEnHzpd1RLnNNMGyNQKt6sqM9bDw==
+"@tamagui/scroll-view@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/scroll-view/-/scroll-view-1.47.2.tgz#d3d93c2e9c49944798eb0c29fcaf1cd7c8753ae7"
+  integrity sha512-0YTemWD98u8gRKje9LzlnNg27Iowa5+V8MxumO3NQDKTrf9jSEJJbP+Rs0nstpBSEwsv90BDt9GLb+pF/Uc05w==
   dependencies:
-    "@tamagui/stacks" "1.42.0"
-    "@tamagui/web" "1.42.0"
+    "@tamagui/stacks" "1.47.2"
+    "@tamagui/web" "1.47.2"
 
-"@tamagui/select@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/select/-/select-1.42.0.tgz#49a1e6f0ac55602aa587698caf38c9564b8c6d34"
-  integrity sha512-DRGrT+UnYU4adtqF8kym4ZcZKgFl/isGvxU19BVK/ITwhW6ok7S6FoFVKB2PZ1cCVQl6XfvS1UJuowHmlN2b8g==
+"@tamagui/select@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/select/-/select-1.47.2.tgz#de316f42057b7f0c686550daf9c8a26243b68b1a"
+  integrity sha512-RBdiHlDAuN34ZAS9Avi2io9kMnIakErBFLyR86BxHlLfrMCX1E4Pv41pa9+vMNNI5a4poESOCr+Yh97aF0bS9g==
   dependencies:
     "@floating-ui/react" "^0.24.7"
     "@floating-ui/react-dom" "^2.0.1"
     "@floating-ui/react-native" "^0.10.1"
-    "@radix-ui/react-use-previous" "^1.0.0"
-    "@tamagui/adapt" "1.42.0"
-    "@tamagui/animate-presence" "1.42.0"
-    "@tamagui/compose-refs" "1.42.0"
-    "@tamagui/core" "1.42.0"
-    "@tamagui/create-context" "1.42.0"
-    "@tamagui/dismissable" "1.42.0"
-    "@tamagui/focus-scope" "1.42.0"
-    "@tamagui/get-token" "1.42.0"
-    "@tamagui/list-item" "1.42.0"
-    "@tamagui/portal" "1.42.0"
-    "@tamagui/separator" "1.42.0"
-    "@tamagui/sheet" "1.42.0"
-    "@tamagui/stacks" "1.42.0"
-    "@tamagui/text" "1.42.0"
-    "@tamagui/use-controllable-state" "1.42.0"
-    "@tamagui/use-event" "1.42.0"
+    "@tamagui/adapt" "1.47.2"
+    "@tamagui/animate-presence" "1.47.2"
+    "@tamagui/compose-refs" "1.47.2"
+    "@tamagui/core" "1.47.2"
+    "@tamagui/create-context" "1.47.2"
+    "@tamagui/dismissable" "1.47.2"
+    "@tamagui/focus-scope" "1.47.2"
+    "@tamagui/get-token" "1.47.2"
+    "@tamagui/list-item" "1.47.2"
+    "@tamagui/portal" "1.47.2"
+    "@tamagui/separator" "1.47.2"
+    "@tamagui/sheet" "1.47.2"
+    "@tamagui/stacks" "1.47.2"
+    "@tamagui/text" "1.47.2"
+    "@tamagui/use-controllable-state" "1.47.2"
+    "@tamagui/use-event" "1.47.2"
+    "@tamagui/use-previous" "1.47.2"
 
-"@tamagui/separator@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/separator/-/separator-1.42.0.tgz#7f1abec6d0210cec7da777271b9fbbe7c1cc2bfa"
-  integrity sha512-mY1EP60/R7yyUinoma0+zlmKhl6PMWxs1PtoZli+QdELmif/TrtoX0qAhegMqroA334FW7uGryrFPxrLlbfqNQ==
+"@tamagui/separator@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/separator/-/separator-1.47.2.tgz#af727e709ba056fda8efe59481c59bd2f1539806"
+  integrity sha512-pPdNDxu+wAO33Iw0D+PrWEajdVonvyJDG5AxOUCkLINKOvZiaMn2PPTua+KgFEO010MQ/tEyyX2O2Tjlo1NvAw==
   dependencies:
-    "@tamagui/core" "1.42.0"
+    "@tamagui/core" "1.47.2"
 
-"@tamagui/shapes@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/shapes/-/shapes-1.42.0.tgz#4afff1abb36ddb21e2b511c2a41b63dbb7a8da2e"
-  integrity sha512-vY2Rh80tVdQmsUwj/dnlcTPdrWp8bdJqypTNVvFDs5ZPlU0prcrsW+slL5T5SSgCbCLaMqWU13u23x8RMsIcLg==
+"@tamagui/shapes@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/shapes/-/shapes-1.47.2.tgz#328992fc66274b0034fa9caffcf606d68d36e37f"
+  integrity sha512-N3fHuZ0lBGrV359hApUf0PK7V43tWn1fRN+U4JzsCErXpU4UwngN+9LkC2XkpCNxB6eNCS3cJ5dgiMXXdu6OdA==
   dependencies:
-    "@tamagui/stacks" "1.42.0"
-    "@tamagui/web" "1.42.0"
+    "@tamagui/stacks" "1.47.2"
+    "@tamagui/web" "1.47.2"
 
-"@tamagui/sheet@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/sheet/-/sheet-1.42.0.tgz#f32db1ab61de0e2726b92e7cf6332534c8893d5a"
-  integrity sha512-J4OGqW+okMmmCCb+kd5ZGQ2UN19ZbkgHUUckJ94miQ/1YtU/LITOLIN0j6pCH5jWuo8iDElz7vRks7vSb8rKiw==
+"@tamagui/sheet@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/sheet/-/sheet-1.47.2.tgz#67b8bc22608118ab6f00b20234062df4e1f802e7"
+  integrity sha512-zXoWWfn2zzSaJeG/0mG+y2Tt1W2R4UU1FSLQYkAKDLpzdDlMv55IQOmLa3JDvHt7Anrk1TNPAuXLsw/iDY3G6Q==
   dependencies:
-    "@tamagui/animations-react-native" "1.42.0"
-    "@tamagui/compose-refs" "1.42.0"
-    "@tamagui/core" "1.42.0"
-    "@tamagui/create-context" "1.42.0"
-    "@tamagui/portal" "1.42.0"
-    "@tamagui/remove-scroll" "1.42.0"
-    "@tamagui/scroll-view" "1.42.0"
-    "@tamagui/stacks" "1.42.0"
-    "@tamagui/use-constant" "1.42.0"
-    "@tamagui/use-controllable-state" "1.42.0"
-    "@tamagui/use-keyboard-visible" "1.42.0"
+    "@tamagui/animations-react-native" "1.47.2"
+    "@tamagui/compose-refs" "1.47.2"
+    "@tamagui/core" "1.47.2"
+    "@tamagui/create-context" "1.47.2"
+    "@tamagui/portal" "1.47.2"
+    "@tamagui/remove-scroll" "1.47.2"
+    "@tamagui/scroll-view" "1.47.2"
+    "@tamagui/stacks" "1.47.2"
+    "@tamagui/use-constant" "1.47.2"
+    "@tamagui/use-controllable-state" "1.47.2"
+    "@tamagui/use-keyboard-visible" "1.47.2"
 
-"@tamagui/shorthands@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/shorthands/-/shorthands-1.42.0.tgz#310c28cc4db12ed0c00a23a9e723a0549b4c5bf4"
-  integrity sha512-YVHjAgKD32mBQEzHI/1XNlOlGqM2WiOvyu/8Fc5K4OVp7KVTMq1ZSJrkhC0EM7pMiPUFCHmaiOjK9DWkCUeRHg==
+"@tamagui/shorthands@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/shorthands/-/shorthands-1.47.2.tgz#b6242afcb066b0707dd8c008e54bbd131286ecee"
+  integrity sha512-26ardLO9xw317LDX6Yhiq8ZGjEtf+UmaFnTHW3oDL/uQqNQFOE0cPbjS2YWvLlUR+xdVsmE8Z6/Y9/OUrU/QXg==
 
-"@tamagui/simple-hash@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/simple-hash/-/simple-hash-1.42.0.tgz#4c14f7764d6d59918f2366f60bbe12b36c8e189f"
-  integrity sha512-ozlHr6S4YDpX4hD/W5TOSOoaFvaJKIiak1Hi5K+DGL0FQr+weHtmODXhRyr8D5A9LK9YKlrLVwGHMU4eclQoKg==
+"@tamagui/simple-hash@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/simple-hash/-/simple-hash-1.47.2.tgz#f5bcf5693fbe0c140cdf9b2b84561ece2abcbf83"
+  integrity sha512-XbWcgaKY3F1vO56yLdaNGSgw2cl5oYIovqPqTjQGCYUR+o/utUHNn5TDwn2W51yzfFC0vqlnIuVZ9oO4e6IbVw==
 
-"@tamagui/slider@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/slider/-/slider-1.42.0.tgz#bbcd01dc43602d0e5a5fa05f7218009b5fe805ae"
-  integrity sha512-EtcP6C212tc03hUJ/EsOtlH+vL77srSZMtNzQtTTNcV9YRDQy7HtuGl9KPsyYzNrUGMugUUrEWBMQ7LrqFNx6Q==
+"@tamagui/slider@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/slider/-/slider-1.47.2.tgz#8a4f2fb0b3f4bffcf112cd5d6d6855c2e5c5a81f"
+  integrity sha512-TVXZYkr/vFzcjmEzNhEB9bvARGgKbKNcInD8ghaOpFSLP7ZTBYWwIa6dQhaDgdy37q1wc8TTySTEMpSfHPpkxQ==
   dependencies:
-    "@tamagui/compose-refs" "1.42.0"
-    "@tamagui/core" "1.42.0"
-    "@tamagui/create-context" "1.42.0"
-    "@tamagui/get-token" "1.42.0"
-    "@tamagui/helpers" "1.42.0"
-    "@tamagui/stacks" "1.42.0"
-    "@tamagui/use-controllable-state" "1.42.0"
-    "@tamagui/use-direction" "1.42.0"
+    "@tamagui/compose-refs" "1.47.2"
+    "@tamagui/core" "1.47.2"
+    "@tamagui/create-context" "1.47.2"
+    "@tamagui/get-token" "1.47.2"
+    "@tamagui/helpers" "1.47.2"
+    "@tamagui/stacks" "1.47.2"
+    "@tamagui/use-controllable-state" "1.47.2"
+    "@tamagui/use-direction" "1.47.2"
 
-"@tamagui/stacks@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/stacks/-/stacks-1.42.0.tgz#a02a9f5a62eeae89d972834dc8e442df29f0d8bd"
-  integrity sha512-h7wp0ISICh3ypkptYp3sUcOSO3h9miLqGLexQdvf93Bxkkqo1py1xdOYmRErtQpSNHTAgSXUvregyDgjr0zErA==
+"@tamagui/stacks@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/stacks/-/stacks-1.47.2.tgz#e3c4fedb4d2ddcb5d017115cb28b579b8558f605"
+  integrity sha512-LeANn192DDVEeckYhF2IzBuA1rgPtHBlK0gkTi8N4nYUAzhsSyM0nCT0Kga6yLv8dzTuj4HP6mHseyHNXj6Tpg==
   dependencies:
-    "@tamagui/core" "1.42.0"
+    "@tamagui/core" "1.47.2"
 
-"@tamagui/static@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/static/-/static-1.42.0.tgz#2e66a8bc0710633e2af9007e78b86a224e96b0f4"
-  integrity sha512-5vVtPVSvB15jo0CgtOQn5wIihb8cmL2L4R8ZFovuStiYII3B7Ag+qfa3h6eAu14op0rcUOhH0gpfht5pjnXM7Q==
+"@tamagui/static@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/static/-/static-1.47.2.tgz#a116ef48ac897562077fb7da2ae293713e7d0614"
+  integrity sha512-TvACMgjTBlXD2CB7/E5wTfUSZR199/zdsGH1rJguv6lBO5WSI/+54sj8DwJb2qsNVrW5lmo8wHE7pK3UwVLOcg==
   dependencies:
     "@babel/core" "^7.21.8"
     "@babel/generator" "^7.21.5"
@@ -4719,17 +4695,17 @@
     "@babel/runtime" "^7.21.5"
     "@babel/traverse" "^7.21.5"
     "@babel/types" "^7.21.5"
-    "@tamagui/build" "1.42.0"
-    "@tamagui/cli-color" "1.42.0"
-    "@tamagui/config-default-node" "1.42.0"
-    "@tamagui/core-node" "1.42.0"
-    "@tamagui/fake-react-native" "1.42.0"
-    "@tamagui/generate-themes" "1.42.0"
-    "@tamagui/helpers" "1.42.0"
-    "@tamagui/helpers-node" "1.42.0"
-    "@tamagui/proxy-worm" "1.42.0"
-    "@tamagui/shorthands" "1.42.0"
-    "@tamagui/types" "1.42.0"
+    "@tamagui/build" "1.47.2"
+    "@tamagui/cli-color" "1.47.2"
+    "@tamagui/config-default-node" "1.47.2"
+    "@tamagui/core-node" "1.47.2"
+    "@tamagui/fake-react-native" "1.47.2"
+    "@tamagui/generate-themes" "1.47.2"
+    "@tamagui/helpers" "1.47.2"
+    "@tamagui/helpers-node" "1.47.2"
+    "@tamagui/proxy-worm" "1.47.2"
+    "@tamagui/shorthands" "1.47.2"
+    "@tamagui/types" "1.47.2"
     babel-literal-to-ast "^2.1.0"
     esbuild "^0.17.17"
     esbuild-register "^3.4.2"
@@ -4739,215 +4715,220 @@
     invariant "^2.2.4"
     lodash "^4.17.21"
     react-native-web "^0.19.6"
-    react-native-web-internals "1.42.0"
-    react-native-web-lite "1.42.0"
+    react-native-web-internals "1.47.2"
+    react-native-web-lite "1.47.2"
 
-"@tamagui/switch@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/switch/-/switch-1.42.0.tgz#54d164e7d2a55d5fc4d96ff9f3e5f62588371c64"
-  integrity sha512-2Jdk29U8lDSkPNkTtuYUc2VkrBTMp8805r9SZ3TNdjDgOYoXUL1mecoW7f+x8Tgx4YV2mhJagX2nR39RhQ1bNQ==
+"@tamagui/switch@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/switch/-/switch-1.47.2.tgz#0f86cc77bfe77d68e83b6c468acb676d59f5049b"
+  integrity sha512-f76QRkXrvAIiaulDmIpWPl+YpuMBepI/a4dbeHRSjk6BBbwRuABm6LKu6xeI+T1ZREkGGUAn0P9oF6++a9K7wA==
   dependencies:
-    "@radix-ui/react-use-previous" "^1.0.0"
-    "@tamagui/compose-refs" "1.42.0"
-    "@tamagui/core" "1.42.0"
-    "@tamagui/create-context" "1.42.0"
-    "@tamagui/focusable" "1.42.0"
-    "@tamagui/get-token" "1.42.0"
-    "@tamagui/label" "1.42.0"
-    "@tamagui/stacks" "1.42.0"
-    "@tamagui/use-controllable-state" "1.42.0"
+    "@tamagui/compose-refs" "1.47.2"
+    "@tamagui/core" "1.47.2"
+    "@tamagui/create-context" "1.47.2"
+    "@tamagui/focusable" "1.47.2"
+    "@tamagui/get-token" "1.47.2"
+    "@tamagui/label" "1.47.2"
+    "@tamagui/stacks" "1.47.2"
+    "@tamagui/use-controllable-state" "1.47.2"
+    "@tamagui/use-previous" "1.47.2"
 
-"@tamagui/tabs@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/tabs/-/tabs-1.42.0.tgz#8de7b7e957c4319121785c11a3b160750f104a02"
-  integrity sha512-F0Fn9eQD32g9lO5SBP2O2TrQITqsihD2vyBU9SZ+D04RtzrcPAZozQHlkQxDUe0LSRWD+9s8qVesAi74sO/vRQ==
+"@tamagui/tabs@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/tabs/-/tabs-1.47.2.tgz#4cac7a2faa83e14d5b2629ca142457d2f107560f"
+  integrity sha512-9WF3oRfl8Iy/Koun/FqEvrm9mPl4cpVvVnJh9XCWpNQdPxMWItekPxIiKirYyqv0zh2ycNEMuCPveTTNxCqS+g==
   dependencies:
-    "@tamagui/create-context" "1.42.0"
-    "@tamagui/get-button-sized" "1.42.0"
-    "@tamagui/group" "1.42.0"
-    "@tamagui/roving-focus" "1.42.0"
-    "@tamagui/stacks" "1.42.0"
-    "@tamagui/use-controllable-state" "1.42.0"
-    "@tamagui/use-direction" "1.42.0"
-    "@tamagui/web" "1.42.0"
+    "@tamagui/create-context" "1.47.2"
+    "@tamagui/get-button-sized" "1.47.2"
+    "@tamagui/group" "1.47.2"
+    "@tamagui/roving-focus" "1.47.2"
+    "@tamagui/stacks" "1.47.2"
+    "@tamagui/use-controllable-state" "1.47.2"
+    "@tamagui/use-direction" "1.47.2"
+    "@tamagui/web" "1.47.2"
 
-"@tamagui/text@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/text/-/text-1.42.0.tgz#c63d377143192f349e6d094cc6e530fb71718540"
-  integrity sha512-BDZ0+xXCmPZBLFccABpB9O2zUI+jk7JxSGHDFzXjcxYgSwJhK1/2TJpcziwSApgDb4VnM9u5IRcGAm0l6oz3KQ==
+"@tamagui/text@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/text/-/text-1.47.2.tgz#6459dd2aab519bc24589de43b4680a1ae4a0b9a3"
+  integrity sha512-73LeM8aZgIap7/f+l8+nRxbT1ZCFy7LgE8zTaHZYoBUlLjLluNe38+m4g1mbaM41ixD9Rx0RgUE8lCVqrcmN/w==
   dependencies:
-    "@tamagui/get-font-sized" "1.42.0"
-    "@tamagui/helpers-tamagui" "1.42.0"
-    "@tamagui/web" "1.42.0"
+    "@tamagui/get-font-sized" "1.47.2"
+    "@tamagui/helpers-tamagui" "1.47.2"
+    "@tamagui/web" "1.47.2"
 
-"@tamagui/theme-base@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/theme-base/-/theme-base-1.42.0.tgz#cdcf75f1cf1eb362c49751992e65f2a0c15d3cf6"
-  integrity sha512-YPxenReaE4vPXY9QUvqIesbCk84tydSQHjP3iBTY5o3kDtFhFmsVvlKADepbYKS186enwhJzfUiJC+gs7QOvjg==
+"@tamagui/theme-base@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/theme-base/-/theme-base-1.47.2.tgz#3d769d1dc16e1b3f644a2940fbdd9a2492302993"
+  integrity sha512-QIZY3jGWNZwndMdRY55QvZBcxz4QDNyep4LYGamDlcOv+AD3+CPQQsiWm5Dzq607GOigXqwotKixQVXD3vXt9A==
+
+"@tamagui/theme@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/theme/-/theme-1.47.2.tgz#875a886462453a01a1f1036184880827f64cf7f6"
+  integrity sha512-S1Ko/UAECfzjUcFjis3mPwhLB/3Uanc8tsguM4plZeII9KD+srzU2vUJmhPNHtlJruj2pdydyOCmeaqkbwwAHA==
   dependencies:
-    "@tamagui/colors" "1.42.0"
-    "@tamagui/core" "1.42.0"
-    "@tamagui/create-themes" "1.42.0"
+    "@tamagui/constants" "1.47.2"
+    "@tamagui/web" "1.47.2"
 
-"@tamagui/theme-builder@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/theme-builder/-/theme-builder-1.42.0.tgz#0b51a97ec672567712a6b63442bd1faa1f6c9fe2"
-  integrity sha512-cVfftLbYY9fgQq8v31rP3aX1SVPw76DbbSP79MJZ+B9C6RWsdmnevVnkFO7Zo3BmbPVSqWsz8FZeucGADet0nQ==
+"@tamagui/themes@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/themes/-/themes-1.47.2.tgz#0f8ff40578093926e4c2b06f3ec895299b91354f"
+  integrity sha512-Bbwd5pTIbD8zUoC+J3wp0xGe5suSUOE59ODqzaH4wBXOiBeHppqRn1qPaqbBTMftYvyTRHqoZNScaDkzcBDpyA==
   dependencies:
-    "@tamagui/create-theme" "1.42.0"
+    "@tamagui/colors" "1.47.2"
+    "@tamagui/create-theme" "1.47.2"
+    "@tamagui/web" "1.47.2"
 
-"@tamagui/theme@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/theme/-/theme-1.42.0.tgz#c12a7769429086ed29b8aaf17a43461c330a9ee3"
-  integrity sha512-vwrLgF61GXPN3Loc/0Rr79ZrNgeZPo4ADmO7CXgrhQ9A1Fw/h76gyUxPhBXj5fUW8FqJKPaAb5bSWY1Jq/1XPA==
+"@tamagui/toast@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/toast/-/toast-1.47.2.tgz#512a24086c40e6f10d5430a8d21378665b86caad"
+  integrity sha512-9gR4c8RhIPu85LQs21s/lH+R2jTN+a7NTB7tBEnqSfdGJNWSeDwawwlnYTW/iU4apn74BF+1PNFtvIbfsQ7H4g==
   dependencies:
-    "@tamagui/constants" "1.42.0"
-    "@tamagui/web" "1.42.0"
+    "@tamagui/animate-presence" "1.47.2"
+    "@tamagui/compose-refs" "1.47.2"
+    "@tamagui/core" "1.47.2"
+    "@tamagui/create-context" "1.47.2"
+    "@tamagui/dismissable" "1.47.2"
+    "@tamagui/polyfill-dev" "1.47.2"
+    "@tamagui/portal" "1.47.2"
+    "@tamagui/stacks" "1.47.2"
+    "@tamagui/text" "1.47.2"
+    "@tamagui/use-controllable-state" "1.47.2"
+    "@tamagui/visually-hidden" "1.47.2"
 
-"@tamagui/themes@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/themes/-/themes-1.42.0.tgz#2a497bef8be97feb77d1ecc04f40de895953f126"
-  integrity sha512-zcK74gf0FJQk9yVLOBlQyhEsrvhhdfOn91/zZYhbKzveZrTi1AfTCSySlHtJwTNcyhc+s/WpYlTryoy9dd9P9Q==
+"@tamagui/toggle-group@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/toggle-group/-/toggle-group-1.47.2.tgz#d122877aa13a2039545eec9ac7e20e448bd0da2d"
+  integrity sha512-slTJP2rg1wEdfxrNPi5Tk/9eh3EFh+24ksTdw5ZcbqgVf/1vi8y9NfDA0OddND/NxXa6pGjD+x5brzjYPMmKdg==
   dependencies:
-    "@tamagui/colors" "1.42.0"
-    "@tamagui/create-theme" "1.42.0"
-    "@tamagui/theme-builder" "1.42.0"
-    "@tamagui/web" "1.42.0"
+    "@tamagui/create-context" "1.47.2"
+    "@tamagui/focusable" "1.47.2"
+    "@tamagui/font-size" "1.47.2"
+    "@tamagui/get-token" "1.47.2"
+    "@tamagui/group" "1.47.2"
+    "@tamagui/helpers-tamagui" "1.47.2"
+    "@tamagui/roving-focus" "1.47.2"
+    "@tamagui/stacks" "1.47.2"
+    "@tamagui/use-controllable-state" "1.47.2"
+    "@tamagui/use-direction" "1.47.2"
+    "@tamagui/web" "1.47.2"
 
-"@tamagui/toast@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/toast/-/toast-1.42.0.tgz#3092982d7a68e7c9b1f6d0d1eb6a1b5f713206e4"
-  integrity sha512-0kKT1a5SX4oCNrjBwEFlTV9m0bPMVwi3a4VNiK9Woxxo6+wWXJ4ZVwqwzXdn91vMcHsiGbOt+LYOfin+mJ9gpw==
-  dependencies:
-    "@tamagui/animate-presence" "1.42.0"
-    "@tamagui/compose-refs" "1.42.0"
-    "@tamagui/core" "1.42.0"
-    "@tamagui/create-context" "1.42.0"
-    "@tamagui/dismissable" "1.42.0"
-    "@tamagui/polyfill-dev" "1.42.0"
-    "@tamagui/portal" "1.42.0"
-    "@tamagui/stacks" "1.42.0"
-    "@tamagui/text" "1.42.0"
-    "@tamagui/use-controllable-state" "1.42.0"
-    "@tamagui/visually-hidden" "1.42.0"
-
-"@tamagui/toggle-group@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/toggle-group/-/toggle-group-1.42.0.tgz#2c07752485d635efa9fb05e92cb1648a3b02d53d"
-  integrity sha512-dJCwDd5DUmGJIXD7SLDIQG6jxMAHbXFE1PcqOc6RyHsiL3/gqeuhy5HOLPt9kR71ZkOdcxxRODVpBI2kHzCrdA==
-  dependencies:
-    "@tamagui/create-context" "1.42.0"
-    "@tamagui/focusable" "1.42.0"
-    "@tamagui/font-size" "1.42.0"
-    "@tamagui/get-token" "1.42.0"
-    "@tamagui/group" "1.42.0"
-    "@tamagui/helpers-tamagui" "1.42.0"
-    "@tamagui/roving-focus" "1.42.0"
-    "@tamagui/stacks" "1.42.0"
-    "@tamagui/use-controllable-state" "1.42.0"
-    "@tamagui/use-direction" "1.42.0"
-    "@tamagui/web" "1.42.0"
-
-"@tamagui/tooltip@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/tooltip/-/tooltip-1.42.0.tgz#e579f4173f44f1a985fc025c3341262471da6273"
-  integrity sha512-FaQFvPaKNSMGCdT8W9IZwXM2AFBdqAy+iZI5A0vfXsnR8w5F0ZQbDV5MBFWK383B9CNO5QeMS32tVSy1L5kyWw==
+"@tamagui/tooltip@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/tooltip/-/tooltip-1.47.2.tgz#b15389200c820598d7d16043adb744ce92d6d9a0"
+  integrity sha512-3LcOC5v0mpHiRVgSgif/iRLcpsK6L+58cGfWoiqi11uSu/8COL1yy91PCoB/cV5IkuXcIgGn4w4soozB/Odwmw==
   dependencies:
     "@floating-ui/react" "^0.24.7"
-    "@tamagui/compose-refs" "1.42.0"
-    "@tamagui/core" "1.42.0"
-    "@tamagui/create-context" "1.42.0"
-    "@tamagui/floating" "1.42.0"
-    "@tamagui/get-token" "1.42.0"
-    "@tamagui/polyfill-dev" "1.42.0"
-    "@tamagui/popover" "1.42.0"
-    "@tamagui/popper" "1.42.0"
-    "@tamagui/stacks" "1.42.0"
-    "@tamagui/text" "1.42.0"
-    "@tamagui/use-controllable-state" "1.42.0"
+    "@tamagui/compose-refs" "1.47.2"
+    "@tamagui/core" "1.47.2"
+    "@tamagui/create-context" "1.47.2"
+    "@tamagui/floating" "1.47.2"
+    "@tamagui/get-token" "1.47.2"
+    "@tamagui/polyfill-dev" "1.47.2"
+    "@tamagui/popover" "1.47.2"
+    "@tamagui/popper" "1.47.2"
+    "@tamagui/stacks" "1.47.2"
+    "@tamagui/text" "1.47.2"
+    "@tamagui/use-controllable-state" "1.47.2"
 
-"@tamagui/types@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/types/-/types-1.42.0.tgz#e350d8f0de5b78ce248fbd3c39a9c9cae79054b9"
-  integrity sha512-/U1VXuqoePE8bOVEN1iyCBr/tVwKqp9Jx9426kTG2OymUYXVOm+WarRNeO+h+c0QJW922KDrqTUgGZ6yXr4l3A==
+"@tamagui/types@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/types/-/types-1.47.2.tgz#eae45e7f93d77f6c2cd12c06a04f06240a210ab1"
+  integrity sha512-zv5zTxXsO7OtWLSoxZjNl1kInNDQRYwbkJx4n3PphOW80ucul08Az+NMo5/xoHqgSkSV/pkjWhQIJeRVqT6erA==
 
-"@tamagui/use-constant@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/use-constant/-/use-constant-1.42.0.tgz#8d0dc1ff209fc6ea3ec42cb88862b97000790c90"
-  integrity sha512-zeAejzkwnD/nHXQOM+zKlVd5NdWeK3laYrYwF77rfKPeMITzBotWJbuwBB5qALrUcYQXxgar3GSZhQ6a1cwWUA==
+"@tamagui/use-callback-ref@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/use-callback-ref/-/use-callback-ref-1.47.2.tgz#b8a16f944bbeaf2c020054eaec7c8522379ccb36"
+  integrity sha512-NPzKEQDtjjkfSYt/0VrNcC1oZFBIqSxwbqZl12JFGMb8AbEEvbzHpaSyRlBadUhAguyu53BLMazcO885G1GFnw==
 
-"@tamagui/use-controllable-state@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/use-controllable-state/-/use-controllable-state-1.42.0.tgz#264d5f84ee19355e150c4bb082bd51ce40becfdb"
-  integrity sha512-Pv5HJebgh6TohXNEpGiZ0YrG+pir4XgmXgnlYX6FvRqhTEmBeGH5d4npzp/N0JYTCnsJ/R2S1UWWAFJR9XZvXA==
+"@tamagui/use-constant@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/use-constant/-/use-constant-1.47.2.tgz#d59602379ed9ba365ee214727f3c0e65f4428ee4"
+  integrity sha512-XSxCldX0KRZdcpaNDGkDCj74QWfrrYpZzJK8mb+4ECfD6/M2A1rQtUcRQ9eVcmkT8oFczlPV3SSRrWWfjmgBzQ==
+
+"@tamagui/use-controllable-state@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/use-controllable-state/-/use-controllable-state-1.47.2.tgz#bedec09bd484c718269a93dd5d8bcf0c02fa4102"
+  integrity sha512-BoofyQdc46cXtg1fpKyozpMPq+tR4awnkYWZf/kcyrgbGpbpopHs0/QG4818g4qBDoajBQazPh4maWeo7CmDcA==
   dependencies:
-    "@tamagui/use-event" "1.42.0"
+    "@tamagui/use-event" "1.47.2"
 
-"@tamagui/use-debounce@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/use-debounce/-/use-debounce-1.42.0.tgz#2dc38630539cc7a30b8e2362073d9befc335915d"
-  integrity sha512-RAxdtddur4BAe0EKDsthBGfPOmvTa7q77kBxliKU0/MurEtfDpSic6wUnv/xdHdeLz4Idx13Ia9P41drcKwr8g==
+"@tamagui/use-debounce@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/use-debounce/-/use-debounce-1.47.2.tgz#a2737b761043b3f1e038bd11ac6aa496a31c4804"
+  integrity sha512-NSWa2/1yY9b5LteX3k1Trlo4R6abQAfukka/cIi3aKcW6d6176ZlDia/gSLW9/gbC0OMC1iqaQSQZzhqeuwGrg==
 
-"@tamagui/use-did-finish-ssr@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/use-did-finish-ssr/-/use-did-finish-ssr-1.42.0.tgz#ed16ab5d14ecd666c05db769e23fa6287422eab9"
-  integrity sha512-heTgKv4ZXsynYeSKxDUjaeDJ885C6eE8PR78cNKR00vBFuF3Q3c8djsMxD+dW5x4iNy2NaXowvanvIJJ3zMSxQ==
+"@tamagui/use-did-finish-ssr@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/use-did-finish-ssr/-/use-did-finish-ssr-1.47.2.tgz#f5c61bfea4bcacea94ca34972cde7857fdb71db4"
+  integrity sha512-QH1odcPSKULvD1rOq8fpaDFXAbkgu4skYBN2uzSaT++0Tbe1MhubX3wh2I6Dke654gSelkLJmi+aESEL3g334Q==
   dependencies:
-    "@tamagui/constants" "1.42.0"
+    "@tamagui/constants" "1.47.2"
 
-"@tamagui/use-direction@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/use-direction/-/use-direction-1.42.0.tgz#16958517c95e35cbb9d670cf25fe91d89ca148b4"
-  integrity sha512-MGnxEUp244p9ZzqTn/igYdJa81OceouFyEXJZ0n7r4P66230o8RF9+8d0GfnlSAK3Ojsjvh+boPTzE46A6sU2A==
+"@tamagui/use-direction@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/use-direction/-/use-direction-1.47.2.tgz#f72c23cb9c508f8edb5e6d143f27e7e4da1f9b50"
+  integrity sha512-i4Zp9MEf8MCJ7C+A1av2xMd5sWy7BonDP2nNVJDoarrecaDokDubz3FgzCVCkpG3m4voGaOO6Qtpm4uCCMMNVw==
 
-"@tamagui/use-event@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/use-event/-/use-event-1.42.0.tgz#e7d04b8d03d0ff8cc52f102b02a2edc995961a59"
-  integrity sha512-KK47Yb6EqKYeOfLX7z3cVH7suGp+/B4uaAk9kf0BCvPLboZ4l1njgDjcP7syYVyYqMeYqpP2LJxpjd8KZTpaWg==
-
-"@tamagui/use-force-update@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/use-force-update/-/use-force-update-1.42.0.tgz#c8555418ab3a3b3edee822f392393d466175504f"
-  integrity sha512-F9OgGIr38XWUn1GKkBurIRNXjKX3KgVhkmhCa5TSzufWnwrVFL+x1BKzNVMjC4P5obAUGhHNoKtZeovSweQEOg==
-
-"@tamagui/use-keyboard-visible@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/use-keyboard-visible/-/use-keyboard-visible-1.42.0.tgz#85a3145ef1269697c85bfc516ecd729308f9b75e"
-  integrity sha512-2p6bG5jHs/MMJ0ZW/a5L0j2gCN6i/YX+pn2glJ9VgbciTzN9d601Y/wNwOsvGSWOjMblcCIsEGIdDe+OKUnRNQ==
-
-"@tamagui/use-presence@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/use-presence/-/use-presence-1.42.0.tgz#65b49be93646dd0a0871cca2b193fd8fe58cc7b2"
-  integrity sha512-RcpG0pN4p96k5EFMEZcDtsfZPzbWJXIJLJwIcdr79mK2uk66Zxxr46YE4YyRC5TMLSgao8kH2ZBGQH8yKDtnrA==
+"@tamagui/use-escape-keydown@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/use-escape-keydown/-/use-escape-keydown-1.47.2.tgz#3fc8fa7871ef8f416cdd5b050913ef01ccff7e0e"
+  integrity sha512-CyGNIMw+J3e0eu1Wm1SseNfLz+LYCgJPUT150Eh8uAm3aTxPJTZ4g1wEpRoxN5zYecJHPr/RDPhiwQ3wXIdpxw==
   dependencies:
-    "@tamagui/web" "1.42.0"
+    "@tamagui/use-callback-ref" "1.47.2"
 
-"@tamagui/use-window-dimensions@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/use-window-dimensions/-/use-window-dimensions-1.42.0.tgz#8e44dd0312e2473bbc2dc93ce03a6fde428736bd"
-  integrity sha512-6Gc2fS0Rtq9TQWIpSMoDoAHlFRdOhcJ8bgWbUW88HbSk4vJKJ9siUhz5CkgfWQyHjNSeFQVYeHhZoqkKnPJBDg==
-  dependencies:
-    "@tamagui/constants" "1.42.0"
+"@tamagui/use-event@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/use-event/-/use-event-1.47.2.tgz#e54b5ba3cad0e82e0a827935e8282fa683b02c39"
+  integrity sha512-Gm3qe63BnrwS4I0nhFvNpSY1NljKb34DlVy1XRdvJ8Ui+KK3jKM7CLyOXODBuZDj0d0D13rk/Dtt6+E2gNmD8w==
 
-"@tamagui/visually-hidden@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/visually-hidden/-/visually-hidden-1.42.0.tgz#ca68b5b2b41a249cf30568b6fac6cb6818590e73"
-  integrity sha512-7ZnV+SKC/HJPGtyqTuQPuoDV3MKNfYVbd0s/k19tJqgh2ds1aXI0hLytWQyppUz+htLfO9KnDWH+knDENkY8jw==
-  dependencies:
-    "@tamagui/web" "1.42.0"
+"@tamagui/use-force-update@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/use-force-update/-/use-force-update-1.47.2.tgz#b8c6e0e79b23837b36887bffc11df5ebcc43f602"
+  integrity sha512-cn5FQe8F0xK88OHU+OSxjbQSrvslqPXwt0ppZCdY5BwMg8qpcSn1JkaGsKYPzkqjGLwzDmjzYnfI/yCmGvPbAA==
 
-"@tamagui/web@1.42.0":
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/@tamagui/web/-/web-1.42.0.tgz#bf4dfd6f1bf4bf2324f5228ef867577d9715c5e9"
-  integrity sha512-TRVC0STuOhf53Lwz7J3RIWtmyzfIKFRFC71UVPXZNKc+hp+tttVSscmJr07H5/97UI0DvEsuG1o2PfeEBkLzOw==
+"@tamagui/use-keyboard-visible@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/use-keyboard-visible/-/use-keyboard-visible-1.47.2.tgz#202c7a1454f9130a2a3fdda3a3189e79bb080f9b"
+  integrity sha512-lPkQiUQUzzj6W6HA5BXWam0hkPCtGTisr7DJcrRJ/jfTQS6obcq8+0qnhIV9AEqGlSDF9T+A/ZOju8TlKzR1Yg==
+
+"@tamagui/use-presence@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/use-presence/-/use-presence-1.47.2.tgz#987f1e8eb1c6ac90d41524463005e146f5c82037"
+  integrity sha512-jK7pU8hWa7Cu3u5he7JGRJ1az6SbFAHLJXD0k5yXuWgjGBLPVF/2f8/ZwX+BZYJxjtFFyWL0wZoQlOk0vhuHXQ==
   dependencies:
-    "@tamagui/compose-refs" "1.42.0"
-    "@tamagui/constants" "1.42.0"
-    "@tamagui/helpers" "1.42.0"
-    "@tamagui/normalize-css-color" "1.42.0"
-    "@tamagui/use-did-finish-ssr" "1.42.0"
-    "@tamagui/use-event" "1.42.0"
-    "@tamagui/use-force-update" "1.42.0"
+    "@tamagui/web" "1.47.2"
+
+"@tamagui/use-previous@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/use-previous/-/use-previous-1.47.2.tgz#f9dfd2885ac714f1b4f17ba261ae1fe8fed36858"
+  integrity sha512-WCDn7JHpyFX9axXYJCHHkdJVNB/BBLd3/zijmgsJ5qGMN9HYDmVQpMF2hJnkRZrX2U10/32gKBeys/bPqC0YHA==
+
+"@tamagui/use-window-dimensions@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/use-window-dimensions/-/use-window-dimensions-1.47.2.tgz#dd7ea65f6bc8ac928e4d6bc578cb4b8c559a3002"
+  integrity sha512-RzAWemcOGZO86jYZ79tfSBdiYq3EQOerBAfFMDT9U7ELgGP3DPxiEMwxxfttTCDAt1tRiuRWifdMJOFZ7ZvLxw==
+  dependencies:
+    "@tamagui/constants" "1.47.2"
+
+"@tamagui/visually-hidden@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/visually-hidden/-/visually-hidden-1.47.2.tgz#85f1c1edbee55fd3e74a53091b85ec5071cd98bd"
+  integrity sha512-qHWniNHhGV8s/PqqXVeLf1PQls0kWeCr8DB8N0hcQnbQl7HU290hOcHNMDRlRTMN197IZKaTaieqAe8iRfxTdA==
+  dependencies:
+    "@tamagui/web" "1.47.2"
+
+"@tamagui/web@1.47.2":
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/@tamagui/web/-/web-1.47.2.tgz#ab5a719b2e0bec4614eeee0fe00a64f0548f7b10"
+  integrity sha512-08fqhkDI8i+mhYjH496FE3tOwmQ3DdJgDkHIg+n7vmzeyQv7sZXtgwj04b3ccAk+HA+Ggx9WEwKJtSuIsaKSWQ==
+  dependencies:
+    "@tamagui/compose-refs" "1.47.2"
+    "@tamagui/constants" "1.47.2"
+    "@tamagui/helpers" "1.47.2"
+    "@tamagui/normalize-css-color" "1.47.2"
+    "@tamagui/use-did-finish-ssr" "1.47.2"
+    "@tamagui/use-event" "1.47.2"
+    "@tamagui/use-force-update" "1.47.2"
 
 "@tanstack/query-core@4.29.7":
   version "4.29.7"
@@ -10644,17 +10625,17 @@ he@1.2.0:
   resolved "https://registry.npmjs.org/he/-/he-1.2.0.tgz"
   integrity sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==
 
-hermes-estree@0.8.0:
-  version "0.8.0"
-  resolved "https://registry.npmmirror.com/hermes-estree/-/hermes-estree-0.8.0.tgz#530be27243ca49f008381c1f3e8b18fb26bf9ec0"
-  integrity sha512-W6JDAOLZ5pMPMjEiQGLCXSSV7pIBEgRR5zGkxgmzGSXHOxqV5dC/M1Zevqpbm9TZDE5tu358qZf8Vkzmsc+u7Q==
+hermes-estree@0.12.0:
+  version "0.12.0"
+  resolved "https://registry.npmmirror.com/hermes-estree/-/hermes-estree-0.12.0.tgz#8a289f9aee854854422345e6995a48613bac2ca8"
+  integrity sha512-+e8xR6SCen0wyAKrMT3UD0ZCCLymKhRgjEB5sS28rKiFir/fXgLoeRilRUssFCILmGHb+OvHDUlhxs0+IEyvQw==
 
-hermes-parser@0.8.0:
-  version "0.8.0"
-  resolved "https://registry.npmmirror.com/hermes-parser/-/hermes-parser-0.8.0.tgz#116dceaba32e45b16d6aefb5c4c830eaeba2d257"
-  integrity sha512-yZKalg1fTYG5eOiToLUaw69rQfZq/fi+/NtEXRU7N87K/XobNRhRWorh80oSge2lWUiZfTgUvRJH+XgZWrhoqA==
+hermes-parser@0.12.0:
+  version "0.12.0"
+  resolved "https://registry.npmmirror.com/hermes-parser/-/hermes-parser-0.12.0.tgz#114dc26697cfb41a6302c215b859b74224383773"
+  integrity sha512-d4PHnwq6SnDLhYl3LHNHvOg7nQ6rcI7QVil418REYksv0Mh3cEkHDcuhGxNQ3vgnLSLl4QSvDrFCwQNYdpWlzw==
   dependencies:
-    hermes-estree "0.8.0"
+    hermes-estree "0.12.0"
 
 hermes-profile-transformer@^0.0.6:
   version "0.0.6"
@@ -12721,53 +12702,53 @@ methods@~1.1.2:
   resolved "https://registry.npmjs.org/methods/-/methods-1.1.2.tgz#5529a4d67654134edcc5266656835b0f851afcee"
   integrity sha512-iclAHeNqNm68zFtnZ0e+1L2yUIdvzNoauKU4WBA3VvH/vPFieF7qfRlwUZU+DA9P9bPXIS90ulxoUoCH23sV2w==
 
-metro-babel-transformer@0.76.5:
-  version "0.76.5"
-  resolved "https://registry.npmmirror.com/metro-babel-transformer/-/metro-babel-transformer-0.76.5.tgz#1daea5b236c52579c9e9a04b94ae9f9677a81f3d"
-  integrity sha512-KmsMXY6VHjPLRQLwTITjLo//7ih8Ts39HPF2zODkaYav/ZLNq0QP7eGuW54dvk/sZiL9le1kaBwTN4BWQI1VZQ==
+metro-babel-transformer@0.76.7:
+  version "0.76.7"
+  resolved "https://registry.npmmirror.com/metro-babel-transformer/-/metro-babel-transformer-0.76.7.tgz#ba620d64cbaf97d1aa14146d654a3e5d7477fc62"
+  integrity sha512-bgr2OFn0J4r0qoZcHrwEvccF7g9k3wdgTOgk6gmGHrtlZ1Jn3oCpklW/DfZ9PzHfjY2mQammKTc19g/EFGyOJw==
   dependencies:
     "@babel/core" "^7.20.0"
-    hermes-parser "0.8.0"
-    metro-source-map "0.76.5"
+    hermes-parser "0.12.0"
     nullthrows "^1.1.1"
 
-metro-cache-key@0.76.5:
-  version "0.76.5"
-  resolved "https://registry.npmmirror.com/metro-cache-key/-/metro-cache-key-0.76.5.tgz#9b5b7d7e24fa75c95b9e672c0f0a7a19b2a16508"
-  integrity sha512-QERX6ejYMt4BPr0ZMf7adnrOivmFSUbCim9FlU6cAeWUib+pV5P/Ph3KicWnOzJpbQz93+tHHG7vcsP6OrvLMw==
+metro-cache-key@0.76.7:
+  version "0.76.7"
+  resolved "https://registry.npmmirror.com/metro-cache-key/-/metro-cache-key-0.76.7.tgz#70913f43b92b313096673c37532edd07438cb325"
+  integrity sha512-0pecoIzwsD/Whn/Qfa+SDMX2YyasV0ndbcgUFx7w1Ct2sLHClujdhQ4ik6mvQmsaOcnGkIyN0zcceMDjC2+BFQ==
 
-metro-cache@0.76.5:
-  version "0.76.5"
-  resolved "https://registry.npmmirror.com/metro-cache/-/metro-cache-0.76.5.tgz#479c4e036ab89c68f12551a354ccaaf759eb9a40"
-  integrity sha512-8XalhoMNWDK6bi41oqxIpecTYRt4WsmtoHdqshgJIYshJ6qov0NuDw0pOfnS8rgMNHxPpuWyXc7NyKERqVRzaw==
+metro-cache@0.76.7:
+  version "0.76.7"
+  resolved "https://registry.npmmirror.com/metro-cache/-/metro-cache-0.76.7.tgz#e49e51423fa960df4eeff9760d131f03e003a9eb"
+  integrity sha512-nWBMztrs5RuSxZRI7hgFgob5PhYDmxICh9FF8anm9/ito0u0vpPvRxt7sRu8fyeD2AHdXqE7kX32rWY0LiXgeg==
   dependencies:
-    metro-core "0.76.5"
+    metro-core "0.76.7"
     rimraf "^3.0.2"
 
-metro-config@0.76.5:
-  version "0.76.5"
-  resolved "https://registry.npmmirror.com/metro-config/-/metro-config-0.76.5.tgz#74624b68cff4e72576129d4e59ff8c22a7171e45"
-  integrity sha512-SCMVIDOtm8s3H62E9z2IcY4Q9GVMqDurbiJS3PHrWgTZjwZFaL59lrW4W6DvzvFZHa9bbxKric5TFtwvVuyOCg==
+metro-config@0.76.7:
+  version "0.76.7"
+  resolved "https://registry.npmmirror.com/metro-config/-/metro-config-0.76.7.tgz#f0fc171707523aa7d3a9311550872136880558c0"
+  integrity sha512-CFDyNb9bqxZemiChC/gNdXZ7OQkIwmXzkrEXivcXGbgzlt/b2juCv555GWJHyZSlorwnwJfY3uzAFu4A9iRVfg==
   dependencies:
+    connect "^3.6.5"
     cosmiconfig "^5.0.5"
     jest-validate "^29.2.1"
-    metro "0.76.5"
-    metro-cache "0.76.5"
-    metro-core "0.76.5"
-    metro-runtime "0.76.5"
+    metro "0.76.7"
+    metro-cache "0.76.7"
+    metro-core "0.76.7"
+    metro-runtime "0.76.7"
 
-metro-core@0.76.5:
-  version "0.76.5"
-  resolved "https://registry.npmmirror.com/metro-core/-/metro-core-0.76.5.tgz#0196dbb32bfb3c3edd288e908daf360764c89105"
-  integrity sha512-yJvIe8a3sAG92U7+E7Bw6m4lae9RB180fp9iQZFBqY437Ilv4nE6PR8EWB6d8c4yt9fXIL1Hc+KyQv7OPFx/rQ==
+metro-core@0.76.7:
+  version "0.76.7"
+  resolved "https://registry.npmmirror.com/metro-core/-/metro-core-0.76.7.tgz#5d2b8bac2cde801dc22666ad7be1336d1f021b61"
+  integrity sha512-0b8KfrwPmwCMW+1V7ZQPkTy2tsEKZjYG9Pu1PTsu463Z9fxX7WaR0fcHFshv+J1CnQSUTwIGGjbNvj1teKe+pw==
   dependencies:
     lodash.throttle "^4.1.1"
-    metro-resolver "0.76.5"
+    metro-resolver "0.76.7"
 
-metro-file-map@0.76.5:
-  version "0.76.5"
-  resolved "https://registry.npmmirror.com/metro-file-map/-/metro-file-map-0.76.5.tgz#71f40660adfa1a806907f7961ef2a57884501d6c"
-  integrity sha512-9VS7zsec7BpTb+0v1DObOXso6XU/7oVBObQWp0EWBQpFcU1iF1lit2nnLQh2AyGCnSr8JVnuUe8gXhNH6xtPMg==
+metro-file-map@0.76.7:
+  version "0.76.7"
+  resolved "https://registry.npmmirror.com/metro-file-map/-/metro-file-map-0.76.7.tgz#0f041a4f186ac672f0188180310609c8483ffe89"
+  integrity sha512-s+zEkTcJ4mOJTgEE2ht4jIo1DZfeWreQR3tpT3gDV/Y/0UQ8aJBTv62dE775z0GLsWZApiblAYZsj7ZE8P06nw==
   dependencies:
     anymatch "^3.0.3"
     debug "^2.2.0"
@@ -12784,10 +12765,10 @@ metro-file-map@0.76.5:
   optionalDependencies:
     fsevents "^2.3.2"
 
-metro-inspector-proxy@0.76.5:
-  version "0.76.5"
-  resolved "https://registry.npmmirror.com/metro-inspector-proxy/-/metro-inspector-proxy-0.76.5.tgz#aac222b0680c7c031e24b6246d995ca3e87868f2"
-  integrity sha512-leqwei1qNMKOEbhqlQ37K+7OIp1JRgvS5qERO+J0ZTg7ZeJTaBHSFU7FnCeRHB9Tu7/FSfypY2PxjydZDwvUEQ==
+metro-inspector-proxy@0.76.7:
+  version "0.76.7"
+  resolved "https://registry.npmmirror.com/metro-inspector-proxy/-/metro-inspector-proxy-0.76.7.tgz#c067df25056e932002a72a4b45cf7b4b749f808e"
+  integrity sha512-rNZ/6edTl/1qUekAhAbaFjczMphM50/UjtxiKulo6vqvgn/Mjd9hVqDvVYfAMZXqPvlusD88n38UjVYPkruLSg==
   dependencies:
     connect "^3.6.5"
     debug "^2.2.0"
@@ -12795,17 +12776,17 @@ metro-inspector-proxy@0.76.5:
     ws "^7.5.1"
     yargs "^17.6.2"
 
-metro-minify-terser@0.76.5:
-  version "0.76.5"
-  resolved "https://registry.npmmirror.com/metro-minify-terser/-/metro-minify-terser-0.76.5.tgz#1bde3e0bcad27ec1764f78075637782ace127dba"
-  integrity sha512-zizTXqlHcG7PArB5hfz1Djz/oCaOaTSXTZDNp8Y9K2FmmfLU3dU2eoDbNNiCnm5QdDtFIndLMXdqqe6omTfp4g==
+metro-minify-terser@0.76.7:
+  version "0.76.7"
+  resolved "https://registry.npmmirror.com/metro-minify-terser/-/metro-minify-terser-0.76.7.tgz#aefac8bb8b6b3a0fcb5ea0238623cf3e100893ff"
+  integrity sha512-FQiZGhIxCzhDwK4LxyPMLlq0Tsmla10X7BfNGlYFK0A5IsaVKNJbETyTzhpIwc+YFRT4GkFFwgo0V2N5vxO5HA==
   dependencies:
     terser "^5.15.0"
 
-metro-minify-uglify@0.76.5:
-  version "0.76.5"
-  resolved "https://registry.npmmirror.com/metro-minify-uglify/-/metro-minify-uglify-0.76.5.tgz#afbb5e3bbc9ca05a9a63d1c5fd74dfc9c1b4c4f8"
-  integrity sha512-JZNO5eK8r625/cheWSl+y7n0RlHLt03iSMgXPAxirH8BiFqPzs7h+c57r4AvSs793VXcF7L3sI1sAOj+nRqTeg==
+metro-minify-uglify@0.76.7:
+  version "0.76.7"
+  resolved "https://registry.npmmirror.com/metro-minify-uglify/-/metro-minify-uglify-0.76.7.tgz#3e0143786718dcaea4e28a724698d4f8ac199a43"
+  integrity sha512-FuXIU3j2uNcSvQtPrAJjYWHruPiQ+EpE++J9Z+VznQKEHcIxMMoQZAfIF2IpZSrZYfLOjVFyGMvj41jQMxV1Vw==
   dependencies:
     uglify-es "^3.1.9"
 
@@ -12854,62 +12835,105 @@ metro-react-native-babel-preset@0.76.5:
     babel-plugin-transform-flow-enums "^0.0.2"
     react-refresh "^0.4.0"
 
-metro-react-native-babel-transformer@0.76.5:
-  version "0.76.5"
-  resolved "https://registry.npmmirror.com/metro-react-native-babel-transformer/-/metro-react-native-babel-transformer-0.76.5.tgz#08b7d4a0240ebdafc1f2ff0691a70a7f507a0de0"
-  integrity sha512-7m2u7jQ1I2mwGm48Vrki5cNNSv4d2HegHMGmE5G2AAa6Pr2O3ajaX2yNoAKF8TCLO38/8pa9fZd0VWAlO/YMcA==
+metro-react-native-babel-preset@0.76.7:
+  version "0.76.7"
+  resolved "https://registry.npmmirror.com/metro-react-native-babel-preset/-/metro-react-native-babel-preset-0.76.7.tgz#dfe15c040d0918147a8b0e9f530d558287acbb54"
+  integrity sha512-R25wq+VOSorAK3hc07NW0SmN8z9S/IR0Us0oGAsBcMZnsgkbOxu77Mduqf+f4is/wnWHc5+9bfiqdLnaMngiVw==
+  dependencies:
+    "@babel/core" "^7.20.0"
+    "@babel/plugin-proposal-async-generator-functions" "^7.0.0"
+    "@babel/plugin-proposal-class-properties" "^7.18.0"
+    "@babel/plugin-proposal-export-default-from" "^7.0.0"
+    "@babel/plugin-proposal-nullish-coalescing-operator" "^7.18.0"
+    "@babel/plugin-proposal-numeric-separator" "^7.0.0"
+    "@babel/plugin-proposal-object-rest-spread" "^7.20.0"
+    "@babel/plugin-proposal-optional-catch-binding" "^7.0.0"
+    "@babel/plugin-proposal-optional-chaining" "^7.20.0"
+    "@babel/plugin-syntax-dynamic-import" "^7.8.0"
+    "@babel/plugin-syntax-export-default-from" "^7.0.0"
+    "@babel/plugin-syntax-flow" "^7.18.0"
+    "@babel/plugin-syntax-nullish-coalescing-operator" "^7.0.0"
+    "@babel/plugin-syntax-optional-chaining" "^7.0.0"
+    "@babel/plugin-transform-arrow-functions" "^7.0.0"
+    "@babel/plugin-transform-async-to-generator" "^7.20.0"
+    "@babel/plugin-transform-block-scoping" "^7.0.0"
+    "@babel/plugin-transform-classes" "^7.0.0"
+    "@babel/plugin-transform-computed-properties" "^7.0.0"
+    "@babel/plugin-transform-destructuring" "^7.20.0"
+    "@babel/plugin-transform-flow-strip-types" "^7.20.0"
+    "@babel/plugin-transform-function-name" "^7.0.0"
+    "@babel/plugin-transform-literals" "^7.0.0"
+    "@babel/plugin-transform-modules-commonjs" "^7.0.0"
+    "@babel/plugin-transform-named-capturing-groups-regex" "^7.0.0"
+    "@babel/plugin-transform-parameters" "^7.0.0"
+    "@babel/plugin-transform-react-display-name" "^7.0.0"
+    "@babel/plugin-transform-react-jsx" "^7.0.0"
+    "@babel/plugin-transform-react-jsx-self" "^7.0.0"
+    "@babel/plugin-transform-react-jsx-source" "^7.0.0"
+    "@babel/plugin-transform-runtime" "^7.0.0"
+    "@babel/plugin-transform-shorthand-properties" "^7.0.0"
+    "@babel/plugin-transform-spread" "^7.0.0"
+    "@babel/plugin-transform-sticky-regex" "^7.0.0"
+    "@babel/plugin-transform-typescript" "^7.5.0"
+    "@babel/plugin-transform-unicode-regex" "^7.0.0"
+    "@babel/template" "^7.0.0"
+    babel-plugin-transform-flow-enums "^0.0.2"
+    react-refresh "^0.4.0"
+
+metro-react-native-babel-transformer@0.76.7:
+  version "0.76.7"
+  resolved "https://registry.npmmirror.com/metro-react-native-babel-transformer/-/metro-react-native-babel-transformer-0.76.7.tgz#ccc7c25b49ee8a1860aafdbf48bfa5441d206f8f"
+  integrity sha512-W6lW3J7y/05ph3c2p3KKJNhH0IdyxdOCbQ5it7aM2MAl0SM4wgKjaV6EYv9b3rHklpV6K3qMH37UKVcjMooWiA==
   dependencies:
     "@babel/core" "^7.20.0"
     babel-preset-fbjs "^3.4.0"
-    hermes-parser "0.8.0"
-    metro-babel-transformer "0.76.5"
-    metro-react-native-babel-preset "0.76.5"
-    metro-source-map "0.76.5"
+    hermes-parser "0.12.0"
+    metro-react-native-babel-preset "0.76.7"
     nullthrows "^1.1.1"
 
-metro-resolver@0.76.5:
-  version "0.76.5"
-  resolved "https://registry.npmmirror.com/metro-resolver/-/metro-resolver-0.76.5.tgz#9d5521d73d1f5e651e36a3d80aa0e6c3a4a74f6f"
-  integrity sha512-QNsbDdf0xL1HefP6fhh1g3umqiX1qWEuCiBaTFroYRqM7u7RATt8mCu4n/FwSYhATuUUujHTIb2EduuQPbSGRQ==
+metro-resolver@0.76.7:
+  version "0.76.7"
+  resolved "https://registry.npmmirror.com/metro-resolver/-/metro-resolver-0.76.7.tgz#f00ebead64e451c060f30926ecbf4f797588df52"
+  integrity sha512-pC0Wgq29HHIHrwz23xxiNgylhI8Rq1V01kQaJ9Kz11zWrIdlrH0ZdnJ7GC6qA0ErROG+cXmJ0rJb8/SW1Zp2IA==
 
-metro-runtime@0.76.5:
-  version "0.76.5"
-  resolved "https://registry.npmmirror.com/metro-runtime/-/metro-runtime-0.76.5.tgz#546d3baf498b2736565c0781810c80bd9d81212e"
-  integrity sha512-1JAf9/v/NDHLhoTfiJ0n25G6dRkX7mjTkaMJ6UUXIyfIuSucoK5yAuOBx8OveNIekoLRjmyvSmyN5ojEeRmpvQ==
+metro-runtime@0.76.7:
+  version "0.76.7"
+  resolved "https://registry.npmmirror.com/metro-runtime/-/metro-runtime-0.76.7.tgz#4d75f2dbbcd19a4f01e0d89494e140b0ba8247e4"
+  integrity sha512-MuWHubQHymUWBpZLwuKZQgA/qbb35WnDAKPo83rk7JRLIFPvzXSvFaC18voPuzJBt1V98lKQIonh6MiC9gd8Ug==
   dependencies:
     "@babel/runtime" "^7.0.0"
     react-refresh "^0.4.0"
 
-metro-source-map@0.76.5:
-  version "0.76.5"
-  resolved "https://registry.npmmirror.com/metro-source-map/-/metro-source-map-0.76.5.tgz#786153fcc93609c7d41c22cae16082b69cd60429"
-  integrity sha512-1EhYPcoftONlvnOzgos7daE8hsJKOgSN3nD3Xf/yaY1F0aLeGeuWfpiNLLeFDNyUhfObHSuNxNhDQF/x1GFEbw==
+metro-source-map@0.76.7:
+  version "0.76.7"
+  resolved "https://registry.npmmirror.com/metro-source-map/-/metro-source-map-0.76.7.tgz#9a4aa3a35e1e8ffde9a74cd7ab5f49d9d4a4da14"
+  integrity sha512-Prhx7PeRV1LuogT0Kn5VjCuFu9fVD68eefntdWabrksmNY6mXK8pRqzvNJOhTojh6nek+RxBzZeD6MIOOyXS6w==
   dependencies:
     "@babel/traverse" "^7.20.0"
     "@babel/types" "^7.20.0"
     invariant "^2.2.4"
-    metro-symbolicate "0.76.5"
+    metro-symbolicate "0.76.7"
     nullthrows "^1.1.1"
-    ob1 "0.76.5"
+    ob1 "0.76.7"
     source-map "^0.5.6"
     vlq "^1.0.0"
 
-metro-symbolicate@0.76.5:
-  version "0.76.5"
-  resolved "https://registry.npmmirror.com/metro-symbolicate/-/metro-symbolicate-0.76.5.tgz#f2fbb75ca9436ea053bde702fa2a20146ff10be1"
-  integrity sha512-7iftzh6G6HO4UDBmjsi2Yu4d6IkApv6Kg+jmBvkTjCXr8HwnKKum89gMg/FRMix+Rhhut0dnMpz6mAbtKTU9JQ==
+metro-symbolicate@0.76.7:
+  version "0.76.7"
+  resolved "https://registry.npmmirror.com/metro-symbolicate/-/metro-symbolicate-0.76.7.tgz#1720e6b4ce5676935d7a8a440f25d3f16638e87a"
+  integrity sha512-p0zWEME5qLSL1bJb93iq+zt5fz3sfVn9xFYzca1TJIpY5MommEaS64Va87lp56O0sfEIvh4307Oaf/ZzRjuLiQ==
   dependencies:
     invariant "^2.2.4"
-    metro-source-map "0.76.5"
+    metro-source-map "0.76.7"
     nullthrows "^1.1.1"
     source-map "^0.5.6"
     through2 "^2.0.1"
     vlq "^1.0.0"
 
-metro-transform-plugins@0.76.5:
-  version "0.76.5"
-  resolved "https://registry.npmmirror.com/metro-transform-plugins/-/metro-transform-plugins-0.76.5.tgz#b4a49b5b55fd3bc24c5a65fa8e40ba07d84e4170"
-  integrity sha512-7pJ24aRuvzdQYpX/eOyodr4fnwVJP5ArNLBE1d0DOU9sQxsGplOORDTGAqw2L01+UgaSJiiwEoFMw7Z91HAS+Q==
+metro-transform-plugins@0.76.7:
+  version "0.76.7"
+  resolved "https://registry.npmmirror.com/metro-transform-plugins/-/metro-transform-plugins-0.76.7.tgz#5d5f75371706fbf5166288e43ffd36b5e5bd05bc"
+  integrity sha512-iSmnjVApbdivjuzb88Orb0JHvcEt5veVyFAzxiS5h0QB+zV79w6JCSqZlHCrbNOkOKBED//LqtKbFVakxllnNg==
   dependencies:
     "@babel/core" "^7.20.0"
     "@babel/generator" "^7.20.0"
@@ -12917,28 +12941,28 @@ metro-transform-plugins@0.76.5:
     "@babel/traverse" "^7.20.0"
     nullthrows "^1.1.1"
 
-metro-transform-worker@0.76.5:
-  version "0.76.5"
-  resolved "https://registry.npmmirror.com/metro-transform-worker/-/metro-transform-worker-0.76.5.tgz#d101ad46c1a607c7bc52f0a0888961d237df42bd"
-  integrity sha512-xN6Kb06o9u5A7M1bbl7oPfQFmt4Kmi3CMXp5j9OcK37AFc+u6YXH8x/6e9b3Cq50rlBYuCXDOOYAWI5/tYNt2w==
+metro-transform-worker@0.76.7:
+  version "0.76.7"
+  resolved "https://registry.npmmirror.com/metro-transform-worker/-/metro-transform-worker-0.76.7.tgz#b842d5a542f1806cca401633fc002559b3e3d668"
+  integrity sha512-cGvELqFMVk9XTC15CMVzrCzcO6sO1lURfcbgjuuPdzaWuD11eEyocvkTX0DPiRjsvgAmicz4XYxVzgYl3MykDw==
   dependencies:
     "@babel/core" "^7.20.0"
     "@babel/generator" "^7.20.0"
     "@babel/parser" "^7.20.0"
     "@babel/types" "^7.20.0"
     babel-preset-fbjs "^3.4.0"
-    metro "0.76.5"
-    metro-babel-transformer "0.76.5"
-    metro-cache "0.76.5"
-    metro-cache-key "0.76.5"
-    metro-source-map "0.76.5"
-    metro-transform-plugins "0.76.5"
+    metro "0.76.7"
+    metro-babel-transformer "0.76.7"
+    metro-cache "0.76.7"
+    metro-cache-key "0.76.7"
+    metro-source-map "0.76.7"
+    metro-transform-plugins "0.76.7"
     nullthrows "^1.1.1"
 
-metro@0.76.5:
-  version "0.76.5"
-  resolved "https://registry.npmmirror.com/metro/-/metro-0.76.5.tgz#0defc2a773dcdfe6569d1bd7f7a25a7424ce6f11"
-  integrity sha512-aEQiqNFibfx4ajUXm7Xatsv43r/UQ0xE53T3XqgZBzsxhF235tf1cl8t0giawi0RbLtDS+Fu4kg2bVBKDYFy7A==
+metro@0.76.7:
+  version "0.76.7"
+  resolved "https://registry.npmmirror.com/metro/-/metro-0.76.7.tgz#4885917ad28738c7d1e556630e0155f687336230"
+  integrity sha512-67ZGwDeumEPnrHI+pEDSKH2cx+C81Gx8Mn5qOtmGUPm/Up9Y4I1H2dJZ5n17MWzejNo0XAvPh0QL0CrlJEODVQ==
   dependencies:
     "@babel/code-frame" "^7.0.0"
     "@babel/core" "^7.20.0"
@@ -12956,28 +12980,28 @@ metro@0.76.5:
     denodeify "^1.2.1"
     error-stack-parser "^2.0.6"
     graceful-fs "^4.2.4"
-    hermes-parser "0.8.0"
+    hermes-parser "0.12.0"
     image-size "^1.0.2"
     invariant "^2.2.4"
     jest-worker "^27.2.0"
     jsc-safe-url "^0.2.2"
     lodash.throttle "^4.1.1"
-    metro-babel-transformer "0.76.5"
-    metro-cache "0.76.5"
-    metro-cache-key "0.76.5"
-    metro-config "0.76.5"
-    metro-core "0.76.5"
-    metro-file-map "0.76.5"
-    metro-inspector-proxy "0.76.5"
-    metro-minify-terser "0.76.5"
-    metro-minify-uglify "0.76.5"
-    metro-react-native-babel-preset "0.76.5"
-    metro-resolver "0.76.5"
-    metro-runtime "0.76.5"
-    metro-source-map "0.76.5"
-    metro-symbolicate "0.76.5"
-    metro-transform-plugins "0.76.5"
-    metro-transform-worker "0.76.5"
+    metro-babel-transformer "0.76.7"
+    metro-cache "0.76.7"
+    metro-cache-key "0.76.7"
+    metro-config "0.76.7"
+    metro-core "0.76.7"
+    metro-file-map "0.76.7"
+    metro-inspector-proxy "0.76.7"
+    metro-minify-terser "0.76.7"
+    metro-minify-uglify "0.76.7"
+    metro-react-native-babel-preset "0.76.7"
+    metro-resolver "0.76.7"
+    metro-runtime "0.76.7"
+    metro-source-map "0.76.7"
+    metro-symbolicate "0.76.7"
+    metro-transform-plugins "0.76.7"
+    metro-transform-worker "0.76.7"
     mime-types "^2.1.27"
     node-fetch "^2.2.0"
     nullthrows "^1.1.1"
@@ -13842,10 +13866,10 @@ oauth-sign@~0.9.0:
   resolved "https://registry.npmjs.org/oauth-sign/-/oauth-sign-0.9.0.tgz#47a7b016baa68b5fa0ecf3dee08a85c679ac6455"
   integrity sha512-fexhUFFPTGV8ybAtSIGbV6gOkSv8UtRbDBnAyLQw4QPKkgNlsH2ByPGtMUqdWkos6YCRmAqViwgZrJc/mRDzZQ==
 
-ob1@0.76.5:
-  version "0.76.5"
-  resolved "https://registry.npmmirror.com/ob1/-/ob1-0.76.5.tgz#85476959743d8f6722faf0ac29bee8861f50120b"
-  integrity sha512-HoxZXMXNuY/eIXGoX7gx1C4O3eB4kJJMola6KoFaMm7PGGg39+AnhbgMASYVmSvP2lwU3545NyiR63g8J9PW3w==
+ob1@0.76.7:
+  version "0.76.7"
+  resolved "https://registry.npmmirror.com/ob1/-/ob1-0.76.7.tgz#95b68fadafd47e7a6a0ad64cf80f3140dd6d1124"
+  integrity sha512-BQdRtxxoUNfSoZxqeBGOyuT9nEYSn18xZHwGMb0mMVpn2NBcYbnyKY4BK2LIHRgw33CBGlUmE+KMaNvyTpLLtQ==
 
 object-assign@^4, object-assign@^4.0.1, object-assign@^4.1.0, object-assign@^4.1.1:
   version "4.1.1"
@@ -14956,7 +14980,7 @@ react-dom@^18.2.0:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
 
-react-freeze@^1.0.0:
+react-freeze@^1.0.0, react-freeze@^1.0.3:
   version "1.0.3"
   resolved "https://registry.npmjs.org/react-freeze/-/react-freeze-1.0.3.tgz"
   integrity sha512-ZnXwLQnGzrDpHBHiC56TXFXvmolPeMjTn1UOm610M4EXGzbEDR7oOIyS2ZiItgbs6eZc4oU/a0hpk8PrcKvv5g==
@@ -15223,25 +15247,25 @@ react-native-view-shot@3.7.0:
   dependencies:
     html2canvas "^1.4.1"
 
-react-native-web-internals@1.42.0:
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/react-native-web-internals/-/react-native-web-internals-1.42.0.tgz#d73fdefdd1b9962e040974162f7c7dfbb4c57750"
-  integrity sha512-KVqvtvRUXlEbh6A9OCPilXTcvJSvnk7lIfCVNNwhXZFpqCFwBubzc2kcOZm/K7wC0nQNmqs4tFOY8kTwo67JUA==
+react-native-web-internals@1.47.2:
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/react-native-web-internals/-/react-native-web-internals-1.47.2.tgz#3bd7393bd5c80f8747aac2c3226c55e661c2fdce"
+  integrity sha512-fSMiUdlchCEYHtESqUp4ltrAW4L1qrpZ7rorQOrZZ19otc1dlo/JBMdhfhB/joaME6XwXNbaKz2KCuOMgmxF2A==
   dependencies:
-    "@tamagui/normalize-css-color" "1.42.0"
-    "@tamagui/react-native-use-pressable" "1.42.0"
-    "@tamagui/react-native-use-responder-events" "1.42.0"
-    "@tamagui/simple-hash" "1.42.0"
+    "@tamagui/normalize-css-color" "1.47.2"
+    "@tamagui/react-native-use-pressable" "1.47.2"
+    "@tamagui/react-native-use-responder-events" "1.47.2"
+    "@tamagui/simple-hash" "1.47.2"
     styleq "^0.1.3"
 
-react-native-web-lite@1.42.0:
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/react-native-web-lite/-/react-native-web-lite-1.42.0.tgz#01693736204494826a75033af21a10713d3ffa67"
-  integrity sha512-bujAkQQNPyyKbHg0jmkgFwAEuVH2HdmEIe+wktpllH9AUC7enZrNJ3SXjKuoMM/MJKGSrmZgkbd6DM70UM2ZZQ==
+react-native-web-lite@1.47.2:
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/react-native-web-lite/-/react-native-web-lite-1.47.2.tgz#e7f50341ad17fba1854d6ebf58bdd669bdf0130c"
+  integrity sha512-EZ1iIgVftpPss0XMeK6aLvYWi5m8FPb3AZTm0BvLm4U+ToNrPIESAG2G+oU8pTBIel6wyyYMNHE3EILOjFKZ0w==
   dependencies:
-    "@tamagui/normalize-css-color" "1.42.0"
+    "@tamagui/normalize-css-color" "1.47.2"
     invariant "^2.2.4"
-    react-native-web-internals "1.42.0"
+    react-native-web-internals "1.47.2"
     styleq "^0.1.3"
 
 react-native-web@^0.19.6, react-native-web@~0.19.6:
@@ -15266,15 +15290,15 @@ react-native-webview@13.2.2:
     escape-string-regexp "2.0.0"
     invariant "2.2.4"
 
-react-native@0.72.1:
-  version "0.72.1"
-  resolved "https://registry.npmmirror.com/react-native/-/react-native-0.72.1.tgz#a60f8494ec74cc201ed095aaf2ff2c912c708ec6"
-  integrity sha512-O9cIVD++kt2XQl0XLCUGUgwSKr8xp+yo0ho5QK6KYWJrCFnnvQLTKL0+HD0rZUcuqFfGknHQJh3h0moQO2EMDg==
+react-native@^0.72.3:
+  version "0.72.3"
+  resolved "https://registry.npmmirror.com/react-native/-/react-native-0.72.3.tgz#f8d85ec81c9f3592d091ec8e9ac1694956a72765"
+  integrity sha512-QqISi+JVmCssNP2FlQ4MWhlc4O/I00MRE1/GClvyZ8h/6kdsyk/sOirkYdZqX3+DrJfI3q+OnyMnsyaXIQ/5tQ==
   dependencies:
     "@jest/create-cache-key-function" "^29.2.1"
-    "@react-native-community/cli" "11.3.3"
-    "@react-native-community/cli-platform-android" "11.3.3"
-    "@react-native-community/cli-platform-ios" "11.3.3"
+    "@react-native-community/cli" "11.3.5"
+    "@react-native-community/cli-platform-android" "11.3.5"
+    "@react-native-community/cli-platform-ios" "11.3.5"
     "@react-native/assets-registry" "^0.72.0"
     "@react-native/codegen" "^0.72.6"
     "@react-native/gradle-plugin" "^0.72.11"
@@ -15291,8 +15315,8 @@ react-native@0.72.1:
     jest-environment-node "^29.2.1"
     jsc-android "^250231.0.0"
     memoize-one "^5.0.0"
-    metro-runtime "0.76.5"
-    metro-source-map "0.76.5"
+    metro-runtime "0.76.7"
+    metro-source-map "0.76.7"
     mkdirp "^0.5.1"
     nullthrows "^1.1.1"
     pretty-format "^26.5.2"
@@ -16827,61 +16851,61 @@ table-layout@^1.0.2:
     typical "^5.2.0"
     wordwrapjs "^4.0.0"
 
-tamagui@^1.42.0:
-  version "1.42.0"
-  resolved "https://registry.npmmirror.com/tamagui/-/tamagui-1.42.0.tgz#4109eeb4080e1b6ad0ca6706deb3e41bd425f570"
-  integrity sha512-Rs8mTgtWEUatjeXyTH3MUTDqynDUYKQeXqBBdrk97USX2MVmXbpdBSILuHwCfp6SX72Aqr7vlkUeEdeJOkIWGg==
+tamagui@^1.47.2:
+  version "1.47.2"
+  resolved "https://registry.npmmirror.com/tamagui/-/tamagui-1.47.2.tgz#a7b80aa6060b9b8fd63d734ddd5157050093174a"
+  integrity sha512-U2WRNGUFCMtFEWEdlE/HMJWDN24wPvGAK5k1mWJANR4tFc7mKL2Ef8J8tBsuDNlRQmvdTvm/IhnwBLwhX23mrQ==
   dependencies:
-    "@tamagui/accordion" "1.42.0"
-    "@tamagui/adapt" "1.42.0"
-    "@tamagui/alert-dialog" "1.42.0"
-    "@tamagui/animate-presence" "1.42.0"
-    "@tamagui/avatar" "1.42.0"
-    "@tamagui/button" "1.42.0"
-    "@tamagui/card" "1.42.0"
-    "@tamagui/checkbox" "1.42.0"
-    "@tamagui/compose-refs" "1.42.0"
-    "@tamagui/core" "1.42.0"
-    "@tamagui/create-context" "1.42.0"
-    "@tamagui/dialog" "1.42.0"
-    "@tamagui/fake-react-native" "1.42.0"
-    "@tamagui/focusable" "1.42.0"
-    "@tamagui/font-size" "1.42.0"
-    "@tamagui/form" "1.42.0"
-    "@tamagui/get-button-sized" "1.42.0"
-    "@tamagui/get-font-sized" "1.42.0"
-    "@tamagui/get-token" "1.42.0"
-    "@tamagui/helpers" "1.42.0"
-    "@tamagui/helpers-tamagui" "1.42.0"
-    "@tamagui/image" "1.42.0"
-    "@tamagui/label" "1.42.0"
-    "@tamagui/linear-gradient" "1.42.0"
-    "@tamagui/list-item" "1.42.0"
-    "@tamagui/popover" "1.42.0"
-    "@tamagui/popper" "1.42.0"
-    "@tamagui/portal" "1.42.0"
-    "@tamagui/progress" "1.42.0"
-    "@tamagui/radio-group" "1.42.0"
-    "@tamagui/react-native-media-driver" "1.42.0"
-    "@tamagui/scroll-view" "1.42.0"
-    "@tamagui/select" "1.42.0"
-    "@tamagui/separator" "1.42.0"
-    "@tamagui/shapes" "1.42.0"
-    "@tamagui/sheet" "1.42.0"
-    "@tamagui/slider" "1.42.0"
-    "@tamagui/stacks" "1.42.0"
-    "@tamagui/switch" "1.42.0"
-    "@tamagui/tabs" "1.42.0"
-    "@tamagui/text" "1.42.0"
-    "@tamagui/theme" "1.42.0"
-    "@tamagui/toggle-group" "1.42.0"
-    "@tamagui/tooltip" "1.42.0"
-    "@tamagui/use-controllable-state" "1.42.0"
-    "@tamagui/use-debounce" "1.42.0"
-    "@tamagui/use-event" "1.42.0"
-    "@tamagui/use-force-update" "1.42.0"
-    "@tamagui/use-window-dimensions" "1.42.0"
-    "@tamagui/visually-hidden" "1.42.0"
+    "@tamagui/accordion" "1.47.2"
+    "@tamagui/adapt" "1.47.2"
+    "@tamagui/alert-dialog" "1.47.2"
+    "@tamagui/animate-presence" "1.47.2"
+    "@tamagui/avatar" "1.47.2"
+    "@tamagui/button" "1.47.2"
+    "@tamagui/card" "1.47.2"
+    "@tamagui/checkbox" "1.47.2"
+    "@tamagui/compose-refs" "1.47.2"
+    "@tamagui/core" "1.47.2"
+    "@tamagui/create-context" "1.47.2"
+    "@tamagui/dialog" "1.47.2"
+    "@tamagui/fake-react-native" "1.47.2"
+    "@tamagui/focusable" "1.47.2"
+    "@tamagui/font-size" "1.47.2"
+    "@tamagui/form" "1.47.2"
+    "@tamagui/get-button-sized" "1.47.2"
+    "@tamagui/get-font-sized" "1.47.2"
+    "@tamagui/get-token" "1.47.2"
+    "@tamagui/helpers" "1.47.2"
+    "@tamagui/helpers-tamagui" "1.47.2"
+    "@tamagui/image" "1.47.2"
+    "@tamagui/label" "1.47.2"
+    "@tamagui/linear-gradient" "1.47.2"
+    "@tamagui/list-item" "1.47.2"
+    "@tamagui/popover" "1.47.2"
+    "@tamagui/popper" "1.47.2"
+    "@tamagui/portal" "1.47.2"
+    "@tamagui/progress" "1.47.2"
+    "@tamagui/radio-group" "1.47.2"
+    "@tamagui/react-native-media-driver" "1.47.2"
+    "@tamagui/scroll-view" "1.47.2"
+    "@tamagui/select" "1.47.2"
+    "@tamagui/separator" "1.47.2"
+    "@tamagui/shapes" "1.47.2"
+    "@tamagui/sheet" "1.47.2"
+    "@tamagui/slider" "1.47.2"
+    "@tamagui/stacks" "1.47.2"
+    "@tamagui/switch" "1.47.2"
+    "@tamagui/tabs" "1.47.2"
+    "@tamagui/text" "1.47.2"
+    "@tamagui/theme" "1.47.2"
+    "@tamagui/toggle-group" "1.47.2"
+    "@tamagui/tooltip" "1.47.2"
+    "@tamagui/use-controllable-state" "1.47.2"
+    "@tamagui/use-debounce" "1.47.2"
+    "@tamagui/use-event" "1.47.2"
+    "@tamagui/use-force-update" "1.47.2"
+    "@tamagui/use-window-dimensions" "1.47.2"
+    "@tamagui/visually-hidden" "1.47.2"
     reforest "^0.12.1"
 
 tar@^4.0.2:
@@ -16968,6 +16992,11 @@ terser@^5.15.0:
     acorn "^8.5.0"
     commander "^2.20.0"
     source-map-support "~0.5.20"
+
+text-encoding-polyfill@^0.6.7:
+  version "0.6.7"
+  resolved "https://registry.npmmirror.com/text-encoding-polyfill/-/text-encoding-polyfill-0.6.7.tgz#4d27de0153e4c86eb2631ffd74c2f3f57969a9ec"
+  integrity sha512-/DZ1XJqhbqRkCop6s9ZFu8JrFRwmVuHg4quIRm+ziFkR3N3ec6ck6yBvJ1GYeEQZhLVwRW0rZE+C3SSJpy0RTg==
 
 text-segmentation@^1.0.3:
   version "1.0.3"

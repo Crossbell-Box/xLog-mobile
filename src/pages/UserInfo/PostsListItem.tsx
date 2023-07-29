@@ -71,7 +71,18 @@ export const PostsListItem: FC<Props> = (props) => {
           <Card.Header padded>
             {cover && <Image contentFit={"cover"} source={{ uri: cover }} style={{ width: "100%", height: 150, borderRadius: 10, marginBottom: 8 }} />}
             {
-              note?.metadata.content.title && <H5 fontWeight={"700"} color="$color" marginBottom={"$1"} numberOfLines={1}>{String(note.metadata.content.title).replaceAll(" ", "")}</H5>
+              note?.metadata.content.title && (
+                <Text
+                  fontWeight={"700"}
+                  color="$color"
+                  marginBottom={"$1"}
+                  numberOfLines={1}
+                  fontSize={"$6"}
+                  marginVertical={"$2"}
+                >
+                  {String(note.metadata.content.title).replaceAll(" ", "")}
+                </Text>
+              )
             }
 
             <XStack justifyContent={coverImage.isSingle ? "space-between" : "flex-start"}>

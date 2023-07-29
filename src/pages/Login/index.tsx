@@ -15,7 +15,6 @@ import { Avatar } from "@/components/Avatar";
 import type { BottomSheetModalInstance } from "@/components/BottomSheetModal";
 import { ConnectEmailButton } from "@/components/ConnectEmailButton";
 import { ConnectionButton } from "@/components/ConnectionButton";
-import { MeasuredContainer } from "@/components/MeasuredContainer";
 import { useAppIsActive } from "@/hooks/use-app-state";
 import { useColors } from "@/hooks/use-colors";
 import { useGlobalLoading } from "@/hooks/use-global-loading";
