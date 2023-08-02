@@ -39,12 +39,13 @@ jobs:
             return releaseType
             
       - name: Bump Versions
+        if: steps.release-type.outputs.result != ''
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         uses: changesets/action@v1
         with:
-          version: yarn changeset status & yarn changeset version
-          publish: yarn changeset tag
+          version: yarn run release:version
+          publish: yarn run release:publish
           commit: 'chore: update versions'
           title: 'chore: update versions'
 
