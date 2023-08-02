@@ -36,10 +36,10 @@ export interface Props {
 }
 
 export const Settings: React.FC<Props> = () => {
-  const { primary, background } = useColors();
+  const { primary, color, background } = useColors();
   const [devMenuVisible, setDevMenuVisible] = React.useState(false);
   const isConnected = useIsConnected();
-  const { isUpdatesAvailable, isLoading } = useIsUpdatesAvailable();
+  const updatesStatus = useIsUpdatesAvailable();
   const handleMultiPress = useMultiPressHandler(
     () => {
       if (IS_TEST) {
@@ -265,10 +265,15 @@ export const Settings: React.FC<Props> = () => {
                     icon={Info}
                     scaleIcon={1.2}
                     iconAfter={(
-                      isLoading
+                      updatesStatus.isLoading
                         ? <Spinner size="small"/>
                         : (
-                          <Badge size={5} visible={isUpdatesAvailable}>
+                          <Badge
+                            size={5}
+                            breathing={updatesStatus.isDownloading}
+                            visible={updatesStatus.isUpdatesAvailable}
+                            color={updatesStatus.isDownloaded ? color : primary}
+                          >
                             <Text color="$color">{VERSION}</Text>
                           </Badge>
                         )

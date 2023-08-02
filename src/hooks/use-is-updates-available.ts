@@ -6,6 +6,8 @@ import { IS_DEV } from "@/constants";
 
 export const useIsUpdatesAvailable = () => {
   const [isUpdatesAvailable, setIsUpdatesAvailable] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [isDownloaded, setIsDownloaded] = useState(false);
   const [isLoading, setIsLoading] = useState(!IS_DEV);
 
   useEffect(() => {
@@ -15,7 +17,14 @@ export const useIsUpdatesAvailable = () => {
     else {
       Updates.checkForUpdateAsync()
         .then((update) => {
-          setIsUpdatesAvailable(update.isAvailable);
+          if (update.isAvailable) {
+            setIsUpdatesAvailable(true);
+
+            setIsDownloading(true);
+            Updates.fetchUpdateAsync()
+              .then(res => setIsDownloaded(res.isNew))
+              .finally(() => setIsDownloading(false));
+          }
         })
         .finally(() => {
           setIsLoading(false);
@@ -23,5 +32,10 @@ export const useIsUpdatesAvailable = () => {
     }
   }, []);
 
-  return { isUpdatesAvailable, isLoading };
+  return {
+    isUpdatesAvailable,
+    isDownloading,
+    isDownloaded,
+    isLoading,
+  };
 };
