@@ -9,3 +9,4 @@ export const CSB_SCAN = Constants.expoConfig.extra?.CSB_SCAN || "https://scan.cr
 export const CSB_XCHAR = Constants.expoConfig.extra?.CSB_XCHAR || "https://xchar.app";
 export const APP_HOST = Constants.expoConfig.extra?.APP_HOST || "xlog.app";
 export const ENV = Constants.expoConfig.extra?.ENV || "production";
+export const EXPO_PROJECT_ID = Constants.expoConfig.extra?.eas?.projectId;
