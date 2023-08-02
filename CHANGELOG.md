@@ -1,5 +1,11 @@
 # xlog
 
+## 0.20.5
+
+### Patch Changes
+
+- d77ba56: Solved avatar styles problem.
+
 ## 0.20.4
 
 ### Patch Changes
