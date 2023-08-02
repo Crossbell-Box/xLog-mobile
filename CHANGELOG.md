@@ -1,5 +1,11 @@
 # xlog
 
+## 0.20.1
+
+### Patch Changes
+
+- 9fc1144: Fixed a problem with Android can't registering notification device.
+
 ## 0.20.0
 
 ### Minor Changes
