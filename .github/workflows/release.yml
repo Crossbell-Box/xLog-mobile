@@ -43,8 +43,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         uses: changesets/action@v1
         with:
-          version: yarn run release:version
-          publish: yarn run release:publish
+          version: yarn changeset status & yarn changeset version
+          publish: yarn changeset tag
           commit: 'chore: update versions'
           title: 'chore: update versions'
 
