@@ -272,7 +272,7 @@ export const Settings: React.FC<Props> = () => {
                             size={5}
                             breathing={updatesStatus.isDownloading}
                             visible={updatesStatus.isUpdatesAvailable}
-                            color={updatesStatus.isDownloaded ? color : primary}
+                            color={updatesStatus.isDownloaded ? primary : color}
                           >
                             <Text color="$color">{VERSION}</Text>
                           </Badge>
