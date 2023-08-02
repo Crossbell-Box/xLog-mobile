@@ -1,5 +1,11 @@
 # xlog
 
+## 0.20.3
+
+### Patch Changes
+
+- e9d7312: Support to check the downloading status.
+
 ## 0.20.2
 
 ### Patch Changes
