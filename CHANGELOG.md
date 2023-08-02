@@ -1,5 +1,11 @@
 # xlog
 
+## 0.20.2
+
+### Patch Changes
+
+- 090b4db: Added an indicator for hot updating.
+
 ## 0.20.1
 
 ### Patch Changes
