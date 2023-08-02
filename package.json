@@ -21,7 +21,7 @@
     "update:production": "EXPO_NO_DOTENV=1 STAGE=production node scripts/eas-update.js eas update --non-interactive --channel production --auto",
     "update:preview": "EXPO_NO_DOTENV=1 STAGE=test node scripts/eas-update.js eas update --non-interactive --channel preview --auto",
     "build:development": "EXPO_NO_DOTENV=1 STAGE=development eas build --non-interactive --profile development",
-    "build:preview": "EXPO_NO_DOTENV=1 STAGE=staging eas build --non-interactive --profile preview",
+    "build:preview": "EXPO_NO_DOTENV=1 STAGE=test eas build --non-interactive --profile preview",
     "submit:all": "eas build --non-interactive --profile production --auto-submit -p all",
     "submit:ios": "eas build --non-interactive --profile production --auto-submit -p ios",
     "submit:android": "eas build --non-interactive --profile production --auto-submit -p android",
