@@ -1,5 +1,11 @@
 # xlog
 
+## 0.20.4
+
+### Patch Changes
+
+- c3654fb: Changed updates status color.
+
 ## 0.20.3
 
 ### Patch Changes
