@@ -4,6 +4,7 @@ import { Platform } from "react-native";
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 
+import { EXPO_PROJECT_ID } from "@/constants/env";
 import { GA } from "@/utils/GA";
 
 import { useRootNavigation } from "./use-navigation";
@@ -140,7 +141,9 @@ async function registerForPushNotificationsAsync() {
     throw new NotificationError("Failed to get push token for push notification!", finalStatus);
   }
 
-  const token = (await Notifications.getExpoPushTokenAsync()).data;
+  const token = (await Notifications.getExpoPushTokenAsync({
+    projectId: EXPO_PROJECT_ID,
+  })).data;
 
   if (Platform.OS === "android") {
     await Notifications.setNotificationChannelAsync("default", {
