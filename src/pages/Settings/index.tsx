@@ -11,15 +11,17 @@ import * as Clipboard from "expo-clipboard";
 import * as Haptics from "expo-haptics";
 import * as Updates from "expo-updates";
 import * as Sentry from "sentry-expo";
-import { ListItem, Text, ListItemTitle, Switch, YGroup, YStack, Stack } from "tamagui";
+import { ListItem, Text, ListItemTitle, Switch, YGroup, YStack, Stack, Circle, Spinner } from "tamagui";
 
 import { AlertDialog } from "@/components/AlertDialog";
+import { Badge } from "@/components/Badge";
 import { Button } from "@/components/Base/Button";
 import { BottomSheetModal } from "@/components/BottomSheetModal";
 import type { BottomSheetModalInstance } from "@/components/BottomSheetModal";
 import { DisconnectBtn } from "@/components/ConnectionButton";
 import { APP_SCHEME, IS_DEV, IS_PROD, IS_TEST, VERSION } from "@/constants";
 import { useColors } from "@/hooks/use-colors";
+import { useIsUpdatesAvailable } from "@/hooks/use-is-updates-available";
 import { useMultiPressHandler } from "@/hooks/use-multi-press-handler";
 import { useRootNavigation } from "@/hooks/use-navigation";
 import { useNotification } from "@/hooks/use-notification";
@@ -37,6 +39,7 @@ export const Settings: React.FC<Props> = () => {
   const { primary, background } = useColors();
   const [devMenuVisible, setDevMenuVisible] = React.useState(false);
   const isConnected = useIsConnected();
+  const { isUpdatesAvailable, isLoading } = useIsUpdatesAvailable();
   const handleMultiPress = useMultiPressHandler(
     () => {
       if (IS_TEST) {
@@ -261,7 +264,15 @@ export const Settings: React.FC<Props> = () => {
                   <ListItem
                     icon={Info}
                     scaleIcon={1.2}
-                    iconAfter={<Text color="$color">{VERSION}</Text>}
+                    iconAfter={(
+                      isLoading
+                        ? <Spinner size="small"/>
+                        : (
+                          <Badge size={5} visible={isUpdatesAvailable}>
+                            <Text color="$color">{VERSION}</Text>
+                          </Badge>
+                        )
+                    )}
                     onPress={handleMultiPress}
                   >
                     <ListItemTitle>
