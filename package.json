@@ -18,7 +18,7 @@
     "web": "EXPO_NO_DOTENV=1 STAGE=development expo start --web",
     "release:version": "changeset status & changeset version",
     "release:publish": "changeset tag",
-    "update:production": "EXPO_NO_DOTENV=1 STAGE=production node scripts/eas-update.js eas update --non-interactive --channel preview --auto",
+    "update:production": "EXPO_NO_DOTENV=1 STAGE=production node scripts/eas-update.js eas update --non-interactive --channel production --auto",
     "update:preview": "EXPO_NO_DOTENV=1 STAGE=test node scripts/eas-update.js eas update --non-interactive --channel preview --auto",
     "build:development": "EXPO_NO_DOTENV=1 STAGE=development eas build --non-interactive --profile development",
     "build:preview": "EXPO_NO_DOTENV=1 STAGE=staging eas build --non-interactive --profile preview",
