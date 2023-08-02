@@ -41,7 +41,7 @@ export const NavigationHeader: FC<Props> = (props) => {
 
   const avatarAnimStyles = useAnimatedStyle(() => {
     return {
-      left: interpolate(expanded.value, [0, 1], [-100, 10], Extrapolate.CLAMP),
+      left: interpolate(expanded.value, [0, 1], [-100, 12], Extrapolate.CLAMP),
       opacity: interpolate(drawerProgress.value, [1, 0], [0, 1], Extrapolate.CLAMP),
     };
   }, [top, expanded]);
@@ -93,6 +93,5 @@ const styles = StyleSheet.create({
   },
   avatarContainer: {
     zIndex: 2,
-    width: 35,
   },
 });
