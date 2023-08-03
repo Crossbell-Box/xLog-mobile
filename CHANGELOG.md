@@ -1,5 +1,11 @@
 # xlog
 
+## 0.21.0
+
+### Minor Changes
+
+- 06d4a7b: Bug fixes, performance improvements.
+
 ## 0.20.5
 
 ### Patch Changes
