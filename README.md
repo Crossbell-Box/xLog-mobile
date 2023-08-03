@@ -10,6 +10,14 @@
 </p>
 
 
+<p align="center" >
+<img src="submission/store/iPhone/6.7/Hotpot Design/Hotpot 0.png" width="19.5%" style="border-top-left-radius:20px;border-bottom-left-radius:20px"/> 
+<img src="submission/store/iPhone/6.7/Hotpot Design/Hotpot 1.png" width="19.5%" /> 
+<img src="submission/store/iPhone/6.7/Hotpot Design/Hotpot 2.png" width="19.5%" /> 
+<img src="submission/store/iPhone/6.7/Hotpot Design/Hotpot 3.png" width="19.5%" /> 
+<img src="submission/store/iPhone/6.7/Hotpot Design/Hotpot 4.png" width="19.5%" style="border-top-right-radius:20px;border-bottom-right-radius:20px"/> 
+</p>
+
 <p align="center">
 <img src="submission/screenshots/ios/IMG_9327-8249_iphone13progold_portrait.png" width="45%" /> 
 <img src="submission/screenshots/ios/IMG_9328-8247_iphone13progold_portrait.png" width="45%" />
