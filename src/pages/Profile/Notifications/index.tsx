@@ -1,5 +1,5 @@
 import type { ComponentPropsWithRef, FC } from "react";
-import React from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -14,9 +14,11 @@ import { AtSign, Eye, MessageSquare, ThumbsUp } from "@tamagui/lucide-icons";
 import * as Haptics from "expo-haptics";
 import { Separator, SizableText, Spinner, Stack, XStack, YStack } from "tamagui";
 
+import { FillSpinner } from "@/components/FillSpinner";
 import { NotificationItem } from "@/components/NotificationItem";
 import { ProfilePageHeader } from "@/components/ProfilePageHeader";
 import { ProfilePageLayout } from "@/components/ProfilePageLayout";
+import { MeasureContainer } from "@/components/utils/MeasureContainer";
 import { XTouch } from "@/components/XTouch";
 import { useCharacterId } from "@/hooks/use-character-id";
 import type { CharacterNotificationType } from "@/hooks/use-character-notification";
@@ -61,18 +63,18 @@ const NotificationsPage: FC<NativeStackScreenProps<RootStackParamList, "Notifica
   const { setOptions } = useHomeNavigation();
   const { clearBadgeCount } = useNotification();
 
-  useFocusEffect(() => {
+  useEffect(() => {
     indexer.notification
       .markAllAsRead(characterId)
       .then(() => notifications?.refetch())
       .then(() => clearBadgeCount())
       .then(() => {
         setOptions({
-          // @ts-expect-error
+        // @ts-expect-error
           tabBarBadge: undefined,
         });
       });
-  });
+  }, [characterId]);
 
   const onTabChange = (tab: CharacterNotificationType) => {
     GA.logEvent("change_notification_tab", {
@@ -84,56 +86,71 @@ const NotificationsPage: FC<NativeStackScreenProps<RootStackParamList, "Notifica
   return (
     <ProfilePageLayout>
       <ProfilePageHeader title={i18n.t("Notifications")} description={null} />
-      <FlashList
-        data={data}
-        keyExtractor={item => item.transactionHash}
-        ListEmptyComponent={(
-          <Stack flex={1} alignItems="center" justifyContent="center" paddingTop="$10">
-            <SizableText color={"$colorSubtitle"}>
-              There are no notifications yet.
-            </SizableText>
-          </Stack>
-        )}
-        ListHeaderComponent={(
-          <XStack alignItems="center" marginBottom="$3">
-            {
-              tabs.map((tab, index) => {
-                const isActive = activeTab === tab.key;
-                const color = isActive ? "$primary" : "white";
+      <MeasureContainer flex={1}>
+        {
+          ({ height }) => (
+            <FlashList
+              data={data}
+              keyExtractor={item => item.transactionHash}
+              ListEmptyComponent={(
+                <Stack minHeight={height - 50}>
+                  {
+                    notifications.isFetching
+                      ? <FillSpinner/>
+                      : (
+                        <Stack flex={1} alignItems="center" justifyContent="center">
+                          <SizableText color={"$colorSubtitle"}>
+                    There are no notifications yet.
+                          </SizableText>
+                        </Stack>
+                      )
+                  }
+                </Stack>
+              )}
+              ListHeaderComponent={(
+                <XStack alignItems="center" marginBottom="$3">
+                  {
+                    tabs.map((tab, index) => {
+                      const isActive = activeTab === tab.key;
+                      const color = isActive ? "$primary" : "$color";
 
-                return (
-                  <React.Fragment key={tab.key}>
-                    <XTouch enableHaptics touchableComponent={TouchableOpacity} onPress={() => onTabChange(tab.key)} containerStyle={{ flex: 1 }}>
-                      <YStack alignItems="center" flex={1} gap={4}>
-                        <tab.icon color={color}/>
-                        <SizableText color={color} size="$3">{tab.label}</SizableText>
-                      </YStack>
-                    </XTouch>
-                    {index !== tabs.length - 1 && <Separator borderColor={"$gray5"} vertical height={"50%"}/>}
-                  </React.Fragment>
-                );
-              })
-            }
-          </XStack>
-        )}
-        renderItem={({ item }) => <NotificationItem tabType={activeTab} notification={item} />}
-        ListFooterComponent={notifications.isFetchingNextPage && <Spinner paddingVertical="$5"/>}
-        estimatedItemSize={100}
-        scrollEventThrottle={16}
-        bounces
-        contentContainerStyle={{ padding: 8 }}
-        onEndReachedThreshold={0.5}
-        onEndReached={() => {
-          if (
-            data.length === 0
+                      return (
+                        <React.Fragment key={tab.key}>
+                          <XTouch enableHaptics touchableComponent={TouchableOpacity} onPress={() => onTabChange(tab.key)} containerStyle={{ flex: 1 }}>
+                            <YStack alignItems="center" flex={1} gap={4}>
+                              <tab.icon color={color}/>
+                              <SizableText color={color} size="$3">{tab.label}</SizableText>
+                            </YStack>
+                          </XTouch>
+                          {index !== tabs.length - 1 && <Separator borderColor={"$gray5"} vertical height={"50%"}/>}
+                        </React.Fragment>
+                      );
+                    })
+                  }
+                </XStack>
+              )}
+              renderItem={({ item }) => <NotificationItem tabType={activeTab} notification={item} />}
+              ListFooterComponent={notifications.isFetchingNextPage && <Spinner paddingVertical="$5"/>}
+              estimatedItemSize={100}
+              scrollEventThrottle={16}
+              bounces
+              contentContainerStyle={{ padding: 8 }}
+              onEndReachedThreshold={0.5}
+              onEndReached={() => {
+                if (
+                  data.length === 0
             || notifications.isFetchingNextPage
             || notifications.hasNextPage === false
+                )
+                  return;
+
+                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                notifications?.fetchNextPage?.();
+              }}
+            />
           )
-            return;
-          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-          notifications?.fetchNextPage?.();
-        }}
-      />
+        }
+      </MeasureContainer>
     </ProfilePageLayout>
   );
 };

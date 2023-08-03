@@ -8,7 +8,6 @@ import { useSharedValue } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { useCharacter } from "@crossbell/indexer";
-import { useFocusEffect } from "@react-navigation/native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { Route } from "@showtime-xyz/tab-view";
 import { TabFlatList, TabScrollView, TabView } from "@showtime-xyz/tab-view";

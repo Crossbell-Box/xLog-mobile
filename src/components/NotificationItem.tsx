@@ -81,7 +81,7 @@ export function NotificationItem({ notification, tabType }: ItemProps) {
   ]);
 
   return (
-    <Card elevate size="$4" bordered marginBottom="$4" paddingHorizontal="$4" onPress={markAsReadHandler}>
+    <Card size="$4" bordered marginBottom="$4" paddingHorizontal="$4" onPress={markAsReadHandler}>
       <XStack alignItems="center" gap="$3">
         <Avatar isNavigateToUserInfo useDefault character={notification?.fromCharacter} />
         <YStack paddingVertical="$4" gap="$1.5" flex={1}>
