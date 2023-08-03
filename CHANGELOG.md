@@ -1,5 +1,11 @@
 # xlog
 
+## 0.21.1
+
+### Patch Changes
+
+- f8b5fa7: Fixed styles problem in notifications page.
+
 ## 0.21.0
 
 ### Minor Changes
