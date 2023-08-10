@@ -24,7 +24,7 @@ export const feedType: Record<Uppercase<FeedType>, FeedType> = {
 };
 
 export interface Props {
-  isExpandedAnimValue: Animated.SharedValue<0 | 1>
+  isExpandedAnimValue: Animated.SharedValue<number>
   currentFeedType: FeedType
   daysInterval: number
   onFeedTypeChange: (type: FeedType) => void
@@ -170,8 +170,7 @@ export const Header: FC<Props> = (props) => {
   }, [currentFeedType, measurements]);
 
   return (
-    <>
-      <NavigationHeader expanded={isExpandedAnimValue} />
+    <NavigationHeader expanded={isExpandedAnimValue}>
       <YStack borderBottomWidth={1} borderBottomColor={"$gray4"}>
         <XStack alignItems="center">
           {
@@ -224,6 +223,6 @@ export const Header: FC<Props> = (props) => {
         </XStack>
         <Animated.View style={[indicatorAnimStyle, { borderBottomWidth: 2, borderColor: primaryColor }]} />
       </YStack>
-    </>
+    </NavigationHeader>
   );
 };

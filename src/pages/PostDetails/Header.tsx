@@ -35,7 +35,7 @@ import { getNoteSlug } from "@/utils/get-slug";
 import { getTwitterShareUrl } from "@/utils/helpers";
 
 export interface Props {
-  isExpandedAnimValue: SharedValue<0 | 1>
+  isExpandedAnimValue: SharedValue<number>
   characterId: number
   noteId: number
   postUri: string

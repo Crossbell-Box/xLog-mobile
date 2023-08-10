@@ -1,5 +1,5 @@
 import type { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
-import { runOnUI, useAnimatedScrollHandler, useSharedValue, withSpring } from "react-native-reanimated";
+import { Easing, runOnUI, useAnimatedScrollHandler, useSharedValue, withTiming } from "react-native-reanimated";
 
 interface Options {
   scrollThreshold: number
@@ -8,7 +8,7 @@ interface Options {
 export function useScrollVisibilityHandler(options: Options) {
   const { scrollThreshold } = options;
   const prevTranslationYAnimValue = useSharedValue<number>(0);
-  const isExpandedAnimValue = useSharedValue<0 | 1>(1);
+  const isExpandedAnimValue = useSharedValue<number>(1);
 
   const updateAnimValue = (e: NativeScrollEvent) => {
     "worklet";
@@ -17,13 +17,13 @@ export function useScrollVisibilityHandler(options: Options) {
       e.contentOffset.y - prevTranslationYAnimValue.value > scrollThreshold
             && isExpandedAnimValue.value !== 0
     ) {
-      isExpandedAnimValue.value = withSpring(0);
+      isExpandedAnimValue.value = withTiming(0, { easing: Easing.inOut(Easing.ease) });
     }
     else if (
       e.contentOffset.y - prevTranslationYAnimValue.value < -scrollThreshold
             && isExpandedAnimValue.value !== 1
     ) {
-      isExpandedAnimValue.value = withSpring(1);
+      isExpandedAnimValue.value = withTiming(1, { easing: Easing.inOut(Easing.ease) });
     }
   };
 

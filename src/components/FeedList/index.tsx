@@ -1,8 +1,9 @@
 import type { FC } from "react";
 import { useEffect, useMemo } from "react";
-import { type NativeScrollEvent, type NativeSyntheticEvent } from "react-native";
+import { StyleProp, type NativeScrollEvent, type NativeSyntheticEvent } from "react-native";
 import type { useAnimatedScrollHandler } from "react-native-reanimated";
 
+import type { ContentStyle } from "@shopify/flash-list";
 import { Separator, SizableText, Spinner, Stack, useWindowDimensions } from "tamagui";
 
 import { useCharacterId } from "@/hooks/use-character-id";
@@ -33,10 +34,11 @@ export interface Props {
   tag?: string
   topic?: string
   searchType?: SearchType
+  contentContainerStyle?: ContentStyle
 }
 
 export const FeedList: FC<Props> = (props) => {
-  const { type, searchType, searchKeyword, tag, topic, noteIds, daysInterval = 7, onScroll, onScrollEndDrag } = props;
+  const { type, searchType, searchKeyword, contentContainerStyle, tag, topic, noteIds, daysInterval = 7, onScroll, onScrollEndDrag } = props;
   const characterId = useCharacterId();
   const gaLog = debounce(() => GA.logSearch({ search_term: searchKeyword }), 2000);
 
@@ -96,6 +98,7 @@ export const FeedList: FC<Props> = (props) => {
             scrollIndicatorInsets={{
               right: 2,
             }}
+            contentContainerStyle={contentContainerStyle}
             scrollEventThrottle={16}
             onScroll={onScroll}
             onScrollEndDrag={onScrollEndDrag}

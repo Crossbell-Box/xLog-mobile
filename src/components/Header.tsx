@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import type { FC, PropsWithChildren } from "react";
 import { useCallback } from "react";
 import { StyleSheet } from "react-native";
 import { useDrawerProgress } from "react-native-drawer-layout";
@@ -9,9 +9,10 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useAccountCharacter } from "@crossbell/react-account";
 import { Image } from "expo-image";
-import { H2, useWindowDimensions, XStack } from "tamagui";
+import { H2, Stack, useWindowDimensions, XStack } from "tamagui";
 
 import { LogoDark, LogoLight } from "@/constants/resource";
+import { useColors } from "@/hooks/use-colors";
 import { useDrawer } from "@/hooks/use-drawer";
 import { useThemeStore } from "@/hooks/use-theme-store";
 import { GA } from "@/utils/GA";
@@ -20,11 +21,12 @@ import { Avatar } from "./Avatar";
 import { XTouch } from "./XTouch";
 
 export interface Props {
-  expanded: SharedValue<0 | 1>
+  expanded: SharedValue<number>
 }
 
-export const NavigationHeader: FC<Props> = (props) => {
-  const { expanded } = props;
+export const NavigationHeader: FC<PropsWithChildren<Props>> = (props) => {
+  const { expanded, children } = props;
+  const { background } = useColors();
   const { top } = useSafeAreaInsets();
   const { width } = useWindowDimensions();
   const { openDrawer: _openDrawer } = useDrawer();
@@ -34,10 +36,12 @@ export const NavigationHeader: FC<Props> = (props) => {
 
   const containerAnimStyles = useAnimatedStyle(() => {
     return {
-      height: interpolate(expanded.value, [0, 1], [top, top + 35]),
-      paddingTop: top + 5,
+      height: interpolate(expanded.value, [0, 1], [40, 90], Extrapolate.CLAMP),
+      justifyContent: "flex-end",
+      overflow: "hidden",
+      width: "100%",
     };
-  }, [top, expanded]);
+  }, [top, expanded, background]);
 
   const avatarAnimStyles = useAnimatedStyle(() => {
     return {
@@ -48,7 +52,7 @@ export const NavigationHeader: FC<Props> = (props) => {
 
   const contentContainerAnimStyles = useAnimatedStyle(() => {
     return {
-      bottom: interpolate(expanded.value, [0, 1], [-42, -5], Extrapolate.CLAMP),
+      bottom: interpolate(expanded.value, [0, 1], [0, 45], Extrapolate.CLAMP),
       right: 0,
       width: interpolate(expanded.value, [0, 1], [100, width], Extrapolate.CLAMP),
       transform: [
@@ -65,21 +69,31 @@ export const NavigationHeader: FC<Props> = (props) => {
   }, []);
 
   return (
-    <Animated.View style={containerAnimStyles}>
-      {character && (
-        <XTouch enableHaptics hitSlopSize={44} touchableComponent={TouchableWithoutFeedback} containerStyle={styles.avatarContainer} onPress={openDrawer}>
-          <Animated.View style={avatarAnimStyles}>
-            <Avatar size={35} character={character} isNavigateToUserInfo={false}/>
-          </Animated.View>
-        </XTouch>
-      )}
-      <Animated.View style={[contentContainerAnimStyles, styles.contentContainer]}>
-        <XStack gap="$2" justifyContent="center" alignItems="center">
-          <Image source={isDark ? LogoLight : LogoDark} contentFit={"contain"} style={styles.logo} />
-          <H2 fontWeight={"700"} fontSize={24}>xLog</H2>
-        </XStack>
+    <Stack
+      zIndex={2}
+      width={"100%"}
+      backgroundColor={background}
+      paddingTop={top}
+      position="absolute"
+      top={0}
+    >
+      <Animated.View style={containerAnimStyles}>
+        {character && (
+          <XTouch enableHaptics hitSlopSize={44} touchableComponent={TouchableWithoutFeedback} containerStyle={styles.avatarContainer} onPress={openDrawer}>
+            <Animated.View style={avatarAnimStyles}>
+              <Avatar size={35} character={character} isNavigateToUserInfo={false}/>
+            </Animated.View>
+          </XTouch>
+        )}
+        <Animated.View style={[contentContainerAnimStyles, styles.contentContainer]}>
+          <XStack gap="$2" justifyContent="center" alignItems="center">
+            <Image source={isDark ? LogoLight : LogoDark} contentFit={"contain"} style={styles.logo} />
+            <H2 fontWeight={"700"} fontSize={24}>xLog</H2>
+          </XStack>
+        </Animated.View>
+        {children}
       </Animated.View>
-    </Animated.View>
+    </Stack>
   );
 };
 
@@ -93,6 +107,6 @@ const styles = StyleSheet.create({
   },
   avatarContainer: {
     zIndex: 2,
-    width: 35,
+    width: 45,
   },
 });

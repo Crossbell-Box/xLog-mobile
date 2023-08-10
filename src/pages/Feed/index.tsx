@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import { useState } from "react";
 import Animated from "react-native-reanimated";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import * as Haptics from "expo-haptics";
 
@@ -23,6 +24,7 @@ export const FeedPage: FC<Props> = (props) => {
     isExpandedAnimValue,
     ...scrollVisibilityHandler
   } = useScrollVisibilityHandler({ scrollThreshold: 50 });
+  const { top } = useSafeAreaInsets();
 
   return (
     <Animated.View style={{ flex: 1 }}>
@@ -39,6 +41,9 @@ export const FeedPage: FC<Props> = (props) => {
         }}
       />
       <FeedList
+        contentContainerStyle={{
+          paddingTop: 100 + top,
+        }}
         daysInterval={daysInterval}
         type={currentSortType}
         {...scrollVisibilityHandler}
