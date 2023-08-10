@@ -14,12 +14,47 @@ const posArr = Array.from({ length: posCount }).map((_, i) => [i * posGap, 0]);
 const height = width / 1.58;
 const lineWidth = 20;
 
+export const PolarLightPalettes = [
+  {
+    g1: "#0F6852",
+    g2: "#397380",
+    g3: "#193355",
+  },
+  {
+    g1: "#9f75b3",
+    g2: "#b2c6e9",
+    g3: "#6bbbdf",
+  },
+  {
+    g1: "#8049fc",
+    g2: "#6babd2",
+    g3: "#9bf571",
+  },
+  {
+    g1: "#23a111",
+    g2: "#bdee38",
+    g3: "#010401",
+  },
+  {
+    g1: "#009afb",
+    g2: "#f9e2d3",
+    g3: "#fc6b0f",
+  },
+  {
+    g1: "#bf4240",
+    g2: "#f9e2d3",
+    g3: "#ff6e47",
+  },
+];
+
 const AnimatedLine: FC<{
   index: number
   x: number
   y: number
   animVal: SharedValue<number>
-}> = ({ index, x, y, animVal }) => {
+  reverse?: boolean
+  palette: (typeof PolarLightPalettes)[number]
+}> = ({ index, x, y, animVal, reverse, palette }) => {
   const animatedGap = 50 / posCount;
   const startInput = animatedGap * index;
   const endInput = animatedGap * (index + 1);
@@ -54,20 +89,42 @@ const AnimatedLine: FC<{
     );
   }, [x, animVal, index]);
 
+  const lineGradient = {
+    positions: [0, 0.5, 0.65, 0.7, 0.9, 1],
+    colors: ["#000", palette.g1, palette.g1, palette.g2, palette.g3, palette.g3],
+  };
+
   return (
     <Rect
-      x={animatedX}
-      y={y - (width / 2)}
-      width={animatedWidth}
-      height={width * 2}
+      {
+        ...reversePosProps(
+          animatedX.value,
+          y - (width / 2),
+          animatedWidth.value,
+          width * 2,
+          reverse,
+        )
+      }
       opacity={animatedOpacity}
-      transform={[{ rotate: Math.PI / 12 + 1.2 * index / 40 }]}
+      transform={[{
+        rotate: reverse
+          ? -Math.PI / 12 - 1.2 * index / 40
+          : Math.PI / 12 + 1.2 * index / 40,
+      }]}
     >
       <LinearGradient
-        start={vec(0, width)}
-        end={vec(width, 0)}
-        positions={[0, 0.5, 0.65, 0.7, 0.9, 1]}
-        colors={["#000", "rgba(15,104,82,1)", "rgba(15,104,82,1)", "#39738046", "#193355", "#193355"]}
+        start={
+          reverse
+            ? vec(0, 0)
+            : vec(0, width)
+        }
+        end={
+          reverse
+            ? vec(width, width)
+            : vec(width, 0)
+        }
+        positions={lineGradient.positions}
+        colors={lineGradient.colors}
       />
     </Rect>
   );
@@ -90,7 +147,10 @@ const AnimatedMask: FC<{
   );
 };
 
-export const PolarLightsBg: FC<{}> = () => {
+export const PolarLight: FC<{
+  reverse?: boolean
+  palette?: (typeof PolarLightPalettes)[number]
+}> = ({ reverse, palette = PolarLightPalettes[0] }) => {
   const animVal = useSharedValue(0);
   const navigation = useNavigation();
 
@@ -104,6 +164,8 @@ export const PolarLightsBg: FC<{}> = () => {
   }, []);
 
   useEffect(() => {
+    let timer;
+
     // @ts-expect-error
     const onGestureStartDisposer = navigation.addListener("gestureStart", () => {
       cancelAnimation(animVal);
@@ -114,30 +176,57 @@ export const PolarLightsBg: FC<{}> = () => {
       startAnim();
     });
 
-    startAnim();
+    const onStateDisposer = navigation.addListener("focus", (e) => {
+      timer = setTimeout(() => {
+        startAnim();
+      }, 1000);
+    });
 
     return () => {
       onGestureStartDisposer();
       onGestureEndDisposer();
+      onStateDisposer();
+      timer && clearTimeout(timer);
       cancelAnimation(animVal);
     };
   }, []);
+
+  const bgGradient = {
+    colors: [palette.g3, palette.g3, palette.g2, palette.g1],
+    positions: [0, 0.4, 0.5, 0.9, 1],
+  };
+
+  const vertices = {
+    colors: ["#000000b2", "#000", "#000000b2"],
+    vertices: [vec(width * 1.1, height * 0.15), vec(width * 1.1, height * 1.1), vec(-width * 0.1, height * 1.1)],
+    verticesReversed: [vec(width * -0.1, height * 0.15), vec(width * -0.1, height * 1.1), vec(width * 1.1, height * 1.1)],
+  };
 
   return (
     <Canvas style={{ width, height }}>
       <Group>
         <Rect x={0} y={0} width={width} height={width}>
           <LinearGradient
-            start={vec(width, 0)}
-            end={vec(0, width)}
-            positions={[0, 0.4, 0.5, 0.9, 1]}
-            colors={["#193355", "#193355", "#397380", "#0F6852"]}
+            start={
+              reverse
+                ? vec(0, 0)
+                : vec(width, 0)
+            }
+            end={
+              reverse
+                ? vec(width, width)
+                : vec(0, width)
+            }
+            positions={bgGradient.positions}
+            colors={bgGradient.colors}
           />
         </Rect>
         {
           posArr.map(([x, y], i) => (
             <AnimatedLine
               key={i}
+              palette={palette}
+              reverse={reverse}
               x={x}
               index={i}
               animVal={animVal}
@@ -147,20 +236,28 @@ export const PolarLightsBg: FC<{}> = () => {
         }
 
         <Vertices
-          vertices={[vec(width * 1.1, height * 0.15), vec(width * 1.1, height * 1.1), vec(-width * 0.1, height * 1.1)]}
-          colors={["#000000b2", "#000", "#000000b2"]}
+          vertices={
+            reverse
+              ? vertices.verticesReversed
+              : vertices.vertices
+          }
+          colors={
+            reverse
+              ? vertices.colors.reverse()
+              : vertices.colors
+          }
         >
           <Shadow dx={-20} dy={-20} blur={30} color="#000" />
           <Blur blur={10} />
         </Vertices>
 
         <Rect
-          x={0}
+          x={reverse ? width : 0}
           y={height * 0.6}
           width={width * 0.25}
           height={height * 0.4}
           transform={[{ rotate: Math.PI / 12 }]}
-          color={"rgba(15,104,82,1)"}
+          color={palette.g1}
         >
           <Shadow dx={-10} dy={-10} blur={20} color="#0000007d" />
           <Blur blur={20} />
@@ -170,7 +267,17 @@ export const PolarLightsBg: FC<{}> = () => {
 
       </Group>
 
-      <Rect x={0} y={0} width={width} height={width}>
+      <Rect
+        {
+          ...reversePosProps(
+            0,
+            0,
+            width,
+            height,
+            reverse,
+          )
+        }
+      >
         <Turbulence
           freqX={2.3}
           freqY={2.3}
@@ -179,14 +286,42 @@ export const PolarLightsBg: FC<{}> = () => {
       </Rect>
 
       <Rect
-        x={-20}
-        y={height - 20}
-        width={width}
-        height={20}
+        {
+          ...reversePosProps(
+            -20,
+            height - 20,
+            width,
+            20,
+            reverse,
+          )
+        }
         color={"black"}
       >
         <Blur blur={20} />
       </Rect>
     </Canvas>
   );
+};
+
+const reversePosProps = (
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  reverse: boolean,
+) => {
+  if (reverse) {
+    return {
+      x: x + width,
+      y: y + height,
+      width: -width,
+      height: -height,
+    };
+  }
+  return {
+    x,
+    y,
+    width,
+    height,
+  };
 };
