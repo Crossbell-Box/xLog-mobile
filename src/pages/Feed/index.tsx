@@ -48,7 +48,7 @@ export const FeedPage: FC<Props> = (props) => {
         type={currentSortType}
         {...scrollVisibilityHandler}
       />
-      <AnimatedConnectionButton visibleAnimValue={isExpandedAnimValue} />
+      {/* <AnimatedConnectionButton visibleAnimValue={isExpandedAnimValue} /> */}
     </Animated.View>
   );
 };
