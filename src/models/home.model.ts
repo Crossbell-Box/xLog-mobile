@@ -1,4 +1,5 @@
 import { gql } from "@apollo/client";
+import { cloneDeep } from "@apollo/client/utilities";
 import { indexer } from "@crossbell/indexer";
 import type { CharacterEntity, NoteEntity } from "crossbell";
 import dayjs from "dayjs";
@@ -125,8 +126,7 @@ export async function getFeed({
             filter: filter.latest,
             limit,
           },
-        },
-        );
+        });
 
       const list = await Promise.all(
         result?.data?.notes.map((page: NoteEntity) =>

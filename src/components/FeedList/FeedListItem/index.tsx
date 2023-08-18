@@ -1,37 +1,39 @@
 import type { FC } from "react";
-import React, { useMemo } from "react";
-import { useTranslation } from "react-i18next";
+import React, { useEffect, useMemo } from "react";
 import type { ViewStyle } from "react-native";
-import { Dimensions, StyleSheet } from "react-native";
-import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
-import Highlighter from "react-native-highlight-words";
+import { Image as RNImage } from "react-native";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import Animated, { FadeIn, FadeInDown, useAnimatedStyle, useSharedValue } from "react-native-reanimated";
 
+import { BlurView } from "expo-blur";
 import { Image } from "expo-image";
-import { Card, Paragraph, SizableText, Spacer, Text, XStack } from "tamagui";
+import { SizableText, Stack, XStack } from "tamagui";
 
 import { Avatar } from "@/components/Avatar";
-import { ImageGallery } from "@/components/ImageGallery";
-import { useColors } from "@/hooks/use-colors";
-import { useDate } from "@/hooks/use-date";
+import { Center } from "@/components/Base/Center";
 import { useRootNavigation } from "@/hooks/use-navigation";
 import type { ExpandedNote } from "@/types/crossbell";
-import { findCoverImage } from "@/utils/find-cover-image";
+import { toGateway } from "@/utils/ipfs-parser";
 
 export interface Props {
   note: ExpandedNote
   style?: ViewStyle
   searchKeyword?: string
+  width: number
 }
 
-const { width } = Dimensions.get("window");
+const bgs = [
+  require("../../../assets/home-grid-bg/0-reversed.png"),
+  require("../../../assets/home-grid-bg/1-reversed.png"),
+  require("../../../assets/home-grid-bg/2-reversed.png"),
+  require("../../../assets/home-grid-bg/3-reversed.png"),
+  require("../../../assets/home-grid-bg/4-reversed.png"),
+  require("../../../assets/home-grid-bg/5-reversed.png"),
+];
 
 export const FeedListItem: FC<Props> = (props) => {
-  const { note, searchKeyword } = props;
-  const { primary } = useColors();
-  const date = useDate();
+  const { note, width } = props;
   const navigation = useRootNavigation();
-  const i18n = useTranslation();
-  const [displayImageUris, setDisplayImageUris] = React.useState<string[]>([]);
   const onPress = React.useCallback(() => {
     navigation.navigate(
       "PostDetails",
@@ -42,162 +44,83 @@ export const FeedListItem: FC<Props> = (props) => {
     );
   }, [note]);
 
-  const coverImage = useMemo(() => {
-    const imageUrls = findCoverImage(note?.metadata?.content?.content);
+  const coverImage = useMemo(() => toGateway(note.metadata?.content?.images?.[0]), [note?.metadata?.content?.images]);
+  const [coverWidth, setCoverWidth] = React.useState<number>(0);
+  const [sourceLayout, setSourceLayout] = React.useState<{
+    width: number
+    height: number
+  } | undefined>(undefined);
 
+  const coverImageAnimStyles = useMemo(() => {
     return {
-      uri: imageUrls.length > 1 ? imageUrls : imageUrls[0],
-      isSingle: imageUrls.length === 1,
-      isMultiple: imageUrls.length > 1,
-    } as {
-      uri: string
-      isSingle: true
-      isMultiple: false
-    } | {
-      uri: string[]
-      isSingle: false
-      isMultiple: true
+      width,
+      height: sourceLayout ? (coverWidth * sourceLayout.height) / sourceLayout.width : 120,
     };
-  }, [note?.metadata?.content?.content]);
-
-  const closeModal = React.useCallback(() => {
-    setDisplayImageUris([]);
-  }, []);
+  }, [width, sourceLayout, coverWidth]);
 
   return (
-    <>
-      <TouchableOpacity style={props.style} activeOpacity={0.65} onPress={onPress}>
-        <Card size="$4">
-          <Card.Header padded gap="$1">
-            <XStack alignItems="center" gap={"$3"} marginBottom={"$1"}>
-              <Avatar character={note?.character} useDefault/>
-              <XStack alignItems="center">
-                <SizableText size="$5" fontWeight={"700"}>{note?.character?.metadata?.content?.name || note?.character?.handle}</SizableText>
-              </XStack>
-            </XStack>
-
-            {
-              note?.metadata?.content?.title && <SizableText size={"$6"} fontWeight={"700"} color="$color" marginBottom={"$1"} numberOfLines={1}>{String(note?.metadata?.content?.title)}</SizableText>
-            }
-
-            <XStack justifyContent={coverImage.isSingle ? "space-between" : "flex-start"} gap="$2">
-              {
-                note?.metadata?.content?.summary && (
-                  <Paragraph
-                    width={coverImage.isSingle ? "65%" : "100%"}
-                    numberOfLines={coverImage.isSingle ? 5 : 3}
-                    lineHeight={"$2"}
-                    size={"$4"}
-                  >
-                    {
-                      searchKeyword
-                        ? (
-                          <Highlighter
-                            highlightStyle={{ backgroundColor: primary }}
-                            searchWords={[searchKeyword]}
-                            textToHighlight={note?.metadata?.content?.summary}
-                          />
-                        )
-                        : note?.metadata?.content?.summary}
-                  </Paragraph>
-                )
-              }
-              {
-                coverImage.isSingle && (
-                  <TouchableOpacity onPress={() => {
-                    setDisplayImageUris([coverImage.uri]);
-                  }}>
-                    <Card bordered borderRadius={8} width={105} height={105}>
-                      <Image source={coverImage.uri} style={styles.singleImageWrapper} />
-                    </Card>
-                  </TouchableOpacity>
-                )
-              }
-            </XStack>
-            {
-              coverImage.isMultiple && (
-                <>
-                  <Spacer size={"$3"} />
-                  <ScrollView
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    showsVerticalScrollIndicator={false}
-                  >
-                    {
-                      coverImage.uri.slice(0, 6).map((uri, index) => {
-                        const priority = index <= 3 ? "high" : "low";
-
-                        return (
-                          <TouchableOpacity key={index} onPress={() => {
-                            setDisplayImageUris([
-                              ...coverImage.uri.slice(index),
-                              ...coverImage.uri.slice(0, index),
-                            ]);
-                          }}>
-                            <Card bordered marginRight={"$3"} borderRadius={8} width={120} height={120}>
-                              <Image priority={priority} source={uri} contentFit="cover" style={styles.multipleImageWrapper} />
-                            </Card>
-                          </TouchableOpacity>
-                        );
-                      })
-                    }
-                  </ScrollView>
-                </>
-              )
-            }
-            <XStack marginTop={"$3"} justifyContent="space-between">
-              <Text numberOfLines={1} maxWidth={"70%"}>
-                {
-                  !!note?.metadata?.content?.tags?.filter(tag => tag !== "post" && tag !== "page").length && (
-                    <SizableText size={"$2"} numberOfLines={1} color="$colorSubtitle">
-                      {note?.metadata?.content?.tags
-                        ?.filter(tag => tag !== "post" && tag !== "page")
-                        .map((tag, index) => (
-                          <Text key={tag + index} fontSize={12} color="$colorSubtitle">
-                            #{tag} &nbsp;
-                          </Text>
-                        ))}
-                    </SizableText>
-                  )
-                }
-              </Text>
-              <SizableText size={"$3"} numberOfLines={1} color="$colorSubtitle">
-                {i18n.t("ago", {
-                  time: date.dayjs
-                    .duration(
-                      date.dayjs(note?.createdAt).diff(date.dayjs(), "minute"),
-                      "minute",
-                    )
-                    .humanize(),
-                })}
+    <Animated.View
+      style={[props.style, { paddingHorizontal: 4, marginBottom: 8 }]}
+      entering={FadeIn.duration(500)}
+    >
+      <TouchableWithoutFeedback onPress={onPress}>
+        {
+          coverImage
+            ? (
+              <Stack width={coverImageAnimStyles.width} height={Math.min(coverImageAnimStyles.height, 200)} overflow="hidden">
+                <Image
+                  onLoad={(e) => {
+                    const { width, height } = e.source;
+                    setSourceLayout({ width, height });
+                  }}
+                  source={coverImage}
+                  contentFit="contain"
+                  cachePolicy="disk"
+                  style={coverImageAnimStyles}
+                  onLayout={({ nativeEvent }) => {
+                    setCoverWidth(nativeEvent.layout.width);
+                  }}
+                />
+              </Stack>
+            )
+            : (
+              <Center height={100} width={"100%"} backgroundColor={"black"}>
+                <Image source={bgs[Math.floor(Math.random() * bgs.length)]} style={{ height: 100, width: "100%", position: "absolute" }}/>
+                <SizableText
+                  size={"$5"}
+                  fontWeight={"700"}
+                  color="$color"
+                  marginBottom={"$2"}
+                  marginHorizontal={"$2"}
+                  numberOfLines={2}
+                >
+                  {String(note?.metadata?.content?.title)}
+                </SizableText>
+              </Center>
+            )
+        }
+        <Stack backgroundColor={"#1A1920"} borderBottomLeftRadius={10} borderBottomRightRadius={10} paddingHorizontal={4} paddingVertical={8}>
+          {
+            note?.metadata?.content?.title && (
+              <SizableText
+                size={"$5"}
+                fontWeight={"700"}
+                color="$color"
+                marginBottom={"$2"}
+                numberOfLines={2}
+              >
+                {String(note?.metadata?.content?.title)}
               </SizableText>
+            )
+          }
+          <XStack alignItems="center" gap={"$2"} marginBottom={"$1"}>
+            <Avatar character={note?.character} useDefault size={20}/>
+            <XStack alignItems="center">
+              <SizableText size="$3" color={"#8F8F91"}>{note?.character?.metadata?.content?.name || note?.character?.handle}</SizableText>
             </XStack>
-          </Card.Header>
-        </Card>
-        <ImageGallery
-          isVisible={displayImageUris.length > 0}
-          uris={displayImageUris}
-          onClose={closeModal}
-        />
-      </TouchableOpacity>
-    </>
+          </XStack>
+        </Stack>
+      </TouchableWithoutFeedback>
+    </Animated.View>
   );
 };
-
-const styles = StyleSheet.create({
-  singleImageWrapper: {
-    flex: 1,
-  },
-  multipleImageWrapper: {
-    flex: 1,
-  },
-  modalImage: {
-    width,
-    height: width,
-  },
-  modal: {
-    margin: 0,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});

@@ -7,7 +7,9 @@ export interface ToGatewayConfig {
   forceFallback?: boolean
 }
 
-export const toGateway = (url: string) => {
+export const toGateway = (url?: string) => {
+  if (!url) return url;
+
   const ipfsUrl = toIPFS(url);
 
   return ipfsUrl?.replaceAll(IPFS_PREFIX, IPFS_GATEWAY);

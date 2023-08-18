@@ -1,60 +1,66 @@
 import { useEffect, type FC, useCallback } from "react";
-import { Dimensions } from "react-native";
+import type { StyleProp, ViewStyle } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import type { SharedValue } from "react-native-reanimated";
 import { Easing, Extrapolate, cancelAnimation, interpolate, useDerivedValue, useSharedValue, withRepeat, withTiming } from "react-native-reanimated";
 
 import { useNavigation } from "@react-navigation/native";
 import { Blur, Canvas, Group, LinearGradient, Rect, Shadow, Turbulence, Vertices, vec } from "@shopify/react-native-skia";
 
+import { useAnimatedGradientColor } from "@/hooks/use-animated-gradient-color";
+import { useAnimatedGradientColors } from "@/hooks/use-animated-gradient-colors";
+
 const { width } = Dimensions.get("window");
 
+export const polarLightWidth = width;
+export const polarLightHeight = polarLightWidth / 1.58;
+
 const posCount = 12;
-const posGap = width / (posCount - 2);
+const posGap = polarLightWidth / (posCount - 2);
 const posArr = Array.from({ length: posCount }).map((_, i) => [i * posGap, 0]);
-const height = width / 1.58;
 const lineWidth = 20;
 
-export const PolarLightPalettes = [
-  {
+export const PolarLightPalettes = {
+  "green-dark": {
     g1: "#0F6852",
     g2: "#397380",
     g3: "#193355",
   },
-  {
+  "purple-light": {
     g1: "#9f75b3",
     g2: "#b2c6e9",
     g3: "#6bbbdf",
   },
-  {
-    g1: "#8049fc",
-    g2: "#6babd2",
-    g3: "#9bf571",
-  },
-  {
-    g1: "#23a111",
-    g2: "#bdee38",
-    g3: "#010401",
-  },
-  {
-    g1: "#009afb",
-    g2: "#f9e2d3",
-    g3: "#fc6b0f",
-  },
-  {
+  "red": {
     g1: "#bf4240",
     g2: "#f9e2d3",
     g3: "#ff6e47",
   },
-];
+  "purple-dark": {
+    g1: "#8049fc",
+    g2: "#6babd2",
+    g3: "#9bf571",
+  },
+  "green-light": {
+    g1: "#23a111",
+    g2: "#bdee38",
+    g3: "#010401",
+  },
+  "blue-light": {
+    g1: "#009afb",
+    g2: "#f9e2d3",
+    g3: "#fc6b0f",
+  },
+};
 
 const AnimatedLine: FC<{
   index: number
   x: number
   y: number
-  animVal: SharedValue<number>
   reverse?: boolean
-  palette: (typeof PolarLightPalettes)[number]
-}> = ({ index, x, y, animVal, reverse, palette }) => {
+  animVal: SharedValue<number>
+  linesGradientColors: ReturnType<typeof useAnimatedGradientColors>
+}> = ({ index, x, y, animVal, reverse, linesGradientColors }) => {
   const animatedGap = 50 / posCount;
   const startInput = animatedGap * index;
   const endInput = animatedGap * (index + 1);
@@ -81,6 +87,7 @@ const AnimatedLine: FC<{
 
   const animatedWidth = useDerivedValue(() => {
     const width = lineWidth + (posCount - index) - index * 1;
+
     return interpolate(
       animVal.value,
       [-endInput, -startInput, -startInput, -endInput],
@@ -89,19 +96,14 @@ const AnimatedLine: FC<{
     );
   }, [x, animVal, index]);
 
-  const lineGradient = {
-    positions: [0, 0.5, 0.65, 0.7, 0.9, 1],
-    colors: ["#000", palette.g1, palette.g1, palette.g2, palette.g3, palette.g3],
-  };
-
   return (
     <Rect
       {
         ...reversePosProps(
           animatedX.value,
-          y - (width / 2),
+          y - (polarLightWidth / 2),
           animatedWidth.value,
-          width * 2,
+          polarLightWidth * 2,
           reverse,
         )
       }
@@ -116,15 +118,15 @@ const AnimatedLine: FC<{
         start={
           reverse
             ? vec(0, 0)
-            : vec(0, width)
+            : vec(0, polarLightWidth)
         }
         end={
           reverse
-            ? vec(width, width)
-            : vec(width, 0)
+            ? vec(polarLightWidth, polarLightWidth)
+            : vec(polarLightWidth, 0)
         }
-        positions={lineGradient.positions}
-        colors={lineGradient.colors}
+        positions={[0, 0.5, 0.65, 0.7, 0.9, 1]}
+        colors={linesGradientColors.colors}
       />
     </Rect>
   );
@@ -149,21 +151,30 @@ const AnimatedMask: FC<{
 
 export const PolarLight: FC<{
   reverse?: boolean
-  palette?: (typeof PolarLightPalettes)[number]
-}> = ({ reverse, palette = PolarLightPalettes[0] }) => {
+  palettes?: (typeof PolarLightPalettes)[keyof typeof PolarLightPalettes][]
+  indexAnimVal?: SharedValue<number>
+  style?: StyleProp<ViewStyle>
+  enableAnimation?: boolean
+}> = ({ style, reverse, indexAnimVal, enableAnimation = false, palettes = [PolarLightPalettes["green-dark"]] }) => {
   const animVal = useSharedValue(0);
   const navigation = useNavigation();
 
-  const startAnim = useCallback(() => {
+  const startAnim = () => {
     animVal.value = withRepeat(
       withTiming(
         animVal.value > -50 ? -100 : 0,
-        { duration: 10 * 1000, easing: Easing.linear },
-      ), 0, true,
+        { duration: 3 * 1000, easing: Easing.linear },
+      ),
+      0,
+      true,
     );
-  }, []);
+  };
 
   useEffect(() => {
+    if (!enableAnimation) {
+      return;
+    }
+
     let timer;
 
     // @ts-expect-error
@@ -189,48 +200,64 @@ export const PolarLight: FC<{
       timer && clearTimeout(timer);
       cancelAnimation(animVal);
     };
-  }, []);
-
-  const bgGradient = {
-    colors: [palette.g3, palette.g3, palette.g2, palette.g1],
-    positions: [0, 0.4, 0.5, 0.9, 1],
-  };
+  }, [enableAnimation]);
 
   const vertices = {
     colors: ["#000000b2", "#000", "#000000b2"],
-    vertices: [vec(width * 1.1, height * 0.15), vec(width * 1.1, height * 1.1), vec(-width * 0.1, height * 1.1)],
-    verticesReversed: [vec(width * -0.1, height * 0.15), vec(width * -0.1, height * 1.1), vec(width * 1.1, height * 1.1)],
+    vertices: [vec(polarLightWidth * 1.1, polarLightHeight * 0.15), vec(polarLightWidth * 1.1, polarLightHeight * 1.1), vec(-polarLightWidth * 0.1, polarLightHeight * 1.1)],
+    verticesReversed: [vec(polarLightWidth * -0.1, polarLightHeight * 0.15), vec(polarLightWidth * -0.1, polarLightHeight * 1.1), vec(polarLightWidth * 1.1, polarLightHeight * 1.1)],
   };
 
+  const bgGradientColors = useAnimatedGradientColors(
+    palettes.map(palette => [palette.g3, palette.g3, palette.g2, palette.g1]),
+    {
+      progressAnimVal: indexAnimVal,
+    },
+  );
+
+  const dotsGradientColor = useAnimatedGradientColor(
+    palettes.map(palette => palette.g1),
+    {
+      progressAnimVal: indexAnimVal,
+    },
+  );
+
+  const linesGradientColors = useAnimatedGradientColors(
+    palettes.map(palette => ["#000", palette.g1, palette.g1, palette.g2, palette.g3, palette.g3]),
+    {
+      progressAnimVal: indexAnimVal,
+    },
+  );
+
   return (
-    <Canvas style={{ width, height }}>
+    <Canvas style={[styles.canvasContainer, style]}>
       <Group>
-        <Rect x={0} y={0} width={width} height={width}>
+        <Rect x={0} y={0} width={polarLightWidth} height={polarLightWidth}>
           <LinearGradient
             start={
               reverse
                 ? vec(0, 0)
-                : vec(width, 0)
+                : vec(polarLightWidth, 0)
             }
             end={
               reverse
-                ? vec(width, width)
-                : vec(0, width)
+                ? vec(polarLightWidth, polarLightWidth)
+                : vec(0, polarLightWidth)
             }
-            positions={bgGradient.positions}
-            colors={bgGradient.colors}
+            positions={[0, 0.4, 0.5, 0.9, 1]}
+            colors={bgGradientColors.colors}
           />
         </Rect>
         {
           posArr.map(([x, y], i) => (
             <AnimatedLine
               key={i}
-              palette={palette}
+              linesGradientColors={linesGradientColors}
               reverse={reverse}
               x={x}
               index={i}
               animVal={animVal}
-              y={y - (width / 2)}
+              y={y - (polarLightWidth / 2)}
             />
           ))
         }
@@ -252,12 +279,12 @@ export const PolarLight: FC<{
         </Vertices>
 
         <Rect
-          x={reverse ? width : 0}
-          y={height * 0.6}
-          width={width * 0.25}
-          height={height * 0.4}
+          x={reverse ? polarLightWidth : 0}
+          y={polarLightHeight * 0.6}
+          width={polarLightWidth * 0.25}
+          height={polarLightHeight * 0.4}
           transform={[{ rotate: Math.PI / 12 }]}
-          color={palette.g1}
+          color={dotsGradientColor.color}
         >
           <Shadow dx={-10} dy={-10} blur={20} color="#0000007d" />
           <Blur blur={20} />
@@ -272,8 +299,8 @@ export const PolarLight: FC<{
           ...reversePosProps(
             0,
             0,
-            width,
-            height,
+            polarLightWidth,
+            polarLightHeight,
             reverse,
           )
         }
@@ -289,8 +316,8 @@ export const PolarLight: FC<{
         {
           ...reversePosProps(
             -20,
-            height - 20,
-            width,
+            polarLightHeight - 20,
+            polarLightWidth,
             20,
             reverse,
           )
@@ -325,3 +352,10 @@ const reversePosProps = (
     height,
   };
 };
+
+const styles = StyleSheet.create({
+  canvasContainer: {
+    width: polarLightWidth,
+    height: polarLightHeight,
+  },
+});

@@ -1,27 +1,20 @@
 import type { FC } from "react";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import Animated, { FadeInLeft, FadeOutLeft, interpolate, useAnimatedStyle, useDerivedValue, withTiming } from "react-native-reanimated";
+import type Animated from "react-native-reanimated";
+import { useSharedValue, withTiming } from "react-native-reanimated";
 
 import { useConnectedAccount } from "@crossbell/react-account";
-import { ChevronDown } from "@tamagui/lucide-icons";
-import { Button, isWeb, Stack, Text, XStack, YStack } from "tamagui";
+import { runTiming } from "@shopify/react-native-skia";
+import { Button, Stack, XStack, YStack } from "tamagui";
 
 import { NavigationHeader } from "@/components/Header";
-import { isAndroid } from "@/constants/platform";
+import { PolarLight, PolarLightPalettes } from "@/components/PolarLight";
 import { useColors } from "@/hooks/use-colors";
-import type { FeedType as AllFeedType } from "@/models/home.model";
 import { GA } from "@/utils/GA";
 
-import { HotInterval } from "./HotInterval";
-
-export type FeedType = Extract<AllFeedType, "latest" | "hottest" | "following">;
-
-export const feedType: Record<Uppercase<FeedType>, FeedType> = {
-  LATEST: "latest",
-  HOTTEST: "hottest",
-  FOLLOWING: "following",
-};
+import { feedTypes, type FeedType } from "./feedTypes";
+import { AnimatedTab } from "./Tabs";
 
 export interface Props {
   isExpandedAnimValue: Animated.SharedValue<number>
@@ -34,6 +27,8 @@ export interface Props {
 
 type Measurements = Array<Partial<{ x: number; width: number }>>;
 
+export const HeaderTabHeight = 60;
+
 export const Header: FC<Props> = (props) => {
   const { daysInterval, isSearching, onDaysIntervalChange } = props;
   const { primary: primaryColor, subtitle: inactiveColor } = useColors();
@@ -41,188 +36,81 @@ export const Header: FC<Props> = (props) => {
   const { isExpandedAnimValue, currentFeedType, onFeedTypeChange } = props;
   const [_measurements, setMeasurements] = useState<Measurements>([]);
   const connectedAccount = useConnectedAccount();
-  const indicatorAnimValuePos = useDerivedValue(() => withTiming(Object.values(feedType).indexOf(currentFeedType)), [currentFeedType]);
   const [isHotIntervalBottomSheetOpen, setIsHotIntervalBottomSheetOpen] = useState(false);
-
-  const tabs: Array<{
-    type: FeedType
-    title: string | ((props: { tintColor: string; fontWeight: string }) => React.ReactNode)
-    onPress?: () => void
-  }> = useMemo(() => {
-    const tabs = [
-      {
-        type: feedType.LATEST,
-        title: ({ tintColor, fontWeight }) => (
-          <Text
-            color={tintColor}
-            fontWeight={fontWeight}
-            fontSize={"$5"}
-          >
-            {i18n.t("Latest")}
-          </Text>
-        ),
-      },
-      {
-        type: feedType.HOTTEST,
-        title: ({ tintColor, fontWeight }) => (
-          <XStack alignItems="center" gap="$1">
-            <Stack height={18}>
-              <Text
-                color={tintColor}
-                fontWeight={fontWeight}
-                fontSize={"$5"}
-              >
-                {i18n.t("Hottest")}
-              </Text>
-            </Stack>
-            {currentFeedType === feedType.HOTTEST && (
-              <Animated.View entering={FadeInLeft.duration(200)} exiting={FadeOutLeft.duration(200)}>
-                <Stack paddingTop={isAndroid ? "$1" : undefined}>
-                  <ChevronDown
-                    color={tintColor}
-                    fontWeight={fontWeight}
-                    width={12}
-                    height={12}
-                  />
-                </Stack>
-              </Animated.View>
-            )}
-            <HotInterval
-              open={isHotIntervalBottomSheetOpen}
-              value={daysInterval.toString()}
-              onOpenChange={setIsHotIntervalBottomSheetOpen}
-              onValueChange={(value) => {
-                setIsHotIntervalBottomSheetOpen(false);
-                onDaysIntervalChange(Number(value));
-              }}
-            />
-          </XStack>
-        ),
-        onPress: () => {
-          const isHotActive = currentFeedType === feedType.HOTTEST;
-          isHotActive
-            ? setIsHotIntervalBottomSheetOpen(true)
-            : onFeedTypeChange(feedType.HOTTEST);
-        },
-      },
-    ];
-
-    if (connectedAccount && !isSearching) {
-      tabs.push({
-        type: feedType.FOLLOWING,
-        title: ({ tintColor, fontWeight }) => (
-          <Text
-            color={tintColor}
-            fontWeight={fontWeight}
-            fontSize={"$5"}
-          >
-            {i18n.t("Following")}
-          </Text>
-        ),
-      });
-    }
-
-    return tabs;
-  }, [
-    connectedAccount,
-    currentFeedType,
-    i18n,
-    isHotIntervalBottomSheetOpen,
-    daysInterval,
-    isSearching,
-    onFeedTypeChange,
-    onDaysIntervalChange,
-  ]);
-
-  const measurements = useMemo<Measurements | undefined>(() => {
-    if (_measurements.filter(m => !!m).length === tabs.length)
-      return _measurements;
-
-    return undefined;
-  }, [_measurements, tabs]);
-
-  const indicatorAnimStyle = useAnimatedStyle(() => {
-    if ((_WORKLET || isWeb) && measurements) {
-      const width = interpolate(
-        indicatorAnimValuePos.value,
-        [0, 1, 2],
-        measurements.map(m => (m?.width ?? 0) / 2),
-      );
-
-      return {
-        width,
-        opacity: 1,
-        left: interpolate(
-          indicatorAnimValuePos.value,
-          [0, 1, 2],
-          measurements.map(m => m?.x ?? 0),
-        ),
-        transform: [
-          {
-            translateX: width / 2,
-          },
-        ],
-      };
-    }
-    return {
-      opacity: 0,
-    };
-  }, [currentFeedType, measurements]);
+  const tabsAnimVal = Array.from({ length: 3 }).map((_, i) => useSharedValue<number>(i === 0 ? 1 : 0));
+  const animVal = useSharedValue<number>(0);
 
   return (
-    <NavigationHeader expanded={isExpandedAnimValue}>
-      <YStack borderBottomWidth={1} borderBottomColor={"$gray4"}>
-        <XStack alignItems="center">
+    <Stack>
+      <PolarLight
+        reverse
+        indexAnimVal={animVal}
+        palettes={[
+          PolarLightPalettes["green-dark"],
+          PolarLightPalettes["purple-light"],
+          PolarLightPalettes.red,
+        ]}
+        style={{
+          position: "absolute",
+        }}
+      />
+      <NavigationHeader expanded={isExpandedAnimValue}>
+        <XStack marginHorizontal="$3" gap="$4" height={HeaderTabHeight}>
           {
-            tabs.map(({ type, title, onPress }, index) => {
-              const isActive = type === currentFeedType;
-              const tintColor = isActive ? primaryColor : inactiveColor;
-              const fontWeight = isActive ? "bold" : "normal";
-              const content = typeof title === "string"
-                ? (
-                  <Text
-                    color={tintColor}
-                    fontWeight={"$16"}
-                  >
-                    {title}
-                  </Text>
-                )
-                : title({ tintColor, fontWeight });
+            Object.values(feedTypes).map((type, index) => {
+              if (type === feedTypes.FOLLOWING && (!connectedAccount || isSearching)) {
+                return null;
+              }
+
+              const content = {
+                [feedTypes.LATEST]: <AnimatedTab
+                  animVal={tabsAnimVal[index]}
+                  label={i18n.t("Latest")}
+                  index={index}
+                />,
+                [feedTypes.HOTTEST]: (
+                  <AnimatedTab
+                    animVal={tabsAnimVal[index]}
+                    label={i18n.t("Hottest")}
+                    index={index}
+                  />
+                ),
+                [feedTypes.FOLLOWING]: <AnimatedTab
+                  animVal={tabsAnimVal[index]}
+                  label={i18n.t("Following")}
+                  index={index}
+                />,
+              }[type];
 
               return (
-                <Stack
+                <Button
                   key={type}
-                  onLayout={({ nativeEvent: { layout: { width, x } } }) => {
-                    setMeasurements((prev) => {
-                      const newButtonMeasurements = [...prev];
-                      newButtonMeasurements[index] = { width, x };
-                      return newButtonMeasurements;
+                  unstyled
+                  height={50}
+                  justifyContent="flex-end"
+                  onPress={() => {
+                    GA.logEvent("feed_type_changed", { feed_type: type });
+                    onFeedTypeChange(type);
+                    tabsAnimVal.forEach((animVal, i) => {
+                      animVal.value = withTiming(i === index ? 1 : 0, { duration: 200 });
                     });
+                    animVal.value = withTiming(index, { duration: 200 });
+
+                    if (type === feedTypes.FOLLOWING) {
+                      const isHotActive = currentFeedType === feedTypes.HOTTEST;
+                      isHotActive
+                        ? setIsHotIntervalBottomSheetOpen(true)
+                        : onFeedTypeChange(feedTypes.HOTTEST);
+                    }
                   }}
                 >
-                  <Button
-                    marginTop={5}
-                    height={40}
-                    unstyled
-                    padding={12}
-                    paddingBottom={0}
-                    onPress={() => {
-                      GA.logEvent("feed_type_changed", { feed_type: type });
-
-                      onPress
-                        ? onPress?.()
-                        : onFeedTypeChange(type);
-                    }}
-                  >
-                    {content}
-                  </Button>
-                </Stack>
+                  {content}
+                </Button>
               );
             })
           }
         </XStack>
-        <Animated.View style={[indicatorAnimStyle, { borderBottomWidth: 2, borderColor: primaryColor }]} />
-      </YStack>
-    </NavigationHeader>
+      </NavigationHeader>
+    </Stack>
   );
 };

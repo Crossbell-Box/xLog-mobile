@@ -30,6 +30,7 @@ import { i18n } from "@/i18n";
 import { ApolloProvider } from "@/providers/apollo-provider";
 import { ConnectKitProvider } from "@/providers/connect-kit-provider";
 import { DrawerProvider } from "@/providers/drawer-provider";
+import { GlobalAnimationProvider } from "@/providers/global-animation-provider";
 import LoadingProvider from "@/providers/loading-provider";
 import { NavigationProvider } from "@/providers/navigation-provider";
 import { NotificationProvider } from "@/providers/notification-provider";
@@ -113,6 +114,7 @@ export default () => {
       <KeyboardProvider key={"KeyboardProvider"} />,
       <NotificationProvider key={"NotificationProvider"} />,
       <ApolloProvider key={"ApolloProvider"} />,
+      <GlobalAnimationProvider key={"GlobalAnimationProvider"} />,
     ]}>
       <NetworkChecker/>
       <NotificationRegister/>

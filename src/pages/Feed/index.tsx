@@ -1,30 +1,28 @@
 import type { FC } from "react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Animated from "react-native-reanimated";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import * as Haptics from "expo-haptics";
+import { ScrollView, Stack, YStack } from "tamagui";
 
 import { FeedList } from "@/components/FeedList";
+import { PolarLight, PolarLightPalettes } from "@/components/PolarLight";
+import { GlobalAnimationContext } from "@/context/global-animation-context";
 import { useScrollVisibilityHandler } from "@/hooks/use-scroll-visibility-handler";
 
-import { AnimatedConnectionButton } from "./AnimatedConnectionButton";
-import type { FeedType } from "./Header";
-import { Header, feedType } from "./Header";
+import type { FeedType } from "./feedTypes";
+import { feedTypes } from "./feedTypes";
+import { Header, HeaderTabHeight } from "./Header";
 
 export interface Props {
   feedType?: FeedType
 }
 
 export const FeedPage: FC<Props> = (props) => {
-  const { feedType: _feedType = feedType.LATEST } = props;
+  const { feedType: _feedType = feedTypes.LATEST } = props;
   const [currentSortType, setCurrentFeedType] = useState<FeedType>(_feedType);
   const [daysInterval, setDaysInterval] = useState<number>(7);
-  const {
-    isExpandedAnimValue,
-    ...scrollVisibilityHandler
-  } = useScrollVisibilityHandler({ scrollThreshold: 50 });
-  const { top } = useSafeAreaInsets();
+  const { isExpandedAnimValue, onScroll } = useContext(GlobalAnimationContext).homeFeed;
 
   return (
     <Animated.View style={{ flex: 1 }}>
@@ -40,15 +38,13 @@ export const FeedPage: FC<Props> = (props) => {
           Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
         }}
       />
-      <FeedList
-        contentContainerStyle={{
-          paddingTop: 100 + top,
-        }}
-        daysInterval={daysInterval}
-        type={currentSortType}
-        {...scrollVisibilityHandler}
-      />
-      {/* <AnimatedConnectionButton visibleAnimValue={isExpandedAnimValue} /> */}
+      <Stack flex={1} >
+        <FeedList
+          daysInterval={daysInterval}
+          type={currentSortType}
+          onScroll={onScroll}
+        />
+      </Stack>
     </Animated.View>
   );
 };
