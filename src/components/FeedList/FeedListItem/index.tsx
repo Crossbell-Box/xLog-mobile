@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import type { ViewStyle } from "react-native";
 import { Image as RNImage } from "react-native";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
@@ -31,9 +31,18 @@ const bgs = [
   require("../../../assets/home-grid-bg/5-reversed.png"),
 ];
 
+const minHeight = 150;
+const maxHeight = 200;
+
+const getCoverRangedSize = (height: number) => {
+  return Math.max(Math.min(height, maxHeight), minHeight);
+};
+
 export const FeedListItem: FC<Props> = (props) => {
   const { note, width } = props;
+  const layoutRef = useRef<Animated.View>(null);
   const navigation = useRootNavigation();
+
   const onPress = React.useCallback(() => {
     navigation.navigate(
       "PostDetails",
@@ -45,47 +54,53 @@ export const FeedListItem: FC<Props> = (props) => {
   }, [note]);
 
   const coverImage = useMemo(() => toGateway(note.metadata?.content?.images?.[0]), [note?.metadata?.content?.images]);
-  const [coverWidth, setCoverWidth] = React.useState<number>(0);
   const [sourceLayout, setSourceLayout] = React.useState<{
     width: number
     height: number
   } | undefined>(undefined);
 
   const coverImageAnimStyles = useMemo(() => {
+    const height = sourceLayout ? (width * sourceLayout.height) / sourceLayout.width : 150;
+
     return {
       width,
-      height: sourceLayout ? (coverWidth * sourceLayout.height) / sourceLayout.width : 120,
+      height,
     };
-  }, [width, sourceLayout, coverWidth]);
+  }, [width, sourceLayout]);
 
   return (
     <Animated.View
+      ref={layoutRef}
       style={[props.style, { paddingHorizontal: 4, marginBottom: 8 }]}
-      entering={FadeIn.duration(500)}
+      entering={FadeIn.duration(150)}
     >
       <TouchableWithoutFeedback onPress={onPress}>
         {
           coverImage
             ? (
-              <Stack width={coverImageAnimStyles.width} height={Math.min(coverImageAnimStyles.height, 200)} overflow="hidden">
+              <Stack
+                width={coverImageAnimStyles.width}
+                height={getCoverRangedSize(coverImageAnimStyles.height)}
+              >
                 <Image
                   onLoad={(e) => {
                     const { width, height } = e.source;
                     setSourceLayout({ width, height });
                   }}
                   source={coverImage}
-                  contentFit="contain"
+                  contentFit="cover"
                   cachePolicy="disk"
-                  style={coverImageAnimStyles}
-                  onLayout={({ nativeEvent }) => {
-                    setCoverWidth(nativeEvent.layout.width);
-                  }}
+                  style={{ width: "100%", height: "100%" }}
                 />
               </Stack>
             )
             : (
-              <Center height={100} width={"100%"} backgroundColor={"black"}>
-                <Image source={bgs[Math.floor(Math.random() * bgs.length)]} style={{ height: 100, width: "100%", position: "absolute" }}/>
+              <Center height={150} width={"100%"} backgroundColor={"black"}>
+                <Image
+                  source={bgs[Math.floor(Math.random() * bgs.length)]}
+                  style={{ height: "100%", width: "100%", position: "absolute" }}
+                  contentFit="cover"
+                />
                 <SizableText
                   size={"$5"}
                   fontWeight={"700"}

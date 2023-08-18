@@ -91,7 +91,7 @@ export const FeedList: FC<Props> = (props) => {
         </Stack>
       )}
       bounces
-      estimatedItemSize={150}
+      estimatedItemSize={250}
       ListFooterComponent={feed.isFetchingNextPage && <Spinner paddingBottom="$5"/>}
       contentContainerStyle={{ ...contentContainerStyle, paddingHorizontal: 4 }}
       scrollEventThrottle={16}
