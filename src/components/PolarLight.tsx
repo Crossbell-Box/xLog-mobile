@@ -149,6 +149,22 @@ const AnimatedMask: FC<{
   );
 };
 
+/**
+ * Usage:
+    <PolarLight
+      reverse
+      indexAnimVal={animVal}
+      palettes={[
+        PolarLightPalettes["green-dark"],
+        PolarLightPalettes["purple-light"],
+        PolarLightPalettes.red,
+      ]}
+      style={{
+        position: "absolute",
+      }}
+    />
+ *
+*/
 export const PolarLight: FC<{
   reverse?: boolean
   palettes?: (typeof PolarLightPalettes)[keyof typeof PolarLightPalettes][]

@@ -166,6 +166,7 @@
     "react-native-highlight-words": "^1.0.1",
     "react-native-keyboard-controller": "1.4.4",
     "react-native-level-fs": "^3.0.1",
+    "react-native-mmkv": "^2.10.1",
     "react-native-modal": "^13.0.1",
     "react-native-os": "^1.2.6",
     "react-native-pager-view": "6.2.0",

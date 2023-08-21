@@ -15134,6 +15134,11 @@ react-native-level-fs@^3.0.1:
     level-filesystem "^1.0.1"
     levelup "^0.18.2"
 
+react-native-mmkv@^2.10.1:
+  version "2.10.1"
+  resolved "https://registry.npmmirror.com/react-native-mmkv/-/react-native-mmkv-2.10.1.tgz#1a4e64edbf9561fe81a5ae3cefde17e88dfc669f"
+  integrity sha512-MCrYytUJ3JhSVg7LwVXCj7ExbMHe48FoQdDA1xo1q/M4c1/QyI3M9L9d2dyJUhYPnsSO0+5c2mJICm7v39XA0w==
+
 react-native-modal@^13.0.1:
   version "13.0.1"
   resolved "https://registry.npmjs.org/react-native-modal/-/react-native-modal-13.0.1.tgz#691f1e646abb96fa82c1788bf18a16d585da37cd"

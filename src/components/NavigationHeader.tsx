@@ -1,7 +1,6 @@
 import type { FC, PropsWithChildren } from "react";
 import { useCallback } from "react";
 import { StyleSheet } from "react-native";
-import { useDrawerProgress } from "react-native-drawer-layout";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import type { SharedValue } from "react-native-reanimated";
 import Animated, { Extrapolate, interpolate, useAnimatedStyle } from "react-native-reanimated";
@@ -29,7 +28,7 @@ export const NavigationHeader: FC<PropsWithChildren<Props>> = (props) => {
 
   const containerAnimStyles = useAnimatedStyle(() => {
     return {
-      height: interpolate(expanded.value, [0, 1], [45, 100], Extrapolate.CLAMP) + top,
+      height: interpolate(expanded.value, [0, 1], [55, 110], Extrapolate.CLAMP) + top,
     };
   }, [top, expanded, background]);
 

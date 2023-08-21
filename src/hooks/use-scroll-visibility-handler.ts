@@ -1,5 +1,7 @@
 import { Easing, Extrapolate, interpolate, useAnimatedScrollHandler, useSharedValue, withTiming } from "react-native-reanimated";
 
+import { IS_ANDROID } from "@/constants";
+
 interface Options {
   scrollThreshold: number
 }
@@ -19,7 +21,11 @@ export function useScrollVisibilityHandler(options: Options) {
       ctx.hasEnded = false;
     },
     onScroll: (e, ctx) => {
-      if (ctx.hasEnded) {
+      if (
+        ctx.hasEnded
+        // TODO: https://github.com/software-mansion/react-native-reanimated/issues/4625
+        || IS_ANDROID
+      ) {
         return;
       }
 

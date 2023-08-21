@@ -27,7 +27,6 @@ export const FeedPage: FC<Props> = (props) => {
   return (
     <Animated.View style={{ flex: 1 }}>
       <Header
-        currentFeedType={currentSortType}
         isExpandedAnimValue={isExpandedAnimValue}
         onDaysIntervalChange={(days) => {
           setDaysInterval(days);

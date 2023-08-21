@@ -7,13 +7,14 @@ import Animated, { FadeIn, FadeInDown, useAnimatedStyle, useSharedValue } from "
 
 import { BlurView } from "expo-blur";
 import { Image } from "expo-image";
-import { SizableText, Stack, XStack } from "tamagui";
+import { SizableText, Stack, Text, XStack } from "tamagui";
 
 import { Avatar } from "@/components/Avatar";
 import { Center } from "@/components/Base/Center";
 import { useRootNavigation } from "@/hooks/use-navigation";
 import type { ExpandedNote } from "@/types/crossbell";
 import { toGateway } from "@/utils/ipfs-parser";
+import { syncStorage } from "@/utils/storage";
 
 export interface Props {
   note: ExpandedNote
@@ -34,6 +35,8 @@ const bgs = [
 const minHeight = 150;
 const maxHeight = 200;
 
+const defaultCoverImageHeight = minHeight;
+
 const getCoverRangedSize = (height: number) => {
   return Math.max(Math.min(height, maxHeight), minHeight);
 };
@@ -42,7 +45,6 @@ export const FeedListItem: FC<Props> = (props) => {
   const { note, width } = props;
   const layoutRef = useRef<Animated.View>(null);
   const navigation = useRootNavigation();
-
   const onPress = React.useCallback(() => {
     navigation.navigate(
       "PostDetails",
@@ -60,13 +62,61 @@ export const FeedListItem: FC<Props> = (props) => {
   } | undefined>(undefined);
 
   const coverImageAnimStyles = useMemo(() => {
-    const height = sourceLayout ? (width * sourceLayout.height) / sourceLayout.width : 150;
+    const height = sourceLayout ? (width * sourceLayout.height) / sourceLayout.width : defaultCoverImageHeight;
 
     return {
       width,
       height,
     };
   }, [width, sourceLayout]);
+
+  const title = String(note?.metadata?.content?.title);
+  const placeholderBg = bgs[title?.length % bgs.length || 0];
+
+  const getCoverSourceLayout = async (): Promise<{
+    width: number
+    height: number
+  }> => {
+    const cachedLayout = await syncStorage.getString(`img-layouts:${coverImage}`);
+
+    if (cachedLayout) {
+      return JSON.parse(cachedLayout);
+    }
+
+    const defaultLayout = {
+      width,
+      height: defaultCoverImageHeight,
+    };
+    if (!coverImage) {
+      return defaultLayout;
+    }
+    return await new Promise ((resolve) => {
+      RNImage.getSize(
+        coverImage,
+        (_, height) => {
+          resolve({
+            width,
+            height,
+          });
+        },
+        () => {
+          resolve(defaultLayout);
+        },
+      );
+    });
+  };
+
+  useEffect(() => {
+    coverImage && Image.prefetch(coverImage);
+    getCoverSourceLayout().then((layout) => {
+      syncStorage.set(`img-layouts:${coverImage}`, JSON.stringify(layout));
+      setSourceLayout(layout);
+    });
+  }, [coverImage]);
+
+  if (!sourceLayout) {
+    return null;
+  }
 
   return (
     <Animated.View
@@ -83,24 +133,25 @@ export const FeedListItem: FC<Props> = (props) => {
                 height={getCoverRangedSize(coverImageAnimStyles.height)}
               >
                 <Image
-                  onLoad={(e) => {
-                    const { width, height } = e.source;
-                    setSourceLayout({ width, height });
-                  }}
                   source={coverImage}
                   contentFit="cover"
                   cachePolicy="disk"
+                  responsivePolicy="initial"
                   style={{ width: "100%", height: "100%" }}
+                  placeholder={placeholderBg}
+                  recyclingKey={coverImage}
+                  placeholderContentFit="cover"
                 />
               </Stack>
             )
             : (
               <Center height={150} width={"100%"} backgroundColor={"black"}>
                 <Image
-                  source={bgs[Math.floor(Math.random() * bgs.length)]}
+                  source={placeholderBg}
                   style={{ height: "100%", width: "100%", position: "absolute" }}
                   contentFit="cover"
                 />
+                <BlurView tint="dark" intensity={10} style={{ position: "absolute", width: "100%", height: "100%" }} />
                 <SizableText
                   size={"$5"}
                   fontWeight={"700"}
@@ -109,7 +160,7 @@ export const FeedListItem: FC<Props> = (props) => {
                   marginHorizontal={"$2"}
                   numberOfLines={2}
                 >
-                  {String(note?.metadata?.content?.title)}
+                  {title}
                 </SizableText>
               </Center>
             )

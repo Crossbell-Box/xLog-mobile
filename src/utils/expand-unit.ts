@@ -133,7 +133,7 @@ export const expandCrossbellCharacter = (site: CharacterEntity) => {
         content: {},
       },
     },
-    cloneDeep(site),
+    site,
   );
   if (!expandedCharacter.metadata.content) {
     expandedCharacter.metadata.content = {};

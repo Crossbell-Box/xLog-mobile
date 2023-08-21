@@ -1,3 +1,5 @@
+import { MMKV } from "react-native-mmkv";
+
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const namespace = "xlog";
@@ -40,5 +42,7 @@ export const setStorage = async (key: string, value: any) => {
 
 export const delStorage = async (key: string) => {
   delete data[key];
-  await AsyncStorage.setItem(namespace, JSON.stringify(data));
+  await AsyncStorage.removeItem(namespace);
 };
+
+export const syncStorage = new MMKV();

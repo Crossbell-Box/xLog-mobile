@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import type { useAnimatedScrollHandler } from "react-native-reanimated";
 import Animated from "react-native-reanimated";
 
@@ -42,10 +42,15 @@ export const FeedList: FC<Props> = (props) => {
   const characterId = useCharacterId();
   const gaLog = debounce(() => GA.logSearch({ search_term: searchKeyword }), 2000);
   const { width } = useWindowDimensions();
+  const listRef = useRef<MasonryFlashListRef<ExpandedNote>>(null);
 
   useEffect(() => {
     typeof searchKeyword === "string" && gaLog();
   }, [searchKeyword]);
+
+  useEffect(() => {
+    listRef.current?.scrollToOffset({ offset: 0, animated: false });
+  }, [type]);
 
   const queryParams = useMemo(() => ({
     type,
@@ -59,17 +64,25 @@ export const FeedList: FC<Props> = (props) => {
     topicIncludeKeywords: topic
       ? topics.find(t => t.name === topic)?.includeKeywords
       : undefined,
-  }), [props]);
-
-  const feed = useGetFeed(queryParams);
-
-  const feedList = useMemo(() => (feed.data?.pages?.flatMap(page => page?.list) || []), [
-    feed.data?.pages,
+  }), [
+    type,
+    characterId,
+    noteIds,
+    daysInterval,
+    searchKeyword,
+    searchType,
+    tag,
+    topic,
   ]);
+
+  // TODO
+  const feed = useGetFeed(queryParams);
+  const feedList = useMemo(() => (feed.data?.pages?.flatMap(page => page?.list) || []), [feed.data?.pages]);
 
   return (
     <MasonryFlashList<ExpandedNote>
       data={feedList}
+      ref={listRef}
       numColumns={2}
       keyExtractor={post => `${post.characterId}-${post.noteId}`}
       renderItem={({ item, index }) => (
@@ -91,12 +104,12 @@ export const FeedList: FC<Props> = (props) => {
         </Stack>
       )}
       bounces
-      estimatedItemSize={250}
+      estimatedItemSize={251}
       ListFooterComponent={feed.isFetchingNextPage && <Spinner paddingBottom="$5"/>}
       contentContainerStyle={{ ...contentContainerStyle, paddingHorizontal: 4 }}
       scrollEventThrottle={16}
       onScroll={onScroll}
-      onEndReachedThreshold={0.5}
+      onEndReachedThreshold={2}
       onEndReached={() => {
         if (
           feedList.length === 0
