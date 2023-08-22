@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import type Animated from "react-native-reanimated";
@@ -7,27 +7,27 @@ import type Animated from "react-native-reanimated";
 import { useConnectedAccount } from "@crossbell/react-account";
 import { Stack, Text, XStack } from "tamagui";
 
-import { NavigationHeader } from "@/components/NavigationHeader";
 import { useHitSlopSize } from "@/hooks/use-hit-slop-size";
+import { HeaderAnimatedLayout } from "@/pages/Feed/HeaderAnimatedLayout";
 import { GA } from "@/utils/GA";
 
 import { Background } from "./Background";
 import { feedTypes, type FeedType } from "./feedTypes";
+import { HotInterval } from "./HotInterval";
 
 export interface Props {
   isExpandedAnimValue: Animated.SharedValue<number>
   daysInterval: number
+  type?: FeedType
   onFeedTypeChange: (type: FeedType) => void
   onDaysIntervalChange: (days: number) => void
   isSearching?: boolean
 }
 
-type Measurements = Array<Partial<{ x: number; width: number }>>;
-
 export const HeaderTabHeight = 60;
 
 export const Header: FC<Props> = (props) => {
-  const { daysInterval, isSearching, onDaysIntervalChange } = props;
+  const { daysInterval, isSearching, type, onDaysIntervalChange } = props;
   const i18n = useTranslation("dashboard");
   const { isExpandedAnimValue, onFeedTypeChange } = props;
   const [activeIndex, setActiveIndex] = useState(0);
@@ -35,10 +35,14 @@ export const Header: FC<Props> = (props) => {
   const hitSlop = useHitSlopSize(60);
   const [isHotIntervalBottomSheetOpen, setIsHotIntervalBottomSheetOpen] = useState(false);
 
+  const onPressSortBy = useCallback(() => {
+    setIsHotIntervalBottomSheetOpen(true);
+  }, []);
+
   return (
     <Stack>
       <Background activeIndex={activeIndex}/>
-      <NavigationHeader expanded={isExpandedAnimValue}>
+      <HeaderAnimatedLayout type={type} onPressSortBy={onPressSortBy} expanded={isExpandedAnimValue}>
         <XStack marginHorizontal="$3" gap="$4" height={HeaderTabHeight}>
           {
             Object.values(feedTypes).map((type, index) => {
@@ -84,7 +88,17 @@ export const Header: FC<Props> = (props) => {
             })
           }
         </XStack>
-      </NavigationHeader>
+      </HeaderAnimatedLayout>
+
+      <HotInterval
+        open={isHotIntervalBottomSheetOpen}
+        value={daysInterval.toString()}
+        onOpenChange={setIsHotIntervalBottomSheetOpen}
+        onValueChange={(value) => {
+          setIsHotIntervalBottomSheetOpen(false);
+          onDaysIntervalChange(Number(value));
+        }}
+      />
     </Stack>
   );
 };

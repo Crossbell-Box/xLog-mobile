@@ -20,13 +20,14 @@ export interface Props {
 
 export const FeedPage: FC<Props> = (props) => {
   const { feedType: _feedType = feedTypes.LATEST } = props;
-  const [currentSortType, setCurrentFeedType] = useState<FeedType>(_feedType);
+  const [currentFeedType, setCurrentFeedType] = useState<FeedType>(_feedType);
   const [daysInterval, setDaysInterval] = useState<number>(7);
   const { isExpandedAnimValue, onScroll } = useContext(GlobalAnimationContext).homeFeed;
 
   return (
     <Animated.View style={{ flex: 1 }}>
       <Header
+        type={currentFeedType}
         isExpandedAnimValue={isExpandedAnimValue}
         onDaysIntervalChange={(days) => {
           setDaysInterval(days);
@@ -40,7 +41,7 @@ export const FeedPage: FC<Props> = (props) => {
       <Stack flex={1} >
         <FeedList
           daysInterval={daysInterval}
-          type={currentSortType}
+          type={currentFeedType}
           onScroll={onScroll}
         />
       </Stack>

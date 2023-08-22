@@ -7,20 +7,26 @@ import Animated, { Extrapolate, interpolate, useAnimatedStyle } from "react-nati
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useAccountCharacter } from "@crossbell/react-account";
+import { ArrowUpDown, MoveVertical } from "@tamagui/lucide-icons";
+import { Stack, Text, XStack } from "tamagui";
 
 import { useColors } from "@/hooks/use-colors";
 import { useDrawer } from "@/hooks/use-drawer";
 import { GA } from "@/utils/GA";
 
-import { Avatar } from "./Avatar";
-import { XTouch } from "./XTouch";
+import { feedTypes, type FeedType } from "./feedTypes";
+
+import { Avatar } from "../../components/Avatar";
+import { XTouch } from "../../components/XTouch";
 
 export interface Props {
   expanded: SharedValue<number>
+  type?: FeedType
+  onPressSortBy: () => void
 }
 
-export const NavigationHeader: FC<PropsWithChildren<Props>> = (props) => {
-  const { expanded, children } = props;
+export const HeaderAnimatedLayout: FC<PropsWithChildren<Props>> = (props) => {
+  const { expanded, children, type, onPressSortBy } = props;
   const { background } = useColors();
   const { top } = useSafeAreaInsets();
   const { openDrawer: _openDrawer } = useDrawer();
@@ -46,11 +52,24 @@ export const NavigationHeader: FC<PropsWithChildren<Props>> = (props) => {
   return (
     <Animated.View style={[containerAnimStyles, styles.contentContainer]}>
       <Animated.View style={[avatarAnimStyles, styles.avatarContainer]}>
-        {character && (
-          <XTouch enableHaptics hitSlopSize={44} touchableComponent={TouchableWithoutFeedback} containerStyle={styles.avatarTouchableContainer} onPress={openDrawer}>
-            <Avatar size={35} character={character} isNavigateToUserInfo={false}/>
-          </XTouch>
-        )}
+        <XStack justifyContent="space-between" alignItems="center">
+          <Stack>
+            {character && (
+              <XTouch enableHaptics hitSlopSize={44} touchableComponent={TouchableWithoutFeedback} containerStyle={styles.avatarTouchableContainer} onPress={openDrawer}>
+                <Avatar size={35} character={character} isNavigateToUserInfo={false}/>
+              </XTouch>
+            )}
+          </Stack>
+
+          {type === feedTypes.LATEST && (
+            <XTouch enableHaptics touchableComponent={TouchableWithoutFeedback} onPress={onPressSortBy}>
+              <XStack gap="$1" alignItems="center" backgroundColor={"$background"} paddingVertical="$2" paddingHorizontal="$3" borderRadius={"$10"}>
+                <Text fontSize={"$1"} color={"$color"}>Sort By</Text>
+                <MoveVertical size={"$0.5"} color={"$color"}/>
+              </XStack>
+            </XTouch>
+          )}
+        </XStack>
       </Animated.View>
       <Animated.View style={styles.tabContainer}>
         {children}

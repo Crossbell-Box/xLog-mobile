@@ -50,7 +50,7 @@ export const FeedList: FC<Props> = (props) => {
 
   useEffect(() => {
     listRef.current?.scrollToOffset({ offset: 0, animated: false });
-  }, [type]);
+  }, [type, daysInterval]);
 
   const queryParams = useMemo(() => ({
     type,
