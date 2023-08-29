@@ -10,34 +10,42 @@
 </p>
 
 
-<p align="center">
-<img src="assets/screenshots/ios/IMG_9327-8249_iphone13progold_portrait.png" width="45%" /> 
-<img src="assets/screenshots/ios/IMG_9328-8247_iphone13progold_portrait.png" width="45%" />
+<p align="center" >
+<img src="submission/store/iPhone/6.7/Hotpot Design/Hotpot 0.png" width="19.5%" style="border-top-left-radius:20px;border-bottom-left-radius:20px"/> 
+<img src="submission/store/iPhone/6.7/Hotpot Design/Hotpot 1.png" width="19.5%" /> 
+<img src="submission/store/iPhone/6.7/Hotpot Design/Hotpot 2.png" width="19.5%" /> 
+<img src="submission/store/iPhone/6.7/Hotpot Design/Hotpot 3.png" width="19.5%" /> 
+<img src="submission/store/iPhone/6.7/Hotpot Design/Hotpot 4.png" width="19.5%" style="border-top-right-radius:20px;border-bottom-right-radius:20px"/> 
 </p>
 
 <p align="center">
-<img src="assets/screenshots/ios/IMG_9329-8245_iphone13progold_portrait.png" width="45%" /> 
-<img src="assets/screenshots/ios/IMG_9330-8243_iphone13progold_portrait.png" width="45%" />
+<img src="submission/screenshots/ios/IMG_9327-8249_iphone13progold_portrait.png" width="45%" /> 
+<img src="submission/screenshots/ios/IMG_9328-8247_iphone13progold_portrait.png" width="45%" />
 </p>
 
 <p align="center">
-<img src="assets/screenshots/ios/IMG_9332-8241_iphone13progold_portrait.png" width="45%" /> 
-<img src="assets/screenshots/ios/IMG_9333-8239_iphone13progold_portrait.png" width="45%" />
+<img src="submission/screenshots/ios/IMG_9329-8245_iphone13progold_portrait.png" width="45%" /> 
+<img src="submission/screenshots/ios/IMG_9330-8243_iphone13progold_portrait.png" width="45%" />
 </p>
 
 <p align="center">
-<img src="assets/screenshots/ios/IMG_9334-8237_iphone13progold_portrait.png" width="45%" /> 
-<img src="assets/screenshots/ios/IMG_9335-8235_iphone13progold_portrait.png" width="45%" />
+<img src="submission/screenshots/ios/IMG_9332-8241_iphone13progold_portrait.png" width="45%" /> 
+<img src="submission/screenshots/ios/IMG_9333-8239_iphone13progold_portrait.png" width="45%" />
 </p>
 
 <p align="center">
-<img src="assets/screenshots/ios/IMG_9336-8233_iphone13progold_portrait.png" width="45%" /> 
-<img src="assets/screenshots/ios/IMG_9354-9872_iphone13progold_portrait.png" width="45%" />
+<img src="submission/screenshots/ios/IMG_9334-8237_iphone13progold_portrait.png" width="45%" /> 
+<img src="submission/screenshots/ios/IMG_9335-8235_iphone13progold_portrait.png" width="45%" />
 </p>
 
 <p align="center">
-<img src="assets/screenshots/ios/IMG_9355-9869_iphone13progold_portrait.png" width="45%" /> 
-<img src="assets/screenshots/ios/IMG_9356-9866_iphone13progold_portrait.png" width="45%" />
+<img src="submission/screenshots/ios/IMG_9336-8233_iphone13progold_portrait.png" width="45%" /> 
+<img src="submission/screenshots/ios/IMG_9354-9872_iphone13progold_portrait.png" width="45%" />
+</p>
+
+<p align="center">
+<img src="submission/screenshots/ios/IMG_9355-9869_iphone13progold_portrait.png" width="45%" /> 
+<img src="submission/screenshots/ios/IMG_9356-9866_iphone13progold_portrait.png" width="45%" />
 </p>
 
 

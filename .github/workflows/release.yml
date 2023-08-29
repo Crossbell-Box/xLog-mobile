@@ -39,6 +39,7 @@ jobs:
             return releaseType
             
       - name: Bump Versions
+        if: steps.release-type.outputs.result != ''
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         uses: changesets/action@v1

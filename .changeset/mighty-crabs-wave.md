@@ -1,5 +1,0 @@
----
-"xlog": minor
----
-
-Updated tamagui.
