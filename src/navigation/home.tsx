@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { useContext, useEffect, useMemo } from "react";
+import { useContext } from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Animated, { interpolate, useAnimatedStyle } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -7,7 +7,6 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useIsConnected } from "@crossbell/react-account";
 import type { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { useNavigation } from "@react-navigation/native";
 import { Bell, Home, Search, User2 } from "@tamagui/lucide-icons";
 import { BlurView } from "expo-blur";
 import { Stack, XStack } from "tamagui";
@@ -17,7 +16,6 @@ import { Drawer } from "@/components/Drawer";
 import { GlobalAnimationContext } from "@/context/global-animation-context";
 import { useCharacterId } from "@/hooks/use-character-id";
 import { useColors } from "@/hooks/use-colors";
-import { useCurrentRoute } from "@/hooks/use-current-route";
 import { useGetUnreadCount } from "@/models/site.model";
 import { ExplorePage } from "@/pages/Explore";
 import { FeedPage } from "@/pages/Feed";
@@ -29,7 +27,8 @@ import type { HomeBottomTabsParamList } from "./types";
 
 const HomeBottomTabs = createBottomTabNavigator<HomeBottomTabsParamList>();
 
-const TabBar: FC<BottomTabBarProps> = ({ state, descriptors, navigation }) => {
+const TabBar: FC<BottomTabBarProps> = (props) => {
+  const { state, descriptors, navigation } = props;
   const { bottom } = useSafeAreaInsets();
   const { isExpandedAnimValue } = useContext(GlobalAnimationContext).homeFeed;
   const height = 55;
