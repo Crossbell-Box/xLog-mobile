@@ -40,5 +40,5 @@ export const setStorage = async (key: string, value: any) => {
 
 export const delStorage = async (key: string) => {
   delete data[key];
-  await AsyncStorage.setItem(namespace, JSON.stringify(data));
+  await AsyncStorage.removeItem(namespace);
 };

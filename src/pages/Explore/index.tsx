@@ -62,7 +62,7 @@ export const ExplorePage: FC<NativeStackScreenProps<HomeBottomTabsParamList, "Ex
         <Search color="$colorSubtitle" size={"$1"}/>
         <SizableText color="$colorSubtitle" size="$5">{i18n.t("Search for your interest")}</SizableText>
       </XStack>
-      <ScrollView style={{ flex: 1, paddingHorizontal: 12, paddingTop: 18 }} contentContainerStyle={{ paddingBottom: 50 }}>
+      <ScrollView style={{ flex: 1, paddingHorizontal: 12, paddingTop: 18 }} contentContainerStyle={{ paddingBottom: 150 }}>
         <YStack marginBottom={"$3"}>
           <XStack alignItems="center">
             <Stack borderLeftColor={"$primary"} borderLeftWidth={3} height="$0.5" marginRight="$2"/>

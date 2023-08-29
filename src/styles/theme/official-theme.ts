@@ -36,7 +36,7 @@ export default defineTheme(
       token: theme => ({
         ...theme,
         primary: "#F97316",
-        background: "#1C1C1E",
+        background: "#000000",
         backgroundStrong: "#2C2C2E",
         backgroundHover: "#313133",
         backgroundPress: "#37373A",

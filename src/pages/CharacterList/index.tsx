@@ -6,7 +6,7 @@ import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FlashList } from "@shopify/flash-list";
 import type { UseInfiniteQueryResult } from "@tanstack/react-query";
 import type { CharacterEntity, ListResponse } from "crossbell";
-import { useWindowDimensions } from "tamagui";
+import { Stack, useWindowDimensions } from "tamagui";
 
 import type { RootStackParamList } from "@/navigation/types";
 import { useGetLikes, useGetMints } from "@/queries/page";
@@ -65,7 +65,7 @@ export const CharacterListPage: FC<NativeStackScreenProps<RootStackParamList, "C
   }, [title]);
 
   return (
-    <Animated.View style={{ flex: 1 }}>
+    <Stack flex={1}>
       <FlashList
         onEndReachedThreshold={0.5}
         onEndReached={() => {
@@ -93,6 +93,6 @@ export const CharacterListPage: FC<NativeStackScreenProps<RootStackParamList, "C
           );
         }}
       />
-    </Animated.View>
+    </Stack>
   );
 };

@@ -1,12 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+import BottomSheet, { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { CardStyleInterpolators, createStackNavigator } from "@react-navigation/stack";
 import type { TransitionSpec } from "@react-navigation/stack/lib/typescript/src/types";
 import { ArrowLeftCircle } from "@tamagui/lucide-icons";
-import { XStack } from "tamagui";
+import { Stack, Text, XStack } from "tamagui";
 
+import { BottomSheetModal } from "@/components/BottomSheetModal";
 import { useSplash } from "@/hooks/use-splash";
 import { CharacterListPage } from "@/pages/CharacterList";
 import { ClaimCSBPage } from "@/pages/ClaimCSB";
@@ -50,6 +52,13 @@ export const RootNavigator = () => {
     hideSplash();
   }, []);
 
+  // return (
+  //   <BottomSheet enablePanDownToClose snapPoints={["20%", "80%"]} backgroundStyle={{ backgroundColor: "red" }}>
+  //     <Text>11</Text>
+  //     <Text>11</Text>
+  //   </BottomSheet>
+  // );
+
   return (
     <RootStack.Navigator
       initialRouteName="Home"
@@ -58,7 +67,7 @@ export const RootNavigator = () => {
       }}
     >
       <RootStack.Screen name={"Home"} component={HomeNavigator} />
-      <RootStack.Screen name={"PostDetails"} component={PostDetailsPage} />
+      <RootStack.Screen name={"PostDetails"} component={PostDetailsPage}/>
 
       <RootStack.Group screenOptions={{
         presentation: "transparentModal",

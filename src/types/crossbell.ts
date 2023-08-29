@@ -1,6 +1,6 @@
 import type { ReactElement } from "react";
 
-import type { CharacterEntity, NoteEntity } from "crossbell";
+import type { CharacterEntity, ListResponse, NoteEntity } from "crossbell";
 import type { Note as UniNote, Profile as UniProfile } from "unidata.js";
 
 export interface Site {
@@ -92,10 +92,12 @@ export type Note = UniNote & {
 };
 
 export type ExpandedNote = NoteEntity & {
+  fromNotes: ListResponse<NoteEntity>
   metadata: {
     content: {
       summary?: string
       cover?: string
+      images?: string[]
       frontMatter?: Record<string, any>
       slug?: string
       views?: number

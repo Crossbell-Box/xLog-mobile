@@ -10,9 +10,7 @@ import type { FlashListProps } from "@shopify/flash-list";
 
 type ILayoutAnimationBuilder = React.ComponentProps<typeof AnimatedCellContainer>["layout"];
 
-const AnimatedFlashList = Animated.createAnimatedComponent(
-  FlashList as any,
-) as any;
+const AnimatedFlashList = Animated.createAnimatedComponent(FlashList as any) as any;
 const AnimatedCellContainer = Animated.createAnimatedComponent(CellContainer);
 
 interface AnimatedFlashListProps {

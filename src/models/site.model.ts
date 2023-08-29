@@ -1,4 +1,5 @@
 import { gql } from "@apollo/client";
+import { cloneDeep } from "@apollo/client/utilities";
 import { useContract } from "@crossbell/contract";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { cacheExchange, createClient, fetchExchange } from "@urql/core";
