@@ -1,5 +1,6 @@
-import type { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
-import { runOnUI, useAnimatedScrollHandler, useSharedValue, withSpring } from "react-native-reanimated";
+import { Easing, Extrapolate, interpolate, useAnimatedScrollHandler, useSharedValue, withTiming } from "react-native-reanimated";
+
+import { IS_ANDROID } from "@/constants";
 
 interface Options {
   scrollThreshold: number
@@ -7,40 +8,56 @@ interface Options {
 
 export function useScrollVisibilityHandler(options: Options) {
   const { scrollThreshold } = options;
-  const prevTranslationYAnimValue = useSharedValue<number>(0);
-  const isExpandedAnimValue = useSharedValue<0 | 1>(1);
+  const isExpandedAnimValue = useSharedValue<number>(1);
 
-  const updateAnimValue = (e: NativeScrollEvent) => {
-    "worklet";
+  const onScroll = useAnimatedScrollHandler<{
+    prevTranslationY: number
+    prevExpandedValue: number
+    hasEnded: boolean
+  }>({
+    onBeginDrag: (e, ctx) => {
+      ctx.prevTranslationY = e.contentOffset.y;
+      ctx.prevExpandedValue = isExpandedAnimValue.value;
+      ctx.hasEnded = false;
+    },
+    onScroll: (e, ctx) => {
+      if (
+        ctx.hasEnded
+        // TODO: https://github.com/software-mansion/react-native-reanimated/issues/4625
+        || IS_ANDROID
+      ) {
+        return;
+      }
 
-    if (
-      e.contentOffset.y - prevTranslationYAnimValue.value > scrollThreshold
-            && isExpandedAnimValue.value !== 0
-    ) {
-      isExpandedAnimValue.value = withSpring(0);
-    }
-    else if (
-      e.contentOffset.y - prevTranslationYAnimValue.value < -scrollThreshold
-            && isExpandedAnimValue.value !== 1
-    ) {
-      isExpandedAnimValue.value = withSpring(1);
-    }
-  };
+      const diffY = e.contentOffset.y - ctx.prevTranslationY;
 
-  const onScroll = useAnimatedScrollHandler((e) => {
-    if (isExpandedAnimValue.value !== 0 && isExpandedAnimValue.value !== 1)
-      return;
+      isExpandedAnimValue.value = interpolate(
+        diffY,
+        [-scrollThreshold, 0, scrollThreshold],
+        [
+          1,
+          ctx.prevExpandedValue,
+          0,
+        ],
+        Extrapolate.CLAMP,
+      );
+    },
+    onEndDrag: (e, ctx) => {
+      ctx.hasEnded = true;
+      const diffY = e.contentOffset.y - ctx.prevTranslationY;
 
-    updateAnimValue(e);
+      isExpandedAnimValue.value = withTiming(
+        diffY > 0 ? 0 : 1,
+        {
+          duration: 150,
+          easing: Easing.inOut(Easing.ease),
+        },
+      );
+    },
   }, [scrollThreshold]);
 
-  const onScrollEndDrag = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
-    prevTranslationYAnimValue.value = e.nativeEvent.contentOffset.y;
+  return {
+    onScroll,
+    isExpandedAnimValue,
   };
-
-  const onMomentumScrollEnd = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
-    runOnUI(updateAnimValue)(e.nativeEvent);
-  };
-
-  return { onScroll, onScrollEndDrag, onMomentumScrollEnd, isExpandedAnimValue };
 }

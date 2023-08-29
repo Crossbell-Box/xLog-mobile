@@ -23,13 +23,15 @@ const REPORT_LIST = [
   "It's not original content",
 ];
 
-interface Props {}
+interface Props {
+  iconSize?: number
+}
 
-export const ReportButton: React.FC<Props> = () => {
+export const ReportButton: React.FC<Props> = ({ iconSize = "$1" }) => {
   const bottomSheetRef = useRef<BottomSheetModalInstance>(null);
   const snapPoints = useMemo(() => ["75%"], []);
   const toast = useToastController();
-  const { background, borderColor, color, subtitle } = useColors();
+  const { borderColor, color, subtitle } = useColors();
   const [commentsInputVisible, setCommentsInputVisible] = useState(false);
   const [text, setText] = useState("");
   const gaWithScreenParams = useGAWithScreenParams();
@@ -59,7 +61,7 @@ export const ReportButton: React.FC<Props> = () => {
       <XTouch enableHaptics hitSlopSize={44} touchableComponent={TouchableWithoutFeedback} onPress={openBottomSheet}>
         <XStack alignItems="center" gap="$1.5">
           <Flag
-            size={"$1"}
+            size={iconSize}
             color={"$color"}
           />
         </XStack>
@@ -72,7 +74,7 @@ export const ReportButton: React.FC<Props> = () => {
         index={0}
         keyboardBehavior="interactive"
         keyboardBlurBehavior="restore"
-        backgroundStyle={{ backgroundColor: background }}
+        backgroundStyle={{ backgroundColor: "#1c1c1c" }}
       >
         <ScrollView>
           <Stack padding="$3" gap="$3">
@@ -81,14 +83,14 @@ export const ReportButton: React.FC<Props> = () => {
               {
                 REPORT_LIST.map((item, index) => (
                   <YGroup.Item key={item}>
-                    <ListItem onPress={() => onSubmit(item, false)} hoverTheme title={item} size={"$5"} iconAfter={<ArrowRight/>}/>
+                    <ListItem backgroundColor={"#1c1c1c"} onPress={() => onSubmit(item, false)} hoverTheme title={item} size={"$5"} iconAfter={<ArrowRight/>}/>
                   </YGroup.Item>
                 ))
               }
             </YGroup>
             <YGroup alignSelf="center" bordered>
               <YGroup.Item>
-                <ListItem hoverTheme title={"Something else"} size={"$5"} onPress={() => setCommentsInputVisible(true)}/>
+                <ListItem backgroundColor={"#1c1c1c"} hoverTheme title={"Something else"} size={"$5"} onPress={() => setCommentsInputVisible(true)}/>
               </YGroup.Item>
             </YGroup>
             {

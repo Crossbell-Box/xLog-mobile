@@ -26,12 +26,13 @@ interface Props {
   noteId: number
   iconSize?: SizeTokens
   fontSize?: FontSizeTokens
+  countShown?: boolean
   ga: {
     type: "post" | "reply"
   }
 }
 
-export const ReactionLike: React.FC<Props> = ({ characterId, noteId, ga, iconSize = "$1", fontSize = "$6" }) => {
+export const ReactionLike: React.FC<Props> = ({ characterId, noteId, ga, iconSize = "$1", fontSize = "$6", countShown = true }) => {
   const navigation = useRootNavigation();
   const i18n = useTranslation("common");
   const gaWithScreenParams = useGAWithScreenParams();
@@ -126,9 +127,11 @@ export const ReactionLike: React.FC<Props> = ({ characterId, noteId, ga, iconSiz
             size={iconSize}
             color={likeStatus.isLiked ? "$primary" : "$color"}
           />
-          <SizableText size={fontSize} color={likeStatus.isLiked ? "$primary" : "$color"}>
-            {likeCount}
-          </SizableText>
+          {countShown && (
+            <SizableText size={fontSize} color={likeStatus.isLiked ? "$primary" : "$color"}>
+              {likeCount}
+            </SizableText>
+          )}
         </XStack>
       </XTouch>
 

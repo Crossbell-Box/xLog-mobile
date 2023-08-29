@@ -1,9 +1,10 @@
 import type { FC } from "react";
-import { useEffect, useMemo } from "react";
-import { type NativeScrollEvent, type NativeSyntheticEvent } from "react-native";
+import { useEffect, useMemo, useRef } from "react";
 import type { useAnimatedScrollHandler } from "react-native-reanimated";
+import Animated from "react-native-reanimated";
 
-import { Separator, SizableText, Spinner, Stack, useWindowDimensions } from "tamagui";
+import type { ContentStyle, MasonryFlashListProps, MasonryFlashListRef } from "@shopify/flash-list";
+import { SizableText, Spinner, Stack, useWindowDimensions } from "tamagui";
 
 import { useCharacterId } from "@/hooks/use-character-id";
 import type { FeedType, SearchType } from "@/models/home.model";
@@ -13,16 +14,16 @@ import { debounce } from "@/utils/debounce";
 import { GA } from "@/utils/GA";
 
 import { FeedListItem } from "./FeedListItem";
+import { Skeleton } from "./Skeleton";
 
 import topics from "../../data/topics.json";
 import { Center } from "../Base/Center";
 import { FillSpinner } from "../FillSpinner";
-import { ReanimatedFlashList } from "../ReanimatedFlashList";
+import { MasonryFlashList } from "../MasonryFlashList";
 import { MeasureContainer } from "../utils/MeasureContainer";
 
 export interface Props {
   onScroll?: ReturnType<typeof useAnimatedScrollHandler>
-  onScrollEndDrag?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void
   type?: FeedType
   noteIds?: string[]
   /**
@@ -33,20 +34,27 @@ export interface Props {
   tag?: string
   topic?: string
   searchType?: SearchType
+  contentContainerStyle?: ContentStyle
 }
 
 export const FeedList: FC<Props> = (props) => {
-  const { type, searchType, searchKeyword, tag, topic, noteIds, daysInterval = 7, onScroll, onScrollEndDrag } = props;
+  const { type, searchType, searchKeyword, contentContainerStyle = {}, tag, topic, noteIds, daysInterval = 7, onScroll } = props;
   const characterId = useCharacterId();
   const gaLog = debounce(() => GA.logSearch({ search_term: searchKeyword }), 2000);
+  const { width } = useWindowDimensions();
+  const listRef = useRef<MasonryFlashListRef<ExpandedNote>>(null);
 
   useEffect(() => {
     typeof searchKeyword === "string" && gaLog();
   }, [searchKeyword]);
 
+  useEffect(() => {
+    listRef.current?.scrollToOffset({ offset: 0, animated: false });
+  }, [type, daysInterval]);
+
   const queryParams = useMemo(() => ({
     type,
-    limit: 10,
+    limit: 30,
     characterId,
     noteIds,
     daysInterval,
@@ -56,76 +64,75 @@ export const FeedList: FC<Props> = (props) => {
     topicIncludeKeywords: topic
       ? topics.find(t => t.name === topic)?.includeKeywords
       : undefined,
-  }), [props]);
-
-  const feed = useGetFeed(queryParams);
-
-  const feedList = useMemo(() => (feed.data?.pages?.flatMap(page => page?.list) || []), [
-    feed.data?.pages,
+  }), [
+    type,
+    characterId,
+    noteIds,
+    daysInterval,
+    searchKeyword,
+    searchType,
+    tag,
+    topic,
   ]);
 
+  // TODO
+  const feed = useGetFeed(queryParams);
+  const feedList = useMemo(() => (feed.data?.pages?.flatMap(page => page?.list) || []), [feed.data?.pages]);
+
   return (
-    <MeasureContainer flex={1}>
-      {
-        ({ height }) => (
-          <ReanimatedFlashList<ExpandedNote>
-            data={feedList}
-            keyExtractor={post => `${post.characterId}-${post.noteId}`}
-            renderItem={({ item, index }) => (
-              <FeedListItem key={index} note={item} searchKeyword={searchKeyword}/>
-            )}
-            ListEmptyComponent={(
-              <Stack minHeight={height}>
-                {
-                  feed.isFetching
-                    ? <FillSpinner/>
-                    : (
-                      <Center flex={1}>
-                        <SizableText color={"$colorSubtitle"}>
-              There are no posts yet.
-                        </SizableText>
-                      </Center>
-                    )
-                }
-              </Stack>
-            )}
-            ListFooterComponent={feed.isFetchingNextPage && <Spinner paddingBottom="$5"/>}
-            ItemSeparatorComponent={() => <Separator borderColor={"$gray5"}/>}
-            estimatedItemSize={324}
-            bounces
-            scrollIndicatorInsets={{
-              right: 2,
-            }}
-            scrollEventThrottle={16}
-            onScroll={onScroll}
-            onScrollEndDrag={onScrollEndDrag}
-            onEndReachedThreshold={0.5}
-            onEndReached={() => {
-              if (
-                feedList.length === 0
-                    || feed.isFetchingNextPage
-                    || feed.hasNextPage === false
+    <MasonryFlashList<ExpandedNote>
+      data={feedList}
+      ref={listRef}
+      numColumns={2}
+      keyExtractor={post => `${post.characterId}-${post.noteId}`}
+      renderItem={({ item, index }) => (
+        <FeedListItem width={width / 2 - 12} key={index} note={item} searchKeyword={searchKeyword}/>
+      )}
+      ListEmptyComponent={(
+        <Stack>
+          {
+            feed.isFetching
+              ? <Skeleton itemWidth={width / 2 - 12}/>
+              : (
+                <Center flex={1}>
+                  <SizableText color={"$colorSubtitle"}>
+      There are no posts yet.
+                  </SizableText>
+                </Center>
               )
-                return;
-
-              GA.logEvent("feed_list_view", {
-                feed_length: feedList.length,
-                feed_type: queryParams.type,
-                query_limit: queryParams.limit,
-                character_id: queryParams.characterId,
-                note_ids: queryParams.noteIds,
-                days_interval: queryParams.daysInterval,
-                search_keyword: queryParams.searchKeyword,
-                search_type: queryParams.searchType,
-                tag: queryParams.tag,
-                topic_include_keywords: queryParams.topicIncludeKeywords,
-              });
-
-              feed?.fetchNextPage?.();
-            }}
-          />
+          }
+        </Stack>
+      )}
+      bounces
+      estimatedItemSize={251}
+      ListFooterComponent={feed.isFetchingNextPage && <Spinner paddingBottom="$5"/>}
+      contentContainerStyle={{ ...contentContainerStyle, paddingHorizontal: 4 }}
+      scrollEventThrottle={16}
+      onScroll={onScroll}
+      onEndReachedThreshold={2}
+      onEndReached={() => {
+        if (
+          feedList.length === 0
+            || feed.isFetchingNextPage
+            || feed.hasNextPage === false
         )
-      }
-    </MeasureContainer>
+          return;
+
+        GA.logEvent("feed_list_view", {
+          feed_length: feedList.length,
+          feed_type: queryParams.type,
+          query_limit: queryParams.limit,
+          character_id: queryParams.characterId,
+          note_ids: queryParams.noteIds,
+          days_interval: queryParams.daysInterval,
+          search_keyword: queryParams.searchKeyword,
+          search_type: queryParams.searchType,
+          tag: queryParams.tag,
+          topic_include_keywords: queryParams.topicIncludeKeywords,
+        });
+
+        feed?.fetchNextPage?.();
+      }}
+    />
   );
 };

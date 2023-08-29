@@ -17,7 +17,7 @@ export function HotInterval(props: SelectProps) {
   return (
     <Select value={val} onValueChange={setVal} {...props}>
       <Adapt platform="touch">
-        <Sheet modal dismissOnSnapToBottom snapPoints={[25]}>
+        <Sheet modal dismissOnSnapToBottom snapPoints={[45]}>
           <Sheet.Frame>
             <Sheet.ScrollView>
               <Adapt.Contents />

@@ -1,9 +1,38 @@
-export const javaScriptBeforeContentLoaded = (
-  isDarkMode: boolean,
+const lazyLoadImages = `
+var imagesToBlock = [];
+
+window.addEventListener("load", function() {
+  var restoreImages = function() {
+    for (var i = 0; i < imagesToBlock.length; i++) {
+      imagesToBlock[i].src = imagesToBlock[i].getAttribute("data-src");
+    }
+    imagesToBlock = [];
+  };
+
+  var blockImages = function() {
+    var images = document.getElementsByTagName("img");
+    for (var i = 0; i < images.length; i++) {
+      imagesToBlock.push(images[i]);
+      images[i].setAttribute("data-src", images[i].src);
+      images[i].src = "";
+    }
+  };
+
+  document.addEventListener("DOMContentLoaded", function() {
+    restoreImages();
+  });
+
+  blockImages();
+});
+`;
+
+export const javaScriptContentLoaded = (
   mode: string,
   bottomBarHeight: number,
   height: number,
 ) => `
+    ${lazyLoadImages}
+    
     const meta = document.createElement('meta'); 
     meta.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0'); 
     meta.setAttribute('name', 'viewport'); 
@@ -15,13 +44,9 @@ export const javaScriptBeforeContentLoaded = (
       return null;
     };
 
-    function updateColorMode() {
-      const xlogConfigurationKey = 'xlog';
-      const originalXLogStorageData = JSON.parse(localStorage.getItem(xlogConfigurationKey)||"{}");
-      originalXLogStorageData['darkMode'] = JSON.stringify(${isDarkMode});
-      localStorage.setItem(xlogConfigurationKey, JSON.stringify(originalXLogStorageData));
-      document.cookie = "color_scheme=${mode};";
-    }
+    // function updateColorMode() {
+    //   window.localStorage.setItem('darkMode', '${mode}');
+    // }
 
     function debounce(func, wait) {
       let timeout;
@@ -89,6 +114,8 @@ export const javaScriptBeforeContentLoaded = (
 
       const mainEle = document.querySelector("body > div.xlog-page.xlog-page-post.xlog-user.xlog-deprecated-class > main")
       if(mainEle){
+        mainEle.style.marginTop = "-20px";
+        mainEle.style.paddingBottom = "80px";
         mainEle.style.paddingTop = "0px";
         mainEle.style.paddingLeft = "8px";
         mainEle.style.paddingRight = "8px";
@@ -103,5 +130,5 @@ export const javaScriptBeforeContentLoaded = (
       subtree: true 
     });
 
-    updateColorMode();
+    // updateColorMode();
   `;

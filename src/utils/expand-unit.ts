@@ -1,3 +1,4 @@
+import { cloneDeep } from "@apollo/client/utilities";
 import type { CharacterEntity, NoteEntity } from "crossbell";
 import { nanoid } from "nanoid";
 
@@ -22,15 +23,16 @@ export const expandCrossbellNote = async ({
   const expandedNote: ExpandedNote = Object.assign(
     {
       metadata: {
-        content: {},
+        content: { },
       },
     },
-    note,
+    cloneDeep(note),
   );
 
   if (expandedNote.metadata?.content) {
+    let rendered;
     if (expandedNote.metadata?.content?.content) {
-      const rendered = renderPageContent(expandedNote.metadata.content.content);
+      rendered = renderPageContent(expandedNote.metadata.content.content);
 
       if (keyword) {
         const position = expandedNote.metadata.content.content
@@ -49,6 +51,20 @@ export const expandCrossbellNote = async ({
 
       expandedNote.metadata.content.frontMatter = rendered.frontMatter;
     }
+
+    expandedNote.metadata.content.cover
+      = expandedNote.metadata?.content?.attachments?.find(
+        attachment => attachment.name === "cover",
+      )?.address || rendered?.cover;
+
+    expandedNote.metadata.content.images = [];
+    const cover = expandedNote.metadata?.content?.attachments?.find(attachment => attachment.name === "cover")?.address;
+    if (cover) {
+      expandedNote.metadata.content.images.push(cover);
+    }
+    expandedNote.metadata.content.images = expandedNote.metadata.content.images.concat(rendered?.images || []);
+    expandedNote.metadata.content.images = [...new Set(expandedNote.metadata.content.images)];
+
     expandedNote.metadata.content.slug = encodeURIComponent(
       expandedNote.metadata.content.attributes?.find(
         a => a.trait_type === "xlog_slug",
@@ -64,6 +80,7 @@ export const expandCrossbellNote = async ({
       expandedNote.metadata.content.views = stat.viewDetailCount;
     }
   }
+
   return expandedNote;
 };
 

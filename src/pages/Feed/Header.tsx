@@ -1,229 +1,104 @@
 import type { FC } from "react";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import Animated, { FadeInLeft, FadeOutLeft, interpolate, useAnimatedStyle, useDerivedValue, withTiming } from "react-native-reanimated";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import type Animated from "react-native-reanimated";
 
 import { useConnectedAccount } from "@crossbell/react-account";
-import { ChevronDown } from "@tamagui/lucide-icons";
-import { Button, isWeb, Stack, Text, XStack, YStack } from "tamagui";
+import { Stack, Text, XStack } from "tamagui";
 
-import { NavigationHeader } from "@/components/Header";
-import { isAndroid } from "@/constants/platform";
-import { useColors } from "@/hooks/use-colors";
-import type { FeedType as AllFeedType } from "@/models/home.model";
+import { useHitSlopSize } from "@/hooks/use-hit-slop-size";
+import { HeaderAnimatedLayout } from "@/pages/Feed/HeaderAnimatedLayout";
 import { GA } from "@/utils/GA";
 
+import { Background } from "./Background";
+import { feedTypes, type FeedType } from "./feedTypes";
 import { HotInterval } from "./HotInterval";
 
-export type FeedType = Extract<AllFeedType, "latest" | "hottest" | "following">;
-
-export const feedType: Record<Uppercase<FeedType>, FeedType> = {
-  LATEST: "latest",
-  HOTTEST: "hottest",
-  FOLLOWING: "following",
-};
-
 export interface Props {
-  isExpandedAnimValue: Animated.SharedValue<0 | 1>
-  currentFeedType: FeedType
+  isExpandedAnimValue: Animated.SharedValue<number>
   daysInterval: number
+  type?: FeedType
   onFeedTypeChange: (type: FeedType) => void
   onDaysIntervalChange: (days: number) => void
   isSearching?: boolean
 }
 
-type Measurements = Array<Partial<{ x: number; width: number }>>;
+export const HeaderTabHeight = 60;
 
 export const Header: FC<Props> = (props) => {
-  const { daysInterval, isSearching, onDaysIntervalChange } = props;
-  const { primary: primaryColor, subtitle: inactiveColor } = useColors();
+  const { daysInterval, isSearching, type, onDaysIntervalChange } = props;
   const i18n = useTranslation("dashboard");
-  const { isExpandedAnimValue, currentFeedType, onFeedTypeChange } = props;
-  const [_measurements, setMeasurements] = useState<Measurements>([]);
+  const { isExpandedAnimValue, onFeedTypeChange } = props;
+  const [activeIndex, setActiveIndex] = useState(0);
   const connectedAccount = useConnectedAccount();
-  const indicatorAnimValuePos = useDerivedValue(() => withTiming(Object.values(feedType).indexOf(currentFeedType)), [currentFeedType]);
+  const hitSlop = useHitSlopSize(60);
   const [isHotIntervalBottomSheetOpen, setIsHotIntervalBottomSheetOpen] = useState(false);
 
-  const tabs: Array<{
-    type: FeedType
-    title: string | ((props: { tintColor: string; fontWeight: string }) => React.ReactNode)
-    onPress?: () => void
-  }> = useMemo(() => {
-    const tabs = [
-      {
-        type: feedType.LATEST,
-        title: ({ tintColor, fontWeight }) => (
-          <Text
-            color={tintColor}
-            fontWeight={fontWeight}
-            fontSize={"$5"}
-          >
-            {i18n.t("Latest")}
-          </Text>
-        ),
-      },
-      {
-        type: feedType.HOTTEST,
-        title: ({ tintColor, fontWeight }) => (
-          <XStack alignItems="center" gap="$1">
-            <Stack height={18}>
-              <Text
-                color={tintColor}
-                fontWeight={fontWeight}
-                fontSize={"$5"}
-              >
-                {i18n.t("Hottest")}
-              </Text>
-            </Stack>
-            {currentFeedType === feedType.HOTTEST && (
-              <Animated.View entering={FadeInLeft.duration(200)} exiting={FadeOutLeft.duration(200)}>
-                <Stack paddingTop={isAndroid ? "$1" : undefined}>
-                  <ChevronDown
-                    color={tintColor}
-                    fontWeight={fontWeight}
-                    width={12}
-                    height={12}
-                  />
-                </Stack>
-              </Animated.View>
-            )}
-            <HotInterval
-              open={isHotIntervalBottomSheetOpen}
-              value={daysInterval.toString()}
-              onOpenChange={setIsHotIntervalBottomSheetOpen}
-              onValueChange={(value) => {
-                setIsHotIntervalBottomSheetOpen(false);
-                onDaysIntervalChange(Number(value));
-              }}
-            />
-          </XStack>
-        ),
-        onPress: () => {
-          const isHotActive = currentFeedType === feedType.HOTTEST;
-          isHotActive
-            ? setIsHotIntervalBottomSheetOpen(true)
-            : onFeedTypeChange(feedType.HOTTEST);
-        },
-      },
-    ];
-
-    if (connectedAccount && !isSearching) {
-      tabs.push({
-        type: feedType.FOLLOWING,
-        title: ({ tintColor, fontWeight }) => (
-          <Text
-            color={tintColor}
-            fontWeight={fontWeight}
-            fontSize={"$5"}
-          >
-            {i18n.t("Following")}
-          </Text>
-        ),
-      });
-    }
-
-    return tabs;
-  }, [
-    connectedAccount,
-    currentFeedType,
-    i18n,
-    isHotIntervalBottomSheetOpen,
-    daysInterval,
-    isSearching,
-    onFeedTypeChange,
-    onDaysIntervalChange,
-  ]);
-
-  const measurements = useMemo<Measurements | undefined>(() => {
-    if (_measurements.filter(m => !!m).length === tabs.length)
-      return _measurements;
-
-    return undefined;
-  }, [_measurements, tabs]);
-
-  const indicatorAnimStyle = useAnimatedStyle(() => {
-    if ((_WORKLET || isWeb) && measurements) {
-      const width = interpolate(
-        indicatorAnimValuePos.value,
-        [0, 1, 2],
-        measurements.map(m => (m?.width ?? 0) / 2),
-      );
-
-      return {
-        width,
-        opacity: 1,
-        left: interpolate(
-          indicatorAnimValuePos.value,
-          [0, 1, 2],
-          measurements.map(m => m?.x ?? 0),
-        ),
-        transform: [
-          {
-            translateX: width / 2,
-          },
-        ],
-      };
-    }
-    return {
-      opacity: 0,
-    };
-  }, [currentFeedType, measurements]);
+  const onPressSortBy = useCallback(() => {
+    setIsHotIntervalBottomSheetOpen(true);
+  }, []);
 
   return (
-    <>
-      <NavigationHeader expanded={isExpandedAnimValue} />
-      <YStack borderBottomWidth={1} borderBottomColor={"$gray4"}>
-        <XStack alignItems="center">
+    <Stack>
+      <Background activeIndex={activeIndex}/>
+      <HeaderAnimatedLayout type={type} onPressSortBy={onPressSortBy} expanded={isExpandedAnimValue}>
+        <XStack marginHorizontal="$3" gap="$4" height={HeaderTabHeight}>
           {
-            tabs.map(({ type, title, onPress }, index) => {
-              const isActive = type === currentFeedType;
-              const tintColor = isActive ? primaryColor : inactiveColor;
-              const fontWeight = isActive ? "bold" : "normal";
-              const content = typeof title === "string"
-                ? (
-                  <Text
-                    color={tintColor}
-                    fontWeight={"$16"}
-                  >
-                    {title}
-                  </Text>
-                )
-                : title({ tintColor, fontWeight });
+            Object.values(feedTypes).map((type, index) => {
+              if (type === feedTypes.FOLLOWING && (!connectedAccount || isSearching)) {
+                return null;
+              }
+
+              const content = {
+                [feedTypes.LATEST]: i18n.t("Latest"),
+                [feedTypes.HOTTEST]: i18n.t("Hottest"),
+                [feedTypes.FOLLOWING]: i18n.t("Following"),
+              }[type];
+
+              const isActive = activeIndex === index;
 
               return (
-                <Stack
+                <TouchableOpacity
                   key={type}
-                  onLayout={({ nativeEvent: { layout: { width, x } } }) => {
-                    setMeasurements((prev) => {
-                      const newButtonMeasurements = [...prev];
-                      newButtonMeasurements[index] = { width, x };
-                      return newButtonMeasurements;
-                    });
+                  onLayout={hitSlop.onLayout}
+                  hitSlop={hitSlop.hitSlop}
+                  onPress={() => {
+                    // TODO: Too many sync operations in fetching functions of feed list
+                    setTimeout(() => {
+                      onFeedTypeChange(type);
+                    }, 50);
+                    setActiveIndex(index);
+                    if (type === feedTypes.FOLLOWING) {
+                      const isHotActive = activeIndex === 1;
+                      isHotActive
+                        ? setIsHotIntervalBottomSheetOpen(true)
+                        : onFeedTypeChange(feedTypes.HOTTEST);
+                    }
+                    GA.logEvent("feed_type_changed", { feed_type: type });
                   }}
                 >
-                  <Button
-                    marginTop={5}
-                    height={40}
-                    unstyled
-                    padding={12}
-                    paddingBottom={0}
-                    onPress={() => {
-                      GA.logEvent("feed_type_changed", { feed_type: type });
-
-                      onPress
-                        ? onPress?.()
-                        : onFeedTypeChange(type);
-                    }}
-                  >
-                    {content}
-                  </Button>
-                </Stack>
+                  <Stack height={50} justifyContent="flex-end">
+                    <Text color={isActive ? "#fff" : "#8F8F91"} fontSize={isActive ? 36 : 16} lineHeight={isActive ? 36 : 26} fontWeight={isActive ? "bold" : "normal"}>
+                      {content}
+                    </Text>
+                  </Stack>
+                </TouchableOpacity>
               );
             })
           }
         </XStack>
-        <Animated.View style={[indicatorAnimStyle, { borderBottomWidth: 2, borderColor: primaryColor }]} />
-      </YStack>
-    </>
+      </HeaderAnimatedLayout>
+
+      <HotInterval
+        open={isHotIntervalBottomSheetOpen}
+        value={daysInterval.toString()}
+        onOpenChange={setIsHotIntervalBottomSheetOpen}
+        onValueChange={(value) => {
+          setIsHotIntervalBottomSheetOpen(false);
+          onDaysIntervalChange(Number(value));
+        }}
+      />
+    </Stack>
   );
 };

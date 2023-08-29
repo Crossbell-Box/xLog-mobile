@@ -9,7 +9,7 @@ import { Circle, Text, Avatar as _Avatar } from "tamagui";
 import { useNavigateToUserInfo } from "@/hooks/use-navigate-to-user-info";
 import { toGateway } from "@/utils/ipfs-parser";
 
-import { LogoResource } from "./Logo";
+import { LogoResource, LogoLightResource } from "./Logo";
 import { XTouch } from "./XTouch";
 
 interface Props {
@@ -42,23 +42,38 @@ export const Avatar: FC<Props> = (props) => {
     .join("");
 
   if (!uri || (!uri.startsWith("/assets/") && !isValidUrl(uri))) {
-    if (useDefault) {
-      return (
-        <TouchableOpacity disabled={!isNavigateToUserInfo} onPress={navigateToUserInfo}>
-          <Circle
-            size={size}
-            circular
-            backgroundColor="$background"
-          >
-            <Text textAlign="center" fontSize={size / 2} fontWeight={"700"}>
-              {nameAbbr}
-            </Text>
-          </Circle>
-        </TouchableOpacity>
+    let avatar: React.ReactNode = null;
+    if (useDefault && nameAbbr) {
+      avatar = (
+        <Circle
+          size={size}
+          circular
+          backgroundColor="$background"
+        >
+          <Text textAlign="center" fontSize={size / 2} fontWeight={"700"}>
+            {nameAbbr}
+          </Text>
+        </Circle>
+      );
+    }
+    else {
+      avatar = (
+        <Circle
+          size={size}
+          circular
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Image source={LogoLightResource} contentFit={"contain"} style={{ height: "75%", width: "75%" }} />
+        </Circle>
       );
     }
 
-    return null;
+    return (
+      <TouchableOpacity disabled={!isNavigateToUserInfo} onPress={navigateToUserInfo}>
+        {avatar}
+      </TouchableOpacity>
+    );
   }
 
   return (

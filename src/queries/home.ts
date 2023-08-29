@@ -6,10 +6,12 @@ export const useGetFeed = (data?: Parameters<typeof homeModel.getFeed>[0]) => {
   return useInfiniteQuery({
     queryKey: ["getFeed", data],
     queryFn: async ({ pageParam }) => {
-      return homeModel.getFeed({
+      const result = await homeModel.getFeed({
         ...data,
         cursor: pageParam,
       });
+
+      return result;
     },
     getNextPageParam: lastPage => lastPage?.cursor || undefined,
   });

@@ -8,9 +8,15 @@ import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import { unified } from "unified";
 
+import { rehypeAudio } from "./rehype-audio";
+import { rehypeImage } from "./rehype-image";
+
 export interface MarkdownEnv {
   excerpt: string
   frontMatter: Record<string, any>
+  cover: string
+  audio: string
+  images: string[]
   toc: TocResult | null
   tree: Root | null
 }
@@ -18,6 +24,9 @@ export interface MarkdownEnv {
 export interface Rendered {
   excerpt: string
   frontMatter: Record<string, any>
+  cover: string
+  audio: string
+  images: string[]
   toc: TocResult | null
   tree: Root | null
 }
@@ -26,6 +35,9 @@ export const renderPageContent = (content: string): Rendered => {
   const env: MarkdownEnv = {
     excerpt: "",
     frontMatter: {},
+    cover: "",
+    audio: "",
+    images: [],
     toc: null,
     tree: null,
   };
@@ -55,16 +67,22 @@ export const renderPageContent = (content: string): Rendered => {
       })
       .use(remarkRehype)
       .use(rehypeStringify)
-      .use(rehypeInferDescriptionMeta);
+      .use(rehypeInferDescriptionMeta)
+      .use(rehypeImage, { env })
+      .use(rehypeAudio, { env });
 
     result = processor.processSync(content);
   }
   catch (e) {
     console.error(e);
   }
+
   return {
     excerpt: result?.data.meta.description,
     frontMatter: env.frontMatter,
+    cover: env.cover,
+    audio: env.audio,
+    images: env.images,
     toc: env.toc,
     tree: env.tree,
   };

@@ -1,4 +1,5 @@
 import type { FC } from "react";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 import * as Haptics from "expo-haptics";
 import type { GenericTouchableProps } from "react-native-gesture-handler/lib/typescript/components/touchables/GenericTouchable";
@@ -7,7 +8,7 @@ import { useHitSlopSize } from "@/hooks/use-hit-slop-size";
 import { callChain } from "@/utils/call-chain";
 
 interface Props extends GenericTouchableProps {
-  touchableComponent: React.ComponentType<GenericTouchableProps>
+  touchableComponent?: React.ComponentType<GenericTouchableProps>
 
   enableHaptics?: boolean
   hapticsType?: Haptics.ImpactFeedbackStyle
@@ -19,8 +20,10 @@ export const XTouch: FC<Props> = (props) => {
 
   const hitSlop = useHitSlopSize(hitSlopSize);
 
+  const TouchableComponent = props.touchableComponent ?? TouchableWithoutFeedback;
+
   return (
-    <props.touchableComponent
+    <TouchableComponent
       {...props}
       hitSlop={props.hitSlop ?? hitSlop.hitSlop}
       onLayout={callChain([props.onLayout, hitSlop.onLayout])}

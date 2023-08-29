@@ -1,12 +1,12 @@
 import type { FC } from "react";
 import React, { useEffect } from "react";
-import QRCode from "react-native-qrcode-svg";
 import { useSharedValue, withSpring, withDelay } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Stack, YStack, Separator } from "tamagui";
 
+import { DelayedRender } from "@/components/DelayRender";
 import { ImageGallery } from "@/components/ImageGallery";
 import { usePostWebViewLink } from "@/hooks/use-post-link";
 import { useScrollVisibilityHandler } from "@/hooks/use-scroll-visibility-handler";
@@ -15,15 +15,19 @@ import type { RootStackParamList } from "@/navigation/types";
 import { Header as UserInfoHeader } from "@/pages/UserInfo/Header";
 import { GA } from "@/utils/GA";
 
-import { BottomBar } from "./BottomBar";
+import { BottomSheetModal } from "./BottomSheetModal";
 import type { PostDetailsContentInstance } from "./Content";
 import { Content } from "./Content";
 import { Header } from "./Header";
+import { Navigator } from "./Navigator";
 
 export interface Props {
   noteId: number
   characterId: number
+  coverImageIndex?: number
 }
+
+const animationTimeout = 800;
 
 export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, "PostDetails">> = (props) => {
   const { route, navigation } = props;
@@ -44,20 +48,6 @@ export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, "Pos
 
   const onTakeScreenshot = React.useCallback(async (): Promise<string> => contentRef.current.takeScreenshot(), []);
 
-  const qrCodeComponent = postUri && (
-    <Stack
-      backgroundColor={"$color"}
-      padding={"$2"}
-      borderRadius={"$2"}
-      overflow="hidden"
-      position="absolute"
-      right={0}
-      top={0}
-    >
-      <QRCode size={70} value={postUri} logoSize={30} logoBackgroundColor="transparent"/>
-    </Stack>
-  );
-
   useEffect(() => {
     followAnimValue.value = withDelay(1500, withSpring(1));
     GA.logEvent("start_reading_post", {
@@ -69,7 +59,7 @@ export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, "Pos
   return (
     <>
       <Stack flex={1} backgroundColor={isDarkMode ? "black" : "white"}>
-        <Header
+        <Navigator
           onTakeScreenshot={onTakeScreenshot}
           isExpandedAnimValue={scrollVisibilityHandler.isExpandedAnimValue}
           characterId={params.characterId}
@@ -77,24 +67,20 @@ export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, "Pos
           postUri={postUri}
           headerContainerHeight={headerContainerHeight}
         />
+
         <Content
           ref={contentRef}
           postUri={postUri ? `${postUri}?only-content=true` : undefined}
           renderHeaderComponent={(isCapturing) => {
             return (
-              <YStack
-                paddingTop={headerContainerHeight + top}
-                backgroundColor={isDarkMode ? "black" : "white"}
-              >
-                <Stack paddingHorizontal={"$2"}>
-                  <UserInfoHeader
-                    replaceFollowButtonWithOtherComponent={isCapturing && qrCodeComponent}
-                    characterId={params.characterId}
-                  />
-                </Stack>
-
-                <Separator marginVertical="$4"/>
-              </YStack>
+              <Header
+                isCapturing={isCapturing}
+                headerContainerHeight={headerContainerHeight}
+                postUri={postUri}
+                noteId={params.noteId}
+                characterId={params.characterId}
+                coverImageIndex={params.coverImageIndex}
+              />
             );
           }}
           characterId={params.characterId}
@@ -104,11 +90,14 @@ export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, "Pos
           bottomBarHeight={bottomBarHeight}
           headerContainerHeight={headerContainerHeight}
         />
-        <BottomBar
-          characterId={params.characterId}
-          noteId={params.noteId}
-          bottomBarHeight={bottomBarHeight}
-        />
+
+        <DelayedRender timeout={animationTimeout}>
+          <BottomSheetModal
+            characterId={params.characterId}
+            noteId={params.noteId}
+            bottomBarHeight={bottomBarHeight}
+          />
+        </DelayedRender>
       </Stack>
 
       <ImageGallery
