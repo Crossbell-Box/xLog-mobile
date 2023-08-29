@@ -8,19 +8,11 @@ import { Stack } from "tamagui";
 export const width = Dimensions.get("window").width;
 export const height = width / 1.58;
 
-const bgs = [
-  require("../../assets/home-grid-bg/0.png"),
-  require("../../assets/home-grid-bg/1.png"),
-  require("../../assets/home-grid-bg/2.png"),
-];
-
-export const Background: FC<{
-  activeIndex: number
-}> = ({ activeIndex }) => {
+export const Background: FC<{}> = () => {
   return (
     <Stack position="absolute" width={width} height={height}>
       <Image
-        source={bgs[activeIndex]}
+        source={require("../../assets/home-grid-bg/0.png")}
         contentFit="contain"
         cachePolicy="memory"
         style={{ width, height }}

@@ -1,4 +1,4 @@
-import React, { useImperativeHandle, useRef, useEffect, useMemo } from "react";
+import React, { useImperativeHandle, useRef, useEffect, useMemo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Dimensions, StyleSheet } from "react-native";
 import DeviceInfo from "react-native-device-info";
@@ -24,11 +24,11 @@ import type { useScrollVisibilityHandler } from "@/hooks/use-scroll-visibility-h
 import { useThemeStore } from "@/hooks/use-theme-store";
 import type { RootStackParamList } from "@/navigation/types";
 import { useGetPage } from "@/queries/page";
-import { callChain } from "@/utils/call-chain";
 import { GA } from "@/utils/GA";
 import { getNoteSlug } from "@/utils/get-slug";
 
-import { javaScriptBeforeContentLoaded } from "./javascript-content";
+import { javaScriptBeforeContentLoaded } from "./javascript-before-content";
+import { javaScriptContentLoaded } from "./javascript-content";
 import { Skeleton } from "./Skeleton";
 
 export interface Props {
@@ -59,13 +59,11 @@ export const Content = React.forwardRef<PostDetailsContentInstance, Props>((prop
   const screenshotsRef = useRef<Animated.ScrollView>(null);
   const [displayImageUris, setDisplayImageUris] = React.useState<string[]>([]);
 
-  const page = useGetPage(
-    {
-      characterId: character?.data?.characterId,
-      slug: getNoteSlug(note.data),
-      useStat: true,
-    },
-  );
+  const page = useGetPage({
+    characterId: character?.data?.characterId,
+    slug: getNoteSlug(note.data),
+    useStat: true,
+  });
 
   const pageIsNotFound = useMemo(() => {
     if (page.isLoading || page.isError || !page.data) {
@@ -91,6 +89,11 @@ export const Content = React.forwardRef<PostDetailsContentInstance, Props>((prop
   const toast = useToastController();
   const gaReadEventLogged = useRef(false);
   const noteTitle = note.data?.metadata?.content?.title;
+
+  const scrollIndicatorInsets = useMemo(() => ({
+    top: headerHeight - top,
+    bottom: bottomBarHeight - bottom,
+  }), [headerHeight, bottomBarHeight, bottom]);
 
   useGAWithPageStayTime({
     page_name: "post_details",
@@ -123,11 +126,35 @@ export const Content = React.forwardRef<PostDetailsContentInstance, Props>((prop
     }
   };
 
-  const closeModal = React.useCallback(() => {
-    setDisplayImageUris([]);
-  }, []);
+  const renderLoading = useCallback(() => {
+    return (
+      <Stack position="absolute" flex={1} backgroundColor={backgroundColor} {...StyleSheet.absoluteFillObject}>
+        <Skeleton webviewLoadingAnimValue={webviewLoadingAnimValue} headerHeight={0} />
+      </Stack>
+    );
+  }, [webviewLoadingAnimValue, headerHeight]);
 
-  const onSaveImageAsync = async () => {
+  const closeModal = React.useCallback(() => setDisplayImageUris([]), []);
+
+  const onMomentumScrollEnd = React.useCallback((e) => {
+    if (gaReadEventLogged.current) {
+      return;
+    }
+    const offsetY = e.nativeEvent.contentOffset.y + e.nativeEvent.layoutMeasurement.height;
+    const height = e.nativeEvent.contentSize.height;
+    // Wether the scroll view is at the bottom
+    if (offsetY / height >= 0.9) {
+      GA.logEvent("post_details_read_completely", {
+        character_id: myCharacterId,
+        note_id: noteId,
+        note_title: noteTitle,
+      }).then(() => {
+        gaReadEventLogged.current = true;
+      });
+    }
+  }, [myCharacterId, noteId, noteTitle]);
+
+  const onSaveImageAsync = useCallback(async () => {
     try {
       globalLoading.show();
 
@@ -169,7 +196,7 @@ export const Content = React.forwardRef<PostDetailsContentInstance, Props>((prop
     finally {
       globalLoading.hide();
     }
-  };
+  }, [globalLoading, toast, i18n, width, screenshotsRef]);
 
   useImperativeHandle(ref, () => ({
     takeScreenshot: onSaveImageAsync,
@@ -180,8 +207,8 @@ export const Content = React.forwardRef<PostDetailsContentInstance, Props>((prop
   }, []);
 
   useEffect(() => {
-    DeviceInfo.getUserAgent().then((us) => {
-      setUserAgent(`${us} ReactNative/${VERSION}`);
+    DeviceInfo.getUserAgent().then((ua) => {
+      setUserAgent(`${ua} ReactNative/${VERSION}`);
     });
   }, []);
 
@@ -202,70 +229,37 @@ export const Content = React.forwardRef<PostDetailsContentInstance, Props>((prop
             ref={screenshotsRef}
             bounces={false}
             {...scrollVisibilityHandler}
-            onMomentumScrollEnd={
-              callChain([
-                scrollVisibilityHandler.onMomentumScrollEnd,
-                (e: any) => {
-                  if (gaReadEventLogged.current) {
-                    return;
-                  }
-                  const offsetY = e.nativeEvent.contentOffset.y + e.nativeEvent.layoutMeasurement.height;
-                  const height = e.nativeEvent.contentSize.height;
-                  // 是否到达底部
-                  if (offsetY / height >= 0.9) {
-                    GA.logEvent("post_details_read_completely", {
-                      character_id: myCharacterId,
-                      note_id: noteId,
-                      note_title: noteTitle,
-                    }).then(() => {
-                      gaReadEventLogged.current = true;
-                    });
-                  }
-                },
-              ])
-            }
-            style={styles.scrollView}
-            contentContainerStyle={{ paddingBottom: bottomBarHeight }}
             scrollEventThrottle={16}
-            scrollIndicatorInsets={{
-              top: headerHeight - top,
-              bottom: bottomBarHeight - bottom,
-            }}
+            style={styles.scrollView}
+            onMomentumScrollEnd={onMomentumScrollEnd}
+            scrollIndicatorInsets={scrollIndicatorInsets}
+            contentContainerStyle={{ paddingBottom: bottomBarHeight }}
           >
             {renderHeaderComponent?.(isCapturing)}
             <Animated.ScrollView
-              style={[
-                styles.webviewContainer,
-                { height: webviewHeight },
-              ]}
               contentContainerStyle={{ height: webviewHeight }}
               scrollEventThrottle={16}
             >
               {postUri && userAgent && (
                 <WebView
-                  javaScriptEnabled
+                  progressBarShown={false}
                   userAgent={userAgent}
                   source={{ uri: postUri }}
-                  style={[styles.webview, { backgroundColor }]}
                   containerStyle={styles.webview}
                   scrollEnabled={false}
                   cacheEnabled
-                  renderLoading={() => (
-                    <Stack position="absolute" flex={1} backgroundColor={backgroundColor} {...StyleSheet.absoluteFillObject}>
-                      <Skeleton webviewLoadingAnimValue={webviewLoadingAnimValue} headerHeight={0} />
-                    </Stack>
-                  )}
-                  startInLoadingState={true}
+                  startInLoadingState
+                  javaScriptEnabled
+                  domStorageEnabled
+                  sharedCookiesEnabled
+                  thirdPartyCookiesEnabled
+                  renderLoading={renderLoading}
                   cacheMode="LOAD_CACHE_ELSE_NETWORK"
                   showsVerticalScrollIndicator={false}
                   showsHorizontalScrollIndicator={false}
                   onMessage={onWebViewMessage}
-                  injectedJavaScript={javaScriptBeforeContentLoaded(
-                    isDarkMode,
-                    mode,
-                    bottomBarHeight,
-                    height,
-                  )}
+                  injectedJavaScript={javaScriptContentLoaded(mode, bottomBarHeight, height)}
+                  injectedJavaScriptBeforeContentLoaded={javaScriptBeforeContentLoaded(mode)}
                 />
               )}
             </Animated.ScrollView>

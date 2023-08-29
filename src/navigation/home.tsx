@@ -1,26 +1,27 @@
-import { useContext, useRef } from "react";
+import type { FC } from "react";
+import { useContext, useEffect, useMemo } from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Animated, { interpolate, useAnimatedStyle } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useIsConnected } from "@crossbell/react-account";
-import type { BottomTabNavigationEventMap } from "@react-navigation/bottom-tabs";
+import type { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import type { EventListenerCallback } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { Bell, Home, Search, User2 } from "@tamagui/lucide-icons";
 import { BlurView } from "expo-blur";
-import * as Haptics from "expo-haptics";
-import { Stack, Text, XStack } from "tamagui";
+import { Stack, XStack } from "tamagui";
 
 import { Center } from "@/components/Base/Center";
 import { Drawer } from "@/components/Drawer";
 import { GlobalAnimationContext } from "@/context/global-animation-context";
 import { useCharacterId } from "@/hooks/use-character-id";
 import { useColors } from "@/hooks/use-colors";
-import { useRootNavigation } from "@/hooks/use-navigation";
+import { useCurrentRoute } from "@/hooks/use-current-route";
 import { useGetUnreadCount } from "@/models/site.model";
 import { ExplorePage } from "@/pages/Explore";
 import { FeedPage } from "@/pages/Feed";
+import { IntroductionPage } from "@/pages/Introduction";
 import { NotificationsPageWithBottomTab } from "@/pages/Profile/Notifications";
 import { MyUserInfoPage } from "@/pages/UserInfo";
 
@@ -28,9 +29,9 @@ import type { HomeBottomTabsParamList } from "./types";
 
 const HomeBottomTabs = createBottomTabNavigator<HomeBottomTabsParamList>();
 
-function TabBar({ state, descriptors, navigation }) {
+const TabBar: FC<BottomTabBarProps> = ({ state, descriptors, navigation }) => {
   const { bottom } = useSafeAreaInsets();
-  const { isExpandedAnimValue, onScroll } = useContext(GlobalAnimationContext).homeFeed;
+  const { isExpandedAnimValue } = useContext(GlobalAnimationContext).homeFeed;
   const height = 55;
   const bottomSize = bottom + 20;
   const animStyles = useAnimatedStyle(() => {
@@ -69,7 +70,9 @@ function TabBar({ state, descriptors, navigation }) {
               });
 
               if (!isFocused && !event.defaultPrevented) {
+                // TODO
                 // The `merge: true` option makes sure that the params inside the tab screen are preserved
+                // @ts-expect-error
                 navigation.navigate({ name: route.name, merge: true });
               }
             };
@@ -103,38 +106,19 @@ function TabBar({ state, descriptors, navigation }) {
       </Stack>
     </Animated.View>
   );
-}
+};
 
 export const HomeNavigator = () => {
   const { pick } = useColors();
   const characterId = useCharacterId();
   const isConnected = useIsConnected();
-  const navigation = useRootNavigation();
   const notificationUnreadCount = useGetUnreadCount(characterId);
-
-  const tabPressHandler = (name: keyof HomeBottomTabsParamList): EventListenerCallback<BottomTabNavigationEventMap, "tabPress"> => {
-    return (e) => {
-      if (name === "Notifications") {
-        notificationUnreadCount.refetch();
-      }
-      if (!isConnected) {
-        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
-        navigation.navigate("Login");
-        e.preventDefault();
-      }
-    };
-  };
 
   return (
     <Drawer>
       <HomeBottomTabs.Navigator
         initialRouteName="Feed"
-        screenOptions={{
-          headerShown: false,
-          // tabBarStyle: {
-          //   opacity: 0,
-          // },
-        }}
+        screenOptions={{ headerShown: false }}
         tabBar={props => <TabBar {...props} />}
       >
         <HomeBottomTabs.Screen
@@ -155,10 +139,11 @@ export const HomeNavigator = () => {
         />
         <HomeBottomTabs.Screen
           name={"Notifications"}
-          component={NotificationsPageWithBottomTab}
-          listeners={{
-            tabPress: tabPressHandler("Notifications"),
-          }}
+          component={
+            isConnected
+              ? NotificationsPageWithBottomTab
+              : IntroductionPage
+          }
           options={{
             tabBarShowLabel: false,
             tabBarIcon: props => <Bell {...props} />,
@@ -175,10 +160,11 @@ export const HomeNavigator = () => {
         <HomeBottomTabs.Screen
           name={"Profile"}
           key={characterId}
-          component={MyUserInfoPage}
-          listeners={{
-            tabPress: tabPressHandler("Profile"),
-          }}
+          component={
+            isConnected
+              ? MyUserInfoPage
+              : IntroductionPage
+          }
           options={{
             tabBarShowLabel: false,
             tabBarIcon: props => <User2 {...props} />,

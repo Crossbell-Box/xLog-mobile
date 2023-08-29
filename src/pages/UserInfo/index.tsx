@@ -27,12 +27,6 @@ import type { ExpandedNote } from "@/types/crossbell";
 import { Header } from "./Header";
 import { PostsListItem } from "./PostsListItem";
 
-export interface SceneRendererProps {
-  layout: Layout
-  position: Animated.AnimatedInterpolation<number>
-  jumpTo: (key: string) => void
-}
-
 const StatusBarHeight = StatusBar.currentHeight ?? 0;
 
 const HomeScene: FC<{ characterId: number; index: number }> = ({ characterId, index }) => {

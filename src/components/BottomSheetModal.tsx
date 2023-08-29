@@ -1,17 +1,22 @@
 import React, { useMemo } from "react";
 import { StyleSheet } from "react-native";
-import Animated, { Extrapolate, interpolate, useAnimatedStyle } from "react-native-reanimated";
+import Animated, { Extrapolate, interpolate, runOnJS, useAnimatedReaction, useAnimatedStyle } from "react-native-reanimated";
 
 import type { BottomSheetBackdropProps, BottomSheetModalProps } from "@gorhom/bottom-sheet";
 import { BottomSheetModal as _BottomSheetModal } from "@gorhom/bottom-sheet";
+import { Stack } from "tamagui";
 
 import { useColors } from "@/hooks/use-colors";
 
 export type BottomSheetModalInstance = _BottomSheetModal;
 
+interface Props extends BottomSheetModalProps {
+  onPressBackdrop?: () => void
+}
+
 export const BottomSheetModal = React.forwardRef<
 BottomSheetModalInstance,
-BottomSheetModalProps
+Props
 >((props, ref) => {
   const { background, subtitle } = useColors();
 
@@ -21,13 +26,17 @@ BottomSheetModalProps
       ref={ref}
       handleIndicatorStyle={{ backgroundColor: subtitle }}
       handleStyle={styles.handleStyle}
-      backdropComponent={CustomBackdrop}
-      backgroundStyle={{ backgroundColor: background }}
+      backdropComponent={props.backdropComponent ?? (_props => <CustomizedBackdrop {..._props} onPress={props?.onPressBackdrop}/>)}
+      backgroundStyle={[{ backgroundColor: background }, props.backgroundStyle]}
     />
   );
 });
 
-const CustomBackdrop = ({ animatedIndex, style }: BottomSheetBackdropProps) => {
+export const CustomizedBackdrop = ({ animatedIndex, style, onPress }: BottomSheetBackdropProps & {
+  onPress?: () => void
+}) => {
+  const [shouldMount, setShouldMount] = React.useState(false);
+
   const containerAnimatedStyle = useAnimatedStyle(() => ({
     opacity: interpolate(
       animatedIndex.value,
@@ -46,8 +55,27 @@ const CustomBackdrop = ({ animatedIndex, style }: BottomSheetBackdropProps) => {
     [style, containerAnimatedStyle],
   );
 
+  useAnimatedReaction(
+    () => animatedIndex.value,
+    (value) => {
+      if (value === -1) {
+        runOnJS(setShouldMount)(false);
+      }
+      else if (shouldMount === false) {
+        runOnJS(setShouldMount)(true);
+      }
+    },
+    [onPress, shouldMount],
+  );
+
+  if (!shouldMount) {
+    return null;
+  }
+
   return (
-    <Animated.View style={containerStyle} />
+    <Animated.View style={containerStyle} >
+      <Stack onPress={onPress} flex={1}/>
+    </Animated.View>
   );
 };
 

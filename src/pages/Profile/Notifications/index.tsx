@@ -139,7 +139,9 @@ const NotificationsPage: FC<NativeStackScreenProps<RootStackParamList, "Notifica
 };
 
 export const NotificationsPageWithModal = NotificationsPage;
-export const NotificationsPageWithBottomTab = (props: ComponentPropsWithRef<typeof NotificationsPage>) => <SafeAreaView edges={["top"]} style={styles.safeArea}><NotificationsPage {...props} /></SafeAreaView>;
+export const NotificationsPageWithBottomTab = (props: ComponentPropsWithRef<typeof NotificationsPage>) => (
+  <SafeAreaView edges={["top"]} style={styles.safeArea}><NotificationsPage {...props} /></SafeAreaView>
+);
 
 const styles = StyleSheet.create({
   itemContainer: {

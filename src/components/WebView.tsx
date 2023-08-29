@@ -7,9 +7,10 @@ import { WebView as RNWebView } from "react-native-webview";
 interface Props extends RNWebViewProps {
   source: RNWebViewProps["source"]
   onProgress?: (progress: number) => void
+  progressBarShown?: boolean
 }
 
-const WebView = React.forwardRef<RNWebView, Props>(({ source, onProgress, ...props }, ref) => {
+const WebView = React.forwardRef<RNWebView, Props>(({ source, onProgress, progressBarShown = true, ...props }, ref) => {
   const [progress, setProgress] = useState(0);
 
   const handleLoadProgress = ({ nativeEvent }: any) => {
@@ -29,7 +30,7 @@ const WebView = React.forwardRef<RNWebView, Props>(({ source, onProgress, ...pro
         {...props}
         ref={ref}
       />
-      {progress > 0 && (
+      {progressBarShown && progress > 0 && (
         <Progress.Bar
           progress={progress}
           width={null}

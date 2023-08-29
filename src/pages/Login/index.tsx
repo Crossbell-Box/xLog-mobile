@@ -1,12 +1,11 @@
 import type { FC } from "react";
 import React, { useCallback, useMemo, useRef, useEffect } from "react";
 import { Dimensions } from "react-native";
-import Animated, { Easing, Extrapolate, interpolate, useAnimatedStyle } from "react-native-reanimated";
-import Carousel from "react-native-reanimated-carousel";
+import Animated, { Extrapolate, interpolate, useAnimatedStyle } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { useIsConnected, useIsWalletSignedIn } from "@crossbell/react-account";
-import BottomSheet, { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
+import { useIsConnected } from "@crossbell/react-account";
+import BottomSheet from "@gorhom/bottom-sheet";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { CharacterEntity } from "crossbell";
 import { Stack, Text, XStack, YStack } from "tamagui";
@@ -19,7 +18,6 @@ import { useAppIsActive } from "@/hooks/use-app-state";
 import { useColors } from "@/hooks/use-colors";
 import { useGlobalLoading } from "@/hooks/use-global-loading";
 import type { RootStackParamList } from "@/navigation/types";
-import { useGetShowcase } from "@/queries/home";
 import { withAnchorPoint } from "@/utils/anchor-point";
 
 export interface Props {
@@ -31,7 +29,7 @@ const ITEM_VERTICAL_GAP = 8;
 const ITEM_WIDTH = width - 2 * ITEM_HORIZONTAL_GAP;
 const ITEM_HEIGHT = 100 + 2 * ITEM_VERTICAL_GAP;
 
-export const LoginPage: FC<NativeStackScreenProps<RootStackParamList, "Web">> = (props) => {
+export const LoginPage: FC<NativeStackScreenProps<RootStackParamList, "Login">> = (props) => {
   const { navigation } = props;
   const globalLoading = useGlobalLoading();
   const navigateToTerms = () => navigation.navigate("Web", { url: "https://rss3.notion.site/Legal-Public-f30edd47c3be4dd7ae5ed4e39aefbbd9?pvs=4" });

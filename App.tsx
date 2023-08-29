@@ -11,12 +11,12 @@ import { KeyboardProvider } from "react-native-keyboard-controller";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { enableFreeze, enableScreens } from "react-native-screens";
 
-import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
+import BottomSheet, { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { QueryClient } from "@tanstack/react-query";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import * as Sentry from "sentry-expo";
 import type { SentryExpoNativeOptions } from "sentry-expo";
-import { TamaguiProvider } from "tamagui";
+import { TamaguiProvider, Text } from "tamagui";
 
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { NetworkChecker } from "@/components/NetworkChecker";

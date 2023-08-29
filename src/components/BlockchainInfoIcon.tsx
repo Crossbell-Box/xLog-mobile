@@ -45,7 +45,7 @@ const BlockchainInfoLink: FC<React.PropsWithChildren<{
 export const BlockchainInfoIcon: FC<Props> = (props) => {
   const { size = 30 } = props;
   if ("renderOnly" in props) {
-    return <ShieldCheck color="green" size={"$1"} />;
+    return <ShieldCheck color="$green10" width={size}/>;
   }
 
   const { page, character: site } = props;

@@ -25,7 +25,7 @@ export const FeedPage: FC<Props> = (props) => {
   const { isExpandedAnimValue, onScroll } = useContext(GlobalAnimationContext).homeFeed;
 
   return (
-    <Animated.View style={{ flex: 1 }}>
+    <Animated.View style={{ flex: 1, backgroundColor: "black" }}>
       <Header
         type={currentFeedType}
         isExpandedAnimValue={isExpandedAnimValue}
@@ -38,7 +38,7 @@ export const FeedPage: FC<Props> = (props) => {
           Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
         }}
       />
-      <Stack flex={1} >
+      <Stack flex={1}>
         <FeedList
           daysInterval={daysInterval}
           type={currentFeedType}

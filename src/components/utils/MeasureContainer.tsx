@@ -1,32 +1,43 @@
-import type { ComponentPropsWithRef } from "react";
-import { ComponentProps, useCallback, useMemo, useState } from "react";
-import type { LayoutChangeEvent } from "react-native";
+import { useRef, useState } from "react";
+import type { ViewProps } from "react-native";
+import { InteractionManager, View } from "react-native";
 
-import { Stack, type StackProps as _StackProps } from "tamagui";
-
-type StackProps = ComponentPropsWithRef<typeof Stack>;
-
-interface Props extends StackProps {
-  children: (dimensions: {
+interface Props extends Omit<ViewProps, "children"> {
+  children: ((dimensions: {
     width: number
     height: number
-  }) => React.ReactNode
+  }) => React.ReactNode) | React.ReactNode
+  onDimensionsChange?: (dimensions: {
+    x: number
+    y: number
+    width: number
+    height: number
+    pageX: number
+    pageY: number
+  }) => void
 }
 
 export const MeasureContainer: React.FC<Props> = (props) => {
-  const { children, onLayout: _onLayout, ...restProps } = props;
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+  const { children, onDimensionsChange, ...restProps } = props;
+  const ref = useRef<View>(null);
+  const [dimensions, setDimensions] = useState<Parameters<Props["onDimensionsChange"]>[0]>(undefined);
+  const childrenNode = typeof children === "function" ? children(dimensions) : children;
 
-  const onLayout = useCallback((event: LayoutChangeEvent) => {
-    const { width, height } = event.nativeEvent.layout;
-    setDimensions({ width, height });
-    _onLayout?.(event);
-  }, [
-    setDimensions,
-    _onLayout,
-  ]);
-
-  const childrenNode = useMemo(() => children(dimensions), [children, dimensions]);
-
-  return <Stack {...restProps} onLayout={onLayout}>{childrenNode}</Stack>;
+  return (
+    <View
+      {...restProps}
+      ref={ref}
+      onLayout={() => {
+        InteractionManager.runAfterInteractions(() => {
+          ref.current?.measure((x: number, y: number, width: number, height: number, pageX: number, pageY: number) => {
+            const dimensions = { x, y, width, height, pageX, pageY };
+            onDimensionsChange?.(dimensions);
+            setDimensions(dimensions);
+          });
+        });
+      }}
+    >
+      {childrenNode}
+    </View>
+  );
 };

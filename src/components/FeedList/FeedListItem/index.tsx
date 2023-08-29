@@ -3,34 +3,25 @@ import React, { useEffect, useMemo, useRef } from "react";
 import type { ViewStyle } from "react-native";
 import { Image as RNImage } from "react-native";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
-import Animated, { FadeIn, FadeInDown, useAnimatedStyle, useSharedValue } from "react-native-reanimated";
+import Animated, { FadeIn } from "react-native-reanimated";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { BlurView } from "expo-blur";
 import { Image } from "expo-image";
-import { SizableText, Stack, Text, XStack } from "tamagui";
+import { SizableText, Stack, XStack } from "tamagui";
 
 import { Avatar } from "@/components/Avatar";
 import { Center } from "@/components/Base/Center";
+import { bgLength, bgsReversed } from "@/constants/bgs";
+import { useCoverImage } from "@/hooks/use-cover-image";
 import { useRootNavigation } from "@/hooks/use-navigation";
 import type { ExpandedNote } from "@/types/crossbell";
-import { toGateway } from "@/utils/ipfs-parser";
-import { syncStorage } from "@/utils/storage";
-
 export interface Props {
   note: ExpandedNote
   style?: ViewStyle
   searchKeyword?: string
   width: number
 }
-
-const bgs = [
-  require("../../../assets/home-grid-bg/0-reversed.png"),
-  require("../../../assets/home-grid-bg/1-reversed.png"),
-  require("../../../assets/home-grid-bg/2-reversed.png"),
-  require("../../../assets/home-grid-bg/3-reversed.png"),
-  require("../../../assets/home-grid-bg/4-reversed.png"),
-  require("../../../assets/home-grid-bg/5-reversed.png"),
-];
 
 const minHeight = 150;
 const maxHeight = 200;
@@ -45,17 +36,8 @@ export const FeedListItem: FC<Props> = (props) => {
   const { note, width } = props;
   const layoutRef = useRef<Animated.View>(null);
   const navigation = useRootNavigation();
-  const onPress = React.useCallback(() => {
-    navigation.navigate(
-      "PostDetails",
-      {
-        characterId: note.characterId,
-        noteId: note.noteId,
-      },
-    );
-  }, [note]);
 
-  const coverImage = useMemo(() => toGateway(note.metadata?.content?.images?.[0]), [note?.metadata?.content?.images]);
+  const coverImage = useCoverImage(note);
   const [sourceLayout, setSourceLayout] = React.useState<{
     width: number
     height: number
@@ -71,16 +53,32 @@ export const FeedListItem: FC<Props> = (props) => {
   }, [width, sourceLayout]);
 
   const title = String(note?.metadata?.content?.title);
-  const placeholderBg = bgs[title?.length % bgs.length || 0];
+  const placeholderBgIndex = title?.length % bgLength || 0;
+  const placeholderBg = bgsReversed[placeholderBgIndex];
+
+  const onPress = React.useCallback(() => {
+    navigation.navigate(
+      "PostDetails",
+      {
+        characterId: note.characterId,
+        noteId: note.noteId,
+        coverImageIndex: placeholderBgIndex,
+      },
+    );
+  }, [note]);
 
   const getCoverSourceLayout = async (): Promise<{
+    origin?: string
     width: number
     height: number
   }> => {
-    const cachedLayout = await syncStorage.getString(`img-layouts:${coverImage}`);
+    const cachedLayout = await AsyncStorage.getItem(`img-layouts:${coverImage}`);
 
     if (cachedLayout) {
-      return JSON.parse(cachedLayout);
+      return {
+        origin: "cache",
+        ...JSON.parse(cachedLayout),
+      };
     }
 
     const defaultLayout = {
@@ -108,8 +106,10 @@ export const FeedListItem: FC<Props> = (props) => {
 
   useEffect(() => {
     coverImage && Image.prefetch(coverImage);
-    getCoverSourceLayout().then((layout) => {
-      syncStorage.set(`img-layouts:${coverImage}`, JSON.stringify(layout));
+    getCoverSourceLayout().then(async (layout) => {
+      if (layout.origin !== "cache") {
+        await AsyncStorage.setItem(`img-layouts:${coverImage}`, JSON.stringify(layout));
+      }
       setSourceLayout(layout);
     });
   }, [coverImage]);
@@ -131,6 +131,7 @@ export const FeedListItem: FC<Props> = (props) => {
               <Stack
                 width={coverImageAnimStyles.width}
                 height={getCoverRangedSize(coverImageAnimStyles.height)}
+                backgroundColor={"black"}
               >
                 <Image
                   source={coverImage}

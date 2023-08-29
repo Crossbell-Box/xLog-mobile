@@ -54,11 +54,9 @@ export const HeaderAnimatedLayout: FC<PropsWithChildren<Props>> = (props) => {
       <Animated.View style={[avatarAnimStyles, styles.avatarContainer]}>
         <XStack justifyContent="space-between" alignItems="center">
           <Stack>
-            {character && (
-              <XTouch enableHaptics hitSlopSize={44} touchableComponent={TouchableWithoutFeedback} containerStyle={styles.avatarTouchableContainer} onPress={openDrawer}>
-                <Avatar size={35} character={character} isNavigateToUserInfo={false}/>
-              </XTouch>
-            )}
+            <XTouch enableHaptics hitSlopSize={44} touchableComponent={TouchableWithoutFeedback} containerStyle={styles.avatarTouchableContainer} onPress={openDrawer}>
+              <Avatar size={35} character={character} isNavigateToUserInfo={false} useDefault/>
+            </XTouch>
           </Stack>
 
           {type === feedTypes.LATEST && (

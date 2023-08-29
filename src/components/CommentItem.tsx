@@ -19,6 +19,7 @@ import { useDate } from "@/hooks/use-date";
 import { useGlobalLoading } from "@/hooks/use-global-loading";
 import { useSetupAnonymousComment } from "@/hooks/use-setup-anonymous-comment";
 import { useGetComments, useSubmitComment } from "@/queries/page";
+import type { ExpandedNote } from "@/types/crossbell";
 import { flatComments } from "@/utils/flat-comments";
 import { GA } from "@/utils/GA";
 
@@ -44,9 +45,7 @@ export interface CommentItemProps extends ListItemProps {
   onEdit?: () => Promise<any>
 }
 
-export type Comment = NoteEntity & {
-  fromNotes: ListResponse<NoteEntity>
-};
+export type Comment = ExpandedNote;
 
 export const CommentItem: React.FC<CommentItemProps> = (props) => {
   const {

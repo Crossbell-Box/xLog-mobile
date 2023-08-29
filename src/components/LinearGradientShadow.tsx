@@ -1,17 +1,27 @@
+import type { FC, PropsWithChildren } from "react";
 import { useEffect } from "react";
-import { Dimensions } from "react-native";
+import { StyleProp } from "react-native";
+import { Shadow as RNShadow } from "react-native-shadow-2";
 
 import { Canvas, Shadow, RoundedRect, useValue, useComputedValue, interpolateColors, runTiming } from "@shopify/react-native-skia";
 import a from "color-alpha";
+import type { StackProps } from "tamagui";
 import { Stack } from "tamagui";
 
 import { PolarLightPalettes } from "@/components/PolarLight";
 
-const { width } = Dimensions.get("window");
-
-export const LinearGradientShadow = () => {
-  const height = 300;
-
+export const LinearGradientShadow: FC<PropsWithChildren<{
+  width: number
+  height: number
+  blur?: number
+  contentContainerStyle?: StackProps["style"]
+}>> = ({
+  width,
+  height,
+  blur = 20,
+  contentContainerStyle,
+  children,
+}) => {
   const boxWidth = width / 1.1;
   const boxHeight = height / 2;
   const x = (width / 2) - (boxWidth / 2);
@@ -51,18 +61,32 @@ export const LinearGradientShadow = () => {
     }, 1000);
   }, []);
 
+  const radius = 20;
+
   return (
-    <Stack width={width} height={height} flex={1} justifyContent="center" backgroundColor={"#1d1d1d"}>
+    <Stack width={width} height={height} justifyContent="center" alignItems="center">
       <Canvas style={{ width, height }}>
         {
           animatedColors.map((c, i) => (
-            <RoundedRect key={i} r={20} x={x + (boxWidth / 3) * i} y={y} width={boxWidth / 3} height={boxHeight} color={c}>
-              <Shadow dx={0} dy={0} blur={40} color={c} />
+            <RoundedRect key={i} r={radius} x={x + (boxWidth / 3) * i} y={y} width={boxWidth / 3} height={boxHeight} color={c}>
+              <Shadow dx={0} dy={0} blur={blur} color={c} />
             </RoundedRect>
           ))
         }
-        <RoundedRect r={20} x={x} y={y} width={boxWidth} height={boxHeight} color={"#f1f1f1"}/>
+        <RoundedRect r={radius} x={x} y={y} width={boxWidth} height={boxHeight} color={"#f1f1f1"}/>
       </Canvas>
+      <Stack
+        position="absolute"
+        top={y}
+        left={x}
+        width={boxWidth}
+        height={boxHeight}
+        borderRadius={radius}
+        backgroundColor={"transparent"}
+        style={contentContainerStyle}
+      >
+        {children}
+      </Stack>
     </Stack>
   );
 };
