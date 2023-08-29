@@ -31,7 +31,7 @@ export function useScrollVisibilityHandler(options: Options) {
 
       const diffY = e.contentOffset.y - ctx.prevTranslationY;
 
-      isExpandedAnimValue.value = interpolate(
+      const value = interpolate(
         diffY,
         [-scrollThreshold, 0, scrollThreshold],
         [
@@ -41,18 +41,26 @@ export function useScrollVisibilityHandler(options: Options) {
         ],
         Extrapolate.CLAMP,
       );
+
+      if (typeof value === "number" && isNaN(value) === false) {
+        isExpandedAnimValue.value = value;
+      }
     },
     onEndDrag: (e, ctx) => {
       ctx.hasEnded = true;
       const diffY = e.contentOffset.y - ctx.prevTranslationY;
 
-      isExpandedAnimValue.value = withTiming(
+      const value = withTiming(
         diffY > 0 ? 0 : 1,
         {
           duration: 150,
           easing: Easing.inOut(Easing.ease),
         },
       );
+
+      if (typeof value === "number" && isNaN(value) === false) {
+        isExpandedAnimValue.value = value;
+      }
     },
   }, [scrollThreshold]);
 
