@@ -10,7 +10,7 @@ export const height = width / 1.58;
 
 export const Background: FC<{}> = () => {
   return (
-    <Stack position="absolute" width={width} height={height}>
+    <Stack position="absolute" width={width} height={height} backgroundColor={"black"}>
       <Image
         source={require("../../assets/home-grid-bg/0.png")}
         contentFit="contain"

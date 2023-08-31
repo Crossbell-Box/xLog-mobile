@@ -1,14 +1,17 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 import { useConnectedAccount, useAccountState } from "@crossbell/react-account";
 import { Mail } from "@tamagui/lucide-icons";
 import { openAuthSessionAsync } from "expo-web-browser";
 import type { ButtonProps } from "tamagui";
-import { Button } from "tamagui";
+import { Button, Stack, XStack, Text } from "tamagui";
 
 import { APP_SCHEME } from "@/constants";
 import { useGlobalLoading } from "@/hooks/use-global-loading";
+
+import { Center } from "./Base/Center";
 
 export const ConnectEmailButton = (props: ButtonProps) => {
   const i18n = useTranslation();
@@ -34,18 +37,18 @@ export const ConnectEmailButton = (props: ButtonProps) => {
   if (account) return null;
 
   return (
-    <Button
-      borderWidth={0}
-      pressStyle={{ opacity: 0.85 }}
-      color={"white"}
-      fontSize={"$6"}
-      fontWeight={"700"}
-      backgroundColor={"$primary"}
+    <TouchableOpacity
+      activeOpacity={0.8}
       onPress={openWebPage}
-      icon={<Mail size={"$1.5"} />}
-      {...props}
     >
-      {i18n.t("Connect Email")}
-    </Button>
+      <Stack paddingVertical="$3" borderRadius={"$5"} overflow="hidden">
+        <Center flex={1}>
+          <XStack alignItems="center" gap="$2">
+            <Mail size={"$2"}/>
+            <Text fontWeight={"600"} color="$color" fontSize={"$6"}>{i18n.t("Connect with Email")}</Text>
+          </XStack>
+        </Center>
+      </Stack>
+    </TouchableOpacity>
   );
 };
