@@ -260,7 +260,7 @@ export const Navigator: FC<Props> = (props) => {
         snapPoints={snapPoints}
         enablePanDownToClose
         index={0}
-        backgroundStyle={{ backgroundColor: background }}
+        backgroundStyle={{ backgroundColor: "#1C1C1C" }}
         onPressBackdrop={closeBottomSheetModal}
       >
         <SizableText size={"$6"} fontWeight={"700"} textAlign="center">

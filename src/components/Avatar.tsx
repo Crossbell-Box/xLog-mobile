@@ -81,9 +81,9 @@ export const Avatar: FC<Props> = (props) => {
       <_Avatar
         size={size}
         circular
-        backgroundColor="white"
+        backgroundColor="black"
       >
-        <_Avatar.Image src={toGateway(uri)} />
+        <_Avatar.Image src={toGateway(uri)}/>
         <_Avatar.Fallback>
           <Image source={LogoBlueResource} contentFit={"cover"} style={styles.container} />
         </_Avatar.Fallback>
@@ -95,7 +95,7 @@ export const Avatar: FC<Props> = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#000",
     alignItems: "center",
     justifyContent: "center",
     transform: [
