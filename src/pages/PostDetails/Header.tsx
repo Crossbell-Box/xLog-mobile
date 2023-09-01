@@ -23,13 +23,14 @@ interface Props {
   postUri?: string
   noteId: number
   characterId: number
-  coverImageIndex: number
+  placeholderCoverImageIndex: number
+  coverImage: string
 }
 
 const { width } = Dimensions.get("window");
 
 export const Header: FC<Props> = (props) => {
-  const { noteId, characterId, coverImageIndex = 0, postUri, isCapturing, headerContainerHeight } = props;
+  const { noteId, characterId, coverImage, placeholderCoverImageIndex = 0, postUri, isCapturing, headerContainerHeight } = props;
   const note = useNote(characterId, noteId);
   const page = useGetPage(
     {
@@ -39,8 +40,7 @@ export const Header: FC<Props> = (props) => {
     },
   );
   const character = useCharacter(characterId);
-  const defaultCoverImage = bgs[coverImageIndex];
-  const coverImage = useCoverImage(page.data);
+  const defaultCoverImage = bgs[placeholderCoverImageIndex];
 
   const { bottom, top } = useSafeAreaInsets();
   const { isDarkMode } = useThemeStore();

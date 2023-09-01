@@ -63,8 +63,8 @@ export const LoginPage: FC<NativeStackScreenProps<RootStackParamList, "Login">> 
           <Text fontSize={"$2"} color={"$primary"} textAlign="center">Discovering amazing teams and creators on xLog!</Text>
           <ConnectionButton />
           <ConnectEmailButton />
-          <Text color="$colorSubtitle" fontSize={"$3"}>
-          By connecting you agree to our <Text onPress={navigateToTerms} color="$color" fontSize={"$3"}>Terms & Conditions</Text>
+          <Text color="$colorSubtitle" fontSize={"$3"} textAlign="center">
+          By connecting you agree to our <Text textDecorationLine="underline" onPress={navigateToTerms} color="$color" fontSize={"$3"}>Terms & Conditions</Text>
           </Text>
         </YStack>
       </BottomSheet>

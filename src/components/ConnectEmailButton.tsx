@@ -42,7 +42,7 @@ export const ConnectEmailButton = (props: ButtonProps) => {
       onPress={openWebPage}
     >
       <Stack paddingVertical="$3" borderRadius={"$5"} overflow="hidden">
-        <Center flex={1}>
+        <Center>
           <XStack alignItems="center" gap="$2">
             <Mail size={"$2"}/>
             <Text fontWeight={"600"} color="$color" fontSize={"$6"}>{i18n.t("Connect with Email")}</Text>

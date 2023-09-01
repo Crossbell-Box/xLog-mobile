@@ -8,9 +8,8 @@ import { Image, ScrollView, Spacer, Text, XStack, YStack } from "tamagui";
 import { ConnectEmailButton } from "@/components/ConnectEmailButton";
 import { ConnectionButton } from "@/components/ConnectionButton";
 import { LogoBlueResource } from "@/components/Logo";
+import { PolarLightBackground } from "@/components/PolarLightBackground";
 import { useRootNavigation } from "@/hooks/use-navigation";
-
-import { Background } from "./Background";
 
 export interface Props {
 }
@@ -23,7 +22,7 @@ export const IntroductionPage: FC<Props> = () => {
     <ScrollView bounces={false} backgroundColor={"$background"}>
       <YStack>
         <SafeAreaView>
-          <Background/>
+          <PolarLightBackground activeIndex={0}/>
           <YStack paddingHorizontal="$6">
             <XStack alignItems="flex-end" justifyContent="space-between" marginBottom="$5">
               <Image source={LogoBlueResource} w={48} height={48}/>

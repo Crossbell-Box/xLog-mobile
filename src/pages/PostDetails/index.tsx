@@ -24,7 +24,8 @@ import { Navigator } from "./Navigator";
 export interface Props {
   noteId: number
   characterId: number
-  coverImageIndex?: number
+  coverImage?: string
+  placeholderCoverImageIndex?: number
 }
 
 const animationTimeout = 800;
@@ -34,7 +35,7 @@ export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, "Pos
   const { params } = route;
   const [displayImageUris, setDisplayImageUris] = React.useState<string[]>([]);
   const { isDarkMode } = useThemeStore();
-  const { bottom, top } = useSafeAreaInsets();
+  const { bottom } = useSafeAreaInsets();
   const bottomBarHeight = bottom + 45;
   const headerContainerHeight = 45;
   const contentRef = React.useRef<PostDetailsContentInstance>(null);
@@ -79,7 +80,8 @@ export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, "Pos
                 postUri={postUri}
                 noteId={params.noteId}
                 characterId={params.characterId}
-                coverImageIndex={params.coverImageIndex}
+                placeholderCoverImageIndex={params.placeholderCoverImageIndex}
+                coverImage={params.coverImage}
               />
             );
           }}

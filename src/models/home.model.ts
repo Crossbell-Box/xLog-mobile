@@ -20,6 +20,7 @@ export type FeedType =
   | "search"
   | "tag"
   | "comments"
+  | "character"
   | "featured";
 
 export type SearchType = "latest" | "hottest";
@@ -689,6 +690,34 @@ export async function getFeed({
         list,
         cursor,
         count: list?.length || 0,
+      };
+      break;
+    }
+    case "character": {
+      const result = await indexer.note.getMany({
+        sources: "xlog",
+        tags: ["post"],
+        limit,
+        cursor,
+        characterId,
+        includeCharacter: true,
+      });
+
+      const list = await Promise.all(
+        result.list.map((page: NoteEntity) =>
+          expandCrossbellNote({
+            note: page,
+            useStat: false,
+            useScore: true,
+            useHTML,
+          }),
+        ),
+      );
+
+      resultAll = {
+        list,
+        cursor: result.cursor,
+        count: result.count,
       };
       break;
     }

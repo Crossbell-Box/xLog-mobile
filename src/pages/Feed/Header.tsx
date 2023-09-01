@@ -7,11 +7,11 @@ import type Animated from "react-native-reanimated";
 import { useConnectedAccount } from "@crossbell/react-account";
 import { Stack, Text, XStack } from "tamagui";
 
+import { PolarLightBackground } from "@/components/PolarLightBackground";
 import { useHitSlopSize } from "@/hooks/use-hit-slop-size";
 import { HeaderAnimatedLayout } from "@/pages/Feed/HeaderAnimatedLayout";
 import { GA } from "@/utils/GA";
 
-import { Background } from "./Background";
 import { feedTypes, type FeedType } from "./feedTypes";
 import { HotInterval } from "./HotInterval";
 
@@ -41,7 +41,7 @@ export const Header: FC<Props> = (props) => {
 
   return (
     <Stack>
-      <Background activeIndex={activeIndex}/>
+      <PolarLightBackground activeIndex={activeIndex}/>
       <HeaderAnimatedLayout type={type} onPressSortBy={onPressSortBy} expanded={isExpandedAnimValue}>
         <XStack marginHorizontal="$3" gap="$4" height={HeaderTabHeight}>
           {

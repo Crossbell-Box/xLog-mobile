@@ -2,7 +2,7 @@ import type { FC } from "react";
 import React, { useCallback, useMemo, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import Animated, { Extrapolate, FadeIn, FadeOut, FlipInXDown, FlipOutXDown, interpolate, useAnimatedStyle } from "react-native-reanimated";
+import type Animated from "react-native-reanimated";
 
 import { useCharacter } from "@crossbell/indexer";
 import { useNavigationState } from "@react-navigation/native";
@@ -12,6 +12,7 @@ import { Button, Circle, H3, Paragraph, Separator, SizableText, Stack, Text, XSt
 
 import { AchievementItem } from "@/components/AchievementItem";
 import { Avatar } from "@/components/Avatar";
+import { PolarLightBackground } from "@/components/PolarLightBackground";
 import { XTouch } from "@/components/XTouch";
 import { useAuthPress } from "@/hooks/use-auth-press";
 import { useCharacterId } from "@/hooks/use-character-id";
@@ -50,35 +51,9 @@ export const Header: FC<Props> = (props) => {
     return isMe && isProfilePage;
   }, [myCharacterId, characterId, currentRouteName]);
 
-  const headerAnimatedStyles = useAnimatedStyle(() => {
-    if (!titleAnimatedValue) return {};
-    return {
-      opacity: interpolate(titleAnimatedValue.value, [-80, -140], [0, 1]),
-      transform: [
-        {
-          translateY: interpolate(titleAnimatedValue.value, [-80, -140], [40, 0], Extrapolate.CLAMP),
-        },
-      ],
-    };
-  }, [titleAnimatedValue]);
-
   const navigateToSettingsPage = useCallback(() => {
     navigation.navigate("SettingsNavigator");
   }, []);
-
-  useEffect(() => {
-    titleAnimatedValue && navigation.setOptions({
-      headerShown: true,
-      headerTitleContainerStyle: { overflow: "hidden" },
-      headerTitle(props) {
-        return (
-          <Animated.View style={headerAnimatedStyles}>
-            <Text numberOfLines={1} color={"$color"} fontSize={"$7"}>{character.data?.metadata?.content?.name}</Text>
-          </Animated.View>
-        );
-      },
-    });
-  }, [titleAnimatedValue, headerAnimatedStyles]);
 
   return (
     <YStack paddingTop="$3">
@@ -90,25 +65,29 @@ export const Header: FC<Props> = (props) => {
           <XStack gap={"$1"} flex={1}>
             {
               [
-                { label: i18n.t("Followers"), value: subscriptions.data?.pages?.[0]?.count ?? 0 },
-                { label: i18n.t("Followings"), value: toSubscriptions.data?.pages?.[0]?.count ?? 0 },
-                { label: i18n.t("Viewed"), value: stat.data?.viewsCount ?? 0 },
+                { label: i18n.t("Follower"), value: subscriptions.data?.pages?.[0]?.count ?? 0 },
+                { label: i18n.t("Following"), value: toSubscriptions.data?.pages?.[0]?.count ?? 0 },
               ].map((item, index) => (
-                <XStack key={index} flex={1}>
-                  <YStack justifyContent="flex-end" alignItems="center" flex={1}>
+                <XStack key={index} width={"40%"}>
+                  <YStack justifyContent="flex-end" alignItems="flex-start" flex={1}>
                     <SizableText numberOfLines={1} size={"$5"} fontWeight={"700"}>{item.value}</SizableText>
                     <SizableText numberOfLines={1} color="$colorSubtitle">{item.label}</SizableText>
                   </YStack>
                   {
-                    index < 2 && <Separator marginHorizontal="$2.5" alignSelf="flex-end" vertical borderColor={"$colorSubtitle"} height={"$0.75"} marginBottom="$4" />
+                    index < 1 && <Separator marginLeft="$2" marginRight="$5" alignSelf="flex-end" vertical borderColor={"$colorSubtitle"} height={"$2"} marginBottom="$3" />
                   }
                 </XStack>
               ))
             }
           </XStack>
         </XStack>
-        <XStack justifyContent="space-between" alignItems="center" minHeight={"$5"}>
-          <H3 fontWeight={"700"}>{character.data?.metadata?.content?.name}</H3>
+        <XStack justifyContent="space-between" alignItems="flex-start" minHeight={"$5"} marginBottom="$3">
+          <YStack gap="$2">
+            <H3 fontWeight={"700"}>{character.data?.metadata?.content?.name}</H3>
+            <Paragraph color="#DBDBDB" numberOfLines={3} maxWidth={replaceFollowButtonWithOtherComponent ? "70%" : undefined}>
+              {character?.data?.metadata?.content?.bio}
+            </Paragraph>
+          </YStack>
           {
             replaceFollowButtonWithOtherComponent || (
               <Stack>
@@ -125,6 +104,7 @@ export const Header: FC<Props> = (props) => {
                           <Button
                             size={"$3"}
                             backgroundColor={isFollowing ? "$backgroundFocus" : "$primary"}
+                            borderWidth={0}
                             icon={isFollowing
                               ? (
                                 <UserMinus width={16} disabled={isLoading} />
@@ -146,45 +126,6 @@ export const Header: FC<Props> = (props) => {
               </Stack>
             )
           }
-        </XStack>
-        <Paragraph color="$colorSubtitle" numberOfLines={3} maxWidth={replaceFollowButtonWithOtherComponent ? "70%" : undefined}>
-          {character?.data?.metadata?.content?.bio}
-        </Paragraph>
-        <XStack justifyContent="space-between" alignItems="center">
-          <XStack alignItems="center">
-            <Award size={"$0.75"} color="$colorSubtitle" />
-            <Text fontSize={"$2"} color="$colorSubtitle" marginRight="$2">
-              {i18n.t("Earned badges")}
-            </Text>
-            <XStack>
-              {achievement.data?.list?.flatMap(series => series.groups || [])
-                .filter(group => group.items.filter(item => item.status === "MINTED").length > 0)
-                .slice(0, 3)
-                .map((group, index) => (
-                  <Stack key={group.info.name} zIndex={index} transform={[{ translateX: index > 0 ? -index * 5 : 0 }]}>
-                    <AchievementItem
-                      group={group}
-                      layoutId="achievements"
-                      size={15}
-                      characterId={characterId}
-                      isOwner
-                    />
-                  </Stack>
-                ))
-              }
-            </XStack>
-          </XStack>
-
-          <SizableText fontSize={"$2"} color="$colorSubtitle">
-            {i18n.t("joined ago", {
-              time: date.dayjs
-                .duration(
-                  date.dayjs(character?.data?.createdAt).diff(date.dayjs(), "minute"),
-                  "minute",
-                )
-                .humanize(),
-            })}
-          </SizableText>
         </XStack>
       </YStack>
     </YStack>

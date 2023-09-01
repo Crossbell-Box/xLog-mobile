@@ -49,7 +49,7 @@ export const DashboardPage: FC<NativeStackScreenProps<RootStackParamList, "Dashb
       icon: Heart,
     },
     {
-      label: i18n.t("Followers"),
+      label: i18n.t("Follower"),
       value: stat.data?.subscriptionCount,
       icon: UserCheck,
     },

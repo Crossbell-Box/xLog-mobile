@@ -68,6 +68,7 @@ export const RootNavigator = () => {
     >
       <RootStack.Screen name={"Home"} component={HomeNavigator} />
       <RootStack.Screen name={"PostDetails"} component={PostDetailsPage}/>
+      <RootStack.Screen name={"UserInfo"} component={OthersUserInfoPage}/>
 
       <RootStack.Group screenOptions={{
         presentation: "transparentModal",
@@ -99,7 +100,6 @@ export const RootNavigator = () => {
       <RootStack.Group screenOptions={{ headerShown: true, headerBackTitle: i18n.t("Back") }}>
         <RootStack.Screen name={"Replies"} component={RepliesPage} options={{ title: i18n.t("Replies") }} />
         <RootStack.Screen name={"CharacterListPage"} component={CharacterListPage} options={{ title: "" }} />
-        <RootStack.Screen name={"UserInfo"} component={OthersUserInfoPage} options={{ title: "", headerBackTitleVisible: false }} />
         <RootStack.Screen name={"SettingsNavigator"} component={SettingsNavigator} options={{ headerShown: false }}/>
         <RootStack.Screen name={"Web"} component={WebPage} options={{ title: "" }} />
         <RootStack.Screen name={"Search"} component={SearchPage} options={{ headerShown: false }} />

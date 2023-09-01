@@ -1,68 +1,51 @@
 import type { ComponentPropsWithRef, FC } from "react";
 import React, { useEffect, useMemo, useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, StatusBar } from "react-native";
-import type { Animated } from "react-native";
-import type { Layout } from "react-native-reanimated";
+import { StyleSheet } from "react-native";
 import { useSharedValue } from "react-native-reanimated";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useCharacter } from "@crossbell/indexer";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { Route } from "@showtime-xyz/tab-view";
-import { TabFlatList, TabScrollView, TabView } from "@showtime-xyz/tab-view";
-import * as Haptics from "expo-haptics";
-import { ScrollView, Separator, Spinner, Stack, Text, XStack } from "tamagui";
+import { TabView } from "@showtime-xyz/tab-view";
+import { LinearGradient } from "expo-linear-gradient";
+import { ScrollView, Spinner, Stack, Text, XStack } from "tamagui";
 
-import { DOMAIN } from "@/constants";
+import { TabMasonryFeedList } from "@/components/FeedList";
+import { PolarLightBackground } from "@/components/PolarLightBackground";
 import { useCharacterId } from "@/hooks/use-character-id";
 import { useRootNavigation } from "@/hooks/use-navigation";
+import { getPage } from "@/models/page.model";
 import type { RootStackParamList } from "@/navigation/types";
-import { getIdBySlug, useGetPagesBySiteLite } from "@/queries/page";
 import { useGetSite } from "@/queries/site";
-import { PageVisibilityEnum } from "@/types";
-import type { ExpandedNote } from "@/types/crossbell";
 
 import { Header } from "./Header";
-import { PostsListItem } from "./PostsListItem";
-
-const StatusBarHeight = StatusBar.currentHeight ?? 0;
 
 const HomeScene: FC<{ characterId: number; index: number }> = ({ characterId, index }) => {
-  const posts = useGetPagesBySiteLite({
-    characterId,
-    type: "post",
-    visibility: PageVisibilityEnum.Published,
-    useStat: true,
-  });
-
-  const postsList = useMemo<ExpandedNote[]>(() => {
-    return posts.data?.pages?.flatMap(posts => posts.list) ?? [];
-  }, [posts.data]);
-
   return (
     <Stack flex={1}>
-      <TabFlatList
+      <TabMasonryFeedList
         index={index}
-        data={posts.data?.pages?.flatMap(posts => posts.list)}
-        renderItem={({ item, index }) => <PostsListItem key={index} note={item} />}
-        keyExtractor={(post, index) => `${post?.noteId}-${index}`}
-        ItemSeparatorComponent={() => <Separator borderColor={"$gray5"}/>}
-        bounces
-        showsVerticalScrollIndicator
-        scrollEventThrottle={16}
-        onEndReachedThreshold={0.5}
-        onEndReached={() => {
-          if (
-            postsList.length === 0
-            || posts.isFetchingNextPage
-            || posts.hasNextPage === false
-          )
-            return;
+        characterId={characterId}
+        type={"character"}
+      />
+    </Stack>
+  );
+};
 
-          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-          posts?.fetchNextPage?.();
-        }}
+const TagScene: FC<{
+  characterId: number
+  index: number
+  tag: string
+}> = ({ characterId, tag, index }) => {
+  return (
+    <Stack flex={1}>
+      <TabMasonryFeedList
+        index={index}
+        characterId={characterId}
+        type={"tag"}
+        tag={tag}
       />
     </Stack>
   );
@@ -90,24 +73,42 @@ interface TabBarItemProps extends TabBarProps {
   onPressTab: (key: string) => void
 }
 
+function internalLink(link: Route) {
+  if (link.key === "/") return {
+    isInternal: true,
+    slug: undefined,
+    pagePath: "/",
+  };
+
+  const slug = link.key.split("/")[2];
+  const pagePath = `/${link.key.split("/")[1]}`;
+  return {
+    isInternal: !!internalPages.find(p => p === pagePath && pagePath !== "/"),
+    slug,
+    pagePath,
+  };
+}
+
 export const TabItem: FC<TabBarItemProps> = (props) => {
   const { isActive, characterId, link, jumpTo, onPressTab } = props;
   const i18n = useTranslation();
   const [noteId, setNoteId] = useState<number | undefined>(undefined);
   const [loading, setLoading] = useState(false);
-  const isInternalTab = useMemo(() => link.key.startsWith("/") && internalPages.find(p => p.startsWith(link.key)), [link.key]);
+  const internalTab = internalLink(link);
   const navigation = useRootNavigation();
 
   useEffect(() => {
-    if (!isInternalTab) {
+    if (!internalTab.isInternal) {
       setLoading(true);
       const slug = link.key.split("/")[1];
-      getIdBySlug(slug, characterId).then(r => setNoteId(r.noteId)).finally(() => setLoading(false));
+      getPage({ slug, characterId }).then((r) => {
+        r?.noteId && setNoteId(r?.noteId);
+      }).finally(() => setLoading(false));
     }
-  }, [isInternalTab, characterId, link.key]);
+  }, [internalTab, characterId, link]);
 
   const onPress = () => {
-    if (isInternalTab) {
+    if (internalTab.isInternal) {
       jumpTo(link.key);
       onPressTab(link.key);
     }
@@ -125,11 +126,24 @@ export const TabItem: FC<TabBarItemProps> = (props) => {
   if (link.key !== "/" && disabledPages.find(p => p.startsWith(link.key))) return null;
 
   return (
-    <Stack onPress={onPress} key={link.key} borderBottomWidth={isActive ? 1 : 0} borderBottomColor={isActive ? "$primary" : undefined} paddingBottom="$2">
+    <Stack onPress={onPress} key={link.key} paddingBottom="$2">
       {
         loading
           ? <Spinner size="small" />
-          : <Text color={isActive ? "$primary" : "#BEBEBE"}>{i18n.t(link.title)}</Text>
+          : <Text color={isActive ? "$color" : "#BEBEBE"}>{i18n.t(link.title)}</Text>
+      }
+
+      {
+        isActive && (
+          <Stack height={2} width={"100%"} marginTop="$1">
+            <LinearGradient
+              colors={["#30a19b", "#2875bf"]}
+              style={{ position: "absolute", width: "100%", top: 0, bottom: 0 }}
+              start={{ x: 0, y: 0.5 }}
+              end={{ x: 1, y: 0.5 }}
+            />
+          </Stack>
+        )
       }
     </Stack>
   );
@@ -143,9 +157,9 @@ const UserInfoPage: FC<NativeStackScreenProps<RootStackParamList, "UserInfo"> & 
   const { route, displayHeader } = props;
   const characterId = route?.params?.characterId;
   const character = useCharacter(characterId);
+  const { top } = useSafeAreaInsets();
   const [index, setIndex] = useState(0);
   const animationHeaderPosition = useSharedValue(0);
-  const animationHeaderHeight = useSharedValue(0);
   const site = useGetSite(character.data?.handle);
   const routes = useMemo<Route[]>(() => {
     const links
@@ -161,9 +175,16 @@ const UserInfoPage: FC<NativeStackScreenProps<RootStackParamList, "UserInfo"> & 
   ]);
 
   const renderScene = useCallback(({ route }: { route: Route }) => {
-    if (route.key === "/") {
+    const { slug, pagePath } = internalLink(route);
+
+    if (pagePath === "/tag") {
+      return <TagScene tag={slug} characterId={characterId} index={0} />;
+    }
+
+    if (pagePath === "/") {
       return <HomeScene characterId={characterId} index={0} />;
     }
+
     return null;
   }, [characterId]);
 
@@ -171,8 +192,18 @@ const UserInfoPage: FC<NativeStackScreenProps<RootStackParamList, "UserInfo"> & 
 
   const renderTabBar = (props: Parameters<React.ComponentProps<typeof TabView>["renderTabBar"]>[0]) => {
     return (
-      <ScrollView borderBottomColor={"$backgroundFocus"} borderBottomWidth={StyleSheet.hairlineWidth} backgroundColor={"$background"} paddingHorizontal="$3" horizontal paddingTop={"$3"} marginBottom={"$3"} showsHorizontalScrollIndicator={false} alwaysBounceHorizontal={false}>
-        <XStack gap={"$3"}>
+      <ScrollView
+        borderTopLeftRadius={"$6"}
+        borderTopRightRadius={"$6"}
+        horizontal
+        paddingTop={"$3"}
+        marginBottom={"$1"}
+        paddingHorizontal="$3"
+        backgroundColor={"#1F1E20"}
+        alwaysBounceHorizontal={false}
+        showsHorizontalScrollIndicator={false}
+      >
+        <XStack gap={"$3"} paddingTop={"$2"}>
           {
             props.navigationState.routes.map((link: Route) => {
               const isActive = currentTabKey === link.key;
@@ -194,24 +225,29 @@ const UserInfoPage: FC<NativeStackScreenProps<RootStackParamList, "UserInfo"> & 
   };
 
   const renderHeader = () => (
-    <Stack paddingHorizontal="$3" backgroundColor={"$background"}>
+    <Stack paddingHorizontal="$3" paddingTop={top} backgroundColor={"$background"}>
+      <PolarLightBackground activeIndex={0}/>
       <Header characterId={characterId} titleAnimatedValue={displayHeader ? animationHeaderPosition : undefined} />
     </Stack>
   );
 
   return (
-    <TabView
-      navigationState={{ index, routes }}
-      renderScene={renderScene}
-      onIndexChange={setIndex}
-      renderTabBar={renderTabBar}
-      lazy
-      renderScrollHeader={renderHeader}
-      minHeaderHeight={StatusBarHeight}
-      animationHeaderPosition={animationHeaderPosition}
-      animationHeaderHeight={animationHeaderHeight}
-      swipeEnabled={false}
-    />
+    <Stack flex={1}>
+      <TabView
+        navigationState={{ index, routes }}
+        renderScene={renderScene}
+        onIndexChange={setIndex}
+        renderTabBar={renderTabBar}
+        lazy
+        renderScrollHeader={renderHeader}
+        minHeaderHeight={top}
+        animationHeaderPosition={animationHeaderPosition}
+        swipeEnabled={false}
+        style={{ backgroundColor: "#1F1E20" }}
+      />
+      {/* TODO */}
+      <Stack position="absolute" top={0} bottom={0} left={0} width={2}/>
+    </Stack>
   );
 };
 

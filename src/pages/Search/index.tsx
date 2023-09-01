@@ -9,7 +9,7 @@ import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Search } from "@tamagui/lucide-icons";
 import { XStack, Button } from "tamagui";
 
-import { FeedList } from "@/components/FeedList";
+import { MasonryFeedList } from "@/components/FeedList";
 import { useColors } from "@/hooks/use-colors";
 import type { RootStackParamList } from "@/navigation/types";
 import { debounce } from "@/utils/debounce";
@@ -48,7 +48,7 @@ export const SearchPage: FC<NativeStackScreenProps<RootStackParamList, "Search">
           <Button onPress={() => navigation.goBack()}>{i18n.t("Cancel")}</Button>
         </XStack>
       </Animated.View>
-      <FeedList
+      <MasonryFeedList
         daysInterval={7}
         type={"search"}
         searchKeyword={search}
