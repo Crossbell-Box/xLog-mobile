@@ -9,7 +9,7 @@ import { Circle, Text, Avatar as _Avatar } from "tamagui";
 import { useNavigateToUserInfo } from "@/hooks/use-navigate-to-user-info";
 import { toGateway } from "@/utils/ipfs-parser";
 
-import { LogoResource, LogoLightResource } from "./Logo";
+import { LogoBlueResource } from "./Logo";
 import { XTouch } from "./XTouch";
 
 interface Props {
@@ -64,7 +64,7 @@ export const Avatar: FC<Props> = (props) => {
           alignItems="center"
           justifyContent="center"
         >
-          <Image source={LogoLightResource} contentFit={"contain"} style={{ height: "75%", width: "75%" }} />
+          <Image source={LogoBlueResource} contentFit={"contain"} style={{ height: "75%", width: "75%" }} />
         </Circle>
       );
     }
@@ -81,11 +81,11 @@ export const Avatar: FC<Props> = (props) => {
       <_Avatar
         size={size}
         circular
-        backgroundColor="white"
+        backgroundColor="black"
       >
-        <_Avatar.Image src={toGateway(uri)} />
+        <_Avatar.Image src={toGateway(uri)}/>
         <_Avatar.Fallback>
-          <Image source={LogoResource} contentFit={"cover"} style={styles.container} />
+          <Image source={LogoBlueResource} contentFit={"cover"} style={styles.container} />
         </_Avatar.Fallback>
       </_Avatar>
     </XTouch>
@@ -95,7 +95,7 @@ export const Avatar: FC<Props> = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#000",
     alignItems: "center",
     justifyContent: "center",
     transform: [

@@ -53,9 +53,7 @@ export async function getIdBySlug(slug: string, characterId: string | number) {
 
       do {
         const response = await (
-          await fetch(
-            `https://indexer.crossbell.io/v1/notes?characterId=${characterId}&sources=xlog&cursor=${cursor}&limit=100`,
-          )
+          await fetch(`https://indexer.crossbell.io/v1/notes?characterId=${characterId}&sources=xlog&cursor=${cursor}&limit=100`)
         ).json();
         cursor = response.cursor;
         note = response?.list?.find(

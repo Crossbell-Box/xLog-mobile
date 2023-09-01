@@ -1,10 +1,9 @@
 {
   "Connect": "连接",
-  "Connect Wallet": "连接钱包",
-  "Connect Email": "连接邮箱",
-  "Followers": "关注者",
+  "Connect with Wallet": "连接钱包",
+  "Connect with Email": "连接邮箱",
+  "Follower": "关注者",
   "Following": "正在关注",
-  "Followings": "正在关注",
   "Follow": "关注",
   "Unfollow": "取消关注",
   "intlDateTime": "{{val, datetime}}",

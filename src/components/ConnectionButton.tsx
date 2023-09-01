@@ -2,6 +2,7 @@ import type { FC } from "react";
 import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, Linking } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import Animated, { FadeIn, FadeOut, FlipInXDown } from "react-native-reanimated";
 
 import {
@@ -15,9 +16,10 @@ import { Plug, Wallet } from "@tamagui/lucide-icons";
 import { useToastController } from "@tamagui/toast";
 import { useWalletConnectModal } from "@walletconnect/modal-react-native";
 import * as Haptics from "expo-haptics";
+import { LinearGradient } from "expo-linear-gradient";
 import * as Sentry from "sentry-expo";
 import type { StackProps } from "tamagui";
-import { Stack } from "tamagui";
+import { Stack, Text, XStack } from "tamagui";
 
 import { IS_IOS } from "@/constants";
 import { useAppIsActive } from "@/hooks/use-app-state";
@@ -29,6 +31,7 @@ import { GA } from "@/utils/GA";
 import type { AlertDialogInstance } from "./AlertDialog";
 import { AlertDialog } from "./AlertDialog";
 import { Button } from "./Base/Button";
+import { Center } from "./Base/Center";
 import { DelayedRender } from "./DelayRender";
 
 interface Props extends StackProps {
@@ -152,20 +155,22 @@ function ConnectBtn({ navigateToLogin }: { navigateToLogin: boolean }) {
   };
 
   return (
-    <Animated.View>
-      <Button
-        borderWidth={0}
-        pressStyle={{ opacity: 0.85 }}
-        color={"white"}
-        fontSize={"$6"}
-        fontWeight={"700"}
-        backgroundColor={"$primary"}
-        onPress={handleConnect}
-        icon={navigateToLogin ? <Plug size="$1.5" /> : <Wallet size={"$1.5"} />}
-      >
-        {i18n.t(navigateToLogin ? "Connect" : "Connect Wallet")}
-      </Button>
-    </Animated.View>
+    <TouchableOpacity activeOpacity={0.8} onPress={handleConnect}>
+      <Stack paddingVertical="$3" borderRadius={"$5"} overflow="hidden">
+        <LinearGradient
+          colors={["#30a19b", "#2875bf"]}
+          style={{ position: "absolute", width: "100%", top: 0, bottom: 0 }}
+          start={{ x: 0, y: 0.5 }}
+          end={{ x: 1, y: 0.5 }}
+        />
+        <Center>
+          <XStack alignItems="center" gap="$2">
+            <Wallet size={"$2"}/>
+            <Text fontWeight={"600"} color="$color" fontSize={"$6"}>{i18n.t("Connect with Wallet")}</Text>
+          </XStack>
+        </Center>
+      </Stack>
+    </TouchableOpacity>
   );
 }
 

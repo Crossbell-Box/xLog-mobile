@@ -3,16 +3,14 @@ import { useContext, useState } from "react";
 import Animated from "react-native-reanimated";
 
 import * as Haptics from "expo-haptics";
-import { ScrollView, Stack, YStack } from "tamagui";
+import { Stack } from "tamagui";
 
-import { FeedList } from "@/components/FeedList";
-import { PolarLight, PolarLightPalettes } from "@/components/PolarLight";
+import { MasonryFeedList } from "@/components/FeedList";
 import { GlobalAnimationContext } from "@/context/global-animation-context";
-import { useScrollVisibilityHandler } from "@/hooks/use-scroll-visibility-handler";
 
 import type { FeedType } from "./feedTypes";
 import { feedTypes } from "./feedTypes";
-import { Header, HeaderTabHeight } from "./Header";
+import { Header } from "./Header";
 
 export interface Props {
   feedType?: FeedType
@@ -39,7 +37,7 @@ export const FeedPage: FC<Props> = (props) => {
         }}
       />
       <Stack flex={1}>
-        <FeedList
+        <MasonryFeedList
           daysInterval={daysInterval}
           type={currentFeedType}
           onScroll={onScroll}
