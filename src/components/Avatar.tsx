@@ -64,7 +64,12 @@ export const Avatar: FC<Props> = (props) => {
           alignItems="center"
           justifyContent="center"
         >
-          <Image source={LogoBlueResource} contentFit={"contain"} style={{ height: "75%", width: "75%" }} />
+          <Image
+            source={LogoBlueResource}
+            contentFit={"contain"}
+            style={{ height: "75%", width: "75%" }}
+            cachePolicy="disk"
+          />
         </Circle>
       );
     }
@@ -85,7 +90,7 @@ export const Avatar: FC<Props> = (props) => {
       >
         <_Avatar.Image src={toGateway(uri)}/>
         <_Avatar.Fallback>
-          <Image source={LogoBlueResource} contentFit={"cover"} style={styles.container} />
+          <Image cachePolicy="disk" source={LogoBlueResource} contentFit={"cover"} style={styles.container} />
         </_Avatar.Fallback>
       </_Avatar>
     </XTouch>

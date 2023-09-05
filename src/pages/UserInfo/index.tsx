@@ -1,5 +1,5 @@
 import type { ComponentPropsWithRef, FC } from "react";
-import React, { useEffect, useMemo, useCallback, useState } from "react";
+import React, { useEffect, useMemo, useCallback, useState, memo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet } from "react-native";
 import { useSharedValue } from "react-native-reanimated";
@@ -9,12 +9,12 @@ import { useCharacter } from "@crossbell/indexer";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { Route } from "@showtime-xyz/tab-view";
 import { TabView } from "@showtime-xyz/tab-view";
+import type { CharacterEntity } from "crossbell";
 import { LinearGradient } from "expo-linear-gradient";
 import { ScrollView, Spinner, Stack, Text, XStack } from "tamagui";
 
 import { TabMasonryFeedList } from "@/components/FeedList";
 import { PolarLightBackground } from "@/components/PolarLightBackground";
-import { useCharacterId } from "@/hooks/use-character-id";
 import { useRootNavigation } from "@/hooks/use-navigation";
 import { getPage } from "@/models/page.model";
 import type { RootStackParamList } from "@/navigation/types";
@@ -63,6 +63,7 @@ const disabledPages = [
   "/archives", // 归档页面
   "/tag", // 标签页面
   "/nft", // NFT 展示页面
+  "/portfolios", // 作品集 (TODO)
 ];
 
 type TabBarProps = Parameters<React.ComponentProps<typeof TabView>["renderTabBar"]>[0];
@@ -75,19 +76,28 @@ interface TabBarItemProps extends TabBarProps {
 }
 
 function internalLink(link: Route) {
-  if (link.key === "/") return {
-    isInternal: true,
-    slug: undefined,
-    pagePath: "/",
-  };
+  try {
+    if (link.key === "/") return {
+      isInternal: true,
+      slug: undefined,
+      pagePath: "/",
+    };
 
-  const slug = link.key.split("/")[2];
-  const pagePath = `/${link.key.split("/")[1]}`;
-  return {
-    isInternal: !!internalPages.find(p => p === pagePath && pagePath !== "/"),
-    slug,
-    pagePath,
-  };
+    const slug = link.key.split("/")[2];
+    const pagePath = `/${link.key.split("/")[1]}`;
+    return {
+      isInternal: !!internalPages.find(p => p === pagePath && pagePath !== "/"),
+      slug,
+      pagePath,
+    };
+  }
+  catch (e) {
+    return {
+      isInternal: false,
+      slug: undefined,
+      pagePath: undefined,
+    };
+  }
 }
 
 export const TabItem: FC<TabBarItemProps> = (props) => {
@@ -95,25 +105,27 @@ export const TabItem: FC<TabBarItemProps> = (props) => {
   const i18n = useTranslation();
   const [note, setNote] = useState<ExpandedNote | undefined>(undefined);
   const [loading, setLoading] = useState(false);
-  const internalTab = internalLink(link);
+  const internalTab = useRef(internalLink(link)).current;
   const navigation = useRootNavigation();
 
   useEffect(() => {
-    if (!internalTab.isInternal) {
+    if (
+      !internalTab.isInternal && !note
+    ) {
       setLoading(true);
       const slug = link.key.split("/")[1];
-      getPage({ slug, characterId }).then((r) => {
-        r && setNote(r);
-      }).finally(() => setLoading(false));
+      getPage({ slug, characterId })
+        .then(r => (r?.noteId && setNote(r)))
+        .finally(() => setLoading(false));
     }
-  }, [internalTab, characterId, link]);
+  }, [characterId, link, note]);
 
   const onPress = () => {
     if (internalTab.isInternal) {
       jumpTo(link.key);
       onPressTab(link.key);
     }
-    else if (note.noteId) {
+    else if (note?.noteId) {
       navigation.navigate(
         "PostDetails",
         {
@@ -127,11 +139,11 @@ export const TabItem: FC<TabBarItemProps> = (props) => {
   if (link.key !== "/" && disabledPages.find(p => p.startsWith(link.key))) return null;
 
   return (
-    <Stack onPress={onPress} key={link.key} paddingBottom="$2">
+    <Stack onPress={onPress} paddingBottom="$2">
       {
         loading
           ? <Spinner size="small" />
-          : <Text color={isActive ? "$color" : "#BEBEBE"}>{i18n.t(link.title)}</Text>
+          : <Text color={isActive ? "$color" : "#BEBEBE"}>{i18n.t(link?.title)}</Text>
       }
 
       {
@@ -150,30 +162,75 @@ export const TabItem: FC<TabBarItemProps> = (props) => {
   );
 };
 
-export interface Props {
+interface TabBarRendererProps extends TabBarProps {
+  defaultRoute: Route
   characterId: number
+}
+
+const TabBarRenderer = memo((props: TabBarRendererProps) => {
+  const { navigationState, defaultRoute, characterId } = props;
+  const [currentTabKey, setCurrentTabKey] = useState(defaultRoute?.key);
+
+  return (
+    <ScrollView
+      borderTopLeftRadius={"$6"}
+      borderTopRightRadius={"$6"}
+      horizontal
+      paddingTop={"$3"}
+      marginBottom={"$1"}
+      paddingHorizontal="$3"
+      backgroundColor={"#1F1E20"}
+      alwaysBounceHorizontal={false}
+      showsHorizontalScrollIndicator={false}
+    >
+      <XStack gap={"$3"} paddingTop={"$2"}>
+        {
+          navigationState.routes.map((link: Route) => (
+            <TabItem
+              key={link.key}
+              {...props}
+              isActive={currentTabKey === link.key}
+              onPressTab={setCurrentTabKey}
+              characterId={characterId}
+              link={link}
+            />
+          ))
+        }
+      </XStack>
+    </ScrollView>
+  );
+}, (
+  prevProps,
+  nextProps,
+) => (prevProps.navigationState === nextProps.navigationState),
+);
+
+export interface Props {
+  character: CharacterEntity
 }
 
 const UserInfoPage: FC<NativeStackScreenProps<RootStackParamList, "UserInfo"> & { displayHeader?: boolean }> = (props) => {
   const { route, displayHeader } = props;
-  const characterId = route?.params?.characterId;
-  const character = useCharacter(characterId);
+  const character = route?.params?.character;
+  const characterId = character?.characterId;
   const { top } = useSafeAreaInsets();
   const [index, setIndex] = useState(0);
   const animationHeaderPosition = useSharedValue(0);
-  const site = useGetSite(character.data?.handle);
+  const site = useGetSite(character?.handle);
   const routes = useMemo<Route[]>(() => {
+    if (!site) return [];
+
+    const navigation = site.data?.metadata?.content?.navigation || [];
+
+    if (!navigation) return [];
+
     const links
-      = site.data?.metadata?.content?.navigation?.find(nav => nav.url === "/")
-        ? site.data?.metadata?.content?.navigation
-        : [
-          { label: "Home", url: "/" },
-          ...(site.data?.metadata?.content?.navigation || []),
-        ];
+      = navigation?.find(nav => nav.url === "/")
+        ? navigation
+        : [{ label: "Home", url: "/" }, ...navigation];
+
     return links.map((link, index) => ({ key: link.url, title: link.label, index }));
-  }, [
-    site.data?.metadata?.content?.navigation,
-  ]);
+  }, [site]);
 
   const renderScene = useCallback(({ route }: { route: Route }) => {
     const { slug, pagePath } = internalLink(route);
@@ -189,42 +246,6 @@ const UserInfoPage: FC<NativeStackScreenProps<RootStackParamList, "UserInfo"> & 
     return null;
   }, [characterId]);
 
-  const [currentTabKey, setCurrentTabKey] = useState(routes[0]?.key);
-
-  const renderTabBar = (props: Parameters<React.ComponentProps<typeof TabView>["renderTabBar"]>[0]) => {
-    return (
-      <ScrollView
-        borderTopLeftRadius={"$6"}
-        borderTopRightRadius={"$6"}
-        horizontal
-        paddingTop={"$3"}
-        marginBottom={"$1"}
-        paddingHorizontal="$3"
-        backgroundColor={"#1F1E20"}
-        alwaysBounceHorizontal={false}
-        showsHorizontalScrollIndicator={false}
-      >
-        <XStack gap={"$3"} paddingTop={"$2"}>
-          {
-            props.navigationState.routes.map((link: Route) => {
-              const isActive = currentTabKey === link.key;
-              return (
-                <TabItem
-                  key={link.key}
-                  {...props}
-                  isActive={isActive}
-                  onPressTab={setCurrentTabKey}
-                  characterId={characterId}
-                  link={link}
-                />
-              );
-            })
-          }
-        </XStack>
-      </ScrollView>
-    );
-  };
-
   const renderHeader = () => (
     <Stack paddingHorizontal="$3" paddingTop={top} backgroundColor={"$background"}>
       <PolarLightBackground activeIndex={0}/>
@@ -232,19 +253,27 @@ const UserInfoPage: FC<NativeStackScreenProps<RootStackParamList, "UserInfo"> & 
     </Stack>
   );
 
+  const navigationState = useMemo(() => ({ index, routes }), [index, routes]);
+
   return (
     <Stack flex={1}>
       <TabView
-        navigationState={{ index, routes }}
+        navigationState={navigationState}
         renderScene={renderScene}
         onIndexChange={setIndex}
-        renderTabBar={renderTabBar}
+        renderTabBar={props => (
+          <TabBarRenderer
+            {...props}
+            characterId={characterId}
+            defaultRoute={routes[0]}
+          />
+        )}
         lazy
         renderScrollHeader={renderHeader}
         minHeaderHeight={top}
         animationHeaderPosition={animationHeaderPosition}
         swipeEnabled={false}
-        style={{ backgroundColor: "#1F1E20" }}
+        style={styles.tavViewContainer}
       />
       {/* TODO */}
       <Stack position="absolute" top={0} bottom={0} left={0} width={2}/>
@@ -254,11 +283,11 @@ const UserInfoPage: FC<NativeStackScreenProps<RootStackParamList, "UserInfo"> & 
 
 export const OthersUserInfoPage = (props: ComponentPropsWithRef<typeof UserInfoPage>) => <UserInfoPage {...props} displayHeader />;
 export const MyUserInfoPage = (props: ComponentPropsWithRef<typeof UserInfoPage>) => {
-  const characterId = useCharacterId();
+  const { data: character } = useCharacter();
 
   useEffect(() => {
-    props.navigation.setParams({ characterId });
-  }, [characterId]);
+    character && props.navigation.setParams({ character });
+  }, [character]);
 
   return <SafeAreaView edges={["top"]} style={styles.safeArea}><UserInfoPage {...props} /></SafeAreaView>;
 };
@@ -266,5 +295,8 @@ export const MyUserInfoPage = (props: ComponentPropsWithRef<typeof UserInfoPage>
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
+  },
+  tavViewContainer: {
+    backgroundColor: "#1F1E20",
   },
 });

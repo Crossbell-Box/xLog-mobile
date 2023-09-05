@@ -765,6 +765,7 @@ export async function getFeed({
         tags: ["post", tag],
         limit,
         cursor,
+        characterId,
         includeCharacter: true,
         excludeCharacterId: filter.latest,
       } as any);
