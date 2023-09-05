@@ -61,9 +61,9 @@ export const FeedListItem: FC<Props> = (props) => {
       "PostDetails",
       {
         characterId: note.characterId,
-        noteId: note.noteId,
         placeholderCoverImageIndex: placeholderBgIndex,
         coverImage,
+        note,
       },
     );
   }, [note]);

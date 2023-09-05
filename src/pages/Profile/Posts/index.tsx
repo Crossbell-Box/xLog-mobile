@@ -16,6 +16,7 @@ import { useDate } from "@/hooks/use-date";
 import type { RootStackParamList } from "@/navigation/types";
 import { useGetPagesBySite } from "@/queries/page";
 import { PageVisibilityEnum } from "@/types";
+import type { ExpandedNote } from "@/types/crossbell";
 import { getPageVisibility } from "@/utils/page-helpers";
 
 export interface Props {
@@ -57,12 +58,12 @@ export const PostsPage: FC<NativeStackScreenProps<RootStackParamList, "Posts">> 
     handle,
   });
 
-  const toDetails = (characterId: number, noteId: number) => {
+  const toDetails = (characterId: number, note: ExpandedNote) => {
     navigation.navigate(
       "PostDetails",
       {
         characterId,
-        noteId,
+        note,
       },
     );
   };
@@ -127,7 +128,7 @@ export const PostsPage: FC<NativeStackScreenProps<RootStackParamList, "Posts">> 
                               hoverTheme
                               icon={Newspaper}
                               title={item?.metadata?.content?.title}
-                              onPress={() => toDetails(item.characterId, item.noteId)}
+                              onPress={() => toDetails(item.characterId, item)}
                               subTitle={`已发布 · ${
                                 getPageVisibility(item) === PageVisibilityEnum.Draft
                                   ? date.formatDate(item.updatedAt)

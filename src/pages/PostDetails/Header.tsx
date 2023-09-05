@@ -15,13 +15,14 @@ import { bgs } from "@/constants/bgs";
 import { useCoverImage } from "@/hooks/use-cover-image";
 import { useThemeStore } from "@/hooks/use-theme-store";
 import { useGetPage } from "@/queries/page";
+import type { ExpandedNote } from "@/types/crossbell";
 import { getNoteSlug } from "@/utils/get-slug";
 
 interface Props {
   isCapturing: boolean
   headerContainerHeight: number
   postUri?: string
-  noteId: number
+  note: ExpandedNote
   characterId: number
   placeholderCoverImageIndex: number
   coverImage: string
@@ -30,12 +31,11 @@ interface Props {
 const { width } = Dimensions.get("window");
 
 export const Header: FC<Props> = (props) => {
-  const { noteId, characterId, coverImage, placeholderCoverImageIndex = 0, postUri, isCapturing, headerContainerHeight } = props;
-  const note = useNote(characterId, noteId);
+  const { note, characterId, coverImage, placeholderCoverImageIndex = 0, postUri, isCapturing, headerContainerHeight } = props;
   const page = useGetPage(
     {
       characterId,
-      slug: getNoteSlug(note.data),
+      slug: getNoteSlug(note),
       useStat: true,
     },
   );
@@ -58,7 +58,7 @@ export const Header: FC<Props> = (props) => {
     </Stack>
   );
 
-  const noteTitle = note.data?.metadata?.content?.title;
+  const noteTitle = note?.metadata?.content?.title;
 
   const headerImageHeight = 300;
 
@@ -100,7 +100,7 @@ export const Header: FC<Props> = (props) => {
                 <XStack alignItems="center" gap="$4">
                   <SizableText size="$3" color={"$color"}>{character.data?.metadata?.content?.name || character.data?.handle}</SizableText>
                   <SizableText size="$3" color={"#929190"}>
-                    {moment(note?.data?.createdAt).format("YYYY-MM-DD")}
+                    {moment(note?.createdAt).format("YYYY-MM-DD")}
                   </SizableText>
                 </XStack>
               </XStack>

@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 import WebView from "react-native-webview";
@@ -10,12 +10,14 @@ import type { RootStackParamList } from "@/navigation/types";
 
 export interface Props {
   url: string
+  title?: string
 }
 
 const AnimatedView = Animated.createAnimatedComponent(View);
 
 export const WebPage: FC<NativeStackScreenProps<RootStackParamList, "Web">> = (props) => {
-  const { url } = props.route.params;
+  const { navigation, route } = props;
+  const { url, title } = route.params;
   const progressAnim = useSharedValue<number>(0);
 
   const progressStyle = useAnimatedStyle(() => {
@@ -27,6 +29,12 @@ export const WebPage: FC<NativeStackScreenProps<RootStackParamList, "Web">> = (p
       zIndex: 2,
     };
   });
+
+  useEffect(() => {
+    navigation.setOptions({
+      title,
+    });
+  }, []);
 
   return (
     <View style={styles.container}>

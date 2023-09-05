@@ -85,7 +85,8 @@ export const javaScriptContentLoaded = (
       event.preventDefault();
       window.ReactNativeWebView.postMessage(
         JSON.stringify({
-          link: event.target.href
+          link: event.target.href,
+          title: event.target.innerText
         })
       );
       return false;

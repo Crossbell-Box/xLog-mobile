@@ -19,6 +19,7 @@ import { useRootNavigation } from "@/hooks/use-navigation";
 import { getPage } from "@/models/page.model";
 import type { RootStackParamList } from "@/navigation/types";
 import { useGetSite } from "@/queries/site";
+import type { ExpandedNote } from "@/types/crossbell";
 
 import { Header } from "./Header";
 
@@ -92,7 +93,7 @@ function internalLink(link: Route) {
 export const TabItem: FC<TabBarItemProps> = (props) => {
   const { isActive, characterId, link, jumpTo, onPressTab } = props;
   const i18n = useTranslation();
-  const [noteId, setNoteId] = useState<number | undefined>(undefined);
+  const [note, setNote] = useState<ExpandedNote | undefined>(undefined);
   const [loading, setLoading] = useState(false);
   const internalTab = internalLink(link);
   const navigation = useRootNavigation();
@@ -102,7 +103,7 @@ export const TabItem: FC<TabBarItemProps> = (props) => {
       setLoading(true);
       const slug = link.key.split("/")[1];
       getPage({ slug, characterId }).then((r) => {
-        r?.noteId && setNoteId(r?.noteId);
+        r && setNote(r);
       }).finally(() => setLoading(false));
     }
   }, [internalTab, characterId, link]);
@@ -112,12 +113,12 @@ export const TabItem: FC<TabBarItemProps> = (props) => {
       jumpTo(link.key);
       onPressTab(link.key);
     }
-    else if (noteId) {
+    else if (note.noteId) {
       navigation.navigate(
         "PostDetails",
         {
           characterId,
-          noteId,
+          note,
         },
       );
     }

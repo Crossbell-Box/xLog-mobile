@@ -35,7 +35,7 @@ export const PostsListItem: FC<Props> = (props) => {
       "PostDetails",
       {
         characterId: note.characterId,
-        noteId: note.noteId,
+        note,
       },
     );
   }, [note]);

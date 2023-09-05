@@ -24,6 +24,7 @@ import type { useScrollVisibilityHandler } from "@/hooks/use-scroll-visibility-h
 import { useThemeStore } from "@/hooks/use-theme-store";
 import type { RootStackParamList } from "@/navigation/types";
 import { useGetPage } from "@/queries/page";
+import type { ExpandedNote } from "@/types/crossbell";
 import { GA } from "@/utils/GA";
 import { getNoteSlug } from "@/utils/get-slug";
 
@@ -32,7 +33,7 @@ import { javaScriptContentLoaded } from "./javascript-content";
 import { Skeleton } from "./Skeleton";
 
 export interface Props {
-  noteId: number
+  note: ExpandedNote
   characterId: number
   navigation: NativeStackNavigationProp<RootStackParamList, "PostDetails", undefined>
   scrollEventHandler: ReturnType<typeof useScrollVisibilityHandler>
@@ -49,9 +50,8 @@ export interface PostDetailsContentInstance {
 const { width } = Dimensions.get("window");
 
 export const Content = React.forwardRef<PostDetailsContentInstance, Props>((props, ref) => {
-  const { noteId, postUri, renderHeaderComponent, characterId, navigation, scrollEventHandler, bottomBarHeight, headerContainerHeight } = props;
+  const { note, postUri, renderHeaderComponent, characterId, navigation, scrollEventHandler, bottomBarHeight, headerContainerHeight } = props;
   const { isDarkMode, mode } = useThemeStore();
-  const note = useNote(characterId, noteId);
   const character = useCharacter(characterId);
   const myCharacterId = useCharacterId();
   const [siteT] = useTranslation("site");
@@ -61,7 +61,7 @@ export const Content = React.forwardRef<PostDetailsContentInstance, Props>((prop
 
   const page = useGetPage({
     characterId: character?.data?.characterId,
-    slug: getNoteSlug(note.data),
+    slug: getNoteSlug(note),
     useStat: true,
   });
 
@@ -88,7 +88,7 @@ export const Content = React.forwardRef<PostDetailsContentInstance, Props>((prop
   const globalLoading = useGlobalLoading();
   const toast = useToastController();
   const gaReadEventLogged = useRef(false);
-  const noteTitle = note.data?.metadata?.content?.title;
+  const noteTitle = note?.metadata?.content?.title;
 
   const scrollIndicatorInsets = useMemo(() => ({
     top: headerHeight - top,
@@ -99,7 +99,7 @@ export const Content = React.forwardRef<PostDetailsContentInstance, Props>((prop
     page_name: "post_details",
     params: {
       character_id: myCharacterId,
-      note_id: noteId,
+      note_id: note.noteId,
       note_title: noteTitle,
     },
   });
@@ -107,10 +107,13 @@ export const Content = React.forwardRef<PostDetailsContentInstance, Props>((prop
   const onWebViewMessage = (event) => {
     try {
       const { data } = event.nativeEvent;
-      const { height, imageUrlArray, link } = JSON.parse(data);
+      const { height, imageUrlArray, link, title } = JSON.parse(data);
 
       if (link) {
-        navigation.navigate("Web", { url: link });
+        navigation.navigate("Web", {
+          url: link,
+          title,
+        });
       }
 
       if (height) {
@@ -146,13 +149,13 @@ export const Content = React.forwardRef<PostDetailsContentInstance, Props>((prop
     if (offsetY / height >= 0.9) {
       GA.logEvent("post_details_read_completely", {
         character_id: myCharacterId,
-        note_id: noteId,
+        note_id: note.noteId,
         note_title: noteTitle,
       }).then(() => {
         gaReadEventLogged.current = true;
       });
     }
-  }, [myCharacterId, noteId, noteTitle]);
+  }, [myCharacterId, note, noteTitle]);
 
   const onSaveImageAsync = useCallback(async () => {
     try {

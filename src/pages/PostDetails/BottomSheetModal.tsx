@@ -16,6 +16,7 @@ import { CommentButton } from "@/components/CommentButton";
 import { ReactionLike } from "@/components/ReactionLike";
 import { XTouch } from "@/components/XTouch";
 import { useGetPage } from "@/queries/page";
+import type { ExpandedNote } from "@/types/crossbell";
 import { getNoteSlug } from "@/utils/get-slug";
 
 import type { BottomSheetTabsInstance } from "./BottomSheetTabs";
@@ -24,13 +25,12 @@ import { bottomSheetPadding } from "./constants";
 
 export interface Props {
   characterId: number
-  noteId: number
   bottomBarHeight: number
+  note: ExpandedNote
 }
 
 export const BottomSheetModal: FC<Props> = (props) => {
-  const { characterId, noteId, bottomBarHeight } = props;
-  const note = useNote(characterId, noteId);
+  const { characterId, note, bottomBarHeight } = props;
   const bottomSheetRef = useRef<BottomSheetMethods>(null);
   const bottomSheetTabsRef = useRef<BottomSheetTabsInstance>(null);
   const character = useCharacter(characterId);
@@ -39,7 +39,7 @@ export const BottomSheetModal: FC<Props> = (props) => {
   const page = useGetPage(
     {
       characterId: character?.data?.characterId,
-      slug: getNoteSlug(note.data),
+      slug: getNoteSlug(note),
       useStat: true,
     },
   );
@@ -54,8 +54,8 @@ export const BottomSheetModal: FC<Props> = (props) => {
   }, [page]);
 
   const reactionCommonProps = {
-    characterId: note?.data?.characterId,
-    noteId: note?.data?.noteId,
+    characterId: note?.characterId,
+    noteId: note?.noteId,
   };
 
   const defaultBottomSheetModalIndex = -1;
