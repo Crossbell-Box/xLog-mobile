@@ -79,7 +79,7 @@ export const Header: FC<Props> = (props) => {
           </XStack>
         </XStack>
         <XStack justifyContent="space-between" alignItems="flex-start" minHeight={"$5"} marginBottom="$3">
-          <YStack gap="$2">
+          <YStack gap="$2" flex={1}>
             <H3 fontWeight={"700"}>{character.data?.metadata?.content?.name}</H3>
             <Paragraph color="#DBDBDB" numberOfLines={3} maxWidth={replaceFollowButtonWithOtherComponent ? "70%" : undefined}>
               {character?.data?.metadata?.content?.bio}

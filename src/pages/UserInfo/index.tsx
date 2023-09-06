@@ -1,6 +1,5 @@
 import type { ComponentPropsWithRef, FC } from "react";
 import React, { useEffect, useMemo, useCallback, useState, memo, useRef } from "react";
-import { useTranslation } from "react-i18next";
 import { StyleSheet } from "react-native";
 import { useSharedValue } from "react-native-reanimated";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
@@ -10,200 +9,16 @@ import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { Route } from "@showtime-xyz/tab-view";
 import { TabView } from "@showtime-xyz/tab-view";
 import type { CharacterEntity } from "crossbell";
-import { LinearGradient } from "expo-linear-gradient";
-import { ScrollView, Spinner, Stack, Text, XStack } from "tamagui";
+import { Stack } from "tamagui";
 
-import { TabMasonryFeedList } from "@/components/FeedList";
 import { PolarLightBackground } from "@/components/PolarLightBackground";
-import { useRootNavigation } from "@/hooks/use-navigation";
-import { getPage } from "@/models/page.model";
 import type { RootStackParamList } from "@/navigation/types";
 import { useGetSite } from "@/queries/site";
-import type { ExpandedNote } from "@/types/crossbell";
 
+import { analyzingLink } from "./analyzingLink";
 import { Header } from "./Header";
-
-const HomeScene: FC<{ characterId: number; index: number }> = ({ characterId, index }) => {
-  return (
-    <Stack flex={1}>
-      <TabMasonryFeedList
-        index={index}
-        characterId={characterId}
-        type={"character"}
-      />
-    </Stack>
-  );
-};
-
-const TagScene: FC<{
-  characterId: number
-  index: number
-  tag: string
-}> = ({ characterId, tag, index }) => {
-  return (
-    <Stack flex={1}>
-      <TabMasonryFeedList
-        index={index}
-        characterId={characterId}
-        type={"tag"}
-        tag={tag}
-      />
-    </Stack>
-  );
-};
-
-const internalPages = [
-  "/", // 首页
-  "/archives", // 归档页面
-  "/tag", // 标签页面
-  "/nft", // NFT 展示页面
-];
-
-const disabledPages = [
-  "/archives", // 归档页面
-  "/tag", // 标签页面
-  "/nft", // NFT 展示页面
-  "/portfolios", // 作品集 (TODO)
-];
-
-type TabBarProps = Parameters<React.ComponentProps<typeof TabView>["renderTabBar"]>[0];
-
-interface TabBarItemProps extends TabBarProps {
-  isActive: boolean
-  characterId: number
-  link: Route
-  onPressTab: (key: string) => void
-}
-
-function internalLink(link: Route) {
-  try {
-    if (link.key === "/") return {
-      isInternal: true,
-      slug: undefined,
-      pagePath: "/",
-    };
-
-    const slug = link.key.split("/")[2];
-    const pagePath = `/${link.key.split("/")[1]}`;
-    return {
-      isInternal: !!internalPages.find(p => p === pagePath && pagePath !== "/"),
-      slug,
-      pagePath,
-    };
-  }
-  catch (e) {
-    return {
-      isInternal: false,
-      slug: undefined,
-      pagePath: undefined,
-    };
-  }
-}
-
-export const TabItem: FC<TabBarItemProps> = (props) => {
-  const { isActive, characterId, link, jumpTo, onPressTab } = props;
-  const i18n = useTranslation();
-  const [note, setNote] = useState<ExpandedNote | undefined>(undefined);
-  const [loading, setLoading] = useState(false);
-  const internalTab = useRef(internalLink(link)).current;
-  const navigation = useRootNavigation();
-
-  useEffect(() => {
-    if (
-      !internalTab.isInternal && !note
-    ) {
-      setLoading(true);
-      const slug = link.key.split("/")[1];
-      getPage({ slug, characterId })
-        .then(r => (r?.noteId && setNote(r)))
-        .finally(() => setLoading(false));
-    }
-  }, [characterId, link, note]);
-
-  const onPress = () => {
-    if (internalTab.isInternal) {
-      jumpTo(link.key);
-      onPressTab(link.key);
-    }
-    else if (note?.noteId) {
-      navigation.navigate(
-        "PostDetails",
-        {
-          characterId,
-          note,
-        },
-      );
-    }
-  };
-
-  if (link.key !== "/" && disabledPages.find(p => p.startsWith(link.key))) return null;
-
-  return (
-    <Stack onPress={onPress} paddingBottom="$2">
-      {
-        loading
-          ? <Spinner size="small" />
-          : <Text color={isActive ? "$color" : "#BEBEBE"}>{i18n.t(link?.title)}</Text>
-      }
-
-      {
-        isActive && (
-          <Stack height={2} width={"100%"} marginTop="$1">
-            <LinearGradient
-              colors={["#30a19b", "#2875bf"]}
-              style={{ position: "absolute", width: "100%", top: 0, bottom: 0 }}
-              start={{ x: 0, y: 0.5 }}
-              end={{ x: 1, y: 0.5 }}
-            />
-          </Stack>
-        )
-      }
-    </Stack>
-  );
-};
-
-interface TabBarRendererProps extends TabBarProps {
-  defaultRoute: Route
-  characterId: number
-}
-
-const TabBarRenderer = memo((props: TabBarRendererProps) => {
-  const { navigationState, defaultRoute, characterId } = props;
-  const [currentTabKey, setCurrentTabKey] = useState(defaultRoute?.key);
-
-  return (
-    <ScrollView
-      borderTopLeftRadius={"$6"}
-      borderTopRightRadius={"$6"}
-      horizontal
-      paddingTop={"$3"}
-      marginBottom={"$1"}
-      paddingHorizontal="$3"
-      backgroundColor={"#1F1E20"}
-      alwaysBounceHorizontal={false}
-      showsHorizontalScrollIndicator={false}
-    >
-      <XStack gap={"$3"} paddingTop={"$2"}>
-        {
-          navigationState.routes.map((link: Route) => (
-            <TabItem
-              key={link.key}
-              {...props}
-              isActive={currentTabKey === link.key}
-              onPressTab={setCurrentTabKey}
-              characterId={characterId}
-              link={link}
-            />
-          ))
-        }
-      </XStack>
-    </ScrollView>
-  );
-}, (
-  prevProps,
-  nextProps,
-) => (prevProps.navigationState === nextProps.navigationState),
-);
+import { HomeScene, TagScene } from "./Scenes";
+import { TabBarRenderer } from "./TabBar";
 
 export interface Props {
   character: CharacterEntity
@@ -233,7 +48,7 @@ const UserInfoPage: FC<NativeStackScreenProps<RootStackParamList, "UserInfo"> & 
   }, [site]);
 
   const renderScene = useCallback(({ route }: { route: Route }) => {
-    const { slug, pagePath } = internalLink(route);
+    const { slug, pagePath } = analyzingLink(route);
 
     if (pagePath === "/tag") {
       return <TagScene tag={slug} characterId={characterId} index={0} />;
