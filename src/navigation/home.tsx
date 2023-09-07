@@ -96,7 +96,11 @@ const TabBar: FC<BottomTabBarProps> = (props) => {
                 containerStyle={{ flex: 1 }}
               >
                 <Center flex={1}>
-                  <Icon focused={isFocused} color={isFocused ? "white" : "#939393"} size={24}/>
+                  <Icon
+                    focused={isFocused}
+                    color={isFocused ? "white" : "#cbcbcbca"}
+                    size={24}
+                  />
                 </Center>
               </TouchableOpacity>
             );

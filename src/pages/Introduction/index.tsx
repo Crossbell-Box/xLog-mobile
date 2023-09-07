@@ -1,4 +1,5 @@
 import type { FC } from "react";
+import { Platform } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -44,7 +45,9 @@ export const IntroductionPage: FC<Props> = () => {
                 <Settings/>
               </TouchableOpacity>
             </XStack>
-            <Text marginBottom="$6" fontWeight={"500"} fontSize={37}>You’re using xLog on iOS</Text>
+            <Text marginBottom="$6" fontWeight={"500"} fontSize={37}>
+              You’re using xLog on {Platform.OS === "ios" ? "iOS" : "Android"}
+            </Text>
             {
               [
                 {

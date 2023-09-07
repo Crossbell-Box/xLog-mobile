@@ -22,7 +22,7 @@ export interface Props {
 }
 
 export const AchievementsPage: FC<NativeStackScreenProps<RootStackParamList, "Achievements">> = (props) => {
-  const { characterId: _characterId } = props.route.params;
+  const _characterId = props.route?.params?.characterId;
   const myCharacterId = useCharacterId();
   const characterId = _characterId ?? myCharacterId;
   const i18n = useTranslation("common");

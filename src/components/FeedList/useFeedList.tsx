@@ -3,7 +3,8 @@ import { useEffect, useMemo, useRef } from "react";
 import type { useAnimatedScrollHandler } from "react-native-reanimated";
 
 import type { ContentStyle, MasonryFlashListRef } from "@shopify/flash-list";
-import { SizableText, Spinner, Stack, useWindowDimensions } from "tamagui";
+import { Image } from "expo-image";
+import { SizableText, Spinner, Stack, useWindowDimensions, YStack } from "tamagui";
 
 import { useCharacterId } from "@/hooks/use-character-id";
 import type { FeedType, SearchType } from "@/models/home.model";
@@ -17,6 +18,7 @@ import { Skeleton } from "./Skeleton";
 
 import topics from "../../data/topics.json";
 import { Center } from "../Base/Center";
+import { FillSpinner } from "../FillSpinner";
 
 export interface Props {
   onScroll?: ReturnType<typeof useAnimatedScrollHandler>
@@ -84,16 +86,21 @@ export const useFeedList = <T extends {}>(props: Props & T) => {
     renderItem: ({ item, index }) => (
       <FeedListItem width={width / 2 - 12} key={index} note={item} searchKeyword={searchKeyword}/>
     ),
-    ListEmptyComponent: <Stack>
+    ListEmptyComponent: <Stack height={300}>
       {
         feed.isFetching
           ? <Skeleton itemWidth={width / 2 - 12}/>
           : (
-            <Center flex={1}>
-              <SizableText color={"$colorSubtitle"}>
-There are no posts yet.
+            <YStack flex={1} alignItems="center" justifyContent="center" gap="$2">
+              <Image
+                source={require("../../assets/post-list-empty.png")}
+                style={{ width: 100, height: 100 }}
+                contentFit="contain"
+              />
+              <SizableText color={"$colorUnActive"} size="$5">
+                There are no posts yet.
               </SizableText>
-            </Center>
+            </YStack>
           )
       }
     </Stack>,

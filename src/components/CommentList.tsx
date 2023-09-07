@@ -231,7 +231,7 @@ export const CommentList = forwardRef<CommentListInstance, Props>((
 
       {
         couldComment && (
-          <Stack height={bottom + 60}>
+          <Stack height={bottom + 10}>
             {
               modalVisible
                 ? (
@@ -258,7 +258,7 @@ export const CommentList = forwardRef<CommentListInstance, Props>((
                       placeholderTextColor={subtitle}
                     />
                     <Button
-                      backgroundColor={"$background"}
+                      backgroundColor={"transparent"}
                       type={content ? "primary" : "disabled"}
                       alignSelf="center"
                       onPress={submitComment}
