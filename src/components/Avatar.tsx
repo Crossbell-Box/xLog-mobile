@@ -48,7 +48,6 @@ export const Avatar: FC<Props> = (props) => {
         <Circle
           size={size}
           circular
-          backgroundColor="$background"
         >
           <Text textAlign="center" fontSize={size / 2} fontWeight={"700"}>
             {nameAbbr}
@@ -86,7 +85,6 @@ export const Avatar: FC<Props> = (props) => {
       <_Avatar
         size={size}
         circular
-        backgroundColor="black"
       >
         <_Avatar.Image src={toGateway(uri)}/>
         <_Avatar.Fallback>
@@ -100,7 +98,6 @@ export const Avatar: FC<Props> = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#000",
     alignItems: "center",
     justifyContent: "center",
     transform: [

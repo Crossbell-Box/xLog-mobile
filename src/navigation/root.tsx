@@ -107,7 +107,7 @@ export const RootNavigator = () => {
 
       <RootStack.Group screenOptions={{
         headerShown: false,
-        cardStyle: { paddingTop: top, paddingBottom: bottom },
+        cardStyle: { paddingBottom: bottom },
         transitionSpec: {
           open: config,
           close: config,

@@ -1,4 +1,5 @@
 import React, { useMemo, useState, memo } from "react";
+import { useTranslation } from "react-i18next";
 
 import type { Route, TabView } from "@showtime-xyz/tab-view";
 import { ScrollView, Stack, XStack } from "tamagui";
@@ -19,6 +20,7 @@ export const TabBarRenderer = memo((props: TabBarRendererProps) => {
   const { navigationState, defaultRoute, characterId } = props;
   const [currentTabKey, setCurrentTabKey] = useState(defaultRoute?.key);
   const navigation = useRootNavigation();
+  const i18n = useTranslation();
 
   const onPress = (
     link: Route,
@@ -123,6 +125,17 @@ export const TabBarRenderer = memo((props: TabBarRendererProps) => {
               />
             ))
           }
+          <TabItemRenderer
+            isActive={false}
+            isLoading={false}
+            onPressTab={() => {
+              navigation.navigate(
+                "Achievements",
+                { characterId },
+              );
+            }}
+            title={i18n.t("Badges")}
+          />
         </XStack>
       </ScrollView>
     </Stack>
