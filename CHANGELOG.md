@@ -1,5 +1,27 @@
 # xlog
 
+## 0.22.0
+
+### Minor Changes
+
+- 0c3cc1d: Customized tab bar.
+- addb165: Compeleted the new feed page.
+
+### Patch Changes
+
+- 4c01211: Styled userinfo page.
+- ccb5eb7: Login directly in the introduction page.
+- 9f8fed0: Optimized pages loading.
+- f9d11a1: Some UI changes.
+- d7029b5: New profile page.
+- fc9d1ea: Support light color mode.
+- 84433d6: Added new badges page.
+- c5a8208: Speed up the detail page loading.
+- d8e578b: Some style changes.
+- 7e8ae9b: Typo fixes.
+- 474fc13: Fixed some UI bugs.
+- e0d04f3: Optimized tab animation in the home page.
+
 ## 0.21.1
 
 ### Patch Changes
