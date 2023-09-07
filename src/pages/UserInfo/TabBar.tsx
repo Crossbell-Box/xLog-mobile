@@ -78,7 +78,7 @@ export const TabBarRenderer = memo((props: TabBarRendererProps) => {
   }, [navigationState.routes]);
 
   return (
-    <Stack backgroundColor={"#000"} marginBottom={"$1"}>
+    <Stack backgroundColor={"#000"}>
       <ScrollView
         borderTopLeftRadius={"$6"}
         borderTopRightRadius={"$6"}

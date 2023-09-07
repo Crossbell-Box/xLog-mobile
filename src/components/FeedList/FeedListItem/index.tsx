@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useRef } from "react";
 import type { ViewStyle } from "react-native";
 import { Image as RNImage } from "react-native";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
-import Animated, { FadeIn } from "react-native-reanimated";
+import Animated, { FadeIn, FadeInDown } from "react-native-reanimated";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Eye } from "@tamagui/lucide-icons";
@@ -37,12 +37,12 @@ export const FeedListItem: FC<Props> = (props) => {
   const { note, width } = props;
   const layoutRef = useRef<Animated.View>(null);
   const navigation = useRootNavigation();
-
   const coverImage = useCoverImage(note);
-  const [sourceLayout, setSourceLayout] = React.useState<{
-    width: number
-    height: number
-  } | undefined>(undefined);
+  const usingDefaultCoverImage = !coverImage;
+  const defaultLayout = { width, height: defaultCoverImageHeight };
+  const [sourceLayout, setSourceLayout] = React.useState<{ width: number;height: number } | undefined>(
+    usingDefaultCoverImage ? defaultLayout : undefined,
+  );
 
   const coverImageAnimStyles = useMemo(() => {
     const height = sourceLayout ? (width * sourceLayout.height) / sourceLayout.width : defaultCoverImageHeight;
@@ -83,13 +83,10 @@ export const FeedListItem: FC<Props> = (props) => {
       };
     }
 
-    const defaultLayout = {
-      width,
-      height: defaultCoverImageHeight,
-    };
     if (!coverImage) {
       return defaultLayout;
     }
+
     return await new Promise ((resolve) => {
       RNImage.getSize(
         coverImage,
@@ -107,12 +104,16 @@ export const FeedListItem: FC<Props> = (props) => {
   };
 
   useEffect(() => {
+    if (usingDefaultCoverImage) {
+      return;
+    }
+
     coverImage && Image.prefetch(coverImage);
-    getCoverSourceLayout().then(async (layout) => {
-      if (layout.origin !== "cache") {
-        await AsyncStorage.setItem(`img-layouts:${coverImage}`, JSON.stringify(layout));
-      }
+    getCoverSourceLayout().then((layout) => {
       setSourceLayout(layout);
+      if (layout.origin !== "cache") {
+        AsyncStorage.setItem(`img-layouts:${coverImage}`, JSON.stringify(layout));
+      }
     });
   }, [coverImage]);
 
@@ -124,7 +125,7 @@ export const FeedListItem: FC<Props> = (props) => {
     <Animated.View
       ref={layoutRef}
       style={[props.style, { paddingHorizontal: 4, marginBottom: 8 }]}
-      entering={FadeIn.duration(150)}
+      entering={FadeInDown.duration(150)}
     >
       <TouchableWithoutFeedback onPress={onPress}>
         {

@@ -11,6 +11,25 @@ import {
 
 import { i18n } from "@/i18n";
 
+const items = [
+  {
+    name: i18n.t("Today"),
+    interval: 1,
+  },
+  {
+    name: i18n.t("This week"),
+    interval: 7,
+  },
+  {
+    name: i18n.t("This month"),
+    interval: 30,
+  },
+  {
+    name: i18n.t("All time"),
+    interval: 0,
+  },
+];
+
 export function HotInterval(props: SelectProps) {
   const [val, setVal] = useState(props.defaultValue);
 
@@ -28,7 +47,7 @@ export function HotInterval(props: SelectProps) {
       </Adapt>
 
       <Select.Content zIndex={200000}>
-        <Select.Viewport >
+        <Select.Viewport>
           <XStack>
             <Select.Group space="$0">
               {items.map((item, i) => {
@@ -48,22 +67,3 @@ export function HotInterval(props: SelectProps) {
     </Select>
   );
 }
-
-const items = [
-  {
-    name: i18n.t("Today"),
-    interval: 1,
-  },
-  {
-    name: i18n.t("This week"),
-    interval: 7,
-  },
-  {
-    name: i18n.t("This month"),
-    interval: 30,
-  },
-  {
-    name: i18n.t("All time"),
-    interval: 0,
-  },
-];

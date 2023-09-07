@@ -86,12 +86,12 @@ export const useFeedList = <T extends {}>(props: Props & T) => {
     renderItem: ({ item, index }) => (
       <FeedListItem width={width / 2 - 12} key={index} note={item} searchKeyword={searchKeyword}/>
     ),
-    ListEmptyComponent: <Stack height={300}>
+    ListEmptyComponent: <Stack>
       {
         feed.isFetching
           ? <Skeleton itemWidth={width / 2 - 12}/>
           : (
-            <YStack flex={1} alignItems="center" justifyContent="center" gap="$2">
+            <YStack minHeight={300} alignItems="center" justifyContent="center" gap="$2">
               <Image
                 source={require("../../assets/post-list-empty.png")}
                 style={{ width: 100, height: 100 }}
