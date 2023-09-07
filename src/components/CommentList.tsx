@@ -170,7 +170,7 @@ export const CommentList = forwardRef<CommentListInstance, Props>((
               comments.isFetching
                 ? <FillSpinner/>
                 : (
-                  <YStack flex={1} alignItems="center" justifyContent="center" gap="$2">
+                  <YStack minHeight={300} alignItems="center" justifyContent="center" gap="$2">
                     <Image
                       source={require("../assets/comment-list-empty.png")}
                       style={{ width: 100, height: 100 }}

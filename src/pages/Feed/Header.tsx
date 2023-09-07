@@ -37,9 +37,7 @@ export const Header: FC<Props> = (props) => {
   const hitSlop = useHitSlopSize(60);
   const [isHotIntervalBottomSheetOpen, setIsHotIntervalBottomSheetOpen] = useState(false);
 
-  const onPressSortBy = useCallback(() => {
-    setIsHotIntervalBottomSheetOpen(true);
-  }, []);
+  const onPressSortBy = useCallback(() => setIsHotIntervalBottomSheetOpen(true), []);
 
   return (
     <Stack>
@@ -67,16 +65,8 @@ export const Header: FC<Props> = (props) => {
                   hitSlop={hitSlop.hitSlop}
                   onPress={() => {
                     // TODO: Too many sync operations in fetching functions of feed list
-                    setTimeout(() => {
-                      onFeedTypeChange(type);
-                    }, 50);
+                    setTimeout(() => { onFeedTypeChange(type); }, 50);
                     setActiveIndex(index);
-                    if (type === feedTypes.FOLLOWING) {
-                      const isHotActive = activeIndex === 1;
-                      isHotActive
-                        ? setIsHotIntervalBottomSheetOpen(true)
-                        : onFeedTypeChange(feedTypes.HOTTEST);
-                    }
                     GA.logEvent("feed_type_changed", { feed_type: type });
                   }}
                 >

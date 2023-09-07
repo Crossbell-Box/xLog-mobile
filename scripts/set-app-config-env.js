@@ -20,7 +20,7 @@ function setAppConfigEnv() {
 
   const envConfig = {
     development: {
-      name: "xLog-dev",
+      name: "xLog",
       host: HOST,
       scheme: `${SCHEME}.development`,
       icon: "./assets/icon.development.png",
@@ -32,7 +32,7 @@ function setAppConfigEnv() {
         : "./GoogleService-Info.development.plist",
     },
     test: {
-      name: "xLog-preview",
+      name: "xLog",
       host: HOST,
       scheme: `${SCHEME}.test`,
       icon: "./assets/icon.test.png",
