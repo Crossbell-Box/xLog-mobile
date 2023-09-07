@@ -54,7 +54,7 @@ export const Navigator: FC<Props> = (props) => {
   const bottomSheetRef = useRef<BottomSheetModalInstance>(null);
   const snapPoints = useRef([200]).current;
   const { height } = useWindowDimensions();
-  const { background, backgroundFocus, primary } = useColors();
+  const { pick } = useColors();
   const toast = useToastController();
   const character = useCharacter(characterId);
   const hitSlop = useHitSlopSize(44);
@@ -216,6 +216,7 @@ export const Navigator: FC<Props> = (props) => {
             justifyContent="center"
             backgroundColor="#EFEFEF"
             paddingRight={3}
+            theme="dark"
           >
             <ChevronLeft size={30} color="$background"/>
           </Circle>
@@ -232,6 +233,7 @@ export const Navigator: FC<Props> = (props) => {
           right={8}
           top={topPos}
           zIndex={2}
+          theme="dark"
         >
           <XTouch touchableComponent={TouchableOpacity} onPress={openBottomSheetModal} {...hitSlop}>
             <MoreHorizontal color="$background" />
@@ -260,7 +262,7 @@ export const Navigator: FC<Props> = (props) => {
         snapPoints={snapPoints}
         enablePanDownToClose
         index={0}
-        backgroundStyle={{ backgroundColor: "#1C1C1C" }}
+        backgroundStyle={{ backgroundColor: pick("bottomSheetBackground") }}
         onPressBackdrop={closeBottomSheetModal}
       >
         <SizableText size={"$6"} fontWeight={"700"} textAlign="center">
@@ -291,7 +293,7 @@ const ShareItem: FC<{
     <XTouch onPress={onPress} touchableComponent={TouchableWithoutFeedback}>
       <YStack alignItems="center" gap="$1">
         <Stack width={size} height={size} alignItems="center" justifyContent="center" borderRadius={50} backgroundColor={backgroundColor}>
-          <Icon size={size / 2}/>
+          <Icon color="white" size={size / 2}/>
         </Stack>
         <SizableText numberOfLines={1}>{title}</SizableText>
       </YStack>

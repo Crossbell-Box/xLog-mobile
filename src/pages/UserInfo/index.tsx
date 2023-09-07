@@ -9,9 +9,10 @@ import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { Route } from "@showtime-xyz/tab-view";
 import { TabView } from "@showtime-xyz/tab-view";
 import type { CharacterEntity } from "crossbell";
-import { Stack } from "tamagui";
+import { Stack, Theme } from "tamagui";
 
 import { PolarLightBackground } from "@/components/PolarLightBackground";
+import { useColors } from "@/hooks/use-colors";
 import type { RootStackParamList } from "@/navigation/types";
 import { useGetSite } from "@/queries/site";
 
@@ -28,6 +29,7 @@ const UserInfoPage: FC<NativeStackScreenProps<RootStackParamList, "UserInfo"> & 
   const { route, displayHeader } = props;
   const character = route?.params?.character;
   const characterId = character?.characterId;
+  const { pick } = useColors();
   const { top } = useSafeAreaInsets();
   const [index, setIndex] = useState(0);
   const animationHeaderPosition = useSharedValue(0);
@@ -62,9 +64,11 @@ const UserInfoPage: FC<NativeStackScreenProps<RootStackParamList, "UserInfo"> & 
   }, [characterId]);
 
   const renderHeader = () => (
-    <Stack paddingHorizontal="$3" paddingTop={top} backgroundColor={"$background"}>
+    <Stack paddingHorizontal="$3" paddingTop={top} backgroundColor={"$bottomSheetBackground"}>
       <PolarLightBackground activeIndex={0}/>
-      <Header characterId={characterId} titleAnimatedValue={displayHeader ? animationHeaderPosition : undefined} />
+      <Theme name="dark">
+        <Header characterId={characterId} titleAnimatedValue={displayHeader ? animationHeaderPosition : undefined} />
+      </Theme>
     </Stack>
   );
 
@@ -88,7 +92,7 @@ const UserInfoPage: FC<NativeStackScreenProps<RootStackParamList, "UserInfo"> & 
         minHeaderHeight={top}
         animationHeaderPosition={animationHeaderPosition}
         swipeEnabled={false}
-        style={styles.tavViewContainer}
+        style={{ backgroundColor: pick("bottomSheetBackground") }}
       />
       {/* TODO */}
       <Stack position="absolute" top={0} bottom={0} left={0} width={2}/>
@@ -110,8 +114,5 @@ export const MyUserInfoPage = (props: ComponentPropsWithRef<typeof UserInfoPage>
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-  },
-  tavViewContainer: {
-    backgroundColor: "#1F1E20",
   },
 });

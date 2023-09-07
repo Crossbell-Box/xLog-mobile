@@ -15,6 +15,8 @@ import { CustomizedBackdrop } from "@/components/BottomSheetModal";
 import { CommentButton } from "@/components/CommentButton";
 import { ReactionLike } from "@/components/ReactionLike";
 import { XTouch } from "@/components/XTouch";
+import { useColors } from "@/hooks/use-colors";
+import { useThemeStore } from "@/hooks/use-theme-store";
 import { useGetPage } from "@/queries/page";
 import type { ExpandedNote } from "@/types/crossbell";
 import { getNoteSlug } from "@/utils/get-slug";
@@ -35,7 +37,9 @@ export const BottomSheetModal: FC<Props> = (props) => {
   const bottomSheetTabsRef = useRef<BottomSheetTabsInstance>(null);
   const character = useCharacter(characterId);
   const { bottom } = useSafeAreaInsets();
+  const { pick } = useColors();
   const snapPoints = useMemo(() => [75 + bottom, "85%"], [bottom]);
+  const { isDarkMode } = useThemeStore();
   const page = useGetPage(
     {
       characterId: character?.data?.characterId,
@@ -126,7 +130,27 @@ export const BottomSheetModal: FC<Props> = (props) => {
           onPress={() => bottomSheetRef.current.snapToIndex(0)}
         />
       )}
-      backgroundStyle={{ backgroundColor: "#1C1C1C" }}
+      style={{
+        borderTopLeftRadius: 16,
+        borderTopRightRadius: 16,
+
+        ...isDarkMode
+          ? {
+
+          }
+          : {
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 5,
+            },
+            shadowOpacity: 0.34,
+            shadowRadius: 6.27,
+
+            elevation: 10,
+          },
+      }}
+      backgroundStyle={{ backgroundColor: pick("bottomSheetBackground") }}
       handleIndicatorStyle={styles.handleIndicatorStyle}
       backgroundComponent={props => (
         <Stack {...props} borderTopLeftRadius={16} borderTopRightRadius={16}>

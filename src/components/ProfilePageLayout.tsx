@@ -12,7 +12,7 @@ export interface ProfilePageLayoutProps extends React.ComponentProps<typeof YSta
 
 export const ProfilePageLayout: React.FC<ProfilePageLayoutProps> = (props) => {
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView edges={["top"]} style={styles.container}>
       <PolarLightBackground activeIndex={0}/>
       <YStack flex={1} {...props} />
     </SafeAreaView>

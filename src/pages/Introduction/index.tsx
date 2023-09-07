@@ -2,14 +2,15 @@ import type { FC } from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { Settings } from "@tamagui/lucide-icons";
+import { Code, Code2, Feather, Settings, Shrink, Sparkles, Wallet } from "@tamagui/lucide-icons";
 import { Image, ScrollView, Spacer, Text, XStack, YStack } from "tamagui";
 
 import { ConnectEmailButton } from "@/components/ConnectEmailButton";
 import { ConnectionButton } from "@/components/ConnectionButton";
-import { LogoBlueResource } from "@/components/Logo";
+import { LogoDarkBlueResource, LogoLightBlueResource } from "@/components/Logo";
 import { PolarLightBackground } from "@/components/PolarLightBackground";
 import { useRootNavigation } from "@/hooks/use-navigation";
+import { useThemeStore } from "@/hooks/use-theme-store";
 
 export interface Props {
 }
@@ -17,15 +18,24 @@ export interface Props {
 export const IntroductionPage: FC<Props> = () => {
   const navigation = useRootNavigation();
   const navigateToTerms = () => navigation.navigate("Web", { url: "https://rss3.notion.site/Legal-Public-f30edd47c3be4dd7ae5ed4e39aefbbd9?pvs=4" });
+  const { isDarkMode } = useThemeStore();
 
   return (
     <ScrollView bounces={false} backgroundColor={"$background"}>
       <YStack>
         <SafeAreaView>
-          <PolarLightBackground activeIndex={0}/>
+          {isDarkMode && <PolarLightBackground activeIndex={0}/>}
           <YStack paddingHorizontal="$6">
             <XStack alignItems="flex-end" justifyContent="space-between" marginBottom="$5">
-              <Image source={LogoBlueResource} w={48} height={48}/>
+              <Image
+                source={
+                  isDarkMode
+                    ? LogoLightBlueResource
+                    : LogoDarkBlueResource
+                }
+                w={48}
+                height={48}
+              />
 
               <TouchableOpacity
                 activeOpacity={0.8}
@@ -38,24 +48,24 @@ export const IntroductionPage: FC<Props> = () => {
             {
               [
                 {
-                  img: require("../../assets/intro-01.png"),
+                  icon: Sparkles,
                   title: "Slide into Smoothness",
                   description: "Welcome to the digital playground where your ideas glide like butter on a hot skillet",
                 },
                 {
-                  img: require("../../assets/intro-02.png"),
+                  icon: Wallet,
                   title: "Chaining Up Your Data",
                   description: "Each blog post you pen is carefully chiseled into our digital marble",
                 },
                 {
-                  img: require("../../assets/intro-03.png"),
+                  icon: Code2,
                   title: "Join the Vibe Tribe, Dev Style",
                   description: "Plug into our jazzy developer community where collaboration is the new rock roll",
                 },
-              ].map(({ img, title, description }, index) => {
+              ].map(({ icon: Icon, title, description }, index) => {
                 return (
                   <XStack key={index} marginBottom="$6" alignItems="center" gap="$3" >
-                    <Image source={img} w={42} height={42}/>
+                    <Icon width={42} height={42}/>
                     <YStack flex={1}>
                       <Text fontSize={16} fontWeight={"700"}>{title}</Text>
                       <Text fontSize={14}>{description}</Text>

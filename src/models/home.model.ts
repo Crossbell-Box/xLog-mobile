@@ -72,6 +72,9 @@ export async function getFeed({
         content
       }
     }
+    stat {
+      viewDetailCount
+    }
     createdAt
     metadata {
       uri

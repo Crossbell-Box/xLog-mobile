@@ -37,7 +37,7 @@ export const TabItemRenderer: FC<{
       {
         isLoading
           ? <Spinner size="small" />
-          : <Text color={isActive ? "$color" : "#BEBEBE"}>{title}</Text>
+          : <Text color={"$color"}>{title}</Text>
       }
 
       {

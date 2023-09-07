@@ -23,7 +23,7 @@ export const PolarLightBackground: FC<{
         source={bgs[activeIndex]}
         contentFit="contain"
         cachePolicy="memory"
-        style={{ width, height }}
+        style={{ width, height, marginTop: -5 }}
       />
 
       <Stack position="absolute" width={width} height={height} top={0}>

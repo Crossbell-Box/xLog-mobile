@@ -8,10 +8,11 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useAccountCharacter } from "@crossbell/react-account";
 import { ArrowUpDown, MoveVertical } from "@tamagui/lucide-icons";
-import { Stack, Text, XStack } from "tamagui";
+import { Stack, Text, Theme, XStack } from "tamagui";
 
 import { useColors } from "@/hooks/use-colors";
 import { useDrawer } from "@/hooks/use-drawer";
+import { useThemeStore } from "@/hooks/use-theme-store";
 import { GA } from "@/utils/GA";
 
 import { feedTypes, type FeedType } from "./feedTypes";
@@ -31,6 +32,7 @@ export const HeaderAnimatedLayout: FC<PropsWithChildren<Props>> = (props) => {
   const { top } = useSafeAreaInsets();
   const { openDrawer: _openDrawer } = useDrawer();
   const character = useAccountCharacter();
+  const { isDarkMode } = useThemeStore();
 
   const containerAnimStyles = useAnimatedStyle(() => {
     return {
@@ -61,10 +63,19 @@ export const HeaderAnimatedLayout: FC<PropsWithChildren<Props>> = (props) => {
 
           {type === feedTypes.LATEST && (
             <XTouch enableHaptics touchableComponent={TouchableWithoutFeedback} onPress={onPressSortBy}>
-              <XStack gap="$1" alignItems="center" backgroundColor={"$background"} paddingVertical="$2" paddingHorizontal="$3" borderRadius={"$10"}>
-                <Text fontSize={"$1"} color={"$color"}>Sort By</Text>
-                <MoveVertical size={"$0.5"} color={"$color"}/>
-              </XStack>
+              <Theme name={isDarkMode ? "light" : "dark"}>
+                <XStack
+                  gap="$1"
+                  alignItems="center"
+                  backgroundColor={"$background"}
+                  paddingVertical="$2"
+                  paddingHorizontal="$3"
+                  borderRadius={"$10"}
+                >
+                  <Text fontSize={"$1"} color={"$color"}>Sort By</Text>
+                  <MoveVertical size={"$0.5"} color={"$color"}/>
+                </XStack>
+              </Theme>
             </XTouch>
           )}
         </XStack>

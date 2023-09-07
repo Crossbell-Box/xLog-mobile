@@ -8,7 +8,7 @@ import { HeaderHeightContext } from "@react-navigation/elements";
 import { Canvas, LinearGradient, Rect, vec } from "@shopify/react-native-skia";
 import { Image } from "expo-image";
 import moment from "moment";
-import { SizableText, Stack, Text, View, XStack, YStack } from "tamagui";
+import { SizableText, Stack, Text, Theme, View, XStack, YStack } from "tamagui";
 
 import { Avatar } from "@/components/Avatar";
 import { bgs } from "@/constants/bgs";
@@ -87,7 +87,7 @@ export const Header: FC<Props> = (props) => {
       </Stack>
 
       <YStack gap="$4" position="absolute" bottom={-40} paddingHorizontal="$2">
-        <Text fontSize={24} fontWeight={"700"} numberOfLines={2}>
+        <Text fontSize={24} fontWeight={"700"} numberOfLines={2} color="white">
           {noteTitle}
         </Text>
 
@@ -98,7 +98,9 @@ export const Header: FC<Props> = (props) => {
               <XStack alignItems="center" gap={"$2"} marginBottom={"$1"}>
                 <Avatar character={character.data} useDefault size={26}/>
                 <XStack alignItems="center" gap="$4">
-                  <SizableText size="$3" color={"$color"}>{character.data?.metadata?.content?.name || character.data?.handle}</SizableText>
+                  <SizableText size="$3" color={"$color"}>
+                    {character.data?.metadata?.content?.name || character.data?.handle}
+                  </SizableText>
                   <SizableText size="$3" color={"#929190"}>
                     {moment(note?.createdAt).format("YYYY-MM-DD")}
                   </SizableText>

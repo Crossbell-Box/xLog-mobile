@@ -6,7 +6,7 @@ import { useConnectedAccount, useAccountState } from "@crossbell/react-account";
 import { Mail } from "@tamagui/lucide-icons";
 import { openAuthSessionAsync } from "expo-web-browser";
 import type { ButtonProps } from "tamagui";
-import { Button, Stack, XStack, Text } from "tamagui";
+import { Stack, XStack, Text } from "tamagui";
 
 import { APP_SCHEME } from "@/constants";
 import { useGlobalLoading } from "@/hooks/use-global-loading";
@@ -44,7 +44,7 @@ export const ConnectEmailButton = (props: ButtonProps) => {
       <Stack paddingVertical="$3" borderRadius={"$5"} overflow="hidden">
         <Center>
           <XStack alignItems="center" gap="$2">
-            <Mail size={"$2"}/>
+            <Mail size={24}/>
             <Text fontWeight={"600"} color="$color" fontSize={"$6"}>{i18n.t("Connect with Email")}</Text>
           </XStack>
         </Center>

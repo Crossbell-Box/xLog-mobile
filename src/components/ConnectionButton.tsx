@@ -165,8 +165,8 @@ function ConnectBtn({ navigateToLogin }: { navigateToLogin: boolean }) {
         />
         <Center>
           <XStack alignItems="center" gap="$2">
-            <Wallet size={"$2"}/>
-            <Text fontWeight={"600"} color="$color" fontSize={"$6"}>{i18n.t("Connect with Wallet")}</Text>
+            <Wallet size={"$2"} color="white"/>
+            <Text fontWeight={"600"} color="white" fontSize={"$6"}>{i18n.t("Connect with Wallet")}</Text>
           </XStack>
         </Center>
       </Stack>
