@@ -6,6 +6,7 @@ import type { IconProps } from "@tamagui/helpers-icon";
 import { Clock, Eye, Heart, MessageSquare, Newspaper, UserCheck } from "@tamagui/lucide-icons";
 import { Card, H3, SizableText, XStack } from "tamagui";
 
+import { ProfilePageLayout } from "@/components/ProfilePageLayout";
 import { useCharacterId } from "@/hooks/use-character-id";
 import { useDate } from "@/hooks/use-date";
 import { useGetTips } from "@/models/site.model";
@@ -67,27 +68,29 @@ export const DashboardPage: FC<NativeStackScreenProps<RootStackParamList, "Dashb
   ];
 
   return (
-    <XStack padding="$3" flexWrap="wrap" justifyContent="space-between">
-      {
-        cards.map((card, index) => {
-          const Icon = card.icon;
-          return (
+    <ProfilePageLayout>
+      <XStack padding="$3" flexWrap="wrap" justifyContent="space-between">
+        {
+          cards.map((card, index) => {
+            const Icon = card.icon;
+            return (
             // TODO: Link to the corresponding page
-            <Card padding="$1.5" marginBottom="$3" width={"48%"} elevate size="$2" bordered key={index} backgroundColor="$backgroundPress">
-              <Card.Header padded>
-                <XStack alignItems="center" gap="$1.5" marginBottom="$2">
-                  <Icon width={16} />
-                  <SizableText color="$color">{card.label}</SizableText>
-                </XStack>
-                <H3>{card.value}</H3>
-              </Card.Header>
-              <Card.Footer padded>
-                <XStack flex={1} />
-              </Card.Footer>
-            </Card>
-          );
-        })
-      }
-    </XStack>
+              <Card padding="$1.5" marginBottom="$3" width={"48%"} elevate size="$2" bordered key={index} backgroundColor="$backgroundPress">
+                <Card.Header padded>
+                  <XStack alignItems="center" gap="$1.5" marginBottom="$2">
+                    <Icon width={16} />
+                    <SizableText color="$color">{card.label}</SizableText>
+                  </XStack>
+                  <H3>{card.value}</H3>
+                </Card.Header>
+                <Card.Footer padded>
+                  <XStack flex={1} />
+                </Card.Footer>
+              </Card>
+            );
+          })
+        }
+      </XStack>
+    </ProfilePageLayout>
   );
 };

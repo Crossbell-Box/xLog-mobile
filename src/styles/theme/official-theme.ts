@@ -7,7 +7,7 @@ export default defineTheme(
       mode: "light",
       token: theme => ({
         ...theme,
-        primary: "#F97316",
+        primary: "#2DB986",
 
         background: "#F9FAFB",
         backgroundStrong: "#FFFFFF",
@@ -44,7 +44,7 @@ export default defineTheme(
       mode: "dark",
       token: theme => ({
         ...theme,
-        primary: "#F97316",
+        primary: "#2DB986",
 
         background: "#000000",
         backgroundStrong: "#2C2C2E",

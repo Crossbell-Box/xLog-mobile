@@ -4,7 +4,8 @@ import { StyleSheet } from "react-native";
 import { useSharedValue } from "react-native-reanimated";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { useCharacter } from "@crossbell/indexer";
+import { fetchCharacter, useCharacter } from "@crossbell/indexer";
+import { useIsConnected } from "@crossbell/react-account";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { Route } from "@showtime-xyz/tab-view";
 import { TabView } from "@showtime-xyz/tab-view";
@@ -12,6 +13,7 @@ import type { CharacterEntity } from "crossbell";
 import { Stack, Theme } from "tamagui";
 
 import { PolarLightBackground } from "@/components/PolarLightBackground";
+import { useCharacterId } from "@/hooks/use-character-id";
 import { useColors } from "@/hooks/use-colors";
 import type { RootStackParamList } from "@/navigation/types";
 import { useGetSite } from "@/queries/site";
@@ -102,17 +104,13 @@ const UserInfoPage: FC<NativeStackScreenProps<RootStackParamList, "UserInfo"> & 
 
 export const OthersUserInfoPage = (props: ComponentPropsWithRef<typeof UserInfoPage>) => <UserInfoPage {...props} displayHeader />;
 export const MyUserInfoPage = (props: ComponentPropsWithRef<typeof UserInfoPage>) => {
-  const { data: character } = useCharacter();
+  const characterId = useCharacterId();
 
   useEffect(() => {
-    character && props.navigation.setParams({ character });
-  }, [character]);
+    fetchCharacter(characterId).then((character) => {
+      props.navigation.setParams({ character });
+    });
+  }, [characterId]);
 
-  return <SafeAreaView edges={["top"]} style={styles.safeArea}><UserInfoPage {...props} /></SafeAreaView>;
+  return <UserInfoPage {...props} />;
 };
-
-const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-  },
-});
