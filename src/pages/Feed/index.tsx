@@ -1,12 +1,14 @@
 import type { FC } from "react";
 import { useContext, useState } from "react";
-import Animated from "react-native-reanimated";
+import { StyleSheet } from "react-native";
 
 import * as Haptics from "expo-haptics";
+import { LinearGradient } from "expo-linear-gradient";
 import { Stack } from "tamagui";
 
 import { MasonryFeedList } from "@/components/FeedList";
 import { GlobalAnimationContext } from "@/context/global-animation-context";
+import { useColors } from "@/hooks/use-colors";
 
 import type { FeedType } from "./feedTypes";
 import { feedTypes } from "./feedTypes";
@@ -21,9 +23,17 @@ export const FeedPage: FC<Props> = (props) => {
   const [currentFeedType, setCurrentFeedType] = useState<FeedType>(_feedType);
   const [daysInterval, setDaysInterval] = useState<number>(7);
   const { isExpandedAnimValue, onScroll } = useContext(GlobalAnimationContext).homeFeed;
+  const { pick } = useColors();
 
   return (
-    <Animated.View style={{ flex: 1, backgroundColor: "black" }}>
+    <Stack flex={1} >
+      <LinearGradient
+        colors={[pick("homeFeedBackgroundGradient_0"), pick("homeFeedBackgroundGradient_1")]}
+        style={StyleSheet.absoluteFillObject}
+        locations={[0, 0.35]}
+        start={{ x: 0.5, y: 0 }}
+        end={{ x: 0.5, y: 1 }}
+      />
       <Header
         type={currentFeedType}
         isExpandedAnimValue={isExpandedAnimValue}
@@ -43,6 +53,6 @@ export const FeedPage: FC<Props> = (props) => {
           onScroll={onScroll}
         />
       </Stack>
-    </Animated.View>
+    </Stack>
   );
 };

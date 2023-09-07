@@ -4,7 +4,7 @@ import { useSharedValue, withSpring, withDelay } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { Stack, YStack, Separator } from "tamagui";
+import { Stack, YStack, Separator, Theme } from "tamagui";
 
 import { DelayedRender } from "@/components/DelayRender";
 import { ImageGallery } from "@/components/ImageGallery";
@@ -13,6 +13,7 @@ import { useScrollVisibilityHandler } from "@/hooks/use-scroll-visibility-handle
 import { useThemeStore } from "@/hooks/use-theme-store";
 import type { RootStackParamList } from "@/navigation/types";
 import { Header as UserInfoHeader } from "@/pages/UserInfo/Header";
+import type { ExpandedNote } from "@/types/crossbell";
 import { GA } from "@/utils/GA";
 
 import { BottomSheetModal } from "./BottomSheetModal";
@@ -22,8 +23,8 @@ import { Header } from "./Header";
 import { Navigator } from "./Navigator";
 
 export interface Props {
-  noteId: number
   characterId: number
+  note: ExpandedNote
   coverImage?: string
   placeholderCoverImageIndex?: number
 }
@@ -41,7 +42,7 @@ export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, "Pos
   const contentRef = React.useRef<PostDetailsContentInstance>(null);
   const followAnimValue = useSharedValue<number>(0);
   const scrollVisibilityHandler = useScrollVisibilityHandler({ scrollThreshold: 30 });
-  const postUri = usePostWebViewLink(params);
+  const postUri = usePostWebViewLink({ ...params, noteId: params.note.noteId });
 
   const closeModal = React.useCallback(() => {
     setDisplayImageUris([]);
@@ -52,7 +53,7 @@ export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, "Pos
   useEffect(() => {
     followAnimValue.value = withDelay(1500, withSpring(1));
     GA.logEvent("start_reading_post", {
-      node_id: params.noteId,
+      node_id: params.note.noteId,
       character_id: params.characterId,
     });
   }, []);
@@ -64,7 +65,7 @@ export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, "Pos
           onTakeScreenshot={onTakeScreenshot}
           isExpandedAnimValue={scrollVisibilityHandler.isExpandedAnimValue}
           characterId={params.characterId}
-          noteId={params.noteId}
+          note={params.note}
           postUri={postUri}
           headerContainerHeight={headerContainerHeight}
         />
@@ -78,7 +79,7 @@ export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, "Pos
                 isCapturing={isCapturing}
                 headerContainerHeight={headerContainerHeight}
                 postUri={postUri}
-                noteId={params.noteId}
+                note={params.note}
                 characterId={params.characterId}
                 placeholderCoverImageIndex={params.placeholderCoverImageIndex}
                 coverImage={params.coverImage}
@@ -86,7 +87,7 @@ export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, "Pos
             );
           }}
           characterId={params.characterId}
-          noteId={params.noteId}
+          note={params.note}
           navigation={navigation}
           scrollEventHandler={scrollVisibilityHandler}
           bottomBarHeight={bottomBarHeight}
@@ -95,8 +96,8 @@ export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, "Pos
 
         <DelayedRender timeout={animationTimeout}>
           <BottomSheetModal
+            note={params.note}
             characterId={params.characterId}
-            noteId={params.noteId}
             bottomBarHeight={bottomBarHeight}
           />
         </DelayedRender>

@@ -7,11 +7,11 @@ import { useRootNavigation } from "./use-navigation";
 export const useNavigateToUserInfo = (character?: CharacterEntity) => {
   const navigation = useRootNavigation();
   const navigateToUserInfo = useCallback(() => {
-    if (!character?.characterId) {
+    if (!character) {
       return;
     }
 
-    navigation.navigate("UserInfo", { characterId: character?.characterId });
+    navigation.navigate("UserInfo", { character });
   }, [
     character,
     navigation,

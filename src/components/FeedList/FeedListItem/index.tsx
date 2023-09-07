@@ -6,6 +6,7 @@ import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import Animated, { FadeIn } from "react-native-reanimated";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Eye } from "@tamagui/lucide-icons";
 import { BlurView } from "expo-blur";
 import { Image } from "expo-image";
 import { SizableText, Stack, XStack } from "tamagui";
@@ -61,9 +62,9 @@ export const FeedListItem: FC<Props> = (props) => {
       "PostDetails",
       {
         characterId: note.characterId,
-        noteId: note.noteId,
         placeholderCoverImageIndex: placeholderBgIndex,
         coverImage,
+        note,
       },
     );
   }, [note]);
@@ -157,7 +158,7 @@ export const FeedListItem: FC<Props> = (props) => {
                 <SizableText
                   size={"$5"}
                   fontWeight={"700"}
-                  color="$color"
+                  color="white"
                   marginBottom={"$2"}
                   marginHorizontal={"$2"}
                   numberOfLines={2}
@@ -167,7 +168,13 @@ export const FeedListItem: FC<Props> = (props) => {
               </Center>
             )
         }
-        <Stack backgroundColor={"#1A1920"} borderBottomLeftRadius={10} borderBottomRightRadius={10} paddingHorizontal={4} paddingVertical={8}>
+        <Stack
+          backgroundColor={"$cardBackground"}
+          borderBottomLeftRadius={10}
+          borderBottomRightRadius={10}
+          paddingHorizontal={4}
+          paddingVertical={8}
+        >
           {
             note?.metadata?.content?.title && (
               <SizableText
@@ -181,10 +188,22 @@ export const FeedListItem: FC<Props> = (props) => {
               </SizableText>
             )
           }
-          <XStack alignItems="center" gap={"$2"} marginBottom={"$1"}>
-            <Avatar character={note?.character} useDefault size={20}/>
-            <XStack alignItems="center">
-              <SizableText size="$3" color={"#8F8F91"}>{note?.character?.metadata?.content?.name || note?.character?.handle}</SizableText>
+          <XStack alignItems="center" justifyContent="space-between" gap={"$2"} marginBottom={"$1"}>
+            <XStack alignItems="center" gap="$2" flex={1}>
+              <Avatar character={note?.character} useDefault size={20}/>
+              <XStack alignItems="center"flex={1}>
+                <SizableText numberOfLines={1} size="$3" color={"#8F8F91"}>
+                  {note?.character?.metadata?.content?.name || note?.character?.handle}
+                </SizableText>
+              </XStack>
+            </XStack>
+            <XStack alignItems="center" gap={6}>
+              <Eye size={20} color={"#8F8F91"}/>
+              <XStack alignItems="center">
+                <SizableText size="$3" color={"#8F8F91"}>
+                  {note?.stat?.viewDetailCount}
+                </SizableText>
+              </XStack>
             </XStack>
           </XStack>
         </Stack>

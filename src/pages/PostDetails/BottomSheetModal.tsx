@@ -15,7 +15,10 @@ import { CustomizedBackdrop } from "@/components/BottomSheetModal";
 import { CommentButton } from "@/components/CommentButton";
 import { ReactionLike } from "@/components/ReactionLike";
 import { XTouch } from "@/components/XTouch";
+import { useColors } from "@/hooks/use-colors";
+import { useThemeStore } from "@/hooks/use-theme-store";
 import { useGetPage } from "@/queries/page";
+import type { ExpandedNote } from "@/types/crossbell";
 import { getNoteSlug } from "@/utils/get-slug";
 
 import type { BottomSheetTabsInstance } from "./BottomSheetTabs";
@@ -24,22 +27,23 @@ import { bottomSheetPadding } from "./constants";
 
 export interface Props {
   characterId: number
-  noteId: number
   bottomBarHeight: number
+  note: ExpandedNote
 }
 
 export const BottomSheetModal: FC<Props> = (props) => {
-  const { characterId, noteId, bottomBarHeight } = props;
-  const note = useNote(characterId, noteId);
+  const { characterId, note, bottomBarHeight } = props;
   const bottomSheetRef = useRef<BottomSheetMethods>(null);
   const bottomSheetTabsRef = useRef<BottomSheetTabsInstance>(null);
   const character = useCharacter(characterId);
   const { bottom } = useSafeAreaInsets();
+  const { pick } = useColors();
   const snapPoints = useMemo(() => [75 + bottom, "85%"], [bottom]);
+  const { isDarkMode } = useThemeStore();
   const page = useGetPage(
     {
       characterId: character?.data?.characterId,
-      slug: getNoteSlug(note.data),
+      slug: getNoteSlug(note),
       useStat: true,
     },
   );
@@ -54,8 +58,8 @@ export const BottomSheetModal: FC<Props> = (props) => {
   }, [page]);
 
   const reactionCommonProps = {
-    characterId: note?.data?.characterId,
-    noteId: note?.data?.noteId,
+    characterId: note?.characterId,
+    noteId: note?.noteId,
   };
 
   const defaultBottomSheetModalIndex = -1;
@@ -126,7 +130,27 @@ export const BottomSheetModal: FC<Props> = (props) => {
           onPress={() => bottomSheetRef.current.snapToIndex(0)}
         />
       )}
-      backgroundStyle={{ backgroundColor: "#1C1C1C" }}
+      style={{
+        borderTopLeftRadius: 16,
+        borderTopRightRadius: 16,
+
+        ...isDarkMode
+          ? {
+
+          }
+          : {
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 5,
+            },
+            shadowOpacity: 0.34,
+            shadowRadius: 6.27,
+
+            elevation: 10,
+          },
+      }}
+      backgroundStyle={{ backgroundColor: pick("bottomSheetBackground") }}
       handleIndicatorStyle={styles.handleIndicatorStyle}
       backgroundComponent={props => (
         <Stack {...props} borderTopLeftRadius={16} borderTopRightRadius={16}>

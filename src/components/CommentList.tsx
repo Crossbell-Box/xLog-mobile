@@ -7,7 +7,8 @@ import { useIsConnected } from "@crossbell/react-account";
 import type { BottomSheetFlatListMethods } from "@gorhom/bottom-sheet";
 import { BottomSheetFlatList, BottomSheetTextInput } from "@gorhom/bottom-sheet";
 import * as Haptics from "expo-haptics";
-import { H4, Spinner, Stack, Text, XStack, useWindowDimensions } from "tamagui";
+import { Image } from "expo-image";
+import { H4, SizableText, Spinner, Stack, Text, XStack, YStack, useWindowDimensions } from "tamagui";
 
 import type { BottomSheetModalInstance } from "@/components/BottomSheetModal";
 import { useGAWithScreenParams } from "@/hooks/ga/use-ga-with-screen-name-params";
@@ -19,8 +20,10 @@ import type { ExpandedNote } from "@/types/crossbell";
 import { GA } from "@/utils/GA";
 
 import { Button } from "./Base/Button";
+import { Center } from "./Base/Center";
 import type { Comment } from "./CommentItem";
 import { CommentItem } from "./CommentItem";
+import { FillSpinner } from "./FillSpinner";
 import { ReactionLike } from "./ReactionLike";
 import { ReportButton } from "./ReportButton";
 import { WithSpinner } from "./WithSpinner";
@@ -129,24 +132,16 @@ export const CommentList = forwardRef<CommentListInstance, Props>((
     displayInput();
   };
 
-  const data = comments.data?.pages.length
-    ? [
-      headerShown ? { type: "header", data: null } as ItemData : undefined,
-      ...comments.data?.pages.flatMap(page =>
-        (page?.list || []).map(data => ({
-          type: "data",
-          data,
-        })),
-      ) as Array<ItemData>,
-    ]
-    : [];
+  const data = comments.data?.pages.flatMap(page =>
+    (page?.list || []).map(data => data),
+  );
 
   useImperativeHandle(ref, () => ({
     comment: onPressInput,
   }));
 
   return (
-    <WithSpinner isLoading={isLoading}>
+    <Stack flex={1}>
       <BottomSheetFlatList
         ref={flatListRef}
         contentContainerStyle={{
@@ -168,36 +163,39 @@ export const CommentList = forwardRef<CommentListInstance, Props>((
           Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
           comments?.fetchNextPage?.();
         }}
-        ListFooterComponent={(comments.isFetchingNextPage || (comments.isFetching && data.length === 0)) && <Spinner paddingBottom="$5" />}
-        keyExtractor={(item) => {
-          if (!item) {
-            return "unknown";
-          }
-
-          if (item.type === "header") {
-            return "header";
-          }
-          if (item.type === "data") {
-            return item.data.blockNumber.toString();
-          }
-          return "unknown";
-        }}
+        ListFooterComponent={comments.isFetchingNextPage && <Spinner paddingVertical="$5"/>}
+        ListEmptyComponent={(
+          <Stack height={300}>
+            {
+              comments.isFetching
+                ? <FillSpinner/>
+                : (
+                  <YStack flex={1} alignItems="center" justifyContent="center" gap="$2">
+                    <Image
+                      source={require("../assets/comment-list-empty.png")}
+                      style={{ width: 100, height: 100 }}
+                      contentFit="contain"
+                    />
+                    <SizableText color={"$colorUnActive"} size="$5">
+                    There are no comments yet.
+                    </SizableText>
+                  </YStack>
+                )
+            }
+          </Stack>
+        )}
+        keyExtractor={item => item.blockNumber.toString()}
         renderItem={(options) => {
-          const item = options.item as ItemData;
+          const comment = options.item;
 
-          if (!item) {
-            return null;
-          }
+          // if (item.type === "header") {
+          //   return (
+          //     <Stack paddingBottom={8} marginBottom="$3">
+          //       <H4>{i18n.t("Comments")} {commentsCount}</H4>
+          //     </Stack>
+          //   );
+          // }
 
-          if (item.type === "header") {
-            return (
-              <Stack paddingBottom={8} marginBottom="$3">
-                <H4>{i18n.t("Comments")} {commentsCount}</H4>
-              </Stack>
-            );
-          }
-
-          const comment = item.data;
           const depth = 0;
 
           return (
@@ -250,7 +248,7 @@ export const CommentList = forwardRef<CommentListInstance, Props>((
                       style={[{ borderColor, color }, styles.input]}
                       multiline
                       onBlur={hideInput}
-                      autoFocus
+                      autoFocus={false}
                       onChangeText={setContent}
                       placeholder={
                         isEditing
@@ -259,7 +257,15 @@ export const CommentList = forwardRef<CommentListInstance, Props>((
                       }
                       placeholderTextColor={subtitle}
                     />
-                    <Button backgroundColor={"#1c1c1c"} type={content ? "primary" : "disabled"} alignSelf="center" onPress={submitComment} alignItems="center" justifyContent="center">
+                    <Button
+                      backgroundColor={"$background"}
+                      type={content ? "primary" : "disabled"}
+                      alignSelf="center"
+                      onPress={submitComment}
+                      alignItems="center"
+                      justifyContent="center"
+                      height={50}
+                    >
                       {i18n.t("Publish")}
                     </Button>
                   </XStack>
@@ -310,7 +316,7 @@ export const CommentList = forwardRef<CommentListInstance, Props>((
           </Stack>
         )
       }
-    </WithSpinner>
+    </Stack>
   );
 });
 

@@ -107,7 +107,7 @@ export const RootNavigator = () => {
 
       <RootStack.Group screenOptions={{
         headerShown: false,
-        cardStyle: { paddingTop: top, paddingBottom: bottom },
+        cardStyle: { paddingBottom: bottom },
         transitionSpec: {
           open: config,
           close: config,
@@ -117,7 +117,10 @@ export const RootNavigator = () => {
         <RootStack.Screen name={"Posts"} component={PostsPage} options={{ title: i18n.t("Posts") }} />
         <RootStack.Screen name={"Pages"} component={PagesPage} options={{ title: i18n.t("Pages") }} />
         <RootStack.Screen name={"Comments"} component={CommentsPage} options={{ title: i18n.t("Comment") }} />
-        <RootStack.Screen name={"Achievements"} component={AchievementsPage} options={{ title: i18n.t("Achievements") }} />
+        <RootStack.Screen name={"Achievements"} component={AchievementsPage} options={{
+          title: i18n.t("Achievements"),
+          cardStyle: { backgroundColor: "black" },
+        }} />
         <RootStack.Screen name={"Events"} component={EventsPage} options={{ title: i18n.t("Events") }} />
         <RootStack.Screen name={"Notifications"} component={NotificationsPageWithModal} options={{ title: i18n.t("Notifications") }} />
       </RootStack.Group>

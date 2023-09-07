@@ -72,6 +72,9 @@ export async function getFeed({
         content
       }
     }
+    stat {
+      viewDetailCount
+    }
     createdAt
     metadata {
       uri
@@ -765,6 +768,7 @@ export async function getFeed({
         tags: ["post", tag],
         limit,
         cursor,
+        characterId,
         includeCharacter: true,
         excludeCharacterId: filter.latest,
       } as any);

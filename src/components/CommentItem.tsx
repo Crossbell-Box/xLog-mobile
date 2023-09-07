@@ -45,7 +45,9 @@ export interface CommentItemProps extends ListItemProps {
   onEdit?: () => Promise<any>
 }
 
-export type Comment = ExpandedNote;
+export type Comment = NoteEntity & {
+  fromNotes: ListResponse<NoteEntity>
+};
 
 export const CommentItem: React.FC<CommentItemProps> = (props) => {
   const {

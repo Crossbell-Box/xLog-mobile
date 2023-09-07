@@ -9,6 +9,7 @@ import { Stack, Text, XStack } from "tamagui";
 
 import { PolarLightBackground } from "@/components/PolarLightBackground";
 import { useHitSlopSize } from "@/hooks/use-hit-slop-size";
+import { useThemeStore } from "@/hooks/use-theme-store";
 import { HeaderAnimatedLayout } from "@/pages/Feed/HeaderAnimatedLayout";
 import { GA } from "@/utils/GA";
 
@@ -29,6 +30,7 @@ export const HeaderTabHeight = 60;
 export const Header: FC<Props> = (props) => {
   const { daysInterval, isSearching, type, onDaysIntervalChange } = props;
   const i18n = useTranslation("dashboard");
+  const { isDarkMode } = useThemeStore();
   const { isExpandedAnimValue, onFeedTypeChange } = props;
   const [activeIndex, setActiveIndex] = useState(0);
   const connectedAccount = useConnectedAccount();
@@ -41,7 +43,7 @@ export const Header: FC<Props> = (props) => {
 
   return (
     <Stack>
-      <PolarLightBackground activeIndex={activeIndex}/>
+      {isDarkMode && <PolarLightBackground activeIndex={activeIndex}/>}
       <HeaderAnimatedLayout type={type} onPressSortBy={onPressSortBy} expanded={isExpandedAnimValue}>
         <XStack marginHorizontal="$3" gap="$4" height={HeaderTabHeight}>
           {
@@ -79,7 +81,7 @@ export const Header: FC<Props> = (props) => {
                   }}
                 >
                   <Stack height={50} justifyContent="flex-end">
-                    <Text color={isActive ? "#fff" : "#8F8F91"} fontSize={isActive ? 36 : 16} lineHeight={isActive ? 36 : 26} fontWeight={isActive ? "bold" : "normal"}>
+                    <Text color={isActive ? "$color" : "#8F8F91"} fontSize={isActive ? 36 : 16} lineHeight={isActive ? 36 : 26} fontWeight={isActive ? "bold" : "normal"}>
                       {content}
                     </Text>
                   </Stack>

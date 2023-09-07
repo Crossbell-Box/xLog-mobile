@@ -7,9 +7,10 @@ import { Image } from "expo-image";
 import { Circle, Text, Avatar as _Avatar } from "tamagui";
 
 import { useNavigateToUserInfo } from "@/hooks/use-navigate-to-user-info";
+import { useThemeStore } from "@/hooks/use-theme-store";
 import { toGateway } from "@/utils/ipfs-parser";
 
-import { LogoBlueResource } from "./Logo";
+import { LogoLightBlueResource, LogoDarkBlueResource } from "./Logo";
 import { XTouch } from "./XTouch";
 
 interface Props {
@@ -33,6 +34,8 @@ const isValidUrl = (url) => {
 export const Avatar: FC<Props> = (props) => {
   const { character, size = 45, useDefault = false, isNavigateToUserInfo = true } = props;
   const { navigateToUserInfo } = useNavigateToUserInfo(character);
+  const { isDarkMode } = useThemeStore();
+  const LogoResource = isDarkMode ? LogoLightBlueResource : LogoDarkBlueResource;
   const uri = character?.metadata?.content?.avatars?.[0];
   const name = character?.metadata?.content?.name;
   const nameAbbr = (name || "")
@@ -48,7 +51,6 @@ export const Avatar: FC<Props> = (props) => {
         <Circle
           size={size}
           circular
-          backgroundColor="$background"
         >
           <Text textAlign="center" fontSize={size / 2} fontWeight={"700"}>
             {nameAbbr}
@@ -64,7 +66,12 @@ export const Avatar: FC<Props> = (props) => {
           alignItems="center"
           justifyContent="center"
         >
-          <Image source={LogoBlueResource} contentFit={"contain"} style={{ height: "75%", width: "75%" }} />
+          <Image
+            source={LogoResource}
+            contentFit={"contain"}
+            style={{ height: "75%", width: "75%" }}
+            cachePolicy="disk"
+          />
         </Circle>
       );
     }
@@ -81,11 +88,10 @@ export const Avatar: FC<Props> = (props) => {
       <_Avatar
         size={size}
         circular
-        backgroundColor="black"
       >
         <_Avatar.Image src={toGateway(uri)}/>
         <_Avatar.Fallback>
-          <Image source={LogoBlueResource} contentFit={"cover"} style={styles.container} />
+          <Image cachePolicy="disk" source={LogoResource} contentFit={"cover"} style={styles.container} />
         </_Avatar.Fallback>
       </_Avatar>
     </XTouch>
@@ -95,7 +101,6 @@ export const Avatar: FC<Props> = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#000",
     alignItems: "center",
     justifyContent: "center",
     transform: [

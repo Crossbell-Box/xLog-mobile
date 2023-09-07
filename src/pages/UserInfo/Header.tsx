@@ -30,14 +30,11 @@ export interface Props {
 export const Header: FC<Props> = (props) => {
   const { characterId, titleAnimatedValue, replaceFollowButtonWithOtherComponent } = props;
   const character = useCharacter(characterId);
-  const stat = useGetStat({ characterId: characterId?.toString() });
   const i18n = useTranslation();
   const myCharacterId = useCharacterId();
   const subscriptions = useGetSiteSubscriptions({ characterId });
   const toSubscriptions = useGetSiteToSubscriptions({ characterId });
   const { isFollowing, isLoading, toggleSubscribe } = useFollow({ character: character?.data });
-  const achievement = useGetAchievements(characterId?.toString());
-  const date = useDate();
   const handleToggleSubscribe = useAuthPress(() => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     toggleSubscribe();
@@ -82,7 +79,7 @@ export const Header: FC<Props> = (props) => {
           </XStack>
         </XStack>
         <XStack justifyContent="space-between" alignItems="flex-start" minHeight={"$5"} marginBottom="$3">
-          <YStack gap="$2">
+          <YStack gap="$2" flex={1}>
             <H3 fontWeight={"700"}>{character.data?.metadata?.content?.name}</H3>
             <Paragraph color="#DBDBDB" numberOfLines={3} maxWidth={replaceFollowButtonWithOtherComponent ? "70%" : undefined}>
               {character?.data?.metadata?.content?.bio}

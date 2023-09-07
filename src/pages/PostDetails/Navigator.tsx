@@ -32,6 +32,7 @@ import { useHitSlopSize } from "@/hooks/use-hit-slop-size";
 import { useToggle } from "@/hooks/use-toggle";
 import { useGetPage } from "@/queries/page";
 import { useGetSite } from "@/queries/site";
+import type { ExpandedNote } from "@/types/crossbell";
 import { GA } from "@/utils/GA";
 import { getNoteSlug } from "@/utils/get-slug";
 import { getTwitterShareUrl } from "@/utils/helpers";
@@ -39,23 +40,22 @@ import { getTwitterShareUrl } from "@/utils/helpers";
 export interface Props {
   isExpandedAnimValue: SharedValue<number>
   characterId: number
-  noteId: number
+  note: ExpandedNote
   postUri: string
   headerContainerHeight: number
   onTakeScreenshot: () => Promise<string>
 }
 
 export const Navigator: FC<Props> = (props) => {
-  const { isExpandedAnimValue, onTakeScreenshot, postUri, characterId, noteId, headerContainerHeight } = props;
+  const { isExpandedAnimValue, onTakeScreenshot, postUri, characterId, note, headerContainerHeight } = props;
   const { goBack } = useNavigation();
   const [dashboardT] = useTranslation("dashboard");
   const [commonT] = useTranslation("common");
   const bottomSheetRef = useRef<BottomSheetModalInstance>(null);
   const snapPoints = useRef([200]).current;
   const { height } = useWindowDimensions();
-  const { background, backgroundFocus, primary } = useColors();
+  const { pick } = useColors();
   const toast = useToastController();
-  const note = useNote(characterId, noteId);
   const character = useCharacter(characterId);
   const hitSlop = useHitSlopSize(44);
   const globalLoading = useGlobalLoading();
@@ -65,7 +65,7 @@ export const Navigator: FC<Props> = (props) => {
   const page = useGetPage(
     {
       characterId: character?.data?.characterId,
-      slug: getNoteSlug(note.data),
+      slug: getNoteSlug(note),
       useStat: true,
     },
   );
@@ -94,7 +94,7 @@ export const Navigator: FC<Props> = (props) => {
 
   const handleCopyLink = () => {
     GA.logShare({
-      item_id: noteId.toString(),
+      item_id: note.noteId.toString(),
       method: "copy link",
       content_type: "post",
     });
@@ -130,7 +130,7 @@ export const Navigator: FC<Props> = (props) => {
 
   const handleShareOnTwitter = () => {
     GA.logShare({
-      item_id: noteId.toString(),
+      item_id: note.noteId.toString(),
       method: "twitter",
       content_type: "post",
     });
@@ -159,7 +159,7 @@ export const Navigator: FC<Props> = (props) => {
       await MediaLibrary.saveToLibraryAsync(generatedImageUri);
 
       GA.logShare({
-        item_id: noteId.toString(),
+        item_id: note.noteId.toString(),
         method: "save image",
         content_type: "post",
       });
@@ -216,6 +216,7 @@ export const Navigator: FC<Props> = (props) => {
             justifyContent="center"
             backgroundColor="#EFEFEF"
             paddingRight={3}
+            theme="dark"
           >
             <ChevronLeft size={30} color="$background"/>
           </Circle>
@@ -232,6 +233,7 @@ export const Navigator: FC<Props> = (props) => {
           right={8}
           top={topPos}
           zIndex={2}
+          theme="dark"
         >
           <XTouch touchableComponent={TouchableOpacity} onPress={openBottomSheetModal} {...hitSlop}>
             <MoreHorizontal color="$background" />
@@ -260,7 +262,7 @@ export const Navigator: FC<Props> = (props) => {
         snapPoints={snapPoints}
         enablePanDownToClose
         index={0}
-        backgroundStyle={{ backgroundColor: "#1C1C1C" }}
+        backgroundStyle={{ backgroundColor: pick("bottomSheetBackground") }}
         onPressBackdrop={closeBottomSheetModal}
       >
         <SizableText size={"$6"} fontWeight={"700"} textAlign="center">
@@ -291,7 +293,7 @@ const ShareItem: FC<{
     <XTouch onPress={onPress} touchableComponent={TouchableWithoutFeedback}>
       <YStack alignItems="center" gap="$1">
         <Stack width={size} height={size} alignItems="center" justifyContent="center" borderRadius={50} backgroundColor={backgroundColor}>
-          <Icon size={size / 2}/>
+          <Icon color="white" size={size / 2}/>
         </Stack>
         <SizableText numberOfLines={1}>{title}</SizableText>
       </YStack>
