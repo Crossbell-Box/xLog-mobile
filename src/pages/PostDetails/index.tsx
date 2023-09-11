@@ -12,7 +12,6 @@ import { usePostWebViewLink } from "@/hooks/use-post-link";
 import { useScrollVisibilityHandler } from "@/hooks/use-scroll-visibility-handler";
 import { useThemeStore } from "@/hooks/use-theme-store";
 import type { RootStackParamList } from "@/navigation/types";
-import { Header as UserInfoHeader } from "@/pages/UserInfo/Header";
 import type { ExpandedNote } from "@/types/crossbell";
 import { GA } from "@/utils/GA";
 

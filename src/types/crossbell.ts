@@ -91,8 +91,16 @@ export type Note = UniNote & {
   views?: number
 };
 
+export interface PortfolioStats {
+  videoViewsCount?: number
+  audoListensCount?: number
+  projectStarsCount?: number
+  textViewsCount?: number
+  commentsCount?: number
+}
+
 export type ExpandedNote = NoteEntity & {
-  fromNotes: ListResponse<NoteEntity>
+  draftKey?: string
   metadata: {
     content: {
       summary?: string
@@ -100,21 +108,25 @@ export type ExpandedNote = NoteEntity & {
       images?: string[]
       frontMatter?: Record<string, any>
       slug?: string
-      views?: number
+      audio?: string
       score?: {
         number?: number
         reason?: string
       }
+      contentHTML?: string
+      disableAISummary?: boolean
+      readingTime?: number
     }
   }
   stat?: {
-    viewDetailCount: number
+    viewDetailCount?: number
+    viewCount?: number
     hotScore?: number
+    portfolio?: PortfolioStats
+    commentsCount?: number
   }
-  draftKey?: string
   local?: boolean
 };
-
 export interface Notes {
   total: number
   list: Note[]

@@ -15,3 +15,5 @@ export const VERSION = packageJson.version;
 export const APP_SCHEME = Constants.expoConfig.scheme;
 export const IS_IOS = Platform.OS === "ios";
 export const IS_ANDROID = Platform.OS === "android";
+
+export const RESERVED_TAGS = ["page", "post", "portfolio", "comment", "short"];

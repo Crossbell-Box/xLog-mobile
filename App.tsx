@@ -34,6 +34,7 @@ import { GlobalAnimationProvider } from "@/providers/global-animation-provider";
 import LoadingProvider from "@/providers/loading-provider";
 import { NavigationProvider } from "@/providers/navigation-provider";
 import { NotificationProvider } from "@/providers/notification-provider";
+import { PostIndicatorProvider } from "@/providers/post-indicator-provider";
 import { SplashProvider } from "@/providers/splash-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { ToastProvider } from "@/providers/toast-provider";
@@ -115,6 +116,7 @@ export default () => {
       <NotificationProvider key={"NotificationProvider"} />,
       <ApolloProvider key={"ApolloProvider"} />,
       <GlobalAnimationProvider key={"GlobalAnimationProvider"} />,
+      <PostIndicatorProvider key={"PostIndicatorProvider"} />,
     ]}>
       <NetworkChecker/>
       <NotificationRegister/>

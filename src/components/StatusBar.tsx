@@ -12,5 +12,11 @@ export interface StatusBarProps {
 export const StatusBar: React.FC<StatusBarProps> = () => {
   const { isDarkMode } = useThemeStore();
   const { background } = useColors();
-  return <ExpoStatusBar style={isDarkMode ? "light" : "dark"} backgroundColor={background} />;
+
+  return (
+    <ExpoStatusBar
+      style={isDarkMode ? "light" : "dark"}
+      backgroundColor={background}
+    />
+  );
 };

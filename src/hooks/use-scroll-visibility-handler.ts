@@ -1,6 +1,7 @@
 import { Easing, Extrapolate, interpolate, useAnimatedScrollHandler, useSharedValue, withTiming } from "react-native-reanimated";
 
 import { IS_ANDROID } from "@/constants";
+import { isAndroid, isIOS } from "@/constants/platform";
 
 interface Options {
   scrollThreshold: number
@@ -13,18 +14,18 @@ export function useScrollVisibilityHandler(options: Options) {
   const onScroll = useAnimatedScrollHandler<{
     prevTranslationY: number
     prevExpandedValue: number
-    hasEnded: boolean
+    beginDrag: boolean
   }>({
     onBeginDrag: (e, ctx) => {
       ctx.prevTranslationY = e.contentOffset.y;
       ctx.prevExpandedValue = isExpandedAnimValue.value;
-      ctx.hasEnded = false;
+      ctx.beginDrag = true;
     },
     onScroll: (e, ctx) => {
       if (
-        ctx.hasEnded
         // TODO: https://github.com/software-mansion/react-native-reanimated/issues/4625
-        || IS_ANDROID
+        IS_ANDROID
+        || !ctx.beginDrag
       ) {
         return;
       }
@@ -42,12 +43,18 @@ export function useScrollVisibilityHandler(options: Options) {
         Extrapolate.CLAMP,
       );
 
-      if (typeof value === "number" && isNaN(value) === false) {
+      if (
+        typeof value === "number"
+        && isNaN(value) === false
+      ) {
         isExpandedAnimValue.value = value;
       }
     },
     onEndDrag: (e, ctx) => {
-      ctx.hasEnded = true;
+      if (!ctx.beginDrag) {
+        return;
+      }
+
       const diffY = e.contentOffset.y - ctx.prevTranslationY;
 
       const value = withTiming(
@@ -58,9 +65,8 @@ export function useScrollVisibilityHandler(options: Options) {
         },
       );
 
-      if (typeof value === "number" && isNaN(value) === false) {
-        isExpandedAnimValue.value = value;
-      }
+      isExpandedAnimValue.value = value;
+      ctx.beginDrag = false;
     },
   }, [scrollThreshold]);
 

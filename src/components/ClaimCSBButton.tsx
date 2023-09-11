@@ -16,10 +16,11 @@ export function ClaimCSBButton() {
   return (
     <Button
       pressStyle={{ opacity: 0.85 }}
-      color={isWalletUserEligibleToClaim ? "$color" : "$colorSubtitle"}
+      color={isWalletUserEligibleToClaim ? "white" : "$colorSubtitle"}
       fontSize={"$6"}
       bg={isWalletUserEligibleToClaim ? "$primary" : undefined}
       borderColor={"$borderColorFocus"}
+      borderWidth={isWalletUserEligibleToClaim ? 0 : 1}
       disabled={isLoading}
       onPress={claim}
     >

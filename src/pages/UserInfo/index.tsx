@@ -1,11 +1,9 @@
 import type { ComponentPropsWithRef, FC } from "react";
-import React, { useEffect, useMemo, useCallback, useState, memo, useRef } from "react";
-import { StyleSheet } from "react-native";
+import React, { useEffect, useMemo, useCallback, useState } from "react";
 import { useSharedValue } from "react-native-reanimated";
-import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { fetchCharacter, useCharacter } from "@crossbell/indexer";
-import { useIsConnected } from "@crossbell/react-account";
+import { fetchCharacter } from "@crossbell/indexer";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { Route } from "@showtime-xyz/tab-view";
 import { TabView } from "@showtime-xyz/tab-view";
@@ -97,7 +95,7 @@ const UserInfoPage: FC<NativeStackScreenProps<RootStackParamList, "UserInfo"> & 
         style={{ backgroundColor: pick("bottomSheetBackground") }}
       />
       {/* TODO */}
-      <Stack position="absolute" top={0} bottom={0} left={0} width={2}/>
+      <Stack position="absolute" top={0} bottom={0} left={0} width={8}/>
     </Stack>
   );
 };

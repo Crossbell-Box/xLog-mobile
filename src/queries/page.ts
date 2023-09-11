@@ -1,12 +1,14 @@
 import { useContract } from "@crossbell/contract";
-import { useAccountState, useIsNoteLiked, useMintNote, useNoteLikeCount, useNoteLikeList, usePostNoteForNote, useToggleLikeNote } from "@crossbell/react-account";
+import { useAccountState, useIsNoteLiked, useMintNote, useNoteLikeCount, useNoteLikeList, usePostNote, usePostNoteForNote, useToggleLikeNote } from "@crossbell/react-account";
 import { useRefCallback } from "@crossbell/util-hooks";
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import type { Comment } from "@/components/CommentItem";
 import { getAnonymousCommentInformation } from "@/hooks/use-setup-anonymous-comment";
 import { anonymousComment, checkMint, getComment, getComments, getMints, getPage, getPagesBySite, updateComment } from "@/models/page.model";
+import type { EditorValues, NoteType } from "@/types";
 import { cacheDelete, cacheGet } from "@/utils/cache";
+import { editor2Crossbell } from "@/utils/editor-converter";
 import { getNoteSlug } from "@/utils/get-slug";
 
 export const useGetPagesBySiteLite = (
@@ -304,6 +306,46 @@ export function useGetComments(
     },
     getNextPageParam: lastPage => lastPage?.cursor || undefined,
   });
+}
+
+export function useCreatePage() {
+  const queryClient = useQueryClient();
+  const { mutateAsync: _, ...postNote } = usePostNote();
+
+  const mutate = useRefCallback(
+    (
+      input: {
+        characterId?: number
+        type?: NoteType
+      } & EditorValues,
+    ) => {
+      if (!input.characterId) {
+        throw new Error("characterId is required");
+      }
+
+      return postNote.mutate(
+        {
+          characterId: input.characterId,
+          metadata: editor2Crossbell({
+            values: input,
+            autofill: true,
+            type: input.type || "post",
+          }).metadata.content,
+        },
+        {
+          onSuccess: (data, variables) => {
+            queryClient.invalidateQueries(["getPagesBySite", input.characterId]);
+            queryClient.invalidateQueries(["getPage", input.characterId]);
+          },
+        },
+      );
+    },
+  );
+
+  return {
+    ...postNote,
+    mutate,
+  };
 }
 
 export const useGetLikes = ({

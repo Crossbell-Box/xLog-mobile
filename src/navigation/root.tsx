@@ -2,16 +2,15 @@ import React, { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import BottomSheet, { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { CardStyleInterpolators, createStackNavigator } from "@react-navigation/stack";
 import type { TransitionSpec } from "@react-navigation/stack/lib/typescript/src/types";
 import { ArrowLeftCircle } from "@tamagui/lucide-icons";
-import { Stack, Text, XStack } from "tamagui";
+import { XStack } from "tamagui";
 
-import { BottomSheetModal } from "@/components/BottomSheetModal";
 import { useSplash } from "@/hooks/use-splash";
 import { CharacterListPage } from "@/pages/CharacterList";
 import { ClaimCSBPage } from "@/pages/ClaimCSB";
+import { CreateShotsPage } from "@/pages/CreateShots";
 import { LoginPage } from "@/pages/Login";
 import { PostDetailsPage } from "@/pages/PostDetails";
 import { AchievementsPage } from "@/pages/Profile/Achievements";
@@ -23,6 +22,7 @@ import { PagesPage } from "@/pages/Profile/Pages";
 import { PostsPage } from "@/pages/Profile/Posts";
 import { RepliesPage } from "@/pages/Replies";
 import { SearchPage } from "@/pages/Search";
+import { TakePhotoPage } from "@/pages/TakePhoto";
 import { OthersUserInfoPage } from "@/pages/UserInfo";
 import { WebPage } from "@/pages/Web";
 
@@ -44,20 +44,13 @@ const config: TransitionSpec = {
   },
 };
 export const RootNavigator = () => {
-  const { top, bottom } = useSafeAreaInsets();
+  const { bottom } = useSafeAreaInsets();
   const i18n = useTranslation("common");
   const { hideSplash } = useSplash();
 
   useEffect(() => {
     hideSplash();
   }, []);
-
-  // return (
-  //   <BottomSheet enablePanDownToClose snapPoints={["20%", "80%"]} backgroundStyle={{ backgroundColor: "red" }}>
-  //     <Text>11</Text>
-  //     <Text>11</Text>
-  //   </BottomSheet>
-  // );
 
   return (
     <RootStack.Navigator
@@ -69,6 +62,7 @@ export const RootNavigator = () => {
       <RootStack.Screen name={"Home"} component={HomeNavigator} />
       <RootStack.Screen name={"PostDetails"} component={PostDetailsPage}/>
       <RootStack.Screen name={"UserInfo"} component={OthersUserInfoPage}/>
+      <RootStack.Screen name={"TakePhoto"} component={TakePhotoPage}/>
 
       <RootStack.Group screenOptions={{
         presentation: "transparentModal",
@@ -103,6 +97,7 @@ export const RootNavigator = () => {
         <RootStack.Screen name={"SettingsNavigator"} component={SettingsNavigator} options={{ headerShown: false }}/>
         <RootStack.Screen name={"Web"} component={WebPage} options={{ title: "" }} />
         <RootStack.Screen name={"Search"} component={SearchPage} options={{ headerShown: false }} />
+        <RootStack.Screen name={"CreateShots"} component={CreateShotsPage}options={{ headerTitle: "", headerBackTitleVisible: false }} />
       </RootStack.Group>
 
       <RootStack.Group screenOptions={{

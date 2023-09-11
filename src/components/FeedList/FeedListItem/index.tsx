@@ -9,6 +9,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Eye } from "@tamagui/lucide-icons";
 import { BlurView } from "expo-blur";
 import { Image } from "expo-image";
+import sizeOf from "image-size";
 import { SizableText, Stack, XStack } from "tamagui";
 
 import { Avatar } from "@/components/Avatar";
@@ -88,18 +89,34 @@ export const FeedListItem: FC<Props> = (props) => {
     }
 
     return await new Promise ((resolve) => {
-      RNImage.getSize(
-        coverImage,
-        (_, height) => {
-          resolve({
-            width,
-            height,
-          });
-        },
-        () => {
-          resolve(defaultLayout);
-        },
-      );
+      const byteRange = "0-511";
+
+      fetch(coverImage, { headers: { Range: `bytes=${byteRange}` } })
+        .then(response => response.arrayBuffer())
+        .then((buffer) => {
+          const _buffer = Buffer.from(buffer);
+          try {
+            return sizeOf(_buffer);
+          }
+          catch (e) {
+            return new Promise((resolve) => {
+              RNImage.getSize(
+                coverImage,
+                (_, height) => {
+                  resolve({
+                    width,
+                    height,
+                  });
+                },
+                () => {
+                  resolve(defaultLayout);
+                },
+              );
+            });
+          }
+        }).then((layout: any) => {
+          resolve(layout);
+        });
     });
   };
 
@@ -108,7 +125,6 @@ export const FeedListItem: FC<Props> = (props) => {
       return;
     }
 
-    coverImage && Image.prefetch(coverImage);
     getCoverSourceLayout().then((layout) => {
       setSourceLayout(layout);
       if (layout.origin !== "cache") {

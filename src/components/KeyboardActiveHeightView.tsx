@@ -1,23 +1,22 @@
 import { type FC } from "react";
-import type { ViewProps, ViewStyle } from "react-native";
 import { useReanimatedKeyboardAnimation } from "react-native-keyboard-controller";
 import Animated, { useAnimatedStyle, useDerivedValue, withTiming } from "react-native-reanimated";
 
-export const KeyboardAvoidingView: FC<ViewProps & {
-  style?: ViewStyle
+export const KeyboardActiveHeightView: FC<{
+  animated?: boolean
 }> = (props) => {
+  const { animated = true } = props;
   const { height: _height } = useReanimatedKeyboardAnimation();
-  const height = useDerivedValue(() => withTiming(_height.value));
+  const height = useDerivedValue(() => {
+    if (!animated) return _height.value;
+    return withTiming(_height.value);
+  });
 
   const animStyles = useAnimatedStyle(() => {
-    return {
-      transform: [
-        { translateY: height.value },
-      ],
-    };
+    return { height: Math.abs(height.value) };
   });
 
   return (
-    <Animated.View {...props} style={[props.style, animStyles]}/>
+    <Animated.View {...props} style={animStyles}/>
   );
 };

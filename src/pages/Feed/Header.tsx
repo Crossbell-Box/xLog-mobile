@@ -71,7 +71,12 @@ export const Header: FC<Props> = (props) => {
                   }}
                 >
                   <Stack height={50} justifyContent="flex-end">
-                    <Text color={isActive ? "$color" : "#8F8F91"} fontSize={isActive ? 36 : 16} lineHeight={isActive ? 36 : 26} fontWeight={isActive ? "bold" : "normal"}>
+                    <Text
+                      color={isActive ? "$color" : "#8F8F91"}
+                      fontSize={isActive ? 36 : 16}
+                      lineHeight={isActive ? 40 : 26}
+                      fontWeight={isActive ? "bold" : "normal"}
+                    >
                       {content}
                     </Text>
                   </Stack>

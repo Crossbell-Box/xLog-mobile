@@ -129,5 +129,14 @@
   "Email": "电子邮箱",
   "Please set your anonymous comment information, which can be modified on the settings page.":"请设置你的匿名评论信息，可在设置页面修改",
   "You do not have enough $CSB to perform this action.": "你没有足够的 $CSB 来执行此操作",
-  "Please switch to the Crossbell network in your wallet.": "请在钱包中切换到 Crossbell 网络"
+  "Please switch to the Crossbell network in your wallet.": "请在钱包中切换到 Crossbell 网络",
+  "You need to provide at least one image to publish a post.": "你需要提供至少一张图片来发布图文",
+  "Please allow camera permission to continue.": "请允许相机权限以继续",
+  "Add a title": "添加标题",
+  "Add text": "添加文字",
+  "Post": "发布",
+  "Next": "下一步",
+  "Uploading": "上传中",
+  "Successfully published": "发布成功",
+  "View": "查看"
 }

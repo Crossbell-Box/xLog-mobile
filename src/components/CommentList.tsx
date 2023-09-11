@@ -154,7 +154,7 @@ export const CommentList = forwardRef<CommentListInstance, Props>((
         onEndReachedThreshold={0.5}
         onEndReached={() => {
           if (
-            comments.data?.pages.length === 0
+            !comments.data
         || comments.isFetchingNextPage
         || comments.hasNextPage === false
           )

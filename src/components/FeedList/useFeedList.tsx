@@ -1,4 +1,3 @@
-import type { FC } from "react";
 import { useEffect, useMemo, useRef } from "react";
 import type { useAnimatedScrollHandler } from "react-native-reanimated";
 
@@ -17,8 +16,6 @@ import { FeedListItem } from "./FeedListItem";
 import { Skeleton } from "./Skeleton";
 
 import topics from "../../data/topics.json";
-import { Center } from "../Base/Center";
-import { FillSpinner } from "../FillSpinner";
 
 export interface Props {
   onScroll?: ReturnType<typeof useAnimatedScrollHandler>

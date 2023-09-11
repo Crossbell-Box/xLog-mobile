@@ -26,7 +26,7 @@ export const Button = forwardRef<TamaguiElement, Props>((props, ref) => {
   const color = useMemo<ButtonProps["color"]>(() => {
     switch (type) {
       case "primary":
-        return "$color";
+        return "white";
       case "disabled":
       default:
         return restProps.color;
