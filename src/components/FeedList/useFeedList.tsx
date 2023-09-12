@@ -50,7 +50,7 @@ export const useFeedList = <T extends {}>(props: Props & T) => {
 
   const queryParams = useMemo(() => ({
     type,
-    limit: 30,
+    limit: 15,
     characterId: characterId ?? _characterId,
     noteIds,
     daysInterval,
@@ -107,7 +107,7 @@ export const useFeedList = <T extends {}>(props: Props & T) => {
     contentContainerStyle: { ...contentContainerStyle, paddingHorizontal: 4 },
     scrollEventThrottle: 16,
     onScroll,
-    onEndReachedThreshold: 2,
+    onEndReachedThreshold: 0.5,
     onEndReached: () => {
       if (
         feedList.length === 0

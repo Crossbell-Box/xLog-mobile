@@ -36,11 +36,10 @@ export const Header: FC<Props> = (props) => {
   const connectedAccount = useConnectedAccount();
   const hitSlop = useHitSlopSize(60);
   const [isHotIntervalBottomSheetOpen, setIsHotIntervalBottomSheetOpen] = useState(false);
-
   const onPressSortBy = useCallback(() => setIsHotIntervalBottomSheetOpen(true), []);
 
   return (
-    <Stack>
+    <Stack height={90}>
       {isDarkMode && <PolarLightBackground activeIndex={activeIndex}/>}
       <HeaderAnimatedLayout type={type} onPressSortBy={onPressSortBy} expanded={isExpandedAnimValue}>
         <XStack marginHorizontal="$3" gap="$4" height={HeaderTabHeight}>

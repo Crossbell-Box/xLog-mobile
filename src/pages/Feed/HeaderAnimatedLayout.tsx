@@ -38,7 +38,7 @@ export const HeaderAnimatedLayout: FC<PropsWithChildren<Props>> = (props) => {
     return {
       height: interpolate(expanded.value, [0, 1], [55, 110], Extrapolate.CLAMP) + top,
     };
-  }, [top, expanded, background]);
+  }, [top, expanded]);
 
   const avatarAnimStyles = useAnimatedStyle(() => {
     return {
