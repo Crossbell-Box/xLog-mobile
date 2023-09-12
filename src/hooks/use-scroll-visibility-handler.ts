@@ -44,7 +44,10 @@ export function useScrollVisibilityHandler(options: Options) {
       }
     },
     onEndDrag: (e, ctx) => {
-      if (!ctx.beginDrag) {
+      if (
+        !ctx.beginDrag
+        || e.contentOffset.y < 110
+      ) {
         return;
       }
 

@@ -7,7 +7,7 @@ import { Code, Code2, Feather, Settings, Shrink, Sparkles, Wallet } from "@tamag
 import { Image, ScrollView, Spacer, Text, XStack, YStack } from "tamagui";
 
 import { ConnectEmailButton } from "@/components/ConnectEmailButton";
-import { ConnectionButton } from "@/components/ConnectionButton";
+import { ConnectBtn, ConnectionButton } from "@/components/ConnectionButton";
 import { LogoDarkBlueResource, LogoLightBlueResource } from "@/components/Logo";
 import { PolarLightBackground } from "@/components/PolarLightBackground";
 import { useRootNavigation } from "@/hooks/use-navigation";
@@ -24,7 +24,7 @@ export const IntroductionPage: FC<Props> = () => {
   return (
     <ScrollView bounces={false} backgroundColor={"$background"}>
       <YStack>
-        <SafeAreaView>
+        <SafeAreaView style={{ paddingTop: 16 }}>
           {isDarkMode && <PolarLightBackground activeIndex={0}/>}
           <YStack paddingHorizontal="$6">
             <XStack alignItems="flex-end" justifyContent="space-between" marginBottom="$5">
@@ -77,7 +77,7 @@ export const IntroductionPage: FC<Props> = () => {
                 );
               })
             }
-            <ConnectionButton />
+            <ConnectBtn />
             <Spacer/>
             <ConnectEmailButton />
             <Spacer size="$4"/>

@@ -11,6 +11,8 @@ import { Image } from "expo-image";
 import { H4, SizableText, Spinner, Stack, Text, XStack, YStack, useWindowDimensions } from "tamagui";
 
 import type { BottomSheetModalInstance } from "@/components/BottomSheetModal";
+import { IS_IOS } from "@/constants";
+import { isAndroid } from "@/constants/platform";
 import { useGAWithScreenParams } from "@/hooks/ga/use-ga-with-screen-name-params";
 import { useColors } from "@/hooks/use-colors";
 import { useRootNavigation } from "@/hooks/use-navigation";
@@ -187,15 +189,6 @@ export const CommentList = forwardRef<CommentListInstance, Props>((
         keyExtractor={item => item.blockNumber.toString()}
         renderItem={(options) => {
           const comment = options.item;
-
-          // if (item.type === "header") {
-          //   return (
-          //     <Stack paddingBottom={8} marginBottom="$3">
-          //       <H4>{i18n.t("Comments")} {commentsCount}</H4>
-          //     </Stack>
-          //   );
-          // }
-
           const depth = 0;
 
           return (
@@ -231,7 +224,7 @@ export const CommentList = forwardRef<CommentListInstance, Props>((
 
       {
         couldComment && (
-          <Stack height={bottom + 10}>
+          <Stack height={modalVisible && IS_IOS ? 60 - bottom : 60}>
             {
               modalVisible
                 ? (
@@ -248,7 +241,7 @@ export const CommentList = forwardRef<CommentListInstance, Props>((
                       style={[{ borderColor, color }, styles.input]}
                       multiline
                       onBlur={hideInput}
-                      autoFocus={false}
+                      autoFocus
                       onChangeText={setContent}
                       placeholder={
                         isEditing

@@ -2,6 +2,7 @@ import { useState, type FC, useEffect, useRef } from "react";
 import { StyleSheet } from "react-native";
 import Animated, { BounceInRight, Easing, FadeInDown, FadeOutDown, ZoomInLeft, ZoomInRight, ZoomOutRight, useAnimatedStyle } from "react-native-reanimated";
 
+import { useConnectedAccount } from "@crossbell/react-account";
 import { Album, Camera, Image, Plus } from "@tamagui/lucide-icons";
 import { AnimatePresence, Button, Circle, Square, Stack, useControllableState, useEvent } from "tamagui";
 
@@ -39,11 +40,16 @@ export const CreateShortsButton: FC = () => {
   const [containerWidth, setContainerWidth] = useState(0);
   const [isSelectingMethod, setIsSelectingMethod] = useState(false);
   const navigation = useRootNavigation();
+  const connectedAccount = useConnectedAccount();
 
   const buttonAnim = buttonAnimList[animIndex];
   const buttonContainerAnim = buttonContainerAnimList[animIndex];
 
   const handleOnPress = () => {
+    if (!connectedAccount) {
+      navigation.navigate("Login");
+      return;
+    }
     setIsSelectingMethod(!isSelectingMethod);
   };
 

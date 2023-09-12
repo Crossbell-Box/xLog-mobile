@@ -20,6 +20,8 @@ const sessionParams: ComponentProps<typeof Modal>["sessionParams"] = {
         "eth_sign",
         "personal_sign",
         "eth_signTypedData",
+        "wallet_addEthereumChain",
+        "wallet_switchEthereumChain",
       ],
       chains: ["eip155:1"],
       events: ["chainChanged", "accountsChanged"],

@@ -4,7 +4,7 @@ import { useSharedValue, withSpring, withDelay } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { Stack, YStack, Separator, Theme } from "tamagui";
+import { Stack } from "tamagui";
 
 import { DelayedRender } from "@/components/DelayRender";
 import { ImageGallery } from "@/components/ImageGallery";

@@ -2,11 +2,12 @@ import React, { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { CardStyleInterpolators, createStackNavigator } from "@react-navigation/stack";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import type { TransitionSpec } from "@react-navigation/stack/lib/typescript/src/types";
 import { ArrowLeftCircle } from "@tamagui/lucide-icons";
 import { XStack } from "tamagui";
 
+import { isIOS } from "@/constants/platform";
 import { useSplash } from "@/hooks/use-splash";
 import { CharacterListPage } from "@/pages/CharacterList";
 import { ClaimCSBPage } from "@/pages/ClaimCSB";
@@ -30,7 +31,7 @@ import { HomeNavigator } from "./home";
 import { SettingsNavigator } from "./settings";
 import type { RootStackParamList } from "./types";
 
-const RootStack = createStackNavigator<RootStackParamList>();
+const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 const config: TransitionSpec = {
   animation: "spring",
@@ -55,20 +56,19 @@ export const RootNavigator = () => {
   return (
     <RootStack.Navigator
       initialRouteName="Home"
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      <RootStack.Screen name={"Home"} component={HomeNavigator} />
-      <RootStack.Screen name={"PostDetails"} component={PostDetailsPage}/>
-      <RootStack.Screen name={"UserInfo"} component={OthersUserInfoPage}/>
-      <RootStack.Screen name={"TakePhoto"} component={TakePhotoPage}/>
 
-      <RootStack.Group screenOptions={{
-        presentation: "transparentModal",
-        cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS,
-        headerShown: true,
-      }}>
+    >
+
+      {/* Without header */}
+      <RootStack.Group screenOptions={{ headerShown: false }}>
+        <RootStack.Screen name={"Home"} component={HomeNavigator} />
+        <RootStack.Screen name={"PostDetails"} component={PostDetailsPage}/>
+        <RootStack.Screen name={"UserInfo"} component={OthersUserInfoPage}/>
+        <RootStack.Screen name={"TakePhoto"} component={TakePhotoPage}/>
+      </RootStack.Group>
+
+      {/* Transparent modal */}
+      <RootStack.Group screenOptions={{ presentation: "transparentModal", animation: "none", headerShown: true }}>
         <RootStack.Screen name={"Login"} component={LoginPage} options={{ headerShown: false }}/>
       </RootStack.Group>
 
@@ -78,15 +78,15 @@ export const RootNavigator = () => {
           component={ClaimCSBPage}
           options={{
             title: i18n.t("Claim CSB"),
-            headerStyle: { elevation: 0, shadowOpacity: 0 },
+            // headerStyle: { elevation: 0, shadowOpacity: 0 },
             headerBackTitleVisible: false,
-            headerBackImage(props) {
-              return (
-                <XStack {...props} paddingLeft={"$4"} >
-                  <ArrowLeftCircle size={24} color={props.tintColor} />
-                </XStack>
-              );
-            },
+            // headerBackImage(props) {
+            //   return (
+            //     <XStack {...props} paddingLeft={"$4"} >
+            //       <ArrowLeftCircle size={24} color={props.tintColor} />
+            //     </XStack>
+            //   );
+            // },
           }}
         />
       </RootStack.Group>
@@ -102,11 +102,11 @@ export const RootNavigator = () => {
 
       <RootStack.Group screenOptions={{
         headerShown: false,
-        cardStyle: { paddingBottom: bottom },
-        transitionSpec: {
-          open: config,
-          close: config,
-        },
+        // cardStyle: { paddingBottom: bottom },
+        // transitionSpec: {
+        //   open: config,
+        //   close: config,
+        // },
       }}>
         <RootStack.Screen name={"Dashboard"} component={DashboardPage} options={{ title: i18n.t("Dashboard") }} />
         <RootStack.Screen name={"Posts"} component={PostsPage} options={{ title: i18n.t("Posts") }} />
@@ -114,7 +114,7 @@ export const RootNavigator = () => {
         <RootStack.Screen name={"Comments"} component={CommentsPage} options={{ title: i18n.t("Comment") }} />
         <RootStack.Screen name={"Achievements"} component={AchievementsPage} options={{
           title: i18n.t("Achievements"),
-          cardStyle: { backgroundColor: "black" },
+          // cardStyle: { backgroundColor: "black" },
         }} />
         <RootStack.Screen name={"Events"} component={EventsPage} options={{ title: i18n.t("Events") }} />
         <RootStack.Screen name={"Notifications"} component={NotificationsPageWithModal} options={{ title: i18n.t("Notifications") }} />

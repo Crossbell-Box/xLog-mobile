@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, Linking } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -12,10 +12,10 @@ import {
   useDisconnectAccount,
   useIsWalletSignedIn,
 } from "@crossbell/react-account";
+import { useBottomSheetModal } from "@gorhom/bottom-sheet";
 import { Plug, Wallet } from "@tamagui/lucide-icons";
 import { useToastController } from "@tamagui/toast";
 import { useWalletConnectModal } from "@walletconnect/modal-react-native";
-import * as Haptics from "expo-haptics";
 import { LinearGradient } from "expo-linear-gradient";
 import * as Sentry from "sentry-expo";
 import type { StackProps } from "tamagui";
@@ -28,7 +28,6 @@ import { useOneTimeTogglerWithSignOP } from "@/hooks/use-signin-tips-toggler";
 import { useToggle } from "@/hooks/use-toggle";
 import { GA } from "@/utils/GA";
 
-import type { AlertDialogInstance } from "./AlertDialog";
 import { AlertDialog } from "./AlertDialog";
 import { Button } from "./Base/Button";
 import { Center } from "./Base/Center";
@@ -63,10 +62,17 @@ export const ConnectionButton: FC<Props> = (props) => {
   );
 };
 
-function ConnectBtn({ navigateToLogin }: { navigateToLogin: boolean }) {
+export function ConnectBtn({
+  navigateToLogin,
+  beforeOpenModal,
+}: {
+  navigateToLogin?: boolean
+  beforeOpenModal?: () => Promise<void>
+}) {
   const i18n = useTranslation();
   const navigation = useRootNavigation();
   const { open, isOpen } = useWalletConnectModal();
+  const { dismissAll } = useBottomSheetModal();
   const toast = useToastController();
 
   const isActive = useAppIsActive();
@@ -138,12 +144,13 @@ function ConnectBtn({ navigateToLogin }: { navigateToLogin: boolean }) {
     };
   }, [isOpen]);
 
-  const handleConnect = () => {
+  const handleConnect = async () => {
     if (navigateToLogin) {
       navigation.navigate("Login");
       return;
     }
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+
+    beforeOpenModal && await beforeOpenModal();
 
     open({ route: "ConnectWallet" })
       .catch((e) => {
