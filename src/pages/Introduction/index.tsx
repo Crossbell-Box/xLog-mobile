@@ -4,7 +4,8 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Code, Code2, Feather, Settings, Shrink, Sparkles, Wallet } from "@tamagui/lucide-icons";
-import { Image, ScrollView, Spacer, Text, XStack, YStack } from "tamagui";
+import { Image } from "expo-image";
+import { ScrollView, Spacer, Text, XStack, YStack } from "tamagui";
 
 import { ConnectEmailButton } from "@/components/ConnectEmailButton";
 import { ConnectBtn, ConnectionButton } from "@/components/ConnectionButton";
@@ -34,8 +35,10 @@ export const IntroductionPage: FC<Props> = () => {
                     ? LogoLightBlueResource
                     : LogoDarkBlueResource
                 }
-                w={48}
-                height={48}
+                style={{
+                  width: 48,
+                  height: 48,
+                }}
               />
 
               <TouchableOpacity

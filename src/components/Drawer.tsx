@@ -1,6 +1,6 @@
 import React from "react";
 import type { FC } from "react";
-import { ScrollView } from "react-native";
+import { InteractionManager, ScrollView } from "react-native";
 import { Drawer as _Drawer } from "react-native-drawer-layout";
 import { TouchableOpacity, TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -55,10 +55,7 @@ const DrawerContent = () => {
   };
 
   const navigate = (name: keyof ProfilePagesParamList) => {
-    setTimeout(() => {
-      closeDrawer();
-    }, 600);
-
+    closeDrawer();
     rootNavigation.navigate(name);
   };
 
@@ -84,11 +81,13 @@ const DrawerContent = () => {
           <ScrollView>
             {
               profilePages?.map((page, index) => (
-                <YStack onPress={() => navigate(page.name)} justifyContent="center" key={page.name} paddingHorizontal="$1">
-                  <XStack gap="$3" paddingVertical="$4">
-                    <page.icon size={"$1"} />
-                    <Text fontSize={"$6"}>{page.title}</Text>
-                  </XStack>
+                <YStack justifyContent="center" key={page.name} paddingHorizontal="$1">
+                  <TouchableWithoutFeedback onPress={() => navigate(page.name)} >
+                    <XStack gap="$3" paddingVertical="$4">
+                      <page.icon size={"$1"} />
+                      <Text fontSize={"$6"}>{page.title}</Text>
+                    </XStack>
+                  </TouchableWithoutFeedback>
                   {index !== profilePages?.length - 1 && <Separator />}
                 </YStack>
               ))

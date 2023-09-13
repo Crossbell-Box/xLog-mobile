@@ -66,15 +66,15 @@ export const javaScriptContentLoaded = (
 
     function handleImageClick(event) {
       event.preventDefault();
-      const clickedImageUrl = event.target.src;
+      const clickedImageUrl = event.target.dataset.src;
       const images = document.getElementsByTagName('img');
-      const allImageUrls = Array.from(images).map(img => img.src);
+      const allImageUrls = Array.from(images).map(img => img.dataset.src);
       const imageUrlSet = new Set([clickedImageUrl, ...allImageUrls]);
       const imageUrlArray = Array.from(imageUrlSet);
 
       window.ReactNativeWebView.postMessage(
         JSON.stringify({
-          imageUrlArray
+          imageUrlArray,
         })
       );
 

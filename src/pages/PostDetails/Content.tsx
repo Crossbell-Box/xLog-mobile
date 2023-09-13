@@ -6,7 +6,7 @@ import Animated, { useSharedValue, withSpring, withDelay } from "react-native-re
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { captureRef } from "react-native-view-shot";
 
-import { useCharacter, useNote } from "@crossbell/indexer";
+import { useCharacter } from "@crossbell/indexer";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useToastController } from "@tamagui/toast";
 import { Image } from "expo-image";

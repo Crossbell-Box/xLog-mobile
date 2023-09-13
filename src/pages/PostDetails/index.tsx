@@ -33,7 +33,6 @@ const animationTimeout = 800;
 export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, "PostDetails">> = (props) => {
   const { route, navigation } = props;
   const { params } = route;
-  const [displayImageUris, setDisplayImageUris] = React.useState<string[]>([]);
   const { isDarkMode } = useThemeStore();
   const { bottom } = useSafeAreaInsets();
   const bottomBarHeight = bottom + 45;
@@ -42,10 +41,6 @@ export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, "Pos
   const followAnimValue = useSharedValue<number>(0);
   const scrollVisibilityHandler = useScrollVisibilityHandler({ scrollThreshold: 30 });
   const postUri = usePostWebViewLink({ ...params, noteId: params.note.noteId });
-
-  const closeModal = React.useCallback(() => {
-    setDisplayImageUris([]);
-  }, []);
 
   const onTakeScreenshot = React.useCallback(async (): Promise<string> => contentRef.current.takeScreenshot(), []);
 
@@ -58,55 +53,47 @@ export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, "Pos
   }, []);
 
   return (
-    <>
-      <Stack flex={1} backgroundColor={isDarkMode ? "black" : "white"}>
-        <Navigator
-          onTakeScreenshot={onTakeScreenshot}
-          isExpandedAnimValue={scrollVisibilityHandler.isExpandedAnimValue}
-          characterId={params.characterId}
-          note={params.note}
-          postUri={postUri}
-          headerContainerHeight={headerContainerHeight}
-        />
-
-        <Content
-          ref={contentRef}
-          postUri={postUri ? `${postUri}?only-content=true` : undefined}
-          renderHeaderComponent={(isCapturing) => {
-            return (
-              <Header
-                isCapturing={isCapturing}
-                headerContainerHeight={headerContainerHeight}
-                postUri={postUri}
-                note={params.note}
-                characterId={params.characterId}
-                placeholderCoverImageIndex={params.placeholderCoverImageIndex}
-                coverImage={params.coverImage}
-              />
-            );
-          }}
-          characterId={params.characterId}
-          note={params.note}
-          navigation={navigation}
-          scrollEventHandler={scrollVisibilityHandler}
-          bottomBarHeight={bottomBarHeight}
-          headerContainerHeight={headerContainerHeight}
-        />
-
-        <DelayedRender timeout={animationTimeout}>
-          <BottomSheetModal
-            note={params.note}
-            characterId={params.characterId}
-            bottomBarHeight={bottomBarHeight}
-          />
-        </DelayedRender>
-      </Stack>
-
-      <ImageGallery
-        isVisible={displayImageUris.length > 0}
-        uris={displayImageUris}
-        onClose={closeModal}
+    <Stack flex={1} backgroundColor={isDarkMode ? "black" : "white"}>
+      <Navigator
+        onTakeScreenshot={onTakeScreenshot}
+        isExpandedAnimValue={scrollVisibilityHandler.isExpandedAnimValue}
+        characterId={params.characterId}
+        note={params.note}
+        postUri={postUri}
+        headerContainerHeight={headerContainerHeight}
       />
-    </>
+
+      <Content
+        ref={contentRef}
+        postUri={postUri ? `${postUri}?only-content=true` : undefined}
+        renderHeaderComponent={(isCapturing) => {
+          return (
+            <Header
+              isCapturing={isCapturing}
+              headerContainerHeight={headerContainerHeight}
+              postUri={postUri}
+              note={params.note}
+              characterId={params.characterId}
+              placeholderCoverImageIndex={params.placeholderCoverImageIndex}
+              coverImage={params.coverImage}
+            />
+          );
+        }}
+        characterId={params.characterId}
+        note={params.note}
+        navigation={navigation}
+        scrollEventHandler={scrollVisibilityHandler}
+        bottomBarHeight={bottomBarHeight}
+        headerContainerHeight={headerContainerHeight}
+      />
+
+      <DelayedRender timeout={animationTimeout}>
+        <BottomSheetModal
+          note={params.note}
+          characterId={params.characterId}
+          bottomBarHeight={bottomBarHeight}
+        />
+      </DelayedRender>
+    </Stack>
   );
 };
