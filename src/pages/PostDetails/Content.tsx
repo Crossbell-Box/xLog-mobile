@@ -269,11 +269,15 @@ export const Content = React.forwardRef<PostDetailsContentInstance, Props>((prop
           </Animated.ScrollView>
         )}
 
-      <ImageGallery
-        isVisible={displayImageUris.length > 0}
-        uris={displayImageUris}
-        onClose={closeModal}
-      />
+      {
+        displayImageUris.length > 0 && (
+          <ImageGallery
+            isVisible={displayImageUris.length > 0}
+            uris={displayImageUris}
+            onClose={closeModal}
+          />
+        )
+      }
     </>
   );
 });

@@ -75,6 +75,7 @@ export const HomeNavigator = () => {
               : IntroductionPage
           }
           options={{
+            lazy: false,
             tabBarShowLabel: false,
             tabBarIcon: props => <User2 {...props} />,
           }}

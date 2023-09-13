@@ -19,15 +19,20 @@ import type { RootStackParamList } from "@/navigation/types";
 export interface Props {
 }
 
+const closingDuration = 150;
+const termsText = "Terms & Conditions";
+
 export const LoginPage: FC<NativeStackScreenProps<RootStackParamList, "Login">> = (props) => {
   const { navigation } = props;
   const globalLoading = useGlobalLoading();
-  const navigateToTerms = () => navigation.navigate("Web", { url: "https://rss3.notion.site/Legal-Public-f30edd47c3be4dd7ae5ed4e39aefbbd9?pvs=4" });
+  const navigateToTerms = () => navigation.navigate("Web", {
+    url: "https://rss3.notion.site/Legal-Public-f30edd47c3be4dd7ae5ed4e39aefbbd9?pvs=4",
+    title: termsText,
+  });
   const { bottom } = useSafeAreaInsets();
   const isConnected = useIsConnected();
   const appIsActive = useAppIsActive();
   const { background } = useColors();
-  const closingDuration = 150;
 
   useEffect(() => {
     if (appIsActive && isConnected) {
@@ -60,7 +65,7 @@ export const LoginPage: FC<NativeStackScreenProps<RootStackParamList, "Login">> 
           <ConnectBtn beforeOpenModal={beforeOpenModal}/>
           <ConnectEmailButton />
           <Text color="$colorSubtitle" fontSize={"$3"} textAlign="center">
-          By connecting you agree to our <Text textDecorationLine="underline" onPress={navigateToTerms} color="$color" fontSize={"$3"}>Terms & Conditions</Text>
+          By connecting you agree to our <Text textDecorationLine="underline" onPress={navigateToTerms} color="$color" fontSize={"$3"}>{termsText}</Text>
           </Text>
         </YStack>
       </BottomSheet>
