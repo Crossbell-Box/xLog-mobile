@@ -1,5 +1,6 @@
 import type { ComponentProps } from "react";
 
+import { useNetInfo } from "@react-native-community/netinfo";
 import { WalletConnectModal as Modal, type IProviderMetadata } from "@walletconnect/modal-react-native";
 import * as Clipboard from "expo-clipboard";
 import { resolveScheme } from "expo-linking";
@@ -43,6 +44,11 @@ const providerMetadata: IProviderMetadata = {
 
 export function WalletConnectModal() {
   const { mode } = useThemeStore();
+  const netInfo = useNetInfo();
+
+  if (!netInfo.isConnected) {
+    return null;
+  }
 
   return (
     <Modal

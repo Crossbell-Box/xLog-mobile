@@ -47,7 +47,7 @@ export const RootNavigator = () => {
         <RootStack.Screen
           name={"PostDetails"}
           component={PostDetailsPage}
-          options={{ animation: IS_ANDROID ? "fade" : "slide_from_right" }}
+          options={{ animation: "fade" }}
         />
         <RootStack.Screen name={"UserInfo"} component={OthersUserInfoPage}/>
         <RootStack.Screen name={"TakePhoto"} component={TakePhotoPage}/>
