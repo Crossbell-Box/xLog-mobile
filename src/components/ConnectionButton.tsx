@@ -23,6 +23,7 @@ import { Stack, Text, XStack } from "tamagui";
 
 import { IS_IOS } from "@/constants";
 import { useAppIsActive } from "@/hooks/use-app-state";
+import { useDisconnect } from "@/hooks/use-disconnect";
 import { useRootNavigation } from "@/hooks/use-navigation";
 import { useOneTimeTogglerWithSignOP } from "@/hooks/use-signin-tips-toggler";
 import { useToggle } from "@/hooks/use-toggle";
@@ -236,20 +237,9 @@ function OPSignToggleBtn() {
 }
 
 export function DisconnectBtn({ navigateToLogin }: { navigateToLogin: boolean }) {
-  const _disconnect = useDisconnectAccount();
+  const { disconnect } = useDisconnect();
   const i18n = useTranslation();
   const navigation = useRootNavigation();
-
-  const disconnect = () => {
-    if (navigateToLogin) {
-      navigation.navigate("Login");
-      return;
-    }
-
-    _disconnect();
-    GA.logEvent("user_signout");
-    navigation.navigate("Home", { screen: "Feed" });
-  };
 
   return (
     <Animated.View entering={FadeIn.duration(300)} exiting={FadeOut.duration(300)}>

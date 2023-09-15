@@ -94,7 +94,7 @@ export const Navigator: FC<Props> = (props) => {
 
   const handleCopyLink = () => {
     GA.logShare({
-      item_id: note.noteId.toString(),
+      item_id: note.noteId?.toString(),
       method: "copy link",
       content_type: "post",
     });
@@ -130,7 +130,7 @@ export const Navigator: FC<Props> = (props) => {
 
   const handleShareOnTwitter = () => {
     GA.logShare({
-      item_id: note.noteId.toString(),
+      item_id: note.noteId?.toString(),
       method: "twitter",
       content_type: "post",
     });
@@ -159,7 +159,7 @@ export const Navigator: FC<Props> = (props) => {
       await MediaLibrary.saveToLibraryAsync(generatedImageUri);
 
       GA.logShare({
-        item_id: note.noteId.toString(),
+        item_id: note.noteId?.toString(),
         method: "save image",
         content_type: "post",
       });
@@ -201,7 +201,7 @@ export const Navigator: FC<Props> = (props) => {
           height: headerHeight,
           backgroundColor: "transparent",
         }]}
-        entering={FadeInUp.duration(600)}
+        entering={FadeInUp.duration(150)}
       >
         <TouchableWithoutFeedback onPress={() => goBack()} containerStyle={{
           position: "absolute",

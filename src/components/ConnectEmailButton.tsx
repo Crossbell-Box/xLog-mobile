@@ -23,7 +23,7 @@ export const ConnectEmailButton = (props: ButtonProps) => {
     const requestUrl = new URL("https://f.crossbell.io/mobile-login");
     requestUrl.searchParams.set("redirect_uri", redirectUrl);
     const result = await openAuthSessionAsync(
-      requestUrl.toString(),
+      requestUrl?.toString(),
       redirectUrl,
     );
     if (result.type === "success") {

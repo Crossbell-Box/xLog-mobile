@@ -85,7 +85,7 @@ export const TabBarRenderer = memo((props: TabBarRendererProps) => {
         horizontal
         paddingTop={"$3"}
         paddingHorizontal="$3"
-        backgroundColor={"$bottomSheetBackground"}
+        backgroundColor={"$userinfoSceneBackground"}
         alwaysBounceHorizontal={false}
         showsHorizontalScrollIndicator={false}
       >

@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useRef } from "react";
 import { InteractionManager, StyleSheet } from "react-native";
 import Animated, { useSharedValue, useAnimatedStyle, interpolate, Extrapolate, useDerivedValue } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -31,7 +31,11 @@ export interface Props {
   note: ExpandedNote
 }
 
-export const BottomSheetModal: FC<Props> = (props) => {
+export interface BottomSheetModalInstance {
+  comment: () => void
+}
+
+export const BottomSheetModal = React.forwardRef<BottomSheetModalInstance, Props>((props, ref) => {
   const { characterId, note, bottomBarHeight } = props;
   const bottomSheetRef = useRef<BottomSheetMethods>(null);
   const bottomSheetTabsRef = useRef<BottomSheetTabsInstance>(null);
@@ -113,6 +117,12 @@ export const BottomSheetModal: FC<Props> = (props) => {
       Extrapolate.CLAMP,
     );
   });
+
+  useImperativeHandle(ref, () => ({
+    comment: () => {
+      bottomSheetTabsRef.current?.comment();
+    },
+  }));
 
   return (
     <RNBottomSheet
@@ -201,7 +211,7 @@ export const BottomSheetModal: FC<Props> = (props) => {
       </Animated.View>
     </RNBottomSheet>
   );
-};
+});
 
 const styles = StyleSheet.create({
   actionsBg: {

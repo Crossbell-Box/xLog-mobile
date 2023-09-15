@@ -25,7 +25,7 @@ import type { Props as WebPageProps } from "@/pages/Web";
 
 export type HomeBottomTabsParamList = {
   Feed: FeedPageProps
-  Explore: ExplorePageProps
+  Shorts: FeedPageProps
   Profile: UserInfoPageProps
   Notifications: NotificationsPageProps
 };
@@ -44,6 +44,7 @@ export type RootStackParamList = {
   Home: NavigatorScreenParams<HomeBottomTabsParamList>
   SettingsNavigator: NavigatorScreenParams<SettingsStackParamList>
   PostDetails: PostDetailsPageProps
+  Explore: ExplorePageProps
   CreateShots: CreateShotsPageProps
   TakePhoto: TakePhotoPageProps
   Replies: RepliesPageProps

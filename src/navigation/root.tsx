@@ -9,6 +9,7 @@ import { useSplash } from "@/hooks/use-splash";
 import { CharacterListPage } from "@/pages/CharacterList";
 import { ClaimCSBPage } from "@/pages/ClaimCSB";
 import { CreateShotsPage } from "@/pages/CreateShots";
+import { ExplorePage } from "@/pages/Explore";
 import { LoginPage } from "@/pages/Login";
 import { PostDetailsPage } from "@/pages/PostDetails";
 import { AchievementsPage } from "@/pages/Profile/Achievements";
@@ -43,14 +44,11 @@ export const RootNavigator = () => {
     <RootStack.Navigator initialRouteName="Home">
       {/* Without header */}
       <RootStack.Group screenOptions={{ headerShown: false }}>
-        <RootStack.Screen name={"Home"} component={HomeNavigator} />
-        <RootStack.Screen
-          name={"PostDetails"}
-          component={PostDetailsPage}
-          options={{ animation: "fade" }}
-        />
+        <RootStack.Screen name={"Home"} component={HomeNavigator}/>
+        <RootStack.Screen name={"PostDetails"} component={PostDetailsPage} options={{ animation: "fade", animationDuration: 150 }}/>
         <RootStack.Screen name={"UserInfo"} component={OthersUserInfoPage}/>
         <RootStack.Screen name={"TakePhoto"} component={TakePhotoPage}/>
+        <RootStack.Screen name={"Explore"} component={ExplorePage}/>
       </RootStack.Group>
 
       {/* Transparent modal */}
@@ -76,7 +74,7 @@ export const RootNavigator = () => {
         <RootStack.Screen name={"CharacterListPage"} component={CharacterListPage} options={{ title: "" }} />
         <RootStack.Screen name={"SettingsNavigator"} component={SettingsNavigator} options={{ headerShown: false }}/>
         <RootStack.Screen name={"Web"} component={WebPage} options={{ title: "" }} />
-        <RootStack.Screen name={"Search"} component={SearchPage} options={{ headerShown: false }} />
+        <RootStack.Screen name={"Search"} component={SearchPage} options={{ headerShown: false, animation: "fade", animationDuration: 150 }} />
         <RootStack.Screen name={"CreateShots"} component={CreateShotsPage}options={{ headerTitle: "", headerBackTitleVisible: false }} />
       </RootStack.Group>
 

@@ -16,10 +16,10 @@ const buttonSize = 65;
 
 const buttonAnimList = [
   {
-    rotate: "0deg",
+    transform: [{ rotate: "0deg" }],
   },
   {
-    rotate: "-45deg",
+    transform: [{ rotate: "-45deg" }],
   },
 ];
 
@@ -84,17 +84,17 @@ export const CreateShortsButton: FC = () => {
                 style={styles.actionButtonContainer}
                 animation={"quick"}
                 enterStyle={{
-                  y: 0,
-                  x: 0,
+                  y: buttonSize * 1.3,
+                  x: -((containerWidth - buttonSize) / 2 - buttonSize),
                   opacity: 0,
                 }}
                 exitStyle={{
-                  y: 0,
-                  x: 0,
+                  y: buttonSize * 1.3,
+                  x: -((containerWidth - buttonSize) / 2 - buttonSize),
                   opacity: 0,
                 }}
-                y={-buttonSize * 1.3}
-                x={0 + (containerWidth - buttonSize) / 2 - buttonSize}
+                top={-buttonSize * 1.3}
+                left={(containerWidth - buttonSize) / 2 - buttonSize}
                 opacity={1}
                 onPress={() => {
                   setIsSelectingMethod(false);
@@ -110,17 +110,17 @@ export const CreateShortsButton: FC = () => {
                 style={styles.actionButtonContainer}
                 animation={"quick"}
                 enterStyle={{
-                  y: 0,
-                  x: 0,
+                  y: buttonSize * 1.3,
+                  x: -((containerWidth - buttonSize) / 2 + buttonSize),
                   opacity: 0,
                 }}
                 exitStyle={{
-                  y: 0,
-                  x: 0,
+                  y: buttonSize * 1.3,
+                  x: -((containerWidth - buttonSize) / 2 + buttonSize),
                   opacity: 0,
                 }}
-                y={-buttonSize * 1.3}
-                x={0 + (containerWidth - buttonSize) / 2 + buttonSize}
+                top={-buttonSize * 1.3}
+                left={(containerWidth - buttonSize) / 2 + buttonSize}
                 opacity={1}
                 onPress={() => {
                   setIsSelectingMethod(false);
@@ -142,7 +142,7 @@ export const CreateShortsButton: FC = () => {
           opacity={1}
           {...buttonContainerAnim}
         >
-          <Stack animation={"bouncy"} rotate={"0deg"} {...buttonAnim}>
+          <Stack animation={"bouncy"} {...buttonAnim}>
             <Plus color="white"/>
           </Stack>
         </Button>

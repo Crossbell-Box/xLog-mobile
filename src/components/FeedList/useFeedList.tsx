@@ -6,7 +6,8 @@ import { Image } from "expo-image";
 import { SizableText, Spinner, Stack, useWindowDimensions, YStack } from "tamagui";
 
 import { useCharacterId } from "@/hooks/use-character-id";
-import type { FeedType, SearchType } from "@/models/home.model";
+import type { SearchType, SourceType } from "@/models/home.model";
+import type { GetFeedParams } from "@/queries/home";
 import { useGetFeed } from "@/queries/home";
 import type { ExpandedNote } from "@/types/crossbell";
 import { debounce } from "@/utils/debounce";
@@ -15,26 +16,23 @@ import { GA } from "@/utils/GA";
 import { FeedListItem } from "./FeedListItem";
 import { Skeleton } from "./Skeleton";
 
-import topics from "../../data/topics.json";
-
 export interface Props {
+  sourceType: SourceType
   onScroll?: ReturnType<typeof useAnimatedScrollHandler>
-  type?: FeedType
-  noteIds?: string[]
+  searchType?: SearchType
   /**
    * @default 7
    * */
   daysInterval?: number
   searchKeyword?: string
-  tag?: string
+  tags?: string[]
   topic?: string
-  searchType?: SearchType
   contentContainerStyle?: ContentStyle
   characterId?: number
 }
 
 export const useFeedList = <T extends {}>(props: Props & T) => {
-  const { type, searchType, searchKeyword, contentContainerStyle = {}, tag, topic, noteIds, daysInterval = 7, onScroll, characterId, ...restProps } = props;
+  const { sourceType, searchType, searchKeyword, contentContainerStyle = {}, tags = [], topic, daysInterval = 7, onScroll, characterId, ...restProps } = props;
   const _characterId = useCharacterId();
   const gaLog = debounce(() => GA.logSearch({ search_term: searchKeyword }), 2000);
   const { width } = useWindowDimensions();
@@ -46,30 +44,24 @@ export const useFeedList = <T extends {}>(props: Props & T) => {
 
   useEffect(() => {
     listRef.current?.scrollToOffset({ offset: 0, animated: false });
-  }, [type, daysInterval]);
+  }, [searchType, daysInterval]);
 
-  const queryParams = useMemo(() => ({
-    type,
+  const queryParams = useMemo<GetFeedParams>(() => ({
+    sourceType,
+    searchType,
     limit: 15,
     characterId: characterId ?? _characterId,
-    noteIds,
     daysInterval,
     searchKeyword,
-    searchType,
-    tag,
-    topicIncludeKeywords: topic
-      ? topics.find(t => t.name === topic)?.includeKeywords
-      : undefined,
+    tags,
   }), [
-    type,
+    sourceType,
+    searchType,
     characterId,
     _characterId,
-    noteIds,
     daysInterval,
     searchKeyword,
-    searchType,
-    tag,
-    topic,
+    tags,
   ]);
 
   const feed = useGetFeed(queryParams);
@@ -118,20 +110,17 @@ export const useFeedList = <T extends {}>(props: Props & T) => {
 
       GA.logEvent("feed_list_view", {
         feed_length: feedList.length,
-        feed_type: queryParams.type,
+        feed_type: queryParams.searchType,
         query_limit: queryParams.limit,
         character_id: queryParams.characterId,
-        note_ids: queryParams.noteIds,
         days_interval: queryParams.daysInterval,
         search_keyword: queryParams.searchKeyword,
-        search_type: queryParams.searchType,
-        tag: queryParams.tag,
-        topic_include_keywords: queryParams.topicIncludeKeywords,
+        tags: queryParams.tags,
       });
 
       feed?.fetchNextPage?.();
     },
-    ...(restProps as T),
+    ...(restProps as any),
   }), [
     feed,
     width,

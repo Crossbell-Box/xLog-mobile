@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
-import {
-  ThumbsUp,
-} from "@tamagui/lucide-icons";
+import { ThumbsUp } from "@tamagui/lucide-icons";
 import * as Haptics from "expo-haptics";
 import type { FontSizeTokens, SizeTokens } from "tamagui";
 import { Button, Card, H4, Paragraph, SizableText, XStack, YStack, Spinner } from "tamagui";

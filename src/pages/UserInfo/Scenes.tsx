@@ -11,7 +11,7 @@ export const HomeScene: FC<{ characterId: number; index: number }> = ({ characte
       <TabMasonryFeedList
         index={index}
         characterId={characterId}
-        type={"character"}
+        searchType={"character"}
       />
     </Stack>
   );
@@ -20,15 +20,15 @@ export const HomeScene: FC<{ characterId: number; index: number }> = ({ characte
 export const TagScene: FC<{
   characterId: number
   index: number
-  tag: string
-}> = ({ characterId, tag, index }) => {
+  tags: string[]
+}> = ({ characterId, tags, index }) => {
   return (
     <Stack flex={1}>
       <TabMasonryFeedList
         index={index}
         characterId={characterId}
-        type={"tag"}
-        tag={tag}
+        searchType={"tag"}
+        tags={tags}
       />
     </Stack>
   );

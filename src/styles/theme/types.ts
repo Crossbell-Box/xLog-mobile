@@ -19,6 +19,8 @@ export type BaseTheme = Partial<TamaguiTheme> & {
   homeFeedBackgroundGradient_1: string
   cardBackground: string
   bottomSheetBackground: string
+  groupBackground: string
+  userinfoSceneBackground: string
 
   borderColor: string
   borderColorHover: string
@@ -26,6 +28,7 @@ export type BaseTheme = Partial<TamaguiTheme> & {
   borderColorFocus: string
 
   color: string
+  colorText: string
   colorHover: string
   colorPress: string
   colorFocus: string

@@ -19,8 +19,8 @@ export function usePostWebViewLink(params: {
 
     if (!slug) return null;
     const webviewUrl = new URL(`/site/${character?.data?.handle}/${slug}`, `https://${DOMAIN}`);
-    webviewUrl.search = new URLSearchParams(search).toString();
-    return webviewUrl.toString();
+    webviewUrl.search = new URLSearchParams(search)?.toString();
+    return webviewUrl?.toString();
   }, [
     note.data,
     character?.data?.handle,

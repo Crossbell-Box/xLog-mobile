@@ -15,14 +15,14 @@ import { useDrawer } from "@/hooks/use-drawer";
 import { useThemeStore } from "@/hooks/use-theme-store";
 import { GA } from "@/utils/GA";
 
-import { feedTypes, type FeedType } from "./feedTypes";
+import { searchTypes, type SearchType } from "./feedTypes";
 
 import { Avatar } from "../../components/Avatar";
 import { XTouch } from "../../components/XTouch";
 
 export interface Props {
   expanded: SharedValue<number>
-  type?: FeedType
+  type?: SearchType
   onPressSortBy: () => void
 }
 
@@ -61,7 +61,7 @@ export const HeaderAnimatedLayout: FC<PropsWithChildren<Props>> = (props) => {
             </XTouch>
           </Stack>
 
-          {type === feedTypes.LATEST && (
+          {type === searchTypes.LATEST && (
             <XTouch enableHaptics touchableComponent={TouchableWithoutFeedback} onPress={onPressSortBy}>
               <Theme name={isDarkMode ? "light" : "dark"}>
                 <XStack

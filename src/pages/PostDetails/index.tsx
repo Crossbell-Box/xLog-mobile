@@ -14,7 +14,9 @@ import { useThemeStore } from "@/hooks/use-theme-store";
 import type { RootStackParamList } from "@/navigation/types";
 import type { ExpandedNote } from "@/types/crossbell";
 import { GA } from "@/utils/GA";
+import { isShortNotes } from "@/utils/is-short-notes";
 
+import type { BottomSheetModalInstance } from "./BottomSheetModal";
 import { BottomSheetModal } from "./BottomSheetModal";
 import type { PostDetailsContentInstance } from "./Content";
 import { Content } from "./Content";
@@ -28,27 +30,28 @@ export interface Props {
   placeholderCoverImageIndex?: number
 }
 
-const animationTimeout = 800;
+const animationTimeout = 300;
 
 export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, "PostDetails">> = (props) => {
   const { route, navigation } = props;
   const { params } = route;
+  const { note, characterId } = params;
   const { isDarkMode } = useThemeStore();
   const { bottom } = useSafeAreaInsets();
   const bottomBarHeight = bottom + 45;
   const headerContainerHeight = 45;
   const contentRef = React.useRef<PostDetailsContentInstance>(null);
+  const bottomSheetModalRef = React.useRef<BottomSheetModalInstance>(null);
   const followAnimValue = useSharedValue<number>(0);
   const scrollVisibilityHandler = useScrollVisibilityHandler({ scrollThreshold: 30 });
-  const postUri = usePostWebViewLink({ ...params, noteId: params.note.noteId });
-
+  const postUri = usePostWebViewLink({ ...params, noteId: note.noteId });
   const onTakeScreenshot = React.useCallback(async (): Promise<string> => contentRef.current.takeScreenshot(), []);
 
   useEffect(() => {
     followAnimValue.value = withDelay(1500, withSpring(1));
     GA.logEvent("start_reading_post", {
-      node_id: params.note.noteId,
-      character_id: params.characterId,
+      node_id: note.noteId,
+      character_id: characterId,
     });
   }, []);
 
@@ -81,14 +84,15 @@ export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, "Pos
         }}
         characterId={params.characterId}
         note={params.note}
-        navigation={navigation}
         scrollEventHandler={scrollVisibilityHandler}
         bottomBarHeight={bottomBarHeight}
         headerContainerHeight={headerContainerHeight}
+        onPressComment={bottomSheetModalRef.current?.comment}
       />
 
       <DelayedRender timeout={animationTimeout}>
         <BottomSheetModal
+          ref={bottomSheetModalRef}
           note={params.note}
           characterId={params.characterId}
           bottomBarHeight={bottomBarHeight}

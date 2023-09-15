@@ -19,7 +19,7 @@ export interface Props {
 export const DashboardPage: FC<NativeStackScreenProps<RootStackParamList, "Dashboard">> = () => {
   const i18n = useTranslation();
   const characterId = useCharacterId();
-  const stat = useGetStat({ characterId: characterId.toString() });
+  const stat = useGetStat({ characterId: characterId?.toString() });
   const date = useDate();
   const tips = useGetTips({
     toCharacterId: characterId,

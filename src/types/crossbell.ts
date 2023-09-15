@@ -103,6 +103,7 @@ export type ExpandedNote = NoteEntity & {
   draftKey?: string
   metadata: {
     content: {
+      views?: number
       summary?: string
       cover?: string
       images?: string[]

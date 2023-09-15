@@ -19,6 +19,8 @@ export default defineTheme(
         homeFeedBackgroundGradient_1: "#f2f2f2",
         cardBackground: "#FFF",
         bottomSheetBackground: "#FEFEFE",
+        groupBackground: "#F1F1F1",
+        userinfoSceneBackground: "#f2f2f2",
 
         borderColor: "#D3D6DB",
         borderColorHover: "#C5C8CE",
@@ -26,6 +28,7 @@ export default defineTheme(
         borderColorFocus: "#A5A8AF",
 
         color: "#1A1A1B",
+        colorText: "#363636",
         colorUnActive: "#8c8c8c",
         colorHover: "#171718",
         colorPress: "#0F0F10",
@@ -57,12 +60,15 @@ export default defineTheme(
         homeFeedBackgroundGradient_1: "#000",
         cardBackground: "#1A1920",
         bottomSheetBackground: "#1F1E20",
+        groupBackground: "#1C1C1C",
+        userinfoSceneBackground: "#000",
 
         borderColorHover: "#3A3A3C",
         borderColorPress: "#47474A",
         borderColorFocus: "#57575A",
 
         color: "#F9FAFB",
+        colorText: "#DBDBDB",
         colorUnActive: "#8F8F91",
         colorHover: "#FFFFFF",
         colorPress: "#E8E8E9",

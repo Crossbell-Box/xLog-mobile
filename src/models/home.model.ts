@@ -1,18 +1,20 @@
 import { gql } from "@apollo/client";
-import { cloneDeep } from "@apollo/client/utilities";
 import { indexer } from "@crossbell/indexer";
 import type { CharacterEntity, NoteEntity } from "crossbell";
 import dayjs from "dayjs";
 
 import { client } from "@/queries/graphql";
 import type { ExpandedNote } from "@/types/crossbell";
-import countCharacters from "@/utils/character-count";
 import { expandCrossbellNote } from "@/utils/expand-unit";
 
 import filter from "../data/filter.json";
 import topics from "../data/topics.json";
 
-export type FeedType =
+export type SourceType =
+  | "post"
+  | "short";
+
+export type SearchType =
   | "latest"
   | "following"
   | "topic"
@@ -23,34 +25,30 @@ export type FeedType =
   | "character"
   | "featured";
 
-export type SearchType = "latest" | "hottest";
-
-export async function getFeed({
-  type,
-  cursor,
-  limit = 12,
-  characterId,
-  daysInterval,
-  searchKeyword,
-  searchType,
-  tag,
-  useHTML,
-  topic,
-}: {
-  type?: FeedType
+export async function getFeed(params: {
+  sourceType: SourceType
+  searchType?: SearchType
   cursor?: string
   limit?: number
   characterId?: number
   daysInterval?: number
   searchKeyword?: string
-  searchType?: SearchType
-  tag?: string
+  tags?: string[]
   useHTML?: boolean
   topic?: string
 }) {
-  if (type === "search" && !searchKeyword) {
-    type = "latest";
+  const { searchType, sourceType, cursor, limit = 12, characterId, daysInterval, searchKeyword, tags, useHTML, topic } = params;
+
+  if (searchType === "search" && !searchKeyword) {
+    params.searchType = "latest";
   }
+
+  const sourceQuery = `{
+    content: {
+      path: "tags",
+      array_contains: "${sourceType}"
+    }
+  },`;
 
   const cursorQuery = cursor
     ? `
@@ -62,6 +60,7 @@ export async function getFeed({
     },
   `
     : "";
+
   const resultFields = `
     characterId
     noteId
@@ -91,7 +90,9 @@ export async function getFeed({
     count: 0,
   };
 
-  switch (type) {
+  tags.push(sourceType); // short / post
+
+  switch (searchType) {
     case "latest": {
       const result = await client
         .query({
@@ -106,17 +107,24 @@ export async function getFeed({
                   equals: false,
                 },
                 metadata: {
-                  content: {
-                    path: "sources",
-                    array_contains: "xlog"
-                  },
-                  NOT: [{
-                    content: {
-                      path: "tags",
-                      array_starts_with: "comment"
-                    }
-                  }]
-                },
+                    AND: [
+                      ${sourceQuery}
+                      {
+                        content: {
+                          path: "sources",
+                          array_contains: "xlog"
+                        }
+                      }
+                    ],
+                    NOT: [
+                      {
+                        content: {
+                          path: "tags",
+                          array_starts_with: "comment"
+                        }
+                      }
+                    ]
+                }
               },
               orderBy: [{ createdAt: desc }],
               take: $limit,
@@ -134,11 +142,7 @@ export async function getFeed({
 
       const list = await Promise.all(
         result?.data?.notes.map((page: NoteEntity) =>
-          expandCrossbellNote({
-            note: page,
-            useScore: true,
-            useHTML,
-          }),
+          expandCrossbellNote({ note: page }),
         ),
       );
 
@@ -167,17 +171,21 @@ export async function getFeed({
                     equals: false,
                   },
                   metadata: {
-                    AND: [{
-                      content: {
-                        path: "sources",
-                        array_contains: "xlog"
+                    AND: [
+                      ${sourceQuery}
+                      {
+                        content: {
+                          path: "sources",
+                          array_contains: "xlog"
+                        }
+                      }, 
+                      {
+                        content: {
+                          path: "tags",
+                          array_contains: "comment"
+                        }
                       }
-                    }, {
-                      content: {
-                        path: "tags",
-                        array_starts_with: "comment"
-                      }
-                    }]
+                    ]
                   },
                 },
                 orderBy: [{ createdAt: desc }],
@@ -216,16 +224,12 @@ export async function getFeed({
             return !page.toNote?.metadata?.content?.tags?.includes("comment");
           })
           .map(async (page: NoteEntity) => {
-            const expand = await expandCrossbellNote({
-              note: page,
-              useHTML,
-            });
+            const expand = await expandCrossbellNote({ note: page });
+
             if (expand.toNote) {
-              expand.toNote = await expandCrossbellNote({
-                note: expand.toNote,
-                useHTML,
-              });
+              expand.toNote = await expandCrossbellNote({ note: expand.toNote });
             }
+
             return expand;
           }),
       );
@@ -253,7 +257,7 @@ export async function getFeed({
           characterId,
           {
             sources: "xlog",
-            tags: ["post"],
+            tags,
             limit,
             cursor,
             includeCharacter: true,
@@ -262,10 +266,7 @@ export async function getFeed({
 
         const list = await Promise.all(
           result.list.map((page: NoteEntity) =>
-            expandCrossbellNote({
-              note: page,
-              useHTML,
-            }),
+            expandCrossbellNote({ note: page }),
           ),
         );
 
@@ -323,17 +324,12 @@ export async function getFeed({
                   },
                   metadata: {
                     AND: [
+                      ${sourceQuery}
                       {
                         content: {
                           path: "sources",
                           array_contains: "xlog"
                         },
-                      },
-                      {
-                        content: {
-                          path: "tags",
-                          array_contains: "post"
-                        }
                       }
                     ]
                   },
@@ -369,10 +365,7 @@ export async function getFeed({
 
         const list = await Promise.all(
           result?.data?.notes.map((page: NoteEntity) =>
-            expandCrossbellNote({
-              note: page,
-              useHTML,
-            }),
+            expandCrossbellNote({ note: page }),
           ),
         );
 
@@ -446,10 +439,7 @@ export async function getFeed({
 
         const list = await Promise.all(
           result?.data?.notes.map((page: NoteEntity) =>
-            expandCrossbellNote({
-              note: page,
-              useHTML,
-            }),
+            expandCrossbellNote({ note: page }),
           ),
         );
 
@@ -499,17 +489,15 @@ export async function getFeed({
                   },
                 },
                 metadata: {
-                  AND: [{
-                    content: {
-                      path: "sources",
-                      array_contains: "xlog"
-                    },
-                  }, {
-                    content: {
-                      path: "tags",
-                      array_contains: "post"
+                  AND: [
+                    ${sourceQuery}
+                    {
+                      content: {
+                        path: "sources",
+                        array_contains: "xlog"
+                      },
                     }
-                  }]
+                  ]
                 },
               },
               take: 40,
@@ -548,11 +536,7 @@ export async function getFeed({
                 = page.stat.viewDetailCount / Math.max(Math.log10(secondAgo), 1);
             }
 
-            const expand = await expandCrossbellNote({
-              note: page,
-              useHTML,
-            });
-            return expand;
+            return await expandCrossbellNote({ note: page });
           },
         ),
       );
@@ -592,16 +576,23 @@ export async function getFeed({
                   equals: false,
                 },
                 metadata: {
-                  content: {
-                    path: "sources",
-                    array_contains: "xlog"
-                  },
-                  NOT: [{
-                    content: {
-                      path: "tags",
-                      array_starts_with: "comment"
+                  AND: [
+                    ${sourceQuery}
+                    {
+                      content: {
+                        path: "sources",
+                        array_contains: "xlog"
+                      }
                     }
-                  }]
+                  ],
+                  NOT: [
+                    {
+                      content: {
+                        path: "tags",
+                        array_starts_with: "comment"
+                      }
+                    }
+                  ]
                 },
                 OR: [
                   # With over 30 views
@@ -666,11 +657,7 @@ export async function getFeed({
             page.stat.hotScore
               = page.stat.viewDetailCount / Math.max(Math.log10(secondAgo), 1);
 
-            const expand = await expandCrossbellNote({
-              note: page,
-              useHTML,
-            });
-            return expand;
+            return await expandCrossbellNote({ note: page });
           },
         ),
       );
@@ -699,7 +686,7 @@ export async function getFeed({
     case "character": {
       const result = await indexer.note.getMany({
         sources: "xlog",
-        tags: ["post"],
+        tags,
         limit,
         cursor,
         characterId,
@@ -710,8 +697,6 @@ export async function getFeed({
         result.list.map((page: NoteEntity) => expandCrossbellNote({
           note: page,
           useStat: false,
-          useScore: true,
-          useHTML,
         })),
       );
 
@@ -726,11 +711,11 @@ export async function getFeed({
     case "search": {
       const result = await indexer.search.notes(searchKeyword!, {
         sources: ["xlog"],
-        tags: ["post"],
+        tags,
         limit,
         cursor,
         includeCharacterMetadata: true,
-        orderBy: searchType === "hottest" ? "viewCount" : "createdAt",
+        orderBy: "createdAt",
       });
 
       const list = await Promise.all(
@@ -738,9 +723,7 @@ export async function getFeed({
           expandCrossbellNote({
             note: page,
             useStat: false,
-            useScore: false,
             keyword: searchKeyword,
-            useHTML,
           }),
         ),
       );
@@ -753,7 +736,7 @@ export async function getFeed({
       break;
     }
     case "tag": {
-      if (!tag) {
+      if (tags.length <= 1) {
         resultAll = {
           list: [],
           cursor: "",
@@ -764,7 +747,7 @@ export async function getFeed({
 
       const result = await indexer.note.getMany({
         sources: "xlog",
-        tags: ["post", tag],
+        tags,
         limit,
         cursor,
         characterId,
@@ -777,8 +760,6 @@ export async function getFeed({
           expandCrossbellNote({
             note: page,
             useStat: false,
-            useScore: true,
-            useHTML,
           }),
         ),
       );
@@ -791,32 +772,6 @@ export async function getFeed({
       break;
     }
   }
-
-  // Disable filter temporarily.
-  // let isFiltered = false;
-  // resultAll.list = resultAll.list
-  //   .filter((post) => {
-  //     let limit = 300;
-  //     switch (post?.metadata?.content?.tags?.[0]) {
-  //       case "comment":
-  //         limit = 6;
-  //         break;
-  //       case "portfolio":
-  //         limit = -1;
-  //         break;
-  //     }
-  //     const pass
-  //       = countCharacters(post?.metadata?.content?.content || "") > limit
-  //       && !(new Date(post.metadata?.content?.date_published || "") > new Date());
-  //     if (!pass) {
-  //       isFiltered = true;
-  //     }
-  //     return pass;
-  //   })
-  //   .map((post) => {
-  //     delete post.metadata?.content.content;
-  //     return post;
-  //   });
 
   return resultAll;
 }

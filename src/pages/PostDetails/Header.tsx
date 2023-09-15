@@ -1,6 +1,8 @@
 import { Fragment, type FC } from "react";
-import { Dimensions } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import QRCode from "react-native-qrcode-svg";
+import { useSharedValue } from "react-native-reanimated";
+import Carousel from "react-native-reanimated-carousel";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useCharacter, useNote } from "@crossbell/indexer";
@@ -8,15 +10,18 @@ import { HeaderHeightContext } from "@react-navigation/elements";
 import { Canvas, LinearGradient, Rect, vec } from "@shopify/react-native-skia";
 import { Image } from "expo-image";
 import moment from "moment";
-import { SizableText, Stack, Text, Theme, View, XStack, YStack } from "tamagui";
+import { SizableText, Spacer, Stack, Text, Theme, View, XStack, YStack } from "tamagui";
 
 import { Avatar } from "@/components/Avatar";
+import { CarouselPagination } from "@/components/CarouselPagination";
 import { bgs } from "@/constants/bgs";
 import { useCoverImage } from "@/hooks/use-cover-image";
 import { useThemeStore } from "@/hooks/use-theme-store";
 import { useGetPage } from "@/queries/page";
 import type { ExpandedNote } from "@/types/crossbell";
 import { getNoteSlug } from "@/utils/get-slug";
+import { toGateway } from "@/utils/ipfs-parser";
+import { isShortNotes } from "@/utils/is-short-notes";
 
 interface Props {
   isCapturing: boolean
@@ -28,22 +33,17 @@ interface Props {
   coverImage: string
 }
 
-const { width } = Dimensions.get("window");
+const { width, height } = Dimensions.get("window");
 
 export const Header: FC<Props> = (props) => {
-  const { note, characterId, coverImage, placeholderCoverImageIndex = 0, postUri, isCapturing, headerContainerHeight } = props;
-  const page = useGetPage(
-    {
-      characterId,
-      slug: getNoteSlug(note),
-      useStat: true,
-    },
-  );
+  const { note, characterId, coverImage: _coverImage, placeholderCoverImageIndex = 0, postUri, isCapturing, headerContainerHeight } = props;
   const character = useCharacter(characterId);
   const defaultCoverImage = bgs[placeholderCoverImageIndex];
-
-  const { bottom, top } = useSafeAreaInsets();
+  const coverImage = _coverImage ?? defaultCoverImage;
+  const isShort = isShortNotes(note);
+  const progressValue = useSharedValue<number>(0);
   const { isDarkMode } = useThemeStore();
+  const { top } = useSafeAreaInsets();
   const qrCodeComponent = postUri && (
     <Stack
       backgroundColor={"$color"}
@@ -59,57 +59,123 @@ export const Header: FC<Props> = (props) => {
   );
 
   const noteTitle = note?.metadata?.content?.title;
+  const headerImageHeight = isShort ? Math.max(height * 0.6, 500) : 300;
+  const data = isShort
+    ? note?.metadata?.content?.attachments?.map(attachment => toGateway(attachment.address))
+    : [coverImage];
 
-  const headerImageHeight = 300;
+  const userinfoEle = (
+    <Stack minHeight={28}>
+      {
+        character?.data && (
+          <XStack alignItems="center" gap={"$2"} marginBottom={"$1"}>
+            <Avatar character={character.data} useDefault size={26}/>
+            <XStack alignItems="center" gap="$4">
+              <SizableText size="$3" color={"$color"}>
+                {character.data?.metadata?.content?.name || character.data?.handle}
+              </SizableText>
+              <SizableText size="$3" color={"#929190"}>
+                {moment(note?.createdAt).format("YYYY-MM-DD")}
+              </SizableText>
+            </XStack>
+          </XStack>
+        )
+      }
+    </Stack>)
+    ;
 
   return (
-    <YStack backgroundColor={isDarkMode ? "black" : "white"} marginBottom={50}>
+    <YStack backgroundColor={isDarkMode ? "black" : "white"} marginBottom={isShort ? 0 : 50} paddingTop={isShort ? top : 0}>
+      <Carousel
+        data={data}
+        loop={false}
+        enabled={data.length > 1}
+        onProgressChange={(_, absoluteProgress) =>
+          (progressValue.value = absoluteProgress)
+        }
+        renderItem={({ item }) => (
+          <CoverItem
+            src={item}
+            isShort={isShort}
+            displayDarkMask={!isShort}
+            headerImageHeight={headerImageHeight}
+          />
+        )}
+        width={width}
+        height={headerImageHeight}
+      />
+
+      {
+        isShort
+          ? (
+            <YStack paddingHorizontal="$2">
+              {
+                data.length > 1 && (
+                  <Stack alignItems="center" paddingVertical="$3">
+                    <CarouselPagination
+                      progressValue={progressValue}
+                      count={data.length}
+                      dotSize={6}
+                    />
+                  </Stack>
+                )
+              }
+              {userinfoEle}
+              <Spacer size="$3"/>
+              {
+                noteTitle && (
+                  <>
+                    <Text fontSize={20} fontWeight={"700"} numberOfLines={2} color="$color">{noteTitle}</Text>
+                    <Spacer size="$3"/>
+                  </>
+                )
+              }
+            </YStack>
+          )
+          : (
+            <YStack gap="$4" position="absolute" bottom={-40} paddingHorizontal="$2">
+              <Text fontSize={24} fontWeight={"700"} numberOfLines={2} color="white">{noteTitle}</Text>
+              {userinfoEle}
+            </YStack>
+          )
+      }
+    </YStack>
+  );
+};
+
+const CoverItem: FC<{
+  src: string
+  headerImageHeight: number
+  displayDarkMask: boolean
+  isShort: boolean
+}> = ({
+  src,
+  headerImageHeight,
+  displayDarkMask,
+  isShort,
+}) => {
+  return (
+    <Stack>
       <Image
-        source={coverImage ?? defaultCoverImage}
-        contentFit="cover"
+        source={src}
+        contentFit={isShort ? "contain" : "cover"}
         cachePolicy="disk"
         responsivePolicy="initial"
         style={{ width, height: headerImageHeight }}
-        placeholder={defaultCoverImage}
-        recyclingKey={coverImage}
-        placeholderContentFit="cover"
       />
-      <Stack position="absolute" width={width} height={headerImageHeight + 5} top={0}>
-        <Canvas style={{ flex: 1 }}>
-          <Rect x={0} y={0} width={width} height={headerImageHeight + 5}>
-            <LinearGradient
-              start={vec(width / 2, headerImageHeight)}
-              end={vec(width / 2, 0)}
-              colors={["rgba(0,0,0,1)", "rgba(0,0,0,0.5)", "rgba(0,0,0,0)"]}
-            />
-          </Rect>
-        </Canvas>
-      </Stack>
-
-      <YStack gap="$4" position="absolute" bottom={-40} paddingHorizontal="$2">
-        <Text fontSize={24} fontWeight={"700"} numberOfLines={2} color="white">
-          {noteTitle}
-        </Text>
-
-        <Stack minHeight={28}>
-          {
-            character?.data
-            && (
-              <XStack alignItems="center" gap={"$2"} marginBottom={"$1"}>
-                <Avatar character={character.data} useDefault size={26}/>
-                <XStack alignItems="center" gap="$4">
-                  <SizableText size="$3" color={"$color"}>
-                    {character.data?.metadata?.content?.name || character.data?.handle}
-                  </SizableText>
-                  <SizableText size="$3" color={"#929190"}>
-                    {moment(note?.createdAt).format("YYYY-MM-DD")}
-                  </SizableText>
-                </XStack>
-              </XStack>
-            )
-          }
+      {displayDarkMask && (
+        <Stack position="absolute" width={width} height={headerImageHeight + 5} top={0}>
+          <Canvas style={{ flex: 1 }}>
+            <Rect x={0} y={0} width={width} height={headerImageHeight + 5}>
+              <LinearGradient
+                start={vec(width / 2, headerImageHeight)}
+                end={vec(width / 2, 0)}
+                colors={["rgba(0,0,0,1)", "rgba(0,0,0,0.5)", "rgba(0,0,0,0)"]}
+              />
+            </Rect>
+          </Canvas>
         </Stack>
-      </YStack>
-    </YStack>
+      )}
+    </Stack>
   );
 };

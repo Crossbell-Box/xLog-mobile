@@ -1,6 +1,6 @@
 import { useIsConnected } from "@crossbell/react-account";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Bell, Home, Search, User2 } from "@tamagui/lucide-icons";
+import { Bell, Home, Image, Search, User2 } from "@tamagui/lucide-icons";
 
 import { Drawer } from "@/components/Drawer";
 import { HomeTabBar } from "@/components/HomeTabBar";
@@ -9,6 +9,7 @@ import { useColors } from "@/hooks/use-colors";
 import { useGetUnreadCount } from "@/models/site.model";
 import { ExplorePage } from "@/pages/Explore";
 import { FeedPage } from "@/pages/Feed";
+import { searchTypes } from "@/pages/Feed/feedTypes";
 import { IntroductionPage } from "@/pages/Introduction";
 import { NotificationsPageWithBottomTab } from "@/pages/Profile/Notifications";
 import { MyUserInfoPage } from "@/pages/UserInfo";
@@ -33,17 +34,25 @@ export const HomeNavigator = () => {
         <HomeBottomTabs.Screen
           name={"Feed"}
           component={FeedPage}
+          initialParams={{
+            sourceType: "post",
+            searchType: searchTypes.LATEST,
+          }}
           options={{
             tabBarShowLabel: false,
             tabBarIcon: props => <Home {...props} />,
           }}
         />
         <HomeBottomTabs.Screen
-          name={"Explore"}
-          component={ExplorePage}
+          name={"Shorts"}
+          component={FeedPage}
+          initialParams={{
+            sourceType: "short",
+            searchType: searchTypes.LATEST,
+          }}
           options={{
             tabBarShowLabel: false,
-            tabBarIcon: props => <Search {...props} />,
+            tabBarIcon: props => <Image {...props} />,
           }}
         />
         <HomeBottomTabs.Screen

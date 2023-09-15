@@ -5,7 +5,7 @@ import { WalletConnectModal as Modal, type IProviderMetadata } from "@walletconn
 import * as Clipboard from "expo-clipboard";
 import { resolveScheme } from "expo-linking";
 
-import { WALLET_PROJECT_ID } from "@/constants/env";
+import { WALLET_PROJECT_ID, WALLET_RELAY_URL } from "@/constants/env";
 import { useThemeStore } from "@/hooks/use-theme-store";
 
 const onCopyClipboard = (value: string) => {
@@ -56,6 +56,7 @@ export function WalletConnectModal() {
       providerMetadata={providerMetadata}
       onCopyClipboard={onCopyClipboard}
       sessionParams={sessionParams}
+      relayUrl={WALLET_RELAY_URL}
       themeMode={mode}
     />
   );

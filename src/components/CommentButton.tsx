@@ -91,7 +91,7 @@ export const CommentButton: React.FC<Props> = ({
         backgroundStyle={{ backgroundColor: background }}
       >
         <DelayedRender timeout={100} placeholder={<FilledSpinner />}>
-          <CommentList noteId={noteId} characterId={characterId} />
+          <CommentList isInBottomSheet noteId={noteId} characterId={characterId} />
         </DelayedRender>
       </BottomSheetModal>
     </>

@@ -444,7 +444,7 @@ export async function getTips(
         amount: (
           BigInt(t.amount)
           / BigInt(10) ** BigInt(decimals?.data || 18)
-        ).toString(),
+        )?.toString(),
       };
     });
   }

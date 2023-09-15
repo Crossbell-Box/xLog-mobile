@@ -5,20 +5,17 @@ import { nanoid } from "nanoid";
 import type { Profile, ExpandedNote, ExpandedCharacter } from "@/types/crossbell";
 import { toGateway } from "@/utils/ipfs-parser";
 
+import { isShortNotes } from "./is-short-notes";
 import { renderPageContent } from "./markdown";
 
 export const expandCrossbellNote = async ({
   note,
   useStat,
-  useScore,
   keyword,
-  useHTML,
 }: {
   note: NoteEntity
   useStat?: boolean
-  useScore?: boolean
   keyword?: string
-  useHTML?: boolean
 }) => {
   const expandedNote: ExpandedNote = Object.assign(
     {
@@ -28,6 +25,10 @@ export const expandCrossbellNote = async ({
     },
     cloneDeep(note),
   );
+
+  if (isShortNotes(note)) {
+    return expandedNote;
+  }
 
   if (expandedNote.metadata?.content) {
     let rendered;
