@@ -108,7 +108,7 @@ export const Header: FC<Props> = (props) => {
       {
         isShort
           ? (
-            <YStack paddingHorizontal="$4">
+            <YStack paddingHorizontal="$4" paddingTop="$2">
               {
                 data.length > 1 && (
                   <Stack alignItems="center" paddingVertical="$3">

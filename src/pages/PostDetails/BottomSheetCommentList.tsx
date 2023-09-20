@@ -33,7 +33,7 @@ Props
   return (
     <SafeAreaView edges={["bottom"]} style={{ flex: 1 }}>
       <DelayedRender timeout={100} placeholder={<FilledSpinner />}>
-        <CommentList isInBottomSheet ref={commentListRef} couldComment noteId={note.noteId} characterId={note.characterId} />
+        <CommentList animated isInBottomSheet ref={commentListRef} couldComment noteId={note.noteId} characterId={note.characterId} />
       </DelayedRender>
     </SafeAreaView>
   );

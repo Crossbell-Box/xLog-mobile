@@ -32,6 +32,7 @@ import { ReportButton } from "./ReportButton";
 interface Props {
   characterId: number
   noteId: number
+  animated?: boolean
   couldComment?: boolean
   isInBottomSheet?: boolean
 }
@@ -41,7 +42,7 @@ export interface CommentListInstance {
 }
 
 export const CommentList = forwardRef<CommentListInstance, Props>((
-  { characterId, noteId, couldComment, isInBottomSheet },
+  { characterId, noteId, couldComment, isInBottomSheet, animated },
   ref,
 ) => {
   const comments = useGetComments({ characterId, noteId });
@@ -167,6 +168,7 @@ export const CommentList = forwardRef<CommentListInstance, Props>((
           return (
             <CommentItem
               displayReply
+              animated={animated}
               padding={0}
               comment={comment}
               depth={depth}

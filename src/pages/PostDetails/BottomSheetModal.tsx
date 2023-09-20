@@ -33,6 +33,7 @@ export interface Props {
 
 export interface BottomSheetModalInstance {
   comment: () => void
+  viewComments: () => void
 }
 
 export const BottomSheetModal = React.forwardRef<BottomSheetModalInstance, Props>((props, ref) => {
@@ -121,6 +122,10 @@ export const BottomSheetModal = React.forwardRef<BottomSheetModalInstance, Props
   useImperativeHandle(ref, () => ({
     comment: () => {
       bottomSheetTabsRef.current?.comment();
+    },
+    viewComments: () => {
+      bottomSheetTabsRef.current?.setActivity(1);
+      bottomSheetRef.current?.snapToIndex(1);
     },
   }));
 

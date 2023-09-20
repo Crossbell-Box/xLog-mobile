@@ -36,6 +36,7 @@ export interface Props {
   postUri: string
   renderHeaderComponent?: (isCapturing: boolean) => React.ReactNode
   onPressComment: () => void
+  onPressViewAllComments: () => void
 }
 
 export interface PostDetailsContentInstance {
@@ -45,7 +46,7 @@ export interface PostDetailsContentInstance {
 const { width } = Dimensions.get("window");
 
 export const Content = React.forwardRef<PostDetailsContentInstance, Props>((props, ref) => {
-  const { note, postUri, characterId, scrollEventHandler, bottomBarHeight, headerContainerHeight, onPressComment, renderHeaderComponent } = props;
+  const { note, postUri, characterId, scrollEventHandler, bottomBarHeight, headerContainerHeight, onPressComment, onPressViewAllComments, renderHeaderComponent } = props;
   const character = useCharacter(characterId);
   const myCharacterId = useCharacterId();
   const [siteT] = useTranslation("site");
@@ -187,7 +188,7 @@ export const Content = React.forwardRef<PostDetailsContentInstance, Props>((prop
       {renderHeaderComponent?.(isCapturing)}
       {
         isShort
-          ? <ShortsContentRenderer note={note} onPressComment={onPressComment}/>
+          ? <ShortsContentRenderer note={note} onPressComment={onPressComment} onPressViewAllComments={onPressViewAllComments} />
           : <WebViewRenderer postUri={postUri} headerContainerHeight={headerContainerHeight} bottomBarHeight={bottomBarHeight} />
       }
     </Animated.ScrollView>

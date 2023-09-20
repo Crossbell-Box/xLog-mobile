@@ -88,6 +88,7 @@ export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, "Pos
         bottomBarHeight={bottomBarHeight}
         headerContainerHeight={headerContainerHeight}
         onPressComment={bottomSheetModalRef.current?.comment}
+        onPressViewAllComments={bottomSheetModalRef.current?.viewComments}
       />
 
       <DelayedRender timeout={animationTimeout}>

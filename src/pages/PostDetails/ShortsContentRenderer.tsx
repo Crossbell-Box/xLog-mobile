@@ -1,8 +1,10 @@
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
 
-import { Separator, Stack, Text } from "tamagui";
+import { Separator, Stack, Text, YStack } from "tamagui";
 
+import { Button } from "@/components/Base/Button";
+import { CommentItem } from "@/components/CommentItem";
 import { EmptyComponent } from "@/components/CommentList";
 import { useGetComments } from "@/queries/page";
 import type { ExpandedNote } from "@/types/crossbell";
@@ -10,7 +12,8 @@ import type { ExpandedNote } from "@/types/crossbell";
 export const ShortsContentRenderer: FC<{
   note: ExpandedNote
   onPressComment: () => void
-}> = ({ note, onPressComment }) => {
+  onPressViewAllComments: () => void
+}> = ({ note, onPressComment, onPressViewAllComments }) => {
   const { noteId, characterId } = note;
   const comments = useGetComments({ characterId, noteId });
   const content = note?.metadata?.content?.content;
@@ -29,13 +32,41 @@ export const ShortsContentRenderer: FC<{
           count: commentsCount,
         })}
       </Text>
-      {commentsCount === 0 && (
-        <EmptyComponent
-          creationTipsShown
-          onPressCreationTips={onPressComment}
-          isLoading={comments.isFetching}
-        />
-      )}
+      {
+        commentsCount <= 0
+          ? (
+            <EmptyComponent
+              creationTipsShown
+              onPressCreationTips={onPressComment}
+              isLoading={comments.isFetching}
+            />
+          )
+          : (
+            <YStack marginTop="$4" gap="$2">
+              {
+                data.slice(0, 2).map((comment) => {
+                  return (
+                    <CommentItem
+                      key={comment.blockNumber.toString()}
+                      editable={false}
+                      commentable={false}
+                      likeable={false}
+                      comment={comment}
+                      displayReply={false}
+                    />
+                  );
+                })
+              }
+              {data.length >= 2 && (
+                <Button type="primary" onPress={onPressViewAllComments}>
+                  {i18n.t("View all {{count}} comments", {
+                    count: commentsCount,
+                  })}
+                </Button>
+              )}
+            </YStack>
+          )
+      }
     </Stack>
   );
 };
