@@ -57,7 +57,7 @@ export const HeaderAnimatedLayout: FC<PropsWithChildren<Props>> = (props) => {
         <XStack justifyContent="space-between" alignItems="center">
           <Stack>
             <XTouch enableHaptics hitSlopSize={44} touchableComponent={TouchableWithoutFeedback} containerStyle={styles.avatarTouchableContainer} onPress={openDrawer}>
-              <Avatar size={35} character={character} isNavigateToUserInfo={false} useDefault/>
+              <Avatar size={35} character={character} isNavigateToUserInfo={false}/>
             </XTouch>
           </Stack>
 

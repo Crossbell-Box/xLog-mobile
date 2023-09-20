@@ -86,7 +86,7 @@ export const Avatar: FC<Props> = (props) => {
   return (
     <XTouch enableHaptics disabled={!isNavigateToUserInfo} touchableComponent={TouchableOpacity} onPress={navigateToUserInfo}>
       <Image
-        source={toGateway(uri)}
+        source={{ uri: toGateway(uri) }}
         contentFit={"cover"}
         style={[styles.container, { width: size, height: size, borderRadius: size / 2 }]}
         cachePolicy="disk"
@@ -97,7 +97,6 @@ export const Avatar: FC<Props> = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: "center",
     justifyContent: "center",
     transform: [
