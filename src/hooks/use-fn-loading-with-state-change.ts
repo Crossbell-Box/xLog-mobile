@@ -4,6 +4,7 @@ import { AppState } from "react-native";
 import { useIsConnected } from "@crossbell/react-account";
 
 import { useGlobalLoading } from "./use-global-loading";
+import { useIsLogin } from "./use-is-login";
 
 /**
  * @description This hook is used to show global loading when the app is in the background.
@@ -16,10 +17,10 @@ export const useFnLoadingWithStateChange = <T extends (...args: any[]) => Promis
     enabled?: boolean
   } = {},
 ) => {
-  const isConnected = useIsConnected();
+  const isLogin = useIsLogin();
   const enabled = typeof _enabled === "boolean"
     ? _enabled
-    : isConnected ?? true;
+    : isLogin ?? true;
   const globalLoading = useGlobalLoading();
 
   const hide = () => enabled && globalLoading.hide();

@@ -1,5 +1,4 @@
-import { useConnectedAccount } from "@crossbell/react-account";
-
+import { useIsLogin } from "./use-is-login";
 import { useRootNavigation } from "./use-navigation";
 
 export function useNavigateToLogin() {
@@ -8,12 +7,12 @@ export function useNavigateToLogin() {
 }
 
 export function useAuthPress<T extends Function>(fn: T, cb?: (isConnected) => void) {
-  const connectedAccount = useConnectedAccount();
+  const isLogin = useIsLogin();
   const navigationToLogin = useNavigateToLogin();
   return () => {
-    cb?.(connectedAccount);
+    cb?.(isLogin);
 
-    if (connectedAccount) {
+    if (isLogin) {
       fn();
     }
     else {

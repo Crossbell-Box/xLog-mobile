@@ -11,7 +11,7 @@ import { useToastController } from "@tamagui/toast";
 import * as FileSystem from "expo-file-system";
 import { Image } from "expo-image";
 import * as MediaLibrary from "expo-media-library";
-import { Button, Circle, Spinner, Stack } from "tamagui";
+import { Circle, Spinner, Stack } from "tamagui";
 
 import { useGAWithScreenParams } from "@/hooks/ga/use-ga-with-screen-name-params";
 import { useHitSlopSize } from "@/hooks/use-hit-slop-size";
@@ -166,7 +166,14 @@ const ImageItem: FC<{ uri: string; priority: "high" | "low";onPress: () => void 
   return (
     <TouchableWithoutFeedback onPress={onPress}>
       <Stack width={width} height={height} alignItems="center" justifyContent="center">
-        <Image onLoadStart={onLoadStart} onLoadEnd={onLoadEnd} priority={priority} source={uri} contentFit="contain" style={styles.modalImage}/>
+        <Image
+          onLoadStart={onLoadStart}
+          onLoadEnd={onLoadEnd}
+          priority={priority}
+          source={uri}
+          contentFit="contain"
+          style={styles.modalImage}
+        />
         {loading && <Spinner position="absolute"/>}
       </Stack>
     </TouchableWithoutFeedback>

@@ -5,7 +5,7 @@ import Animated, { Extrapolate, interpolate, useAnimatedStyle } from "react-nati
 
 import { Stack, useWindowDimensions } from "tamagui";
 
-import { ConnectionButton } from "@/components/ConnectionButton";
+import { LoginButton } from "@/components/LoginButton";
 
 export const AnimatedConnectionButton: FC<{
   visibleAnimValue?: Animated.SharedValue<number>
@@ -33,7 +33,7 @@ export const AnimatedConnectionButton: FC<{
   return (
     <Animated.View style={connectButtonAnimStyle}>
       <Stack position="absolute" bottom={12} left={24} right={24} display="flex" flexDirection="column" gap={12}>
-        <ConnectionButton navigateToLogin/>
+        <LoginButton navigateToLogin/>
       </Stack>
     </Animated.View>
   );

@@ -93,6 +93,15 @@ export default (_: ConfigContext): ExpoConfig => {
       appStoreUrl: "https://apps.apple.com/app/xlog-on-chain-blogging/id6449499296",
       supportsTablet: true,
       bundleIdentifier: config.scheme,
+      infoPlist: {
+        LSApplicationQueriesSchemes: [
+          "metamask",
+          "trust",
+          "safe",
+          "rainbow",
+          "uniswap",
+        ],
+      },
       associatedDomains: [
         `applinks:${config.host}`,
         `applinks:oia.${config.host}`,

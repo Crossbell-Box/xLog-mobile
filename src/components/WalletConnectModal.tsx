@@ -1,5 +1,6 @@
 import type { ComponentProps } from "react";
 
+import { useNetInfo } from "@react-native-community/netinfo";
 import { WalletConnectModal as Modal, type IProviderMetadata } from "@walletconnect/modal-react-native";
 import * as Clipboard from "expo-clipboard";
 import { resolveScheme } from "expo-linking";
@@ -20,6 +21,8 @@ const sessionParams: ComponentProps<typeof Modal>["sessionParams"] = {
         "eth_sign",
         "personal_sign",
         "eth_signTypedData",
+        "wallet_addEthereumChain",
+        "wallet_switchEthereumChain",
       ],
       chains: ["eip155:1"],
       events: ["chainChanged", "accountsChanged"],
@@ -35,11 +38,17 @@ const providerMetadata: IProviderMetadata = {
   description: "Connect with WalletConnect",
   redirect: {
     native: `${resolveScheme({})}://`,
+    universal: "https://oia.xlog.app/",
   },
 };
 
 export function WalletConnectModal() {
   const { mode } = useThemeStore();
+  const netInfo = useNetInfo();
+
+  if (!netInfo.isConnected) {
+    return null;
+  }
 
   return (
     <Modal

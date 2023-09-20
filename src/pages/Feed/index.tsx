@@ -1,7 +1,10 @@
 import type { FC } from "react";
 import { useContext, useState } from "react";
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
+import Animated, { Extrapolate, interpolate, useAnimatedStyle } from "react-native-reanimated";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import * as Haptics from "expo-haptics";
 import { LinearGradient } from "expo-linear-gradient";
 import { Stack } from "tamagui";
@@ -9,32 +12,51 @@ import { Stack } from "tamagui";
 import { MasonryFeedList } from "@/components/FeedList";
 import { GlobalAnimationContext } from "@/context/global-animation-context";
 import { useColors } from "@/hooks/use-colors";
+import type { SourceType } from "@/models/home.model";
+import type { HomeBottomTabsParamList } from "@/navigation/types";
 
-import type { FeedType } from "./feedTypes";
-import { feedTypes } from "./feedTypes";
+import { searchTypes, type SearchType } from "./feedTypes";
 import { Header } from "./Header";
 
 export interface Props {
-  feedType?: FeedType
+  sourceType: SourceType
+  searchType: SearchType
 }
 
-export const FeedPage: FC<Props> = (props) => {
-  const { feedType: _feedType = feedTypes.LATEST } = props;
-  const [currentFeedType, setCurrentFeedType] = useState<FeedType>(_feedType);
+const { height } = Dimensions.get("window");
+
+export const FeedListLinearGradientBackground: FC = () => {
+  const { pick } = useColors();
+  return (
+    <LinearGradient
+      colors={[pick("homeFeedBackgroundGradient_0"), pick("homeFeedBackgroundGradient_1")]}
+      style={StyleSheet.absoluteFillObject}
+      locations={[0, 0.35]}
+      start={{ x: 0.5, y: 0 }}
+      end={{ x: 0.5, y: 1 }}
+    />
+  );
+};
+
+export const FeedPage: FC<NativeStackScreenProps<HomeBottomTabsParamList, "Feed">> = (props) => {
+  const { sourceType, searchType: _searchType = searchTypes.LATEST } = props.route.params;
+  const [currentFeedType, setCurrentFeedType] = useState<SearchType>(_searchType);
   const [daysInterval, setDaysInterval] = useState<number>(7);
   const { isExpandedAnimValue, onScroll } = useContext(GlobalAnimationContext).homeFeed;
-  const { pick } = useColors();
+  const { top } = useSafeAreaInsets();
+
+  const containerAnimStyles = useAnimatedStyle(() => {
+    const headerHeight = interpolate(isExpandedAnimValue.value, [0, 1], [55, 110], Extrapolate.CLAMP) + top;
+    return {
+      height: height - headerHeight,
+    };
+  }, [top, isExpandedAnimValue]);
 
   return (
     <Stack flex={1} >
-      <LinearGradient
-        colors={[pick("homeFeedBackgroundGradient_0"), pick("homeFeedBackgroundGradient_1")]}
-        style={StyleSheet.absoluteFillObject}
-        locations={[0, 0.35]}
-        start={{ x: 0.5, y: 0 }}
-        end={{ x: 0.5, y: 1 }}
-      />
+      <FeedListLinearGradientBackground/>
       <Header
+        sourceType={sourceType}
         type={currentFeedType}
         isExpandedAnimValue={isExpandedAnimValue}
         onDaysIntervalChange={(days) => {
@@ -46,13 +68,28 @@ export const FeedPage: FC<Props> = (props) => {
           Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
         }}
       />
-      <Stack flex={1}>
-        <MasonryFeedList
-          daysInterval={daysInterval}
-          type={currentFeedType}
-          onScroll={onScroll}
-        />
-      </Stack>
+      <Animated.View style={[styles.maskContainer, containerAnimStyles]}>
+        <Stack paddingTop={60 + top} height={height} width={"100%"} position="absolute" bottom={0}>
+          <MasonryFeedList
+            sourceType={sourceType}
+            daysInterval={daysInterval}
+            searchType={currentFeedType}
+            onScroll={onScroll}
+            contentContainerStyle={{
+              paddingTop: 50,
+            }}
+          />
+        </Stack>
+      </Animated.View>
     </Stack>
   );
 };
+
+const styles = StyleSheet.create({
+  maskContainer: {
+    position: "absolute",
+    width: "100%",
+    bottom: 0,
+    overflow: "hidden",
+  },
+});

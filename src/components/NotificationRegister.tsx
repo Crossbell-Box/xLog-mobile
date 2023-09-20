@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useAccountState, useIsConnected } from "@crossbell/react-account";
 
 import { useCharacterId } from "@/hooks/use-character-id";
+import { useIsLogin } from "@/hooks/use-is-login";
 import { useNotification } from "@/hooks/use-notification";
 
 interface Props {}
@@ -16,7 +17,7 @@ export const NotificationRegister: React.FC<Props> = (props) => {
   const [expoPushToken, setExpoPushToken] = useState(_expoPushToken);
   const isLoading = useRef(false);
 
-  const isConnected = useIsConnected();
+  const isLogin = useIsLogin();
 
   useEffect(() => {
     setCharacterId(_characterId);
@@ -31,16 +32,16 @@ export const NotificationRegister: React.FC<Props> = (props) => {
     isLoading.current = true;
     fetch(
       `https://indexer.crossbell.io/v1/characters/${characterId}/notifications/devices/${expoPushToken}`,
-      { method: isConnected ? "POST" : "DELETE" },
+      { method: isLogin ? "POST" : "DELETE" },
     )
       .then(response => response.json() as unknown as { "ok": boolean })
       .then((response) => {
-        if (!isConnected && response.ok) {
+        if (!isLogin && response.ok) {
           setCharacterId(null);
         }
 
         // eslint-disable-next-line no-console
-        console.log(`${isConnected ? "Register" : "Unregister"} notification: `, response);
+        console.log(`${isLogin ? "Register" : "Unregister"} notification: `, response);
       })
       .finally(() => {
         isLoading.current = false;
@@ -48,7 +49,7 @@ export const NotificationRegister: React.FC<Props> = (props) => {
   }, [
     expoPushToken,
     characterId,
-    isConnected,
+    isLogin,
   ]);
 
   return null;

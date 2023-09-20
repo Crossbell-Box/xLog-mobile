@@ -7,6 +7,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useToastController } from "@tamagui/toast";
 import { Input, Paragraph, YStack } from "tamagui";
 
+import { useIsLogin } from "./use-is-login";
 import { useToggle } from "./use-toggle";
 import { useToast } from "./useToast";
 
@@ -28,7 +29,7 @@ export const getAnonymousCommentInformation = async () => {
 
 export const useSetupAnonymousComment = () => {
   const i18n = useTranslation("common");
-  const isConnected = useIsConnected();
+  const isLogin = useIsLogin();
   const [visible, toggle] = useToggle(false);
   const [nickname, setNickname] = useState("");
   const [email, setEmail] = useState("");
@@ -79,7 +80,7 @@ export const useSetupAnonymousComment = () => {
 
   const withAnonymousComment = (_cb: () => void) => {
     return async () => {
-      if (!isConnected) {
+      if (!isLogin) {
         const { isSetup, nickname, email } = await checkWetherAnonymousCommentIsSetup();
         if (!isSetup) {
           cb.current = _cb;

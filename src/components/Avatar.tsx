@@ -85,22 +85,18 @@ export const Avatar: FC<Props> = (props) => {
 
   return (
     <XTouch enableHaptics disabled={!isNavigateToUserInfo} touchableComponent={TouchableOpacity} onPress={navigateToUserInfo}>
-      <_Avatar
-        size={size}
-        circular
-      >
-        <_Avatar.Image src={toGateway(uri)}/>
-        <_Avatar.Fallback>
-          <Image cachePolicy="disk" source={LogoResource} contentFit={"cover"} style={styles.container} />
-        </_Avatar.Fallback>
-      </_Avatar>
+      <Image
+        source={{ uri: toGateway(uri) }}
+        contentFit={"cover"}
+        style={[styles.container, { width: size, height: size, borderRadius: size / 2 }]}
+        cachePolicy="disk"
+      />
     </XTouch>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: "center",
     justifyContent: "center",
     transform: [

@@ -53,7 +53,7 @@ const UserInfoPage: FC<NativeStackScreenProps<RootStackParamList, "UserInfo"> & 
     const { slug, pagePath } = analyzingLink(route);
 
     if (pagePath === "/tag") {
-      return <TagScene tag={slug} characterId={characterId} index={0} />;
+      return <TagScene tags={[slug]} characterId={characterId} index={0} />;
     }
 
     if (pagePath === "/") {
@@ -92,7 +92,7 @@ const UserInfoPage: FC<NativeStackScreenProps<RootStackParamList, "UserInfo"> & 
         minHeaderHeight={top}
         animationHeaderPosition={animationHeaderPosition}
         swipeEnabled={false}
-        style={{ backgroundColor: pick("bottomSheetBackground") }}
+        style={{ backgroundColor: pick("userinfoSceneBackground") }}
       />
       {/* TODO */}
       <Stack position="absolute" top={0} bottom={0} left={0} width={8}/>

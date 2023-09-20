@@ -1,8 +1,5 @@
 import { Easing, Extrapolate, interpolate, useAnimatedScrollHandler, useSharedValue, withTiming } from "react-native-reanimated";
 
-import { IS_ANDROID } from "@/constants";
-import { isAndroid, isIOS } from "@/constants/platform";
-
 interface Options {
   scrollThreshold: number
 }
@@ -22,11 +19,7 @@ export function useScrollVisibilityHandler(options: Options) {
       ctx.beginDrag = true;
     },
     onScroll: (e, ctx) => {
-      if (
-        // TODO: https://github.com/software-mansion/react-native-reanimated/issues/4625
-        IS_ANDROID
-        || !ctx.beginDrag
-      ) {
+      if (!ctx.beginDrag) {
         return;
       }
 
@@ -51,7 +44,10 @@ export function useScrollVisibilityHandler(options: Options) {
       }
     },
     onEndDrag: (e, ctx) => {
-      if (!ctx.beginDrag) {
+      if (
+        !ctx.beginDrag
+        || e.contentOffset.y < 110
+      ) {
         return;
       }
 

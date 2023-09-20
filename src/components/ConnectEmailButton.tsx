@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-import { useConnectedAccount, useAccountState } from "@crossbell/react-account";
+import { useAccountState, useIsConnected } from "@crossbell/react-account";
 import { Mail } from "@tamagui/lucide-icons";
 import { openAuthSessionAsync } from "expo-web-browser";
 import type { ButtonProps } from "tamagui";
@@ -10,12 +10,13 @@ import { Stack, XStack, Text } from "tamagui";
 
 import { APP_SCHEME } from "@/constants";
 import { useGlobalLoading } from "@/hooks/use-global-loading";
+import { useIsLogin } from "@/hooks/use-is-login";
 
 import { Center } from "./Base/Center";
 
 export const ConnectEmailButton = (props: ButtonProps) => {
   const i18n = useTranslation();
-  const account = useConnectedAccount();
+  const isConnected = useIsConnected();
   const globalLoading = useGlobalLoading();
 
   const openWebPage = async () => {
@@ -23,7 +24,7 @@ export const ConnectEmailButton = (props: ButtonProps) => {
     const requestUrl = new URL("https://f.crossbell.io/mobile-login");
     requestUrl.searchParams.set("redirect_uri", redirectUrl);
     const result = await openAuthSessionAsync(
-      requestUrl.toString(),
+      requestUrl?.toString(),
       redirectUrl,
     );
     if (result.type === "success") {
@@ -34,7 +35,7 @@ export const ConnectEmailButton = (props: ButtonProps) => {
     }
   };
 
-  if (account) return null;
+  if (isConnected) return null;
 
   return (
     <TouchableOpacity

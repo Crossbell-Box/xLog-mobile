@@ -1,6 +1,6 @@
 import React from "react";
 import type { FC } from "react";
-import { ScrollView } from "react-native";
+import { InteractionManager, ScrollView } from "react-native";
 import { Drawer as _Drawer } from "react-native-drawer-layout";
 import { TouchableOpacity, TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -15,6 +15,7 @@ import { H4, Separator, SizableText, Spacer, Stack, Text, useWindowDimensions, X
 import { Avatar } from "@/components/Avatar";
 import { useColors } from "@/hooks/use-colors";
 import { useDrawer } from "@/hooks/use-drawer";
+import { useIsLogin } from "@/hooks/use-is-login";
 import { useHomeNavigation, useRootNavigation } from "@/hooks/use-navigation";
 import { i18n } from "@/i18n";
 import type { ProfilePagesParamList } from "@/navigation/types";
@@ -55,10 +56,7 @@ const DrawerContent = () => {
   };
 
   const navigate = (name: keyof ProfilePagesParamList) => {
-    setTimeout(() => {
-      closeDrawer();
-    }, 600);
-
+    closeDrawer();
     rootNavigation.navigate(name);
   };
 
@@ -84,11 +82,13 @@ const DrawerContent = () => {
           <ScrollView>
             {
               profilePages?.map((page, index) => (
-                <YStack onPress={() => navigate(page.name)} justifyContent="center" key={page.name} paddingHorizontal="$1">
-                  <XStack gap="$3" paddingVertical="$4">
-                    <page.icon size={"$1"} />
-                    <Text fontSize={"$6"}>{page.title}</Text>
-                  </XStack>
+                <YStack justifyContent="center" key={page.name} paddingHorizontal="$1">
+                  <TouchableWithoutFeedback onPress={() => navigate(page.name)} >
+                    <XStack gap="$3" paddingVertical="$4">
+                      <page.icon size={"$1"} />
+                      <Text fontSize={"$6"}>{page.title}</Text>
+                    </XStack>
+                  </TouchableWithoutFeedback>
                   {index !== profilePages?.length - 1 && <Separator />}
                 </YStack>
               ))
@@ -131,11 +131,11 @@ export const Drawer: FC<React.PropsWithChildren<{}>> = ({ children }) => {
   const { width } = useWindowDimensions();
   const { borderColor, background } = useColors();
   const { isDrawerOpen, openDrawer, closeDrawer } = useDrawer();
-  const isConnected = useIsConnected();
+  const isLogin = useIsLogin();
 
   return (
     <_Drawer
-      swipeEnabled={isConnected} // Allow swipe to open drawer only on `Home` page.
+      swipeEnabled={isLogin} // Allow swipe to open drawer only on `Home` page.
       open={isDrawerOpen}
       onOpen={openDrawer}
       onClose={closeDrawer}

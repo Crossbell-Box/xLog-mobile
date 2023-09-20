@@ -1,14 +1,16 @@
 import { useIsConnected } from "@crossbell/react-account";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Bell, Home, Search, User2 } from "@tamagui/lucide-icons";
+import { Bell, Home, Image, Search, User2 } from "@tamagui/lucide-icons";
 
 import { Drawer } from "@/components/Drawer";
 import { HomeTabBar } from "@/components/HomeTabBar";
 import { useCharacterId } from "@/hooks/use-character-id";
 import { useColors } from "@/hooks/use-colors";
+import { useIsLogin } from "@/hooks/use-is-login";
 import { useGetUnreadCount } from "@/models/site.model";
 import { ExplorePage } from "@/pages/Explore";
 import { FeedPage } from "@/pages/Feed";
+import { searchTypes } from "@/pages/Feed/feedTypes";
 import { IntroductionPage } from "@/pages/Introduction";
 import { NotificationsPageWithBottomTab } from "@/pages/Profile/Notifications";
 import { MyUserInfoPage } from "@/pages/UserInfo";
@@ -20,7 +22,7 @@ const HomeBottomTabs = createBottomTabNavigator<HomeBottomTabsParamList>();
 export const HomeNavigator = () => {
   const { pick } = useColors();
   const characterId = useCharacterId();
-  const isConnected = useIsConnected();
+  const isLogin = useIsLogin();
   const notificationUnreadCount = useGetUnreadCount(characterId);
 
   return (
@@ -33,23 +35,31 @@ export const HomeNavigator = () => {
         <HomeBottomTabs.Screen
           name={"Feed"}
           component={FeedPage}
+          initialParams={{
+            sourceType: "post",
+            searchType: searchTypes.LATEST,
+          }}
           options={{
             tabBarShowLabel: false,
             tabBarIcon: props => <Home {...props} />,
           }}
         />
         <HomeBottomTabs.Screen
-          name={"Explore"}
-          component={ExplorePage}
+          name={"Shorts"}
+          component={FeedPage}
+          initialParams={{
+            sourceType: "short",
+            searchType: searchTypes.LATEST,
+          }}
           options={{
             tabBarShowLabel: false,
-            tabBarIcon: props => <Search {...props} />,
+            tabBarIcon: props => <Image {...props} />,
           }}
         />
         <HomeBottomTabs.Screen
           name={"Notifications"}
           component={
-            isConnected
+            isLogin
               ? NotificationsPageWithBottomTab
               : IntroductionPage
           }
@@ -57,7 +67,7 @@ export const HomeNavigator = () => {
             tabBarShowLabel: false,
             tabBarIcon: props => <Bell {...props} />,
             // @ts-expect-error
-            tabBarBadge: isConnected
+            tabBarBadge: isLogin
               ? notificationUnreadCount?.data?.count > 0 ? true : undefined
               : undefined,
             tabBarBadgeStyle: {
@@ -70,11 +80,12 @@ export const HomeNavigator = () => {
           name={"Profile"}
           key={characterId}
           component={
-            isConnected
+            isLogin
               ? MyUserInfoPage
               : IntroductionPage
           }
           options={{
+            lazy: false,
             tabBarShowLabel: false,
             tabBarIcon: props => <User2 {...props} />,
           }}

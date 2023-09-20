@@ -1,46 +1,42 @@
 import React, { useImperativeHandle, useRef, useEffect, useMemo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Dimensions, StyleSheet } from "react-native";
-import DeviceInfo from "react-native-device-info";
 import Animated, { useSharedValue, withSpring, withDelay } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { captureRef } from "react-native-view-shot";
 
-import { useCharacter, useNote } from "@crossbell/indexer";
+import { useCharacter } from "@crossbell/indexer";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useToastController } from "@tamagui/toast";
 import { Image } from "expo-image";
 import * as MediaLibrary from "expo-media-library";
-import { H2, Spacer, Stack, useWindowDimensions, YStack } from "tamagui";
+import { H2, Spacer, useWindowDimensions, YStack } from "tamagui";
 
-import { ImageGallery } from "@/components/ImageGallery";
-import { WebView } from "@/components/WebView";
-import { VERSION } from "@/constants";
 import { PageNotFound } from "@/constants/resource";
 import useGAWithPageStayTime from "@/hooks/ga/use-ga-with-page-stay-time";
 import { useCharacterId } from "@/hooks/use-character-id";
 import { useGlobalLoading } from "@/hooks/use-global-loading";
 import type { useScrollVisibilityHandler } from "@/hooks/use-scroll-visibility-handler";
-import { useThemeStore } from "@/hooks/use-theme-store";
 import type { RootStackParamList } from "@/navigation/types";
 import { useGetPage } from "@/queries/page";
 import type { ExpandedNote } from "@/types/crossbell";
 import { GA } from "@/utils/GA";
 import { getNoteSlug } from "@/utils/get-slug";
+import { isShortNotes } from "@/utils/is-short-notes";
 
-import { javaScriptBeforeContentLoaded } from "./javascript-before-content";
-import { javaScriptContentLoaded } from "./javascript-content";
-import { Skeleton } from "./Skeleton";
+import { ShortsContentRenderer } from "./ShortsContentRenderer";
+import { WebViewRenderer } from "./WebViewRenderer";
 
 export interface Props {
   note: ExpandedNote
   characterId: number
-  navigation: NativeStackNavigationProp<RootStackParamList, "PostDetails", undefined>
   scrollEventHandler: ReturnType<typeof useScrollVisibilityHandler>
   headerContainerHeight: number
   bottomBarHeight: number
   postUri: string
   renderHeaderComponent?: (isCapturing: boolean) => React.ReactNode
+  onPressComment: () => void
+  onPressViewAllComments: () => void
 }
 
 export interface PostDetailsContentInstance {
@@ -50,14 +46,12 @@ export interface PostDetailsContentInstance {
 const { width } = Dimensions.get("window");
 
 export const Content = React.forwardRef<PostDetailsContentInstance, Props>((props, ref) => {
-  const { note, postUri, renderHeaderComponent, characterId, navigation, scrollEventHandler, bottomBarHeight, headerContainerHeight } = props;
-  const { isDarkMode, mode } = useThemeStore();
+  const { note, postUri, characterId, scrollEventHandler, bottomBarHeight, headerContainerHeight, onPressComment, onPressViewAllComments, renderHeaderComponent } = props;
   const character = useCharacter(characterId);
   const myCharacterId = useCharacterId();
   const [siteT] = useTranslation("site");
   const [commonT] = useTranslation("common");
   const screenshotsRef = useRef<Animated.ScrollView>(null);
-  const [displayImageUris, setDisplayImageUris] = React.useState<string[]>([]);
 
   const page = useGetPage({
     characterId: character?.data?.characterId,
@@ -76,20 +70,16 @@ export const Content = React.forwardRef<PostDetailsContentInstance, Props>((prop
 
   const i18n = useTranslation("common");
   const { top, bottom } = useSafeAreaInsets();
-  const { width, height } = useWindowDimensions();
+  const { width } = useWindowDimensions();
   const headerHeight = top + headerContainerHeight;
-  const contentLoaderDimensions = { width, height: height - headerHeight };
-  const webviewLoadingAnimValue = useSharedValue<number>(0);
   const followAnimValue = useSharedValue<number>(0);
-  const [webviewHeight, setWebviewHeight] = React.useState(contentLoaderDimensions.height);
   const { ...scrollVisibilityHandler } = scrollEventHandler;
-  const [userAgent, setUserAgent] = React.useState<string>(null);
   const [isCapturing, setIsCapturing] = React.useState(false);
   const globalLoading = useGlobalLoading();
   const toast = useToastController();
   const gaReadEventLogged = useRef(false);
   const noteTitle = note?.metadata?.content?.title;
-
+  const isShort = isShortNotes(note);
   const scrollIndicatorInsets = useMemo(() => ({
     top: headerHeight - top,
     bottom: bottomBarHeight - bottom,
@@ -103,41 +93,6 @@ export const Content = React.forwardRef<PostDetailsContentInstance, Props>((prop
       note_title: noteTitle,
     },
   });
-
-  const onWebViewMessage = (event) => {
-    try {
-      const { data } = event.nativeEvent;
-      const { height, imageUrlArray, link, title } = JSON.parse(data);
-
-      if (link) {
-        navigation.navigate("Web", {
-          url: link,
-          title,
-        });
-      }
-
-      if (height) {
-        setWebviewHeight(Math.max(height, contentLoaderDimensions.height));
-      }
-
-      if (imageUrlArray) {
-        setDisplayImageUris(imageUrlArray);
-      }
-    }
-    catch (error) {
-      console.warn(error);
-    }
-  };
-
-  const renderLoading = useCallback(() => {
-    return (
-      <Stack position="absolute" flex={1} backgroundColor={backgroundColor} {...StyleSheet.absoluteFillObject}>
-        <Skeleton webviewLoadingAnimValue={webviewLoadingAnimValue} headerHeight={0} />
-      </Stack>
-    );
-  }, [webviewLoadingAnimValue, headerHeight]);
-
-  const closeModal = React.useCallback(() => setDisplayImageUris([]), []);
 
   const onMomentumScrollEnd = React.useCallback((e) => {
     if (gaReadEventLogged.current) {
@@ -209,72 +164,34 @@ export const Content = React.forwardRef<PostDetailsContentInstance, Props>((prop
     followAnimValue.value = withDelay(1500, withSpring(1));
   }, []);
 
-  useEffect(() => {
-    DeviceInfo.getUserAgent().then((ua) => {
-      setUserAgent(`${ua} ReactNative/${VERSION}`);
-    });
-  }, []);
-
-  const backgroundColor = isDarkMode ? "#000" : "#fff";
+  if (pageIsNotFound) {
+    return (
+      <YStack paddingTop={headerHeight + 50} paddingHorizontal="$2" alignItems="center">
+        <H2>{siteT("404 - Whoops, this page is gone.")}</H2>
+        <Spacer size={100} />
+        <Image source={PageNotFound} contentFit={"contain"} style={styles.notFound} />
+      </YStack>
+    );
+  }
 
   return (
-    <>
-      {pageIsNotFound
-        ? (
-          <YStack paddingTop={headerHeight + 50} paddingHorizontal="$2" alignItems="center">
-            <H2>{siteT("404 - Whoops, this page is gone.")}</H2>
-            <Spacer size={100} />
-            <Image source={PageNotFound} contentFit={"contain"} style={styles.notFound} />
-          </YStack>
-        )
-        : (
-          <Animated.ScrollView
-            ref={screenshotsRef}
-            bounces={false}
-            {...scrollVisibilityHandler}
-            scrollEventThrottle={16}
-            style={styles.scrollView}
-            onMomentumScrollEnd={onMomentumScrollEnd}
-            scrollIndicatorInsets={scrollIndicatorInsets}
-            contentContainerStyle={{ paddingBottom: bottomBarHeight }}
-          >
-            {renderHeaderComponent?.(isCapturing)}
-            <Animated.ScrollView
-              contentContainerStyle={{ height: webviewHeight }}
-              scrollEventThrottle={16}
-            >
-              {postUri && userAgent && (
-                <WebView
-                  progressBarShown={false}
-                  userAgent={userAgent}
-                  source={{ uri: postUri }}
-                  containerStyle={styles.webview}
-                  scrollEnabled={false}
-                  cacheEnabled
-                  startInLoadingState
-                  javaScriptEnabled
-                  domStorageEnabled
-                  sharedCookiesEnabled
-                  thirdPartyCookiesEnabled
-                  renderLoading={renderLoading}
-                  cacheMode="LOAD_CACHE_ELSE_NETWORK"
-                  showsVerticalScrollIndicator={false}
-                  showsHorizontalScrollIndicator={false}
-                  onMessage={onWebViewMessage}
-                  injectedJavaScript={javaScriptContentLoaded(mode, bottomBarHeight, height)}
-                  injectedJavaScriptBeforeContentLoaded={javaScriptBeforeContentLoaded(mode)}
-                />
-              )}
-            </Animated.ScrollView>
-          </Animated.ScrollView>
-        )}
-
-      <ImageGallery
-        isVisible={displayImageUris.length > 0}
-        uris={displayImageUris}
-        onClose={closeModal}
-      />
-    </>
+    <Animated.ScrollView
+      ref={screenshotsRef}
+      bounces={false}
+      {...scrollVisibilityHandler}
+      scrollEventThrottle={16}
+      style={styles.scrollView}
+      onMomentumScrollEnd={onMomentumScrollEnd}
+      scrollIndicatorInsets={scrollIndicatorInsets}
+      contentContainerStyle={{ paddingBottom: bottomBarHeight }}
+    >
+      {renderHeaderComponent?.(isCapturing)}
+      {
+        isShort
+          ? <ShortsContentRenderer note={note} onPressComment={onPressComment} onPressViewAllComments={onPressViewAllComments} />
+          : <WebViewRenderer postUri={postUri} headerContainerHeight={headerContainerHeight} bottomBarHeight={bottomBarHeight} />
+      }
+    </Animated.ScrollView>
   );
 });
 

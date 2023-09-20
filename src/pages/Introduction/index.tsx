@@ -1,13 +1,14 @@
 import type { FC } from "react";
 import { Platform } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { Code, Code2, Feather, Settings, Shrink, Sparkles, Wallet } from "@tamagui/lucide-icons";
-import { Image, ScrollView, Spacer, Text, XStack, YStack } from "tamagui";
+import { Code2, Settings, Sparkles, Wallet } from "@tamagui/lucide-icons";
+import { Image } from "expo-image";
+import { ScrollView, Spacer, Text, XStack, YStack } from "tamagui";
 
 import { ConnectEmailButton } from "@/components/ConnectEmailButton";
-import { ConnectionButton } from "@/components/ConnectionButton";
+import { LoginButton } from "@/components/LoginButton";
 import { LogoDarkBlueResource, LogoLightBlueResource } from "@/components/Logo";
 import { PolarLightBackground } from "@/components/PolarLightBackground";
 import { useRootNavigation } from "@/hooks/use-navigation";
@@ -20,11 +21,12 @@ export const IntroductionPage: FC<Props> = () => {
   const navigation = useRootNavigation();
   const navigateToTerms = () => navigation.navigate("Web", { url: "https://rss3.notion.site/Legal-Public-f30edd47c3be4dd7ae5ed4e39aefbbd9?pvs=4" });
   const { isDarkMode } = useThemeStore();
+  const { bottom } = useSafeAreaInsets();
 
   return (
-    <ScrollView bounces={false} backgroundColor={"$background"}>
+    <ScrollView bounces={false} backgroundColor={"$background"} showsVerticalScrollIndicator={false}>
       <YStack>
-        <SafeAreaView>
+        <SafeAreaView style={{ paddingTop: 16, paddingBottom: 100 }}>
           {isDarkMode && <PolarLightBackground activeIndex={0}/>}
           <YStack paddingHorizontal="$6">
             <XStack alignItems="flex-end" justifyContent="space-between" marginBottom="$5">
@@ -34,8 +36,10 @@ export const IntroductionPage: FC<Props> = () => {
                     ? LogoLightBlueResource
                     : LogoDarkBlueResource
                 }
-                w={48}
-                height={48}
+                style={{
+                  width: 48,
+                  height: 48,
+                }}
               />
 
               <TouchableOpacity
@@ -77,7 +81,7 @@ export const IntroductionPage: FC<Props> = () => {
                 );
               })
             }
-            <ConnectionButton />
+            <LoginButton />
             <Spacer/>
             <ConnectEmailButton />
             <Spacer size="$4"/>

@@ -36,7 +36,6 @@ export const CommentButton: React.FC<Props> = ({
   fontSize = "$6",
 }) => {
   const comments = useGetComments({ characterId, noteId });
-  const { anonymousCommentDialog } = useSetupAnonymousComment();
   const bottomSheetRef = useRef<BottomSheetModalInstance>(null);
   const snapPoints = useMemo(() => ["75%"], []);
   const { background } = useColors();
@@ -79,8 +78,6 @@ export const CommentButton: React.FC<Props> = ({
         </XStack>
       </XTouch>
 
-      {anonymousCommentDialog}
-
       <BottomSheetModal
         ref={bottomSheetRef}
         snapPoints={snapPoints}
@@ -91,7 +88,7 @@ export const CommentButton: React.FC<Props> = ({
         backgroundStyle={{ backgroundColor: background }}
       >
         <DelayedRender timeout={100} placeholder={<FilledSpinner />}>
-          <CommentList noteId={noteId} characterId={characterId} />
+          <CommentList isInBottomSheet noteId={noteId} characterId={characterId} />
         </DelayedRender>
       </BottomSheetModal>
     </>

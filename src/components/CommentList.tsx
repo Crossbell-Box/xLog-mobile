@@ -1,6 +1,7 @@
-import React, { forwardRef, useImperativeHandle, useRef, useState } from "react";
+import type { FC } from "react";
+import React, { forwardRef, useImperativeHandle, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { InteractionManager, StyleSheet } from "react-native";
+import { InteractionManager, StyleSheet, FlatList as RNFlatList, TextInput as RNTextInput } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useIsConnected } from "@crossbell/react-account";
@@ -8,54 +9,47 @@ import type { BottomSheetFlatListMethods } from "@gorhom/bottom-sheet";
 import { BottomSheetFlatList, BottomSheetTextInput } from "@gorhom/bottom-sheet";
 import * as Haptics from "expo-haptics";
 import { Image } from "expo-image";
-import { H4, SizableText, Spinner, Stack, Text, XStack, YStack, useWindowDimensions } from "tamagui";
+import { SizableText, Spacer, Spinner, Stack, Text, XStack, YStack, useWindowDimensions } from "tamagui";
 
 import type { BottomSheetModalInstance } from "@/components/BottomSheetModal";
+import { IS_IOS } from "@/constants";
 import { useGAWithScreenParams } from "@/hooks/ga/use-ga-with-screen-name-params";
 import { useColors } from "@/hooks/use-colors";
+import { useGlobalLoading } from "@/hooks/use-global-loading";
+import { useIsLogin } from "@/hooks/use-is-login";
 import { useRootNavigation } from "@/hooks/use-navigation";
 import { useSetupAnonymousComment } from "@/hooks/use-setup-anonymous-comment";
 import { useGetComments, useSubmitComment } from "@/queries/page";
-import type { ExpandedNote } from "@/types/crossbell";
 import { GA } from "@/utils/GA";
 
 import { Button } from "./Base/Button";
-import { Center } from "./Base/Center";
 import type { Comment } from "./CommentItem";
 import { CommentItem } from "./CommentItem";
 import { FillSpinner } from "./FillSpinner";
 import { ReactionLike } from "./ReactionLike";
 import { ReportButton } from "./ReportButton";
-import { WithSpinner } from "./WithSpinner";
 
 interface Props {
   characterId: number
   noteId: number
+  animated?: boolean
   couldComment?: boolean
-  headerShown?: boolean
+  isInBottomSheet?: boolean
 }
-
-type ItemData = {
-  type: "header"
-  data: null
-} | {
-  type: "data"
-  data: ExpandedNote
-};
 
 export interface CommentListInstance {
   comment: () => void
 }
 
 export const CommentList = forwardRef<CommentListInstance, Props>((
-  { characterId, noteId, couldComment, headerShown },
+  { characterId, noteId, couldComment, isInBottomSheet, animated },
   ref,
 ) => {
   const comments = useGetComments({ characterId, noteId });
-  const [isLoading, setIsLoading] = useState(false);
+  const { show, hide } = useGlobalLoading();
   const i18n = useTranslation("site");
-  const { withAnonymousComment } = useSetupAnonymousComment();
-  const isConnected = useIsConnected();
+  const { withAnonymousComment, anonymousCommentDialog } = useSetupAnonymousComment();
+  const isLogin = useIsLogin();
   const { bottom } = useSafeAreaInsets();
   const { width } = useWindowDimensions();
   const [content, setContent] = useState("");
@@ -70,7 +64,7 @@ export const CommentList = forwardRef<CommentListInstance, Props>((
   const flatListRef = useRef<BottomSheetFlatListMethods>(null!);
   const [modalVisible, setModalVisible] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const { background, color, subtitle, borderColor } = useColors();
+  const { color, subtitle, borderColor } = useColors();
   const gaWithScreenParams = useGAWithScreenParams();
 
   const navigation = useRootNavigation();
@@ -83,8 +77,6 @@ export const CommentList = forwardRef<CommentListInstance, Props>((
     });
   };
 
-  const commentsCount = comments.data?.pages?.[0]?.count || 0;
-
   const displayInput = () => {
     setModalVisible(true);
   };
@@ -94,8 +86,8 @@ export const CommentList = forwardRef<CommentListInstance, Props>((
     setContent("");
   };
 
-  const submitComment = withAnonymousComment(() => {
-    setIsLoading(true);
+  const submitComment = withAnonymousComment(async () => {
+    show();
     GA.logEvent("submit_comment", gaWithScreenParams);
 
     return _submitComment({
@@ -105,13 +97,13 @@ export const CommentList = forwardRef<CommentListInstance, Props>((
       originalNoteId: isEditing ? selectedEditComment.noteId : noteId,
       content,
       comment: isEditing ? selectedEditComment : undefined,
-      anonymous: !isConnected,
+      anonymous: !isLogin,
     })
       .then(() => comments.refetch())
       .finally(() => {
-        setIsLoading(false);
+        hide();
         hideInput();
-        scrollToIndex(selectedIndex);
+        typeof selectedIndex === "number" && scrollToIndex(selectedIndex);
       });
   });
 
@@ -132,17 +124,21 @@ export const CommentList = forwardRef<CommentListInstance, Props>((
     displayInput();
   };
 
-  const data = comments.data?.pages.flatMap(page =>
-    (page?.list || []).map(data => data),
-  );
+  const data = useMemo(() => (
+    comments.data?.pages.flatMap(page => page?.list.map(data => data) || [])
+  ), [comments.data?.pages]);
 
   useImperativeHandle(ref, () => ({
     comment: onPressInput,
   }));
 
+  const FlatList = isInBottomSheet ? BottomSheetFlatList : RNFlatList;
+  const TextInput = isInBottomSheet ? BottomSheetTextInput : RNTextInput;
+
   return (
     <Stack flex={1}>
-      <BottomSheetFlatList
+      {anonymousCommentDialog}
+      <FlatList
         ref={flatListRef}
         contentContainerStyle={{
           paddingBottom: bottom + 16,
@@ -150,7 +146,6 @@ export const CommentList = forwardRef<CommentListInstance, Props>((
         data={data}
         style={{ padding: 16 }}
         showsVerticalScrollIndicator={false}
-        stickyHeaderIndices={[0]}
         onEndReachedThreshold={0.5}
         onEndReached={() => {
           if (
@@ -164,43 +159,16 @@ export const CommentList = forwardRef<CommentListInstance, Props>((
           comments?.fetchNextPage?.();
         }}
         ListFooterComponent={comments.isFetchingNextPage && <Spinner paddingVertical="$5"/>}
-        ListEmptyComponent={(
-          <Stack height={300}>
-            {
-              comments.isFetching
-                ? <FillSpinner/>
-                : (
-                  <YStack minHeight={300} alignItems="center" justifyContent="center" gap="$2">
-                    <Image
-                      source={require("../assets/comment-list-empty.png")}
-                      style={{ width: 100, height: 100 }}
-                      contentFit="contain"
-                    />
-                    <SizableText color={"$colorUnActive"} size="$5">
-                    There are no comments yet.
-                    </SizableText>
-                  </YStack>
-                )
-            }
-          </Stack>
-        )}
-        keyExtractor={item => item.blockNumber.toString()}
+        ListEmptyComponent={<EmptyComponent isLoading={comments.isFetching}/>}
+        keyExtractor={item => item.blockNumber?.toString()}
         renderItem={(options) => {
           const comment = options.item;
-
-          // if (item.type === "header") {
-          //   return (
-          //     <Stack paddingBottom={8} marginBottom="$3">
-          //       <H4>{i18n.t("Comments")} {commentsCount}</H4>
-          //     </Stack>
-          //   );
-          // }
-
           const depth = 0;
 
           return (
             <CommentItem
               displayReply
+              animated={animated}
               padding={0}
               comment={comment}
               depth={depth}
@@ -231,7 +199,7 @@ export const CommentList = forwardRef<CommentListInstance, Props>((
 
       {
         couldComment && (
-          <Stack height={bottom + 10}>
+          <Stack height={modalVisible && IS_IOS ? 60 - bottom : 60}>
             {
               modalVisible
                 ? (
@@ -242,13 +210,13 @@ export const CommentList = forwardRef<CommentListInstance, Props>((
                     left={0}
                     paddingHorizontal="$3"
                     gap="$2"
-                    height={50}
+                    height={40}
                   >
-                    <BottomSheetTextInput
+                    <TextInput
                       style={[{ borderColor, color }, styles.input]}
                       multiline
                       onBlur={hideInput}
-                      autoFocus={false}
+                      autoFocus
                       onChangeText={setContent}
                       placeholder={
                         isEditing
@@ -264,7 +232,7 @@ export const CommentList = forwardRef<CommentListInstance, Props>((
                       onPress={submitComment}
                       alignItems="center"
                       justifyContent="center"
-                      height={50}
+                      height={40}
                     >
                       {i18n.t("Publish")}
                     </Button>
@@ -292,7 +260,7 @@ export const CommentList = forwardRef<CommentListInstance, Props>((
                     >
                       <Text fontSize={"$5"} flex={1} borderRadius={10} color={"$colorSubtitle"}>
                         {
-                          isConnected
+                          isLogin
                             ? i18n.t("Write a comment")
                             : i18n.t("Write a anonymous comment")
                         }
@@ -320,6 +288,45 @@ export const CommentList = forwardRef<CommentListInstance, Props>((
   );
 });
 
+export const EmptyComponent: FC<{
+  isLoading: boolean
+  creationTipsShown?: boolean
+  onPressCreationTips?: () => void
+}> = ({ isLoading, creationTipsShown, onPressCreationTips }) => {
+  const i18n = useTranslation("common");
+  return (
+    <Stack height={300}>
+      {
+        isLoading
+          ? <FillSpinner/>
+          : (
+            <YStack minHeight={300} alignItems="center" justifyContent="center" gap="$2">
+              <Image
+                source={require("../assets/comment-list-empty.png")}
+                style={{ width: 100, height: 100 }}
+                contentFit="contain"
+              />
+              <SizableText color={"$colorUnActive"} size="$5">
+                {i18n.t("There are no comments yet.")}
+              </SizableText>
+              {
+                creationTipsShown && (
+                  <>
+                    <Spacer/>
+                    <Button type="primary" onPress={onPressCreationTips}>
+                      {i18n.t("Add a comment")}
+                    </Button>
+                  </>
+                )
+              }
+            </YStack>
+          )
+      }
+    </Stack>
+
+  );
+};
+
 const styles = StyleSheet.create({
   input: {
     borderWidth: 1,
@@ -330,4 +337,3 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
-

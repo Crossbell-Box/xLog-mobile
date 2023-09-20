@@ -1,8 +1,8 @@
-import type { FeedType as AllFeedType } from "@/models/home.model";
+import type { SearchType as AllSearchType } from "@/models/home.model";
 
-export type FeedType = Extract<AllFeedType, "latest" | "hottest" | "following">;
+export type SearchType = Extract<AllSearchType, "latest" | "hottest" | "following">;
 
-export const feedTypes: Record<Uppercase<FeedType>, FeedType> = {
+export const searchTypes: Record<Uppercase<SearchType>, SearchType> = {
   LATEST: "latest",
   HOTTEST: "hottest",
   FOLLOWING: "following",

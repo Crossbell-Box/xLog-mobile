@@ -17,6 +17,7 @@ import { useCharacterId } from "@/hooks/use-character-id";
 import { useColors } from "@/hooks/use-colors";
 import { useDate } from "@/hooks/use-date";
 import { useGlobalLoading } from "@/hooks/use-global-loading";
+import { useIsLogin } from "@/hooks/use-is-login";
 import { useSetupAnonymousComment } from "@/hooks/use-setup-anonymous-comment";
 import { useGetComments, useSubmitComment } from "@/queries/page";
 import type { ExpandedNote } from "@/types/crossbell";
@@ -34,7 +35,9 @@ export interface CommentItemProps extends ListItemProps {
   comment: Comment
   displayReply?: boolean
   depth?: number
+  animated?: boolean
   commentable?: boolean
+  likeable?: boolean
   editable?: boolean
   originalCharacterId?: number
   originalNoteId?: number
@@ -55,6 +58,8 @@ export const CommentItem: React.FC<CommentItemProps> = (props) => {
     displayReply = false,
     depth = 0,
     commentable = false,
+    animated = false,
+    likeable = true,
     editable = false,
     originalCharacterId,
     originalNoteId,
@@ -67,7 +72,7 @@ export const CommentItem: React.FC<CommentItemProps> = (props) => {
   } = props;
   const date = useDate();
   const myCharacterId = useCharacterId();
-  const isConnected = useIsConnected();
+  const isLogin = useIsLogin();
   const comments = useGetComments({ characterId: comment?.characterId, noteId: comment?.noteId });
   const commonI18n = useTranslation();
   const inputRef = useRef<TextInput>(null);
@@ -124,7 +129,7 @@ export const CommentItem: React.FC<CommentItemProps> = (props) => {
       originalNoteId: comment?.noteId,
       content,
       comment: isEditing ? comment : undefined,
-      anonymous: !isConnected,
+      anonymous: !isLogin,
     })
       .then(isEditing ? onEdit : onComment)
       .finally(() => {
@@ -144,7 +149,7 @@ export const CommentItem: React.FC<CommentItemProps> = (props) => {
   return (
     <>
       {anonymousCommentDialog}
-      <XStack marginBottom="$2" gap="$3" {...restProps}>
+      <XStack animation={animated ? "quick" : undefined} enterStyle={{ x: 30, opacity: 0 }} x={0} opacity={1} marginBottom="$2" gap="$3" {...restProps}>
         <Avatar useDefault size={isSubComment ? 36 : 40} character={comment?.character} />
         <YStack flex={1}>
           <YStack flex={1}>
@@ -196,7 +201,7 @@ export const CommentItem: React.FC<CommentItemProps> = (props) => {
           </YStack>
 
           <XStack justifyContent="flex-end" gap="$3" marginTop="$2" alignItems="center">
-            <ReactionLike ga={{ type: "reply" }} iconSize={"$0.75"} fontSize={"$4"} characterId={comment?.characterId} noteId={comment?.noteId}/>
+            {likeable && <ReactionLike ga={{ type: "reply" }} iconSize={"$0.75"} fontSize={"$4"} characterId={comment?.characterId} noteId={comment?.noteId}/>}
             {
               depth < 2 && commentable && (
                 <TouchableOpacity onPress={onPressComment}>

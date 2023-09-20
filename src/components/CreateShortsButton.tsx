@@ -1,11 +1,11 @@
-import { useState, type FC, useEffect, useRef } from "react";
+import { useState, type FC, useEffect } from "react";
 import { StyleSheet } from "react-native";
-import Animated, { BounceInRight, Easing, FadeInDown, FadeOutDown, ZoomInLeft, ZoomInRight, ZoomOutRight, useAnimatedStyle } from "react-native-reanimated";
 
-import { Album, Camera, Image, Plus } from "@tamagui/lucide-icons";
-import { AnimatePresence, Button, Circle, Square, Stack, useControllableState, useEvent } from "tamagui";
+import { Camera, Image, Plus } from "@tamagui/lucide-icons";
+import { AnimatePresence, Button, Stack } from "tamagui";
 
 import { useCreateShots } from "@/hooks/use-create-shots";
+import { useIsLogin } from "@/hooks/use-is-login";
 import { useRootNavigation } from "@/hooks/use-navigation";
 
 import { Center } from "./Base/Center";
@@ -15,10 +15,10 @@ const buttonSize = 65;
 
 const buttonAnimList = [
   {
-    rotate: "0deg",
+    transform: [{ rotate: "0deg" }],
   },
   {
-    rotate: "-45deg",
+    transform: [{ rotate: "-45deg" }],
   },
 ];
 
@@ -39,11 +39,16 @@ export const CreateShortsButton: FC = () => {
   const [containerWidth, setContainerWidth] = useState(0);
   const [isSelectingMethod, setIsSelectingMethod] = useState(false);
   const navigation = useRootNavigation();
+  const isLogin = useIsLogin();
 
   const buttonAnim = buttonAnimList[animIndex];
   const buttonContainerAnim = buttonContainerAnimList[animIndex];
 
   const handleOnPress = () => {
+    if (!isLogin) {
+      navigation.navigate("Login");
+      return;
+    }
     setIsSelectingMethod(!isSelectingMethod);
   };
 
@@ -78,17 +83,17 @@ export const CreateShortsButton: FC = () => {
                 style={styles.actionButtonContainer}
                 animation={"quick"}
                 enterStyle={{
-                  y: 0,
-                  x: 0,
+                  y: buttonSize * 1.3,
+                  x: -((containerWidth - buttonSize) / 2 - buttonSize),
                   opacity: 0,
                 }}
                 exitStyle={{
-                  y: 0,
-                  x: 0,
+                  y: buttonSize * 1.3,
+                  x: -((containerWidth - buttonSize) / 2 - buttonSize),
                   opacity: 0,
                 }}
-                y={-buttonSize * 1.3}
-                x={0 + (containerWidth - buttonSize) / 2 - buttonSize}
+                top={-buttonSize * 1.3}
+                left={(containerWidth - buttonSize) / 2 - buttonSize}
                 opacity={1}
                 onPress={() => {
                   setIsSelectingMethod(false);
@@ -104,17 +109,17 @@ export const CreateShortsButton: FC = () => {
                 style={styles.actionButtonContainer}
                 animation={"quick"}
                 enterStyle={{
-                  y: 0,
-                  x: 0,
+                  y: buttonSize * 1.3,
+                  x: -((containerWidth - buttonSize) / 2 + buttonSize),
                   opacity: 0,
                 }}
                 exitStyle={{
-                  y: 0,
-                  x: 0,
+                  y: buttonSize * 1.3,
+                  x: -((containerWidth - buttonSize) / 2 + buttonSize),
                   opacity: 0,
                 }}
-                y={-buttonSize * 1.3}
-                x={0 + (containerWidth - buttonSize) / 2 + buttonSize}
+                top={-buttonSize * 1.3}
+                left={(containerWidth - buttonSize) / 2 + buttonSize}
                 opacity={1}
                 onPress={() => {
                   setIsSelectingMethod(false);
@@ -136,7 +141,7 @@ export const CreateShortsButton: FC = () => {
           opacity={1}
           {...buttonContainerAnim}
         >
-          <Stack animation={"bouncy"} rotate={"0deg"} {...buttonAnim}>
+          <Stack animation={"bouncy"} {...buttonAnim}>
             <Plus color="white"/>
           </Stack>
         </Button>

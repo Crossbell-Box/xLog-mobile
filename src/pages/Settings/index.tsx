@@ -1,26 +1,29 @@
 import React, { useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, ScrollView, Linking, Platform } from "react-native";
-import Animated, { FadeInUp } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { useConnectedAccount, useIsConnected } from "@crossbell/react-account";
+import { useIsConnected } from "@crossbell/react-account";
 import { ArrowDownToLine, ArrowRight, Check, Cog, Copy, Eye, Info, Palette, TestTube, Thermometer, TrendingUp } from "@tamagui/lucide-icons";
 import { useToastController } from "@tamagui/toast";
 import * as Clipboard from "expo-clipboard";
 import * as Haptics from "expo-haptics";
 import * as Updates from "expo-updates";
 import * as Sentry from "sentry-expo";
-import { ListItem, Text, ListItemTitle, Switch, YGroup, YStack, Stack, Circle, Spinner } from "tamagui";
+import { Text, ListItemTitle, YStack, Spinner } from "tamagui";
 
 import { AlertDialog } from "@/components/AlertDialog";
 import { Badge } from "@/components/Badge";
 import { Button } from "@/components/Base/Button";
+import { SettingsYGroup } from "@/components/Base/SettingsGroup";
+import { SettingsListItem } from "@/components/Base/SettingsListItem";
+import { Switch } from "@/components/Base/Switch";
 import { BottomSheetModal } from "@/components/BottomSheetModal";
 import type { BottomSheetModalInstance } from "@/components/BottomSheetModal";
-import { DisconnectBtn } from "@/components/ConnectionButton";
 import { APP_SCHEME, IS_DEV, IS_PROD, IS_TEST, VERSION } from "@/constants";
 import { useColors } from "@/hooks/use-colors";
+import { useDisconnect } from "@/hooks/use-disconnect";
+import { useIsLogin } from "@/hooks/use-is-login";
 import { useIsUpdatesAvailable } from "@/hooks/use-is-updates-available";
 import { useMultiPressHandler } from "@/hooks/use-multi-press-handler";
 import { useRootNavigation } from "@/hooks/use-navigation";
@@ -38,7 +41,9 @@ export interface Props {
 export const Settings: React.FC<Props> = () => {
   const { primary, color, background } = useColors();
   const [devMenuVisible, setDevMenuVisible] = React.useState(false);
+  const isLogin = useIsLogin();
   const isConnected = useIsConnected();
+  const { disconnect } = useDisconnect();
   const updatesStatus = useIsUpdatesAvailable();
   const handleMultiPress = useMultiPressHandler(
     () => {
@@ -61,7 +66,6 @@ export const Settings: React.FC<Props> = () => {
   const { mode, theme, changeTheme } = useThemeStore();
   const snapPoints = useMemo(() => ["40%"], []);
   const i18n = useTranslation("common");
-  const connectedAccount = useConnectedAccount();
   const toast = useToastController();
   const navigation = useRootNavigation();
   const { expoPushToken, requestPermissions } = useNotification();
@@ -195,45 +199,42 @@ export const Settings: React.FC<Props> = () => {
         <YStack flex={1}>
           <ScrollView>
             <YStack gap="$3" padding="$3">
-              <YGroup bordered>
-                <YGroup.Item>
-                  <ListItem
+              <SettingsYGroup bordered>
+                <SettingsYGroup.Item>
+                  <SettingsListItem
                     icon={Thermometer}
                     scaleIcon={1.2}
                     iconAfter={() => (
-                      <Switch checked={followSystem} backgroundColor={primary} size="$3" onCheckedChange={toggleFollowSystem}>
-                        <Switch.Thumb animation="bouncy" />
-                      </Switch>
+                      <Switch checked={followSystem} size="$3" onCheckedChange={toggleFollowSystem}/>
                     )}
                   >
                     <ListItemTitle>
                       {i18n.t("Follow System")}
                     </ListItemTitle>
-                  </ListItem>
-                </YGroup.Item>
+                  </SettingsListItem>
+                </SettingsYGroup.Item>
                 {
                   !followSystem && (
-                    <YGroup.Item>
-                      <ListItem
+                    <SettingsYGroup.Item>
+                      <SettingsListItem
                         icon={Eye}
                         scaleIcon={1.2}
                         iconAfter={() => {
                           return (
-                            <Switch checked={isDarkMode} backgroundColor={primary} size="$3" onCheckedChange={toggleMode}>
-                              <Switch.Thumb animation="bouncy" />
-                            </Switch>
+                            <Switch checked={isDarkMode} size="$3" onCheckedChange={toggleMode}/>
                           );
                         }}
                       >
                         <ListItemTitle>
                           {i18n.t("Dark Mode")}
                         </ListItemTitle>
-                      </ListItem>
-                    </YGroup.Item>
+                      </SettingsListItem>
+                    </SettingsYGroup.Item>
                   )
                 }
-                <YGroup.Item>
-                  <ListItem
+
+                <SettingsYGroup.Item>
+                  <SettingsListItem
                     icon={Palette}
                     scaleIcon={1.2}
                     onPress={openBottomSheet}
@@ -242,12 +243,12 @@ export const Settings: React.FC<Props> = () => {
                     <ListItemTitle>
                       {i18n.t("Theme")}
                     </ListItemTitle>
-                  </ListItem>
-                </YGroup.Item>
+                  </SettingsListItem>
+                </SettingsYGroup.Item>
                 {
-                  isConnected && (
-                    <YGroup.Item>
-                      <ListItem
+                  isLogin && (
+                    <SettingsYGroup.Item>
+                      <SettingsListItem
                         icon={Cog}
                         scaleIcon={1.2}
                         iconAfter={<ArrowRight />}
@@ -256,12 +257,12 @@ export const Settings: React.FC<Props> = () => {
                         <ListItemTitle>
                           {i18n.t("Advanced")}
                         </ListItemTitle>
-                      </ListItem>
-                    </YGroup.Item>
+                      </SettingsListItem>
+                    </SettingsYGroup.Item>
                   )
                 }
-                <YGroup.Item>
-                  <ListItem
+                <SettingsYGroup.Item>
+                  <SettingsListItem
                     icon={Info}
                     scaleIcon={1.2}
                     iconAfter={(
@@ -283,75 +284,80 @@ export const Settings: React.FC<Props> = () => {
                     <ListItemTitle>
                       {i18n.t("Version")}
                     </ListItemTitle>
-                  </ListItem>
-                </YGroup.Item>
-              </YGroup>
+                  </SettingsListItem>
+                </SettingsYGroup.Item>
+              </SettingsYGroup>
+
               {
                 ((devMenuVisible && IS_TEST) || IS_DEV) && (
-                  <Animated.View entering={FadeInUp.duration(250)}>
-                    <YGroup bordered>
-                      <YGroup.Item>
-                        <ListItem
-                          icon={Copy}
+                  <SettingsYGroup bordered>
+                    <SettingsYGroup.Item>
+                      <SettingsListItem
+                        icon={Copy}
+                        scaleIcon={1.2}
+                        iconAfter={<ArrowRight />}
+                        onPress={copyPushToken}
+                      >
+                        <ListItemTitle>
+                          {i18n.t("Copy Push Token")}
+                        </ListItemTitle>
+                      </SettingsListItem>
+                    </SettingsYGroup.Item>
+                    <SettingsYGroup.Item>
+                      <SettingsListItem
+                        icon={TrendingUp}
+                        scaleIcon={1.2}
+                        iconAfter={<ArrowRight />}
+                        onPress={testGA}
+                      >
+                        <ListItemTitle>
+                          {i18n.t("Test GA")}
+                        </ListItemTitle>
+                      </SettingsListItem>
+                    </SettingsYGroup.Item>
+                    <SettingsYGroup.Item>
+                      <SettingsListItem
+                        icon={ArrowDownToLine}
+                        scaleIcon={1.2}
+                        iconAfter={<ArrowRight />}
+                        onPress={checkUpdates}
+                      >
+                        <ListItemTitle>
+                          {i18n.t("Check updates")}
+                        </ListItemTitle>
+                      </SettingsListItem>
+                    </SettingsYGroup.Item>
+                    {!IS_DEV && (
+                      <SettingsYGroup.Item>
+                        <SettingsListItem
+                          icon={TestTube}
                           scaleIcon={1.2}
                           iconAfter={<ArrowRight />}
-                          onPress={copyPushToken}
+                          onPress={testSentry}
                         >
                           <ListItemTitle>
-                            {i18n.t("Copy Push Token")}
+                            {i18n.t("Test Sentry")}
                           </ListItemTitle>
-                        </ListItem>
-                      </YGroup.Item>
-                      <YGroup.Item>
-                        <ListItem
-                          icon={TrendingUp}
-                          scaleIcon={1.2}
-                          iconAfter={<ArrowRight />}
-                          onPress={testGA}
-                        >
-                          <ListItemTitle>
-                            {i18n.t("Test GA")}
-                          </ListItemTitle>
-                        </ListItem>
-                      </YGroup.Item>
-                      <YGroup.Item>
-                        <ListItem
-                          icon={ArrowDownToLine}
-                          scaleIcon={1.2}
-                          iconAfter={<ArrowRight />}
-                          onPress={checkUpdates}
-                        >
-                          <ListItemTitle>
-                            {i18n.t("Check updates")}
-                          </ListItemTitle>
-                        </ListItem>
-                      </YGroup.Item>
-                      {!IS_DEV && (
-                        <YGroup.Item>
-                          <ListItem
-                            icon={TestTube}
-                            scaleIcon={1.2}
-                            iconAfter={<ArrowRight />}
-                            onPress={testSentry}
-                          >
-                            <ListItemTitle>
-                              {i18n.t("Test Sentry")}
-                            </ListItemTitle>
-                          </ListItem>
-                        </YGroup.Item>
-                      )}
-                    </YGroup>
-                  </Animated.View>
+                        </SettingsListItem>
+                      </SettingsYGroup.Item>
+                    )}
+                  </SettingsYGroup>
                 )
               }
-            </YStack>
 
+              {isConnected && (
+                <SettingsYGroup bordered>
+                  <SettingsYGroup.Item>
+                    <SettingsListItem scaleIcon={1.2}>
+                      <ListItemTitle fontSize={"$5"} textAlign="center" color={"#E65040"} onPress={disconnect} fontWeight={"700"}>
+                        {i18n.t("Disconnect")}
+                      </ListItemTitle>
+                    </SettingsListItem>
+                  </SettingsYGroup.Item>
+                </SettingsYGroup>
+              )}
+            </YStack>
           </ScrollView>
-          {connectedAccount && (
-            <Stack marginHorizontal="$4" gap="$3">
-              <DisconnectBtn navigateToLogin={false} />
-            </Stack>
-          )}
         </YStack>
         <BottomSheetModal
           ref={bottomSheetRef}
@@ -362,14 +368,14 @@ export const Settings: React.FC<Props> = () => {
         >
           <ScrollView>
             <YStack gap="$3" padding="$3">
-              <YGroup bordered>
+              <SettingsYGroup bordered>
                 {
                   allThemes.map(({ themeName, definitions }) => {
                     const t = definitions[mode];
                     const isChecked = theme.startsWith(themeName);
                     return (
-                      <YGroup.Item key={themeName}>
-                        <ListItem
+                      <SettingsYGroup.Item key={themeName}>
+                        <SettingsListItem
                           scaleIcon={1.2}
                           backgroundColor={t?.background}
                           onPress={() => changeTheme(themeName)}
@@ -378,12 +384,12 @@ export const Settings: React.FC<Props> = () => {
                           <ListItemTitle color={t.primary}>
                             {themeName}
                           </ListItemTitle>
-                        </ListItem>
-                      </YGroup.Item>
+                        </SettingsListItem>
+                      </SettingsYGroup.Item>
                     );
                   })
                 }
-              </YGroup>
+              </SettingsYGroup>
             </YStack>
           </ScrollView>
         </BottomSheetModal>
