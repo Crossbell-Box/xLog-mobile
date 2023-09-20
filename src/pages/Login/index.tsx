@@ -1,19 +1,18 @@
 import type { FC } from "react";
 import React, { useCallback, useMemo, useRef, useEffect } from "react";
-import { InteractionManager } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { useIsConnected } from "@crossbell/react-account";
 import BottomSheet from "@gorhom/bottom-sheet";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Stack, Text, YStack } from "tamagui";
 
 import type { BottomSheetModalInstance } from "@/components/BottomSheetModal";
 import { ConnectEmailButton } from "@/components/ConnectEmailButton";
-import { ConnectBtn, ConnectionButton } from "@/components/ConnectionButton";
+import { LoginButton } from "@/components/LoginButton";
 import { useAppIsActive } from "@/hooks/use-app-state";
 import { useColors } from "@/hooks/use-colors";
 import { useGlobalLoading } from "@/hooks/use-global-loading";
+import { useIsLogin } from "@/hooks/use-is-login";
 import type { RootStackParamList } from "@/navigation/types";
 
 export interface Props {
@@ -30,16 +29,16 @@ export const LoginPage: FC<NativeStackScreenProps<RootStackParamList, "Login">> 
     title: termsText,
   });
   const { bottom } = useSafeAreaInsets();
-  const isConnected = useIsConnected();
+  const isLogin = useIsLogin();
   const appIsActive = useAppIsActive();
   const { background } = useColors();
 
   useEffect(() => {
-    if (appIsActive && isConnected) {
+    if (appIsActive && isLogin) {
       globalLoading.hide();
       navigation.goBack();
     }
-  }, [appIsActive, isConnected]);
+  }, [appIsActive, isLogin]);
 
   const bottomSheetRef = useRef<BottomSheetModalInstance>(null);
   const snapPoints = useMemo(() => ["30%"], []);
@@ -62,7 +61,7 @@ export const LoginPage: FC<NativeStackScreenProps<RootStackParamList, "Login">> 
       >
         <YStack flex={1} alignItems="stretch" justifyContent="space-between" paddingHorizontal={24} paddingBottom={bottom} >
           <Text fontSize={"$2"} color={"$primary"} textAlign="center">Discovering amazing teams and creators on xLog!</Text>
-          <ConnectBtn beforeOpenModal={beforeOpenModal}/>
+          <LoginButton beforeOpenModal={beforeOpenModal}/>
           <ConnectEmailButton />
           <Text color="$colorSubtitle" fontSize={"$3"} textAlign="center">
           By connecting you agree to our <Text textDecorationLine="underline" onPress={navigateToTerms} color="$color" fontSize={"$3"}>{termsText}</Text>

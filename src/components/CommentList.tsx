@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import React, { forwardRef, useImperativeHandle, useRef, useState } from "react";
+import React, { forwardRef, useImperativeHandle, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { InteractionManager, StyleSheet, FlatList as RNFlatList, TextInput as RNTextInput } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -15,6 +15,8 @@ import type { BottomSheetModalInstance } from "@/components/BottomSheetModal";
 import { IS_IOS } from "@/constants";
 import { useGAWithScreenParams } from "@/hooks/ga/use-ga-with-screen-name-params";
 import { useColors } from "@/hooks/use-colors";
+import { useGlobalLoading } from "@/hooks/use-global-loading";
+import { useIsLogin } from "@/hooks/use-is-login";
 import { useRootNavigation } from "@/hooks/use-navigation";
 import { useSetupAnonymousComment } from "@/hooks/use-setup-anonymous-comment";
 import { useGetComments, useSubmitComment } from "@/queries/page";
@@ -43,10 +45,10 @@ export const CommentList = forwardRef<CommentListInstance, Props>((
   ref,
 ) => {
   const comments = useGetComments({ characterId, noteId });
-  const [isLoading, setIsLoading] = useState(false);
+  const { show, hide } = useGlobalLoading();
   const i18n = useTranslation("site");
-  const { withAnonymousComment } = useSetupAnonymousComment();
-  const isConnected = useIsConnected();
+  const { withAnonymousComment, anonymousCommentDialog } = useSetupAnonymousComment();
+  const isLogin = useIsLogin();
   const { bottom } = useSafeAreaInsets();
   const { width } = useWindowDimensions();
   const [content, setContent] = useState("");
@@ -83,8 +85,8 @@ export const CommentList = forwardRef<CommentListInstance, Props>((
     setContent("");
   };
 
-  const submitComment = withAnonymousComment(() => {
-    setIsLoading(true);
+  const submitComment = withAnonymousComment(async () => {
+    show();
     GA.logEvent("submit_comment", gaWithScreenParams);
 
     return _submitComment({
@@ -94,13 +96,13 @@ export const CommentList = forwardRef<CommentListInstance, Props>((
       originalNoteId: isEditing ? selectedEditComment.noteId : noteId,
       content,
       comment: isEditing ? selectedEditComment : undefined,
-      anonymous: !isConnected,
+      anonymous: !isLogin,
     })
       .then(() => comments.refetch())
       .finally(() => {
-        setIsLoading(false);
+        hide();
         hideInput();
-        scrollToIndex(selectedIndex);
+        typeof selectedIndex === "number" && scrollToIndex(selectedIndex);
       });
   });
 
@@ -121,9 +123,9 @@ export const CommentList = forwardRef<CommentListInstance, Props>((
     displayInput();
   };
 
-  const data = comments.data?.pages.flatMap(page =>
-    (page?.list || []).map(data => data),
-  );
+  const data = useMemo(() => (
+    comments.data?.pages.flatMap(page => page?.list.map(data => data) || [])
+  ), [comments.data?.pages]);
 
   useImperativeHandle(ref, () => ({
     comment: onPressInput,
@@ -134,6 +136,7 @@ export const CommentList = forwardRef<CommentListInstance, Props>((
 
   return (
     <Stack flex={1}>
+      {anonymousCommentDialog}
       <FlatList
         ref={flatListRef}
         contentContainerStyle={{
@@ -142,7 +145,6 @@ export const CommentList = forwardRef<CommentListInstance, Props>((
         data={data}
         style={{ padding: 16 }}
         showsVerticalScrollIndicator={false}
-        stickyHeaderIndices={[0]}
         onEndReachedThreshold={0.5}
         onEndReached={() => {
           if (
@@ -256,7 +258,7 @@ export const CommentList = forwardRef<CommentListInstance, Props>((
                     >
                       <Text fontSize={"$5"} flex={1} borderRadius={10} color={"$colorSubtitle"}>
                         {
-                          isConnected
+                          isLogin
                             ? i18n.t("Write a comment")
                             : i18n.t("Write a anonymous comment")
                         }
@@ -333,4 +335,3 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
-

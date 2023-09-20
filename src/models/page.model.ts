@@ -68,7 +68,6 @@ const getLocalPages = async (input: {
             ],
             slug: page.values?.slug,
             sources: ["xlog"],
-            // @ts-expect-error
             disableAISummary: page.values?.disableAISummary,
           },
         },
@@ -431,8 +430,6 @@ export async function getPagesBySite(input: {
       const expanded = await expandCrossbellNote({
         note,
         useStat: input.useStat,
-        useHTML: input.useHTML,
-        useScore: false,
       });
       if (!input.keepBody) {
         delete expanded.metadata?.content?.content;

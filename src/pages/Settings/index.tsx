@@ -1,17 +1,16 @@
 import React, { useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, ScrollView, Linking, Platform } from "react-native";
-import Animated, { FadeInUp } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { useConnectedAccount, useIsConnected } from "@crossbell/react-account";
+import { useIsConnected } from "@crossbell/react-account";
 import { ArrowDownToLine, ArrowRight, Check, Cog, Copy, Eye, Info, Palette, TestTube, Thermometer, TrendingUp } from "@tamagui/lucide-icons";
 import { useToastController } from "@tamagui/toast";
 import * as Clipboard from "expo-clipboard";
 import * as Haptics from "expo-haptics";
 import * as Updates from "expo-updates";
 import * as Sentry from "sentry-expo";
-import { Text, ListItemTitle, YStack, Stack, Circle, Spinner } from "tamagui";
+import { Text, ListItemTitle, YStack, Spinner } from "tamagui";
 
 import { AlertDialog } from "@/components/AlertDialog";
 import { Badge } from "@/components/Badge";
@@ -21,10 +20,10 @@ import { SettingsListItem } from "@/components/Base/SettingsListItem";
 import { Switch } from "@/components/Base/Switch";
 import { BottomSheetModal } from "@/components/BottomSheetModal";
 import type { BottomSheetModalInstance } from "@/components/BottomSheetModal";
-import { DisconnectBtn } from "@/components/ConnectionButton";
 import { APP_SCHEME, IS_DEV, IS_PROD, IS_TEST, VERSION } from "@/constants";
 import { useColors } from "@/hooks/use-colors";
 import { useDisconnect } from "@/hooks/use-disconnect";
+import { useIsLogin } from "@/hooks/use-is-login";
 import { useIsUpdatesAvailable } from "@/hooks/use-is-updates-available";
 import { useMultiPressHandler } from "@/hooks/use-multi-press-handler";
 import { useRootNavigation } from "@/hooks/use-navigation";
@@ -42,6 +41,7 @@ export interface Props {
 export const Settings: React.FC<Props> = () => {
   const { primary, color, background } = useColors();
   const [devMenuVisible, setDevMenuVisible] = React.useState(false);
+  const isLogin = useIsLogin();
   const isConnected = useIsConnected();
   const { disconnect } = useDisconnect();
   const updatesStatus = useIsUpdatesAvailable();
@@ -66,7 +66,6 @@ export const Settings: React.FC<Props> = () => {
   const { mode, theme, changeTheme } = useThemeStore();
   const snapPoints = useMemo(() => ["40%"], []);
   const i18n = useTranslation("common");
-  const connectedAccount = useConnectedAccount();
   const toast = useToastController();
   const navigation = useRootNavigation();
   const { expoPushToken, requestPermissions } = useNotification();
@@ -247,7 +246,7 @@ export const Settings: React.FC<Props> = () => {
                   </SettingsListItem>
                 </SettingsYGroup.Item>
                 {
-                  isConnected && (
+                  isLogin && (
                     <SettingsYGroup.Item>
                       <SettingsListItem
                         icon={Cog}
@@ -346,7 +345,7 @@ export const Settings: React.FC<Props> = () => {
                 )
               }
 
-              {connectedAccount && (
+              {isConnected && (
                 <SettingsYGroup bordered>
                   <SettingsYGroup.Item>
                     <SettingsListItem scaleIcon={1.2}>

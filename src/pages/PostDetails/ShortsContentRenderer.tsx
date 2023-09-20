@@ -21,8 +21,8 @@ export const ShortsContentRenderer: FC<{
   const i18n = useTranslation("common");
 
   return (
-    <Stack paddingHorizontal="$2" paddingBottom="$10">
-      <Text fontSize={"$5"} color={"$colorText"}>{content}</Text>
+    <Stack paddingHorizontal="$4" paddingBottom="$10">
+      <Text lineHeight={"$2"} fontSize={"$5"} color={"$colorText"}>{content}</Text>
       <Separator marginVertical="$4" height={2}/>
       <Text fontSize={"$3"} color="$colorDescription">
         {i18n.t("{{count}} comments", {

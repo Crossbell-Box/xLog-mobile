@@ -15,6 +15,7 @@ import { H4, Separator, SizableText, Spacer, Stack, Text, useWindowDimensions, X
 import { Avatar } from "@/components/Avatar";
 import { useColors } from "@/hooks/use-colors";
 import { useDrawer } from "@/hooks/use-drawer";
+import { useIsLogin } from "@/hooks/use-is-login";
 import { useHomeNavigation, useRootNavigation } from "@/hooks/use-navigation";
 import { i18n } from "@/i18n";
 import type { ProfilePagesParamList } from "@/navigation/types";
@@ -130,11 +131,11 @@ export const Drawer: FC<React.PropsWithChildren<{}>> = ({ children }) => {
   const { width } = useWindowDimensions();
   const { borderColor, background } = useColors();
   const { isDrawerOpen, openDrawer, closeDrawer } = useDrawer();
-  const isConnected = useIsConnected();
+  const isLogin = useIsLogin();
 
   return (
     <_Drawer
-      swipeEnabled={isConnected} // Allow swipe to open drawer only on `Home` page.
+      swipeEnabled={isLogin} // Allow swipe to open drawer only on `Home` page.
       open={isDrawerOpen}
       onOpen={openDrawer}
       onClose={closeDrawer}

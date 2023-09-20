@@ -1,16 +1,16 @@
 import type { FC } from "react";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import type Animated from "react-native-reanimated";
 
-import { useConnectedAccount } from "@crossbell/react-account";
 import { Search } from "@tamagui/lucide-icons";
 import { ScrollView, Stack, Text, XStack } from "tamagui";
 
 import { PolarLightBackground } from "@/components/PolarLightBackground";
 import { XTouch } from "@/components/XTouch";
 import { useHitSlopSize } from "@/hooks/use-hit-slop-size";
+import { useIsLogin } from "@/hooks/use-is-login";
 import { useRootNavigation } from "@/hooks/use-navigation";
 import { useThemeStore } from "@/hooks/use-theme-store";
 import type { SourceType } from "@/models/home.model";
@@ -38,7 +38,7 @@ export const Header: FC<Props> = (props) => {
   const { isDarkMode } = useThemeStore();
   const { isExpandedAnimValue, onFeedTypeChange } = props;
   const [activeIndex, setActiveIndex] = useState(0);
-  const connectedAccount = useConnectedAccount();
+  const isLogin = useIsLogin();
   const hitSlop = useHitSlopSize(60);
   const navigation = useRootNavigation();
   const [isHotIntervalBottomSheetOpen, setIsHotIntervalBottomSheetOpen] = useState(false);
@@ -53,7 +53,7 @@ export const Header: FC<Props> = (props) => {
             <XStack flex={1} gap="$4">
               {
                 Object.values(searchTypes).map((type, index) => {
-                  if (type === searchTypes.FOLLOWING && (!connectedAccount || isSearching)) {
+                  if (type === searchTypes.FOLLOWING && (!isLogin || isSearching)) {
                     return null;
                   }
 

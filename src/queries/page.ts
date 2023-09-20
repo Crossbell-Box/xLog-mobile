@@ -207,7 +207,7 @@ export const useSubmitComment = () => {
 
     if (comment) {
       if (content) {
-        await updateComment.mutateAsync({
+        return await updateComment.mutateAsync({
           content,
           characterId: comment.characterId,
           noteId: comment.noteId,
@@ -219,12 +219,8 @@ export const useSubmitComment = () => {
     else {
       if (anonymous) {
         const { email, nickname } = await getAnonymousCommentInformation();
-        if (
-          content
-            && email
-            && nickname
-        ) {
-          await anonymousComment.mutate({
+        if (content && email && nickname) {
+          return await anonymousComment.mutate({
             targetCharacterId: characterId,
             targetNoteId: noteId,
             content,
@@ -234,9 +230,11 @@ export const useSubmitComment = () => {
             originalNoteId,
           });
         }
+
+        await new Promise(resolve => setTimeout(resolve, 1000));
       }
       else {
-        await commentPage.mutateAsync({
+        return await commentPage.mutateAsync({
           characterId,
           noteId,
           content,

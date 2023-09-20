@@ -26,6 +26,10 @@ export const expandCrossbellNote = async ({
     cloneDeep(note),
   );
 
+  if (expandedNote.metadata?.content?.attachments?.length > 0) {
+    expandedNote.metadata.content.attachments = expandedNote.metadata?.content?.attachments?.filter(i => Boolean(i.address));
+  }
+
   if (isShortNotes(note)) {
     return expandedNote;
   }

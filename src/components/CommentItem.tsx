@@ -17,6 +17,7 @@ import { useCharacterId } from "@/hooks/use-character-id";
 import { useColors } from "@/hooks/use-colors";
 import { useDate } from "@/hooks/use-date";
 import { useGlobalLoading } from "@/hooks/use-global-loading";
+import { useIsLogin } from "@/hooks/use-is-login";
 import { useSetupAnonymousComment } from "@/hooks/use-setup-anonymous-comment";
 import { useGetComments, useSubmitComment } from "@/queries/page";
 import type { ExpandedNote } from "@/types/crossbell";
@@ -67,7 +68,7 @@ export const CommentItem: React.FC<CommentItemProps> = (props) => {
   } = props;
   const date = useDate();
   const myCharacterId = useCharacterId();
-  const isConnected = useIsConnected();
+  const isLogin = useIsLogin();
   const comments = useGetComments({ characterId: comment?.characterId, noteId: comment?.noteId });
   const commonI18n = useTranslation();
   const inputRef = useRef<TextInput>(null);
@@ -124,7 +125,7 @@ export const CommentItem: React.FC<CommentItemProps> = (props) => {
       originalNoteId: comment?.noteId,
       content,
       comment: isEditing ? comment : undefined,
-      anonymous: !isConnected,
+      anonymous: !isLogin,
     })
       .then(isEditing ? onEdit : onComment)
       .finally(() => {

@@ -1,64 +1,70 @@
 import type { FC } from "react";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, Linking } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import Animated, { FadeIn, FadeOut, FlipInXDown } from "react-native-reanimated";
+import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 
 import {
-  useConnectedAccount,
   useWalletSignIn,
-  useAccountBalance,
-  useDisconnectAccount,
   useIsWalletSignedIn,
+  useIsConnected,
 } from "@crossbell/react-account";
 import { useBottomSheetModal } from "@gorhom/bottom-sheet";
-import { Plug, Wallet } from "@tamagui/lucide-icons";
+import { Wallet } from "@tamagui/lucide-icons";
 import { useToastController } from "@tamagui/toast";
 import { useWalletConnectModal } from "@walletconnect/modal-react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import * as Sentry from "sentry-expo";
 import type { StackProps } from "tamagui";
-import { Stack, Text, XStack } from "tamagui";
+import { Stack, Text, XStack, YStack } from "tamagui";
 
 import { IS_IOS } from "@/constants";
 import { useAppIsActive } from "@/hooks/use-app-state";
 import { useDisconnect } from "@/hooks/use-disconnect";
 import { useRootNavigation } from "@/hooks/use-navigation";
-import { useOneTimeTogglerWithSignOP } from "@/hooks/use-signin-tips-toggler";
-import { useToggle } from "@/hooks/use-toggle";
 import { GA } from "@/utils/GA";
 
-import { AlertDialog } from "./AlertDialog";
 import { Button } from "./Base/Button";
 import { Center } from "./Base/Center";
-import { DelayedRender } from "./DelayRender";
 
 interface Props extends StackProps {
   navigateToLogin?: boolean
+  beforeOpenModal?: () => Promise<void>
 }
 
-export const ConnectionButton: FC<Props> = (props) => {
-  const { navigateToLogin = false, ...stackProps } = props;
-  const { isLoading } = useAccountBalance();
-  const connectedAccount = useConnectedAccount();
+export const LoginButton: FC<Props> = (props) => {
+  const { navigateToLogin = false, beforeOpenModal, ...stackProps } = props;
+  const isConnected = useIsConnected();
+  const isWalletSignedIn = useIsWalletSignedIn();
+  const [isAfterConnect, setIsAfterConnect] = useState(false);
+  let btn = null;
 
-  if (!connectedAccount && isLoading)
-    // TODO Loading
+  if (isConnected && isWalletSignedIn)
     return null;
+
+  if (isConnected && !isWalletSignedIn) {
+    btn = (
+      <OPSignToggleBtn
+        beforeOpenModal={beforeOpenModal}
+        afterConnect={isAfterConnect}
+      />
+    );
+  }
+
+  if (!isConnected && !isWalletSignedIn) {
+    btn = (
+      <ConnectBtn
+        navigateToLogin={navigateToLogin}
+        beforeOpenModal={beforeOpenModal}
+        onConnect={() => setIsAfterConnect(true)}
+      />
+    );
+  }
 
   return (
     <Stack {...stackProps}>
-      {(() => {
-        switch (connectedAccount?.type) {
-          case "email":
-            return null;
-          case "wallet":
-            return <OPSignToggleBtn />;
-          default:
-            return <ConnectBtn navigateToLogin={navigateToLogin} />;
-        }
-      })()}
+      {btn}
     </Stack>
   );
 };
@@ -66,14 +72,15 @@ export const ConnectionButton: FC<Props> = (props) => {
 export function ConnectBtn({
   navigateToLogin,
   beforeOpenModal,
+  onConnect,
 }: {
   navigateToLogin?: boolean
   beforeOpenModal?: () => Promise<void>
+  onConnect?: () => void
 }) {
   const i18n = useTranslation();
   const navigation = useRootNavigation();
-  const { open, isOpen } = useWalletConnectModal();
-  const { dismissAll } = useBottomSheetModal();
+  const { open, isOpen, provider } = useWalletConnectModal();
   const toast = useToastController();
 
   const isActive = useAppIsActive();
@@ -82,7 +89,12 @@ export function ConnectBtn({
    * Temporarily fix.
    * https://github.com/WalletConnect/modal-react-native/issues/49
   */
-  useEffect(() => { isActive && toast.hide(); }, [isActive]);
+  useEffect(() => {
+    if (isActive) {
+      toast.hide();
+      onConnect?.();
+    }
+  }, [isActive, onConnect]);
   useEffect(() => {
     if (!IS_IOS) {
       return;
@@ -152,7 +164,6 @@ export function ConnectBtn({
     }
 
     beforeOpenModal && await beforeOpenModal();
-
     open({ route: "ConnectWallet" })
       .catch((e) => {
         Sentry.Native.captureException(e);
@@ -182,76 +193,63 @@ export function ConnectBtn({
   );
 }
 
-function OPSignToggleBtn() {
+export function OPSignToggleBtn(
+  {
+    beforeOpenModal,
+    afterConnect, // Start count down after connect
+  }: {
+    beforeOpenModal?: () => Promise<void>
+    afterConnect?: boolean
+  },
+) {
   const { mutate: signIn } = useWalletSignIn();
-  const isWalletSignedIn = useIsWalletSignedIn();
   const i18n = useTranslation();
-  const [visible, toggle] = useToggle(false);
-  const { hasBeenDisplayed, closePermanently } = useOneTimeTogglerWithSignOP();
-
-  const OPSign = () => {
-    signIn();
-    GA.logEvent("operator_sign");
-    closePermanently();
-  };
-
-  const closeAndOPSign = () => {
-    closePermanently();
-    OPSign();
-  };
+  const [autoSign, setAutoSign] = useState(false);
+  const [countDown, setCountDown] = useState(3);
 
   useEffect(() => {
-    toggle(!hasBeenDisplayed);
-  }, [hasBeenDisplayed]);
+    if (afterConnect && !autoSign) {
+      startAutoSignIfAfterConnect();
+    }
+  }, [afterConnect, autoSign]);
 
-  if (!isWalletSignedIn) {
-    return (
-      <Stack>
-        <Animated.View entering={FlipInXDown.delay(500).duration(300)} >
-          <Button
-            pressStyle={{ opacity: 0.85 }}
-            color={"white"}
-            fontSize={"$6"}
-            backgroundColor={"$primary"}
-            borderWidth={0}
-            onPress={OPSign}
-            icon={<Plug size={"$1.5"} />}
-          >
-            {i18n.t("Operator Sign")}
-          </Button>
-        </Animated.View>
-        <DelayedRender timeout={2000}>
-          <AlertDialog
-            visible={visible}
-            title={i18n.t("Operator Sign")}
-            description={i18n.t("By signing, you can interact without clicking to agree the smart contracts every time. We are in Beta, and new users who try it out will be rewarded with 0.01 $CSB.")}
-            renderCancel={() => <Button onPress={closePermanently}>{i18n.t("Do not show again")}</Button>}
-            renderConfirm={() => <Button type="primary" onPress={closeAndOPSign}>{i18n.t("Confirm")}</Button>}
-          />
-        </DelayedRender>
-      </Stack>
-    );
-  }
+  const startAutoSignIfAfterConnect = () => {
+    setAutoSign(true);
+    const timer = setInterval(() => {
+      setCountDown((prev) => {
+        if (prev === 1) {
+          setAutoSign(false);
+          clearInterval(timer);
+          OPSign();
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+  };
 
-  return null;
-}
-
-export function DisconnectBtn({ navigateToLogin }: { navigateToLogin: boolean }) {
-  const { disconnect } = useDisconnect();
-  const i18n = useTranslation();
-  const navigation = useRootNavigation();
+  const OPSign = async () => {
+    beforeOpenModal && await beforeOpenModal();
+    signIn();
+    GA.logEvent("operator_sign");
+  };
 
   return (
-    <Animated.View entering={FadeIn.duration(300)} exiting={FadeOut.duration(300)}>
-      <Button
-        pressStyle={{ opacity: 0.85 }}
-        color={"$colorFocus"}
-        fontSize={"$6"}
-        borderColor={"$borderColorFocus"}
-        onPress={disconnect}
-      >
-        {i18n.t("Disconnect")}
-      </Button>
-    </Animated.View>
+    <TouchableOpacity activeOpacity={0.8} onPress={OPSign}>
+      <Stack paddingVertical="$3" borderRadius={"$5"} overflow="hidden">
+        <LinearGradient
+          colors={["#30a19b", "#2875bf"]}
+          style={{ position: "absolute", width: "100%", top: 0, bottom: 0 }}
+          start={{ x: 0, y: 0.5 }}
+          end={{ x: 1, y: 0.5 }}
+        />
+        <Center>
+          <XStack alignItems="center" gap="$2">
+            <Wallet size={"$2"} color="white"/>
+            <Text fontWeight={"600"} color="white" fontSize={"$6"}>{i18n.t("Operator Sign")} {autoSign ? `(${countDown}s)` : ""}</Text>
+          </XStack>
+        </Center>
+      </Stack>
+    </TouchableOpacity>
   );
 }

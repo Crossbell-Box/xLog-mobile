@@ -205,7 +205,7 @@ export const Navigator: FC<Props> = (props) => {
       >
         <TouchableWithoutFeedback onPress={() => goBack()} containerStyle={{
           position: "absolute",
-          left: 8,
+          left: 16,
           top: topPos,
           zIndex: 2,
         }}>
@@ -230,7 +230,7 @@ export const Navigator: FC<Props> = (props) => {
           justifyContent="center"
           backgroundColor="#EFEFEF"
           position="absolute"
-          right={8}
+          right={16}
           top={topPos}
           zIndex={2}
           theme="dark"
