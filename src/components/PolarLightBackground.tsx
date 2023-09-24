@@ -1,12 +1,11 @@
 import type { FC } from "react";
-import { Dimensions } from "react-native";
+import { Dimensions, Image } from "react-native";
 
 import { Canvas, LinearGradient, Rect, vec } from "@shopify/react-native-skia";
-import { Image } from "expo-image";
 import { Stack } from "tamagui";
 
-export const width = Dimensions.get("window").width;
-export const height = width / 1.58;
+export const width = Math.round(Dimensions.get("window").width);
+export const height = Math.round(width / 1.58);
 
 const bgs = [
   require("../assets/home-grid-bg/0.png"),
@@ -19,13 +18,7 @@ export const PolarLightBackground: FC<{
 }> = ({ activeIndex }) => {
   return (
     <Stack position="absolute" width={width} height={height}>
-      <Image
-        source={bgs[activeIndex]}
-        contentFit="contain"
-        cachePolicy="memory"
-        style={{ width, height, marginTop: -5 }}
-      />
-
+      <Image source={bgs[activeIndex]} resizeMode="contain" style={{ width, height, marginTop: -5 }} />
       <Stack position="absolute" width={width} height={height} top={0}>
         <Canvas style={{ flex: 1 }}>
           <Rect x={0} y={0} width={width} height={height}>

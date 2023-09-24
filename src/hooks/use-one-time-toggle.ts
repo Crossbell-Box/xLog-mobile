@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { cacheStorage } from "@/utils/cache-storage";
 
 export const useOneTimeToggler = (
   key: string,
@@ -13,7 +13,7 @@ export const useOneTimeToggler = (
 
   useEffect(() => {
     const checkToggleStatus = async () => {
-      const value = await AsyncStorage.getItem(key);
+      const value = await cacheStorage.getString(key);
       if (value !== null) {
         setHasToggled(true);
       }
@@ -22,7 +22,7 @@ export const useOneTimeToggler = (
   }, []);
 
   const toggleOffPermanently = async () => {
-    await AsyncStorage.setItem(key, "true");
+    await cacheStorage.set(key, "true");
     setHasToggled(true);
   };
 
@@ -31,7 +31,7 @@ export const useOneTimeToggler = (
   };
 
   const resetToggle = async () => {
-    await AsyncStorage.removeItem(key);
+    await cacheStorage.delete(key);
     setHasToggled(false);
   };
 

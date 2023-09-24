@@ -1,5 +1,5 @@
 import type { FC, PropsWithChildren } from "react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback } from "react";
 import { useColorScheme } from "react-native";
 
 import { useFonts } from "expo-font";
@@ -51,13 +51,13 @@ export const ThemeProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
     setTheme(theme);
   }, []);
 
-  const toggleFollowSystem = useCallback(async () => {
+  const toggleFollowSystem = useCallback(() => {
     const _followSystem = !followSystem;
 
-    await setFollowSystem(_followSystem);
+    setFollowSystem(_followSystem);
 
     if (_followSystem) {
-      await setMode(colorScheme);
+      setMode(colorScheme);
     }
   }, [followSystem, colorScheme]);
 

@@ -77,7 +77,7 @@ export const useFeedList = <T extends {}>(props: Props & T) => {
     ),
     ListEmptyComponent: <Stack>
       {
-        feed.isFetching
+        feed.isFetching && feedList.length === 0
           ? <Skeleton itemWidth={width / 2 - 12}/>
           : (
             <YStack minHeight={300} alignItems="center" justifyContent="center" gap="$2">
@@ -103,7 +103,7 @@ export const useFeedList = <T extends {}>(props: Props & T) => {
     onEndReached: () => {
       if (
         feedList.length === 0
-          || feed.isFetchingNextPage
+          || feed.isFetching
           || feed.hasNextPage === false
       )
         return;

@@ -3,29 +3,25 @@ import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, Linking } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 
 import {
   useWalletSignIn,
   useIsWalletSignedIn,
   useIsConnected,
 } from "@crossbell/react-account";
-import { useBottomSheetModal } from "@gorhom/bottom-sheet";
 import { Wallet } from "@tamagui/lucide-icons";
 import { useToastController } from "@tamagui/toast";
 import { useWalletConnectModal } from "@walletconnect/modal-react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import * as Sentry from "sentry-expo";
 import type { StackProps } from "tamagui";
-import { Stack, Text, XStack, YStack } from "tamagui";
+import { Stack, Text, XStack } from "tamagui";
 
 import { IS_IOS } from "@/constants";
 import { useAppIsActive } from "@/hooks/use-app-state";
-import { useDisconnect } from "@/hooks/use-disconnect";
 import { useRootNavigation } from "@/hooks/use-navigation";
 import { GA } from "@/utils/GA";
 
-import { Button } from "./Base/Button";
 import { Center } from "./Base/Center";
 
 interface Props extends StackProps {
@@ -206,24 +202,25 @@ export function OPSignToggleBtn(
   const i18n = useTranslation();
   const [autoSign, setAutoSign] = useState(false);
   const [countDown, setCountDown] = useState(3);
+  const timer = useRef(null);
 
   useEffect(() => {
-    if (afterConnect && !autoSign) {
+    if (afterConnect && !autoSign && !timer.current) {
       startAutoSignIfAfterConnect();
     }
   }, [afterConnect, autoSign]);
 
   const startAutoSignIfAfterConnect = () => {
     setAutoSign(true);
-    const timer = setInterval(() => {
-      setCountDown((prev) => {
-        if (prev === 1) {
+    timer.current = setInterval(() => {
+      setCountDown((count) => {
+        if (count === 0) {
+          clearInterval(timer.current);
           setAutoSign(false);
-          clearInterval(timer);
           OPSign();
           return 0;
         }
-        return prev - 1;
+        return count - 1;
       });
     }, 1000);
   };

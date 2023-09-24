@@ -1,14 +1,14 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { cacheStorage } from "./cache-storage";
 
 const namespace = "xlog";
 
 let data: {
   [key: string]: any
 } = {};
+
 try {
-  AsyncStorage.getItem(namespace).then((value) => {
-    data = JSON.parse(value || "{}");
-  });
+  const value = cacheStorage.getString(namespace);
+  data = JSON.parse(value || "{}");
 }
 catch (error) {}
 
@@ -25,7 +25,7 @@ export const getKeys = (key: string | string[]) => {
 export const getStorage = async (key: string, noCache?: boolean) => {
   if (noCache) {
     try {
-      data = JSON.parse(await AsyncStorage.getItem(namespace) || "{}");
+      data = JSON.parse(await cacheStorage.getString(namespace) || "{}");
     }
     catch (error) {}
   }
@@ -35,10 +35,10 @@ export const getStorage = async (key: string, noCache?: boolean) => {
 export const setStorage = async (key: string, value: any) => {
   data[key]
     = typeof value !== "object" ? value : Object.assign({}, data[key], value);
-  await AsyncStorage.setItem(namespace, JSON.stringify(data));
+  await cacheStorage.set(namespace, JSON.stringify(data));
 };
 
 export const delStorage = async (key: string) => {
   delete data[key];
-  await AsyncStorage.removeItem(namespace);
+  await cacheStorage.delete(namespace);
 };

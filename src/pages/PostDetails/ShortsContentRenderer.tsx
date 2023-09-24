@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
 
+import type { NoteEntity } from "crossbell";
 import { Separator, Stack, Text, YStack } from "tamagui";
 
 import { Button } from "@/components/Base/Button";
@@ -10,7 +11,7 @@ import { useGetComments } from "@/queries/page";
 import type { ExpandedNote } from "@/types/crossbell";
 
 export const ShortsContentRenderer: FC<{
-  note: ExpandedNote
+  note: NoteEntity
   onPressComment: () => void
   onPressViewAllComments: () => void
 }> = ({ note, onPressComment, onPressViewAllComments }) => {
@@ -24,7 +25,7 @@ export const ShortsContentRenderer: FC<{
   const i18n = useTranslation("common");
 
   return (
-    <Stack paddingHorizontal="$4" paddingBottom="$10">
+    <Stack paddingHorizontal="$2" paddingBottom="$10">
       <Text lineHeight={"$2"} fontSize={"$5"} color={"$colorText"}>{content}</Text>
       <Separator marginVertical="$4" height={2}/>
       <Text fontSize={"$3"} color="$colorDescription">

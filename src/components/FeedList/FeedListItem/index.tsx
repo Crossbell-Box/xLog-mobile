@@ -3,10 +3,10 @@ import React, { useEffect, useMemo, useRef } from "react";
 import type { ViewStyle } from "react-native";
 import { Image as RNImage } from "react-native";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
-import Animated, { FadeIn, FadeInDown } from "react-native-reanimated";
+import Animated, { FadeInDown } from "react-native-reanimated";
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Eye } from "@tamagui/lucide-icons";
+import type { NoteEntity } from "crossbell";
 import { BlurView } from "expo-blur";
 import { Image } from "expo-image";
 import sizeOf from "image-size";
@@ -17,9 +17,11 @@ import { Center } from "@/components/Base/Center";
 import { bgLength, bgsReversed } from "@/constants/bgs";
 import { useCoverImage } from "@/hooks/use-cover-image";
 import { useRootNavigation } from "@/hooks/use-navigation";
-import type { ExpandedNote } from "@/types/crossbell";
+import { cacheStorage } from "@/utils/cache-storage";
+import { getCompressedImageUrl } from "@/utils/get-compressed-image-url";
+
 export interface Props {
-  note: ExpandedNote
+  note: NoteEntity
   style?: ViewStyle
   searchKeyword?: string
   width: number
@@ -38,7 +40,8 @@ export const FeedListItem: FC<Props> = (props) => {
   const { note, width } = props;
   const layoutRef = useRef<Animated.View>(null);
   const navigation = useRootNavigation();
-  const coverImage = useCoverImage(note);
+  const originalCoverImage = useCoverImage(note);
+  const coverImage = getCompressedImageUrl(originalCoverImage, "640", "10");
   const usingDefaultCoverImage = !coverImage;
   const defaultLayout = { width, height: defaultCoverImageHeight };
   const [sourceLayout, setSourceLayout] = React.useState<{ width: number;height: number } | undefined>(
@@ -75,7 +78,7 @@ export const FeedListItem: FC<Props> = (props) => {
     width: number
     height: number
   }> => {
-    const cachedLayout = await AsyncStorage.getItem(`img-layouts:${coverImage}`);
+    const cachedLayout = await cacheStorage.getString(`img-layouts:${coverImage}`);
 
     if (cachedLayout) {
       return {
@@ -128,10 +131,25 @@ export const FeedListItem: FC<Props> = (props) => {
     getCoverSourceLayout().then((layout) => {
       setSourceLayout(layout);
       if (layout.origin !== "cache") {
-        AsyncStorage.setItem(`img-layouts:${coverImage}`, JSON.stringify(layout));
+        cacheStorage.set(`img-layouts:${coverImage}`, JSON.stringify(layout));
       }
     });
   }, [coverImage]);
+
+  const titleContent = note?.metadata?.content?.title || note?.metadata?.content?.content;
+  const titleElement = (
+    titleContent && (
+      <SizableText
+        size={"$5"}
+        fontWeight={"700"}
+        color="$color"
+        marginBottom={"$2"}
+        numberOfLines={2}
+      >
+        {String(titleContent)}
+      </SizableText>
+    )
+  );
 
   if (!sourceLayout) {
     return null;
@@ -192,19 +210,7 @@ export const FeedListItem: FC<Props> = (props) => {
           paddingHorizontal={4}
           paddingVertical={8}
         >
-          {
-            note?.metadata?.content?.title && (
-              <SizableText
-                size={"$5"}
-                fontWeight={"700"}
-                color="$color"
-                marginBottom={"$2"}
-                numberOfLines={2}
-              >
-                {String(note?.metadata?.content?.title)}
-              </SizableText>
-            )
-          }
+          {titleElement}
           <XStack alignItems="center" justifyContent="space-between" gap={"$2"} marginBottom={"$1"}>
             <XStack alignItems="center" gap="$2" flex={1}>
               <Avatar character={note?.character} useDefault size={20}/>
@@ -218,7 +224,7 @@ export const FeedListItem: FC<Props> = (props) => {
               <Eye size={20} color={"#8F8F91"}/>
               <XStack alignItems="center">
                 <SizableText size="$3" color={"#8F8F91"}>
-                  {note?.stat?.viewDetailCount}
+                  {note?.stat?.viewDetailCount || 0}
                 </SizableText>
               </XStack>
             </XStack>
