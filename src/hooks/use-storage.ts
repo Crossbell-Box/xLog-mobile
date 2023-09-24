@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 
-import { useAsyncStorage } from "@react-native-async-storage/async-storage";
+import { cacheStorage } from "@/utils/cache-storage";
 
 interface UseStorageOptions<T> {
   defaultValue?: T
@@ -12,7 +12,6 @@ export function useStorage<T>(
   options?: UseStorageOptions<T>,
 ) {
   const { defaultValue, validationValues } = options || {};
-  const storageController = useAsyncStorage(key);
   const [value, _setValue] = useState<T | undefined>(defaultValue);
 
   const validateValue = useCallback((_value?: T) => {
@@ -28,30 +27,33 @@ export function useStorage<T>(
   }, [value, defaultValue, validationValues]);
 
   const setValue = useCallback((_value?: T) => {
-    if (typeof _value === "undefined")
-      return storageController.removeItem().then(() => _setValue(undefined));
+    if (typeof _value === "undefined") {
+      cacheStorage.delete(key);
+      _setValue(undefined);
+    }
 
     const validatedValue = validateValue(_value);
-    return storageController.setItem(JSON.stringify(validatedValue)).then(() => _setValue(validatedValue));
-  }, [validateValue, storageController]);
+    cacheStorage.set(key, JSON.stringify(validatedValue));
+    _setValue(validatedValue);
+  }, [validateValue]);
 
   useEffect(() => {
-    storageController.getItem().then((item) => {
-      try {
-        const parsedItem = JSON.parse(item!);
+    const item = cacheStorage.getString(key);
 
-        if (parsedItem)
-          _setValue(parsedItem);
+    try {
+      if (!item)
+        return setValue(defaultValue); // set default value if no item found and update state
 
-        else
-          setValue(defaultValue);
-      }
-      catch (e) {
-        console.error(`Failed to parse value for ${key}: ${item}, setting to default value: ${defaultValue}`);
-        setValue(defaultValue);
-      }
-    });
-  }, [defaultValue, setValue, storageController]);
+      const parsedItem = JSON.parse(item!);
+
+      if (parsedItem)
+        _setValue(parsedItem); // update state
+    }
+    catch (e) {
+      console.error(`Failed to parse value for ${key}: ${item}, setting to default value: ${defaultValue}`);
+      setValue(defaultValue); // set default value if parsing failed and update state
+    }
+  }, [defaultValue, setValue]);
 
   return [value, setValue] as const;
 }

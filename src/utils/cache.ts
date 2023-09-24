@@ -1,4 +1,4 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { cacheStorage } from "./cache-storage";
 
 const EXPIRE_TIME = 60 * 60 * 1000 * 24 * 7;
 
@@ -11,7 +11,7 @@ export async function cacheGet(options: {
 
   const key = Array.isArray(_key) ? _key.map(String).join("-") : _key.toString();
   try {
-    const cacheValue = await AsyncStorage.getItem(key);
+    const cacheValue = await cacheStorage.getString(key);
     if (cacheValue !== null) {
       const parsedValue = JSON.parse(cacheValue);
       if (new Date().getTime() < parsedValue.expire) {
@@ -25,7 +25,7 @@ export async function cacheGet(options: {
         value,
         expire: new Date().getTime() + EXPIRE_TIME,
       };
-      await AsyncStorage.setItem(key, JSON.stringify(newCacheValue));
+      await cacheStorage.set(key, JSON.stringify(newCacheValue));
     }
     return value;
   }
@@ -38,7 +38,7 @@ export async function cacheGet(options: {
 export async function cacheDelete(_key: string | string[]) {
   const key = Array.isArray(_key) ? _key.join("-") : _key;
   try {
-    await AsyncStorage.removeItem(key);
+    await cacheStorage.delete(key);
   }
   catch (error) {
     console.error(error);

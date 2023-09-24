@@ -402,7 +402,6 @@ export async function getPagesBySite(input: {
   cursor?: string
   tags?: string[]
   useStat?: boolean
-  useHTML?: boolean
   keepBody?: boolean
   handle?: string // In order to be compatible with old drafts
 }) {

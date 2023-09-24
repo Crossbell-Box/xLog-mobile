@@ -59,6 +59,7 @@ export default (_: ConfigContext): ExpoConfig => {
           },
           ios: {
             deploymentTarget: "13.0",
+            flipper: true,
           },
         },
       ],

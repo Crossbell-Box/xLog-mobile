@@ -4,7 +4,6 @@ import type { CharacterEntity, NoteEntity } from "crossbell";
 import dayjs from "dayjs";
 
 import { client } from "@/queries/graphql";
-import type { ExpandedNote } from "@/types/crossbell";
 import { expandCrossbellNote } from "@/utils/expand-unit";
 
 import filter from "../data/filter.json";
@@ -34,13 +33,23 @@ export async function getFeed(params: {
   daysInterval?: number
   searchKeyword?: string
   tags?: string[]
-  useHTML?: boolean
   topic?: string
 }) {
-  const { searchType, sourceType, cursor, limit = 12, characterId, daysInterval, searchKeyword, tags, useHTML, topic } = params;
+  const {
+    searchType: _searchType,
+    sourceType,
+    cursor,
+    limit = 12,
+    characterId,
+    daysInterval,
+    searchKeyword,
+    tags: _tags = [],
+    topic,
+  } = params;
 
-  if (searchType === "search" && !searchKeyword) {
-    params.searchType = "latest";
+  let searchType = _searchType;
+  if (_searchType === "search" && !searchKeyword) {
+    searchType = "latest";
   }
 
   const sourceQuery = `{
@@ -82,7 +91,7 @@ export async function getFeed(params: {
   `;
 
   let resultAll: {
-    list: ExpandedNote[]
+    list: NoteEntity[]
     cursor?: string | null
     count?: number
   } = {
@@ -90,7 +99,7 @@ export async function getFeed(params: {
     count: 0,
   };
 
-  tags.push(sourceType); // short / post
+  const tags = [..._tags, sourceType];
 
   switch (searchType) {
     case "latest": {
@@ -140,11 +149,7 @@ export async function getFeed(params: {
           },
         });
 
-      const list = await Promise.all(
-        result?.data?.notes.map((page: NoteEntity) =>
-          expandCrossbellNote({ note: page }),
-        ),
-      );
+      const list = result?.data?.notes as NoteEntity[];
 
       resultAll = {
         list,
@@ -520,39 +525,7 @@ export async function getFeed(params: {
           },
         );
 
-      let list: ExpandedNote[] = await Promise.all(
-        result?.data?.notes.map(
-          async (
-            page: NoteEntity & {
-              stat: {
-                viewDetailCount: number
-                hotScore?: number
-              }
-            },
-          ) => {
-            if (daysInterval) {
-              const secondAgo = dayjs().diff(dayjs(page.createdAt), "second");
-              page.stat.hotScore
-                = page.stat.viewDetailCount / Math.max(Math.log10(secondAgo), 1);
-            }
-
-            return await expandCrossbellNote({ note: page });
-          },
-        ),
-      );
-
-      if (daysInterval) {
-        list = list
-          .sort((a, b) => {
-            if (a.stat?.hotScore && b.stat?.hotScore) {
-              return b.stat.hotScore - a.stat.hotScore;
-            }
-            else {
-              return 0;
-            }
-          })
-          .slice(0, 24);
-      }
+      const list = result?.data?.notes as NoteEntity[];
 
       resultAll = {
         list,

@@ -2,14 +2,12 @@ import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ScrollView } from "react-native-gesture-handler";
 
-import { useIsConnected } from "@crossbell/react-account";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useToastController } from "@tamagui/toast";
 import { Input, Paragraph, YStack } from "tamagui";
+
+import { cacheStorage } from "@/utils/cache-storage";
 
 import { useIsLogin } from "./use-is-login";
 import { useToggle } from "./use-toggle";
-import { useToast } from "./useToast";
 
 import { AlertDialog } from "../components/AlertDialog";
 import { Button } from "../components/Base/Button";
@@ -18,8 +16,8 @@ const NICKNAME_LOCAL_STORAGE_KEY = "anonymousComment.nickname";
 const EMAIL_LOCAL_STORAGE_KEY = "anonymousComment.email";
 
 export const getAnonymousCommentInformation = async () => {
-  const nickname = await AsyncStorage.getItem(NICKNAME_LOCAL_STORAGE_KEY);
-  const email = await AsyncStorage.getItem(EMAIL_LOCAL_STORAGE_KEY);
+  const nickname = await cacheStorage.getString(NICKNAME_LOCAL_STORAGE_KEY);
+  const email = await cacheStorage.getString(EMAIL_LOCAL_STORAGE_KEY);
 
   return {
     nickname,
@@ -71,8 +69,8 @@ export const useSetupAnonymousComment = () => {
   };
 
   const setAnonymousInformation = async () => {
-    await AsyncStorage.setItem(NICKNAME_LOCAL_STORAGE_KEY, nickname);
-    await AsyncStorage.setItem(EMAIL_LOCAL_STORAGE_KEY, email);
+    await cacheStorage.set(NICKNAME_LOCAL_STORAGE_KEY, nickname);
+    await cacheStorage.set(EMAIL_LOCAL_STORAGE_KEY, email);
     toggle(false);
     cb.current();
     cb.current = undefined;

@@ -4,6 +4,7 @@ import { useSharedValue, withSpring, withDelay } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import type { NoteEntity } from "crossbell";
 import { Stack } from "tamagui";
 
 import { DelayedRender } from "@/components/DelayRender";
@@ -12,9 +13,7 @@ import { usePostWebViewLink } from "@/hooks/use-post-link";
 import { useScrollVisibilityHandler } from "@/hooks/use-scroll-visibility-handler";
 import { useThemeStore } from "@/hooks/use-theme-store";
 import type { RootStackParamList } from "@/navigation/types";
-import type { ExpandedNote } from "@/types/crossbell";
 import { GA } from "@/utils/GA";
-import { isShortNotes } from "@/utils/is-short-notes";
 
 import type { BottomSheetModalInstance } from "./BottomSheetModal";
 import { BottomSheetModal } from "./BottomSheetModal";
@@ -25,7 +24,7 @@ import { Navigator } from "./Navigator";
 
 export interface Props {
   characterId: number
-  note: ExpandedNote
+  note: NoteEntity
   coverImage?: string
   placeholderCoverImageIndex?: number
 }

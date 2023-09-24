@@ -7,6 +7,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useCharacter, useNote } from "@crossbell/indexer";
 import RNBottomSheet from "@gorhom/bottom-sheet";
 import type { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
+import type { NoteEntity } from "crossbell";
 import { Image } from "expo-image";
 import { Spacer, Stack, XStack } from "tamagui";
 
@@ -28,7 +29,7 @@ import { bottomSheetPadding } from "./constants";
 export interface Props {
   characterId: number
   bottomBarHeight: number
-  note: ExpandedNote
+  note: NoteEntity
 }
 
 export interface BottomSheetModalInstance {

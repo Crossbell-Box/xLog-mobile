@@ -8,6 +8,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useCharacter, useNote } from "@crossbell/indexer";
 import { HeaderHeightContext } from "@react-navigation/elements";
 import { Canvas, LinearGradient, Rect, vec } from "@shopify/react-native-skia";
+import type { NoteEntity } from "crossbell";
 import { Image } from "expo-image";
 import moment from "moment";
 import { SizableText, Spacer, Stack, Text, Theme, View, XStack, YStack } from "tamagui";
@@ -27,7 +28,7 @@ interface Props {
   isCapturing: boolean
   headerContainerHeight: number
   postUri?: string
-  note: ExpandedNote
+  note: NoteEntity
   characterId: number
   placeholderCoverImageIndex: number
   coverImage: string
@@ -108,7 +109,7 @@ export const Header: FC<Props> = (props) => {
       {
         isShort
           ? (
-            <YStack paddingHorizontal="$4" paddingTop="$2">
+            <YStack paddingHorizontal="$2" paddingTop="$2">
               {
                 data.length > 1 && (
                   <Stack alignItems="center" paddingVertical="$3">

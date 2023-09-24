@@ -8,6 +8,7 @@ import { captureRef } from "react-native-view-shot";
 import { useCharacter } from "@crossbell/indexer";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useToastController } from "@tamagui/toast";
+import type { NoteEntity } from "crossbell";
 import { Image } from "expo-image";
 import * as MediaLibrary from "expo-media-library";
 import { H2, Spacer, useWindowDimensions, YStack } from "tamagui";
@@ -28,7 +29,7 @@ import { ShortsContentRenderer } from "./ShortsContentRenderer";
 import { WebViewRenderer } from "./WebViewRenderer";
 
 export interface Props {
-  note: ExpandedNote
+  note: NoteEntity
   characterId: number
   scrollEventHandler: ReturnType<typeof useScrollVisibilityHandler>
   headerContainerHeight: number

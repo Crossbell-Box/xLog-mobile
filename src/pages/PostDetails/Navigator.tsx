@@ -13,6 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 import type { IconProps } from "@tamagui/helpers-icon";
 import { ArrowLeft, ChevronLeft, Image as ImageIcon, Link, MoreHorizontal, Twitter } from "@tamagui/lucide-icons";
 import { useToastController } from "@tamagui/toast";
+import type { NoteEntity } from "crossbell";
 import * as Clipboard from "expo-clipboard";
 import * as MediaLibrary from "expo-media-library";
 import * as Sentry from "sentry-expo";
@@ -40,7 +41,7 @@ import { getTwitterShareUrl } from "@/utils/helpers";
 export interface Props {
   isExpandedAnimValue: SharedValue<number>
   characterId: number
-  note: ExpandedNote
+  note: NoteEntity
   postUri: string
   headerContainerHeight: number
   onTakeScreenshot: () => Promise<string>

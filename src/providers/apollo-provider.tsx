@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 
 import { ApolloProvider as _ApolloProvider } from "@apollo/client";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { persistCache } from "apollo3-cache-persist";
 
 import { cache, client } from "@/queries/graphql";
+import { cacheStorageCompat } from "@/utils/cache-storage";
 
 interface ApolloProviderProps extends React.PropsWithChildren {
 
@@ -16,7 +16,7 @@ export function ApolloProvider({ children }: ApolloProviderProps) {
   useEffect(() => {
     persistCache({
       cache,
-      storage: AsyncStorage,
+      storage: cacheStorageCompat,
     }).then(() => setLoadingCache(false));
   }, []);
 
