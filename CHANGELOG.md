@@ -1,5 +1,24 @@
 # xlog
 
+## 0.23.0
+
+### Minor Changes
+
+- fc84705: Support to Auto OPSign
+- b2b9c84: Fixed some bugs and optimized the operation of cache storage.
+- f45eb35: Added shorts list and details pages.
+- 8d1a521: Support to create shorts.
+
+### Patch Changes
+
+- baa8a28: Optimized the loading speed of the details page.
+- 37a279c: Fixed some bugs.
+- 01e9e5c: Added a navigation button that opens the list of comments.
+- 01e9e5c: Added enter animation style for comments item.
+- 1ceb97f: Fixed some bugs.
+- 2838131: Display Avatar correctly in the Feed Page.
+- 1d79d62: Optimized animation of feed list on Android.
+
 ## 0.22.0
 
 ### Minor Changes
