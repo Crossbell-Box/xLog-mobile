@@ -8,7 +8,6 @@ import { Button } from "@/components/Base/Button";
 import { CommentItem } from "@/components/CommentItem";
 import { EmptyComponent } from "@/components/CommentList";
 import { useGetComments } from "@/queries/page";
-import type { ExpandedNote } from "@/types/crossbell";
 
 export const ShortsContentRenderer: FC<{
   note: NoteEntity
@@ -58,13 +57,19 @@ export const ShortsContentRenderer: FC<{
                   );
                 })
               }
-              {data.length >= 2 && (
-                <Button type="primary" onPress={onPressViewAllComments}>
-                  {i18n.t("View all {{count}} comments", {
-                    count: commentsCount,
-                  })}
-                </Button>
-              )}
+              {data.length >= 2
+                ? (
+                  <Button type="primary" onPress={onPressViewAllComments}>
+                    {i18n.t("View all {{count}} comments", {
+                      count: commentsCount,
+                    })}
+                  </Button>
+                )
+                : (
+                  <Button type="primary" onPress={onPressComment}>
+                    {i18n.t("Add a comment")}
+                  </Button>
+                )}
             </YStack>
           )
       }

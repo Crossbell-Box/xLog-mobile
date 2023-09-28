@@ -10,7 +10,7 @@ import type { NoteEntity } from "crossbell";
 import { BlurView } from "expo-blur";
 import { Image } from "expo-image";
 import sizeOf from "image-size";
-import { SizableText, Stack, XStack } from "tamagui";
+import { SizableText, Stack, Text, XStack } from "tamagui";
 
 import { Avatar } from "@/components/Avatar";
 import { Center } from "@/components/Base/Center";
@@ -214,10 +214,10 @@ export const FeedListItem: FC<Props> = (props) => {
           <XStack alignItems="center" justifyContent="space-between" gap={"$2"} marginBottom={"$1"}>
             <XStack alignItems="center" gap="$2" flex={1}>
               <Avatar character={note?.character} useDefault size={20}/>
-              <XStack alignItems="center"flex={1}>
-                <SizableText numberOfLines={1} size="$3" color={"#8F8F91"}>
+              <XStack alignItems="center" flex={1}>
+                <Text numberOfLines={1} fontSize={14} color={"#8F8F91"}>
                   {note?.character?.metadata?.content?.name || note?.character?.handle}
-                </SizableText>
+                </Text>
               </XStack>
             </XStack>
             <XStack alignItems="center" gap={6}>

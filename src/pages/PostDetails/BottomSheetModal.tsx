@@ -122,13 +122,17 @@ export const BottomSheetModal = React.forwardRef<BottomSheetModalInstance, Props
 
   useImperativeHandle(ref, () => ({
     comment: () => {
-      bottomSheetTabsRef.current?.comment();
+      bottomSheetTabsRef.current?.setActivity(1);
+      bottomSheetRef.current?.snapToIndex(1);
+      InteractionManager.runAfterInteractions(() => {
+        bottomSheetTabsRef.current?.comment();
+      });
     },
     viewComments: () => {
       bottomSheetTabsRef.current?.setActivity(1);
       bottomSheetRef.current?.snapToIndex(1);
     },
-  }));
+  }), [bottomSheetTabsRef, bottomSheetRef]);
 
   return (
     <RNBottomSheet

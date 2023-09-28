@@ -104,6 +104,10 @@ const PostIndicator: FC<{
     const images = results.map(item => ({
       address: item.url,
       mime_type: item.mimeType,
+      dimensions: {
+        width: item.dimension.width,
+        height: item.dimension.height,
+      },
     }));
 
     createPage.mutate({
