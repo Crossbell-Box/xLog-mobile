@@ -1,5 +1,15 @@
 # xlog
 
+## 0.24.0
+
+### Minor Changes
+
+- ede7c80: Modify the prompts of permission requests.
+
+### Patch Changes
+
+- 7e7871c: Solved the problem of image uploading failure.
+
 ## 0.23.0
 
 ### Minor Changes
