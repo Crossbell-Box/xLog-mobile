@@ -38,13 +38,13 @@ export default (_: ConfigContext): ExpoConfig => {
       [
         "expo-image-picker",
         {
-          photosPermission: "Allow $(PRODUCT_NAME) to access your photos.",
+          photosPermission: "Allow $(PRODUCT_NAME) to access your photos so you can select images when posting articles.",
         },
       ],
       [
         "expo-camera",
         {
-          cameraPermission: "Allow $(PRODUCT_NAME) to access your camera.",
+          cameraPermission: "Allow $(PRODUCT_NAME) to access your camera so you can take photos and use them when posting articles.",
         },
       ],
       [
@@ -66,8 +66,8 @@ export default (_: ConfigContext): ExpoConfig => {
       [
         "expo-media-library",
         {
-          photosPermission: "Allow $(PRODUCT_NAME) to access your photos.",
-          savePhotosPermission: "Allow $(PRODUCT_NAME) to save photos.",
+          photosPermission: "Allow $(PRODUCT_NAME) to access your photos so you can select images when posting articles.",
+          savePhotosPermission: "Allow $(PRODUCT_NAME) to save photos so you can store your favorite images when browsing articles.",
           isAccessMediaLocationEnabled: true,
         },
       ],
