@@ -2,6 +2,7 @@ import { Image } from "react-native-compressor";
 import * as mime from "react-native-mime-types";
 
 import * as FileSystem from "expo-file-system";
+import sizeOf from "image-size";
 
 /**
  * Only support image file currently.
@@ -10,28 +11,37 @@ export const uploadFile = async (
   uri: string,
   onProgressChange?: (event: FileSystem.UploadProgressData) => void,
 ) => {
-  const compressedImage = await Image.compress(uri);
+  const compressedImage = await Image.compress(uri, { input: "uri" });
   const mimeType = mime.lookup(compressedImage) || undefined;
   const task = FileSystem.createUploadTask(
     "https://ipfs-relay.crossbell.io/upload?gnfd=t",
     compressedImage,
     {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-      uploadType: FileSystem.FileSystemUploadType.MULTIPART,
       httpMethod: "POST",
-      mimeType,
+      uploadType: FileSystem.FileSystemUploadType.MULTIPART,
+      fieldName: "file",
     },
     onProgressChange,
   );
 
   const result = await task.uploadAsync();
+  let dimension: { width: number; height: number } | undefined;
+
+  try {
+    const buffer = await FileSystem.readAsStringAsync(compressedImage, {
+      encoding: FileSystem.EncodingType.Base64,
+    });
+    dimension = sizeOf(Buffer.from(buffer, "base64"));
+  }
+  catch (e) {
+  }
+
   const url = JSON.parse(result.body)?.url as string;
 
   return {
     url,
     mimeType,
+    dimension,
   };
 };
 

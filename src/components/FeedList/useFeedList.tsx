@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useRef } from "react";
+import { RefreshControl } from "react-native-gesture-handler";
 import type { useAnimatedScrollHandler } from "react-native-reanimated";
 
-import type { ContentStyle, MasonryFlashListRef } from "@shopify/flash-list";
+import type { ContentStyle, MasonryFlashListProps, MasonryFlashListRef } from "@shopify/flash-list";
 import { Image } from "expo-image";
 import { SizableText, Spinner, Stack, useWindowDimensions, YStack } from "tamagui";
 
@@ -67,7 +68,7 @@ export const useFeedList = <T extends {}>(props: Props & T) => {
   const feed = useGetFeed(queryParams);
   const feedList = useMemo(() => (feed.data?.pages?.flatMap(page => page?.list) || []), [feed.data?.pages]);
 
-  return useMemo(() => ({
+  return useMemo<MasonryFlashListProps<any>>(() => ({
     data: feedList,
     ref: listRef,
     numColumns: 2,
@@ -99,6 +100,11 @@ export const useFeedList = <T extends {}>(props: Props & T) => {
     contentContainerStyle: { ...contentContainerStyle, paddingHorizontal: 4 },
     scrollEventThrottle: 16,
     onScroll,
+    refreshControl: <RefreshControl
+      refreshing={feed.isRefetching}
+      onRefresh={feed.refetch}
+      progressViewOffset={50}
+    />,
     onEndReachedThreshold: 0.5,
     onEndReached: () => {
       if (

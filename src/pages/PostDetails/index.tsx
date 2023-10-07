@@ -32,7 +32,7 @@ export interface Props {
 const animationTimeout = 300;
 
 export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, "PostDetails">> = (props) => {
-  const { route, navigation } = props;
+  const { route } = props;
   const { params } = route;
   const { note, characterId } = params;
   const { isDarkMode } = useThemeStore();
@@ -86,8 +86,8 @@ export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, "Pos
         scrollEventHandler={scrollVisibilityHandler}
         bottomBarHeight={bottomBarHeight}
         headerContainerHeight={headerContainerHeight}
-        onPressComment={bottomSheetModalRef.current?.comment}
-        onPressViewAllComments={bottomSheetModalRef.current?.viewComments}
+        onPressComment={() => bottomSheetModalRef.current?.comment()}
+        onPressViewAllComments={() => bottomSheetModalRef.current?.viewComments()}
       />
 
       <DelayedRender timeout={animationTimeout}>

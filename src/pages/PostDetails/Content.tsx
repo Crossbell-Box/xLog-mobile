@@ -189,8 +189,20 @@ export const Content = React.forwardRef<PostDetailsContentInstance, Props>((prop
       {renderHeaderComponent?.(isCapturing)}
       {
         isShort
-          ? <ShortsContentRenderer note={note} onPressComment={onPressComment} onPressViewAllComments={onPressViewAllComments} />
-          : <WebViewRenderer postUri={postUri} headerContainerHeight={headerContainerHeight} bottomBarHeight={bottomBarHeight} />
+          ? (
+            <ShortsContentRenderer
+              note={note}
+              onPressComment={onPressComment}
+              onPressViewAllComments={onPressViewAllComments}
+            />
+          )
+          : (
+            <WebViewRenderer
+              postUri={postUri}
+              headerContainerHeight={headerContainerHeight}
+              bottomBarHeight={bottomBarHeight}
+            />
+          )
       }
     </Animated.ScrollView>
   );
