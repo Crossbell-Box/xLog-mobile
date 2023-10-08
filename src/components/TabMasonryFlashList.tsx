@@ -11,7 +11,7 @@ export type TabMasonryFlashListProps<T> = Omit<
 MasonryFlashListProps<T>,
 "renderScrollComponent"
 > & {
-  index: number
+  index?: number
 };
 
 function TabMasonryFlashListComponent<T>(

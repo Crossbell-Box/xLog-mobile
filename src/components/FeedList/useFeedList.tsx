@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import { RefreshControl } from "react-native-gesture-handler";
 import type { useAnimatedScrollHandler } from "react-native-reanimated";
 
@@ -67,6 +67,32 @@ export const useFeedList = <T extends {}>(props: Props & T) => {
 
   const feed = useGetFeed(queryParams);
   const feedList = useMemo(() => (feed.data?.pages?.flatMap(page => page?.list) || []), [feed.data?.pages]);
+  const onEndReached = useCallback(() => {
+    if (
+      feedList.length === 0
+        || feed.isFetching
+        || feed.hasNextPage === false
+    )
+      return;
+
+    GA.logEvent("feed_list_view", {
+      feed_length: feedList.length,
+      feed_type: queryParams.searchType,
+      query_limit: queryParams.limit,
+      character_id: queryParams.characterId,
+      days_interval: queryParams.daysInterval,
+      search_keyword: queryParams.searchKeyword,
+      tags: queryParams.tags,
+    });
+
+    feed?.fetchNextPage?.();
+  }, [
+    feedList.length,
+    feed.isFetching,
+    feed.hasNextPage,
+    feed.fetchNextPage,
+    queryParams,
+  ]);
 
   return useMemo<MasonryFlashListProps<any>>(() => ({
     data: feedList,
@@ -106,26 +132,7 @@ export const useFeedList = <T extends {}>(props: Props & T) => {
       progressViewOffset={50}
     />,
     onEndReachedThreshold: 0.5,
-    onEndReached: () => {
-      if (
-        feedList.length === 0
-          || feed.isFetching
-          || feed.hasNextPage === false
-      )
-        return;
-
-      GA.logEvent("feed_list_view", {
-        feed_length: feedList.length,
-        feed_type: queryParams.searchType,
-        query_limit: queryParams.limit,
-        character_id: queryParams.characterId,
-        days_interval: queryParams.daysInterval,
-        search_keyword: queryParams.searchKeyword,
-        tags: queryParams.tags,
-      });
-
-      feed?.fetchNextPage?.();
-    },
+    onEndReached,
     ...(restProps as any),
   }), [
     feed,

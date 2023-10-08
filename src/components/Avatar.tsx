@@ -8,6 +8,7 @@ import { Circle, Text, Avatar as _Avatar } from "tamagui";
 
 import { useNavigateToUserInfo } from "@/hooks/use-navigate-to-user-info";
 import { useThemeStore } from "@/hooks/use-theme-store";
+import { withCompressedImage } from "@/utils/get-compressed-image-url";
 import { toGateway } from "@/utils/ipfs-parser";
 
 import { LogoLightBlueResource, LogoDarkBlueResource } from "./Logo";
@@ -37,15 +38,16 @@ export const Avatar: FC<Props> = (props) => {
   const { isDarkMode } = useThemeStore();
   const LogoResource = isDarkMode ? LogoLightBlueResource : LogoDarkBlueResource;
   const uri = character?.metadata?.content?.avatars?.[0];
-  const name = character?.metadata?.content?.name;
-  const nameAbbr = (name || "")
-    .split(" ")
-    .slice(0, 2)
-    .map(word => word[0])
-    .join("");
 
   if (!uri || (!uri.startsWith("/assets/") && !isValidUrl(uri))) {
+    const name = character?.metadata?.content?.name;
+    const nameAbbr = (name || "")
+      .split(" ")
+      .slice(0, 2)
+      .map(word => word[0])
+      .join("");
     let avatar: React.ReactNode = null;
+
     if (useDefault && nameAbbr) {
       avatar = (
         <Circle
@@ -86,7 +88,7 @@ export const Avatar: FC<Props> = (props) => {
   return (
     <XTouch enableHaptics disabled={!isNavigateToUserInfo} touchableComponent={TouchableOpacity} onPress={navigateToUserInfo}>
       <Image
-        source={{ uri: toGateway(uri) }}
+        source={{ uri: withCompressedImage(toGateway(uri), "low") }}
         contentFit={"cover"}
         style={[styles.container, { width: size, height: size, borderRadius: size / 2 }]}
         cachePolicy="disk"

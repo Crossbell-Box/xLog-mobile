@@ -11,3 +11,18 @@ export function getCompressedImageUrl(
 
   return `${compressorDomain}?url=${encodeURIComponent(source)}&w=${width}&q=${quality}`;
 }
+
+export function withCompressedImage(
+  source: string,
+  level: "low" | "medium" | "high" = "medium",
+) {
+  if (level === "low") {
+    return getCompressedImageUrl(source, "640", "10");
+  }
+
+  if (level === "medium") {
+    return getCompressedImageUrl(source, "640", "20");
+  }
+
+  return getCompressedImageUrl(source, "640", "30");
+}
