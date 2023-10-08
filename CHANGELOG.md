@@ -1,5 +1,11 @@
 # xlog
 
+## 0.25.0
+
+### Minor Changes
+
+- 416c077: Solved the OOM problem on Android.
+
 ## 0.24.0
 
 ### Minor Changes
