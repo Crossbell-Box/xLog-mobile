@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import React, { useEffect, useMemo, useRef } from "react";
 import type { ViewStyle } from "react-native";
-import { Image as RNImage } from "react-native";
+import { Image as RNImage, StyleSheet } from "react-native";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import Animated, { FadeInDown } from "react-native-reanimated";
 
@@ -15,10 +15,11 @@ import { SizableText, Stack, Text, XStack } from "tamagui";
 import { Avatar } from "@/components/Avatar";
 import { Center } from "@/components/Base/Center";
 import { bgLength, bgsReversed } from "@/constants/bgs";
+import { isIOS } from "@/constants/platform";
 import { useCoverImage } from "@/hooks/use-cover-image";
 import { useRootNavigation } from "@/hooks/use-navigation";
 import { cacheStorage } from "@/utils/cache-storage";
-import { getCompressedImageUrl } from "@/utils/get-compressed-image-url";
+import { getCompressedImageUrl, withCompressedImage } from "@/utils/get-compressed-image-url";
 
 export interface Props {
   note: NoteEntity
@@ -38,10 +39,9 @@ const getCoverRangedSize = (height: number) => {
 
 export const FeedListItem: FC<Props> = (props) => {
   const { note, width } = props;
-  const layoutRef = useRef<Animated.View>(null);
   const navigation = useRootNavigation();
   const originalCoverImage = useCoverImage(note);
-  const coverImage = getCompressedImageUrl(originalCoverImage, "640", "10");
+  const coverImage = useMemo(() => withCompressedImage(originalCoverImage), [originalCoverImage]);
   const usingDefaultCoverImage = !coverImage;
   const defaultLayout = { width, height: defaultCoverImageHeight };
   const [sourceLayout, setSourceLayout] = React.useState<{ width: number;height: number } | undefined>(
@@ -91,35 +91,19 @@ export const FeedListItem: FC<Props> = (props) => {
       return defaultLayout;
     }
 
-    return await new Promise ((resolve) => {
-      const byteRange = "0-511";
-
-      fetch(coverImage, { headers: { Range: `bytes=${byteRange}` } })
-        .then(response => response.arrayBuffer())
-        .then((buffer) => {
-          const _buffer = Buffer.from(buffer);
-          try {
-            return sizeOf(_buffer);
-          }
-          catch (e) {
-            return new Promise((resolve) => {
-              RNImage.getSize(
-                coverImage,
-                (_, height) => {
-                  resolve({
-                    width,
-                    height,
-                  });
-                },
-                () => {
-                  resolve(defaultLayout);
-                },
-              );
-            });
-          }
-        }).then((layout: any) => {
-          resolve(layout);
-        });
+    return new Promise((resolve) => {
+      RNImage.getSize(
+        coverImage,
+        (_, height) => {
+          resolve({
+            width,
+            height,
+          });
+        },
+        () => {
+          resolve(defaultLayout);
+        },
+      );
     });
   };
 
@@ -157,8 +141,7 @@ export const FeedListItem: FC<Props> = (props) => {
 
   return (
     <Animated.View
-      ref={layoutRef}
-      style={[props.style, { paddingHorizontal: 4, marginBottom: 8 }]}
+      style={[props.style, styles.container]}
       entering={FadeInDown.duration(150)}
     >
       <TouchableWithoutFeedback onPress={onPress}>
@@ -189,7 +172,7 @@ export const FeedListItem: FC<Props> = (props) => {
                   style={{ height: "100%", width: "100%", position: "absolute" }}
                   contentFit="cover"
                 />
-                <BlurView tint="dark" intensity={10} style={{ position: "absolute", width: "100%", height: "100%" }} />
+                <BlurView tint="light" intensity={10} style={{ position: "absolute", width: "100%", height: "100%" }} />
                 <SizableText
                   size={"$5"}
                   fontWeight={"700"}
@@ -234,3 +217,10 @@ export const FeedListItem: FC<Props> = (props) => {
     </Animated.View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: 4,
+    marginBottom: 8,
+  },
+});

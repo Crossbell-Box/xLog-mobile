@@ -20,6 +20,7 @@ import { useCoverImage } from "@/hooks/use-cover-image";
 import { useThemeStore } from "@/hooks/use-theme-store";
 import { useGetPage } from "@/queries/page";
 import type { ExpandedNote } from "@/types/crossbell";
+import { withCompressedImage } from "@/utils/get-compressed-image-url";
 import { getNoteSlug } from "@/utils/get-slug";
 import { toGateway } from "@/utils/ipfs-parser";
 import { isShortNotes } from "@/utils/is-short-notes";
@@ -45,25 +46,25 @@ export const Header: FC<Props> = (props) => {
   const progressValue = useSharedValue<number>(0);
   const { isDarkMode } = useThemeStore();
   const { top } = useSafeAreaInsets();
-  const qrCodeComponent = postUri && (
-    <Stack
-      backgroundColor={"$color"}
-      padding={"$2"}
-      borderRadius={"$2"}
-      overflow="hidden"
-      position="absolute"
-      right={0}
-      top={0}
-    >
-      <QRCode size={70} value={postUri} logoSize={30} logoBackgroundColor="transparent"/>
-    </Stack>
-  );
+  // const qrCodeComponent = postUri && (
+  //   <Stack
+  //     backgroundColor={"$color"}
+  //     padding={"$2"}
+  //     borderRadius={"$2"}
+  //     overflow="hidden"
+  //     position="absolute"
+  //     right={0}
+  //     top={0}
+  //   >
+  //     <QRCode size={70} value={postUri} logoSize={30} logoBackgroundColor="transparent"/>
+  //   </Stack>
+  // );
 
   const noteTitle = note?.metadata?.content?.title;
   const headerImageHeight = isShort ? Math.max(height * 0.6, 500) : 300;
   const data = isShort
-    ? note?.metadata?.content?.attachments?.map(attachment => toGateway(attachment.address))
-    : [coverImage];
+    ? note?.metadata?.content?.attachments?.map(attachment => withCompressedImage(toGateway(attachment.address), "high"))
+    : [coverImage].map(attachment => withCompressedImage(attachment, "high"));
 
   const userinfoEle = (
     <Stack minHeight={28}>
