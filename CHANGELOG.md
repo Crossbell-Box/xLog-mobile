@@ -1,5 +1,13 @@
 # xlog
 
+## 0.25.1
+
+### Patch Changes
+
+- 38fc15b: Optimized the proformance of the home page.
+- d708e6b: Display shorts banner in home page.
+- d708e6b: Fixed an issue where images couldn't displayed correctly.
+
 ## 0.25.0
 
 ### Minor Changes
