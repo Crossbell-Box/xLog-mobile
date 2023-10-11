@@ -62,6 +62,7 @@ export const ShortsExplorerBanner: FC<Props> = () => {
       <Carousel
         data={shorts.data?.pages?.flatMap(page => page?.list) || []}
         renderItem={({ item }) => <CarouselItem note={item} key={item.blockNumber}/>}
+        windowSize={3}
         mode="parallax"
         width={width - 8}
         height={200}
