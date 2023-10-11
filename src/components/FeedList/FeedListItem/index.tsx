@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useEffect, useMemo } from "react";
 import type { ViewStyle } from "react-native";
 import { Image as RNImage, StyleSheet } from "react-native";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
@@ -9,17 +9,16 @@ import { Eye } from "@tamagui/lucide-icons";
 import type { NoteEntity } from "crossbell";
 import { BlurView } from "expo-blur";
 import { Image } from "expo-image";
-import sizeOf from "image-size";
 import { SizableText, Stack, Text, XStack } from "tamagui";
 
 import { Avatar } from "@/components/Avatar";
 import { Center } from "@/components/Base/Center";
-import { bgLength, bgsReversed } from "@/constants/bgs";
-import { isIOS } from "@/constants/platform";
+import { bgsReversed } from "@/constants/bgs";
 import { useCoverImage } from "@/hooks/use-cover-image";
 import { useRootNavigation } from "@/hooks/use-navigation";
 import { cacheStorage } from "@/utils/cache-storage";
-import { getCompressedImageUrl, withCompressedImage } from "@/utils/get-compressed-image-url";
+import { computedBgIdx } from "@/utils/computed-bg-idx";
+import { withCompressedImage } from "@/utils/get-compressed-image-url";
 
 export interface Props {
   note: NoteEntity
@@ -58,7 +57,7 @@ export const FeedListItem: FC<Props> = (props) => {
   }, [width, sourceLayout]);
 
   const title = String(note?.metadata?.content?.title);
-  const placeholderBgIndex = title?.length % bgLength || 0;
+  const placeholderBgIndex = computedBgIdx(note);
   const placeholderBg = bgsReversed[placeholderBgIndex];
 
   const onPress = React.useCallback(() => {

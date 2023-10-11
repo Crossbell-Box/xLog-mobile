@@ -53,7 +53,6 @@ export const Content = React.forwardRef<PostDetailsContentInstance, Props>((prop
   const [siteT] = useTranslation("site");
   const [commonT] = useTranslation("common");
   const screenshotsRef = useRef<Animated.ScrollView>(null);
-
   const page = useGetPage({
     characterId: character?.data?.characterId,
     slug: getNoteSlug(note),

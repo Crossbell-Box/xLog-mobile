@@ -30,14 +30,18 @@ export interface Props {
   topic?: string
   contentContainerStyle?: ContentStyle
   characterId?: number
+  ListHeaderComponent?: React.ReactNode
 }
 
 export const useFeedList = <T extends {}>(props: Props & T) => {
-  const { sourceType, searchType, searchKeyword, contentContainerStyle = {}, tags = [], topic, daysInterval = 7, onScroll, characterId, ...restProps } = props;
+  const { ListHeaderComponent, sourceType, searchType, searchKeyword, contentContainerStyle = {}, tags = [], topic, daysInterval = 7, onScroll, characterId, ...restProps } = props;
   const _characterId = useCharacterId();
   const gaLog = debounce(() => GA.logSearch({ search_term: searchKeyword }), 2000);
   const { width } = useWindowDimensions();
   const listRef = useRef<MasonryFlashListRef<ExpandedNote>>(null);
+  // const shorts = useGetFeed({
+
+  // });
 
   useEffect(() => {
     typeof searchKeyword === "string" && gaLog();
@@ -122,6 +126,7 @@ export const useFeedList = <T extends {}>(props: Props & T) => {
     </Stack>,
     bounces: true,
     estimatedItemSize: 251,
+    ListHeaderComponent,
     ListFooterComponent: feed.isFetchingNextPage && <Spinner paddingBottom="$5"/>,
     contentContainerStyle: { ...contentContainerStyle, paddingHorizontal: 4 },
     scrollEventThrottle: 16,

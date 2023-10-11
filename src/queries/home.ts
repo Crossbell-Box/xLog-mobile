@@ -8,6 +8,10 @@ export const useGetFeed = (data?: GetFeedParams) => {
   return useInfiniteQuery({
     queryKey: ["getFeed", data],
     queryFn: async ({ pageParam }) => {
+      if (!data) {
+        return;
+      }
+
       const result = await homeModel.getFeed({
         ...data,
         cursor: pageParam,
