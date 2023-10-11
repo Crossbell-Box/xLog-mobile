@@ -306,7 +306,11 @@ export function useGetComments(
   });
 }
 
-export function useCreatePage() {
+export function useCreatePage(
+  prams?: {
+    onSuccess?: (data: any, variables: any) => void
+  },
+) {
   const queryClient = useQueryClient();
   const { mutateAsync: _, ...postNote } = usePostNote();
 
@@ -334,6 +338,7 @@ export function useCreatePage() {
           onSuccess: (data, variables) => {
             queryClient.invalidateQueries(["getPagesBySite", input.characterId]);
             queryClient.invalidateQueries(["getPage", input.characterId]);
+            prams?.onSuccess?.(data, variables);
           },
         },
       );

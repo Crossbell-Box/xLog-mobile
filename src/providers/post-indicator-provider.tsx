@@ -48,7 +48,6 @@ const PostIndicator: FC<{
   onClose?: () => void
 }> = ({ task, onClose }) => {
   const { isExpandedAnimValue } = useContext(GlobalAnimationContext).homeFeed;
-  const createPage = useCreatePage();
   const { primary } = useColors();
   const i18n = useTranslation();
   const { bottom } = useSafeAreaInsets();
@@ -56,21 +55,20 @@ const PostIndicator: FC<{
   const progressAnimValue = useSharedValue(progress);
   const [publishedResult, setPublishedResult] = React.useState<ExpandedNote>(null);
   const navigation = useRootNavigation();
+  const createPage = useCreatePage({
+    onSuccess(data) {
+      getPage({
+        characterId: task.characterId,
+        noteId: Number(data.noteId),
+      }).then((note) => {
+        setPublishedResult(note);
+      });
+    },
+  });
 
   useEffect(() => {
     publish();
   }, []);
-
-  useEffect(() => {
-    if (createPage.isSuccess) {
-      getPage({
-        characterId: task.characterId,
-        noteId: Number(createPage.data.noteId),
-      }).then((note) => {
-        setPublishedResult(note);
-      });
-    }
-  }, [createPage.isSuccess]);
 
   const animStyles = useAnimatedStyle(() => {
     return {
@@ -151,6 +149,7 @@ const PostIndicator: FC<{
                   </XStack>
 
                   <XTouch onPress={() => {
+                    JSON.stringify(publishedResult, null, 4);
                     navigation.navigate("PostDetails", {
                       note: publishedResult,
                       characterId: task.characterId,

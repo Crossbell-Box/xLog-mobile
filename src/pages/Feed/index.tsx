@@ -17,13 +17,14 @@ import type { HomeBottomTabsParamList } from "@/navigation/types";
 
 import { searchTypes, type SearchType } from "./feedTypes";
 import { Header } from "./Header";
+import { ShortsExplorerBanner } from "./ShortsExplorerBanner";
 
 export interface Props {
   sourceType: SourceType
   searchType: SearchType
 }
 
-const { height } = Dimensions.get("window");
+const { height, width } = Dimensions.get("window");
 
 export const FeedListLinearGradientBackground: FC = () => {
   const { pick } = useColors();
@@ -44,7 +45,7 @@ export const FeedPage: FC<NativeStackScreenProps<HomeBottomTabsParamList, "Feed"
   const [daysInterval, setDaysInterval] = useState<number>(7);
   const { isExpandedAnimValue, onScroll } = useContext(GlobalAnimationContext).homeFeed;
   const { top } = useSafeAreaInsets();
-
+  const isShorts = sourceType === "short";
   const containerAnimStyles = useAnimatedStyle(() => {
     const headerHeight = interpolate(isExpandedAnimValue.value, [0, 1], [55, 110], Extrapolate.CLAMP) + top;
     return {
@@ -53,7 +54,7 @@ export const FeedPage: FC<NativeStackScreenProps<HomeBottomTabsParamList, "Feed"
   }, [top, isExpandedAnimValue]);
 
   return (
-    <Stack flex={1} >
+    <Stack flex={1}>
       <FeedListLinearGradientBackground/>
       <Header
         sourceType={sourceType}
@@ -74,6 +75,7 @@ export const FeedPage: FC<NativeStackScreenProps<HomeBottomTabsParamList, "Feed"
             sourceType={sourceType}
             daysInterval={daysInterval}
             searchType={currentFeedType}
+            ListHeaderComponent={!isShorts && <ShortsExplorerBanner/>}
             onScroll={onScroll}
             contentContainerStyle={{
               paddingTop: 50,
@@ -91,5 +93,8 @@ const styles = StyleSheet.create({
     width: "100%",
     bottom: 0,
     overflow: "hidden",
+  },
+  commonContainer: {
+    flex: 1,
   },
 });

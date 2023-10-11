@@ -38,7 +38,7 @@ interface Props {
 const { width, height } = Dimensions.get("window");
 
 export const Header: FC<Props> = (props) => {
-  const { note, characterId, coverImage: _coverImage, placeholderCoverImageIndex = 0, postUri, isCapturing, headerContainerHeight } = props;
+  const { note, characterId, coverImage: _coverImage, placeholderCoverImageIndex = 0 } = props;
   const character = useCharacter(characterId);
   const defaultCoverImage = bgs[placeholderCoverImageIndex];
   const coverImage = _coverImage ?? defaultCoverImage;
@@ -59,11 +59,10 @@ export const Header: FC<Props> = (props) => {
   //     <QRCode size={70} value={postUri} logoSize={30} logoBackgroundColor="transparent"/>
   //   </Stack>
   // );
-
   const noteTitle = note?.metadata?.content?.title;
   const headerImageHeight = isShort ? Math.max(height * 0.6, 500) : 300;
   const data = isShort
-    ? note?.metadata?.content?.attachments?.map(attachment => withCompressedImage(toGateway(attachment.address), "high"))
+    ? note?.metadata?.content?.attachments?.filter(({ address }) => !!address)?.map(attachment => withCompressedImage(toGateway(attachment.address), "high"))
     : [coverImage].map(attachment => withCompressedImage(attachment, "high"));
 
   const userinfoEle = (
@@ -83,8 +82,8 @@ export const Header: FC<Props> = (props) => {
           </XStack>
         )
       }
-    </Stack>)
-    ;
+    </Stack>
+  );
 
   return (
     <YStack backgroundColor={isDarkMode ? "black" : "white"} marginBottom={isShort ? 0 : 50} paddingTop={isShort ? top : 0}>
