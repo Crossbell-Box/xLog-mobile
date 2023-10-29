@@ -31,7 +31,7 @@
 
 - Create `.env.development`, `.env.test` and `.env.production` files and fill the `APP_HOST` variable for various environments.  
     ```
-    APP_HOST=xlog.app
+    APP_HOST=https://xlog.app
     ```
 ### Run the app
 

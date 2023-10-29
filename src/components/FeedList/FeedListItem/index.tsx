@@ -16,12 +16,14 @@ import { Center } from "@/components/Base/Center";
 import { bgsReversed } from "@/constants/bgs";
 import { useCoverImage } from "@/hooks/use-cover-image";
 import { useRootNavigation } from "@/hooks/use-navigation";
+import type { ExpandedNote } from "@/types/crossbell";
 import { cacheStorage } from "@/utils/cache-storage";
 import { computedBgIdx } from "@/utils/computed-bg-idx";
 import { withCompressedImage } from "@/utils/get-compressed-image-url";
+import { toGateway } from "@/utils/ipfs-parser";
 
 export interface Props {
-  note: NoteEntity
+  note: ExpandedNote
   style?: ViewStyle
   searchKeyword?: string
   width: number
@@ -40,13 +42,16 @@ export const FeedListItem: FC<Props> = (props) => {
   const { note, width } = props;
   const navigation = useRootNavigation();
   const originalCoverImage = useCoverImage(note);
-  const coverImage = useMemo(() => withCompressedImage(originalCoverImage), [originalCoverImage]);
+  const coverImage = toGateway(note?.metadata?.content?.images?.[0]) || originalCoverImage;
   const usingDefaultCoverImage = !coverImage;
   const defaultLayout = { width, height: defaultCoverImageHeight };
   const [sourceLayout, setSourceLayout] = React.useState<{ width: number;height: number } | undefined>(
     usingDefaultCoverImage ? defaultLayout : undefined,
   );
 
+  const dimensionsMap = note?.metadata?.content?.imageDimensions;
+  const matchedDimensions = !usingDefaultCoverImage && dimensionsMap?.[coverImage];
+  const dimensionIsValid = matchedDimensions?.width > 0 && matchedDimensions?.height > 0;
   const coverImageAnimStyles = useMemo(() => {
     const height = sourceLayout ? (width * sourceLayout.height) / sourceLayout.width : defaultCoverImageHeight;
 
@@ -77,6 +82,14 @@ export const FeedListItem: FC<Props> = (props) => {
     width: number
     height: number
   }> => {
+    if (dimensionIsValid) {
+      return {
+        origin: "metadata",
+        width: matchedDimensions.width,
+        height: matchedDimensions.height,
+      };
+    }
+
     const cachedLayout = await cacheStorage.getString(`img-layouts:${coverImage}`);
 
     if (cachedLayout) {

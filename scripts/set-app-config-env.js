@@ -16,7 +16,7 @@ function setAppConfigEnv() {
   }
 
   const SCHEME = process.env.APP_SCHEME;
-  const HOST = process.env.APP_HOST ?? "xlog.app";
+  const HOST = process.env.APP_HOST ?? "https://xlog.app";
 
   const envConfig = {
     development: {

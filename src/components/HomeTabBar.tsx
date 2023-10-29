@@ -11,12 +11,12 @@ import { Stack, XStack } from "tamagui";
 
 import { Center } from "@/components/Base/Center";
 import { CreateShortsButton } from "@/components/CreateShortsButton";
-import { GlobalAnimationContext } from "@/context/global-animation-context";
+import { GlobalStateContext } from "@/context/global-state-context";
 
 export const HomeTabBar: FC<BottomTabBarProps> = (props) => {
   const { state, descriptors, navigation } = props;
   const { bottom } = useSafeAreaInsets();
-  const { isExpandedAnimValue } = useContext(GlobalAnimationContext).homeFeed;
+  const { isExpandedAnimValue } = useContext(GlobalStateContext).homeFeed;
 
   const height = 55;
   const bottomSize = bottom + 20;

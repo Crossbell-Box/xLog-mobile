@@ -7,9 +7,9 @@ import { Image } from "expo-image";
 import { SizableText, Spinner, Stack, useWindowDimensions, YStack } from "tamagui";
 
 import { useCharacterId } from "@/hooks/use-character-id";
-import type { SearchType, SourceType } from "@/models/home.model";
 import type { GetFeedParams } from "@/queries/home";
 import { useGetFeed } from "@/queries/home";
+import type { PageVisibilityEnum } from "@/types";
 import type { ExpandedNote } from "@/types/crossbell";
 import { debounce } from "@/utils/debounce";
 import { GA } from "@/utils/GA";
@@ -18,9 +18,8 @@ import { FeedListItem } from "./FeedListItem";
 import { Skeleton } from "./Skeleton";
 
 export interface Props {
-  sourceType: SourceType
   onScroll?: ReturnType<typeof useAnimatedScrollHandler>
-  searchType?: SearchType
+  type?: GetFeedParams["type"]
   /**
    * @default 7
    * */
@@ -28,20 +27,19 @@ export interface Props {
   searchKeyword?: string
   tags?: string[]
   topic?: string
+  handle?: string
   contentContainerStyle?: ContentStyle
   characterId?: number
   ListHeaderComponent?: React.ReactNode
+  visibility?: PageVisibilityEnum
 }
 
 export const useFeedList = <T extends {}>(props: Props & T) => {
-  const { ListHeaderComponent, sourceType, searchType, searchKeyword, contentContainerStyle = {}, tags = [], topic, daysInterval = 7, onScroll, characterId, ...restProps } = props;
+  const { ListHeaderComponent, visibility, handle, type, searchKeyword, contentContainerStyle = {}, tags = [], topic, daysInterval = 7, onScroll, characterId, ...restProps } = props;
   const _characterId = useCharacterId();
   const gaLog = debounce(() => GA.logSearch({ search_term: searchKeyword }), 2000);
   const { width } = useWindowDimensions();
   const listRef = useRef<MasonryFlashListRef<ExpandedNote>>(null);
-  // const shorts = useGetFeed({
-
-  // });
 
   useEffect(() => {
     typeof searchKeyword === "string" && gaLog();
@@ -49,19 +47,21 @@ export const useFeedList = <T extends {}>(props: Props & T) => {
 
   useEffect(() => {
     listRef.current?.scrollToOffset({ offset: 0, animated: false });
-  }, [searchType, daysInterval]);
+  }, [type, daysInterval]);
 
   const queryParams = useMemo<GetFeedParams>(() => ({
-    sourceType,
-    searchType,
+    type,
+    handle,
+    visibility,
     limit: 15,
     characterId: characterId ?? _characterId,
     daysInterval,
     searchKeyword,
     tags,
   }), [
-    sourceType,
-    searchType,
+    type,
+    handle,
+    visibility,
     characterId,
     _characterId,
     daysInterval,
@@ -78,16 +78,6 @@ export const useFeedList = <T extends {}>(props: Props & T) => {
         || feed.hasNextPage === false
     )
       return;
-
-    GA.logEvent("feed_list_view", {
-      feed_length: feedList.length,
-      feed_type: queryParams.searchType,
-      query_limit: queryParams.limit,
-      character_id: queryParams.characterId,
-      days_interval: queryParams.daysInterval,
-      search_keyword: queryParams.searchKeyword,
-      tags: queryParams.tags,
-    });
 
     feed?.fetchNextPage?.();
   }, [

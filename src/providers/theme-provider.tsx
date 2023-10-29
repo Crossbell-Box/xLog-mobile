@@ -34,13 +34,6 @@ export const ThemeProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
     defaultValue: false,
   });
 
-  const [loaded] = useFonts({
-    Inter: require("@tamagui/font-inter/otf/Inter-Regular.otf"),
-    InterLight: require("@tamagui/font-inter/otf/Inter-Light.otf"),
-    InterBold: require("@tamagui/font-inter/otf/Inter-Bold.otf"),
-    InterSemiBold: require("@tamagui/font-inter/otf/Inter-SemiBold.otf"),
-  });
-
   const toggleMode = useCallback(() => {
     const _mode = mode === "dark" ? "light" : "dark";
 
@@ -62,9 +55,6 @@ export const ThemeProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
   }, [followSystem, colorScheme]);
 
   const isDarkMode = mode === "dark";
-
-  if (!loaded)
-    return null;
 
   return (
     <ThemeContext.Provider value={{

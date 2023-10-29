@@ -4,6 +4,7 @@ import { useRefCallback } from "@crossbell/util-hooks";
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import type { Comment } from "@/components/CommentItem";
+import { APP_HOST } from "@/constants/env";
 import { getAnonymousCommentInformation } from "@/hooks/use-setup-anonymous-comment";
 import { anonymousComment, checkMint, getComment, getComments, getMints, getPage, getPagesBySite, updateComment } from "@/models/page.model";
 import type { EditorValues, NoteType } from "@/types";
@@ -17,7 +18,7 @@ export const useGetPagesBySiteLite = (
   return useInfiniteQuery({
     queryKey: ["getPagesBySite", input.characterId, input],
     queryFn: async ({ pageParam }) => {
-      const url = `https://xlog.app/api/pages?${new URLSearchParams({
+      const url = `${APP_HOST}/api/pages?${new URLSearchParams({
         ...input,
         ...(pageParam && { cursor: pageParam }),
       } as any).toString()}`;

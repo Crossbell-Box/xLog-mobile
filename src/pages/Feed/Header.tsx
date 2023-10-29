@@ -13,19 +13,18 @@ import { useHitSlopSize } from "@/hooks/use-hit-slop-size";
 import { useIsLogin } from "@/hooks/use-is-login";
 import { useRootNavigation } from "@/hooks/use-navigation";
 import { useThemeStore } from "@/hooks/use-theme-store";
-import type { SourceType } from "@/models/home.model";
 import { HeaderAnimatedLayout } from "@/pages/Feed/HeaderAnimatedLayout";
 import { GA } from "@/utils/GA";
 
-import { searchTypes, type SearchType } from "./feedTypes";
+import { postSearchTypes, shortsSearchTypes } from "./feedTypes";
+import type { ShortsSearchType, PostSearchType } from "./feedTypes";
 import { HotInterval } from "./HotInterval";
 
 export interface Props {
   isExpandedAnimValue: Animated.SharedValue<number>
   daysInterval: number
-  type?: SearchType
-  sourceType: SourceType
-  onFeedTypeChange: (type: SearchType) => void
+  type?: PostSearchType | ShortsSearchType
+  onFeedTypeChange: (type: PostSearchType | ShortsSearchType) => void
   onDaysIntervalChange: (days: number) => void
   isSearching?: boolean
 }
@@ -33,7 +32,7 @@ export interface Props {
 export const HeaderTabHeight = 60;
 
 export const Header: FC<Props> = (props) => {
-  const { daysInterval, sourceType, isSearching, type, onDaysIntervalChange } = props;
+  const { daysInterval, isSearching, type, onDaysIntervalChange } = props;
   const i18n = useTranslation("dashboard");
   const { isDarkMode } = useThemeStore();
   const { isExpandedAnimValue, onFeedTypeChange } = props;
@@ -52,17 +51,16 @@ export const Header: FC<Props> = (props) => {
           <ScrollView horizontal flex={1}>
             <XStack flex={1} gap="$4">
               {
-                Object.values(searchTypes).map((type, index) => {
-                  if (type === searchTypes.FOLLOWING && (!isLogin || isSearching)) {
+                Object.values(
+                  type === "shorts"
+                    ? shortsSearchTypes
+                    : postSearchTypes,
+                ).map((type, index) => {
+                  if (type === postSearchTypes.FOLLOWING && (!isLogin || isSearching)) {
                     return null;
                   }
 
-                  const content = {
-                    [searchTypes.LATEST]: i18n.t("Latest"),
-                    [searchTypes.HOTTEST]: i18n.t("Hottest"),
-                    [searchTypes.FOLLOWING]: i18n.t("Following"),
-                  }[type];
-
+                  const content = i18n.t(String(type.slice(0, 1).toUpperCase() + type.slice(1)));
                   const isActive = activeIndex === index;
 
                   return (
@@ -94,7 +92,7 @@ export const Header: FC<Props> = (props) => {
             </XStack>
           </ScrollView>
           <Stack height={50} justifyContent="flex-end">
-            <XTouch enableHaptics onPress={() => { navigation.navigate("Explore", { sourceType }); }}>
+            <XTouch enableHaptics onPress={() => { navigation.navigate("Explore"); }}>
               <Search color={"$color"} size={24}/>
             </XTouch>
           </Stack>

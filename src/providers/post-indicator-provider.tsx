@@ -11,7 +11,7 @@ import { Image } from "expo-image";
 import { Stack, Text, XStack, YStack } from "tamagui";
 
 import { XTouch } from "@/components/XTouch";
-import { GlobalAnimationContext } from "@/context/global-animation-context";
+import { GlobalStateContext } from "@/context/global-state-context";
 import type { TaskType } from "@/context/post-indicator-context";
 import { PostIndicatorContext } from "@/context/post-indicator-context";
 import { useCharacterId } from "@/hooks/use-character-id";
@@ -47,7 +47,7 @@ const PostIndicator: FC<{
   task: TaskType
   onClose?: () => void
 }> = ({ task, onClose }) => {
-  const { isExpandedAnimValue } = useContext(GlobalAnimationContext).homeFeed;
+  const { isExpandedAnimValue } = useContext(GlobalStateContext).homeFeed;
   const { primary } = useColors();
   const i18n = useTranslation();
   const { bottom } = useSafeAreaInsets();

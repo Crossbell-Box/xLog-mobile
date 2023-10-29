@@ -1,4 +1,5 @@
 import { useMemo, type FC } from "react";
+import { useTranslation } from "react-i18next";
 import { Dimensions, StyleSheet } from "react-native";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import Carousel from "react-native-reanimated-carousel";
@@ -12,7 +13,7 @@ import { Avatar } from "@/components/Avatar";
 import { LogoDarkBlueResource, LogoLightBlueResource } from "@/components/Logo";
 import { XTouch } from "@/components/XTouch";
 import { useCharacterId } from "@/hooks/use-character-id";
-import { useHomeNavigation, useRootNavigation } from "@/hooks/use-navigation";
+import { useRootNavigation } from "@/hooks/use-navigation";
 import { useThemeStore } from "@/hooks/use-theme-store";
 import { useGetFeed } from "@/queries/home";
 import type { GetFeedParams } from "@/queries/home";
@@ -32,11 +33,11 @@ export const ShortsExplorerBanner: FC<Props> = () => {
       daysInterval: 7,
       limit: 6,
       searchKeyword: undefined,
-      searchType: "latest",
-      sourceType: "short",
+      type: "shorts",
       tags: [],
     };
   }, [characterId]);
+  const i18n = useTranslation("common");
   const shorts = useGetFeed(params);
   const { isDarkMode } = useThemeStore();
   const navigation = useRootNavigation();
@@ -50,7 +51,7 @@ export const ShortsExplorerBanner: FC<Props> = () => {
               ? LogoLightBlueResource
               : LogoDarkBlueResource
           } width={18} height={18}/>
-          <Text fontWeight={"600"} fontSize={"$7"}>Shorts</Text>
+          <Text fontWeight={"600"} fontSize={"$7"}>{i18n.t("Shorts")}</Text>
         </XStack>
 
         <XTouch hitSlopSize={44} onPress={() => {

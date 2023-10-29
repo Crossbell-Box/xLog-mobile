@@ -1,16 +1,17 @@
 import React, { useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, ScrollView, Linking, Platform } from "react-native";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { useIsConnected } from "@crossbell/react-account";
-import { ArrowDownToLine, ArrowRight, Check, Cog, Copy, Eye, Info, Palette, TestTube, Thermometer, TrendingUp } from "@tamagui/lucide-icons";
+import { ArrowDownToLine, ArrowRight, Check, Cog, Copy, Eye, Flag, Flashlight, Info, Palette, TestTube, Thermometer, TrendingUp } from "@tamagui/lucide-icons";
 import { useToastController } from "@tamagui/toast";
 import * as Clipboard from "expo-clipboard";
 import * as Haptics from "expo-haptics";
 import * as Updates from "expo-updates";
 import * as Sentry from "sentry-expo";
-import { Text, ListItemTitle, YStack, Spinner } from "tamagui";
+import { Text, ListItemTitle, YStack, Spinner, Stack, XStack } from "tamagui";
 
 import { AlertDialog } from "@/components/AlertDialog";
 import { Badge } from "@/components/Badge";
@@ -21,6 +22,8 @@ import { Switch } from "@/components/Base/Switch";
 import { BottomSheetModal } from "@/components/BottomSheetModal";
 import type { BottomSheetModalInstance } from "@/components/BottomSheetModal";
 import { APP_SCHEME, IS_DEV, IS_PROD, IS_TEST, VERSION } from "@/constants";
+import { countries } from "@/constants/countries";
+import { useGlobalState } from "@/context/global-state-context";
 import { useColors } from "@/hooks/use-colors";
 import { useDisconnect } from "@/hooks/use-disconnect";
 import { useIsLogin } from "@/hooks/use-is-login";
@@ -34,11 +37,14 @@ import { allThemes } from "@/styles/theme";
 import { GA } from "@/utils/GA";
 import { checkHotUpdates } from "@/utils/hot-updates";
 
+import { CountryPicker } from "./CountryPicker";
+
 export interface Props {
 
 }
 
 export const Settings: React.FC<Props> = () => {
+  const { country, isChinese, setCountry } = useGlobalState();
   const { primary, color, background } = useColors();
   const [devMenuVisible, setDevMenuVisible] = React.useState(false);
   const isLogin = useIsLogin();
@@ -70,6 +76,7 @@ export const Settings: React.FC<Props> = () => {
   const navigation = useRootNavigation();
   const { expoPushToken, requestPermissions } = useNotification();
   const { toggleMode, toggleFollowSystem, followSystem, isDarkMode } = useThemeStore();
+  const [isCountryPickerOpened, setIsCountryPickerOpened] = React.useState(false);
 
   const openBottomSheet = () => {
     bottomSheetRef.current?.present();
@@ -286,6 +293,29 @@ export const Settings: React.FC<Props> = () => {
                     </ListItemTitle>
                   </SettingsListItem>
                 </SettingsYGroup.Item>
+                <SettingsYGroup.Item>
+                  <SettingsListItem
+                    icon={Flag}
+                    scaleIcon={1.2}
+                    iconAfter={(props) => {
+                      return (
+                        <TouchableWithoutFeedback onPress={() => setIsCountryPickerOpened(true)}>
+                          <XStack alignItems="center" gap="$2">
+                            <Text>
+                              {isChinese ? country.zh : country.en}
+                            </Text>
+                            <ArrowRight {...props}/>
+                          </XStack>
+                        </TouchableWithoutFeedback>
+                      );
+                    }}
+                    onPress={handleMultiPress}
+                  >
+                    <ListItemTitle>
+                      {i18n.t("Country")}
+                    </ListItemTitle>
+                  </SettingsListItem>
+                </SettingsYGroup.Item>
               </SettingsYGroup>
 
               {
@@ -359,6 +389,15 @@ export const Settings: React.FC<Props> = () => {
             </YStack>
           </ScrollView>
         </YStack>
+        <CountryPicker
+          open={isCountryPickerOpened}
+          value={country.alpha2}
+          onOpenChange={setIsCountryPickerOpened}
+          onValueChange={(value) => {
+            setCountry(countries[value]);
+            setIsCountryPickerOpened(false);
+          }}
+        />
         <BottomSheetModal
           ref={bottomSheetRef}
           snapPoints={snapPoints}

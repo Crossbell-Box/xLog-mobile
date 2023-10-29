@@ -28,12 +28,13 @@ import { i18n } from "@/i18n";
 import { ApolloProvider } from "@/providers/apollo-provider";
 import { ConnectKitProvider } from "@/providers/connect-kit-provider";
 import { DrawerProvider } from "@/providers/drawer-provider";
-import { GlobalAnimationProvider } from "@/providers/global-animation-provider";
+import { GlobalStateProvider } from "@/providers/global-state-provider";
 import LoadingProvider from "@/providers/loading-provider";
 import { NavigationProvider } from "@/providers/navigation-provider";
 import { NotificationProvider } from "@/providers/notification-provider";
 import { PersistQueryClientProvider } from "@/providers/persist-query-client-provider";
 import { PostIndicatorProvider } from "@/providers/post-indicator-provider";
+import { PreloadProvider } from "@/providers/preload-provider";
 import { SplashProvider } from "@/providers/splash-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { ToastProvider } from "@/providers/toast-provider";
@@ -70,6 +71,7 @@ export default () => {
 
   return (
     <ProviderComposer providers={[
+      <PreloadProvider key={"PreloadProvider"} />,
       <GestureHandlerRootView key={"GestureHandlerRootView"} style={styles.container} />,
       <TamaguiProvider key={"TamaguiProvider"} config={config} />,
       <SplashProvider key={"SplashProvider"}/>,
@@ -88,7 +90,7 @@ export default () => {
       <KeyboardProvider key={"KeyboardProvider"} />,
       <NotificationProvider key={"NotificationProvider"} />,
       <ApolloProvider key={"ApolloProvider"} />,
-      <GlobalAnimationProvider key={"GlobalAnimationProvider"} />,
+      <GlobalStateProvider key={"GlobalAnimationProvider"} />,
       <PostIndicatorProvider key={"PostIndicatorProvider"} />,
     ]}>
       <NetworkChecker/>

@@ -9591,6 +9591,11 @@ expo-localization@~14.3.0:
   dependencies:
     rtl-detect "^1.0.2"
 
+expo-location@~16.1.0:
+  version "16.1.0"
+  resolved "https://registry.npmjs.org/expo-location/-/expo-location-16.1.0.tgz#251a465790d6622f828fd18f0edb2a73b9664b72"
+  integrity sha512-/jfRyYrXb9vjr8HoYmVHnzEqnw+0jaoRbHsxj6ePPAbevXmvXZqYHFRtfZtQ+q32SB4X6kUAXu28eBcLS+tqaA==
+
 expo-manifests@~0.7.0:
   version "0.7.1"
   resolved "https://registry.npmmirror.com/expo-manifests/-/expo-manifests-0.7.1.tgz#2033e974744699a3cfaf1c1cee7e51dfdf2c8fae"

@@ -10,7 +10,7 @@ import { useIsLogin } from "@/hooks/use-is-login";
 import { useGetUnreadCount } from "@/models/site.model";
 import { ExplorePage } from "@/pages/Explore";
 import { FeedPage } from "@/pages/Feed";
-import { searchTypes } from "@/pages/Feed/feedTypes";
+import { postSearchTypes, shortsSearchTypes } from "@/pages/Feed/feedTypes";
 import { IntroductionPage } from "@/pages/Introduction";
 import { NotificationsPageWithBottomTab } from "@/pages/Profile/Notifications";
 import { MyUserInfoPage } from "@/pages/UserInfo";
@@ -36,8 +36,8 @@ export const HomeNavigator = () => {
           name={"Feed"}
           component={FeedPage}
           initialParams={{
-            sourceType: "post",
-            searchType: searchTypes.LATEST,
+            isShorts: false,
+            type: postSearchTypes.FEATURED,
           }}
           options={{
             tabBarShowLabel: false,
@@ -48,8 +48,8 @@ export const HomeNavigator = () => {
           name={"Shorts"}
           component={FeedPage}
           initialParams={{
-            sourceType: "short",
-            searchType: searchTypes.LATEST,
+            isShorts: true,
+            type: shortsSearchTypes.SHORTS,
           }}
           options={{
             tabBarShowLabel: false,

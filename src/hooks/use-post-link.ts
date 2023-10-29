@@ -2,7 +2,7 @@ import { useMemo } from "react";
 
 import { useCharacter, useNote } from "@crossbell/indexer";
 
-import { DOMAIN } from "@/constants";
+import { APP_HOST } from "@/constants/env";
 import { getNoteSlug } from "@/utils/get-slug";
 
 export function usePostWebViewLink(params: {
@@ -18,7 +18,7 @@ export function usePostWebViewLink(params: {
     const slug = getNoteSlug(note.data);
 
     if (!slug) return null;
-    const webviewUrl = new URL(`/site/${character?.data?.handle}/${slug}`, `https://${DOMAIN}`);
+    const webviewUrl = new URL(`/site/${character?.data?.handle}/${slug}`, APP_HOST);
     webviewUrl.search = new URLSearchParams(search)?.toString();
     return webviewUrl?.toString();
   }, [
