@@ -1,5 +1,23 @@
 # xlog
 
+## 0.26.0
+
+### Minor Changes
+
+- 1915973: Improved performance.
+- 01d6d50: Update dependencies for@walletconnect/react-native-compat
+- 312225e: Update dependencies in package.json
+- 6963500: Update dependencies and fix button padding
+
+### Patch Changes
+
+- 287a53f: Fix image rendering issues and handle empty comments count properly
+- 2205f4e: Update IPFS gateway URL
+- eda1f18: Update icons and add X image to ShareItemcomponen
+- 883a89b: Fix layout and styling issues in FeedListItem and Header components
+- b980c4a: Fix rendering issue and optimize comment list
+- 16ce147: Commented out unused code in Settings page
+
 ## 0.25.1
 
 ### Patch Changes
