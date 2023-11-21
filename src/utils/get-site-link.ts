@@ -1,4 +1,4 @@
-import { DOMAIN } from "@/constants/index";
+import { DOMAIN, IS_DEV } from "@/constants/index";
 
 export const getSiteLink = ({
   domain,
@@ -9,12 +9,14 @@ export const getSiteLink = ({
   subdomain: string
   noProtocol?: boolean
 }) => {
+  const protocol = IS_DEV ? "http://" : "http://";
+
   if (domain) {
-    return `https://${domain}`;
+    return `${protocol}${domain}`;
   }
   if (noProtocol) {
     return `${subdomain}.${DOMAIN}`;
   }
 
-  return `https://${subdomain}.${DOMAIN}`;
+  return `${protocol}${subdomain}.${DOMAIN}`;
 };

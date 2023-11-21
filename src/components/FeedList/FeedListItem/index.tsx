@@ -6,22 +6,24 @@ import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import Animated, { FadeInDown } from "react-native-reanimated";
 
 import { Eye } from "@tamagui/lucide-icons";
-import type { NoteEntity } from "crossbell";
 import { BlurView } from "expo-blur";
 import { Image } from "expo-image";
-import { SizableText, Stack, Text, XStack } from "tamagui";
+import { SizableText, Spacer, Stack, Text, XStack } from "tamagui";
 
 import { Avatar } from "@/components/Avatar";
 import { Center } from "@/components/Base/Center";
 import { bgsReversed } from "@/constants/bgs";
 import { useCoverImage } from "@/hooks/use-cover-image";
+import { useImageSize } from "@/hooks/use-image-size";
 import { useRootNavigation } from "@/hooks/use-navigation";
+import type { ExpandedNote } from "@/types/crossbell";
 import { cacheStorage } from "@/utils/cache-storage";
 import { computedBgIdx } from "@/utils/computed-bg-idx";
 import { withCompressedImage } from "@/utils/get-compressed-image-url";
+import { toGateway } from "@/utils/ipfs-parser";
 
 export interface Props {
-  note: NoteEntity
+  note: ExpandedNote
   style?: ViewStyle
   searchKeyword?: string
   width: number
@@ -33,32 +35,27 @@ const maxHeight = 200;
 const defaultCoverImageHeight = minHeight;
 
 const getCoverRangedSize = (height: number) => {
-  return Math.max(Math.min(height, maxHeight), minHeight);
+  const _height = Math.max(Math.min(height, maxHeight), minHeight);
+  return isNaN(_height) ? defaultCoverImageHeight : _height;
 };
 
 export const FeedListItem: FC<Props> = (props) => {
   const { note, width } = props;
   const navigation = useRootNavigation();
   const originalCoverImage = useCoverImage(note);
-  const coverImage = useMemo(() => withCompressedImage(originalCoverImage), [originalCoverImage]);
-  const usingDefaultCoverImage = !coverImage;
-  const defaultLayout = { width, height: defaultCoverImageHeight };
-  const [sourceLayout, setSourceLayout] = React.useState<{ width: number;height: number } | undefined>(
-    usingDefaultCoverImage ? defaultLayout : undefined,
-  );
-
-  const coverImageAnimStyles = useMemo(() => {
-    const height = sourceLayout ? (width * sourceLayout.height) / sourceLayout.width : defaultCoverImageHeight;
-
-    return {
-      width,
-      height,
-    };
-  }, [width, sourceLayout]);
-
+  const coverImage = withCompressedImage(toGateway(note?.metadata?.content?.images?.[0]), "high") || originalCoverImage;
   const title = String(note?.metadata?.content?.title);
   const placeholderBgIndex = computedBgIdx(note);
   const placeholderBg = bgsReversed[placeholderBgIndex];
+
+  const dimensionsMap = note?.metadata?.content?.imageDimensions;
+
+  const coverImageSize = useImageSize(
+    coverImage,
+    width,
+    defaultCoverImageHeight,
+    dimensionsMap,
+  );
 
   const onPress = React.useCallback(() => {
     navigation.navigate(
@@ -72,69 +69,23 @@ export const FeedListItem: FC<Props> = (props) => {
     );
   }, [note]);
 
-  const getCoverSourceLayout = async (): Promise<{
-    origin?: string
-    width: number
-    height: number
-  }> => {
-    const cachedLayout = await cacheStorage.getString(`img-layouts:${coverImage}`);
-
-    if (cachedLayout) {
-      return {
-        origin: "cache",
-        ...JSON.parse(cachedLayout),
-      };
-    }
-
-    if (!coverImage) {
-      return defaultLayout;
-    }
-
-    return new Promise((resolve) => {
-      RNImage.getSize(
-        coverImage,
-        (_, height) => {
-          resolve({
-            width,
-            height,
-          });
-        },
-        () => {
-          resolve(defaultLayout);
-        },
-      );
-    });
-  };
-
-  useEffect(() => {
-    if (usingDefaultCoverImage) {
-      return;
-    }
-
-    getCoverSourceLayout().then((layout) => {
-      setSourceLayout(layout);
-      if (layout.origin !== "cache") {
-        cacheStorage.set(`img-layouts:${coverImage}`, JSON.stringify(layout));
-      }
-    });
-  }, [coverImage]);
-
   const titleContent = note?.metadata?.content?.title || note?.metadata?.content?.content;
   const titleElement = (
-    titleContent && (
-      <SizableText
-        size={"$5"}
-        fontWeight={"700"}
-        color="$color"
-        marginBottom={"$2"}
-        numberOfLines={2}
-      >
-        {String(titleContent)}
-      </SizableText>
-    )
+    titleContent
+      && (
+        <SizableText
+          size={"$5"}
+          fontWeight={"700"}
+          color="$color"
+          marginBottom={"$2"}
+          numberOfLines={2}
+        >
+          {String(titleContent)}
+        </SizableText>
+      )
   );
 
-  if (!sourceLayout) {
+  if (!coverImageSize) {
     return null;
   }
 
@@ -148,9 +99,13 @@ export const FeedListItem: FC<Props> = (props) => {
           coverImage
             ? (
               <Stack
-                width={coverImageAnimStyles.width}
-                height={getCoverRangedSize(coverImageAnimStyles.height)}
+                width={coverImageSize.width}
+                height={getCoverRangedSize(coverImageSize.height)}
                 backgroundColor={"black"}
+                opacity={1}
+                animation="lazy"
+                enterStyle={{ opacity: 0 }}
+                exitStyle={{ opacity: 0 }}
               >
                 <Image
                   source={coverImage}
@@ -193,7 +148,7 @@ export const FeedListItem: FC<Props> = (props) => {
           paddingVertical={8}
         >
           {titleElement}
-          <XStack alignItems="center" justifyContent="space-between" gap={"$2"} marginBottom={"$1"}>
+          <XStack alignItems="center" justifyContent="space-between" gap={"$2"} marginVertical={"$1"}>
             <XStack alignItems="center" gap="$2" flex={1}>
               <Avatar character={note?.character} useDefault size={20}/>
               <XStack alignItems="center" flex={1}>

@@ -72,6 +72,12 @@ export default (_: ConfigContext): ExpoConfig => {
         },
       ],
       "expo-localization",
+      [
+        "expo-location",
+        {
+          locationAlwaysAndWhenInUsePermission: "Allow $(PRODUCT_NAME) to use your location so you can see articles around you.",
+        },
+      ],
       "sentry-expo",
       ...process.env.USING_GOOGLE_SERVICES === "true" ? ["@react-native-firebase/app"] : [],
       "./plugins/with-react-native-firebase.js",

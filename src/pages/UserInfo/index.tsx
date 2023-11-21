@@ -57,7 +57,7 @@ const UserInfoPage: FC<NativeStackScreenProps<RootStackParamList, "UserInfo"> & 
     }
 
     if (pagePath === "/") {
-      return <HomeScene characterId={characterId} index={0} />;
+      return <HomeScene characterId={characterId} handle={character?.handle} index={0} />;
     }
 
     return null;

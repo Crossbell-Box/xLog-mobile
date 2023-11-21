@@ -54,6 +54,10 @@ export const PagesPage: FC<NativeStackScreenProps<RootStackParamList, "Pages">> 
     handle,
   });
 
+  const posts = pages?.data?.pages?.reduce((acc, cur) => (
+    acc.concat(cur.list)
+  ), []);
+
   return (
     <ProfilePageLayout>
       <ProfilePageHeader
@@ -106,25 +110,23 @@ export const PagesPage: FC<NativeStackScreenProps<RootStackParamList, "Pages">> 
               <ScrollView>
                 <YGroup alignSelf="center" size="$4" flex={1}>
                   {
-                    pages?.data?.pages.map((page) => {
-                      return page?.list.map((item) => {
-                        return (
-                          <YGroup.Item key={item.blockNumber}>
-                            <ListItem
-                              hoverTheme
-                              icon={Newspaper}
-                              title={item?.metadata?.content?.title}
-                              subTitle={`已发布 · ${
-                                getPageVisibility(item) === PageVisibilityEnum.Draft
-                                  ? date.formatDate(item.updatedAt)
-                                  : date.formatDate(
-                                    item.metadata?.content?.date_published || "",
-                                  )
-                              }`}
-                            />
-                          </YGroup.Item>
-                        );
-                      });
+                    posts.map((item) => {
+                      return (
+                        <YGroup.Item key={item.blockNumber}>
+                          <ListItem
+                            hoverTheme
+                            icon={Newspaper}
+                            title={item?.metadata?.content?.title}
+                            subTitle={`已发布 · ${
+                              getPageVisibility(item) === PageVisibilityEnum.Draft
+                                ? date.formatDate(item.updatedAt)
+                                : date.formatDate(
+                                  item.metadata?.content?.date_published || "",
+                                )
+                            }`}
+                          />
+                        </YGroup.Item>
+                      );
                     })
                   }
                 </YGroup>

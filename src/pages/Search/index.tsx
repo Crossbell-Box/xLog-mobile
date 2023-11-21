@@ -11,17 +11,13 @@ import { XStack, Button } from "tamagui";
 import { DelayedRender } from "@/components/DelayRender";
 import { MasonryFeedList } from "@/components/FeedList";
 import { useColors } from "@/hooks/use-colors";
-import type { SourceType } from "@/models/home.model";
 import type { RootStackParamList } from "@/navigation/types";
 import { debounce } from "@/utils/debounce";
 
-export interface Props {
-  sourceType: SourceType
-}
+export interface Props {}
 
 export const SearchPage: FC<NativeStackScreenProps<RootStackParamList, "Search">> = (props) => {
   const { navigation } = props;
-  const { sourceType } = props.route.params;
   const i18n = useTranslation("common");
   const [search, _setSearch] = useState("");
   const setSearch = debounce(_setSearch, 500);
@@ -56,8 +52,7 @@ export const SearchPage: FC<NativeStackScreenProps<RootStackParamList, "Search">
       <DelayedRender timeout={300}>
         <MasonryFeedList
           daysInterval={7}
-          sourceType={sourceType}
-          searchType={"search"}
+          type={"search"}
           searchKeyword={search}
           onScroll={() => Keyboard.isVisible() && Keyboard.dismiss()}
         />

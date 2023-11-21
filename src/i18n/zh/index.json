@@ -1,6 +1,7 @@
 {
   "Feed": "文章列表",
   "Latest": "最新",
+  "Featured": "精选",
   "Hot": "最热",
   "Following": "关注",
   "ago": "{{time}}前",

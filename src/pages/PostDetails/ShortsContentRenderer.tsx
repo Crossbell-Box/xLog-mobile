@@ -26,19 +26,19 @@ export const ShortsContentRenderer: FC<{
   return (
     <Stack paddingHorizontal="$2" paddingBottom="$10">
       <Text lineHeight={"$2"} fontSize={"$5"} color={"$colorText"}>{content}</Text>
-      <Separator marginVertical="$4" height={2}/>
+      {content && <Separator marginVertical="$4" height={2}/>}
       <Text fontSize={"$3"} color="$colorDescription">
         {i18n.t("{{count}} comments", {
           count: commentsCount,
         })}
       </Text>
       {
-        commentsCount <= 0
+        commentsCount === 0
           ? (
             <EmptyComponent
               creationTipsShown
               onPressCreationTips={onPressComment}
-              isLoading={comments.isFetching}
+              isLoading={false}
             />
           )
           : (

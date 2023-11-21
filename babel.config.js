@@ -24,8 +24,11 @@ module.exports = function (api) {
             acc[`@/${dir}`] = `./src/${dir}`;
             return acc;
           }, {
-            "crossbell/network": path.resolve(__dirname, "node_modules/crossbell/dist/network.js"),
-            "crossbell/ipfs": path.resolve(__dirname, "node_modules/crossbell/dist/ipfs.js"),
+            "crossbell/network": path.resolve(__dirname, "node_modules/crossbell/dist/network/index.js"),
+            "crossbell/ipfs": path.resolve(__dirname, "node_modules/crossbell/dist/ipfs/index.js"),
+            "crossbell/contract": path.resolve(__dirname, "node_modules/crossbell/dist/contract/index.js"),
+            "crossbell/indexer": path.resolve(__dirname, "node_modules/crossbell/dist/indexer/index.js"),
+            "crossbell/utils": path.resolve(__dirname, "node_modules/crossbell/dist/utils/index.js"),
             ...(process.env.USING_GOOGLE_SERVICES === "true" ? {} : { "@react-native-firebase/analytics": path.resolve(__dirname, "./mocks/analytics.js") }),
           }),
         },

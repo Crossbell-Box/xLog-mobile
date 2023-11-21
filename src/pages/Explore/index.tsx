@@ -13,7 +13,6 @@ import { Avatar } from "@/components/Avatar";
 import { isAndroid } from "@/constants/platform";
 import { useNavigateToUserInfo } from "@/hooks/use-navigate-to-user-info";
 import { useRootNavigation } from "@/hooks/use-navigation";
-import type { SourceType } from "@/models/home.model";
 import type { HomeBottomTabsParamList, RootStackParamList } from "@/navigation/types";
 import { useGetShowcase } from "@/queries/home";
 import { GA } from "@/utils/GA";
@@ -21,15 +20,12 @@ import { GA } from "@/utils/GA";
 import topics from "../../data/topics.json";
 
 export interface Props {
-  sourceType: SourceType
-  sortType?: any
 }
 
 const ITEM_VERTICAL_GAP = 8;
 const ITEM_HEIGHT = 100 + 2 * ITEM_VERTICAL_GAP;
 
 export const ExplorePage: FC<NativeStackScreenProps<RootStackParamList, "Explore">> = (props) => {
-  const { sourceType } = props.route.params;
   const i18n = useTranslation("common");
   const showcaseSites = useGetShowcase();
   const navigation = useRootNavigation();
@@ -52,7 +48,7 @@ export const ExplorePage: FC<NativeStackScreenProps<RootStackParamList, "Explore
         onPress={(e) => {
           e.preventDefault();
           e.stopPropagation();
-          navigation.navigate("Search", { sourceType });
+          navigation.navigate("Search");
         }}
         borderWidth={1}
         borderRadius={"$4"}

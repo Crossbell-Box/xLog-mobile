@@ -18,7 +18,7 @@ export const rehypeImage: Plugin<Array<{ env: MarkdownEnv }>, Root> = ({
     visit(tree, { tagName: "img" }, (node) => {
       if (!node.properties) return;
 
-      let url = node.properties.src;
+      let url = node.properties.src as string;
 
       if (!url || typeof url !== "string") {
         return;

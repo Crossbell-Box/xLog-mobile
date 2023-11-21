@@ -30,7 +30,7 @@ export const toIPFS = (url: string) => {
     .replaceAll("https://ipfs.4everland.xyz/ipfs/", IPFS_PREFIX)
     .replaceAll("https://rss3.mypinata.cloud/ipfs/", IPFS_PREFIX)
     .replaceAll("https://cloudflare-ipfs.com/ipfs/", IPFS_PREFIX)
-    .replaceAll("https://ipfs.xlog.app/ipfs/", IPFS_PREFIX);
+    .replaceAll("https://ipfs.crossbell.io/ipfs/", IPFS_PREFIX);
 };
 
 export const toCid = (url: string) => {
@@ -42,6 +42,6 @@ export const toCid = (url: string) => {
     .replaceAll("https://ipfs.4everland.xyz/ipfs/", "")
     .replaceAll("https://rss3.mypinata.cloud/ipfs/", "")
     .replaceAll("https://cloudflare-ipfs.com/ipfs/", "")
-    .replaceAll("https://ipfs.xlog.app/ipfs/", "")
+    .replaceAll("https://ipfs.crossbell.io/ipfs/", "")
     .replaceAll(IPFS_PREFIX, "");
 };

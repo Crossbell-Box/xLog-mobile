@@ -1,4 +1,6 @@
-const compressorDomain = "https://xlog.app/_next/image";
+import { APP_HOST } from "@/constants/env";
+
+const compressorDomain = `${APP_HOST}/_next/image`;
 
 export function getCompressedImageUrl(
   source: string,

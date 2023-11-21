@@ -58,10 +58,8 @@ export const CommentList = forwardRef<CommentListInstance, Props>((
     noteId: number
   }>(null);
   const [selectedEditComment, setSelectedEditComment] = useState<Comment | null>(null);
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(0);
   const bottomSheetRef = useRef<BottomSheetModalInstance>(null);
   const _submitComment = useSubmitComment();
-  const flatListRef = useRef<BottomSheetFlatListMethods>(null!);
   const [modalVisible, setModalVisible] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const { color, subtitle, borderColor } = useColors();
@@ -101,18 +99,12 @@ export const CommentList = forwardRef<CommentListInstance, Props>((
     })
       .then(() => comments.refetch())
       .finally(() => {
-        hide();
-        hideInput();
-        typeof selectedIndex === "number" && scrollToIndex(selectedIndex);
+        setTimeout(() => {
+          hide();
+          hideInput();
+        }, 1000);
       });
   });
-
-  const scrollToIndex = (index: number) => {
-    flatListRef.current?.scrollToIndex({
-      index,
-      viewOffset: 50,
-    });
-  };
 
   const onPressInput = () => {
     setIsEditing(false);
@@ -120,13 +112,8 @@ export const CommentList = forwardRef<CommentListInstance, Props>((
       characterId,
       noteId,
     });
-    setSelectedIndex(0);
     displayInput();
   };
-
-  const data = useMemo(() => (
-    comments.data?.pages.flatMap(page => page?.list.map(data => data) || [])
-  ), [comments.data?.pages]);
 
   useImperativeHandle(ref, () => ({
     comment: onPressInput,
@@ -135,11 +122,12 @@ export const CommentList = forwardRef<CommentListInstance, Props>((
   const FlatList = isInBottomSheet ? BottomSheetFlatList : RNFlatList;
   const TextInput = isInBottomSheet ? BottomSheetTextInput : RNTextInput;
 
+  const data = comments.data?.pages.flatMap(page => page?.list.map(data => data) || []);
+
   return (
     <Stack flex={1}>
       {anonymousCommentDialog}
       <FlatList
-        ref={flatListRef}
         contentContainerStyle={{
           paddingBottom: bottom + 16,
         }}
@@ -175,7 +163,6 @@ export const CommentList = forwardRef<CommentListInstance, Props>((
               onPressEdit={(comment) => {
                 setIsEditing(true);
                 setSelectedEditComment(comment);
-                setSelectedIndex(options.index);
                 displayInput();
               }}
               onPressComment={(comment) => {
@@ -184,7 +171,6 @@ export const CommentList = forwardRef<CommentListInstance, Props>((
                   characterId: comment.characterId,
                   noteId: comment.noteId,
                 });
-                setSelectedIndex(options.index);
                 displayInput();
               }}
               onPressMore={() => {

@@ -1,5 +1,6 @@
 import type { FC, PropsWithChildren } from "react";
 import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { StyleSheet } from "react-native";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import type { SharedValue } from "react-native-reanimated";
@@ -15,14 +16,15 @@ import { useDrawer } from "@/hooks/use-drawer";
 import { useThemeStore } from "@/hooks/use-theme-store";
 import { GA } from "@/utils/GA";
 
-import { searchTypes, type SearchType } from "./feedTypes";
+import { postSearchTypes } from "./feedTypes";
+import type { ShortsSearchType, PostSearchType } from "./feedTypes";
 
 import { Avatar } from "../../components/Avatar";
 import { XTouch } from "../../components/XTouch";
 
 export interface Props {
   expanded: SharedValue<number>
-  type?: SearchType
+  type?: PostSearchType | ShortsSearchType
   onPressSortBy: () => void
 }
 
@@ -33,6 +35,7 @@ export const HeaderAnimatedLayout: FC<PropsWithChildren<Props>> = (props) => {
   const { openDrawer: _openDrawer } = useDrawer();
   const character = useAccountCharacter();
   const { isDarkMode } = useThemeStore();
+  const i18n = useTranslation("common");
 
   const containerAnimStyles = useAnimatedStyle(() => {
     return {
@@ -61,7 +64,7 @@ export const HeaderAnimatedLayout: FC<PropsWithChildren<Props>> = (props) => {
             </XTouch>
           </Stack>
 
-          {type === searchTypes.LATEST && (
+          {type === postSearchTypes.FEATURED && (
             <XTouch enableHaptics touchableComponent={TouchableWithoutFeedback} onPress={onPressSortBy}>
               <Theme name={isDarkMode ? "light" : "dark"}>
                 <XStack
@@ -72,7 +75,7 @@ export const HeaderAnimatedLayout: FC<PropsWithChildren<Props>> = (props) => {
                   paddingHorizontal="$3"
                   borderRadius={"$10"}
                 >
-                  <Text fontSize={"$1"} color={"$color"}>Sort By</Text>
+                  <Text fontSize={"$1"} color={"$color"}>{i18n.t("Sort By")}</Text>
                   <MoveVertical size={"$0.5"} color={"$color"}/>
                 </XStack>
               </Theme>

@@ -10,21 +10,21 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Stack } from "tamagui";
 
 import { MasonryFeedList } from "@/components/FeedList";
-import { GlobalAnimationContext } from "@/context/global-animation-context";
+import { GlobalStateContext } from "@/context/global-state-context";
 import { useColors } from "@/hooks/use-colors";
-import type { SourceType } from "@/models/home.model";
 import type { HomeBottomTabsParamList } from "@/navigation/types";
 
-import { searchTypes, type SearchType } from "./feedTypes";
+import { postSearchTypes } from "./feedTypes";
+import type { ShortsSearchType, PostSearchType } from "./feedTypes";
 import { Header } from "./Header";
 import { ShortsExplorerBanner } from "./ShortsExplorerBanner";
 
 export interface Props {
-  sourceType: SourceType
-  searchType: SearchType
+  type: PostSearchType | ShortsSearchType
+  isShorts?: boolean
 }
 
-const { height, width } = Dimensions.get("window");
+const { height } = Dimensions.get("window");
 
 export const FeedListLinearGradientBackground: FC = () => {
   const { pick } = useColors();
@@ -40,12 +40,12 @@ export const FeedListLinearGradientBackground: FC = () => {
 };
 
 export const FeedPage: FC<NativeStackScreenProps<HomeBottomTabsParamList, "Feed">> = (props) => {
-  const { sourceType, searchType: _searchType = searchTypes.LATEST } = props.route.params;
-  const [currentFeedType, setCurrentFeedType] = useState<SearchType>(_searchType);
+  const { isShorts, type: _type = postSearchTypes.FEATURED } = props.route.params;
+  const [_currentFeedType, setCurrentFeedType] = useState<PostSearchType | ShortsSearchType>(_type);
+  const currentFeedType = isShorts ? "shorts" : _currentFeedType;
   const [daysInterval, setDaysInterval] = useState<number>(7);
-  const { isExpandedAnimValue, onScroll } = useContext(GlobalAnimationContext).homeFeed;
+  const { isExpandedAnimValue, onScroll } = useContext(GlobalStateContext).homeFeed;
   const { top } = useSafeAreaInsets();
-  const isShorts = sourceType === "short";
   const containerAnimStyles = useAnimatedStyle(() => {
     const headerHeight = interpolate(isExpandedAnimValue.value, [0, 1], [55, 110], Extrapolate.CLAMP) + top;
     return {
@@ -57,8 +57,7 @@ export const FeedPage: FC<NativeStackScreenProps<HomeBottomTabsParamList, "Feed"
     <Stack flex={1}>
       <FeedListLinearGradientBackground/>
       <Header
-        sourceType={sourceType}
-        type={currentFeedType}
+        type={currentFeedType as any}
         isExpandedAnimValue={isExpandedAnimValue}
         onDaysIntervalChange={(days) => {
           setDaysInterval(days);
@@ -72,9 +71,8 @@ export const FeedPage: FC<NativeStackScreenProps<HomeBottomTabsParamList, "Feed"
       <Animated.View style={[styles.maskContainer, containerAnimStyles]}>
         <Stack paddingTop={60 + top} height={height} width={"100%"} position="absolute" bottom={0}>
           <MasonryFeedList
-            sourceType={sourceType}
             daysInterval={daysInterval}
-            searchType={currentFeedType}
+            type={currentFeedType}
             ListHeaderComponent={!isShorts && <ShortsExplorerBanner/>}
             onScroll={onScroll}
             contentContainerStyle={{

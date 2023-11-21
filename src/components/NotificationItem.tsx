@@ -1,4 +1,6 @@
 import React, { useCallback } from "react";
+import type { UseTranslationResponse } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import type { SvgProps } from "react-native-svg";
 import { ClipPath, Rect, G, Svg, Path, Defs } from "react-native-svg";
 
@@ -11,6 +13,7 @@ import { Card, Circle, Text, XStack, YStack } from "tamagui";
 import { formatUnits } from "viem";
 
 import type { CharacterNotificationType } from "@/hooks/use-character-notification";
+import { useDate } from "@/hooks/use-date";
 import { GA } from "@/utils/GA";
 
 import { Avatar } from "./Avatar";
@@ -65,7 +68,8 @@ export interface ItemProps {
 
 export function NotificationItem({ notification, tabType }: ItemProps) {
   const titleInfo = getTitleInfo(notification);
-
+  const i18n = useTranslation("common");
+  const date = useDate();
   const markAsReadHandler = useCallback(() => {
     GA.logSelectItem({
       content_type: "notification_tab_list_item",
@@ -89,8 +93,8 @@ export function NotificationItem({ notification, tabType }: ItemProps) {
             <Text fontWeight={"700"}>
               {getCharacterName(notification)}&nbsp;
             </Text>
-            {actionDesc(notification)}&nbsp;
-            {timeDiff(notification)}&nbsp;
+            {actionDesc(notification, i18n)}&nbsp;
+            {timeDiff(notification, i18n, date)}&nbsp;
           </Text>
           <XStack alignItems="center">
             <Text color="$color">
@@ -153,8 +157,21 @@ function renderTransactionHash() {
   );
 }
 
-function timeDiff(notification: ParsedNotification) {
-  return dayjs(notification.createdAt).fromNow();
+function timeDiff(
+  notification: ParsedNotification,
+  i18n: UseTranslationResponse<"common", undefined>,
+  date: ReturnType<typeof useDate>,
+) {
+  return i18n.t("ago", {
+    time: date.dayjs
+      .duration(
+        date
+          .dayjs(notification.createdAt)
+          .diff(date.dayjs(), "minute"),
+        "minute",
+      )
+      .humanize(),
+  });
 }
 
 function getCharacterName(notification: ParsedNotification) {
@@ -170,21 +187,19 @@ function getCharacterName(notification: ParsedNotification) {
 
 function actionDesc(
   notification: ParsedNotification,
+  i18n: UseTranslationResponse<"common", undefined>,
 ) {
   switch (notification.type) {
     case "comment-note":
       return (
-        <Text>
-          {"commented your "}
-          Note
-        </Text>
+        <Text>{i18n.t("commented your Note")}</Text>
       );
     case "like-note":
-      return <Text>liked your Note</Text>;
+      return <Text>{i18n.t("liked your Note")}</Text>;
     case "mint-note":
-      return <Text>minted your Note</Text>;
+      return <Text>{i18n.t("minted your Note")}</Text>;
     case "follow-character":
-      return <Text>followed you</Text>;
+      return <Text>{i18n.t("followed you")}</Text>;
     case "tip-note":
       return (
         <Text>
@@ -201,6 +216,6 @@ function actionDesc(
         </Text>
       );
     case "mention":
-      return <Text>mentioned you</Text>;
+      return <Text>{i18n.t("mentioned you")}</Text>;
   }
 }

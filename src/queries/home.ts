@@ -1,25 +1,36 @@
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 
+import { APP_HOST } from "@/constants/env";
 import * as homeModel from "@/models/home.model";
+import type { getPagesBySite } from "@/models/page.model";
 
-export type GetFeedParams = Parameters<typeof homeModel.getFeed>[0];
+import { useGetPagesBySite } from "./page";
 
-export const useGetFeed = (data?: GetFeedParams) => {
+export type GetFeedParams = homeModel.GetFeedOptions | Parameters<typeof getPagesBySite>[0];
+
+export const useGetFeed = (
+  data?: GetFeedParams,
+) => {
+  if (data.type === "page" || data.type === "post") {
+    return useGetPagesBySite(data);
+  }
+
   return useInfiniteQuery({
     queryKey: ["getFeed", data],
     queryFn: async ({ pageParam }) => {
-      if (!data) {
-        return;
-      }
-
-      const result = await homeModel.getFeed({
-        ...data,
-        cursor: pageParam,
-      });
-
+      const result: homeModel.GetFeedResult = await (
+        await fetch(
+          `${APP_HOST}/api/feed?${
+            new URLSearchParams({
+              ...data,
+              ...(pageParam && { cursor: pageParam }),
+            } as any)}`,
+        )
+      ).json();
       return result;
     },
     getNextPageParam: lastPage => lastPage?.cursor || undefined,
+    refetchOnWindowFocus: false,
   });
 };
 
