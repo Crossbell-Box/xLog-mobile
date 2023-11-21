@@ -65,7 +65,7 @@ export const Header: FC<Props> = (props) => {
 
   const data = isShort
     ? attachments.map(attachment => withCompressedImage(toGateway(attachment.address), "high")).filter(Boolean)
-    : [withCompressedImage(coverImage, "high")];
+    : [coverImage];
 
   const userinfoEle = (
     <Stack minHeight={28}>

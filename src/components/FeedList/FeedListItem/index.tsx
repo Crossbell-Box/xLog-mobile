@@ -1,14 +1,14 @@
 import type { FC } from "react";
-import React, { useEffect, useMemo } from "react";
+import React from "react";
 import type { ViewStyle } from "react-native";
-import { Image as RNImage, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import Animated, { FadeInDown } from "react-native-reanimated";
 
 import { Eye } from "@tamagui/lucide-icons";
 import { BlurView } from "expo-blur";
 import { Image } from "expo-image";
-import { SizableText, Spacer, Stack, Text, XStack } from "tamagui";
+import { SizableText, Stack, Text, XStack } from "tamagui";
 
 import { Avatar } from "@/components/Avatar";
 import { Center } from "@/components/Base/Center";
@@ -17,7 +17,6 @@ import { useCoverImage } from "@/hooks/use-cover-image";
 import { useImageSize } from "@/hooks/use-image-size";
 import { useRootNavigation } from "@/hooks/use-navigation";
 import type { ExpandedNote } from "@/types/crossbell";
-import { cacheStorage } from "@/utils/cache-storage";
 import { computedBgIdx } from "@/utils/computed-bg-idx";
 import { withCompressedImage } from "@/utils/get-compressed-image-url";
 import { toGateway } from "@/utils/ipfs-parser";
