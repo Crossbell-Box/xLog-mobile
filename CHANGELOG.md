@@ -1,5 +1,11 @@
 # xlog
 
+## 0.27.0
+
+### Minor Changes
+
+- ec25f5a: Update dependencies in package.json and yarn.lock
+
 ## 0.26.0
 
 ### Minor Changes
