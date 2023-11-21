@@ -33,12 +33,12 @@ export const ShortsContentRenderer: FC<{
         })}
       </Text>
       {
-        commentsCount <= 0
+        commentsCount === 0
           ? (
             <EmptyComponent
               creationTipsShown
               onPressCreationTips={onPressComment}
-              isLoading={comments.isFetching}
+              isLoading={false}
             />
           )
           : (

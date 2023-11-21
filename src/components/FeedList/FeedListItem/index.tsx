@@ -6,7 +6,6 @@ import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import Animated, { FadeInDown } from "react-native-reanimated";
 
 import { Eye } from "@tamagui/lucide-icons";
-import type { NoteEntity } from "crossbell";
 import { BlurView } from "expo-blur";
 import { Image } from "expo-image";
 import { SizableText, Spacer, Stack, Text, XStack } from "tamagui";
@@ -35,14 +34,15 @@ const maxHeight = 200;
 const defaultCoverImageHeight = minHeight;
 
 const getCoverRangedSize = (height: number) => {
-  return Math.max(Math.min(height, maxHeight), minHeight);
+  const _height = Math.max(Math.min(height, maxHeight), minHeight);
+  return isNaN(_height) ? defaultCoverImageHeight : _height;
 };
 
 export const FeedListItem: FC<Props> = (props) => {
   const { note, width } = props;
   const navigation = useRootNavigation();
   const originalCoverImage = useCoverImage(note);
-  const coverImage = toGateway(note?.metadata?.content?.images?.[0]) || originalCoverImage;
+  const coverImage = withCompressedImage(toGateway(note?.metadata?.content?.images?.[0]), "high") || originalCoverImage;
   const usingDefaultCoverImage = !coverImage;
   const defaultLayout = { width, height: defaultCoverImageHeight };
   const [sourceLayout, setSourceLayout] = React.useState<{ width: number;height: number } | undefined>(

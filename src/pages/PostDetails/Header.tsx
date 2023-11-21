@@ -61,9 +61,11 @@ export const Header: FC<Props> = (props) => {
   // );
   const noteTitle = note?.metadata?.content?.title;
   const headerImageHeight = isShort ? Math.max(height * 0.6, 500) : 300;
+  const attachments = note?.metadata?.content?.attachments ?? [];
+
   const data = isShort
-    ? [_coverImage, ...note?.metadata?.content?.attachments?.filter(({ address }) => !!address)?.slice(1)?.map(attachment => withCompressedImage(toGateway(attachment.address), "high"))].filter(Boolean)
-    : [coverImage].map(attachment => withCompressedImage(attachment, "high"));
+    ? attachments.map(attachment => withCompressedImage(toGateway(attachment.address), "high")).filter(Boolean)
+    : [withCompressedImage(coverImage, "high")];
 
   const userinfoEle = (
     <Stack minHeight={28}>
