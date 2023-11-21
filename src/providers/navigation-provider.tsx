@@ -5,7 +5,7 @@ import type { LinkingOptions, NavigationState } from "@react-navigation/native";
 import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import * as Linking from "expo-linking";
 
-import { APP_HOST } from "@/constants/env";
+import { AIO_HOST, APP_HOST } from "@/constants/env";
 import { useColors } from "@/hooks/use-colors";
 import { GA } from "@/utils/GA";
 import { getActiveRoute } from "@/utils/get-active-route";
@@ -17,8 +17,8 @@ export const NavigationProvider: FC<React.PropsWithChildren<{}>> = ({ children }
   const linking: LinkingOptions<ReactNavigation.RootParamList> = {
     prefixes: [
       prefix,
-      `https://${APP_HOST}`,
-      `https://oia.${APP_HOST}`,
+      APP_HOST,
+      AIO_HOST,
     ],
     config: {
       screens: {
