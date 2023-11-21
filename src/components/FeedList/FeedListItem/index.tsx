@@ -9,7 +9,7 @@ import { Eye } from "@tamagui/lucide-icons";
 import type { NoteEntity } from "crossbell";
 import { BlurView } from "expo-blur";
 import { Image } from "expo-image";
-import { SizableText, Stack, Text, XStack } from "tamagui";
+import { SizableText, Spacer, Stack, Text, XStack } from "tamagui";
 
 import { Avatar } from "@/components/Avatar";
 import { Center } from "@/components/Base/Center";
@@ -106,7 +106,8 @@ export const FeedListItem: FC<Props> = (props) => {
     return new Promise((resolve) => {
       RNImage.getSize(
         coverImage,
-        (_, height) => {
+        (ow, oh) => {
+          const height = (width * oh) / ow;
           resolve({
             width,
             height,
@@ -134,17 +135,18 @@ export const FeedListItem: FC<Props> = (props) => {
 
   const titleContent = note?.metadata?.content?.title || note?.metadata?.content?.content;
   const titleElement = (
-    titleContent && (
-      <SizableText
-        size={"$5"}
-        fontWeight={"700"}
-        color="$color"
-        marginBottom={"$2"}
-        numberOfLines={2}
-      >
-        {String(titleContent)}
-      </SizableText>
-    )
+    titleContent
+      && (
+        <SizableText
+          size={"$5"}
+          fontWeight={"700"}
+          color="$color"
+          marginBottom={"$2"}
+          numberOfLines={2}
+        >
+          {String(titleContent)}
+        </SizableText>
+      )
   );
 
   if (!sourceLayout) {
@@ -206,7 +208,7 @@ export const FeedListItem: FC<Props> = (props) => {
           paddingVertical={8}
         >
           {titleElement}
-          <XStack alignItems="center" justifyContent="space-between" gap={"$2"} marginBottom={"$1"}>
+          <XStack alignItems="center" justifyContent="space-between" gap={"$2"} marginVertical={"$1"}>
             <XStack alignItems="center" gap="$2" flex={1}>
               <Avatar character={note?.character} useDefault size={20}/>
               <XStack alignItems="center" flex={1}>
