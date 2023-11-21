@@ -42,5 +42,5 @@ export const getTwitterShareUrl = ({
     return "";
   }
 
-  return `https://twitter.com/intent/tweet?url=${twitterShareURL}/${encodeURIComponent(slug)}&via=${twitterViaAccount}&text=${tweetContent}`;
+  return `https://x.com/intent/tweet?url=${twitterShareURL}/${encodeURIComponent(slug)}&via=${twitterViaAccount}&text=${tweetContent}`;
 };

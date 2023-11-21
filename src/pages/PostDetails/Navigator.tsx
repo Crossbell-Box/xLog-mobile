@@ -11,10 +11,12 @@ import { useCharacter, useNote } from "@crossbell/indexer";
 import { HeaderBackButton } from "@react-navigation/elements";
 import { useNavigation } from "@react-navigation/native";
 import type { IconProps } from "@tamagui/helpers-icon";
-import { ArrowLeft, ChevronLeft, Image as ImageIcon, Link, MoreHorizontal, Twitter } from "@tamagui/lucide-icons";
+import { ArrowLeft, ChevronLeft, Image as ImageIcon, Link, MoreHorizontal, X } from "@tamagui/lucide-icons";
 import { useToastController } from "@tamagui/toast";
 import type { NoteEntity } from "crossbell";
 import * as Clipboard from "expo-clipboard";
+import type { ImageSource } from "expo-image";
+import { Image } from "expo-image";
 import * as MediaLibrary from "expo-media-library";
 import * as Sentry from "sentry-expo";
 import type { StackProps } from "tamagui";
@@ -273,9 +275,9 @@ export const Navigator: FC<Props> = (props) => {
         <ScrollView horizontal>
           <XStack gap="$4" marginHorizontal="$3">
             {/* TODO 🌴 */}
-            <ShareItem backgroundColor="#1DA1F2" icon={Twitter} title="Twitter" onPress={handleShareOnTwitter} />
-            <ShareItem backgroundColor="#f3922a" icon={Link} title={commonT("Link")} onPress={handleCopyLink} />
-            <ShareItem backgroundColor="#f3922a" icon={ImageIcon} title={commonT("Image")} onPress={handleTakeScreenShot} />
+            <ShareItem backgroundColor="black" image={require("../../assets/x.png")} title="X" onPress={handleShareOnTwitter} />
+            <ShareItem backgroundColor="black" icon={Link} title={commonT("Link")} onPress={handleCopyLink} />
+            <ShareItem backgroundColor="black" icon={ImageIcon} title={commonT("Image")} onPress={handleTakeScreenShot} />
           </XStack>
         </ScrollView>
       </BottomSheetModal>
@@ -284,28 +286,21 @@ export const Navigator: FC<Props> = (props) => {
 };
 
 const ShareItem: FC<{
-  icon: React.ExoticComponent<IconProps>
+  icon?: React.ExoticComponent<IconProps>
+  image?: ImageSource
   backgroundColor: StackProps["backgroundColor"]
   title: string
   onPress: () => void
-}> = ({ icon: Icon, title, onPress, backgroundColor }) => {
+}> = ({ icon: Icon, image, title, onPress, backgroundColor }) => {
   const size = 60;
   return (
     <XTouch onPress={onPress} touchableComponent={TouchableWithoutFeedback}>
       <YStack alignItems="center" gap="$1">
         <Stack width={size} height={size} alignItems="center" justifyContent="center" borderRadius={50} backgroundColor={backgroundColor}>
-          <Icon color="white" size={size / 2}/>
+          {Icon ? <Icon color="white" size={size / 2}/> : <Image source={image} style={{ width: size / 2, height: size / 2 }}/>}
         </Stack>
         <SizableText numberOfLines={1}>{title}</SizableText>
       </YStack>
     </XTouch>
   );
 };
-
-const styles = StyleSheet.create({
-  headerContainer: {
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
