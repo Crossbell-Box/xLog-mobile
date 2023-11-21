@@ -178,6 +178,7 @@ export const TakePhotoPage: FC<NativeStackScreenProps<RootStackParamList, "TakeP
                 backgroundColor={"$primary"}
                 color={"white"}
                 iconAfter={<ArrowRight/>}
+                padding="$0"
               >
                 {i18n.t("Next")}
               </Button>
