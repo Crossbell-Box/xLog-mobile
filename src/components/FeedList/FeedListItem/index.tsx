@@ -14,6 +14,7 @@ import { Avatar } from "@/components/Avatar";
 import { Center } from "@/components/Base/Center";
 import { bgsReversed } from "@/constants/bgs";
 import { useCoverImage } from "@/hooks/use-cover-image";
+import { useImageSize } from "@/hooks/use-image-size";
 import { useRootNavigation } from "@/hooks/use-navigation";
 import type { ExpandedNote } from "@/types/crossbell";
 import { cacheStorage } from "@/utils/cache-storage";
@@ -43,27 +44,18 @@ export const FeedListItem: FC<Props> = (props) => {
   const navigation = useRootNavigation();
   const originalCoverImage = useCoverImage(note);
   const coverImage = withCompressedImage(toGateway(note?.metadata?.content?.images?.[0]), "high") || originalCoverImage;
-  const usingDefaultCoverImage = !coverImage;
-  const defaultLayout = { width, height: defaultCoverImageHeight };
-  const [sourceLayout, setSourceLayout] = React.useState<{ width: number;height: number } | undefined>(
-    usingDefaultCoverImage ? defaultLayout : undefined,
-  );
-
-  const dimensionsMap = note?.metadata?.content?.imageDimensions;
-  const matchedDimensions = !usingDefaultCoverImage && dimensionsMap?.[coverImage];
-  const dimensionIsValid = matchedDimensions?.width > 0 && matchedDimensions?.height > 0;
-  const coverImageAnimStyles = useMemo(() => {
-    const height = sourceLayout ? (width * sourceLayout.height) / sourceLayout.width : defaultCoverImageHeight;
-
-    return {
-      width,
-      height,
-    };
-  }, [width, sourceLayout]);
-
   const title = String(note?.metadata?.content?.title);
   const placeholderBgIndex = computedBgIdx(note);
   const placeholderBg = bgsReversed[placeholderBgIndex];
+
+  const dimensionsMap = note?.metadata?.content?.imageDimensions;
+
+  const coverImageSize = useImageSize(
+    coverImage,
+    width,
+    defaultCoverImageHeight,
+    dimensionsMap,
+  );
 
   const onPress = React.useCallback(() => {
     navigation.navigate(
@@ -76,62 +68,6 @@ export const FeedListItem: FC<Props> = (props) => {
       },
     );
   }, [note]);
-
-  const getCoverSourceLayout = async (): Promise<{
-    origin?: string
-    width: number
-    height: number
-  }> => {
-    if (dimensionIsValid) {
-      return {
-        origin: "metadata",
-        width: matchedDimensions.width,
-        height: matchedDimensions.height,
-      };
-    }
-
-    const cachedLayout = await cacheStorage.getString(`img-layouts:${coverImage}`);
-
-    if (cachedLayout) {
-      return {
-        origin: "cache",
-        ...JSON.parse(cachedLayout),
-      };
-    }
-
-    if (!coverImage) {
-      return defaultLayout;
-    }
-
-    return new Promise((resolve) => {
-      RNImage.getSize(
-        coverImage,
-        (ow, oh) => {
-          const height = (width * oh) / ow;
-          resolve({
-            width,
-            height,
-          });
-        },
-        () => {
-          resolve(defaultLayout);
-        },
-      );
-    });
-  };
-
-  useEffect(() => {
-    if (usingDefaultCoverImage) {
-      return;
-    }
-
-    getCoverSourceLayout().then((layout) => {
-      setSourceLayout(layout);
-      if (layout.origin !== "cache") {
-        cacheStorage.set(`img-layouts:${coverImage}`, JSON.stringify(layout));
-      }
-    });
-  }, [coverImage]);
 
   const titleContent = note?.metadata?.content?.title || note?.metadata?.content?.content;
   const titleElement = (
@@ -149,7 +85,7 @@ export const FeedListItem: FC<Props> = (props) => {
       )
   );
 
-  if (!sourceLayout) {
+  if (!coverImageSize) {
     return null;
   }
 
@@ -163,9 +99,13 @@ export const FeedListItem: FC<Props> = (props) => {
           coverImage
             ? (
               <Stack
-                width={coverImageAnimStyles.width}
-                height={getCoverRangedSize(coverImageAnimStyles.height)}
+                width={coverImageSize.width}
+                height={getCoverRangedSize(coverImageSize.height)}
                 backgroundColor={"black"}
+                opacity={1}
+                animation="lazy"
+                enterStyle={{ opacity: 0 }}
+                exitStyle={{ opacity: 0 }}
               >
                 <Image
                   source={coverImage}
