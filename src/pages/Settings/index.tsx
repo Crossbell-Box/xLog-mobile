@@ -37,14 +37,14 @@ import { allThemes } from "@/styles/theme";
 import { GA } from "@/utils/GA";
 import { checkHotUpdates } from "@/utils/hot-updates";
 
-import { CountryPicker } from "./CountryPicker";
+// import { CountryPicker } from "./CountryPicker";
 
 export interface Props {
 
 }
 
 export const Settings: React.FC<Props> = () => {
-  const { country, isChinese, setCountry } = useGlobalState();
+  // const { country, isChinese, setCountry } = useGlobalState();
   const { primary, color, background } = useColors();
   const [devMenuVisible, setDevMenuVisible] = React.useState(false);
   const isLogin = useIsLogin();
@@ -293,7 +293,7 @@ export const Settings: React.FC<Props> = () => {
                     </ListItemTitle>
                   </SettingsListItem>
                 </SettingsYGroup.Item>
-                <SettingsYGroup.Item>
+                {/* <SettingsYGroup.Item>
                   <SettingsListItem
                     icon={Flag}
                     scaleIcon={1.2}
@@ -315,7 +315,7 @@ export const Settings: React.FC<Props> = () => {
                       {i18n.t("Country")}
                     </ListItemTitle>
                   </SettingsListItem>
-                </SettingsYGroup.Item>
+                </SettingsYGroup.Item> */}
               </SettingsYGroup>
 
               {
@@ -389,7 +389,7 @@ export const Settings: React.FC<Props> = () => {
             </YStack>
           </ScrollView>
         </YStack>
-        <CountryPicker
+        {/* <CountryPicker
           open={isCountryPickerOpened}
           value={country.alpha2}
           onOpenChange={setIsCountryPickerOpened}
@@ -397,7 +397,7 @@ export const Settings: React.FC<Props> = () => {
             setCountry(countries[value]);
             setIsCountryPickerOpened(false);
           }}
-        />
+        /> */}
         <BottomSheetModal
           ref={bottomSheetRef}
           snapPoints={snapPoints}
