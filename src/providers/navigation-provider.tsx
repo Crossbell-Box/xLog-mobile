@@ -5,7 +5,7 @@ import type { LinkingOptions, NavigationState } from "@react-navigation/native";
 import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import * as Linking from "expo-linking";
 
-import { AIO_HOST, APP_HOST } from "@/constants/env";
+import { OIA_HOST, APP_HOST } from "@/constants/env";
 import { useColors } from "@/hooks/use-colors";
 import { GA } from "@/utils/GA";
 import { getActiveRoute } from "@/utils/get-active-route";
@@ -18,7 +18,7 @@ export const NavigationProvider: FC<React.PropsWithChildren<{}>> = ({ children }
     prefixes: [
       prefix,
       APP_HOST,
-      AIO_HOST,
+      OIA_HOST,
     ],
     config: {
       screens: {

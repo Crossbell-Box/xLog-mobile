@@ -34,7 +34,7 @@
     NAKED_APP_HOST=xlog.app
     APP_HOST=https://xlog.app
     NAKED_OIA_HOST=oia.xlog.app
-    AIO_HOST=https://oia.xlog.app
+    OIA_HOST=https://oia.xlog.app
 
     ```
 ### Run the app

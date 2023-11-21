@@ -111,7 +111,7 @@ export default (_: ConfigContext): ExpoConfig => {
       },
       associatedDomains: [
         `applinks:${config.nakedAppHost}`,
-        `applinks:${config.nakedAioHost}`,
+        `applinks:${config.nakedOIAHost}`,
       ],
       googleServicesFile: config.iosGoogleServicesFile,
     },
@@ -130,7 +130,7 @@ export default (_: ConfigContext): ExpoConfig => {
             },
             {
               scheme: "https",
-              host: config.nakedAioHost,
+              host: config.nakedOIAHost,
               pathPrefix: "/",
             },
           ],
@@ -147,8 +147,8 @@ export default (_: ConfigContext): ExpoConfig => {
       SENTRY_DSN: process.env.SENTRY_DSN,
       APP_HOST: config.appHost,
       NAKED_APP_HOST: config.nakedAppHost,
-      AIO_HOST: config.aioHost,
-      NAKED_AIO_HOST: config.nakedAioHost,
+      OIA_HOST: config.oiaHost,
+      NAKED_OIA_HOST: config.nakedOIAHost,
       ENV: environment,
       eas: {
         projectId: process.env.EXPO_PROJECT_ID,

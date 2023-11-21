@@ -24,19 +24,19 @@ function setAppConfigEnv() {
   const APP_HOST = process.env.APP_HOST;
   if (!APP_HOST) throw new Error("APP_HOST is not defined");
 
-  const NAKED_AIO_HOST = process.env.NAKED_AIO_HOST;
-  if (!NAKED_AIO_HOST) throw new Error("NAKED_AIO_HOST is not defined");
+  const NAKED_OIA_HOST = process.env.NAKED_OIA_HOST;
+  if (!NAKED_OIA_HOST) throw new Error("NAKED_OIA_HOST is not defined");
 
-  const AIO_HOST = process.env.AIO_HOST;
-  if (!AIO_HOST) throw new Error("AIO_HOST is not defined");
+  const OIA_HOST = process.env.OIA_HOST;
+  if (!OIA_HOST) throw new Error("OIA_HOST is not defined");
 
   const envConfig = {
     development: {
       name: "xLog",
       nakedAppHost: NAKED_APP_HOST,
       appHost: APP_HOST,
-      nakedAioHost: NAKED_AIO_HOST,
-      aioHost: AIO_HOST,
+      nakedOIAHost: NAKED_OIA_HOST,
+      oiaHost: OIA_HOST,
       scheme: `${APP_SCHEME}.development`,
       icon: "./assets/icon.development.png",
       androidGoogleServicesFile: IS_EAS_CI
@@ -50,8 +50,8 @@ function setAppConfigEnv() {
       name: "xLog",
       nakedAppHost: NAKED_APP_HOST,
       appHost: APP_HOST,
-      nakedAioHost: NAKED_AIO_HOST,
-      aioHost: AIO_HOST,
+      nakedOIAHost: NAKED_OIA_HOST,
+      oiaHost: OIA_HOST,
       scheme: `${APP_SCHEME}.test`,
       icon: "./assets/icon.test.png",
       androidGoogleServicesFile: IS_EAS_CI
@@ -65,8 +65,8 @@ function setAppConfigEnv() {
       name: "xLog",
       nakedAppHost: NAKED_APP_HOST,
       appHost: APP_HOST,
-      nakedAioHost: NAKED_AIO_HOST,
-      aioHost: AIO_HOST,
+      nakedOIAHost: NAKED_OIA_HOST,
+      oiaHost: OIA_HOST,
       scheme: APP_SCHEME,
       icon: "./assets/icon.png",
       androidGoogleServicesFile: IS_EAS_CI
