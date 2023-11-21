@@ -8077,10 +8077,10 @@ builtins@^5.0.1:
   dependencies:
     semver "^7.0.0"
 
-burnt@^0.11.4:
-  version "0.11.4"
-  resolved "https://registry.npmjs.org/burnt/-/burnt-0.11.4.tgz#204b7bf326fc28537d3d293a415b9372b99a4bb4"
-  integrity sha512-rUujz4pd10o7O9u3lR477wc2GF+DtBss/lE0naiADjLbcGL9+zneTalfXToFy9ytDpUt+gJaa/q+WLL55lAxyQ==
+burnt@^0.12.1:
+  version "0.12.1"
+  resolved "https://registry.npmjs.org/burnt/-/burnt-0.12.1.tgz#48d9db0115dc9016ba0420db2b68c943bcbe84c8"
+  integrity sha512-a5EQvG8CR1JDmOyY9aiUORnJ39wpmZMMva5qbCTXadtNJAjLDZTvrmp7cvYB9i+Jfe1wVhvCCFfEios7M9/88Q==
   dependencies:
     sf-symbols-typescript "^1.0.0"
     sonner "^0.3.5"
