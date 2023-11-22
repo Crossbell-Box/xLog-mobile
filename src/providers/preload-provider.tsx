@@ -28,7 +28,7 @@ const defaultCountryInfo = i18n.language.startsWith("zh")
   : countries.us;
 
 export const PreloadProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
-  const [locationPermissionRequested, setLocationPermissionRequested] = useState(false);
+  // const [locationPermissionRequested, setLocationPermissionRequested] = useState(false);
   const [fontsLoadingReady] = useFonts({
     Inter: require("@tamagui/font-inter/otf/Inter-Regular.otf"),
     InterLight: require("@tamagui/font-inter/otf/Inter-Light.otf"),
@@ -36,21 +36,22 @@ export const PreloadProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
     InterSemiBold: require("@tamagui/font-inter/otf/Inter-SemiBold.otf"),
   });
 
-  const allReady = fontsLoadingReady || locationPermissionRequested;
+  const allReady = fontsLoadingReady;
+  // const allReady = fontsLoadingReady || locationPermissionRequested;
 
-  useEffect(() => {
-    getUserCountryCode()
-      .then((countryCode) => {
-        const countryInfo = countries[countryCode] || defaultCountryInfo;
-        cacheStorage.set(COUNTRY_INFO_KEY, JSON.stringify(countryInfo));
-      })
-      .catch(() => {
-        cacheStorage.set(COUNTRY_INFO_KEY, JSON.stringify(defaultCountryInfo));
-      })
-      .finally(() => {
-        setLocationPermissionRequested(true);
-      });
-  }, []);
+  // useEffect(() => {
+  //   getUserCountryCode()
+  //     .then((countryCode) => {
+  //       const countryInfo = countries[countryCode] || defaultCountryInfo;
+  //       cacheStorage.set(COUNTRY_INFO_KEY, JSON.stringify(countryInfo));
+  //     })
+  //     .catch(() => {
+  //       cacheStorage.set(COUNTRY_INFO_KEY, JSON.stringify(defaultCountryInfo));
+  //     })
+  //     .finally(() => {
+  //       setLocationPermissionRequested(true);
+  //     });
+  // }, []);
 
   if (!allReady)
     return null;
