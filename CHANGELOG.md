@@ -1,5 +1,17 @@
 # xlog
 
+## 0.28.0
+
+### Minor Changes
+
+- 543e7ba: Update app configuration with new host information
+- 8e718cd: Update host names in app configuration
+
+### Patch Changes
+
+- 71acc85: Added skeleton for carousel and optimized the display performance of details page.
+- a6344e4: Refactor logo animation size in SplashProvider
+
 ## 0.27.0
 
 ### Minor Changes
