@@ -75,7 +75,7 @@ export default (_: ConfigContext): ExpoConfig => {
       [
         "expo-location",
         {
-          locationAlwaysAndWhenInUsePermission: "Allow $(PRODUCT_NAME) to use your location so you can see articles around you.",
+          locationWhenInUsePermission: "Allow $(PRODUCT_NAME) to use your location so you can see articles around you.",
         },
       ],
       "sentry-expo",
