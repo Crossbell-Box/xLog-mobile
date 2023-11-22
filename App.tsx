@@ -1,8 +1,3 @@
-import "./shim";
-import "expo-dev-client";
-import "./error-handler";
-import "@/providers/connect-kit-provider/setup-react-account";
-
 import { useEffect } from "react";
 import { I18nextProvider } from "react-i18next";
 import { StyleSheet } from "react-native";

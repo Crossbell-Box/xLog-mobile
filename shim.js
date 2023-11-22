@@ -4,7 +4,6 @@ import "text-encoding-polyfill";
 import "react-native-url-polyfill/auto";
 import "react-native-get-random-values";
 import "@ethersproject/shims";
-import "@walletconnect/react-native-compat";
 import { Platform } from "react-native";
 import { btoa, atob, toByteArray } from "react-native-quick-base64";
 

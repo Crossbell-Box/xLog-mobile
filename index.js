@@ -1,3 +1,7 @@
+import "./shim";
+import "expo-dev-client";
+import "./error-handler";
+import "@/providers/connect-kit-provider/setup-react-account";
 import "react-native-gesture-handler";
 import { registerRootComponent } from "expo";
 import * as SplashScreen from "expo-splash-screen";

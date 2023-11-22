@@ -5,7 +5,7 @@ import { WalletConnectModal as Modal, type IProviderMetadata } from "@walletconn
 import * as Clipboard from "expo-clipboard";
 import { resolveScheme } from "expo-linking";
 
-import { WALLET_PROJECT_ID, WALLET_RELAY_URL } from "@/constants/env";
+import { OIA_HOST, WALLET_PROJECT_ID, WALLET_RELAY_URL } from "@/constants/env";
 import { useThemeStore } from "@/hooks/use-theme-store";
 
 const onCopyClipboard = (value: string) => {
@@ -38,7 +38,7 @@ const providerMetadata: IProviderMetadata = {
   description: "Connect with WalletConnect",
   redirect: {
     native: `${resolveScheme({})}://`,
-    universal: "https://oia.xlog.app/",
+    universal: OIA_HOST,
   },
 };
 
