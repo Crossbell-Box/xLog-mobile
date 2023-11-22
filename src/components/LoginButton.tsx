@@ -76,7 +76,7 @@ export function ConnectBtn({
 }) {
   const i18n = useTranslation();
   const navigation = useRootNavigation();
-  const { open, isOpen, provider } = useWalletConnectModal();
+  const { open, isOpen } = useWalletConnectModal();
   const toast = useToastController();
 
   const isActive = useAppIsActive();
