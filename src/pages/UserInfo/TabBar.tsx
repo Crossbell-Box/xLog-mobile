@@ -27,6 +27,7 @@ export const TabBarRenderer = memo((props: TabBarRendererProps) => {
     note?: ExpandedNote,
   ) => {
     const analyzedLink = analyzingLink(link);
+
     if (analyzedLink.type === LinkType.INTERNAL) {
       setCurrentTabKey(link.key);
       props.jumpTo(link.key);

@@ -18,7 +18,7 @@ import { useGetSite } from "@/queries/site";
 
 import { analyzingLink } from "./analyzingLink";
 import { Header } from "./Header";
-import { HomeScene, TagScene } from "./Scenes";
+import { HomeScene, ShortsScene, TagScene } from "./Scenes";
 import { TabBarRenderer } from "./TabBar";
 
 export interface Props {
@@ -44,7 +44,11 @@ const UserInfoPage: FC<NativeStackScreenProps<RootStackParamList, "UserInfo"> & 
     const links
       = navigation?.find(nav => nav.url === "/")
         ? navigation
-        : [{ label: "Home", url: "/" }, ...navigation];
+        : [
+          { label: "Home", url: "/" },
+          { label: "Shorts", url: "/shorts" },
+          ...navigation,
+        ];
 
     return links.map((link, index) => ({ key: link.url, title: link.label, index }));
   }, [site]);
@@ -54,6 +58,10 @@ const UserInfoPage: FC<NativeStackScreenProps<RootStackParamList, "UserInfo"> & 
 
     if (pagePath === "/tag") {
       return <TagScene tags={[slug]} characterId={characterId} index={0} />;
+    }
+
+    if (pagePath === "/shorts") {
+      return <ShortsScene characterId={characterId} handle={character?.handle} index={0} />;
     }
 
     if (pagePath === "/") {

@@ -2,17 +2,17 @@ import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 
 import { APP_HOST } from "@/constants/env";
 import * as homeModel from "@/models/home.model";
-import type { getPagesBySite } from "@/models/page.model";
+import type { GetPagesBySite } from "@/models/page.model";
 
-import { useGetPagesBySite } from "./page";
+import { useGetPagesBySiteLite } from "./page";
 
-export type GetFeedParams = homeModel.GetFeedOptions | Parameters<typeof getPagesBySite>[0];
+export type GetFeedParams = homeModel.GetFeedOptions | Parameters<GetPagesBySite>[0];
 
 export const useGetFeed = (
   data?: GetFeedParams,
 ) => {
   if (data.type === "page" || data.type === "post") {
-    return useGetPagesBySite(data);
+    return useGetPagesBySiteLite(data);
   }
 
   return useInfiniteQuery({

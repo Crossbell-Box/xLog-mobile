@@ -14,7 +14,7 @@ import { ProfilePageHeader } from "@/components/ProfilePageHeader";
 import { ProfilePageLayout } from "@/components/ProfilePageLayout";
 import { useDate } from "@/hooks/use-date";
 import type { RootStackParamList } from "@/navigation/types";
-import { useGetPagesBySite } from "@/queries/page";
+import { useGetPagesBySiteLite } from "@/queries/page";
 import { PageVisibilityEnum } from "@/types";
 import type { ExpandedNote } from "@/types/crossbell";
 import { getPageVisibility } from "@/utils/page-helpers";
@@ -50,7 +50,7 @@ export const PostsPage: FC<NativeStackScreenProps<RootStackParamList, "Posts">> 
   const date = useDate();
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
-  const pages = useGetPagesBySite({
+  const pages = useGetPagesBySiteLite({
     type: "post",
     characterId,
     limit: 100,

@@ -6,14 +6,16 @@ import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tansta
 import type { Comment } from "@/components/CommentItem";
 import { APP_HOST } from "@/constants/env";
 import { getAnonymousCommentInformation } from "@/hooks/use-setup-anonymous-comment";
-import { anonymousComment, checkMint, getComment, getComments, getMints, getPage, getPagesBySite, updateComment } from "@/models/page.model";
+import { anonymousComment, checkMint, getComment, getComments, getMints, getPage, updateComment } from "@/models/page.model";
+import type { GetPagesBySite } from "@/models/page.model";
 import type { EditorValues, NoteType } from "@/types";
 import { cacheDelete, cacheGet } from "@/utils/cache";
 import { editor2Crossbell } from "@/utils/editor-converter";
 import { getNoteSlug } from "@/utils/get-slug";
 
+// Searching specific note by characterId
 export const useGetPagesBySiteLite = (
-  input: Parameters<typeof getPagesBySite>[0],
+  input: Parameters<GetPagesBySite>[0],
 ) => {
   return useInfiniteQuery({
     queryKey: ["getPagesBySite", input.characterId, input],
@@ -23,23 +25,8 @@ export const useGetPagesBySiteLite = (
         ...(pageParam && { cursor: pageParam }),
       } as any).toString()}`;
       const response = await fetch(url);
-      const result: ReturnType<typeof getPagesBySite> = await response.json();
+      const result: ReturnType<GetPagesBySite> = await response.json();
       return result;
-    },
-    getNextPageParam: lastPage => lastPage.cursor || undefined,
-  });
-};
-
-export const useGetPagesBySite = (
-  input: Parameters<typeof getPagesBySite>[0],
-) => {
-  return useInfiniteQuery({
-    queryKey: ["getPagesBySite", input.characterId, input],
-    queryFn: async ({ pageParam }) => {
-      return getPagesBySite({
-        ...input,
-        cursor: pageParam,
-      });
     },
     getNextPageParam: lastPage => lastPage.cursor || undefined,
   });

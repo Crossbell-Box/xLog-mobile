@@ -6,6 +6,8 @@ export enum PageVisibilityEnum {
   Modified = "published and local modified",
 }
 
+export type PagesSortTypes = "latest" | "hottest" | "commented";
+
 export type NoteType = "post" | "page" | "portfolio" | "short";
 
 export interface EditorValues {
@@ -27,3 +29,4 @@ export interface EditorValues {
     mime_type?: string
   }[]
 }
+

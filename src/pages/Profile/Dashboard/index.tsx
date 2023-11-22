@@ -74,12 +74,11 @@ export const DashboardPage: FC<NativeStackScreenProps<RootStackParamList, "Dashb
           cards.map((card, index) => {
             const Icon = card.icon;
             return (
-            // TODO: Link to the corresponding page
-              <Card padding="$1.5" marginBottom="$3" width={"48%"} elevate size="$2" bordered key={index} backgroundColor="$backgroundPress">
+              <Card padding="$1.5" marginBottom="$3" width={"48%"} elevate size="$2" key={index} backgroundColor="$backgroundPress">
                 <Card.Header padded>
                   <XStack alignItems="center" gap="$1.5" marginBottom="$2">
-                    <Icon width={16} />
-                    <SizableText color="$color">{card.label}</SizableText>
+                    <Icon size={14} />
+                    <SizableText color="$color" fontSize={14}>{card.label}</SizableText>
                   </XStack>
                   <H3>{card.value}</H3>
                 </Card.Header>
