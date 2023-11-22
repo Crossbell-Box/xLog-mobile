@@ -15,14 +15,29 @@ function setAppConfigEnv() {
     dotenv.config({ path: `.env.${ENV}` });
   }
 
-  const SCHEME = process.env.APP_SCHEME;
-  const HOST = process.env.APP_HOST ?? "https://xlog.app";
+  const APP_SCHEME = process.env.APP_SCHEME;
+  if (!APP_SCHEME) throw new Error("APP_SCHEME is not defined");
+
+  const NAKED_APP_HOST = process.env.NAKED_APP_HOST;
+  if (!NAKED_APP_HOST) throw new Error("NAKED_APP_HOST is not defined");
+
+  const APP_HOST = process.env.APP_HOST;
+  if (!APP_HOST) throw new Error("APP_HOST is not defined");
+
+  const NAKED_OIA_HOST = process.env.NAKED_OIA_HOST;
+  if (!NAKED_OIA_HOST) throw new Error("NAKED_OIA_HOST is not defined");
+
+  const OIA_HOST = process.env.OIA_HOST;
+  if (!OIA_HOST) throw new Error("OIA_HOST is not defined");
 
   const envConfig = {
     development: {
       name: "xLog",
-      host: HOST,
-      scheme: `${SCHEME}.development`,
+      nakedAppHost: NAKED_APP_HOST,
+      appHost: APP_HOST,
+      nakedOIAHost: NAKED_OIA_HOST,
+      oiaHost: OIA_HOST,
+      scheme: `${APP_SCHEME}.development`,
       icon: "./assets/icon.development.png",
       androidGoogleServicesFile: IS_EAS_CI
         ? process.env.ANDROID_GOOGLE_SERVICES_DEVELOPMENT
@@ -33,8 +48,11 @@ function setAppConfigEnv() {
     },
     test: {
       name: "xLog",
-      host: HOST,
-      scheme: `${SCHEME}.test`,
+      nakedAppHost: NAKED_APP_HOST,
+      appHost: APP_HOST,
+      nakedOIAHost: NAKED_OIA_HOST,
+      oiaHost: OIA_HOST,
+      scheme: `${APP_SCHEME}.test`,
       icon: "./assets/icon.test.png",
       androidGoogleServicesFile: IS_EAS_CI
         ? process.env.ANDROID_GOOGLE_SERVICES_TEST
@@ -45,8 +63,11 @@ function setAppConfigEnv() {
     },
     production: {
       name: "xLog",
-      host: HOST,
-      scheme: SCHEME,
+      nakedAppHost: NAKED_APP_HOST,
+      appHost: APP_HOST,
+      nakedOIAHost: NAKED_OIA_HOST,
+      oiaHost: OIA_HOST,
+      scheme: APP_SCHEME,
       icon: "./assets/icon.png",
       androidGoogleServicesFile: IS_EAS_CI
         ? process.env.ANDROID_GOOGLE_SERVICES_PRODUCTION

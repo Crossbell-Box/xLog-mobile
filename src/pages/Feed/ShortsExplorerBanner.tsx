@@ -21,6 +21,8 @@ import { computedBgIdx } from "@/utils/computed-bg-idx";
 import { withCompressedImage } from "@/utils/get-compressed-image-url";
 import { toGateway } from "@/utils/ipfs-parser";
 
+import { Skeleton } from "./Skeleton";
+
 interface Props { }
 
 const { width } = Dimensions.get("window");
@@ -70,6 +72,7 @@ export const ShortsExplorerBanner: FC<Props> = () => {
         panGestureHandlerProps={{ activeOffsetX: [-10, 10] }}
         vertical={false}
       />
+      {shorts.isLoading && <Skeleton height={200}/>}
     </YStack>
   );
 };

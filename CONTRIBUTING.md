@@ -31,7 +31,11 @@
 
 - Create `.env.development`, `.env.test` and `.env.production` files and fill the `APP_HOST` variable for various environments.  
     ```
+    NAKED_APP_HOST=xlog.app
     APP_HOST=https://xlog.app
+    NAKED_OIA_HOST=oia.xlog.app
+    OIA_HOST=https://oia.xlog.app
+
     ```
 ### Run the app
 

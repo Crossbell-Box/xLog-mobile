@@ -35,8 +35,8 @@ export const SplashProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const logoAnimStyles = useAnimatedStyle(() => {
     return {
-      width: interpolate(logoAnimVal.value, [0, 1], [0, size]),
-      height: interpolate(logoAnimVal.value, [0, 1], [0, size]),
+      width: size,
+      height: size,
       opacity: interpolate(logoAnimVal.value, [0, 1], [0, 1]),
     };
   }, []);
