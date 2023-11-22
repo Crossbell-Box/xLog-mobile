@@ -4,7 +4,7 @@ import type { CharacterEntity, Contract, ListResponse, MintedNoteEntity, NoteEnt
 import type { Address } from "viem";
 
 import { client } from "@/queries/graphql";
-import { PageVisibilityEnum } from "@/types";
+import type { NoteType, PageVisibilityEnum, PagesSortTypes } from "@/types";
 import type { ExpandedNote } from "@/types/crossbell";
 import { expandCrossbellNote } from "@/utils/expand-unit";
 import { getKeys, getStorage } from "@/utils/storage";
@@ -20,7 +20,7 @@ const getLocalPages = async (input: {
   for (const key of keys) {
     const page = await getStorage(key);
     if (input.isPost === undefined || page.isPost === input.isPost) {
-      const note: ExpandedNote = {
+      const note: ExpandedNote & NoteEntity = {
         characterId: input.characterId,
         noteId: 0,
         draftKey: key
@@ -72,6 +72,7 @@ const getLocalPages = async (input: {
           },
         },
         local: true,
+        stat: { viewDetailCount: 0 },
       };
       pages.push(note);
     }
@@ -394,123 +395,26 @@ export async function getPage<TRender extends boolean = false>(input: {
   return expandedNote;
 }
 
-export async function getPagesBySite(input: {
+export type GetPagesBySite = (input: {
   characterId?: number
-  type: "post" | "page"
+  type: NoteType | NoteType[]
   visibility?: PageVisibilityEnum
   limit?: number
   cursor?: string
   tags?: string[]
   useStat?: boolean
+  useHTML?: boolean
   keepBody?: boolean
-  handle?: string // In order to be compatible with old drafts
-}) {
-  if (!input.characterId) {
-    return {
-      count: 0,
-      list: [],
-      cursor: null,
-    };
-  }
-
-  const visibility = input.visibility || PageVisibilityEnum.All;
-
-  const notes = await indexer.note.getMany({
-    characterId: input.characterId,
-    limit: input.limit || 10,
-    cursor: input.cursor,
-    orderBy: "publishedAt",
-    tags: [...(input.tags || []), input.type],
-    sources: "xlog",
-  });
-
-  const list = await Promise.all(
-    notes?.list.map(async (note) => {
-      const expanded = await expandCrossbellNote({
-        note,
-        useStat: input.useStat,
-      });
-      if (!input.keepBody) {
-        delete expanded.metadata?.content?.content;
-      }
-      return expanded;
-    }),
-  );
-
-  const expandedNotes: {
-    list: ExpandedNote[]
-    count: number
-    cursor: string | null
-  } = Object.assign(notes, {
-    list,
-  });
-
-  const local = await getLocalPages({
-    characterId: input.characterId,
-    isPost: input.type === "post",
-    handle: input.handle,
-  });
-
-  local.forEach((localPage) => {
-    const index = expandedNotes.list.findIndex(
-      page => localPage.draftKey === `${page.noteId || page.draftKey}`,
-    );
-    if (index !== -1) {
-      if (
-        new Date(localPage.updatedAt)
-        > new Date(expandedNotes.list[index].updatedAt)
-      ) {
-        expandedNotes.list[index] = {
-          ...expandedNotes.list[index],
-          metadata: {
-            content: localPage.metadata?.content,
-          },
-          local: true,
-          draftKey: localPage.draftKey,
-        };
-      }
-    }
-    else {
-      expandedNotes.list.push(localPage);
-      expandedNotes.count++;
-    }
-  });
-
-  switch (visibility) {
-    case PageVisibilityEnum.Published:
-      expandedNotes.list = expandedNotes.list.filter(
-        page =>
-          (!page.metadata?.content?.date_published
-            || +new Date(page.metadata?.content?.date_published) <= +new Date())
-          && page.noteId,
-      );
-      break;
-    case PageVisibilityEnum.Draft:
-      expandedNotes.list = expandedNotes.list.filter(page => !page.noteId);
-      break;
-    case PageVisibilityEnum.Scheduled:
-      expandedNotes.list = expandedNotes.list.filter(
-        page =>
-          page.metadata?.content?.date_published
-          && +new Date(page.metadata?.content?.date_published) > +new Date(),
-      );
-      break;
-  }
-
-  expandedNotes.list = expandedNotes.list.sort((a, b) => {
-    if (!a.metadata?.content?.date_published) {
-      return -1;
-    }
-    else if (!b.metadata?.content?.date_published) {
-      return 1;
-    }
-    else {
-      return (
-        +new Date(b.metadata?.content?.date_published)
-        - +new Date(a.metadata?.content?.date_published)
-      );
-    }
-  });
-
-  return expandedNotes;
-}
+  handle?: string
+  skipExpansion?: boolean
+  sortType?: PagesSortTypes
+}) => Promise<{
+  pinnedNoteId: number | undefined
+  list: any[]
+  count: any
+  cursor: string | null
+} | {
+  count: number
+  list: never[]
+  cursor: null
+}>;
