@@ -20,6 +20,20 @@ export const HomeScene: FC<{ handle: string; characterId: number; index: number 
   );
 };
 
+export const ShortsScene: FC<{ handle: string; characterId: number; index: number }> = ({ handle, characterId, index }) => {
+  return (
+    <Stack flex={1}>
+      <TabMasonryFeedList
+        index={index}
+        characterId={characterId}
+        type={"shorts"}
+        handle={handle}
+        visibility={PageVisibilityEnum.Published}
+      />
+    </Stack>
+  );
+};
+
 export const TagScene: FC<{
   characterId: number
   index: number
