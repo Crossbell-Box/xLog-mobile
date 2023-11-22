@@ -1,5 +1,11 @@
 # xlog
 
+## 0.29.0
+
+### Minor Changes
+
+- 57841bc: Fix location permission message in app.config.ts and comment out unused code in preload-provider.tsx.
+
 ## 0.28.0
 
 ### Minor Changes
