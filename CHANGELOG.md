@@ -1,5 +1,11 @@
 # xlog
 
+## 0.30.0
+
+### Minor Changes
+
+- 9c2e8df: Update WalletConnectModal import
+
 ## 0.29.0
 
 ### Minor Changes
