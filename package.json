@@ -113,6 +113,7 @@
     "dns.js": "^1.0.1",
     "dotenv": "^16.0.3",
     "dotenv-types-generator": "^1.1.2",
+    "envalid": "^8.0.0",
     "eslint": "^8.38.0",
     "ethereum-waffle": "^4.0.10",
     "ethers": "^6.7.1",

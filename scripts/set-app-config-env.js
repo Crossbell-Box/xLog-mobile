@@ -1,34 +1,46 @@
+const { join } = require("path");
+
 const dotenv = require("dotenv");
+const { cleanEnv, str } = require("envalid");
 
 const { version } = require("../package.json");
 
+const ENV = process.env.STAGE ?? "production";
+const IS_EAS_CI = process.env.EAS_BUILD === "true";
+if (IS_EAS_CI) {
+  dotenv.config({ path: process.env.ENV_FILE_COMMON });
+  dotenv.config({ path: process.env[`ENV_FILE_${ENV.toUpperCase()}`] });
+}
+else {
+  dotenv.config({ path: join(__dirname, "..", ".env.common") });
+  dotenv.config({ path: join(__dirname, "..", `.env.${ENV}`) });
+}
+
+const validators = {
+  APP_SCHEME: str(),
+  NAKED_APP_HOST: str(),
+  APP_HOST: str(),
+  NAKED_OIA_HOST: str(),
+  OIA_HOST: str(),
+};
+
+if (IS_EAS_CI) {
+  validators.ANDROID_GOOGLE_SERVICES_DEVELOPMENT = str();
+  validators.ANDROID_GOOGLE_SERVICES_TEST = str();
+  validators.ANDROID_GOOGLE_SERVICES_PRODUCTION = str();
+  validators.IOS_GOOGLE_SERVICES_DEVELOPMENT = str();
+  validators.IOS_GOOGLE_SERVICES_TEST = str();
+  validators.IOS_GOOGLE_SERVICES_PRODUCTION = str();
+}
+
+const env = cleanEnv(process.env, validators);
+
 function setAppConfigEnv() {
-  const ENV = process.env.STAGE ?? "production";
-  const IS_EAS_CI = process.env.EAS_BUILD === "true";
-
-  if (IS_EAS_CI) {
-    dotenv.config({ path: process.env.ENV_FILE_COMMON });
-    dotenv.config({ path: process.env[`ENV_FILE_${ENV.toUpperCase()}`] });
-  }
-  else {
-    dotenv.config({ path: ".env.common" });
-    dotenv.config({ path: `.env.${ENV}` });
-  }
-
-  const APP_SCHEME = process.env.APP_SCHEME;
-  if (!APP_SCHEME) throw new Error("APP_SCHEME is not defined");
-
-  const NAKED_APP_HOST = process.env.NAKED_APP_HOST;
-  if (!NAKED_APP_HOST) throw new Error("NAKED_APP_HOST is not defined");
-
-  const APP_HOST = process.env.APP_HOST;
-  if (!APP_HOST) throw new Error("APP_HOST is not defined");
-
-  const NAKED_OIA_HOST = process.env.NAKED_OIA_HOST;
-  if (!NAKED_OIA_HOST) throw new Error("NAKED_OIA_HOST is not defined");
-
-  const OIA_HOST = process.env.OIA_HOST;
-  if (!OIA_HOST) throw new Error("OIA_HOST is not defined");
+  const APP_SCHEME = env.APP_SCHEME;
+  const NAKED_APP_HOST = env.NAKED_APP_HOST;
+  const APP_HOST = env.APP_HOST;
+  const NAKED_OIA_HOST = env.NAKED_OIA_HOST;
+  const OIA_HOST = env.OIA_HOST;
 
   const envConfig = {
     development: {

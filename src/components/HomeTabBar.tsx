@@ -12,13 +12,14 @@ import { Stack, XStack } from "tamagui";
 import { Center } from "@/components/Base/Center";
 import { CreateShortsButton } from "@/components/CreateShortsButton";
 import { GlobalStateContext } from "@/context/global-state-context";
+import { homeTabHeaderHeight } from "@/pages/Feed/HeaderAnimatedLayout";
 
 export const HomeTabBar: FC<BottomTabBarProps> = (props) => {
   const { state, descriptors, navigation } = props;
   const { bottom } = useSafeAreaInsets();
   const { isExpandedAnimValue } = useContext(GlobalStateContext).homeFeed;
 
-  const height = 55;
+  const height = homeTabHeaderHeight;
   const bottomSize = bottom + 20;
   const animStyles = useAnimatedStyle(() => {
     return {

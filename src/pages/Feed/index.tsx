@@ -17,6 +17,7 @@ import type { HomeBottomTabsParamList } from "@/navigation/types";
 import { postSearchTypes } from "./feedTypes";
 import type { ShortsSearchType, PostSearchType } from "./feedTypes";
 import { Header } from "./Header";
+import { extraGapBetweenIOSAndAndroid, homeTabHeaderHeight } from "./HeaderAnimatedLayout";
 import { ShortsExplorerBanner } from "./ShortsExplorerBanner";
 
 export interface Props {
@@ -46,10 +47,31 @@ export const FeedPage: FC<NativeStackScreenProps<HomeBottomTabsParamList, "Feed"
   const [daysInterval, setDaysInterval] = useState<number>(7);
   const { isExpandedAnimValue, onScroll } = useContext(GlobalStateContext).homeFeed;
   const { top } = useSafeAreaInsets();
+
   const containerAnimStyles = useAnimatedStyle(() => {
-    const headerHeight = interpolate(isExpandedAnimValue.value, [0, 1], [55, 110], Extrapolate.CLAMP) + top;
+    const headerHeight = interpolate(
+      isExpandedAnimValue.value,
+      [0, 1],
+      [0, homeTabHeaderHeight + top],
+      Extrapolate.CLAMP,
+    ) + extraGapBetweenIOSAndAndroid;
+
     return {
       height: height - headerHeight,
+    };
+  }, [top, isExpandedAnimValue]);
+
+  const innerMaskContainerAnimStyles = useAnimatedStyle(() => {
+    const paddingTop = interpolate(
+      isExpandedAnimValue.value,
+      [0, 1],
+      [0, top],
+      Extrapolate.CLAMP,
+    ) + extraGapBetweenIOSAndAndroid;
+
+    return {
+      paddingTop,
+      height,
     };
   }, [top, isExpandedAnimValue]);
 
@@ -68,8 +90,9 @@ export const FeedPage: FC<NativeStackScreenProps<HomeBottomTabsParamList, "Feed"
           Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
         }}
       />
+      {/* 合并成一个 */}
       <Animated.View style={[styles.maskContainer, containerAnimStyles]}>
-        <Stack paddingTop={60 + top} height={height} width={"100%"} position="absolute" bottom={0}>
+        <Animated.View style={[styles.maskContainer, innerMaskContainerAnimStyles]}>
           <MasonryFeedList
             daysInterval={daysInterval}
             type={currentFeedType}
@@ -79,7 +102,7 @@ export const FeedPage: FC<NativeStackScreenProps<HomeBottomTabsParamList, "Feed"
               paddingTop: 50,
             }}
           />
-        </Stack>
+        </Animated.View>
       </Animated.View>
     </Stack>
   );
@@ -91,6 +114,11 @@ const styles = StyleSheet.create({
     width: "100%",
     bottom: 0,
     overflow: "hidden",
+  },
+  innerMaskContainer: {
+    width: "100%",
+    position: "absolute",
+    bottom: 0,
   },
   commonContainer: {
     flex: 1,
