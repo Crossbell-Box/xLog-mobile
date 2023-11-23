@@ -13,14 +13,14 @@ import { ProfilePageLayout } from "@/components/ProfilePageLayout";
 import { useDate } from "@/hooks/use-date";
 import { useRootNavigation } from "@/hooks/use-navigation";
 import type { RootStackParamList } from "@/navigation/types";
-import { useGetPagesBySite } from "@/queries/page";
+import { useGetPagesBySiteLite } from "@/queries/page";
 import { useGetSite } from "@/queries/site";
 
 export interface Props {
 }
 
 export const EventsPage: FC<NativeStackScreenProps<RootStackParamList, "Events">> = () => {
-  const pages = useGetPagesBySite({
+  const pages = useGetPagesBySiteLite({
     type: "post",
     characterId: 50153,
     limit: 100,

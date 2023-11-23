@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import React, { useEffect, useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 import type { Route, TabView } from "@showtime-xyz/tab-view";
 import { LinearGradient } from "expo-linear-gradient";
@@ -33,26 +34,28 @@ export const TabItemRenderer: FC<{
   onPressTab,
 }) => {
   return (
-    <Stack onPress={onPressTab} paddingBottom="$2">
-      {
-        isLoading
-          ? <Spinner size="small" />
-          : <Text color={"$color"}>{title}</Text>
-      }
+    <TouchableWithoutFeedback onPress={onPressTab}>
+      <Stack paddingBottom="$2">
+        {
+          isLoading
+            ? <Spinner size="small" />
+            : <Text color={"$color"}>{title}</Text>
+        }
 
-      {
-        isActive && (
-          <Stack height={2} width={"100%"} marginTop="$1">
-            <LinearGradient
-              colors={["#30a19b", "#2875bf"]}
-              style={{ position: "absolute", width: "100%", top: 0, bottom: 0 }}
-              start={{ x: 0, y: 0.5 }}
-              end={{ x: 1, y: 0.5 }}
-            />
-          </Stack>
-        )
-      }
-    </Stack>
+        {
+          isActive && (
+            <Stack height={2} width={"100%"} marginTop="$1">
+              <LinearGradient
+                colors={["#30a19b", "#2875bf"]}
+                style={{ position: "absolute", width: "100%", top: 0, bottom: 0 }}
+                start={{ x: 0, y: 0.5 }}
+                end={{ x: 1, y: 0.5 }}
+              />
+            </Stack>
+          )
+        }
+      </Stack>
+    </TouchableWithoutFeedback>
   );
 };
 

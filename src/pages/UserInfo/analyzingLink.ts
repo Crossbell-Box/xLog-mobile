@@ -2,6 +2,7 @@ import type { Route } from "@showtime-xyz/tab-view";
 
 export const internalPages = [
   "/", // 首页
+  "/shorts", // 图文
   "/archives", // 归档页面
   "/tag", // 标签页面
   "/nft", // NFT 展示页面

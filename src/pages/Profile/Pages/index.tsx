@@ -12,7 +12,7 @@ import { ProfilePageHeader } from "@/components/ProfilePageHeader";
 import { ProfilePageLayout } from "@/components/ProfilePageLayout";
 import { useDate } from "@/hooks/use-date";
 import type { RootStackParamList } from "@/navigation/types";
-import { useGetPagesBySite } from "@/queries/page";
+import { useGetPagesBySiteLite } from "@/queries/page";
 import { PageVisibilityEnum } from "@/types";
 import { getPageVisibility } from "@/utils/page-helpers";
 
@@ -46,7 +46,7 @@ export const PagesPage: FC<NativeStackScreenProps<RootStackParamList, "Pages">> 
   const characterId = computed?.account?.characterId;
   const date = useDate();
 
-  const pages = useGetPagesBySite({
+  const pages = useGetPagesBySiteLite({
     type: "page",
     characterId,
     limit: 100,
