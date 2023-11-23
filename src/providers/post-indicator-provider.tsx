@@ -14,7 +14,6 @@ import { XTouch } from "@/components/XTouch";
 import { GlobalStateContext } from "@/context/global-state-context";
 import type { TaskType } from "@/context/post-indicator-context";
 import { PostIndicatorContext } from "@/context/post-indicator-context";
-import { useCharacterId } from "@/hooks/use-character-id";
 import { useColors } from "@/hooks/use-colors";
 import { useRootNavigation } from "@/hooks/use-navigation";
 import { getPage } from "@/models/page.model";
@@ -28,17 +27,25 @@ interface PostIndicatorProviderProps extends React.PropsWithChildren {
 
 export function PostIndicatorProvider({ children }: PostIndicatorProviderProps) {
   const [task, setTask] = React.useState<TaskType>(null);
+  const [isProcessing, setIsProcessing] = React.useState(false);
 
   const onIndicatorClose = React.useCallback(() => {
     setTask(null);
   }, []);
 
-  const addPostTask = React.useCallback((params: TaskType) => setTask(params), []);
+  const onPublish = React.useCallback(() => {
+    setIsProcessing(false);
+  }, []);
+
+  const addPostTask = React.useCallback((params: TaskType) => {
+    setTask(params);
+    setIsProcessing(true);
+  }, []);
 
   return (
-    <PostIndicatorContext.Provider value={{ addPostTask }}>
+    <PostIndicatorContext.Provider value={{ addPostTask, isProcessing }}>
       {children}
-      {task && <PostIndicator task={task} onClose={onIndicatorClose} />}
+      {task && <PostIndicator onPublish={onPublish} task={task} onClose={onIndicatorClose} />}
     </PostIndicatorContext.Provider>
   );
 }
@@ -46,7 +53,8 @@ export function PostIndicatorProvider({ children }: PostIndicatorProviderProps) 
 const PostIndicator: FC<{
   task: TaskType
   onClose?: () => void
-}> = ({ task, onClose }) => {
+  onPublish?: () => void
+}> = ({ task, onClose, onPublish }) => {
   const { isExpandedAnimValue } = useContext(GlobalStateContext).homeFeed;
   const { primary } = useColors();
   const i18n = useTranslation();
@@ -62,6 +70,7 @@ const PostIndicator: FC<{
         noteId: Number(data.noteId),
       }).then((note) => {
         setPublishedResult(note);
+        onPublish?.();
       });
     },
   });

@@ -121,7 +121,7 @@ export const TakePhotoPage: FC<NativeStackScreenProps<RootStackParamList, "TakeP
           >
             <ScrollView ref={scrollViewRef} horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: itemGap }}>
               {
-                pictures.map((picture, index) => {
+                pictures.map((picture) => {
                   return (
                     <Stack
                       justifyContent="space-between"

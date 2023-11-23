@@ -16,7 +16,8 @@ export const ShortsContentRenderer: FC<{
 }> = ({ note, onPressComment, onPressViewAllComments }) => {
   const { noteId, characterId } = note;
   const comments = useGetComments({ characterId, noteId });
-  const content = note?.metadata?.content?.content;
+  // @ts-expect-error
+  const content = note?.metadata?.content?.summary;
   const commentsCount = comments.data?.pages?.[0]?.count || 0;
   const data = comments.data?.pages.flatMap(page =>
     (page?.list || []).map(data => data),
@@ -25,8 +26,8 @@ export const ShortsContentRenderer: FC<{
 
   return (
     <Stack paddingHorizontal="$2" paddingBottom="$10">
-      <Text lineHeight={"$2"} fontSize={"$5"} color={"$colorText"}>{content}</Text>
-      {content && <Separator marginVertical="$4" height={2}/>}
+      <Text lineHeight={"$2"} fontSize={"$4"} color={"$colorText"}>{content}</Text>
+      <Separator marginVertical="$4" height={2}/>
       <Text fontSize={"$3"} color="$colorDescription">
         {i18n.t("{{count}} comments", {
           count: commentsCount,

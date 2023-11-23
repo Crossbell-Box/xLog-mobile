@@ -13,7 +13,7 @@ import { useHitSlopSize } from "@/hooks/use-hit-slop-size";
 import { useIsLogin } from "@/hooks/use-is-login";
 import { useRootNavigation } from "@/hooks/use-navigation";
 import { useThemeStore } from "@/hooks/use-theme-store";
-import { HeaderAnimatedLayout } from "@/pages/Feed/HeaderAnimatedLayout";
+import { HeaderAnimatedLayout, homeTabHeaderHeight } from "@/pages/Feed/HeaderAnimatedLayout";
 import { GA } from "@/utils/GA";
 
 import { postSearchTypes, shortsSearchTypes } from "./feedTypes";
@@ -28,8 +28,6 @@ export interface Props {
   onDaysIntervalChange: (days: number) => void
   isSearching?: boolean
 }
-
-export const HeaderTabHeight = 60;
 
 export const Header: FC<Props> = (props) => {
   const { daysInterval, isSearching, type, onDaysIntervalChange } = props;
@@ -47,7 +45,7 @@ export const Header: FC<Props> = (props) => {
     <Stack height={90}>
       {isDarkMode && <PolarLightBackground activeIndex={activeIndex}/>}
       <HeaderAnimatedLayout type={type} onPressSortBy={onPressSortBy} expanded={isExpandedAnimValue}>
-        <XStack marginHorizontal="$3" height={HeaderTabHeight} justifyContent="space-between">
+        <XStack marginHorizontal="$3" height={homeTabHeaderHeight} justifyContent="space-between">
           <ScrollView horizontal flex={1}>
             <XStack flex={1} gap="$4">
               {

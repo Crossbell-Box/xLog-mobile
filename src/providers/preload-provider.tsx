@@ -2,6 +2,7 @@ import { useState, type FC, type PropsWithChildren, useEffect } from "react";
 
 import { useFonts } from "expo-font";
 import * as Location from "expo-location";
+import * as SplashScreen from "expo-splash-screen";
 
 import { countries } from "@/constants/countries";
 import { i18n } from "@/i18n";
@@ -39,6 +40,11 @@ export const PreloadProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
   const allReady = fontsLoadingReady;
   // const allReady = fontsLoadingReady || locationPermissionRequested;
 
+  useEffect(() => {
+    if (allReady) {
+      SplashScreen.hideAsync();
+    }
+  }, [allReady]);
   // useEffect(() => {
   //   getUserCountryCode()
   //     .then((countryCode) => {

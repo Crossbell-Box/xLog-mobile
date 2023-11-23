@@ -10,6 +10,7 @@ export type TaskType = {
 
 export interface PostIndicatorContextType {
   addPostTask: (task: TaskType) => void
+  isProcessing: boolean
 }
 
 export const PostIndicatorContext = createContext<PostIndicatorContextType | null>(null);

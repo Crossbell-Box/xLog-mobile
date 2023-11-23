@@ -1,18 +1,16 @@
-import { useCallback, useEffect, useMemo, useRef } from "react";
-import { RefreshControl } from "react-native-gesture-handler";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { RefreshControl } from "react-native";
 import type { useAnimatedScrollHandler } from "react-native-reanimated";
 
 import type { ContentStyle, MasonryFlashListProps, MasonryFlashListRef } from "@shopify/flash-list";
 import { Image } from "expo-image";
 import { SizableText, Spinner, Stack, useWindowDimensions, YStack } from "tamagui";
 
-import { useCharacterId } from "@/hooks/use-character-id";
+import { usePostIndicatorStore } from "@/hooks/use-post-indicator-store";
+import { useThemeStore } from "@/hooks/use-theme-store";
 import type { GetFeedParams } from "@/queries/home";
-import { useGetFeed } from "@/queries/home";
 import type { PageVisibilityEnum } from "@/types";
 import type { ExpandedNote } from "@/types/crossbell";
-import { debounce } from "@/utils/debounce";
-import { GA } from "@/utils/GA";
 
 import { FeedListItem } from "./FeedListItem";
 import { Skeleton } from "./Skeleton";
@@ -39,7 +37,10 @@ export const useFeedList = <T extends {}>(props: Props & T) => {
   const { ListHeaderComponent, visibility, handle, type, searchKeyword, contentContainerStyle = {}, tags = [], topic, daysInterval = 7, onScroll, characterId, ...restProps } = props;
   const { width } = useWindowDimensions();
   const { feedList, feed } = useFeedData(props);
+  const [isRefetching, setIsRefetching] = useState<boolean>(false);
   const listRef = useRef<MasonryFlashListRef<ExpandedNote>>(null);
+  const { isDarkMode } = useThemeStore();
+  const { isProcessing } = usePostIndicatorStore();
 
   useEffect(() => {
     listRef.current?.scrollToOffset({ offset: 0, animated: false });
@@ -60,6 +61,22 @@ export const useFeedList = <T extends {}>(props: Props & T) => {
     feed.hasNextPage,
     feed.fetchNextPage,
   ]);
+
+  const onRefetch = useCallback(() => {
+    if (isRefetching) return;
+
+    setIsRefetching(true);
+
+    feed?.refetch?.()?.finally(() => {
+      setIsRefetching(false);
+    });
+  }, [feed.refetch, isRefetching]);
+
+  useEffect(() => {
+    if (!isProcessing) {
+      onRefetch();
+    }
+  }, [isProcessing]);
 
   return useMemo<MasonryFlashListProps<any>>(() => ({
     data: feedList,
@@ -95,20 +112,24 @@ export const useFeedList = <T extends {}>(props: Props & T) => {
     scrollEventThrottle: 16,
     onScroll,
     refreshControl: <RefreshControl
-      refreshing={feed.isRefetching}
-      onRefresh={feed.refetch}
+      refreshing={isRefetching}
+      onRefresh={onRefetch}
       progressViewOffset={50}
+      tintColor={isDarkMode ? "#fff" : "#000"}
+      colors={isDarkMode ? ["#fff"] : ["#000"]}
+      progressBackgroundColor={isDarkMode ? "#000" : "#fff"}
     />,
     onEndReachedThreshold: 0.5,
     onEndReached,
     ...(restProps as any),
   }), [
-    feed,
     width,
+    feedList,
+    restProps,
+    isRefetching,
+    searchKeyword,
     contentContainerStyle,
     onScroll,
-    restProps,
-    searchKeyword,
-    feedList,
+    onRefetch,
   ]);
 };
