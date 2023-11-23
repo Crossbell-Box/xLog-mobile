@@ -5,37 +5,37 @@ const { cleanEnv, str } = require("envalid");
 
 const { version } = require("../package.json");
 
-const ENV = process.env.STAGE ?? "production";
-const IS_EAS_CI = process.env.EAS_BUILD === "true";
-if (IS_EAS_CI) {
-  dotenv.config({ path: process.env.ENV_FILE_COMMON });
-  dotenv.config({ path: process.env[`ENV_FILE_${ENV.toUpperCase()}`] });
-}
-else {
-  dotenv.config({ path: join(__dirname, "..", ".env.common") });
-  dotenv.config({ path: join(__dirname, "..", `.env.${ENV}`) });
-}
-
-const validators = {
-  APP_SCHEME: str(),
-  NAKED_APP_HOST: str(),
-  APP_HOST: str(),
-  NAKED_OIA_HOST: str(),
-  OIA_HOST: str(),
-};
-
-if (IS_EAS_CI) {
-  validators.ANDROID_GOOGLE_SERVICES_DEVELOPMENT = str();
-  validators.ANDROID_GOOGLE_SERVICES_TEST = str();
-  validators.ANDROID_GOOGLE_SERVICES_PRODUCTION = str();
-  validators.IOS_GOOGLE_SERVICES_DEVELOPMENT = str();
-  validators.IOS_GOOGLE_SERVICES_TEST = str();
-  validators.IOS_GOOGLE_SERVICES_PRODUCTION = str();
-}
-
-const env = cleanEnv(process.env, validators);
-
 function setAppConfigEnv() {
+  const ENV = process.env.STAGE ?? "production";
+  const IS_EAS_CI = process.env.EAS_BUILD === "true";
+  if (IS_EAS_CI) {
+    dotenv.config({ path: process.env.ENV_FILE_COMMON });
+    dotenv.config({ path: process.env[`ENV_FILE_${ENV.toUpperCase()}`] });
+  }
+  else {
+    dotenv.config({ path: join(__dirname, "..", ".env.common") });
+    dotenv.config({ path: join(__dirname, "..", `.env.${ENV}`) });
+  }
+
+  const validators = {
+    APP_SCHEME: str(),
+    NAKED_APP_HOST: str(),
+    APP_HOST: str(),
+    NAKED_OIA_HOST: str(),
+    OIA_HOST: str(),
+  };
+
+  if (IS_EAS_CI) {
+    validators.ANDROID_GOOGLE_SERVICES_DEVELOPMENT = str();
+    validators.ANDROID_GOOGLE_SERVICES_TEST = str();
+    validators.ANDROID_GOOGLE_SERVICES_PRODUCTION = str();
+    validators.IOS_GOOGLE_SERVICES_DEVELOPMENT = str();
+    validators.IOS_GOOGLE_SERVICES_TEST = str();
+    validators.IOS_GOOGLE_SERVICES_PRODUCTION = str();
+  }
+
+  const env = cleanEnv(process.env, validators);
+
   const APP_SCHEME = env.APP_SCHEME;
   const NAKED_APP_HOST = env.NAKED_APP_HOST;
   const APP_HOST = env.APP_HOST;
