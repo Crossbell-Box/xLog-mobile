@@ -3,6 +3,7 @@ import Animated, { Extrapolate, interpolate, useAnimatedStyle } from "react-nati
 import { Stack, Theme, XStack } from "tamagui";
 
 import { useColors } from "@/hooks/use-colors";
+import { useThemeStore } from "@/hooks/use-theme-store";
 
 export const CarouselPagination: React.FC<{
   count: number
@@ -11,7 +12,7 @@ export const CarouselPagination: React.FC<{
 }> = ({ count, progressValue, dotSize }) => {
   return (
     <XStack gap="$1">
-      {Array.from({ length: count }).map((backgroundColor, index) => {
+      {Array.from({ length: count }).map((_, index) => {
         return (
           <PaginationItem
             animValue={progressValue}
@@ -34,6 +35,7 @@ const PaginationItem: React.FC<{
 }> = (props) => {
   const { animValue, index, count, dotSize = 10 } = props;
   const { primary } = useColors();
+  const { isDarkMode } = useThemeStore();
   const animStyle = useAnimatedStyle(() => {
     let inputRange = [index - 1, index, index + 1];
     let outputRange = [-dotSize, 0, dotSize];
@@ -59,7 +61,7 @@ const PaginationItem: React.FC<{
 
   return (
     <Stack
-      backgroundColor={"$background"}
+      backgroundColor={isDarkMode ? "#ffffff7d" : "#0000007d"}
       width={dotSize}
       height={dotSize}
       borderRadius={50}
