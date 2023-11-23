@@ -64,7 +64,8 @@ export const HeaderAnimatedLayout: FC<PropsWithChildren<Props>> = (props) => {
             </XTouch>
           </Stack>
 
-          {type === postSearchTypes.FEATURED && (
+          {/* Commented out for now, will be used in the future */}
+          {/* {type === postSearchTypes.FEATURED && (
             <XTouch enableHaptics touchableComponent={TouchableWithoutFeedback} onPress={onPressSortBy}>
               <Theme name={isDarkMode ? "light" : "dark"}>
                 <XStack
@@ -80,7 +81,7 @@ export const HeaderAnimatedLayout: FC<PropsWithChildren<Props>> = (props) => {
                 </XStack>
               </Theme>
             </XTouch>
-          )}
+          )} */}
         </XStack>
       </Animated.View>
       <Animated.View style={styles.tabContainer}>
