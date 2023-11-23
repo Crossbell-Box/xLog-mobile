@@ -1,5 +1,24 @@
 # xlog
 
+## 0.31.0
+
+### Minor Changes
+
+- 156bdc1: chore: add env checker.
+- 1c20212: Support to display short list in the user profile page.
+
+### Patch Changes
+
+- 3f776cd: perf: Makes the banner on the home page easier to slide
+- 348fc18: style: Modify the button styles in the creating post page.
+- 694bbb5: feat: Remove custom splash control and replace with native.
+- cbaac87: fix: solved the flicker problem of FeedList.
+- 4f83ee1: fix: Fix content rendering in ShortsContentRenderer
+- 12b7ad5: feat: Comment out code for future use
+- 2cb9064: feat: optimized the display effect of home page.
+- 37edf0e: feat: Refetch feed automatically after creating a new post.
+- 9423ec5: Change the Background Color of Pagination Dot.
+
 ## 0.30.0
 
 ### Minor Changes
