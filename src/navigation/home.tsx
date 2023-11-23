@@ -69,7 +69,6 @@ export const HomeNavigator = () => {
       >
         <HomeBottomTabs.Screen
           name={"Feed"}
-          // component={AA}
           component={FeedPage}
           initialParams={{
             isShorts: false,

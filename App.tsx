@@ -30,14 +30,12 @@ import { NotificationProvider } from "@/providers/notification-provider";
 import { PersistQueryClientProvider } from "@/providers/persist-query-client-provider";
 import { PostIndicatorProvider } from "@/providers/post-indicator-provider";
 import { PreloadProvider } from "@/providers/preload-provider";
-import { SplashProvider } from "@/providers/splash-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { ToastProvider } from "@/providers/toast-provider";
 import { checkHotUpdates } from "@/utils/hot-updates";
 
 import { version } from "./package.json";
 import { RootNavigator } from "./src/navigation/root";
-import { createSyncStoragePersisterAsync } from "./src/utils/persister";
 import config from "./tamagui.config";
 
 enableScreens(true);
@@ -69,7 +67,6 @@ export default () => {
       <PreloadProvider key={"PreloadProvider"} />,
       <GestureHandlerRootView key={"GestureHandlerRootView"} style={styles.container} />,
       <TamaguiProvider key={"TamaguiProvider"} config={config} />,
-      <SplashProvider key={"SplashProvider"}/>,
       <ErrorBoundary key={"ErrorBoundary"} />,
       <SafeAreaProvider key={"SafeAreaProvider"} />,
       <PersistQueryClientProvider key={"PersistQueryClientProvider"} />,
