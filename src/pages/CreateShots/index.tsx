@@ -1,6 +1,7 @@
-import { useState, type FC, useRef } from "react";
+import { useState, type FC, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Dimensions, InteractionManager, StyleSheet, View } from "react-native";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import type Animated from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -30,6 +31,7 @@ export const CreateShotsPage: FC<NativeStackScreenProps<RootStackParamList, "Cre
   const [assets, setAssets] = useState(route.params.assets);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [postEnabled, setPostEnabled] = useState(false);
   const characterId = useCharacterId();
   const { pickImages } = usePickImages();
   const { addPostTask } = usePostIndicatorStore();
@@ -75,6 +77,10 @@ export const CreateShotsPage: FC<NativeStackScreenProps<RootStackParamList, "Cre
     });
   };
 
+  useEffect(() => {
+    setPostEnabled(assets.length > 0 && title.length > 0 && content.length > 0);
+  }, [assets, title, content]);
+
   return (
     <YStack flex={1}>
       <ScrollView
@@ -105,15 +111,9 @@ export const CreateShotsPage: FC<NativeStackScreenProps<RootStackParamList, "Cre
                         contentFit="cover"
                         source={{ uri: asset.uri }}
                       />
-                      {
-                        assets.length > 1 && (
-                          <Stack position="absolute" right="$2" bottom="$2" onPress={() => {
-                            handleRemoveImage(index);
-                          }}>
-                            <Trash color="white"/>
-                          </Stack>
-                        )
-                      }
+                      <TouchableWithoutFeedback containerStyle={{ position: "absolute", right: 6, bottom: 6 }} onPress={() => handleRemoveImage(index)}>
+                        <Trash color="white"/>
+                      </TouchableWithoutFeedback>
                     </Stack>
                   );
                 })
@@ -170,8 +170,18 @@ export const CreateShotsPage: FC<NativeStackScreenProps<RootStackParamList, "Cre
       </ScrollView>
 
       <XStack width={"100%"} position="absolute" bottom={0} paddingBottom={"$2"}>
-        <SafeAreaView edges={["bottom"]} style={{ flex: 1 }}>
-          <Button onPress={handleOnPost} size={"$5"} fontSize={"$7"}>{i18n.t("Post")}</Button>
+        <SafeAreaView edges={["bottom"]} style={{ flex: 1 }} >
+          <Button
+            backgroundColor={postEnabled ? "$primary" : undefined}
+            onPress={handleOnPost}
+            disabled={!postEnabled}
+            size={"$5"}
+            width={"95%"}
+            fontSize={"$7"}
+            alignSelf="center"
+          >
+            {i18n.t("Post")}
+          </Button>
         </SafeAreaView>
       </XStack>
     </YStack>
