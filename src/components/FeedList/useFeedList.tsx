@@ -6,14 +6,11 @@ import type { ContentStyle, MasonryFlashListProps, MasonryFlashListRef } from "@
 import { Image } from "expo-image";
 import { SizableText, Spinner, Stack, useWindowDimensions, YStack } from "tamagui";
 
-import { useCharacterId } from "@/hooks/use-character-id";
+import { usePostIndicatorStore } from "@/hooks/use-post-indicator-store";
 import { useThemeStore } from "@/hooks/use-theme-store";
 import type { GetFeedParams } from "@/queries/home";
-import { useGetFeed } from "@/queries/home";
 import type { PageVisibilityEnum } from "@/types";
 import type { ExpandedNote } from "@/types/crossbell";
-import { debounce } from "@/utils/debounce";
-import { GA } from "@/utils/GA";
 
 import { FeedListItem } from "./FeedListItem";
 import { Skeleton } from "./Skeleton";
@@ -43,6 +40,7 @@ export const useFeedList = <T extends {}>(props: Props & T) => {
   const [isRefetching, setIsRefetching] = useState<boolean>(false);
   const listRef = useRef<MasonryFlashListRef<ExpandedNote>>(null);
   const { isDarkMode } = useThemeStore();
+  const { isProcessing } = usePostIndicatorStore();
 
   useEffect(() => {
     listRef.current?.scrollToOffset({ offset: 0, animated: false });
@@ -73,6 +71,12 @@ export const useFeedList = <T extends {}>(props: Props & T) => {
       setIsRefetching(false);
     });
   }, [feed.refetch, isRefetching]);
+
+  useEffect(() => {
+    if (!isProcessing) {
+      onRefetch();
+    }
+  }, [isProcessing]);
 
   return useMemo<MasonryFlashListProps<any>>(() => ({
     data: feedList,

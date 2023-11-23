@@ -89,7 +89,6 @@ export const FeedPage: FC<NativeStackScreenProps<HomeBottomTabsParamList, "Feed"
           Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
         }}
       />
-      {/* 合并成一个 */}
       <Animated.View style={[styles.maskContainer, containerAnimStyles]}>
         <Animated.View style={[styles.innerMaskContainer, innerMaskContainerAnimStyles]}>
           <MasonryFeedList
