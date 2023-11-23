@@ -3,7 +3,7 @@ import React, { useMemo } from "react";
 import { type Country } from "@/constants/countries";
 import { GlobalStateContext } from "@/context/global-state-context";
 import { useScrollVisibilityHandler } from "@/hooks/use-scroll-visibility-handler";
-import { HeaderTabHeight } from "@/pages/Feed/Header";
+import { homeTabHeaderHeight } from "@/pages/Feed/HeaderAnimatedLayout";
 import { cacheStorage } from "@/utils/cache-storage";
 
 import { COUNTRY_INFO_KEY } from "./preload-provider";
@@ -17,7 +17,7 @@ export function GlobalStateProvider({ children }: GlobalStateProviderProps) {
     JSON.parse(cacheStorage.getString(COUNTRY_INFO_KEY) || "{}"),
   );
   const isChinese = country.alpha2 === "cn";
-  const { isExpandedAnimValue, onScroll } = useScrollVisibilityHandler({ scrollThreshold: HeaderTabHeight });
+  const { isExpandedAnimValue, onScroll } = useScrollVisibilityHandler({ scrollThreshold: homeTabHeaderHeight });
 
   const setCountry = (country: Country) => {
     _setCountry(country);

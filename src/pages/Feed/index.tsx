@@ -71,7 +71,6 @@ export const FeedPage: FC<NativeStackScreenProps<HomeBottomTabsParamList, "Feed"
 
     return {
       paddingTop,
-      height,
     };
   }, [top, isExpandedAnimValue]);
 
@@ -92,7 +91,7 @@ export const FeedPage: FC<NativeStackScreenProps<HomeBottomTabsParamList, "Feed"
       />
       {/* 合并成一个 */}
       <Animated.View style={[styles.maskContainer, containerAnimStyles]}>
-        <Animated.View style={[styles.maskContainer, innerMaskContainerAnimStyles]}>
+        <Animated.View style={[styles.innerMaskContainer, innerMaskContainerAnimStyles]}>
           <MasonryFeedList
             daysInterval={daysInterval}
             type={currentFeedType}
@@ -117,6 +116,7 @@ const styles = StyleSheet.create({
   },
   innerMaskContainer: {
     width: "100%",
+    height,
     position: "absolute",
     bottom: 0,
   },

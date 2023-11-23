@@ -1,6 +1,10 @@
+import { RefreshControl } from "react-native-gesture-handler";
+
 import { useIsConnected } from "@crossbell/react-account";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { MasonryFlashList } from "@shopify/flash-list";
 import { Bell, Home, Image, Search, User2 } from "@tamagui/lucide-icons";
+import { Stack } from "tamagui";
 
 import { Drawer } from "@/components/Drawer";
 import { HomeTabBar } from "@/components/HomeTabBar";
@@ -19,6 +23,37 @@ import type { HomeBottomTabsParamList } from "./types";
 
 const HomeBottomTabs = createBottomTabNavigator<HomeBottomTabsParamList>();
 
+function AA() {
+  return (
+    <Stack flex={1} backgroundColor={"red"}>
+      <MasonryFlashList
+        data={Array.from({ length: 40 }).map((_, i) => ({ title: i }))}
+        numColumns={2}
+        refreshControl={(
+          <RefreshControl
+            refreshing={false}
+            onRefresh={() => {}}
+          />
+        )}
+        renderItem={({ item }) => {
+          return (
+            <Stack
+              width={100}
+              height={100}
+              backgroundColor={"blue"}
+              justifyContent={"center"}
+              alignItems={"center"}
+            >
+              <Search />
+            </Stack>
+          );
+        }}
+        estimatedItemSize={200}
+      />
+    </Stack>
+  );
+}
+
 export const HomeNavigator = () => {
   const { pick } = useColors();
   const characterId = useCharacterId();
@@ -34,6 +69,7 @@ export const HomeNavigator = () => {
       >
         <HomeBottomTabs.Screen
           name={"Feed"}
+          // component={AA}
           component={FeedPage}
           initialParams={{
             isShorts: false,
