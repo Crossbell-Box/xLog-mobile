@@ -69,7 +69,7 @@ export const ShortsExplorerBanner: FC<Props> = () => {
         mode="parallax"
         width={width - 8}
         height={200}
-        panGestureHandlerProps={{ activeOffsetX: [-10, 10] }}
+        panGestureHandlerProps={{ activeOffsetX: [-5, 5] }}
         vertical={false}
       />
       {shorts.isLoading && <Skeleton height={200}/>}
@@ -81,6 +81,9 @@ const CarouselItem: FC<{ note: NoteEntity }> = ({ note }) => {
   const navigation = useRootNavigation();
   const cover = note?.metadata?.content?.attachments?.find(({ address }) => !!address)?.address;
   const convertedCover = withCompressedImage(toGateway(cover));
+  const { isDarkMode } = useThemeStore();
+
+  const title = note?.metadata?.content?.title || note?.metadata?.content?.content;
 
   return (
     <TouchableWithoutFeedback
@@ -106,13 +109,15 @@ const CarouselItem: FC<{ note: NoteEntity }> = ({ note }) => {
           flex={1}
           {...StyleSheet.absoluteFillObject}
         />
-        <XStack padding="$2" alignItems="center" justifyContent="space-between">
-          <BlurView tint="default" {...StyleSheet.absoluteFillObject}/>
-          <Text fontSize={"$7"} numberOfLines={1} fontWeight={"500"} flex={1}>
-            {note?.metadata?.content?.title || note?.metadata?.content?.content}
-          </Text>
-          <Avatar size={28} character={note?.character}/>
-        </XStack>
+        {title && (
+          <XStack padding="$2" alignItems="center" justifyContent="space-between">
+            <BlurView tint={isDarkMode ? "dark" : "light"} {...StyleSheet.absoluteFillObject}/>
+            <Text fontSize={"$7"} numberOfLines={1} fontWeight={"500"} flex={1}>
+              {title}
+            </Text>
+            <Avatar size={28} character={note?.character}/>
+          </XStack>
+        )}
       </YStack>
     </TouchableWithoutFeedback>
   );
