@@ -1,6 +1,7 @@
 import { useEffect, useMemo } from "react";
 
 import { useCharacterId } from "@/hooks/use-character-id";
+import type { GetFeedParams } from "@/queries/home";
 import { useGetFeed } from "@/queries/home";
 import { useGetPagesBySiteLite } from "@/queries/page";
 import { debounce } from "@/utils/debounce";
@@ -33,10 +34,10 @@ export const useFeedData = (props: Props) => {
     visibility,
     limit,
     characterId: characterId ?? _characterId,
-    daysInterval,
-    searchKeyword,
-    tags,
-  }), [
+    daysInterval: daysInterval ?? null,
+    searchKeyword: searchKeyword ?? null,
+    tags: tags ?? [],
+  } as GetFeedParams), [
     type,
     handle,
     visibility,
@@ -47,7 +48,7 @@ export const useFeedData = (props: Props) => {
     tags,
   ]);
 
-  const feed = type === "shorts" && characterId
+  const feed = type === "shorts" && !!characterId
     ? useGetPagesBySiteLite({ // Searching specific note by characterId
       characterId,
       visibility,
