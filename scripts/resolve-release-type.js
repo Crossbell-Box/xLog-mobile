@@ -12,7 +12,7 @@ module.exports = async () => {
     return "";
   }
 
-  console.log("Release type: ", release.type);
+  console.log("Release info: ", release);
 
-  return release.type;
+  return release;
 };

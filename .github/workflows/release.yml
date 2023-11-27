@@ -34,24 +34,31 @@ jobs:
         with:
           result-encoding: string
           script: |
-            const resolveReleaseType = require('./scripts/resolve-release-type.js')
-            const releaseType = await resolveReleaseType();
-            return releaseType
+            const resolveReleaseInfo = require('./scripts/resolve-release-type.js')
+            const releaseInfo = await resolveReleaseInfo();
+            core.setOutput('type', releaseInfo.type);
+            core.setOutput('oldVersion', releaseInfo.oldVersion);
+            core.setOutput('newVersion', releaseInfo.newVersion);
             
+      - name: Print release type
+        run: |
+          echo ${{ steps.release-type.outputs.type }}
+          echo ${{ steps.release-type.outputs.oldVersion }}
+          echo ${{ steps.release-type.outputs.newVersion }}
+
       - name: Bump Versions
-        if: steps.release-type.outputs.result != ''
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         uses: changesets/action@v1
         with:
+          title: 'chore: update versions from v${{ steps.release-type.outputs.oldVersion }} to v${{ steps.release-type.outputs.newVersion }}'
           version: yarn run release:version
           publish: yarn run release:publish
-          commit: 'chore: update versions'
-          title: 'chore: update versions'
+          commit: 'chore: update versions [${{ steps.release-type.outputs.newVersion }}]'
 
       - name: Trigger Publish Preview workflow
-        if: steps.release-type.outputs.result != ''
+        if: steps.release-type.outputs.type != ''
         uses: benc-uk/workflow-dispatch@v1
         with:
           workflow: preview.yml
-          inputs: '{ "release_type": "${{ steps.release-type.outputs.result }}" }'
+          inputs: '{ "release_type": "${{ steps.release-type.outputs.type }}" }'
