@@ -1,5 +1,11 @@
 # xlog
 
+## 0.31.2
+
+### Patch Changes
+
+- aefaeca: fix: Release a hot-updates for resolving the display error on the profile page.
+
 ## 0.31.1
 
 ### Patch Changes
