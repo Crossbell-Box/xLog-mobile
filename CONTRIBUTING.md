@@ -48,7 +48,7 @@
 - Prebuild the project
 
     ```sh
-    nr prebuild:dev
+    nr prebuild:development
     ```
 
 - Start the app

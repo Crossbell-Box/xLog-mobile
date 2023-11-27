@@ -1,5 +1,121 @@
 # xlog
 
+## 0.31.1
+
+### Patch Changes
+
+- 8b0e77a: fix: Fixed a bug where the article list could not be displayed.
+
+## 0.31.0
+
+### Minor Changes
+
+- 156bdc1: chore: add env checker.
+- 1c20212: Support to display short list in the user profile page.
+
+### Patch Changes
+
+- 3f776cd: perf: Makes the banner on the home page easier to slide
+- 348fc18: style: Modify the button styles in the creating post page.
+- 694bbb5: feat: Remove custom splash control and replace with native.
+- cbaac87: fix: solved the flicker problem of FeedList.
+- 4f83ee1: fix: Fix content rendering in ShortsContentRenderer
+- 12b7ad5: feat: Comment out code for future use
+- 2cb9064: feat: optimized the display effect of home page.
+- 37edf0e: feat: Refetch feed automatically after creating a new post.
+- 9423ec5: Change the Background Color of Pagination Dot.
+
+## 0.30.0
+
+### Minor Changes
+
+- 9c2e8df: Update WalletConnectModal import
+
+## 0.29.0
+
+### Minor Changes
+
+- 57841bc: Fix location permission message in app.config.ts and comment out unused code in preload-provider.tsx.
+
+## 0.28.0
+
+### Minor Changes
+
+- 543e7ba: Update app configuration with new host information
+- 8e718cd: Update host names in app configuration
+
+### Patch Changes
+
+- 71acc85: Added skeleton for carousel and optimized the display performance of details page.
+- a6344e4: Refactor logo animation size in SplashProvider
+
+## 0.27.0
+
+### Minor Changes
+
+- ec25f5a: Update dependencies in package.json and yarn.lock
+
+## 0.26.0
+
+### Minor Changes
+
+- 1915973: Improved performance.
+- 01d6d50: Update dependencies for@walletconnect/react-native-compat
+- 312225e: Update dependencies in package.json
+- 6963500: Update dependencies and fix button padding
+
+### Patch Changes
+
+- 287a53f: Fix image rendering issues and handle empty comments count properly
+- 2205f4e: Update IPFS gateway URL
+- eda1f18: Update icons and add X image to ShareItemcomponen
+- 883a89b: Fix layout and styling issues in FeedListItem and Header components
+- b980c4a: Fix rendering issue and optimize comment list
+- 16ce147: Commented out unused code in Settings page
+
+## 0.25.1
+
+### Patch Changes
+
+- 38fc15b: Optimized the proformance of the home page.
+- d708e6b: Display shorts banner in home page.
+- d708e6b: Fixed an issue where images couldn't displayed correctly.
+
+## 0.25.0
+
+### Minor Changes
+
+- 416c077: Solved the OOM problem on Android.
+
+## 0.24.0
+
+### Minor Changes
+
+- ede7c80: Modify the prompts of permission requests.
+
+### Patch Changes
+
+- 7e7871c: Solved the problem of image uploading failure.
+
+## 0.23.0
+
+### Minor Changes
+
+- fc84705: Support to Auto OPSign
+- b2b9c84: Fixed some bugs and optimized the operation of cache storage.
+- f45eb35: Added shorts list and details pages.
+- 8d1a521: Support to create shorts.
+
+### Patch Changes
+
+- baa8a28: Optimized the loading speed of the details page.
+- 37a279c: Fixed some bugs.
+- 01e9e5c: Added a navigation button that opens the list of comments.
+- 01e9e5c: Added enter animation style for comments item.
+- 1ceb97f: Fixed some bugs.
+- 2838131: Display Avatar correctly in the Feed Page.
+- 1d79d62: Optimized animation of feed list on Android.
+
 ## 0.22.0
 
 ### Minor Changes
