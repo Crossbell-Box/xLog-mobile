@@ -1,5 +1,11 @@
 # xlog
 
+## 0.31.1
+
+### Patch Changes
+
+- 8b0e77a: fix: Fixed a bug where the article list could not be displayed.
+
 ## 0.31.0
 
 ### Minor Changes
