@@ -76,7 +76,7 @@ export function ConnectBtn({
 }) {
   const i18n = useTranslation();
   const navigation = useRootNavigation();
-  const { open, isOpen } = useWalletConnectModal();
+  const { open, isOpen, provider } = useWalletConnectModal();
   const toast = useToastController();
 
   const isActive = useAppIsActive();
@@ -160,6 +160,7 @@ export function ConnectBtn({
     }
 
     beforeOpenModal && await beforeOpenModal();
+    await provider.abortPairingAttempt();
     open({ route: "ConnectWallet" })
       .catch((e) => {
         Sentry.Native.captureException(e);

@@ -45,6 +45,7 @@ export default (_: ConfigContext): ExpoConfig => {
         "expo-camera",
         {
           cameraPermission: "Allow $(PRODUCT_NAME) to access your camera so you can take photos and use them when posting articles.",
+          microphonePermission: "Allow $(PRODUCT_NAME) to access your microphone so you can record videos and use them when posting articles.",
         },
       ],
       [

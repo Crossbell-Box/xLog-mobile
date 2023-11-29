@@ -20,19 +20,22 @@ import { useToggle } from "@/hooks/use-toggle";
 import type { RootStackParamList } from "@/navigation/types";
 
 export interface Props {
+  photos: Photo[]
+}
 
+export interface Photo {
+  uri: string
+  width: number
+  height: number
 }
 
 export const TakePhotoPage: FC<NativeStackScreenProps<RootStackParamList, "TakePhoto">> = (props) => {
+  const { route } = props;
   const i18n = useTranslation("common");
   const [permissionAlertDialogVisible, permissionAlertDialogToggle] = useToggle(false);
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
-  const [pictures, setPictures] = useState<Array<{
-    uri: string
-    width: number
-    height: number
-  }>>([]);
+  const [pictures, setPictures] = useState<Array<Photo>>(route.params?.photos || []);
   const { top } = useSafeAreaInsets();
   const cameraRef = useRef<Camera>(null);
   const scrollViewRef = useRef<ScrollView>(null);
@@ -55,7 +58,8 @@ export const TakePhotoPage: FC<NativeStackScreenProps<RootStackParamList, "TakeP
 
   const handleRemoveImage = (uri: string) => {
     setPictures(pictures => pictures.filter(picture => picture.uri !== uri));
-    FileSystem.deleteAsync(uri);
+
+    uri.startsWith("file://") && FileSystem.deleteAsync(uri);
   };
 
   const takePhoto = () => {
