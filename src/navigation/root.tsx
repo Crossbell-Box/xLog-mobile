@@ -2,6 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+import { HeaderBackButton } from "@react-navigation/elements";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { CharacterListPage } from "@/pages/CharacterList";
@@ -68,7 +69,7 @@ export const RootNavigator = () => {
         <RootStack.Screen name={"SettingsNavigator"} component={SettingsNavigator} options={{ headerShown: false }}/>
         <RootStack.Screen name={"Web"} component={WebPage} options={{ title: "" }} />
         <RootStack.Screen name={"Search"} component={SearchPage} options={{ headerShown: false, animation: "fade", animationDuration: 150 }} />
-        <RootStack.Screen name={"CreateShots"} component={CreateShotsPage}options={{ headerTitle: "", headerBackTitleVisible: false }} />
+        <RootStack.Screen name={"CreateShots"} component={CreateShotsPage} options={{ headerTitle: "", headerBackTitleVisible: false }} />
       </RootStack.Group>
 
       <RootStack.Group screenOptions={{

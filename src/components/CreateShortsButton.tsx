@@ -1,6 +1,6 @@
 import { useState, type FC, useRef } from "react";
 import type { ScrollView as RNScrollVIew } from "react-native";
-import { StyleSheet } from "react-native";
+import { InteractionManager, StyleSheet } from "react-native";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import Animated, { Easing, runOnJS, interpolate, interpolateColor, useAnimatedStyle, useSharedValue, withTiming, LinearTransition, FadeInLeft } from "react-native-reanimated";
 import { Camera, useCameraPermission, useCameraDevice } from "react-native-vision-camera";
@@ -11,6 +11,7 @@ import { Image } from "expo-image";
 import * as MediaLibrary from "expo-media-library";
 import { Button, ScrollView, Stack, View, XStack, YStack, useWindowDimensions } from "tamagui";
 
+import { isAndroid } from "@/constants/platform";
 import { useColors } from "@/hooks/use-colors";
 import { useCreateShots } from "@/hooks/use-create-shots";
 import { useIsLogin } from "@/hooks/use-is-login";
@@ -163,9 +164,15 @@ export const CreateShortsButton: FC = () => {
     };
   }, []);
 
-  const onHandleNext = () => {
-    navigation.replace("CreateShots", {
-      assets: selectedPhotos,
+  const onHandleNext = async () => {
+    const assets = selectedPhotos.slice();
+
+    toggle();
+
+    await new Promise((resolve) => { setTimeout(resolve, 300); });
+
+    navigation.push("CreateShots", {
+      assets,
     });
   };
 
@@ -183,7 +190,7 @@ export const CreateShortsButton: FC = () => {
         }, containerAnimStyle]}
       >
         <Animated.View style={[actionsContainerAnimStyle, { width: targetWidth, height: targetHeight, position: "absolute", borderRadius: 10, padding: 12 }]}>
-          <BlurView tint="dark" intensity={10} style={StyleSheet.absoluteFillObject}/>
+          <BlurView tint="dark" intensity={isAndroid ? 10 : 30} style={StyleSheet.absoluteFillObject}/>
           <XStack flex={1} gap={6}>
             <XStack flex={1} >
               <ScrollView ref={scrollViewRef} flex={1}>
@@ -234,7 +241,7 @@ export const CreateShortsButton: FC = () => {
             <YStack flex={1} gap={8} borderRadius={10}>
               <Stack flex={1} borderRadius={10} overflow="hidden">
                 {hasPermission && (
-                  <Stack flex={1} backgroundColor={"red"}>
+                  <Stack flex={1}>
                     {device && (
                       <Camera
                         ref={cameraRef}

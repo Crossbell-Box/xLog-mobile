@@ -5,6 +5,7 @@ import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import type Animated from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import { HeaderBackButton } from "@react-navigation/elements";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Plus, Trash } from "@tamagui/lucide-icons";
 import { Image } from "expo-image";
@@ -88,12 +89,12 @@ export const CreateShotsPage: FC<NativeStackScreenProps<RootStackParamList, "Cre
   }, [assets, title, content]);
 
   return (
-    <YStack flex={1}>
+    <YStack flex={1} paddingHorizontal="$4">
       <ScrollView
         ref={scrollViewRef}
         horizontal={false}
         paddingTop="$2"
-        paddingHorizontal="$2"
+        contentContainerStyle={{ flex: 1 }}
         keyboardDismissMode="on-drag"
         showsVerticalScrollIndicator={false}
       >
@@ -178,7 +179,7 @@ export const CreateShotsPage: FC<NativeStackScreenProps<RootStackParamList, "Cre
         </View>
       </ScrollView>
 
-      <XStack width={"100%"} position="absolute" bottom={0} paddingBottom={"$2"}>
+      <XStack left={8} right={8} position="absolute" bottom={0} paddingBottom={"$2"}>
         <SafeAreaView edges={["bottom"]} style={{ flex: 1 }} >
           <Button
             backgroundColor={postEnabled ? "$primary" : "$backgroundHover"}
