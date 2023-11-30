@@ -69,7 +69,13 @@ export const CreateShotsPage: FC<NativeStackScreenProps<RootStackParamList, "Cre
     });
 
     addPostTask({
-      assets: assets.map(asset => asset.uri),
+      assets: assets.map(asset => ({
+        uri: asset.uri,
+        dimensions: {
+          width: asset.width,
+          height: asset.height,
+        },
+      })),
       characterId,
       content,
       title,
