@@ -87,7 +87,4 @@ if (typeof window !== "undefined") {
   if (!window.location) {
     window.location = {};
   }
-  if (!window.location.host) {
-    window.location.host = "https://crossbell.io"; // TODO
-  }
 }
