@@ -4516,10 +4516,10 @@
     "@sentry/types" "7.52.1"
     tslib "^1.9.3"
 
-"@shopify/flash-list@^1.6.1":
-  version "1.6.1"
-  resolved "https://registry.npmjs.org/@shopify/flash-list/-/flash-list-1.6.1.tgz#7a46d8ec4e125b8b7bf686777d932c7c950e00c7"
-  integrity sha512-SlBlpP7+zol6D1SKaf402aS30Qgwdjwb8/Qn2CupYwXnTcu2l8TiXB766vcsIvKTqUO7ELfQnCwCq8NXx55FsQ==
+"@shopify/flash-list@^1.6.3":
+  version "1.6.3"
+  resolved "https://registry.npmjs.org/@shopify/flash-list/-/flash-list-1.6.3.tgz#463dc1703815bf916f8173afc22c852bf26337ad"
+  integrity sha512-XM2iu4CeD9SOEUxaGG3UkxfUxGPWG9yacga1yQSgskAjUsRDFTsD3y4Dyon9n8MfDwgrRpEwuijd+7NeQQoWaQ==
   dependencies:
     recyclerlistview "4.2.0"
     tslib "2.4.0"
@@ -16785,10 +16785,10 @@ react-native-reanimated@3.1.0:
     convert-source-map "^2.0.0"
     invariant "^2.2.4"
 
-react-native-reanimated@3.5.4:
-  version "3.5.4"
-  resolved "https://registry.npmmirror.com/react-native-reanimated/-/react-native-reanimated-3.5.4.tgz#a6c2b0c43b6dad246f5d276213974afedb8e3fc7"
-  integrity sha512-8we9LLDO1o4Oj9/DICeEJ2K1tjfqkJagqQUglxeUAkol/HcEJ6PGxIrpBcNryLqCDYEcu6FZWld/FzizBIw6bg==
+react-native-reanimated@^3.6.0:
+  version "3.6.0"
+  resolved "https://registry.npmjs.org/react-native-reanimated/-/react-native-reanimated-3.6.0.tgz#d2ca5f4c234f592af3d63bc749806e36d6e0a755"
+  integrity sha512-eDdhZTRYofrIqFB/Z5xLTWxcB7wDj4ifrNm+gZ2xHSZPjAQ747ukDdH9rglPyPmi+GcmDH7Wff411Xsw5fm45Q==
   dependencies:
     "@babel/plugin-transform-object-assign" "^7.16.7"
     "@babel/preset-typescript" "^7.16.7"
@@ -16865,6 +16865,11 @@ react-native-view-shot@3.7.0:
   integrity sha512-tQruLNjs7Ee/p6xUgJqF6glnatHaq/UqaIQ6KdYIFG0+XpUZdhqmEM4WMLsYfayfFEhdlF86G1S3eXMOfDNzFg==
   dependencies:
     html2canvas "^1.4.1"
+
+react-native-vision-camera@^3.6.12:
+  version "3.6.12"
+  resolved "https://registry.npmjs.org/react-native-vision-camera/-/react-native-vision-camera-3.6.12.tgz#254701aa5cad8a55eda1f23d9bca3ed63d5af8f5"
+  integrity sha512-+AmBmuy1toNpyZvHGyE5kdrJGP3b1LwfFBqrwoW8VG1NJPzO5bXHf7XC2vVdGcEZf3TxBkGNPO0sy7B9j7t3ww==
 
 react-native-web-internals@1.77.1:
   version "1.77.1"

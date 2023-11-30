@@ -5,6 +5,7 @@ import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import type Animated from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import { HeaderBackButton } from "@react-navigation/elements";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Plus, Trash } from "@tamagui/lucide-icons";
 import { Image } from "expo-image";
@@ -88,12 +89,12 @@ export const CreateShotsPage: FC<NativeStackScreenProps<RootStackParamList, "Cre
   }, [assets, title, content]);
 
   return (
-    <YStack flex={1}>
+    <YStack flex={1} paddingHorizontal="$4">
       <ScrollView
         ref={scrollViewRef}
         horizontal={false}
         paddingTop="$2"
-        paddingHorizontal="$2"
+        contentContainerStyle={{ flex: 1 }}
         keyboardDismissMode="on-drag"
         showsVerticalScrollIndicator={false}
       >
@@ -159,27 +160,31 @@ export const CreateShotsPage: FC<NativeStackScreenProps<RootStackParamList, "Cre
             positions.current.content = e.nativeEvent.layout.y;
           }}
           style={{ minHeight: height }}
+
         >
-          <Input
-            placeholder={i18n.t("Add text")}
-            unstyled
-            color={"$color"}
-            fontSize={"$5"}
-            onFocus={() => handleOnFocus(positions.current.content)}
-            onChangeText={setContent}
-            onBlur={handleOnBlur}
-            maxLength={1000}
-            multiline
-            flex={1}
-          />
+          <TouchableWithoutFeedback containerStyle={{ flex: 1 }} style={{ flex: 1 }} onPress={() => handleOnFocus(positions.current.content)}>
+            <Input
+              placeholder={i18n.t("Add text")}
+              unstyled
+              color={"$color"}
+              fontSize={"$5"}
+              onChangeText={setContent}
+              onBlur={handleOnBlur}
+              maxLength={1000}
+              multiline
+              alignItems="flex-start"
+              justifyContent="flex-start"
+            />
+          </TouchableWithoutFeedback>
         </View>
       </ScrollView>
 
-      <XStack width={"100%"} position="absolute" bottom={0} paddingBottom={"$2"}>
+      <XStack left={8} right={8} position="absolute" bottom={0} paddingBottom={"$2"}>
         <SafeAreaView edges={["bottom"]} style={{ flex: 1 }} >
           <Button
-            backgroundColor={postEnabled ? "$primary" : undefined}
+            backgroundColor={postEnabled ? "$primary" : "$backgroundHover"}
             onPress={handleOnPost}
+            opacity={postEnabled ? 1 : 0.5}
             disabled={!postEnabled}
             size={"$5"}
             width={"95%"}

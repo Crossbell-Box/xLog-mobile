@@ -1,10 +1,5 @@
-import { RefreshControl } from "react-native-gesture-handler";
-
-import { useIsConnected } from "@crossbell/react-account";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { MasonryFlashList } from "@shopify/flash-list";
-import { Bell, Home, Image, Search, User2 } from "@tamagui/lucide-icons";
-import { Stack } from "tamagui";
+import { Bell, Home, Image, User2 } from "@tamagui/lucide-icons";
 
 import { Drawer } from "@/components/Drawer";
 import { HomeTabBar } from "@/components/HomeTabBar";
@@ -12,7 +7,6 @@ import { useCharacterId } from "@/hooks/use-character-id";
 import { useColors } from "@/hooks/use-colors";
 import { useIsLogin } from "@/hooks/use-is-login";
 import { useGetUnreadCount } from "@/models/site.model";
-import { ExplorePage } from "@/pages/Explore";
 import { FeedPage } from "@/pages/Feed";
 import { postSearchTypes, shortsSearchTypes } from "@/pages/Feed/feedTypes";
 import { IntroductionPage } from "@/pages/Introduction";
@@ -22,37 +16,6 @@ import { MyUserInfoPage } from "@/pages/UserInfo";
 import type { HomeBottomTabsParamList } from "./types";
 
 const HomeBottomTabs = createBottomTabNavigator<HomeBottomTabsParamList>();
-
-function AA() {
-  return (
-    <Stack flex={1} backgroundColor={"red"}>
-      <MasonryFlashList
-        data={Array.from({ length: 40 }).map((_, i) => ({ title: i }))}
-        numColumns={2}
-        refreshControl={(
-          <RefreshControl
-            refreshing={false}
-            onRefresh={() => {}}
-          />
-        )}
-        renderItem={({ item }) => {
-          return (
-            <Stack
-              width={100}
-              height={100}
-              backgroundColor={"blue"}
-              justifyContent={"center"}
-              alignItems={"center"}
-            >
-              <Search />
-            </Stack>
-          );
-        }}
-        estimatedItemSize={200}
-      />
-    </Stack>
-  );
-}
 
 export const HomeNavigator = () => {
   const { pick } = useColors();
