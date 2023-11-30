@@ -27,6 +27,7 @@ export function ConnectKitProvider({ children }: React.PropsWithChildren) {
   const onDisconnect = useRefCallback(() => {
     if (isConnected) {
       walletConnectProvider?.disconnect?.();
+      walletConnectProvider?.cleanupPendingPairings?.();
     }
   });
 

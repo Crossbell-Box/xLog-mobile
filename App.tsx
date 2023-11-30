@@ -89,7 +89,7 @@ export default () => {
       <NotificationRegister/>
       <StatusBar />
       <RootNavigator />
-      <NetworkSafeView ifReachable={<WalletConnectModal />}/>
+      <WalletConnectModal />
     </ProviderComposer>
   );
 };

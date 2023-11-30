@@ -1,8 +1,8 @@
-import "node-libs-expo/globals";
+import "react-native-url-polyfill/auto";
 import "intl-pluralrules";
 import "text-encoding-polyfill";
-import "react-native-url-polyfill/auto";
 import "react-native-get-random-values";
+import "@walletconnect/react-native-compat";
 import "@ethersproject/shims";
 import { Platform } from "react-native";
 import { btoa, atob, toByteArray } from "react-native-quick-base64";
@@ -79,4 +79,12 @@ if (Platform.OS !== "web") {
     };
     fr.readAsDataURL(blob);
   };
+}
+
+// https://github.com/Crossbell-Box/crossbell-universe/blob/cd0cbaa1ed93e8fc8ff214b1af77b162e406ee2b/packages/react-account/src/apis/siwe.ts#L28
+// Polyfill for window.location.host/origin
+if (typeof window !== "undefined") {
+  if (!window.location) {
+    window.location = {};
+  }
 }
