@@ -149,7 +149,21 @@ export const CommentItem: React.FC<CommentItemProps> = (props) => {
   return (
     <>
       {anonymousCommentDialog}
-      <XStack animation={animated ? "quick" : undefined} enterStyle={{ x: 30, opacity: 0 }} x={0} opacity={1} marginBottom="$2" gap="$3" {...restProps}>
+      <XStack
+        {
+          ...(animated
+            ? {
+              animation: "quick",
+              enterStyle: { x: 30, opacity: 0 },
+            }
+            : {})
+        }
+        x={0}
+        opacity={1}
+        marginBottom="$2"
+        gap="$3"
+        {...restProps}
+      >
         <Avatar useDefault size={isSubComment ? 36 : 40} character={comment?.character} />
         <YStack flex={1}>
           <YStack flex={1}>

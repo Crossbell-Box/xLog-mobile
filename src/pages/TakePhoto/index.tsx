@@ -1,17 +1,16 @@
-import { useState, type FC, useEffect, useRef } from "react";
+import { useState, type FC, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
+import { Camera, useCameraDevice } from "react-native-vision-camera";
 
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { ArrowRight, ChevronLeft, SwitchCamera, Trash } from "@tamagui/lucide-icons";
-import { Camera, CameraType } from "expo-camera";
 import * as FileSystem from "expo-file-system";
 import { Image } from "expo-image";
 import { Circle, Stack, XStack } from "tamagui";
 
-import { AlertDialog } from "@/components/AlertDialog";
 import { Button } from "@/components/Base/Button";
 import { Center } from "@/components/Base/Center";
 import { XTouch } from "@/components/XTouch";
@@ -32,9 +31,8 @@ export interface Photo {
 export const TakePhotoPage: FC<NativeStackScreenProps<RootStackParamList, "TakePhoto">> = (props) => {
   const { route } = props;
   const i18n = useTranslation("common");
-  const [permissionAlertDialogVisible, permissionAlertDialogToggle] = useToggle(false);
-  const [type, setType] = useState(CameraType.back);
-  const [permission, requestPermission] = Camera.useCameraPermissions();
+  const [cameraType, setCameraType] = useState<"back" | "front">("back");
+  const device = useCameraDevice(cameraType);
   const [pictures, setPictures] = useState<Array<Photo>>(route.params?.photos || []);
   const { top } = useSafeAreaInsets();
   const cameraRef = useRef<Camera>(null);
@@ -44,36 +42,33 @@ export const TakePhotoPage: FC<NativeStackScreenProps<RootStackParamList, "TakeP
   const itemGap = 8;
 
   const toggleCameraType = () => {
-    setType(current => (current === CameraType.back ? CameraType.front : CameraType.back));
-  };
-
-  const closePermissionAlertDialog = () => {
-    permissionAlertDialogToggle(false);
-  };
-
-  const onPermissionAlertDialogConfirm = () => {
-    requestPermission();
-    closePermissionAlertDialog();
+    setCameraType(cameraType === "back" ? "front" : "back");
   };
 
   const handleRemoveImage = (uri: string) => {
     setPictures(pictures => pictures.filter(picture => picture.uri !== uri));
-
-    uri.startsWith("file://") && FileSystem.deleteAsync(uri);
   };
 
-  const takePhoto = () => {
-    cameraRef.current?.takePictureAsync().then(async (result) => {
-      scrollViewRef.current?.scrollToEnd({ animated: true });
-      await new Promise(resolve => setTimeout(resolve, 250));
-      setPictures(pictures => [
-        ...pictures,
-        {
-          uri: result.uri,
-          width: result.width,
-          height: result.height,
-        },
-      ]);
+  const onPictureSaved = async (result: { uri: string; width: number; height: number }) => {
+    scrollViewRef.current?.scrollToEnd({ animated: true });
+    await new Promise(resolve => setTimeout(resolve, 250));
+    setPictures(pictures => [
+      ...pictures,
+      {
+        uri: result.uri,
+        width: result.width,
+        height: result.height,
+      },
+    ]);
+  };
+
+  const takePhoto = async () => {
+    cameraRef.current.takePhoto().then((result) => {
+      return onPictureSaved({
+        uri: `file://${result.path}`,
+        width: result.width,
+        height: result.height,
+      });
     });
   };
 
@@ -83,26 +78,17 @@ export const TakePhotoPage: FC<NativeStackScreenProps<RootStackParamList, "TakeP
     });
   };
 
-  useEffect(() => {
-    if (permission && !permission.granted) {
-      permissionAlertDialogToggle(true);
-    }
-  }, [permission]);
-
   return (
     <>
-      <AlertDialog
-        title={i18n.t("Alert")}
-        visible={permissionAlertDialogVisible}
-        description={i18n.t("Please allow camera permission to continue.")}
-        renderCancel={() => <Button onPress={closePermissionAlertDialog}>{i18n.t("Cancel")}</Button>}
-        renderConfirm={() => <Button type="primary" onPress={onPermissionAlertDialogConfirm}>{i18n.t("Confirm")}</Button>}
-      />
       <Stack flex={1} backgroundColor={"$cardBackground"} >
         <Camera
           ref={cameraRef}
+          device={device}
+          isActive
+          photo={true}
+          video={false}
+          audio={false}
           style={styles.camera}
-          type={type}
         >
           <XTouch onPress={navigation.goBack} enableHaptics containerStyle={{
             position: "absolute",
@@ -115,7 +101,7 @@ export const TakePhotoPage: FC<NativeStackScreenProps<RootStackParamList, "TakeP
 
         {pictures.length > 0 && (
           <XStack
-            animation={"bouncy"}
+            animation={"quick"}
             enterStyle={{ y: 100 }}
             height={100}
             y={0}
@@ -130,7 +116,7 @@ export const TakePhotoPage: FC<NativeStackScreenProps<RootStackParamList, "TakeP
                     <Stack
                       justifyContent="space-between"
                       key={picture.uri}
-                      animation={"bouncy"}
+                      animation={"quick"}
                       enterStyle={{
                         y: itemSize,
                         opacity: 0,

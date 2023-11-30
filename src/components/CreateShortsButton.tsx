@@ -1,15 +1,15 @@
-import { useState, type FC, useEffect, useRef } from "react";
+import { useState, type FC, useRef } from "react";
 import type { ScrollView as RNScrollVIew } from "react-native";
 import { StyleSheet } from "react-native";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
-import Animated, { CurvedTransition, Easing, runOnJS, ReduceMotion, interpolate, interpolateColor, useAnimatedStyle, useSharedValue, withSpring, withTiming, LinearTransition } from "react-native-reanimated";
+import Animated, { Easing, runOnJS, interpolate, interpolateColor, useAnimatedStyle, useSharedValue, withTiming, LinearTransition, FadeInLeft } from "react-native-reanimated";
+import { Camera, useCameraPermission, useCameraDevice } from "react-native-vision-camera";
 
-import { Camera as CameraIcon, Circle, Image as ImageIcon, Maximize2, Plus, X } from "@tamagui/lucide-icons";
+import { Maximize2, Plus, X } from "@tamagui/lucide-icons";
 import { BlurView } from "expo-blur";
-import { Camera, CameraType } from "expo-camera";
 import { Image } from "expo-image";
 import * as MediaLibrary from "expo-media-library";
-import { AnimatePresence, Button, ScrollView, Stack, Text, View, XStack, YStack, useWindowDimensions } from "tamagui";
+import { Button, ScrollView, Stack, View, XStack, YStack, useWindowDimensions } from "tamagui";
 
 import { useColors } from "@/hooks/use-colors";
 import { useCreateShots } from "@/hooks/use-create-shots";
@@ -17,8 +17,6 @@ import { useIsLogin } from "@/hooks/use-is-login";
 import { useRootNavigation } from "@/hooks/use-navigation";
 import type { Photo } from "@/pages/TakePhoto";
 
-import { Center } from "./Base/Center";
-import { MeasureContainer } from "./utils/MeasureContainer";
 import { XTouch } from "./XTouch";
 
 export const CreateShortsButton: FC = () => {
@@ -30,36 +28,27 @@ export const CreateShortsButton: FC = () => {
   const buttonSize = 40;
   const [mediaPermissionResponse, requestMediaPermission] = MediaLibrary.usePermissions();
   const [photos, setPhotos] = useState<Array<Photo>>([]);
-  const [cameraPermissionResponse, requestCameraPermission] = Camera.useCameraPermissions();
+  const { hasPermission, requestPermission } = useCameraPermission();
+  const device = useCameraDevice("back");
   const [selectedPhotos, setSelectedPhotos] = useState<Array<Photo>>([]);
   const [isCapturing, setIsCapturing] = useState(false);
   const cameraRef = useRef<Camera>(null);
   const [expanded, setExpanded] = useState(false);
   const scrollViewRef = useRef<RNScrollVIew>(null);
 
-  useEffect(() => {
-    if (!expanded) {
+  const requestPermissions = async () => {
+    if (mediaPermissionResponse?.granted && hasPermission) {
       return;
     }
 
-    if (mediaPermissionResponse?.granted) {
-      return;
+    if (!mediaPermissionResponse?.granted) {
+      await requestMediaPermission();
     }
 
-    requestMediaPermission();
-  }, [mediaPermissionResponse, requestMediaPermission]);
-
-  useEffect(() => {
-    if (!expanded) {
-      return;
+    if (!hasPermission) {
+      await requestPermission();
     }
-
-    if (cameraPermissionResponse?.granted) {
-      return;
-    }
-
-    requestCameraPermission();
-  }, [cameraPermissionResponse, requestCameraPermission]);
+  };
 
   const refreshPhotos = async () => {
     MediaLibrary.getAlbumAsync("Camera Roll").then(album => MediaLibrary.getAssetsAsync({
@@ -75,50 +64,53 @@ export const CreateShortsButton: FC = () => {
     });
   };
 
-  const takePhoto = () => {
+  const takePhoto = async () => {
     if (isCapturing) {
       return;
     }
 
     setIsCapturing(true);
-    cameraRef.current?.takePictureAsync()
-      .then((result) => {
-        scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: true });
-        setPhotos(photos => [
-          {
-            uri: result.uri,
-            width: result.width,
-            height: result.height,
-          },
-          ...photos,
-        ]);
+    cameraRef?.current.takePhoto().then((result) => {
+      const uri = `file://${result.path}`;
+      scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: true });
+      setPhotos(photos => [
+        {
+          uri,
+          width: result.width,
+          height: result.height,
+        },
+        ...photos,
+      ]);
 
-        setSelectedPhotos(selectedPhotos => [
-          {
-            uri: result.uri,
-            width: result.width,
-            height: result.height,
-          },
-          ...selectedPhotos,
-        ]);
-      })
+      setSelectedPhotos(selectedPhotos => [
+        {
+          uri,
+          width: result.width,
+          height: result.height,
+        },
+        ...selectedPhotos,
+      ]);
+    })
       .finally(() => {
         setIsCapturing(false);
       });
   };
 
   const toggle = () => {
-    isOpenAnimValue.value = withTiming(isOpenAnimValue.value === 0 ? 1 : 0, { easing: Easing.inOut(Easing.ease), duration: 150 }, () => {
-      const isClosed = isOpenAnimValue.value === 0;
-      if (isClosed) {
-        runOnJS(setSelectedPhotos)([]);
-        runOnJS(setExpanded)(false);
-      }
-      else {
-        runOnJS(refreshPhotos)();
-        runOnJS(setExpanded)(true);
-      }
-    });
+    return requestPermissions()
+      .then(() => {
+        isOpenAnimValue.value = withTiming(isOpenAnimValue.value === 0 ? 1 : 0, { easing: Easing.inOut(Easing.ease), duration: 150 }, () => {
+          const isClosed = isOpenAnimValue.value === 0;
+          if (isClosed) {
+            runOnJS(setSelectedPhotos)([]);
+            runOnJS(setExpanded)(false);
+          }
+          else {
+            runOnJS(refreshPhotos)();
+            runOnJS(setExpanded)(true);
+          }
+        });
+      });
   };
 
   const handleOnPress = () => {
@@ -130,7 +122,11 @@ export const CreateShortsButton: FC = () => {
     toggle();
   };
 
-  const handleOpenCamera = () => {
+  const handleOpenCamera = async () => {
+    if (!hasPermission) {
+      await requestPermission();
+    }
+
     navigation.navigate("TakePhoto", {
       photos: selectedPhotos,
     });
@@ -167,6 +163,12 @@ export const CreateShortsButton: FC = () => {
     };
   }, []);
 
+  const onHandleNext = () => {
+    navigation.replace("CreateShots", {
+      assets: selectedPhotos,
+    });
+  };
+
   return (
     <Stack width={buttonSize} height={buttonSize} marginHorizontal={15} overflow="visible" zIndex={999}>
       <Animated.View
@@ -181,7 +183,7 @@ export const CreateShortsButton: FC = () => {
         }, containerAnimStyle]}
       >
         <Animated.View style={[actionsContainerAnimStyle, { width: targetWidth, height: targetHeight, position: "absolute", borderRadius: 10, padding: 12 }]}>
-          <BlurView tint="dark" intensity={30} style={StyleSheet.absoluteFillObject}/>
+          <BlurView tint="dark" intensity={10} style={StyleSheet.absoluteFillObject}/>
           <XStack flex={1} gap={6}>
             <XStack flex={1} >
               <ScrollView ref={scrollViewRef} flex={1}>
@@ -192,7 +194,7 @@ export const CreateShortsButton: FC = () => {
                       const isSelected = selectedPhotos.some(photo => photo.uri === item.uri);
 
                       return (
-                        <Animated.View key={item.uri} layout={LinearTransition.duration(150)}>
+                        <Animated.View key={item.uri} layout={LinearTransition.duration(150)} entering={FadeInLeft.duration(150)}>
                           <TouchableWithoutFeedback
                             style={{ marginBottom: 4 }}
                             onPress={() => {
@@ -230,12 +232,20 @@ export const CreateShortsButton: FC = () => {
               </ScrollView>
             </XStack>
             <YStack flex={1} gap={8} borderRadius={10}>
-              <Stack flex={1}>
-                {cameraPermissionResponse?.granted && expanded && (
-                  <Camera
-                    ref={cameraRef}
-                    style={{ flex: 1, borderRadius: 10, overflow: "hidden" }}
-                  >
+              <Stack flex={1} borderRadius={10} overflow="hidden">
+                {hasPermission && (
+                  <Stack flex={1} backgroundColor={"red"}>
+                    {device && (
+                      <Camera
+                        ref={cameraRef}
+                        device={device}
+                        isActive={expanded}
+                        photo={true}
+                        video={false}
+                        audio={false}
+                        style={{ flex: 1 }}
+                      />
+                    )}
                     <XTouch onPress={handleOpenCamera} enableHaptics containerStyle={{
                       position: "absolute",
                       right: 12,
@@ -259,7 +269,7 @@ export const CreateShortsButton: FC = () => {
                         />
                       </Stack>
                     </XTouch>
-                  </Camera>
+                  </Stack>
                 )}
               </Stack>
               <XStack alignItems="center" justifyContent="space-between" width={"100%"} gap={8}>
@@ -267,6 +277,7 @@ export const CreateShortsButton: FC = () => {
                   flex={1}
                   disabled={selectedPhotos.length === 0}
                   backgroundColor={selectedPhotos.length === 0 ? "$backgroundHover" : "$primary"}
+                  onPress={onHandleNext}
                 >
                 Next
                 </Button>

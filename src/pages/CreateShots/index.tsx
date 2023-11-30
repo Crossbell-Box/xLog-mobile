@@ -159,27 +159,31 @@ export const CreateShotsPage: FC<NativeStackScreenProps<RootStackParamList, "Cre
             positions.current.content = e.nativeEvent.layout.y;
           }}
           style={{ minHeight: height }}
+
         >
-          <Input
-            placeholder={i18n.t("Add text")}
-            unstyled
-            color={"$color"}
-            fontSize={"$5"}
-            onFocus={() => handleOnFocus(positions.current.content)}
-            onChangeText={setContent}
-            onBlur={handleOnBlur}
-            maxLength={1000}
-            multiline
-            flex={1}
-          />
+          <TouchableWithoutFeedback containerStyle={{ flex: 1 }} style={{ flex: 1 }} onPress={() => handleOnFocus(positions.current.content)}>
+            <Input
+              placeholder={i18n.t("Add text")}
+              unstyled
+              color={"$color"}
+              fontSize={"$5"}
+              onChangeText={setContent}
+              onBlur={handleOnBlur}
+              maxLength={1000}
+              multiline
+              alignItems="flex-start"
+              justifyContent="flex-start"
+            />
+          </TouchableWithoutFeedback>
         </View>
       </ScrollView>
 
       <XStack width={"100%"} position="absolute" bottom={0} paddingBottom={"$2"}>
         <SafeAreaView edges={["bottom"]} style={{ flex: 1 }} >
           <Button
-            backgroundColor={postEnabled ? "$primary" : undefined}
+            backgroundColor={postEnabled ? "$primary" : "$backgroundHover"}
             onPress={handleOnPost}
+            opacity={postEnabled ? 1 : 0.5}
             disabled={!postEnabled}
             size={"$5"}
             width={"95%"}
