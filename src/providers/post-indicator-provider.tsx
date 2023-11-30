@@ -143,7 +143,7 @@ const PostIndicator: FC<{
         <BlurView tint="dark" intensity={30} style={StyleSheet.absoluteFillObject}/>
       </Stack>
       <XStack padding="$3" gap="$2">
-        <Image source={{ uri: task.assets[0] }} style={styles.coverImage}/>
+        <Image source={{ uri: task.assets[0].uri }} style={styles.coverImage}/>
         <YStack flex={1}>
 
           {

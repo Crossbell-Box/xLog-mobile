@@ -2,8 +2,16 @@ import { createContext } from "react";
 
 import type { EditorValues, NoteType } from "@/types";
 
+export interface Asset {
+  uri: string
+  dimensions?: {
+    width: number
+    height: number
+  }
+}
+
 export type TaskType = {
-  assets: string[]
+  assets: Array<Asset>
   characterId?: number
   type?: NoteType
 } & EditorValues;
