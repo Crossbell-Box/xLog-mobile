@@ -42,23 +42,24 @@ export default (_: ConfigContext): ExpoConfig => {
         },
       ],
       [
-        "expo-camera",
+        "react-native-vision-camera",
         {
-          cameraPermission: "Allow $(PRODUCT_NAME) to access your camera so you can take photos and use them when posting articles.",
+          cameraPermissionText: "Allow $(PRODUCT_NAME) to access your camera so you can take photos and use them when posting articles.",
+          enableMicrophonePermission: false,
         },
       ],
       [
         "expo-build-properties",
         {
           android: {
-            compileSdkVersion: 33,
-            targetSdkVersion: 33,
+            compileSdkVersion: 34,
+            targetSdkVersion: 34,
             minSdkVersion: 23,
-            buildToolsVersion: "33.0.0",
+            buildToolsVersion: "34.0.0",
             kotlinVersion: "1.8.0",
           },
           ios: {
-            deploymentTarget: "13.0",
+            deploymentTarget: "13.4",
             flipper: true,
           },
         },
