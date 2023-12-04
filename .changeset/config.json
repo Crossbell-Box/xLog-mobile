@@ -1,6 +1,6 @@
 {
   "$schema": "https://unpkg.com/@changesets/config@2.3.0/schema.json",
-  "changelog": ["@changesets/changelog-github", { "repo": "dohooo/react-native-reanimated-table" }],
+  "changelog": ["@changesets/changelog-github", { "repo": "crossbell-box/xlog-mobile" }],
   "commit": false,
   "privatePackages": { "version": true, "tag": true },
   "fixed": [],
