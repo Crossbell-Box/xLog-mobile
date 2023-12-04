@@ -1632,6 +1632,15 @@
   dependencies:
     "@changesets/types" "^5.2.1"
 
+"@changesets/changelog-github@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.npmjs.org/@changesets/changelog-github/-/changelog-github-0.5.0.tgz#ae96e5029209f7386527b3821d9c988b1ab16662"
+  integrity sha512-zoeq2LJJVcPJcIotHRJEEA2qCqX0AQIeFE+L21L8sRLPVqDhSXY8ZWAt2sohtBpFZkBwu+LUwMSKRr2lMy3LJA==
+  dependencies:
+    "@changesets/get-github-info" "^0.6.0"
+    "@changesets/types" "^6.0.0"
+    dotenv "^8.1.0"
+
 "@changesets/cli@^2.26.1":
   version "2.26.1"
   resolved "https://registry.npmjs.org/@changesets/cli/-/cli-2.26.1.tgz"
@@ -1701,6 +1710,14 @@
     chalk "^2.1.0"
     fs-extra "^7.0.1"
     semver "^5.4.1"
+
+"@changesets/get-github-info@^0.6.0":
+  version "0.6.0"
+  resolved "https://registry.npmjs.org/@changesets/get-github-info/-/get-github-info-0.6.0.tgz#faba66a20a3a5a0cbabea28efd43c9ede7429f11"
+  integrity sha512-v/TSnFVXI8vzX9/w3DU2Ol+UlTZcu3m0kXTjTT4KlAdwSvwutcByYwyYn9hwerPWfPkT2JfpoX0KgvCEi8Q/SA==
+  dependencies:
+    dataloader "^1.4.0"
+    node-fetch "^2.5.0"
 
 "@changesets/get-release-plan@^3.0.16":
   version "3.0.16"
@@ -1782,6 +1799,11 @@
   version "5.2.1"
   resolved "https://registry.npmjs.org/@changesets/types/-/types-5.2.1.tgz#a228c48004aa8a93bce4be2d1d31527ef3bf21f6"
   integrity sha512-myLfHbVOqaq9UtUKqR/nZA/OY7xFjQMdfgfqeZIBK4d0hA6pgxArvdv8M+6NUzzBsjWLOtvApv8YHr4qM+Kpfg==
+
+"@changesets/types@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.npmjs.org/@changesets/types/-/types-6.0.0.tgz#e46abda9890610dd1fbe1617730173d2267544bd"
+  integrity sha512-b1UkfNulgKoWfqyHtzKS5fOZYSJO+77adgL7DLRDr+/7jhChN+QcHnbjiQVOz/U+Ts3PGNySq7diAItzDgugfQ==
 
 "@changesets/write@^0.2.3":
   version "0.2.3"
@@ -3433,13 +3455,6 @@
   dependencies:
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
-
-"@koale/useworker@^4.0.2":
-  version "4.0.2"
-  resolved "https://registry.npmmirror.com/@koale/useworker/-/useworker-4.0.2.tgz#cb540a2581cd6025307c3ca6685bc60748773e58"
-  integrity sha512-xPIPADtom8/3/4FLNj7MvNcBM/Z2FleH85Fdx2O869eoKW8+PoEgtSVvoxWjCWMA46Sm9A5/R1TyzNGc+yM0wg==
-  dependencies:
-    dequal "^1.0.0"
 
 "@ledgerhq/connect-kit-loader@^1.1.0":
   version "1.1.2"
@@ -9053,6 +9068,11 @@ dashdash@^1.12.0:
   dependencies:
     assert-plus "^1.0.0"
 
+dataloader@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.npmjs.org/dataloader/-/dataloader-1.4.0.tgz#bca11d867f5d3f1b9ed9f737bd15970c65dff5c8"
+  integrity sha512-68s5jYdlvasItOJnCuI2Q9s4q98g0pCyL3HrcKJu8KNugUl8ahgmZYg38ysLTgQjjXX3H8CJLkAvWrclWfcalw==
+
 date-time@^3.1.0:
   version "3.1.0"
   resolved "https://registry.npmjs.org/date-time/-/date-time-3.1.0.tgz#0d1e934d170579f481ed8df1e2b8ff70ee845e1e"
@@ -9282,11 +9302,6 @@ deprecated-react-native-prop-types@4.1.0:
     invariant "*"
     prop-types "*"
 
-dequal@^1.0.0:
-  version "1.0.1"
-  resolved "https://registry.npmmirror.com/dequal/-/dequal-1.0.1.tgz#dbbf9795ec626e9da8bd68782f4add1d23700d8b"
-  integrity sha512-Fx8jxibzkJX2aJgyfSdLhr9tlRoTnHKrRJuu2XHlAgKioN2j19/Bcbe0d4mFXYZ3+wpE2KVobUVTfDutcD17xQ==
-
 dequal@^2.0.0:
   version "2.0.3"
   resolved "https://registry.npmjs.org/dequal/-/dequal-2.0.3.tgz#2644214f1997d39ed0ee0ece72335490a7ac67be"
@@ -9474,6 +9489,11 @@ dotenv@^16.0.3, dotenv@~16.0.3:
   version "16.0.3"
   resolved "https://registry.npmjs.org/dotenv/-/dotenv-16.0.3.tgz"
   integrity sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==
+
+dotenv@^8.1.0:
+  version "8.6.0"
+  resolved "https://registry.npmjs.org/dotenv/-/dotenv-8.6.0.tgz#061af664d19f7f4d8fc6e4ff9b584ce237adcb8b"
+  integrity sha512-IrPdXQsk2BbzvCBGBOTmmSH5SodmqZNt4ERAZDmW4CT+tL8VtvinqywuANaFu4bOMWki16nqf0e4oC0QIaDr/g==
 
 duplexify@^4.1.2:
   version "4.1.2"
@@ -10547,14 +10567,6 @@ expo-build-properties@~0.8.3:
   dependencies:
     ajv "^8.11.0"
     semver "^7.5.3"
-
-expo-camera@~13.4.2:
-  version "13.4.3"
-  resolved "https://registry.npmmirror.com/expo-camera/-/expo-camera-13.4.3.tgz#546b877e3d0bc1228d2a8525c52a838da9fce8c2"
-  integrity sha512-7UgYq4PeL0H4Dguo+pJaEtA0De0h0T+m+a5rO4GUxshop82/Rnf+oKuDL3rho11aZ/XqSrPTJzOQtlqyf8Qpwg==
-  dependencies:
-    "@koale/useworker" "^4.0.2"
-    invariant "^2.2.4"
 
 expo-clipboard@~4.3.0:
   version "4.3.0"
@@ -15247,7 +15259,7 @@ node-fetch@^2.2.0, node-fetch@^2.6.0, node-fetch@^2.6.1, node-fetch@^2.6.7:
   dependencies:
     whatwg-url "^5.0.0"
 
-node-fetch@^2.6.12:
+node-fetch@^2.5.0, node-fetch@^2.6.12:
   version "2.7.0"
   resolved "https://registry.npmmirror.com/node-fetch/-/node-fetch-2.7.0.tgz#d0f0fa6e3e2dc1d27efcd8ad99d550bda94d187d"
   integrity sha512-c4FRfUm/dbcWZ7U+1Wq0AwCyFL+3nt2bEw05wfxSz+DWpWsitgmSgYmy2dQdWyKC1694ELPqMs/YzUSNozLt8A==

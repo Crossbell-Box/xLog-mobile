@@ -233,8 +233,8 @@ export function OPSignToggleBtn(
   };
 
   return (
-    <TouchableOpacity activeOpacity={0.8} onPress={OPSign}>
-      <Stack paddingVertical="$3" borderRadius={"$5"} overflow="hidden">
+    <TouchableOpacity activeOpacity={0.8} onPress={OPSign} disabled={autoSign}>
+      <Stack paddingVertical="$3" borderRadius={"$5"} overflow="hidden" opacity={autoSign ? 0.3 : undefined}>
         <LinearGradient
           colors={["#30a19b", "#2875bf"]}
           style={{ position: "absolute", width: "100%", top: 0, bottom: 0 }}

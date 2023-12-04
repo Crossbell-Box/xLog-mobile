@@ -15,15 +15,7 @@ const onCopyClipboard = (value: string) => {
 const sessionParams: ComponentProps<typeof Modal>["sessionParams"] = {
   namespaces: {
     eip155: {
-      methods: [
-        "eth_sendTransaction",
-        "eth_signTransaction",
-        "eth_sign",
-        "personal_sign",
-        "eth_signTypedData",
-        "wallet_addEthereumChain",
-        "wallet_switchEthereumChain",
-      ],
+      methods: ["personal_sign"],
       chains: ["eip155:1"],
       events: ["chainChanged", "accountsChanged"],
       rpcMap: {},
