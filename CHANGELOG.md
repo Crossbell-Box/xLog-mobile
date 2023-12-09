@@ -1,5 +1,23 @@
 # xlog
 
+## 0.32.0
+
+### Minor Changes
+
+- [#272](https://github.com/Crossbell-Box/xLog-mobile/pull/272) [`b76db9b`](https://github.com/Crossbell-Box/xLog-mobile/commit/b76db9b7286b97c92311a17da2f770a1d3f21a1d) Thanks [@dohooo](https://github.com/dohooo)! - Remove node polyfills.
+
+- [#275](https://github.com/Crossbell-Box/xLog-mobile/pull/275) [`680f258`](https://github.com/Crossbell-Box/xLog-mobile/commit/680f25837a1b3b27ae5e28fd137cc479c04c8b59) Thanks [@dohooo](https://github.com/dohooo)! - feat: new styles for creating shorts.
+
+### Patch Changes
+
+- [#279](https://github.com/Crossbell-Box/xLog-mobile/pull/279) [`9ab5e53`](https://github.com/Crossbell-Box/xLog-mobile/commit/9ab5e53f0382e1b76f246c4d8063a668a9b482ad) Thanks [@dohooo](https://github.com/dohooo)! - fix: modify the incorrect padding on some Android models.
+
+- [#277](https://github.com/Crossbell-Box/xLog-mobile/pull/277) [`f9cd404`](https://github.com/Crossbell-Box/xLog-mobile/commit/f9cd40401fb3e46e6ec5ee05c82c3eeac3287095) Thanks [@dohooo](https://github.com/dohooo)! - Solved the connection failed issue when using rainbow wallet.
+
+- [#279](https://github.com/Crossbell-Box/xLog-mobile/pull/279) [`716f8f8`](https://github.com/Crossbell-Box/xLog-mobile/commit/716f8f85ccc4e6b4c7b29e651658aac810048b75) Thanks [@dohooo](https://github.com/dohooo)! - feat: support i18n cooperate with web.
+
+- [#277](https://github.com/Crossbell-Box/xLog-mobile/pull/277) [`96c8b0e`](https://github.com/Crossbell-Box/xLog-mobile/commit/96c8b0e1c06f3d9a115d18cfdec190d9cc852848) Thanks [@dohooo](https://github.com/dohooo)! - Disable the opsign button during the count down to prevent sign failed.
+
 ## 0.31.2
 
 ### Patch Changes
