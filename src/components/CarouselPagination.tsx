@@ -1,4 +1,4 @@
-import Animated, { Extrapolate, interpolate, useAnimatedStyle } from "react-native-reanimated";
+import Animated, { Extrapolation, interpolate, useAnimatedStyle } from "react-native-reanimated";
 
 import { Stack, Theme, XStack } from "tamagui";
 
@@ -52,7 +52,7 @@ const PaginationItem: React.FC<{
             animValue?.value,
             inputRange,
             outputRange,
-            Extrapolate.CLAMP,
+            Extrapolation.CLAMP,
           ),
         },
       ],

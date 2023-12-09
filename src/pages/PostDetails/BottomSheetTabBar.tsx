@@ -2,7 +2,7 @@ import type { FC } from "react";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import type { SharedValue } from "react-native-reanimated";
-import Animated, { useSharedValue, withSpring, useAnimatedStyle, measure, runOnUI, useAnimatedRef, interpolate, Extrapolate, runOnJS } from "react-native-reanimated";
+import Animated, { useSharedValue, withSpring, useAnimatedStyle, Extrapolation, runOnUI, interpolate, runOnJS } from "react-native-reanimated";
 
 import { Stack, Text, XStack } from "tamagui";
 
@@ -37,13 +37,13 @@ export const BottomSheetTabBar: FC<{
         indexAnimVal.value,
         input,
         tabsPos.value.map(pos => pos.width),
-        Extrapolate.CLAMP,
+        Extrapolation.CLAMP,
       ),
       left: interpolate(
         indexAnimVal.value,
         input,
         tabsPos.value.map(pos => pos.x),
-        Extrapolate.CLAMP,
+        Extrapolation.CLAMP,
       ),
     };
   }, [indexAnimVal, tabsPos]);

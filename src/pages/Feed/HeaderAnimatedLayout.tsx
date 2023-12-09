@@ -1,7 +1,7 @@
 import type { FC, PropsWithChildren } from "react";
 import { StyleSheet } from "react-native";
 import type { SharedValue } from "react-native-reanimated";
-import Animated, { Extrapolate, interpolate, useAnimatedStyle } from "react-native-reanimated";
+import Animated, { Extrapolation, interpolate, useAnimatedStyle } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { isIOS } from "@/constants/platform";
@@ -25,8 +25,8 @@ export const HeaderAnimatedLayout: FC<PropsWithChildren<Props>> = (props) => {
 
   const containerAnimStyles = useAnimatedStyle(() => {
     return {
-      height: interpolate(expanded.value, [0, 1], [0, homeTabHeaderHeight + top], Extrapolate.CLAMP),
-      opacity: interpolate(expanded.value, [0, 1], [0, 1], Extrapolate.CLAMP),
+      height: interpolate(expanded.value, [0, 1], [0, homeTabHeaderHeight + top], Extrapolation.CLAMP),
+      opacity: interpolate(expanded.value, [0, 1], [0, 1], Extrapolation.CLAMP),
     };
   }, [top, expanded]);
 

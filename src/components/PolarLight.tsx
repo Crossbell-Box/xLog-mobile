@@ -2,7 +2,7 @@ import { useEffect, type FC, useCallback } from "react";
 import type { StyleProp, ViewStyle } from "react-native";
 import { Dimensions, StyleSheet } from "react-native";
 import type { SharedValue } from "react-native-reanimated";
-import { Easing, Extrapolate, cancelAnimation, interpolate, useDerivedValue, useSharedValue, withRepeat, withTiming } from "react-native-reanimated";
+import { Easing, Extrapolation, cancelAnimation, interpolate, useDerivedValue, useSharedValue, withRepeat, withTiming } from "react-native-reanimated";
 
 import { useNavigation } from "@react-navigation/native";
 import { Blur, Canvas, Group, LinearGradient, Rect, Shadow, Turbulence, Vertices, vec } from "@shopify/react-native-skia";
@@ -81,7 +81,7 @@ const AnimatedLine: FC<{
       animVal.value,
       [-endInput, -startInput, -startInput, -endInput],
       [0.2, 0.5, 0.5, 0.2],
-      Extrapolate.CLAMP,
+      Extrapolation.CLAMP,
     );
   }, [x, animVal]);
 
@@ -92,7 +92,7 @@ const AnimatedLine: FC<{
       animVal.value,
       [-endInput, -startInput, -startInput, -endInput],
       [width * 0.9, width, width, width * 0.9],
-      Extrapolate.CLAMP,
+      Extrapolation.CLAMP,
     );
   }, [x, animVal, index]);
 
@@ -140,7 +140,7 @@ const AnimatedMask: FC<{
       animVal.value,
       [-100, -50, 0],
       [5, 3, 5],
-      Extrapolate.CLAMP,
+      Extrapolation.CLAMP,
     );
   }, []);
 
