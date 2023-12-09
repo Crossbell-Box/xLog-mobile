@@ -1,4 +1,4 @@
-import { Easing, Extrapolate, interpolate, runOnJS, runOnUI, useAnimatedScrollHandler, useSharedValue, withTiming } from "react-native-reanimated";
+import { Easing, Extrapolation, interpolate, useAnimatedScrollHandler, useSharedValue, withTiming } from "react-native-reanimated";
 
 interface Options {
   scrollThreshold: number
@@ -50,7 +50,7 @@ export function useScrollVisibilityHandler(options: Options) {
         Math.round(scaledDiffY * 100) / 100,
         [-scrollThreshold, 0, scrollThreshold],
         [1, ctx.prevExpandedValue, 0],
-        Extrapolate.CLAMP,
+        Extrapolation.CLAMP,
       );
 
       if (typeof value === "number" && isNaN(value) === false) {

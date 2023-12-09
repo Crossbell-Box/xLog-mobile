@@ -98,7 +98,7 @@ export const WebViewRenderer: FC<{
             showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}
             onMessage={onWebViewMessage}
-            injectedJavaScript={javaScriptContentLoaded(mode, bottomBarHeight, height)}
+            injectedJavaScript={javaScriptContentLoaded(bottomBarHeight, height)}
             injectedJavaScriptBeforeContentLoaded={javaScriptBeforeContentLoaded(mode)}
           />
         )}

@@ -1,17 +1,16 @@
 import React, { useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, ScrollView, Linking, Platform } from "react-native";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { useIsConnected } from "@crossbell/react-account";
-import { ArrowDownToLine, ArrowRight, Check, Cog, Copy, Eye, Flag, Flashlight, Info, Palette, TestTube, Thermometer, TrendingUp } from "@tamagui/lucide-icons";
+import { ArrowDownToLine, ArrowRight, Check, Cog, Copy, Eye, Info, Languages, Palette, TestTube, Thermometer, TrendingUp } from "@tamagui/lucide-icons";
 import { useToastController } from "@tamagui/toast";
 import * as Clipboard from "expo-clipboard";
 import * as Haptics from "expo-haptics";
 import * as Updates from "expo-updates";
 import * as Sentry from "sentry-expo";
-import { Text, ListItemTitle, YStack, Spinner, Stack, XStack } from "tamagui";
+import { Text, ListItemTitle, YStack, Spinner } from "tamagui";
 
 import { AlertDialog } from "@/components/AlertDialog";
 import { Badge } from "@/components/Badge";
@@ -22,7 +21,6 @@ import { Switch } from "@/components/Base/Switch";
 import { BottomSheetModal } from "@/components/BottomSheetModal";
 import type { BottomSheetModalInstance } from "@/components/BottomSheetModal";
 import { APP_SCHEME, IS_DEV, IS_PROD, IS_TEST, VERSION } from "@/constants";
-import { countries } from "@/constants/countries";
 import { useGlobalState } from "@/context/global-state-context";
 import { useColors } from "@/hooks/use-colors";
 import { useDisconnect } from "@/hooks/use-disconnect";
@@ -37,6 +35,9 @@ import { allThemes } from "@/styles/theme";
 import { GA } from "@/utils/GA";
 import { checkHotUpdates } from "@/utils/hot-updates";
 
+import type { Language } from "../../i18n";
+import { LANGUAGES } from "../../i18n";
+
 // import { CountryPicker } from "./CountryPicker";
 
 export interface Props {
@@ -44,7 +45,7 @@ export interface Props {
 }
 
 export const Settings: React.FC<Props> = () => {
-  // const { country, isChinese, setCountry } = useGlobalState();
+  const { language, setLanguage } = useGlobalState();
   const { primary, color, background } = useColors();
   const [devMenuVisible, setDevMenuVisible] = React.useState(false);
   const isLogin = useIsLogin();
@@ -68,7 +69,8 @@ export const Settings: React.FC<Props> = () => {
   );
   const [notificationAlertDialogVisible, notificationAlertDialogToggle] = useToggle(false);
   const [updatesAlertDialogVisible, updatesAlertDialogToggle] = useToggle(false);
-  const bottomSheetRef = useRef<BottomSheetModalInstance>(null);
+  const themeBottomSheetRef = useRef<BottomSheetModalInstance>(null);
+  const languageBottomSheetRef = useRef<BottomSheetModalInstance>(null);
   const { mode, theme, changeTheme } = useThemeStore();
   const snapPoints = useMemo(() => ["40%"], []);
   const i18n = useTranslation("common");
@@ -76,10 +78,14 @@ export const Settings: React.FC<Props> = () => {
   const navigation = useRootNavigation();
   const { expoPushToken, requestPermissions } = useNotification();
   const { toggleMode, toggleFollowSystem, followSystem, isDarkMode } = useThemeStore();
-  const [isCountryPickerOpened, setIsCountryPickerOpened] = React.useState(false);
+  // const [isCountryPickerOpened, setIsCountryPickerOpened] = React.useState(false);
 
-  const openBottomSheet = () => {
-    bottomSheetRef.current?.present();
+  const openThemeBottomSheet = () => {
+    themeBottomSheetRef.current?.present();
+  };
+
+  const openLanguageBottomSheet = () => {
+    languageBottomSheetRef.current?.present();
   };
 
   const checkNewUpdates = (silent: boolean) => {
@@ -242,9 +248,21 @@ export const Settings: React.FC<Props> = () => {
 
                 <SettingsYGroup.Item>
                   <SettingsListItem
+                    icon={Languages}
+                    scaleIcon={1.2}
+                    onPress={openLanguageBottomSheet}
+                    iconAfter={<ArrowRight />}
+                  >
+                    <ListItemTitle>
+                      {i18n.t("Language")}
+                    </ListItemTitle>
+                  </SettingsListItem>
+                </SettingsYGroup.Item>
+                <SettingsYGroup.Item>
+                  <SettingsListItem
                     icon={Palette}
                     scaleIcon={1.2}
-                    onPress={openBottomSheet}
+                    onPress={openThemeBottomSheet}
                     iconAfter={<ArrowRight />}
                   >
                     <ListItemTitle>
@@ -399,7 +417,7 @@ export const Settings: React.FC<Props> = () => {
           }}
         /> */}
         <BottomSheetModal
-          ref={bottomSheetRef}
+          ref={themeBottomSheetRef}
           snapPoints={snapPoints}
           enablePanDownToClose
           index={0}
@@ -421,7 +439,43 @@ export const Settings: React.FC<Props> = () => {
                           iconAfter={isChecked && <Check color={t.primary} />}
                         >
                           <ListItemTitle color={t.primary}>
-                            {themeName}
+                            {i18n.t(`theme-${themeName}`)}
+                          </ListItemTitle>
+                        </SettingsListItem>
+                      </SettingsYGroup.Item>
+                    );
+                  })
+                }
+              </SettingsYGroup>
+            </YStack>
+          </ScrollView>
+        </BottomSheetModal>
+
+        <BottomSheetModal
+          ref={languageBottomSheetRef}
+          snapPoints={snapPoints}
+          enablePanDownToClose
+          index={0}
+          backgroundStyle={{ backgroundColor: background }}
+        >
+          <ScrollView>
+            <YStack gap="$3" padding="$3">
+              <SettingsYGroup bordered>
+                {
+                  Object.keys(LANGUAGES).map((key: Language) => {
+                    const languageName = LANGUAGES[key];
+                    const isChecked = language === key;
+
+                    return (
+                      <SettingsYGroup.Item key={key}>
+                        <SettingsListItem
+                          scaleIcon={1.2}
+                          backgroundColor={"$background"}
+                          onPress={() => setLanguage(key)}
+                          iconAfter={isChecked && <Check color={"$color"} />}
+                        >
+                          <ListItemTitle color={isChecked ? "$primary" : "$color"}>
+                            {languageName}
                           </ListItemTitle>
                         </SettingsListItem>
                       </SettingsYGroup.Item>

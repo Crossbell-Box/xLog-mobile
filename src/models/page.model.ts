@@ -3,6 +3,7 @@ import { indexer } from "@crossbell/indexer";
 import type { CharacterEntity, Contract, ListResponse, MintedNoteEntity, NoteEntity } from "crossbell";
 import type { Address } from "viem";
 
+import type { Language } from "@/i18n";
 import { client } from "@/queries/graphql";
 import type { NoteType, PageVisibilityEnum, PagesSortTypes } from "@/types";
 import type { ExpandedNote } from "@/types/crossbell";
@@ -408,6 +409,8 @@ export type GetPagesBySite = (input: {
   handle?: string
   skipExpansion?: boolean
   sortType?: PagesSortTypes
+  useImageDimensions?: boolean
+  translateTo?: Language
 }) => Promise<{
   pinnedNoteId: number | undefined
   list: any[]

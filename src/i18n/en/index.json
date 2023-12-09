@@ -26,5 +26,13 @@
   "Customizable text": "You're free to use your <strong>own domain</strong>, customize your website, and <strong>design it</strong> in any way you like. This is your website, with no restrictions. xLog encourage and will provide a rich system of <strong>themes and plugins</strong> to help you customize it.",
   "Open text": "xLog offers import and export tools, as well as rich <strong>APIs</strong> and third-party <strong>integrations</strong>. All code is <strong>open source</strong> on GitHub, and all data is <strong>transparent</strong> on the blockchain. xLog has nothing to hide.",
   "Creator Incentives text": "In the early stages, xLog provides <aincentive>incentives</aincentive> in <strong>MIRA</strong>. We are actively constructing the tokenomics to ensure xLog remain the best place to publish high-quality content.",
-  "DAO text": "An xLog DAO will be in place, where creators vote with <strong>tokens</strong>."
+  "DAO text": "An xLog DAO will be in place, where creators vote with <strong>tokens</strong>.",
+  "Agree to out Terms & Conditions": "By connecting you agree to our <0> {{ terms }} </0>",
+  "Terms & Conditions": "Terms & Conditions",
+  "load more": "There are {{count}} more {{name}}, click to load more",
+  "signed and stored on the blockchain": "Ownership of this {{name}} data is guaranteed by blockchain and smart contracts to the creator alone.",
+  "Cancel Download": "Cancel",
+  "link post-vs-page" : "https://wordpress.com/zh-cn/support/post-vs-page/",
+  "delete_confirmation_post": "Are you sure you want to DELETE this post?",
+  "delete_confirmation_page": "Are you sure you want to DELETE this page?"
 }

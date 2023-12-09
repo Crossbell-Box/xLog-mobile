@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { RefreshControl } from "react-native";
 import type { useAnimatedScrollHandler } from "react-native-reanimated";
 
@@ -41,6 +42,7 @@ export const useFeedList = <T extends {}>(props: Props & T) => {
   const listRef = useRef<MasonryFlashListRef<ExpandedNote>>(null);
   const { isDarkMode } = useThemeStore();
   const { isProcessing } = usePostIndicatorStore();
+  const i18nC = useTranslation("common");
 
   useEffect(() => {
     listRef.current?.scrollToOffset({ offset: 0, animated: false });
@@ -98,7 +100,7 @@ export const useFeedList = <T extends {}>(props: Props & T) => {
                 contentFit="contain"
               />
               <SizableText color={"$colorUnActive"} size="$5">
-                There are no posts yet.
+                {i18nC.t("There are no posts yet.")}
               </SizableText>
             </YStack>
           )

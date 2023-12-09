@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { StyleSheet } from "react-native";
-import Animated, { Extrapolate, interpolate, runOnJS, useAnimatedReaction, useAnimatedStyle } from "react-native-reanimated";
+import Animated, { Extrapolation, interpolate, runOnJS, useAnimatedReaction, useAnimatedStyle } from "react-native-reanimated";
 
 import type { BottomSheetBackdropProps, BottomSheetModalProps } from "@gorhom/bottom-sheet";
 import { BottomSheetModal as _BottomSheetModal } from "@gorhom/bottom-sheet";
@@ -42,7 +42,7 @@ export const CustomizedBackdrop = ({ animatedIndex, style, onPress }: BottomShee
       animatedIndex.value,
       [-1, 0],
       [0, 1],
-      Extrapolate.CLAMP,
+      Extrapolation.CLAMP,
     ),
   }));
 

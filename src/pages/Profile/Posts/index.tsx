@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import type { FC } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { ScrollView } from "react-native";
@@ -22,28 +22,27 @@ import { getPageVisibility } from "@/utils/page-helpers";
 export interface Props {
 }
 
-const tabs = [
-  {
-    value: PageVisibilityEnum.All,
-    text: "All Posts",
-  },
-  {
-    value: PageVisibilityEnum.Published,
-    text: "Published",
-  },
-  {
-    value: PageVisibilityEnum.Draft,
-    text: "Draft",
-  },
-  {
-    value: PageVisibilityEnum.Scheduled,
-    text: "Scheduled",
-  },
-];
-
 export const PostsPage: FC<NativeStackScreenProps<RootStackParamList, "Posts">> = () => {
   const { computed } = useAccountState();
-  const i18n = useTranslation("dashboard");
+  const i18n = useTranslation("translation");
+  const tabs = useRef([
+    {
+      value: PageVisibilityEnum.All,
+      text: "All Posts",
+    },
+    {
+      value: PageVisibilityEnum.Published,
+      text: "Published",
+    },
+    {
+      value: PageVisibilityEnum.Draft,
+      text: "Draft",
+    },
+    {
+      value: PageVisibilityEnum.Scheduled,
+      text: "Scheduled",
+    },
+  ]).current;
   const [selectedTab, setSelectedTab] = React.useState<PageVisibilityEnum>(tabs[0].value);
   const handle = computed?.account?.character?.handle;
   const characterId = computed?.account?.characterId;
@@ -73,7 +72,7 @@ export const PostsPage: FC<NativeStackScreenProps<RootStackParamList, "Posts">> 
       <ProfilePageHeader
         title={i18n.t("Posts")}
         description={(
-          <Trans i18nKey="posts description">
+          <Trans i18nKey="posts description" ns="translation">
           Posts are entries listed in reverse chronological order on your site.
           Think of them as articles or updates that you share to offer up new
           content to your readers.

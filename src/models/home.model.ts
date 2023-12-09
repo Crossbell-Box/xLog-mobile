@@ -27,6 +27,7 @@ export interface GetFeedOptions {
   searchKeyword?: string
   tags?: string[]
   topic?: string
+  useImageDimensions?: boolean
 }
 
 export type GetFeedResult = Promise<{

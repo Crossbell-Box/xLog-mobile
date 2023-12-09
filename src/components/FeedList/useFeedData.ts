@@ -1,6 +1,8 @@
 import { useEffect, useMemo } from "react";
 
+import { useGlobalState } from "@/context/global-state-context";
 import { useCharacterId } from "@/hooks/use-character-id";
+import type { GetPagesBySite } from "@/models/page.model";
 import type { GetFeedParams } from "@/queries/home";
 import { useGetFeed } from "@/queries/home";
 import { useGetPagesBySiteLite } from "@/queries/page";
@@ -22,13 +24,28 @@ export const useFeedData = (props: Props) => {
 
   const limit = 15;
   const _characterId = useCharacterId();
+  const { language } = useGlobalState();
   const gaLog = debounce(() => GA.logSearch({ search_term: searchKeyword }), 2000);
 
   useEffect(() => {
     typeof searchKeyword === "string" && gaLog();
   }, [searchKeyword]);
 
-  const queryParams = useMemo(() => ({
+  const queryPageParams = useMemo(() => ({
+    characterId,
+    visibility,
+    limit,
+    useStat: true,
+    useImageDimensions: true,
+    type: ["short"],
+    sortType: "latest",
+  } as Parameters<GetPagesBySite>[0]), [
+    characterId,
+    visibility,
+    limit,
+  ]);
+
+  const queryFeedParams = useMemo(() => ({
     type,
     handle,
     visibility,
@@ -37,8 +54,11 @@ export const useFeedData = (props: Props) => {
     daysInterval: daysInterval ?? null,
     searchKeyword: searchKeyword ?? null,
     tags: tags ?? [],
+    useImageDimensions: true,
+    translateTo: language,
   } as GetFeedParams), [
     type,
+    language,
     handle,
     visibility,
     characterId,
@@ -49,15 +69,8 @@ export const useFeedData = (props: Props) => {
   ]);
 
   const feed = type === "shorts" && !!characterId
-    ? useGetPagesBySiteLite({ // Searching specific note by characterId
-      characterId,
-      visibility,
-      limit,
-      useStat: true,
-      type: ["short"],
-      sortType: "latest",
-    })
-    : useGetFeed(queryParams); // Searching notes by feed type
+    ? useGetPagesBySiteLite(queryPageParams) // Searching specific note by characterId
+    : useGetFeed(queryFeedParams); // Searching notes by feed type
 
   const feedList = useMemo(() => (feed.data?.pages?.flatMap(page => page?.list) || []), [feed.data?.pages]);
 

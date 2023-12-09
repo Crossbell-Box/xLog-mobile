@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { useDrawerProgress } from "react-native-drawer-layout";
 import type { SharedValue } from "react-native-reanimated";
-import Animated, { Extrapolate, interpolate, useAnimatedStyle } from "react-native-reanimated";
+import Animated, { Extrapolation, interpolate, useAnimatedStyle } from "react-native-reanimated";
 
 import { Stack, useWindowDimensions } from "tamagui";
 
@@ -17,9 +17,9 @@ export const AnimatedConnectionButton: FC<{
   const connectButtonAnimStyle = useAnimatedStyle(() => {
     const aimValue = visibleAnimValue?.value ?? 0;
 
-    const opacity = interpolate(aimValue, [0, 1], [0, 1], Extrapolate.CLAMP);
-    const translateY = interpolate(aimValue, [0, 1], [100, 0], Extrapolate.CLAMP);
-    const translateX = interpolate(drawerProgressAnimValue.value, [0, 1], [0, width / 2], Extrapolate.CLAMP);
+    const opacity = interpolate(aimValue, [0, 1], [0, 1], Extrapolation.CLAMP);
+    const translateY = interpolate(aimValue, [0, 1], [100, 0], Extrapolation.CLAMP);
+    const translateX = interpolate(drawerProgressAnimValue.value, [0, 1], [0, width / 2], Extrapolation.CLAMP);
 
     return {
       opacity,

@@ -2,5 +2,6 @@
   "intlDateTime": "{{val, datetime}}",
   "ago": "{{time}} ago",
   "joined ago": "Joined {{time}} ago",
-  "delete account alert": "Are you sure you want to delete your account? This action cannot be undone. Please type <T> {{name}} </T> to confirm."
+  "delete account alert": "Are you sure you want to delete your account? This action cannot be undone. Please type <T> {{name}} </T> to confirm.",
+  "theme-Official": "Official"
 }

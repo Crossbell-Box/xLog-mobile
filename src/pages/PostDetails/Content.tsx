@@ -6,7 +6,6 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { captureRef } from "react-native-view-shot";
 
 import { useCharacter } from "@crossbell/indexer";
-import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useToastController } from "@tamagui/toast";
 import type { NoteEntity } from "crossbell";
 import { Image } from "expo-image";
@@ -50,7 +49,7 @@ export const Content = React.forwardRef<PostDetailsContentInstance, Props>((prop
   const { note, postUri, characterId, scrollEventHandler, bottomBarHeight, headerContainerHeight, onPressComment, onPressViewAllComments, renderHeaderComponent } = props;
   const character = useCharacter(characterId);
   const myCharacterId = useCharacterId();
-  const [siteT] = useTranslation("site");
+  const [siteT] = useTranslation();
   const [commonT] = useTranslation("common");
   const screenshotsRef = useRef<Animated.ScrollView>(null);
   const page = useGetPage({

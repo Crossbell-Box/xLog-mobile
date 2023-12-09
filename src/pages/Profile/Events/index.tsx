@@ -27,7 +27,7 @@ export const EventsPage: FC<NativeStackScreenProps<RootStackParamList, "Events">
   });
   const date = useDate();
   const navigation = useRootNavigation();
-  const i18n = useTranslation("dashboard");
+  const i18n = useTranslation();
 
   const [isMounted, setIsMounted] = useState(false);
 

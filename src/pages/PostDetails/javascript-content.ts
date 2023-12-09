@@ -27,7 +27,6 @@ window.addEventListener("load", function() {
 `;
 
 export const javaScriptContentLoaded = (
-  mode: string,
   bottomBarHeight: number,
   height: number,
 ) => `
@@ -43,10 +42,6 @@ export const javaScriptContentLoaded = (
       console.log('Intercepted window.open call with url:', url);
       return null;
     };
-
-    // function updateColorMode() {
-    //   window.localStorage.setItem('darkMode', '${mode}');
-    // }
 
     function debounce(func, wait) {
       let timeout;
@@ -130,6 +125,4 @@ export const javaScriptContentLoaded = (
       childList: true, 
       subtree: true 
     });
-
-    // updateColorMode();
   `;

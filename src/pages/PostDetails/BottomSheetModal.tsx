@@ -1,7 +1,6 @@
-import type { FC } from "react";
-import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useRef } from "react";
+import React, { useImperativeHandle, useMemo, useRef } from "react";
 import { InteractionManager, StyleSheet } from "react-native";
-import Animated, { useSharedValue, useAnimatedStyle, interpolate, Extrapolate, useDerivedValue } from "react-native-reanimated";
+import Animated, { useSharedValue, useAnimatedStyle, interpolate, Extrapolation, useDerivedValue } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useCharacter, useNote } from "@crossbell/indexer";
@@ -77,19 +76,19 @@ export const BottomSheetModal = React.forwardRef<BottomSheetModalInstance, Props
         bottomSheetModalAnimVal.value,
         [0, 0.2],
         [1, 0],
-        Extrapolate.CLAMP,
+        Extrapolation.CLAMP,
       ),
       top: interpolate(
         bottomSheetModalAnimVal.value,
         [0, 0.2],
         [0, -20],
-        Extrapolate.CLAMP,
+        Extrapolation.CLAMP,
       ),
       height: interpolate(
         bottomSheetModalAnimVal.value,
         [0, 0.5],
         [bottomBarHeight, 0],
-        Extrapolate.CLAMP,
+        Extrapolation.CLAMP,
       ),
     };
   });
@@ -100,13 +99,13 @@ export const BottomSheetModal = React.forwardRef<BottomSheetModalInstance, Props
         bottomSheetModalAnimVal.value,
         [0, 0.2],
         [0, 1],
-        Extrapolate.CLAMP,
+        Extrapolation.CLAMP,
       ),
       top: interpolate(
         bottomSheetModalAnimVal.value,
         [0, 0.2],
         [23, 0],
-        Extrapolate.CLAMP,
+        Extrapolation.CLAMP,
       ),
     };
   });
@@ -116,7 +115,7 @@ export const BottomSheetModal = React.forwardRef<BottomSheetModalInstance, Props
       bottomSheetModalAnimVal.value,
       [0, 1],
       [-1, 0],
-      Extrapolate.CLAMP,
+      Extrapolation.CLAMP,
     );
   });
 

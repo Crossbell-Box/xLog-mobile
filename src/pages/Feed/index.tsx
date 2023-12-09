@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { useContext, useState } from "react";
 import { Dimensions, StyleSheet } from "react-native";
-import Animated, { Extrapolate, interpolate, useAnimatedStyle } from "react-native-reanimated";
+import Animated, { Extrapolation, interpolate, useAnimatedStyle } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -10,7 +10,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Stack } from "tamagui";
 
 import { MasonryFeedList } from "@/components/FeedList";
-import { GlobalStateContext } from "@/context/global-state-context";
+import { GlobalStateContext, useGlobalState } from "@/context/global-state-context";
 import { useColors } from "@/hooks/use-colors";
 import type { HomeBottomTabsParamList } from "@/navigation/types";
 
@@ -24,8 +24,6 @@ export interface Props {
   type: PostSearchType | ShortsSearchType
   isShorts?: boolean
 }
-
-const { height } = Dimensions.get("window");
 
 export const FeedListLinearGradientBackground: FC = () => {
   const { pick } = useColors();
@@ -47,32 +45,34 @@ export const FeedPage: FC<NativeStackScreenProps<HomeBottomTabsParamList, "Feed"
   const [daysInterval, setDaysInterval] = useState<number>(7);
   const { isExpandedAnimValue, onScroll } = useContext(GlobalStateContext).homeFeed;
   const { top } = useSafeAreaInsets();
+  const { dimensions: { height } } = useGlobalState();
 
   const containerAnimStyles = useAnimatedStyle(() => {
     const headerHeight = interpolate(
       isExpandedAnimValue.value,
       [0, 1],
       [0, homeTabHeaderHeight + top],
-      Extrapolate.CLAMP,
-    ) + extraGapBetweenIOSAndAndroid;
+      Extrapolation.CLAMP,
+    );
 
     return {
       height: height - headerHeight,
     };
-  }, [top, isExpandedAnimValue]);
+  }, [top, isExpandedAnimValue, height]);
 
   const innerMaskContainerAnimStyles = useAnimatedStyle(() => {
     const paddingTop = interpolate(
       isExpandedAnimValue.value,
       [0, 1],
       [0, top],
-      Extrapolate.CLAMP,
-    ) + extraGapBetweenIOSAndAndroid;
+      Extrapolation.CLAMP,
+    );
 
     return {
       paddingTop,
+      height,
     };
-  }, [top, isExpandedAnimValue]);
+  }, [top, isExpandedAnimValue, height]);
 
   return (
     <Stack flex={1}>
@@ -115,7 +115,6 @@ const styles = StyleSheet.create({
   },
   innerMaskContainer: {
     width: "100%",
-    height,
     position: "absolute",
     bottom: 0,
   },
