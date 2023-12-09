@@ -18,7 +18,7 @@ export const BottomSheetLikeList: FC<{
   note,
 }) => {
   const date = useDate();
-  const i18n = useTranslation();
+  const i18nC = useTranslation();
   const { bottom } = useSafeAreaInsets();
   const [data, mutation] = useGetLikes({
     characterId: note.characterId,
@@ -52,7 +52,7 @@ export const BottomSheetLikeList: FC<{
                       contentFit="contain"
                     />
                     <SizableText color={"$colorUnActive"} size="$5">
-                    There are no comments yet.
+                      {i18nC.t("There are no comments yet.")}
                     </SizableText>
                   </YStack>
                 )
@@ -67,7 +67,7 @@ export const BottomSheetLikeList: FC<{
                 <Text fontSize={"$7"}>{item?.character?.handle}</Text>
               </XStack>
               <Text color="#929190">{
-                i18n.t("ago", {
+                i18nC.t("ago", {
                   time: date.dayjs
                     .duration(
                       date.dayjs(item?.entity?.createdAt).diff(date.dayjs(), "minute"),

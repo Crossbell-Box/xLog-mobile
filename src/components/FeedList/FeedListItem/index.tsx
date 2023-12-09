@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import React from "react";
+import React, { useMemo } from "react";
 import type { ViewStyle } from "react-native";
 import { StyleSheet } from "react-native";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
@@ -18,8 +18,6 @@ import { useImageSize } from "@/hooks/use-image-size";
 import { useRootNavigation } from "@/hooks/use-navigation";
 import type { ExpandedNote } from "@/types/crossbell";
 import { computedBgIdx } from "@/utils/computed-bg-idx";
-import { withCompressedImage } from "@/utils/get-compressed-image-url";
-import { toGateway } from "@/utils/ipfs-parser";
 
 export interface Props {
   note: ExpandedNote
@@ -29,32 +27,29 @@ export interface Props {
 }
 
 const minHeight = 150;
-const maxHeight = 200;
-
 const defaultCoverImageHeight = minHeight;
-
-const getCoverRangedSize = (height: number) => {
-  const _height = Math.max(Math.min(height, maxHeight), minHeight);
-  return isNaN(_height) ? defaultCoverImageHeight : _height;
-};
 
 export const FeedListItem: FC<Props> = (props) => {
   const { note, width } = props;
   const navigation = useRootNavigation();
-  const originalCoverImage = useCoverImage(note);
-  const coverImage = withCompressedImage(toGateway(note?.metadata?.content?.images?.[0]), "high") || originalCoverImage;
+  const { optimizedImage, originalImage } = useCoverImage(note);
   const title = String(note?.metadata?.content?.title);
   const placeholderBgIndex = computedBgIdx(note);
   const placeholderBg = bgsReversed[placeholderBgIndex];
-
   const dimensionsMap = note?.metadata?.content?.imageDimensions;
 
   const coverImageSize = useImageSize(
-    coverImage,
+    originalImage,
     width,
     defaultCoverImageHeight,
     dimensionsMap,
   );
+
+  const relativeHeight = useMemo(() => {
+    const ratio = coverImageSize.width / coverImageSize.height;
+    const _height = Math.max(width / ratio, minHeight);
+    return isNaN(_height) ? defaultCoverImageHeight : _height;
+  }, [coverImageSize.height]);
 
   const onPress = React.useCallback(() => {
     navigation.navigate(
@@ -62,7 +57,7 @@ export const FeedListItem: FC<Props> = (props) => {
       {
         characterId: note.characterId,
         placeholderCoverImageIndex: placeholderBgIndex,
-        coverImage,
+        coverImage: optimizedImage,
         note,
       },
     );
@@ -95,11 +90,11 @@ export const FeedListItem: FC<Props> = (props) => {
     >
       <TouchableWithoutFeedback onPress={onPress}>
         {
-          coverImage
+          optimizedImage
             ? (
               <Stack
-                width={coverImageSize.width}
-                height={getCoverRangedSize(coverImageSize.height)}
+                width={width}
+                height={relativeHeight}
                 backgroundColor={"black"}
                 opacity={1}
                 animation="lazy"
@@ -107,13 +102,13 @@ export const FeedListItem: FC<Props> = (props) => {
                 exitStyle={{ opacity: 0 }}
               >
                 <Image
-                  source={coverImage}
+                  source={optimizedImage}
                   contentFit="cover"
                   cachePolicy="disk"
                   responsivePolicy="initial"
                   style={{ width: "100%", height: "100%" }}
                   placeholder={placeholderBg}
-                  recyclingKey={coverImage}
+                  recyclingKey={optimizedImage}
                   placeholderContentFit="cover"
                 />
               </Stack>

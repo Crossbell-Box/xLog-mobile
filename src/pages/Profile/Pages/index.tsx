@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import type { FC } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { ScrollView } from "react-native";
@@ -19,28 +19,27 @@ import { getPageVisibility } from "@/utils/page-helpers";
 export interface Props {
 }
 
-const tabs = [
-  {
-    value: PageVisibilityEnum.All,
-    text: "All Pages",
-  },
-  {
-    value: PageVisibilityEnum.Published,
-    text: "Published",
-  },
-  {
-    value: PageVisibilityEnum.Draft,
-    text: "Draft",
-  },
-  {
-    value: PageVisibilityEnum.Scheduled,
-    text: "Scheduled",
-  },
-];
-
 export const PagesPage: FC<NativeStackScreenProps<RootStackParamList, "Pages">> = () => {
   const { computed } = useAccountState();
-  const i18n = useTranslation();
+  const i18n = useTranslation("translation");
+  const tabs = useRef([
+    {
+      value: PageVisibilityEnum.All,
+      text: "All Pages",
+    },
+    {
+      value: PageVisibilityEnum.Published,
+      text: "Published",
+    },
+    {
+      value: PageVisibilityEnum.Draft,
+      text: "Draft",
+    },
+    {
+      value: PageVisibilityEnum.Scheduled,
+      text: "Scheduled",
+    },
+  ]).current;
   const [selectedTab, setSelectedTab] = React.useState<PageVisibilityEnum>(tabs[0].value);
   const handle = computed?.account?.character?.handle;
   const characterId = computed?.account?.characterId;
@@ -63,7 +62,7 @@ export const PagesPage: FC<NativeStackScreenProps<RootStackParamList, "Pages">> 
       <ProfilePageHeader
         title={i18n.t("Pages")}
         description={(
-          <Trans i18nKey="pages description">
+          <Trans i18nKey="pages description" ns="translation">
           Pages are static and are not affected by date. Think of them as more
           permanent fixtures of your site — an About page, and a Contact page
           are great examples of this.

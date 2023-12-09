@@ -1,11 +1,12 @@
 import type { FC } from "react";
+import { Trans, useTranslation } from "react-i18next";
 import { Platform } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-import { Code2, Settings, Sparkles, Wallet } from "@tamagui/lucide-icons";
+import { Plug2, Settings, Sparkles, Wallet } from "@tamagui/lucide-icons";
 import { Image } from "expo-image";
-import { ScrollView, Spacer, Text, XStack, YStack } from "tamagui";
+import { Paragraph, ScrollView, Spacer, Text, XStack, YStack } from "tamagui";
 
 import { ConnectEmailButton } from "@/components/ConnectEmailButton";
 import { LoginButton } from "@/components/LoginButton";
@@ -17,11 +18,13 @@ import { useThemeStore } from "@/hooks/use-theme-store";
 export interface Props {
 }
 
+export const TERMS_PAGE_TITLE = "Terms & Conditions";
+
 export const IntroductionPage: FC<Props> = () => {
   const navigation = useRootNavigation();
-  const navigateToTerms = () => navigation.navigate("Web", { url: "https://rss3.notion.site/Legal-Public-f30edd47c3be4dd7ae5ed4e39aefbbd9?pvs=4" });
   const { isDarkMode } = useThemeStore();
-  const { bottom } = useSafeAreaInsets();
+  const i18n = useTranslation("translation");
+  const navigateToTerms = () => navigation.navigate("Web", { url: "https://rss3.notion.site/Legal-Public-f30edd47c3be4dd7ae5ed4e39aefbbd9?pvs=4", title: i18n.t(TERMS_PAGE_TITLE) });
 
   return (
     <ScrollView bounces={false} backgroundColor={"$background"} showsVerticalScrollIndicator={false}>
@@ -50,32 +53,36 @@ export const IntroductionPage: FC<Props> = () => {
               </TouchableOpacity>
             </XStack>
             <Text marginBottom="$6" fontWeight={"500"} fontSize={37}>
-              You’re using xLog on {Platform.OS === "ios" ? "iOS" : "Android"}
+              {
+                i18n.t("You're using xLog on {{ platform }}", {
+                  platform: Platform.OS === "ios" ? "iOS" : "Android",
+                })
+              }
             </Text>
             {
               [
                 {
                   icon: Sparkles,
-                  title: "Slide into Smoothness",
-                  description: "Welcome to the digital playground where your ideas glide like butter on a hot skillet",
+                  title: "Write when inspiration strikes",
+                  description: "Frees you from time-consuming, unnecessary processes that slow your writing, so you and your team can focus on creating.",
                 },
                 {
                   icon: Wallet,
-                  title: "Chaining Up Your Data",
-                  description: "Each blog post you pen is carefully chiseled into our digital marble",
+                  title: "Own content on the blockchain",
+                  description: "You own your content by publishing content on the Crossbell blockchain. xLog won't store any data and can't take away or modify your rights and content, even if xLog wanted to.",
                 },
                 {
-                  icon: Code2,
-                  title: "Join the Vibe Tribe, Dev Style",
-                  description: "Plug into our jazzy developer community where collaboration is the new rock roll",
+                  icon: Plug2,
+                  title: "Integration",
+                  description: "xLog's open design allows it to integrate with many other open protocols and applications without friction.",
                 },
               ].map(({ icon: Icon, title, description }, index) => {
                 return (
                   <XStack key={index} marginBottom="$6" alignItems="center" gap="$3" >
-                    <Icon width={42} height={42}/>
-                    <YStack flex={1}>
-                      <Text fontSize={16} fontWeight={"700"}>{title}</Text>
-                      <Text fontSize={14}>{description}</Text>
+                    <Icon size={32}/>
+                    <YStack flex={1} gap="$1">
+                      <Text fontSize={16} fontWeight={"700"}>{i18n.t(title)}</Text>
+                      <Text fontSize={12}>{i18n.t(description)}</Text>
                     </YStack>
                   </XStack>
                 );
@@ -85,8 +92,15 @@ export const IntroductionPage: FC<Props> = () => {
             <Spacer/>
             <ConnectEmailButton />
             <Spacer size="$4"/>
-            <Text color="$colorSubtitle" fontSize={"$2"} textAlign="center">
-              By connecting you agree to our <Text textDecorationLine="underline" onPress={navigateToTerms} color="$color" fontSize={"$3"}>Terms & Conditions</Text>
+            <Text color="$colorSubtitle" fontSize={"$2"} textAlign="center" onPress={navigateToTerms}>
+              <Trans
+                ns="translation"
+                i18nKey="Agree to out Terms & Conditions"
+                values={{ terms: i18n.t("Terms & Conditions", { ns: "translation" }) }}
+                components={{
+                  T: <Text textDecorationLine="underline" color="$color" fontSize={"$3"}/>,
+                }}
+              />
             </Text>
           </YStack>
         </SafeAreaView>

@@ -1,5 +1,6 @@
 import type { FC } from "react";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import type { SharedValue } from "react-native-reanimated";
 import Animated, { useSharedValue, withSpring, useAnimatedStyle, measure, runOnUI, useAnimatedRef, interpolate, Extrapolate, runOnJS } from "react-native-reanimated";
 
@@ -19,6 +20,7 @@ export const BottomSheetTabBar: FC<{
   onPressTab?: (index: number) => void
 }> = ({ characterId, noteId, indexAnimVal, onPressTab }) => {
   const tabsPos = useSharedValue<Array<{ x: number; width: number }>>([]);
+  const i18n = useTranslation();
 
   const indicatorAnimStyles = useAnimatedStyle(() => {
     const input = [0, 1, 2];
@@ -70,14 +72,14 @@ export const BottomSheetTabBar: FC<{
     <XStack justifyContent="space-between" paddingTop="$2" paddingHorizontal={bottomSheetPadding}>
       <XTouch enableHaptics onPress={() => runOnUI(onPressActionTab)(0)}>
         <MeasureContainer onDimensionsChange={({ pageX, width }) => initPos(0, pageX, width)}>
-          <Text fontSize={"$6"}>Data</Text>
+          <Text fontSize={"$6"}>{i18n.t("Data")}</Text>
         </MeasureContainer>
       </XTouch>
       <XStack gap="$5">
         <XTouch enableHaptics onPress={() => runOnUI(onPressActionTab)(1)}>
           <MeasureContainer onDimensionsChange={({ pageX, width }) => initPos(1, pageX, width)}>
             <XStack gap="$2">
-              <Text fontSize={"$6"}>Comment</Text>
+              <Text fontSize={"$6"}>{i18n.t("Comment")}</Text>
               <Text fontSize={"$3"} fontWeight={"700"}>
                 {commentCounts}
               </Text>
@@ -87,7 +89,7 @@ export const BottomSheetTabBar: FC<{
         <XTouch enableHaptics onPress={() => runOnUI(onPressActionTab)(2)}>
           <MeasureContainer onDimensionsChange={({ pageX, width }) => initPos(2, pageX, width)}>
             <XStack gap="$2">
-              <Text fontSize={"$6"}>Like</Text>
+              <Text fontSize={"$6"}>{i18n.t("Like")}</Text>
               <Text fontSize={"$3"} numberOfLines={1} fontWeight={"700"}>
                 {likeCounts}
               </Text>

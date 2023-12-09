@@ -1,16 +1,15 @@
 import { createContext, useContext } from "react";
 import type { SharedValue, useAnimatedScrollHandler } from "react-native-reanimated";
 
-import type { Country } from "@/constants/countries";
+import type { Language } from "../i18n";
 
 interface GlobalStateContextType {
   homeFeed: {
     isExpandedAnimValue: SharedValue<number>
     onScroll: ReturnType<typeof useAnimatedScrollHandler>
   }
-  isChinese: boolean
-  country: Country
-  setCountry: (country: Country) => void
+  language: Language
+  setLanguage: (language: Language) => void
 }
 
 export const GlobalStateContext = createContext<GlobalStateContextType | null>(null);

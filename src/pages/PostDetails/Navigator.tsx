@@ -52,7 +52,7 @@ export interface Props {
 export const Navigator: FC<Props> = (props) => {
   const { isExpandedAnimValue, onTakeScreenshot, postUri, characterId, note, headerContainerHeight } = props;
   const { goBack } = useNavigation();
-  const [dashboardT] = useTranslation("dashboard");
+  const [dashboardT] = useTranslation();
   const [commonT] = useTranslation("common");
   const bottomSheetRef = useRef<BottomSheetModalInstance>(null);
   const snapPoints = useRef([200]).current;

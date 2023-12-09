@@ -31,7 +31,7 @@ export interface Props {
 
 export const Header: FC<Props> = (props) => {
   const { daysInterval, isSearching, type, onDaysIntervalChange } = props;
-  const i18n = useTranslation("dashboard");
+  const i18n = useTranslation("translation");
   const { isDarkMode } = useThemeStore();
   const { isExpandedAnimValue, onFeedTypeChange } = props;
   const [activeIndex, setActiveIndex] = useState(0);

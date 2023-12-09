@@ -76,6 +76,7 @@ export const CommentsPage: FC<NativeStackScreenProps<RootStackParamList, "Commen
                 {name}&nbsp;
                 <Trans
                   i18nKey="comment on your"
+                  ns="translation"
                   values={{
                     type: i18n.t(type || "", {
                       ns: "common",

@@ -54,7 +54,8 @@ const tabs: Array<{
 
 const NotificationsPage: FC<NativeStackScreenProps<RootStackParamList, "Notifications">> = () => {
   const characterId = useCharacterId();
-  const i18n = useTranslation("dashboard");
+  const i18nT = useTranslation("translation");
+  const i18nC = useTranslation("common");
   const [activeTab, setActiveTab] = React.useState<CharacterNotificationType>(tabs[0].key);
   const [containerHeight, setContainerHeight] = React.useState(0);
   const notifications = useCharacterNotification(characterId, activeTab);
@@ -84,7 +85,7 @@ const NotificationsPage: FC<NativeStackScreenProps<RootStackParamList, "Notifica
 
   return (
     <ProfilePageLayout>
-      <ProfilePageHeader title={i18n.t("Notifications")} description={null} />
+      <ProfilePageHeader title={i18nT.t("Notifications")} description={null} />
       <Stack flex={1} onLayout={(e) => {
         setContainerHeight(e.nativeEvent.layout.height);
       }}>
@@ -99,7 +100,7 @@ const NotificationsPage: FC<NativeStackScreenProps<RootStackParamList, "Notifica
                   : (
                     <Stack flex={1} alignItems="center" justifyContent="center">
                       <SizableText color={"$colorSubtitle"}>
-                    There are no notifications yet.
+                        {i18nC.t("There are no notifications yet.")}
                       </SizableText>
                     </Stack>
                   )
