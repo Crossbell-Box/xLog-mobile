@@ -10,6 +10,10 @@ interface GlobalStateContextType {
   }
   language: Language
   setLanguage: (language: Language) => void
+  dimensions: {
+    width: number
+    height: number
+  }
 }
 
 export const GlobalStateContext = createContext<GlobalStateContextType | null>(null);
