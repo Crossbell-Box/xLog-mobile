@@ -1,5 +1,13 @@
 # xlog
 
+## 0.33.0
+
+### Minor Changes
+
+- [#283](https://github.com/Crossbell-Box/xLog-mobile/pull/283) [`0e3ed8c`](https://github.com/Crossbell-Box/xLog-mobile/commit/0e3ed8c90369e56d4b72814655327c2f0db0677c) Thanks [@dohooo](https://github.com/dohooo)! - Upgrade deps.
+
+- [#280](https://github.com/Crossbell-Box/xLog-mobile/pull/280) [`52fe11d`](https://github.com/Crossbell-Box/xLog-mobile/commit/52fe11daada08539dbb8f7146e0d931d48d10619) Thanks [@dohooo](https://github.com/dohooo)! - re-bump.
+
 ## 0.32.0
 
 ### Minor Changes
