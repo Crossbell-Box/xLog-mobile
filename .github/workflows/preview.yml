@@ -58,6 +58,7 @@ jobs:
       - name: Create Release Pull Request
         env:
           NODE_OPTIONS: --max_old_space_size=4096
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           RELEASE_TYPE=${{ github.event.inputs.release_type }}
           echo "Release type: $RELEASE_TYPE"
