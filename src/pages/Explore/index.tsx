@@ -10,10 +10,10 @@ import type { CharacterEntity } from "crossbell";
 import { Text, ListItem, SizableText, Stack, XStack, YStack, Spinner } from "tamagui";
 
 import { Avatar } from "@/components/Avatar";
-import { isAndroid } from "@/constants/platform";
+import { IS_ANDROID } from "@/constants";
 import { useNavigateToUserInfo } from "@/hooks/use-navigate-to-user-info";
 import { useRootNavigation } from "@/hooks/use-navigation";
-import type { HomeBottomTabsParamList, RootStackParamList } from "@/navigation/types";
+import type { RootStackParamList } from "@/navigation/types";
 import { useGetShowcase } from "@/queries/home";
 import { GA } from "@/utils/GA";
 
@@ -43,7 +43,7 @@ export const ExplorePage: FC<NativeStackScreenProps<RootStackParamList, "Explore
   }, []);
 
   return (
-    <SafeAreaView edges={["top"]} style={{ flex: 1, paddingTop: isAndroid ? 12 : 0 }} >
+    <SafeAreaView edges={["top"]} style={{ flex: 1, paddingTop: IS_ANDROID ? 12 : 0 }} >
       <XStack
         onPress={(e) => {
           e.preventDefault();

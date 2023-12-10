@@ -12,6 +12,7 @@ import { SizableText, Stack, Text, XStack } from "tamagui";
 
 import { Avatar } from "@/components/Avatar";
 import { Center } from "@/components/Base/Center";
+import { IS_IOS } from "@/constants";
 import { bgsReversed } from "@/constants/bgs";
 import { useCoverImage } from "@/hooks/use-cover-image";
 import { useImageSize } from "@/hooks/use-image-size";
@@ -120,7 +121,7 @@ export const FeedListItem: FC<Props> = (props) => {
                   style={{ height: "100%", width: "100%", position: "absolute" }}
                   contentFit="cover"
                 />
-                <BlurView tint="light" intensity={10} style={{ position: "absolute", width: "100%", height: "100%" }} />
+                {IS_IOS && <BlurView tint="light" intensity={10} style={{ position: "absolute", width: "100%", height: "100%" }} />}
                 <SizableText
                   size={"$5"}
                   fontWeight={"700"}

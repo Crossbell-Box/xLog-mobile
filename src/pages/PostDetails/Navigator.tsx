@@ -22,20 +22,18 @@ import * as Sentry from "sentry-expo";
 import type { StackProps } from "tamagui";
 import { useWindowDimensions, Button, Spacer, H4, SizableText, Stack, XStack, YStack, Circle } from "tamagui";
 
-import type { AlertDialogInstance } from "@/components/AlertDialog";
 import { AlertDialog } from "@/components/AlertDialog";
 import { AutoFillImage } from "@/components/AutoFillImage";
 import type { BottomSheetModalInstance } from "@/components/BottomSheetModal";
 import { BottomSheetModal } from "@/components/BottomSheetModal";
 import { XTouch } from "@/components/XTouch";
-import { isAndroid } from "@/constants/platform";
+import { IS_ANDROID } from "@/constants";
 import { useColors } from "@/hooks/use-colors";
 import { useGlobalLoading } from "@/hooks/use-global-loading";
 import { useHitSlopSize } from "@/hooks/use-hit-slop-size";
 import { useToggle } from "@/hooks/use-toggle";
 import { useGetPage } from "@/queries/page";
 import { useGetSite } from "@/queries/site";
-import type { ExpandedNote } from "@/types/crossbell";
 import { GA } from "@/utils/GA";
 import { getNoteSlug } from "@/utils/get-slug";
 import { getTwitterShareUrl } from "@/utils/helpers";
@@ -191,7 +189,7 @@ export const Navigator: FC<Props> = (props) => {
     }
   };
 
-  const topPos = top + (isAndroid ? 15 : 5);
+  const topPos = top + (IS_ANDROID ? 15 : 5);
 
   return (
     <>

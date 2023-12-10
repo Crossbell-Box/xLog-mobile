@@ -4,7 +4,7 @@ import type { SharedValue } from "react-native-reanimated";
 import Animated, { Extrapolation, interpolate, useAnimatedStyle } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { isIOS } from "@/constants/platform";
+import { IS_IOS } from "@/constants";
 import { useDrawer } from "@/hooks/use-drawer";
 
 import type { ShortsSearchType, PostSearchType } from "./feedTypes";
@@ -16,7 +16,7 @@ export interface Props {
 }
 
 export const homeTabHeaderHeight = 55;
-export const extraGapBetweenIOSAndAndroid = isIOS ? 0 : 18;
+export const extraGapBetweenIOSAndAndroid = IS_IOS ? 0 : 18;
 
 export const HeaderAnimatedLayout: FC<PropsWithChildren<Props>> = (props) => {
   const { expanded, children } = props;
