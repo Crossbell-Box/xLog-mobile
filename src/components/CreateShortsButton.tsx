@@ -11,7 +11,7 @@ import { Image } from "expo-image";
 import * as MediaLibrary from "expo-media-library";
 import { Button, ScrollView, Stack, View, XStack, YStack, useWindowDimensions } from "tamagui";
 
-import { isAndroid } from "@/constants/platform";
+import { IS_ANDROID } from "@/constants";
 import { useColors } from "@/hooks/use-colors";
 import { useCreateShots } from "@/hooks/use-create-shots";
 import { useIsLogin } from "@/hooks/use-is-login";
@@ -190,7 +190,7 @@ export const CreateShortsButton: FC = () => {
         }, containerAnimStyle]}
       >
         <Animated.View style={[actionsContainerAnimStyle, { width: targetWidth, height: targetHeight, position: "absolute", borderRadius: 10, padding: 12 }]}>
-          <BlurView tint="dark" intensity={isAndroid ? 10 : 30} style={StyleSheet.absoluteFillObject}/>
+          <BlurView tint="dark" intensity={IS_ANDROID ? 10 : 30} style={StyleSheet.absoluteFillObject}/>
           <XStack flex={1} gap={6}>
             <XStack flex={1} >
               <ScrollView ref={scrollViewRef} flex={1}>

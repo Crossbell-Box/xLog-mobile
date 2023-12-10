@@ -1,16 +1,16 @@
 import { useNavigation } from "@react-navigation/native";
-import type { StackNavigationProp } from "@react-navigation/stack";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import type { HomeBottomTabsParamList, RootStackParamList, SettingsStackParamList } from "@/navigation/types";
 
 export const useRootNavigation = () => (
-  useNavigation<StackNavigationProp<RootStackParamList>>()
+  useNavigation<NativeStackNavigationProp<RootStackParamList>>()
 );
 
 export const useHomeNavigation = () => (
-  useNavigation<StackNavigationProp<HomeBottomTabsParamList>>()
+  useNavigation<NativeStackNavigationProp<HomeBottomTabsParamList>>()
 );
 
 export const useSettingsNavigation = () => (
-  useNavigation<StackNavigationProp<SettingsStackParamList>>()
+  useNavigation<NativeStackNavigationProp<SettingsStackParamList>>()
 );

@@ -1,7 +1,7 @@
 import { Alert, Linking } from "react-native";
 
+import { IS_ANDROID } from "@/constants";
 import { WALLET_PROJECT_ID } from "@/constants/env";
-import { isAndroid } from "@/constants/platform";
 import InstalledAppModule from "@/modules/InstalledAppModule";
 import type { WalletInfo } from "@/types/api";
 
@@ -12,7 +12,7 @@ export async function isAppInstalled(
   appScheme?: string | null,
 ): Promise<boolean> {
   return await InstalledAppModule.isAppInstalled(
-    isAndroid ? applicationId : appScheme,
+    IS_ANDROID ? applicationId : appScheme,
   );
 }
 

@@ -1,14 +1,14 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 
-import { createStackNavigator } from "@react-navigation/stack";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { Advanced } from "@/pages/Advanced";
 import { Settings } from "@/pages/Settings";
 
 import type { SettingsStackParamList } from "./types";
 
-const SettingsStack = createStackNavigator<SettingsStackParamList>();
+const SettingsStack = createNativeStackNavigator<SettingsStackParamList>();
 
 export const SettingsNavigator = () => {
   const i18n = useTranslation("common");

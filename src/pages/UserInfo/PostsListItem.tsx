@@ -6,7 +6,7 @@ import { Dimensions, StyleSheet } from "react-native";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 
 import { useNavigation } from "@react-navigation/native";
-import type { StackNavigationProp } from "@react-navigation/stack";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Image } from "expo-image";
 import removeMd from "remove-markdown";
 import { Card, H5, Paragraph, SizableText, Spacer, Text, XStack } from "tamagui";
@@ -27,7 +27,7 @@ const { width } = Dimensions.get("window");
 export const PostsListItem: FC<Props> = (props) => {
   const { note } = props;
   const date = useDate();
-  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const i18n = useTranslation();
   const [displayImageUris, setDisplayImageUris] = React.useState<string[]>([]);
   const onPress = React.useCallback(() => {
