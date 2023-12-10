@@ -1,5 +1,0 @@
----
-"xlog": minor
----
-
-Upgrade deps.
