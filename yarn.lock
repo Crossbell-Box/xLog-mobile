@@ -4133,15 +4133,6 @@
   dependencies:
     nanoid "^3.1.23"
 
-"@react-navigation/stack@^6.3.17":
-  version "6.3.17"
-  resolved "https://registry.npmmirror.com/@react-navigation/stack/-/stack-6.3.17.tgz#dd3375916a2adaa130659c0113fe05939bc19470"
-  integrity sha512-8/8ZvJROK3fp6PRmQ9MrXd9epBowA8NkfCaWW/N9H5arqwNX9lTXAkmcjicRhjpX+UNlMBR9dTLkWvPRe2vY9A==
-  dependencies:
-    "@react-navigation/elements" "^1.3.18"
-    color "^4.2.3"
-    warn-once "^0.1.0"
-
 "@resolver-engine/core@^0.3.3":
   version "0.3.3"
   resolved "https://registry.npmjs.org/@resolver-engine/core/-/core-0.3.3.tgz#590f77d85d45bc7ecc4e06c654f41345db6ca967"
@@ -10555,10 +10546,10 @@ expo-asset@~8.10.1:
     path-browserify "^1.0.0"
     url-parse "^1.5.9"
 
-expo-blur@~12.4.1:
-  version "12.4.1"
-  resolved "https://registry.npmmirror.com/expo-blur/-/expo-blur-12.4.1.tgz#b391de84914ef9ece0702378e51e09461ad565ab"
-  integrity sha512-lGN8FS9LuGUlEriULTC62cCWyg5V7zSVQeJ6Duh1wSq8aAETinZ2/7wrT6o+Uhd/XVVxFNON2T25AGCOtMG6ew==
+expo-blur@~12.9.0:
+  version "12.9.0"
+  resolved "https://registry.npmjs.org/expo-blur/-/expo-blur-12.9.0.tgz#e35067e211678484ae974b06f95ea9c7e7505aec"
+  integrity sha512-An7GJ4Ph/Ub1jdHia30gAw0DAqC0ZvmmXfH+zyOx4H4eKARykq38bvuQpED7f/J/4JqL+D14lvn7/wKcfgVZqQ==
 
 expo-build-properties@~0.8.3:
   version "0.8.3"
@@ -16828,9 +16819,10 @@ react-native-safe-modules@^1.0.3:
   dependencies:
     dedent "^0.6.0"
 
-"react-native-screens@github:software-mansion/react-native-screens#1d8ab85967e1285b7191c4f65d7e54ea77e0fd94":
-  version "3.22.1"
-  resolved "https://codeload.github.com/software-mansion/react-native-screens/tar.gz/1d8ab85967e1285b7191c4f65d7e54ea77e0fd94"
+react-native-screens@^3.29.0:
+  version "3.29.0"
+  resolved "https://registry.npmjs.org/react-native-screens/-/react-native-screens-3.29.0.tgz#1dee0326defbc1d4ef4e68287abb32a8e6b76b29"
+  integrity sha512-yB1GoAMamFAcYf4ku94uBPn0/ani9QG7NdI98beJ5cet2YFESYYzuEIuU+kt+CNRcO8qqKeugxlfgAa3HyTqlg==
   dependencies:
     react-freeze "^1.0.0"
     warn-once "^0.1.0"
