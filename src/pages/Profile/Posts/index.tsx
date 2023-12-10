@@ -5,8 +5,7 @@ import { ScrollView } from "react-native";
 
 import { useAccountState } from "@crossbell/react-account";
 import { useNavigation } from "@react-navigation/native";
-import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import type { StackNavigationProp } from "@react-navigation/stack";
+import type { NativeStackNavigationProp, NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Newspaper } from "@tamagui/lucide-icons";
 import { ListItem, Separator, SizableText, Tabs, YGroup, Spinner, Stack } from "tamagui";
 
@@ -47,7 +46,7 @@ export const PostsPage: FC<NativeStackScreenProps<RootStackParamList, "Posts">> 
   const handle = computed?.account?.character?.handle;
   const characterId = computed?.account?.characterId;
   const date = useDate();
-  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const pages = useGetPagesBySiteLite({
     type: "post",
