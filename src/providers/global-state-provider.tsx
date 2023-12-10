@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo } from "react";
-import { View } from "react-native";
+
+import { View } from "tamagui";
 
 import { GlobalStateContext } from "@/context/global-state-context";
 import { useScrollVisibilityHandler } from "@/hooks/use-scroll-visibility-handler";
@@ -40,7 +41,7 @@ export function GlobalStateProvider({ children }: GlobalStateProviderProps) {
 
   return (
     <GlobalStateContext.Provider value={{ homeFeed, language, dimensions, setLanguage }}>
-      <View style={{ flex: 1 }} onLayout={updateDimensions}>
+      <View flex={1} onLayout={updateDimensions} backgroundColor={"$background"}>
         {dimensions && children}
       </View>
     </GlobalStateContext.Provider>
