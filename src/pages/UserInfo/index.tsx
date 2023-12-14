@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useCallback, useState } from "react";
 import { useSharedValue } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { fetchCharacter } from "@crossbell/indexer";
+import { fetchCharacter, useCharacter } from "@crossbell/indexer";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { Route } from "@showtime-xyz/tab-view";
 import { TabView } from "@showtime-xyz/tab-view";
@@ -25,9 +25,12 @@ export interface Props {
   character: CharacterEntity
 }
 
-const UserInfoPage: FC<NativeStackScreenProps<RootStackParamList, "UserInfo"> & { displayHeader?: boolean }> = (props) => {
+const UserInfoPage: FC<NativeStackScreenProps<RootStackParamList, "UserInfo"> & {
+  displayHeader?: boolean
+  character?: CharacterEntity
+}> = (props) => {
   const { route, displayHeader } = props;
-  const character = route?.params?.character;
+  const character = route?.params?.character ?? props.character;
   const characterId = character?.characterId;
   const { pick } = useColors();
   const { top } = useSafeAreaInsets();
@@ -109,14 +112,10 @@ const UserInfoPage: FC<NativeStackScreenProps<RootStackParamList, "UserInfo"> & 
 };
 
 export const OthersUserInfoPage = (props: ComponentPropsWithRef<typeof UserInfoPage>) => <UserInfoPage {...props} displayHeader />;
+
 export const MyUserInfoPage = (props: ComponentPropsWithRef<typeof UserInfoPage>) => {
   const characterId = useCharacterId();
+  const character = useCharacter(characterId);
 
-  useEffect(() => {
-    fetchCharacter(characterId).then((character) => {
-      props.navigation.setParams({ character });
-    });
-  }, [characterId]);
-
-  return <UserInfoPage {...props} />;
+  return <UserInfoPage {...props} character={character.data}/>;
 };
