@@ -1,6 +1,9 @@
+import type { FC } from "react";
 import React from "react";
 import { useTranslation } from "react-i18next";
 
+import { HeaderBackButton } from "@react-navigation/elements";
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { Advanced } from "@/pages/Advanced";
@@ -10,7 +13,7 @@ import type { SettingsStackParamList } from "./types";
 
 const SettingsStack = createNativeStackNavigator<SettingsStackParamList>();
 
-export const SettingsNavigator = () => {
+export const SettingsNavigator: FC<NativeStackScreenProps<SettingsStackParamList, "Settings">> = ({ navigation }) => {
   const i18n = useTranslation("common");
 
   return (
@@ -19,16 +22,17 @@ export const SettingsNavigator = () => {
         name={"Settings"}
         component={Settings}
         options={{
+          headerLeft: props => <HeaderBackButton {...props} onPress={navigation.goBack} />,
           title: i18n.t("Settings"),
-          headerBackTitleVisible: false,
         }}
       />
       <SettingsStack.Screen
         name={"Advanced"}
         component={Advanced}
         options={{
-          title: i18n.t("Advanced"),
+          headerBackVisible: true,
           headerBackTitleVisible: false,
+          title: i18n.t("Advanced"),
         }}
       />
     </SettingsStack.Navigator>
