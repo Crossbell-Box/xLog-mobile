@@ -25,6 +25,8 @@ interface PostIndicatorProviderProps extends React.PropsWithChildren {
 
 }
 
+export const postIndicatorSubscribers: Set<(isProcessing: boolean) => void> = new Set();
+
 export function PostIndicatorProvider({ children }: PostIndicatorProviderProps) {
   const [task, setTask] = React.useState<TaskType>(null);
   const [isProcessing, setIsProcessing] = React.useState(false);
@@ -35,6 +37,7 @@ export function PostIndicatorProvider({ children }: PostIndicatorProviderProps) 
 
   const onPublish = React.useCallback(() => {
     setIsProcessing(false);
+    postIndicatorSubscribers.forEach(callback => callback(false));
   }, []);
 
   const addPostTask = React.useCallback((params: TaskType) => {
