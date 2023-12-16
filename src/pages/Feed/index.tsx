@@ -94,6 +94,7 @@ export const FeedPage: FC<NativeStackScreenProps<HomeBottomTabsParamList, "Feed"
           <MasonryFeedList
             daysInterval={daysInterval}
             type={currentFeedType}
+            updateFeedAfterPost={isShorts}
             ListHeaderComponent={!isShorts && <ShortsExplorerBanner/>}
             onScroll={onScroll}
             contentContainerStyle={{

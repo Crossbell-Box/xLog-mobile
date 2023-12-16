@@ -32,16 +32,17 @@ export interface Props {
   characterId?: number
   ListHeaderComponent?: React.ReactNode
   visibility?: PageVisibilityEnum
+  updateFeedAfterPost?: boolean
 }
 
 export const useFeedList = <T extends {}>(props: Props & T) => {
-  const { ListHeaderComponent, visibility, handle, type, searchKeyword, contentContainerStyle = {}, tags = [], topic, daysInterval = 7, onScroll, characterId, ...restProps } = props;
+  const { ListHeaderComponent, updateFeedAfterPost = false, visibility, handle, type, searchKeyword, contentContainerStyle = {}, tags = [], topic, daysInterval = 7, onScroll, characterId, ...restProps } = props;
   const { width } = useWindowDimensions();
   const { feedList, feed } = useFeedData(props);
   const [isRefetching, setIsRefetching] = useState<boolean>(false);
   const listRef = useRef<MasonryFlashListRef<ExpandedNote>>(null);
   const { isDarkMode } = useThemeStore();
-  const { isProcessing } = usePostIndicatorStore();
+  const { subscribe } = usePostIndicatorStore();
   const i18nC = useTranslation("common");
 
   useEffect(() => {
@@ -75,10 +76,20 @@ export const useFeedList = <T extends {}>(props: Props & T) => {
   }, [feed.refetch, isRefetching]);
 
   useEffect(() => {
-    if (!isProcessing) {
-      onRefetch();
+    if (!updateFeedAfterPost) {
+      return;
     }
-  }, [isProcessing]);
+
+    const unsubscribe = subscribe((isProcessing) => {
+      if (!isProcessing) {
+        onRefetch();
+      }
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [subscribe, updateFeedAfterPost]);
 
   return useMemo<MasonryFlashListProps<any>>(() => ({
     data: feedList,
