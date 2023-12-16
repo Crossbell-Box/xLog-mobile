@@ -299,5 +299,10 @@
   "Comments": "评论",
   "You can subscribe to comments through an RSS reader to receive timely reminders.": "你可以通过 RSS 阅读器订阅评论，以便及时收到提醒。",
   "Subscription address:": "订阅地址：",
-  "Ownership of this post data is guaranteed by blockchain and smart contracts to the creator alone.": "该帖子数据的所有权\n由区块链和智能合约保证仅属于创建者。"
+  "Ownership of this post data is guaranteed by blockchain and smart contracts to the creator alone.": "该帖子数据的所有权\n由区块链和智能合约保证仅属于创建者。",
+  "Translated by": "这篇文章通过AI由 {{from}} 翻译成 {{to}}, 可以通过在设置中更换语言来查看原文。",
+  "en": "英语",
+  "ja": "日语",
+  "zh": "中文",
+  "zh-TW": "繁体中文"
 }

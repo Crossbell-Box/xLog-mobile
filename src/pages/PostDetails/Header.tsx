@@ -1,35 +1,31 @@
-import { Fragment, type FC } from "react";
-import { Dimensions, StyleSheet } from "react-native";
-import QRCode from "react-native-qrcode-svg";
-import { useSharedValue } from "react-native-reanimated";
+import { type FC } from "react";
+import { Dimensions } from "react-native";
+import Animated, { useSharedValue } from "react-native-reanimated";
 import Carousel from "react-native-reanimated-carousel";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { useCharacter, useNote } from "@crossbell/indexer";
-import { HeaderHeightContext } from "@react-navigation/elements";
+import { useCharacter } from "@crossbell/indexer";
 import { Canvas, LinearGradient, Rect, vec } from "@shopify/react-native-skia";
-import type { NoteEntity } from "crossbell";
 import { Image } from "expo-image";
 import moment from "moment";
-import { SizableText, Spacer, Stack, Text, Theme, View, XStack, YStack } from "tamagui";
+import { SizableText, Spacer, Stack, Text, XStack, YStack } from "tamagui";
 
 import { Avatar } from "@/components/Avatar";
 import { CarouselPagination } from "@/components/CarouselPagination";
 import { bgs } from "@/constants/bgs";
-import { useCoverImage } from "@/hooks/use-cover-image";
 import { useThemeStore } from "@/hooks/use-theme-store";
-import { useGetPage } from "@/queries/page";
 import type { ExpandedNote } from "@/types/crossbell";
 import { withCompressedImage } from "@/utils/get-compressed-image-url";
-import { getNoteSlug } from "@/utils/get-slug";
 import { toGateway } from "@/utils/ipfs-parser";
 import { isShortNotes } from "@/utils/is-short-notes";
+
+import { I18nSwitcher } from "./I18nSwitcher";
 
 interface Props {
   isCapturing: boolean
   headerContainerHeight: number
   postUri?: string
-  note: NoteEntity
+  note: ExpandedNote
   characterId: number
   placeholderCoverImageIndex: number
   coverImage: string
@@ -67,25 +63,24 @@ export const Header: FC<Props> = (props) => {
     ? attachments.map(attachment => withCompressedImage(toGateway(attachment.address), "high")).filter(Boolean)
     : [coverImage];
 
-  const userinfoEle = (
-    <Stack minHeight={28}>
-      {
-        character?.data && (
-          <XStack alignItems="center" gap={"$2"} marginBottom={"$1"}>
-            <Avatar character={character.data} useDefault size={26}/>
-            <XStack alignItems="center" gap="$4">
-              <SizableText size="$3" color={"$color"}>
-                {character.data?.metadata?.content?.name || character.data?.handle}
-              </SizableText>
-              <SizableText size="$3" color={"#929190"}>
-                {moment(note?.createdAt).format("YYYY-MM-DD")}
-              </SizableText>
-            </XStack>
+  const userinfoEle = (<XStack minHeight={28} justifyContent="space-between" alignItems="center" >
+    {character?.data && (
+      <XStack animation={"quick"} enterStyle={{ opacity: 0 }} opacity={1} justifyContent="space-between" alignItems="center" flex={1}>
+        <XStack alignItems="center" gap={"$2"} marginBottom={"$1"}>
+          <Avatar character={character.data} useDefault size={26}/>
+          <XStack alignItems="center" gap="$4">
+            <SizableText size="$3" color={"$color"}>
+              {character.data?.metadata?.content?.name || character.data?.handle}
+            </SizableText>
+            <SizableText size="$3" color={"#929190"}>
+              {moment(note?.createdAt).format("YYYY-MM-DD")}
+            </SizableText>
           </XStack>
-        )
-      }
-    </Stack>
-  );
+        </XStack>
+        <I18nSwitcher note={note}/>
+      </XStack>
+    )}
+  </XStack>);
 
   return (
     <YStack backgroundColor={isDarkMode ? "black" : "white"} marginBottom={isShort ? 0 : 50} paddingTop={isShort ? top : 0}>
@@ -111,7 +106,7 @@ export const Header: FC<Props> = (props) => {
       {
         isShort
           ? (
-            <YStack paddingHorizontal="$2" paddingTop="$2">
+            <YStack paddingHorizontal="$2" paddingTop="$2" flex={1}>
               {
                 data.length > 1 && (
                   <Stack alignItems="center" paddingVertical="$3">
@@ -136,7 +131,7 @@ export const Header: FC<Props> = (props) => {
             </YStack>
           )
           : (
-            <YStack gap="$4" position="absolute" bottom={-40} paddingHorizontal="$2">
+            <YStack gap="$4" position="absolute" bottom={-40} paddingHorizontal="$2" flex={1} width={"100%"} paddingRight="$3">
               <Text fontSize={24} fontWeight={"700"} numberOfLines={2} color="white">{noteTitle}</Text>
               {userinfoEle}
             </YStack>
