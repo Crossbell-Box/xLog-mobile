@@ -1,5 +1,19 @@
 # xlog
 
+## 0.33.1
+
+### Patch Changes
+
+- [#286](https://github.com/Crossbell-Box/xLog-mobile/pull/286) [`10b70c2`](https://github.com/Crossbell-Box/xLog-mobile/commit/10b70c2ac476c6c1c5f1cd1976af099ee31877cc) Thanks [@dohooo](https://github.com/dohooo)! - Hide the splash screen after the navigation is rendered.
+
+- [#284](https://github.com/Crossbell-Box/xLog-mobile/pull/284) [`487022b`](https://github.com/Crossbell-Box/xLog-mobile/commit/487022b0537eb055aa97cf01e7382a73bcc180d3) Thanks [@dohooo](https://github.com/dohooo)! - Display the translation information in the details page.
+
+- [#284](https://github.com/Crossbell-Box/xLog-mobile/pull/284) [`bf9be8e`](https://github.com/Crossbell-Box/xLog-mobile/commit/bf9be8e00ab8aa474bfa83979a9d97d95533c1ab) Thanks [@dohooo](https://github.com/dohooo)! - Add back button in settings page.
+
+- [#284](https://github.com/Crossbell-Box/xLog-mobile/pull/284) [`1a5e341`](https://github.com/Crossbell-Box/xLog-mobile/commit/1a5e34126b2fb1260794af1f82abbf3f89d4421e) Thanks [@dohooo](https://github.com/dohooo)! - Optimize the performance of user profile page.
+
+- [#286](https://github.com/Crossbell-Box/xLog-mobile/pull/286) [`0fd4bbc`](https://github.com/Crossbell-Box/xLog-mobile/commit/0fd4bbc6d64ad64b893eb76dbc5da9bd227f039e) Thanks [@dohooo](https://github.com/dohooo)! - Only reload the feed in the shorts page.
+
 ## 0.33.0
 
 ### Minor Changes
