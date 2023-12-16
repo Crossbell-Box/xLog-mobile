@@ -13,6 +13,7 @@ import { usePostWebViewLink } from "@/hooks/use-post-link";
 import { useScrollVisibilityHandler } from "@/hooks/use-scroll-visibility-handler";
 import { useThemeStore } from "@/hooks/use-theme-store";
 import type { RootStackParamList } from "@/navigation/types";
+import type { ExpandedNote } from "@/types/crossbell";
 import { GA } from "@/utils/GA";
 
 import type { BottomSheetModalInstance } from "./BottomSheetModal";
@@ -24,7 +25,7 @@ import { Navigator } from "./Navigator";
 
 export interface Props {
   characterId: number
-  note: NoteEntity
+  note: ExpandedNote
   coverImage?: string
   placeholderCoverImageIndex?: number
 }

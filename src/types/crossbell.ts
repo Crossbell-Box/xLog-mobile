@@ -109,6 +109,8 @@ export type ExpandedNote = NoteEntity & {
       images?: string[]
       imageDimensions?: Record<string, { width: number; height: number }>
       frontMatter?: Record<string, any>
+      translatedFrom?: string
+      translatedTo?: string
       slug?: string
       audio?: string
       score?: {

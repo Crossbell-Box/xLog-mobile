@@ -112,12 +112,16 @@ export const AlertDialog: FC<Props> = ({
             <XStack space="$3" justifyContent="flex-end">
               <TAlertDialog.Cancel asChild>
                 {
-                  renderCancel ? renderCancel(params) : <Button onPress={onCancel}>{cancelText}</Button>
+                  typeof renderCancel === "undefined"
+                    ? <Button size={"$3"} onPress={onCancel}>{cancelText}</Button>
+                    : !renderCancel ? null : renderCancel(params)
                 }
               </TAlertDialog.Cancel>
               <TAlertDialog.Action asChild>
                 {
-                  renderConfirm ? renderConfirm(params) : <Button onPress={onConfirm}>{confirmText}</Button>
+                  typeof renderConfirm === "undefined"
+                    ? <Button size={"$3"} onPress={onConfirm}>{confirmText}</Button>
+                    : !renderConfirm ? null : renderConfirm(params)
                 }
               </TAlertDialog.Action>
             </XStack>

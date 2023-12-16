@@ -34,5 +34,10 @@
   "Cancel Download": "Cancel",
   "link post-vs-page" : "https://wordpress.com/zh-cn/support/post-vs-page/",
   "delete_confirmation_post": "Are you sure you want to DELETE this post?",
-  "delete_confirmation_page": "Are you sure you want to DELETE this page?"
+  "delete_confirmation_page": "Are you sure you want to DELETE this page?",
+  "Translated by": "This article has been translated from {{from}} into {{to}} through AI. You can go to the settings to change the language to view the original article.",
+  "en": "English",
+  "ja": "Japanese",
+  "zh": "Chinese",
+  "zh-TW": "Traditional Chinese"
 }
