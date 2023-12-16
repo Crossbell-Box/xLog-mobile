@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { HeaderBackButton } from "@react-navigation/elements";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import * as SplashScreen from "expo-splash-screen";
 
 import { CharacterListPage } from "@/pages/CharacterList";
 import { ClaimCSBPage } from "@/pages/ClaimCSB";
@@ -33,6 +34,10 @@ const RootStack = createNativeStackNavigator<RootStackParamList>();
 export const RootNavigator = () => {
   const { bottom } = useSafeAreaInsets();
   const i18n = useTranslation("common");
+
+  useEffect(() => {
+    SplashScreen.hideAsync();
+  }, []);
 
   return (
     <RootStack.Navigator initialRouteName="Home">

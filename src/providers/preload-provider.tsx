@@ -1,7 +1,6 @@
 import { type FC, type PropsWithChildren, useEffect } from "react";
 
 import { useFonts } from "expo-font";
-import * as SplashScreen from "expo-splash-screen";
 
 export const PreloadProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
   const [fontsLoadingReady] = useFonts({
@@ -12,12 +11,6 @@ export const PreloadProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
   });
 
   const allReady = fontsLoadingReady;
-
-  useEffect(() => {
-    if (allReady) {
-      SplashScreen.hideAsync();
-    }
-  }, [allReady]);
 
   if (!allReady)
     return null;
