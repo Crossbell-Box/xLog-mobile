@@ -1,5 +1,5 @@
 import type { FC, PropsWithChildren } from "react";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { useColorScheme } from "react-native";
 
 import { useFonts } from "expo-font";
@@ -55,6 +55,12 @@ export const ThemeProvider: FC<PropsWithChildren<{}>> = ({ children }) => {
   }, [followSystem, colorScheme]);
 
   const isDarkMode = mode === "dark";
+
+  useEffect(() => {
+    if (followSystem) {
+      setMode(colorScheme);
+    }
+  }, [followSystem, colorScheme, setMode]);
 
   return (
     <ThemeContext.Provider value={{
