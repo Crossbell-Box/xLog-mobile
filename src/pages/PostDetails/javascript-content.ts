@@ -1,37 +1,7 @@
-const lazyLoadImages = `
-var imagesToBlock = [];
-
-window.addEventListener("load", function() {
-  var restoreImages = function() {
-    for (var i = 0; i < imagesToBlock.length; i++) {
-      imagesToBlock[i].src = imagesToBlock[i].getAttribute("data-src");
-    }
-    imagesToBlock = [];
-  };
-
-  var blockImages = function() {
-    var images = document.getElementsByTagName("img");
-    for (var i = 0; i < images.length; i++) {
-      imagesToBlock.push(images[i]);
-      images[i].setAttribute("data-src", images[i].src);
-      images[i].src = "";
-    }
-  };
-
-  document.addEventListener("DOMContentLoaded", function() {
-    restoreImages();
-  });
-
-  blockImages();
-});
-`;
-
 export const javaScriptContentLoaded = (
   bottomBarHeight: number,
   height: number,
 ) => `
-    ${lazyLoadImages}
-    
     const meta = document.createElement('meta'); 
     meta.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0'); 
     meta.setAttribute('name', 'viewport'); 

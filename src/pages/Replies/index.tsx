@@ -79,14 +79,13 @@ export const RepliesPage: FC<NativeStackScreenProps<RootStackParamList, "Replies
           }}
           ListFooterComponent={(comments.isFetchingNextPage || (comments.isFetching && flattedComments.length === 0)) && <Spinner paddingBottom="$5"/>}
           showsVerticalScrollIndicator={false}
-          keyExtractor={item => item?.data?.blockNumber?.toString()}
+          keyExtractor={item => item?.data?.transactionHash?.toString()}
           renderItem={({ item }) => {
             return (
               <Stack paddingHorizontal={16}>
                 <CommentItem
                   editable
                   commentable
-                  key={item?.data?.blockNumber?.toString()}
                   padding={0}
                   comment={item?.data}
                   depth={item?.depth}

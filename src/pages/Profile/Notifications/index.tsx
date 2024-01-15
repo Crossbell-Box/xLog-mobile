@@ -91,7 +91,7 @@ const NotificationsPage: FC<NativeStackScreenProps<RootStackParamList, "Notifica
       }}>
         <FlashList
           data={data}
-          keyExtractor={item => item.transactionHash}
+          keyExtractor={item => item.transactionHash?.toString?.()}
           ListEmptyComponent={(
             <Stack minHeight={containerHeight - 50}>
               {

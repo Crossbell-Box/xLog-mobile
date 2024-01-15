@@ -77,7 +77,7 @@ export const CharacterListPage: FC<NativeStackScreenProps<RootStackParamList, "C
         }}
         contentContainerStyle={{ paddingBottom: bottom }}
         data={list}
-        keyExtractor={(item: CharacterEntity) => item?.blockNumber?.toString?.()}
+        keyExtractor={item => item?.transactionHash?.toString?.()}
         estimatedItemSize={100}
         estimatedListSize={{
           height: height - top - bottom,
