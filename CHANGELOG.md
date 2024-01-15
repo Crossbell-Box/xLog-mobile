@@ -1,5 +1,25 @@
 # xlog
 
+## 0.33.2
+
+### Patch Changes
+
+- [#289](https://github.com/Crossbell-Box/xLog-mobile/pull/289) [`d4baa19`](https://github.com/Crossbell-Box/xLog-mobile/commit/d4baa1958787578617690f566e68672b3c012cb5) Thanks [@dohooo](https://github.com/dohooo)! - Adjust feed item styles.
+
+- [#289](https://github.com/Crossbell-Box/xLog-mobile/pull/289) [`e98ed81`](https://github.com/Crossbell-Box/xLog-mobile/commit/e98ed81a7c35a72c22895c571551fd2a9c87a870) Thanks [@dohooo](https://github.com/dohooo)! - Support to pick images from album directly in the "CreateShortsButton".
+
+- [#289](https://github.com/Crossbell-Box/xLog-mobile/pull/289) [`fbe9bf2`](https://github.com/Crossbell-Box/xLog-mobile/commit/fbe9bf2b5eafa0862442298faf7e150a5e611afe) Thanks [@dohooo](https://github.com/dohooo)! - Addressed the swipe issue in "CreateShortsButton" on Android.
+
+- [#287](https://github.com/Crossbell-Box/xLog-mobile/pull/287) [`c17ece8`](https://github.com/Crossbell-Box/xLog-mobile/commit/c17ece8bcae3710c397b9dbc4e7bb0899676e60b) Thanks [@hyoban](https://github.com/hyoban)! - fix followSystem option not work
+
+- [#289](https://github.com/Crossbell-Box/xLog-mobile/pull/289) [`ea7932c`](https://github.com/Crossbell-Box/xLog-mobile/commit/ea7932c90786f549c555a3926dc1120937f5617b) Thanks [@dohooo](https://github.com/dohooo)! - Display shorts images normally.
+
+- [#290](https://github.com/Crossbell-Box/xLog-mobile/pull/290) [`528253e`](https://github.com/Crossbell-Box/xLog-mobile/commit/528253ed64c6a4b82860fe08294b0a34a0488a03) Thanks [@dohooo](https://github.com/dohooo)! - Make some content that displays abnormally display normally.
+
+- [#289](https://github.com/Crossbell-Box/xLog-mobile/pull/289) [`933f3cb`](https://github.com/Crossbell-Box/xLog-mobile/commit/933f3cb5d0000ac6c4e139219dea068440f639a3) Thanks [@dohooo](https://github.com/dohooo)! - Supported jumping to short content details when clicking on the short content embed block.
+
+- [#290](https://github.com/Crossbell-Box/xLog-mobile/pull/290) [`5880d4f`](https://github.com/Crossbell-Box/xLog-mobile/commit/5880d4f9964fc8a46c0e53d3711d1981a2db070e) Thanks [@dohooo](https://github.com/dohooo)! - Push a new screen on current navigation tree.
+
 ## 0.33.1
 
 ### Patch Changes
