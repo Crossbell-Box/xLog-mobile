@@ -28,6 +28,7 @@ export interface Props {
 }
 
 const minHeight = 150;
+const maxHeight = 250;
 const defaultCoverImageHeight = minHeight;
 
 export const FeedListItem: FC<Props> = (props) => {
@@ -48,7 +49,7 @@ export const FeedListItem: FC<Props> = (props) => {
 
   const relativeHeight = useMemo(() => {
     const ratio = coverImageSize.width / coverImageSize.height;
-    const _height = Math.max(width / ratio, minHeight);
+    const _height = Math.min(Math.max(width / ratio, minHeight), maxHeight);
     return isNaN(_height) ? defaultCoverImageHeight : _height;
   }, [coverImageSize.height]);
 
