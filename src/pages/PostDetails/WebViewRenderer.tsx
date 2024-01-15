@@ -12,6 +12,7 @@ import { WebView } from "@/components/WebView";
 import { VERSION } from "@/constants";
 import { useRootNavigation } from "@/hooks/use-navigation";
 import { useThemeStore } from "@/hooks/use-theme-store";
+import { getParamsFromShortsURL } from "@/utils/get-params-from-shorts-url";
 
 import { javaScriptBeforeContentLoaded } from "./javascript-before-content";
 import { javaScriptContentLoaded } from "./javascript-content";
@@ -47,6 +48,21 @@ export const WebViewRenderer: FC<{
       const { height, imageUrlArray, link, title } = JSON.parse(data);
 
       if (link) {
+        const url = new URL(link);
+        const params = getParamsFromShortsURL(url);
+        const isPost = !!params;
+
+        if (isPost) {
+          navigation.push(
+            "PostDetails",
+            {
+              slug: params.slug,
+              handle: params.handle,
+            },
+          );
+          return;
+        }
+
         navigation.navigate("Web", {
           url: link,
           title,

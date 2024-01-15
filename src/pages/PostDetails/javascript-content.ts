@@ -61,9 +61,17 @@ export const javaScriptContentLoaded = (
 
     function handleImageClick(event) {
       event.preventDefault();
-      const clickedImageUrl = event.target.dataset.src;
-      const images = document.getElementsByTagName('img');
-      const allImageUrls = Array.from(images).map(img => img.dataset.src);
+      event.stopPropagation();
+
+      const isAvatar = img => img.width === 32 && img.height === 32;
+
+      if (isAvatar(event.target)) {
+        return false;
+      }
+
+      const clickedImageUrl = event.target.src || event.target.dataset.src;
+      const images = Array.from(document.getElementsByTagName('img')).filter(img => !isAvatar(img));
+      const allImageUrls = Array.from(images).map(img => img.src || img.dataset.src);
       const imageUrlSet = new Set([clickedImageUrl, ...allImageUrls]);
       const imageUrlArray = Array.from(imageUrlSet);
 
@@ -78,12 +86,17 @@ export const javaScriptContentLoaded = (
 
     function handleLinkClick(event) {
       event.preventDefault();
-      window.ReactNativeWebView.postMessage(
-        JSON.stringify({
-          link: event.target.href,
-          title: event.target.innerText
-        })
-      );
+      
+      let target = event.target.closest('a');
+      if (target) {
+        window.ReactNativeWebView.postMessage(
+          JSON.stringify({
+            link: target.href,
+            title: target.innerText
+          })
+        );
+      }
+
       return false;
     }
 
@@ -103,7 +116,7 @@ export const javaScriptContentLoaded = (
 
       for (let i = 0; i < links.length; i++) {
         if (!observedLinks.has(links[i])) {
-          links[i].addEventListener('click', handleLinkClick, true);
+          links[i].addEventListener('click', handleLinkClick);
           observedLinks.add(links[i]);
         }
       }
