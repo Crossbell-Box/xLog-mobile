@@ -4,15 +4,15 @@ import { useSharedValue, withSpring, withDelay } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import type { NoteEntity } from "crossbell";
 import { Stack } from "tamagui";
 
 import { DelayedRender } from "@/components/DelayRender";
-import { ImageGallery } from "@/components/ImageGallery";
 import { usePostWebViewLink } from "@/hooks/use-post-link";
 import { useScrollVisibilityHandler } from "@/hooks/use-scroll-visibility-handler";
 import { useThemeStore } from "@/hooks/use-theme-store";
 import type { RootStackParamList } from "@/navigation/types";
+import { useGetPage } from "@/queries/page";
+import { useGetSite } from "@/queries/site";
 import type { ExpandedNote } from "@/types/crossbell";
 import { GA } from "@/utils/GA";
 
@@ -24,8 +24,10 @@ import { Header } from "./Header";
 import { Navigator } from "./Navigator";
 
 export interface Props {
-  characterId: number
-  note: ExpandedNote
+  characterId?: number
+  note?: ExpandedNote
+  slug?: string
+  handle?: string
   coverImage?: string
   placeholderCoverImageIndex?: number
 }
@@ -35,7 +37,16 @@ const animationTimeout = 300;
 export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, "PostDetails">> = (props) => {
   const { route } = props;
   const { params } = route;
-  const { note, characterId } = params;
+  const { slug, handle, coverImage, placeholderCoverImageIndex } = params;
+  const site = useGetSite(handle);
+  const page = useGetPage(site && {
+    characterId: site.data?.characterId,
+    slug,
+    handle,
+  });
+
+  const note = params.note || page.data;
+  const characterId = params.characterId || site.data?.characterId;
   const { isDarkMode } = useThemeStore();
   const { bottom } = useSafeAreaInsets();
   const bottomBarHeight = bottom + 45;
@@ -44,24 +55,28 @@ export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, "Pos
   const bottomSheetModalRef = React.useRef<BottomSheetModalInstance>(null);
   const followAnimValue = useSharedValue<number>(0);
   const scrollVisibilityHandler = useScrollVisibilityHandler({ scrollThreshold: 30 });
-  const postUri = usePostWebViewLink({ ...params, noteId: note.noteId });
+  const postUri = usePostWebViewLink({ ...params, characterId, noteId: note?.noteId });
   const onTakeScreenshot = React.useCallback(async (): Promise<string> => contentRef.current.takeScreenshot(), []);
 
   useEffect(() => {
     followAnimValue.value = withDelay(1500, withSpring(1));
     GA.logEvent("start_reading_post", {
-      node_id: note.noteId,
+      node_id: note?.noteId,
       character_id: characterId,
     });
   }, []);
+
+  if (!note || !characterId) {
+    return null;
+  }
 
   return (
     <Stack flex={1} backgroundColor={isDarkMode ? "black" : "white"}>
       <Navigator
         onTakeScreenshot={onTakeScreenshot}
         isExpandedAnimValue={scrollVisibilityHandler.isExpandedAnimValue}
-        characterId={params.characterId}
-        note={params.note}
+        characterId={characterId}
+        note={note}
         postUri={postUri}
         headerContainerHeight={headerContainerHeight}
       />
@@ -75,15 +90,15 @@ export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, "Pos
               isCapturing={isCapturing}
               headerContainerHeight={headerContainerHeight}
               postUri={postUri}
-              note={params.note}
-              characterId={params.characterId}
-              placeholderCoverImageIndex={params.placeholderCoverImageIndex}
-              coverImage={params.coverImage}
+              note={note}
+              characterId={characterId}
+              placeholderCoverImageIndex={placeholderCoverImageIndex}
+              coverImage={coverImage}
             />
           );
         }}
-        characterId={params.characterId}
-        note={params.note}
+        characterId={characterId}
+        note={note}
         scrollEventHandler={scrollVisibilityHandler}
         bottomBarHeight={bottomBarHeight}
         headerContainerHeight={headerContainerHeight}
@@ -94,8 +109,8 @@ export const PostDetailsPage: FC<NativeStackScreenProps<RootStackParamList, "Pos
       <DelayedRender timeout={animationTimeout}>
         <BottomSheetModal
           ref={bottomSheetModalRef}
-          note={params.note}
-          characterId={params.characterId}
+          note={note}
+          characterId={characterId}
           bottomBarHeight={bottomBarHeight}
         />
       </DelayedRender>

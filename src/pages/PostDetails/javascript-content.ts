@@ -61,6 +61,8 @@ export const javaScriptContentLoaded = (
 
     function handleImageClick(event) {
       event.preventDefault();
+      event.stopPropagation();
+
       const isAvatar = img => img.width === 32 && img.height === 32;
 
       if (isAvatar(event.target)) {
@@ -84,12 +86,17 @@ export const javaScriptContentLoaded = (
 
     function handleLinkClick(event) {
       event.preventDefault();
-      window.ReactNativeWebView.postMessage(
-        JSON.stringify({
-          link: event.target.href,
-          title: event.target.innerText
-        })
-      );
+      
+      let target = event.target.closest('a');
+      if (target) {
+        window.ReactNativeWebView.postMessage(
+          JSON.stringify({
+            link: target.href,
+            title: target.innerText
+          })
+        );
+      }
+
       return false;
     }
 
@@ -109,7 +116,7 @@ export const javaScriptContentLoaded = (
 
       for (let i = 0; i < links.length; i++) {
         if (!observedLinks.has(links[i])) {
-          links[i].addEventListener('click', handleLinkClick, true);
+          links[i].addEventListener('click', handleLinkClick);
           observedLinks.add(links[i]);
         }
       }
