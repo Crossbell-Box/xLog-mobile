@@ -5,23 +5,24 @@ import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import Animated, { Easing, runOnJS, interpolate, interpolateColor, useAnimatedStyle, useSharedValue, withTiming, LinearTransition, FadeInLeft } from "react-native-reanimated";
 import { Camera, useCameraPermission, useCameraDevice } from "react-native-vision-camera";
 
-import { Maximize2, Plus, X } from "@tamagui/lucide-icons";
+import { Album, Image as ImageIcon, Maximize2, Plus, X } from "@tamagui/lucide-icons";
 import { BlurView } from "expo-blur";
 import { Image } from "expo-image";
 import * as MediaLibrary from "expo-media-library";
-import { Button, ScrollView, Stack, View, XStack, YStack, useWindowDimensions } from "tamagui";
+import { Button, ScrollView, Stack, Text, View, XStack, YStack, useWindowDimensions } from "tamagui";
 
 import { IS_ANDROID } from "@/constants";
 import { useColors } from "@/hooks/use-colors";
 import { useCreateShots } from "@/hooks/use-create-shots";
 import { useIsLogin } from "@/hooks/use-is-login";
 import { useRootNavigation } from "@/hooks/use-navigation";
+import { usePickImages } from "@/hooks/use-pick-images";
 import type { Photo } from "@/pages/TakePhoto";
 
 import { XTouch } from "./XTouch";
 
 export const CreateShortsButton: FC = () => {
-  const { createShots } = useCreateShots();
+  const { pickImages } = usePickImages();
   const navigation = useRootNavigation();
   const isLogin = useIsLogin();
   const { width } = useWindowDimensions();
@@ -137,6 +138,7 @@ export const CreateShortsButton: FC = () => {
   const isOpenAnimValue = useSharedValue(0);
   const targetWidth = width * 0.96;
   const targetHeight = 300;
+  const photoSize = targetWidth / 4 * 0.9;
 
   const containerAnimStyle = useAnimatedStyle(() => {
     const animValue = Math.max(0, isOpenAnimValue.value);
@@ -176,6 +178,22 @@ export const CreateShortsButton: FC = () => {
     });
   };
 
+  const selectImageFromAlbum = () => {
+    pickImages().then((result) => {
+      if (result) {
+        setPhotos(photos => [
+          ...result,
+          ...photos,
+        ]);
+
+        setSelectedPhotos(selectedPhotos => [
+          ...result,
+          ...selectedPhotos,
+        ]);
+      }
+    });
+  };
+
   return (
     <Stack width={buttonSize} height={buttonSize} marginHorizontal={15} overflow="visible" zIndex={999}>
       <Animated.View
@@ -195,9 +213,18 @@ export const CreateShortsButton: FC = () => {
             <XStack flex={1} >
               <ScrollView ref={scrollViewRef} flex={1}>
                 <XStack flexWrap="wrap" justifyContent="space-between">
+                  <Animated.View layout={LinearTransition.duration(150)} entering={FadeInLeft.duration(150)}>
+                    <TouchableWithoutFeedback
+                      style={{ marginBottom: 4 }}
+                      onPress={selectImageFromAlbum}
+                    >
+                      <View width={photoSize} height={photoSize} backgroundColor={"$primary"} borderRadius={10} alignItems="center" justifyContent="center">
+                        <ImageIcon size={"$3"}/>
+                      </View>
+                    </TouchableWithoutFeedback>
+                  </Animated.View>
                   {
                     mediaPermissionResponse?.granted && photos.map((item) => {
-                      const photoSize = targetWidth / 4 * 0.9;
                       const isSelected = selectedPhotos.some(photo => photo.uri === item.uri);
 
                       return (
@@ -241,42 +268,52 @@ export const CreateShortsButton: FC = () => {
             <YStack flex={1} gap={8} borderRadius={10}>
               <Stack flex={1} borderRadius={10} overflow="hidden">
                 {hasPermission && (
-                  <Stack flex={1}>
-                    {device && (
-                      <Camera
-                        ref={cameraRef}
-                        device={device}
-                        isActive={expanded}
-                        photo={true}
-                        video={false}
-                        audio={false}
-                        style={{ flex: 1 }}
-                      />
-                    )}
-                    <XTouch onPress={handleOpenCamera} enableHaptics containerStyle={{
-                      position: "absolute",
-                      right: 12,
-                      top: 12,
-                    }}>
-                      <Maximize2 color="white" size={25}/>
-                    </XTouch>
+                  device
+                    ? (
+                      <Stack flex={1}>
+                        {device && (
+                          <Camera
+                            ref={cameraRef}
+                            device={device}
+                            isActive={expanded}
+                            photo={true}
+                            video={false}
+                            audio={false}
+                            style={{ flex: 1 }}
+                          />
+                        )}
+                        <XTouch onPress={handleOpenCamera} enableHaptics containerStyle={{
+                          position: "absolute",
+                          right: 12,
+                          top: 12,
+                        }}>
+                          <Maximize2 color="white" size={25}/>
+                        </XTouch>
 
-                    <XTouch onPress={takePhoto} enableHaptics containerStyle={{
-                      position: "absolute",
-                      left: "50%",
-                      bottom: 12,
-                      transform: [{ translateX: -15 }],
-                    }}>
-                      <Stack borderRadius={50} borderWidth={1} borderColor={"white"} width={30} height={30} alignItems="center" justifyContent="center">
-                        <Stack
-                          borderRadius={50}
-                          backgroundColor={"white"}
-                          width={25}
-                          height={25}
-                        />
+                        <XTouch onPress={takePhoto} enableHaptics containerStyle={{
+                          position: "absolute",
+                          left: "50%",
+                          bottom: 12,
+                          transform: [{ translateX: -15 }],
+                        }}>
+                          <Stack borderRadius={50} borderWidth={1} borderColor={"white"} width={30} height={30} alignItems="center" justifyContent="center">
+                            <Stack
+                              borderRadius={50}
+                              backgroundColor={"white"}
+                              width={25}
+                              height={25}
+                            />
+                          </Stack>
+                        </XTouch>
                       </Stack>
-                    </XTouch>
-                  </Stack>
+                    )
+                    : (
+                      <View flex={1} alignItems="center" justifyContent="center">
+                        <Text textAlign="center" fontSize={"$1"}>
+                          Please use physical device, this feature is not supported on simulator.
+                        </Text>
+                      </View>
+                    )
                 )}
               </Stack>
               <XStack alignItems="center" justifyContent="space-between" width={"100%"} gap={8}>
