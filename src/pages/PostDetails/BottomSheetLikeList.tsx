@@ -38,7 +38,7 @@ export const BottomSheetLikeList: FC<{
         }}
         contentContainerStyle={{ padding: 20, paddingBottom: bottom }}
         data={data}
-        keyExtractor={item => item?.characterId?.toString()}
+        keyExtractor={item => item?.transactionHash?.toString()}
         ListEmptyComponent={(
           <Stack height={300}>
             {

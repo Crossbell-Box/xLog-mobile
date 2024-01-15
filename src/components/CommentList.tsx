@@ -148,7 +148,7 @@ export const CommentList = forwardRef<CommentListInstance, Props>((
         }}
         ListFooterComponent={comments.isFetchingNextPage && <Spinner paddingVertical="$5"/>}
         ListEmptyComponent={<EmptyComponent isLoading={comments.isFetching}/>}
-        keyExtractor={item => item.blockNumber?.toString()}
+        keyExtractor={item => item.transactionHash?.toString()}
         renderItem={(options) => {
           const comment = options.item;
           const depth = 0;

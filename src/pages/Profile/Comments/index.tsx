@@ -44,7 +44,7 @@ export const CommentsPage: FC<NativeStackScreenProps<RootStackParamList, "Commen
           comments?.fetchNextPage?.();
         }}
         ListFooterComponent={(comments.isFetchingNextPage || (comments.isFetching && flattedComments.length === 0)) && <Spinner paddingBottom="$5"/>}
-        keyExtractor={item => item.transactionHash}
+        keyExtractor={item => item.transactionHash?.toString()}
         renderItem={({ item }) => {
           const type = item.toNote?.metadata?.content?.tags?.[0];
           let toTitle: string;

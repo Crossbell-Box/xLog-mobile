@@ -54,7 +54,7 @@ export const FeedListItem: FC<Props> = (props) => {
   }, [coverImageSize.height]);
 
   const onPress = React.useCallback(() => {
-    navigation.navigate(
+    navigation.push(
       "PostDetails",
       {
         characterId: note.characterId,
