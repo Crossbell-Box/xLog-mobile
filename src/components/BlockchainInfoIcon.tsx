@@ -72,7 +72,7 @@ export const BlockchainInfoIcon: FC<Props> = (props) => {
   return (
     <>
       <TouchableWithoutFeedback onPress={openModal}>
-        <ShieldCheck color="$green10" width={size}/>
+        <ShieldCheck color="$green10" size={size}/>
       </TouchableWithoutFeedback>
       <ModalWithFadeAnimation
         isVisible={isModalVisible}

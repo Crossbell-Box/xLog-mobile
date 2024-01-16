@@ -196,7 +196,7 @@ export const CommentItem: React.FC<CommentItemProps> = (props) => {
             <Paragraph size={"$4"}>
               {comment?.metadata?.content?.content}
             </Paragraph>
-            <XStack alignItems="center">
+            <XStack alignItems="center" marginTop={"$1"}>
               <Text color={"$colorSubtitle"}>
                 {commonI18n.t("ago", {
                   time: date.dayjs
@@ -208,9 +208,7 @@ export const CommentItem: React.FC<CommentItemProps> = (props) => {
                 })}
                 {" · "}
               </Text>
-              <Stack height={22} alignItems="center">
-                <BlockchainInfoIcon size={16} character={comment?.character} page={comment?.toNote}/>
-              </Stack>
+              <BlockchainInfoIcon size={16} character={comment?.character} page={comment?.toNote}/>
             </XStack>
           </YStack>
 
