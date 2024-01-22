@@ -39,8 +39,14 @@ export const javaScriptContentLoaded = (
         return false;
       }
 
+      const isDataUrl = src => src.startsWith('data:image');
       const clickedImageUrl = event.target.src || event.target.dataset.src;
-      const images = Array.from(document.getElementsByTagName('img')).filter(img => !isAvatar(img));
+
+      if (isDataUrl(clickedImageUrl)) {
+        return false;
+      }
+
+      const images = Array.from(document.getElementsByTagName('img')).filter(img => !isAvatar(img) && !isDataUrl(img.src));
       const allImageUrls = Array.from(images).map(img => img.src || img.dataset.src);
       const imageUrlSet = new Set([clickedImageUrl, ...allImageUrls]);
       const imageUrlArray = Array.from(imageUrlSet);
