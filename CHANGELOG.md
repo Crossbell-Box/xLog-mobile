@@ -1,5 +1,13 @@
 # xlog
 
+## 0.33.3
+
+### Patch Changes
+
+- [#291](https://github.com/Crossbell-Box/xLog-mobile/pull/291) [`96ce612`](https://github.com/Crossbell-Box/xLog-mobile/commit/96ce6123c5ab0ec867270e8ee428bcbb9de31146) Thanks [@dohooo](https://github.com/dohooo)! - Fixed styles problem.
+
+- [#291](https://github.com/Crossbell-Box/xLog-mobile/pull/291) [`a1d8a4f`](https://github.com/Crossbell-Box/xLog-mobile/commit/a1d8a4f76841088fd8ffecabe97b350138fd498f) Thanks [@dohooo](https://github.com/dohooo)! - Display the long content normaly.
+
 ## 0.33.2
 
 ### Patch Changes
