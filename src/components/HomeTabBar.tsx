@@ -96,18 +96,10 @@ export const HomeTabBar: FC<BottomTabBarProps> = (props) => {
         width={"95%"}
         height={height}
         position="absolute"
+        borderRadius={100}
+        overflow="hidden"
       >
-        <Stack
-          overflow="hidden"
-          backgroundColor={"rgba(50, 50, 50, 0.4)"}
-          borderRadius={100}
-          style={StyleSheet.absoluteFill}
-          width={"100%"}
-          height={"100%"}
-          position="absolute"
-        >
-          <BlurView tint="dark" intensity={30} style={StyleSheet.absoluteFillObject}/>
-        </Stack>
+        <BlurView tint="dark" intensity={30} experimentalBlurMethod="dimezisBlurView" style={StyleSheet.absoluteFillObject}/>
 
         <XStack zIndex={2} flex={1} alignItems="center">
           {[

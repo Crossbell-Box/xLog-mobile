@@ -17,14 +17,13 @@ import useGAWithPageStayTime from "@/hooks/ga/use-ga-with-page-stay-time";
 import { useCharacterId } from "@/hooks/use-character-id";
 import { useGlobalLoading } from "@/hooks/use-global-loading";
 import type { useScrollVisibilityHandler } from "@/hooks/use-scroll-visibility-handler";
-import type { RootStackParamList } from "@/navigation/types";
 import { useGetPage } from "@/queries/page";
-import type { ExpandedNote } from "@/types/crossbell";
 import { GA } from "@/utils/GA";
 import { getNoteSlug } from "@/utils/get-slug";
 import { isShortNotes } from "@/utils/is-short-notes";
 
 import { ShortsContentRenderer } from "./ShortsContentRenderer";
+import type { WebViewRendererInstance } from "./WebViewRenderer";
 import { WebViewRenderer } from "./WebViewRenderer";
 
 export interface Props {
@@ -77,6 +76,7 @@ export const Content = React.forwardRef<PostDetailsContentInstance, Props>((prop
   const globalLoading = useGlobalLoading();
   const toast = useToastController();
   const gaReadEventLogged = useRef(false);
+  const webviewRendererRef = useRef<WebViewRendererInstance>(null);
   const noteTitle = note?.metadata?.content?.title;
   const isShort = isShortNotes(note);
   const scrollIndicatorInsets = useMemo(() => ({
@@ -180,6 +180,7 @@ export const Content = React.forwardRef<PostDetailsContentInstance, Props>((prop
       {...scrollVisibilityHandler}
       scrollEventThrottle={16}
       style={styles.scrollView}
+      onScroll={e => webviewRendererRef.current?.handleScroll(e)}
       onMomentumScrollEnd={onMomentumScrollEnd}
       scrollIndicatorInsets={scrollIndicatorInsets}
       contentContainerStyle={{ paddingBottom: bottomBarHeight }}
@@ -196,6 +197,7 @@ export const Content = React.forwardRef<PostDetailsContentInstance, Props>((prop
           )
           : (
             <WebViewRenderer
+              ref={webviewRendererRef}
               postUri={postUri}
               headerContainerHeight={headerContainerHeight}
               bottomBarHeight={bottomBarHeight}

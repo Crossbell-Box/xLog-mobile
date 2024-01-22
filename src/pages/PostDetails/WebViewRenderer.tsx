@@ -1,10 +1,12 @@
 import type { FC } from "react";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useState } from "react";
+import type { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
 import { StyleSheet, useWindowDimensions } from "react-native";
 import DeviceInfo from "react-native-device-info";
-import Animated, { useSharedValue } from "react-native-reanimated";
+import Animated, { runOnUI, useAnimatedStyle, useSharedValue } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+import { Image } from "expo-image";
 import { Stack } from "tamagui";
 
 import { ImageGallery } from "@/components/ImageGallery";
@@ -18,18 +20,23 @@ import { javaScriptBeforeContentLoaded } from "./javascript-before-content";
 import { javaScriptContentLoaded } from "./javascript-content";
 import { Skeleton } from "./Skeleton";
 
-export const WebViewRenderer: FC<{
+interface Props {
   headerContainerHeight: number
   postUri?: string
   bottomBarHeight: number
-}> = ({ headerContainerHeight, postUri, bottomBarHeight }) => {
-  const { top } = useSafeAreaInsets();
+}
+
+export interface WebViewRendererInstance {
+  handleScroll: (event: NativeSyntheticEvent<NativeScrollEvent>) => void
+}
+
+export const WebViewRenderer = forwardRef<WebViewRendererInstance, Props>(({ headerContainerHeight, postUri, bottomBarHeight }, ref) => {
+  const { top, bottom } = useSafeAreaInsets();
   const { width, height } = useWindowDimensions();
   const { isDarkMode, mode } = useThemeStore();
   const navigation = useRootNavigation();
   const headerHeight = top + headerContainerHeight;
   const contentLoaderDimensions = { width, height: height - headerHeight };
-  const [webviewHeight, setWebviewHeight] = useState(contentLoaderDimensions.height);
   const [userAgent, setUserAgent] = React.useState<string>(null);
   const [displayImageUris, setDisplayImageUris] = React.useState<string[]>([]);
   const webviewLoadingAnimValue = useSharedValue<number>(0);
@@ -70,7 +77,7 @@ export const WebViewRenderer: FC<{
       }
 
       if (height) {
-        setWebviewHeight(Math.max(height, contentLoaderDimensions.height));
+        setMaxContentHeight(Math.max(height, contentLoaderDimensions.height));
       }
 
       if (imageUrlArray) {
@@ -88,14 +95,31 @@ export const WebViewRenderer: FC<{
     });
   }, []);
 
+  const { height: screenHeight } = useWindowDimensions();
+  const [maxContentHeight, setMaxContentHeight] = useState<number>(screenHeight);
+  const animHeight = useSharedValue<number>(screenHeight);
+  const animatedStyle = useAnimatedStyle(() => ({ height: animHeight.value }), []);
+
+  const updateHeight = React.useCallback((offsetY) => {
+    "worklet";
+    const tolerance = 100;
+    const isReachBottom = (offsetY + bottomBarHeight + headerContainerHeight) > (animHeight.value / 2);
+    if (isReachBottom && animHeight.value < maxContentHeight) {
+      animHeight.value += tolerance;
+    }
+  }, [maxContentHeight, bottomBarHeight, headerContainerHeight]);
+
+  useImperativeHandle(ref, () => ({
+    handleScroll: (e) => {
+      runOnUI(updateHeight)(e.nativeEvent.contentOffset.y);
+    },
+  }), [updateHeight]);
+
   const closeModal = React.useCallback(() => setDisplayImageUris([]), []);
 
   return (
     <>
-      <Animated.ScrollView
-        contentContainerStyle={{ height: webviewHeight }}
-        scrollEventThrottle={16}
-      >
+      <Animated.View style={animatedStyle}>
         {postUri && userAgent && (
           <WebView
             progressBarShown={false}
@@ -118,7 +142,7 @@ export const WebViewRenderer: FC<{
             injectedJavaScriptBeforeContentLoaded={javaScriptBeforeContentLoaded(mode)}
           />
         )}
-      </Animated.ScrollView>
+      </Animated.View>
       {
         displayImageUris.length > 0 && (
           <ImageGallery
@@ -130,7 +154,7 @@ export const WebViewRenderer: FC<{
       }
     </>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {
